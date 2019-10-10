@@ -1,0 +1,47 @@
+name:          xmonad-ng
+version:       0.15.4
+synopsis:      XMonad configuration
+description:   XMonad configuration hacked together using stolen code and bad Haskell
+stability:     experimental
+category:      System
+build-type:    Simple
+cabal-version: >= 2.0
+
+source-repository head
+  type:     git
+  location: https://git.systemd.club/xmonad-config
+
+executable xmonad-ng
+  main-is:          Main.hs
+  other-modules:    XMonad.Actions.FloatSnapSpaced
+                    XMonad.Actions.PerConditionKeys
+                    XMonad.Custom.Bindings
+                    XMonad.Custom.Event
+                    XMonad.Custom.Layout
+                    XMonad.Custom.Log
+                    XMonad.Custom.Manage
+                    XMonad.Custom.Misc
+                    XMonad.Custom.Navigation
+                    XMonad.Custom.Projects
+                    XMonad.Custom.Scratchpads
+                    XMonad.Custom.Startup
+                    XMonad.Custom.Theme
+                    XMonad.Custom.Workspaces
+  hs-source-dirs:   src
+  build-depends:    base           >= 4.12 && < 4.13
+                  , X11            >= 1.9 && < 1.10
+                  , containers     >= 0.6 && < 0.7
+                  , directory      >= 1.3 && < 1.4
+                  , filepath       >= 1.4 && < 1.5
+                  , mtl            >= 2.2 && < 2.3
+                  , text           >= 1.2 && < 1.3
+                  , time           >= 1.8 && < 1.9
+                  , xmonad         >= 0.15 && < 0.17
+                  , xmonad-contrib >= 0.15 && < 0.17
+  default-language: Haskell2010
+  other-extensions: MultiParamTypeClasses
+                    CPP
+                    TypeSynonymInstances
+                    DeriveDataTypeable
+                    LambdaCase
+  ghc-options:      -Wall

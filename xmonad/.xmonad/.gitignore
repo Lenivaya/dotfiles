@@ -1,0 +1,13 @@
+*.hi
+*.o
+.cabal-sandbox/
+.ghc.*
+.hdevtools.*
+.stack-work/
+cabal.project.*
+cabal.sandbox.config
+dist-newstyle/
+dist/
+prompt-history
+xmonad-*-*
+xmonad.errors

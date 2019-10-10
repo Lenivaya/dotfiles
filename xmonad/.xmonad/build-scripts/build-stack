@@ -1,0 +1,15 @@
+#!/bin/sh -eu
+
+SRC_DIR="$HOME/.xmonad"
+EXE_NAME="xmonad-ng"
+OUT="$1"
+
+shift
+
+unset STACK_YAML
+
+cd "$SRC_DIR" || exit 1
+
+stack build
+
+ln -f -T "$(stack exec -- which $EXE_NAME)" "$1"

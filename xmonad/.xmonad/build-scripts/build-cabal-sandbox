@@ -1,0 +1,22 @@
+#!/bin/sh -eu
+
+SRC_DIR="$HOME/.xmonad"
+EXE_NAME="xmonad-ng"
+OUT="$1"
+
+shift
+
+cd "$SRC_DIR" || exit 1
+
+cabal sandbox init
+
+cabal configure \
+	--enable-optimization \
+	--enable-executable-stripping
+
+cabal install --only-dependencies
+
+cabal build
+
+find "$SRC_DIR"/dist -type f -executable -name "$EXE_NAME" \
+    -exec mv -u '{}' "$OUT" ';'

@@ -1,0 +1,6 @@
+resolver: lts-13.19
+packages:
+    - .
+    - ./vendor/xmonad
+    - ./vendor/xmonad-contrib
+    - ./vendor/xmobar
