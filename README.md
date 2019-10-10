@@ -12,3 +12,4 @@ Different dotfiles which i use every day
 - bar: xmobar **/** polybar
 - browser: qutebrowser **/** chrome
 - editor: emacs **/** nvim
+- term : st
