@@ -1,0 +1,579 @@
+;==========================================================
+;
+;
+;   ██████╗  ██████╗ ██╗  ██╗   ██╗██████╗  █████╗ ██████╗
+;   ██╔══██╗██╔═══██╗██║  ╚██╗ ██╔╝██╔══██╗██╔══██╗██╔══██╗
+;   ██████╔╝██║   ██║██║   ╚████╔╝ ██████╔╝███████║██████╔╝
+;   ██╔═══╝ ██║   ██║██║    ╚██╔╝  ██╔══██╗██╔══██║██╔══██╗
+;   ██║     ╚██████╔╝███████╗██║   ██████╔╝██║  ██║██║  ██║
+;   ╚═╝      ╚═════╝ ╚══════╝╚═╝   ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═╝
+;
+;==========================================================
+
+[colors]
+;background = ${xrdb:color0}
+background = #000000
+background-alt = #000000
+foreground = ${xrdb:foreground}
+foreground-alt = ${xrdb:color7}
+primary = ${xrdb:color12}
+secondary = ${xrdb:color2}
+alert = ${xrdb:color3}
+active = {active}
+inactive = {inactive}
+highlight = ${{xrdb:color2:{color2}}}
+error = ${{xrdb:color9:{color9}}}
+
+bspwmborder = ${xrdb:color2}
+pulse = ${xrdb:color4}
+xkb = ${xrdb:color1}
+memory = ${xrdb:color2}
+eth = ${xrdb:color3}
+pc = ${xrdb:color4}
+xwindow = ${xrdb:color3}
+mus = ${xrdb:color2}
+
+
+------------------------------
+-- ____    _    ____  ____  --
+--| __ )  / \  |  _ \/ ___| --
+--|  _ \ / _ \ | |_) \___ \ --
+--| |_) / ___ \|  _ < ___) |--
+--|____/_/   \_\_| \_\____/ --
+------------------------------
+
+[bar/top]
+;monitor = ${env:MONITOR:HDMI-1}
+font-0 = tiramisu:pixelsize=8;2
+font-1 = Weather Icons:size=10;2
+font-2 = waffle:pixelsize=15;2
+font-3 = "Material Icons:size=9;2"
+font-4 = "Iosevka Nerd Font:pixelsize=11;3"
+monitor-strict = false
+override-redirect = false
+bottom = false
+fixed-center = true
+width = 98%
+height = 20
+offset-x = 1%
+offset-y = 0.5%
+
+background = ${colors.background}
+foreground = ${colors.foreground}
+
+; Background gradient (vertical steps)
+;   background-[0-9]+ = #aarrggbb
+;background-0 =
+
+radius = 3
+line-size = 2
+line-color = #000000
+
+border-size = 0
+;border-left-size = 25
+;border-right-size = 25
+;border-top-size = 0
+;border-bottom-size = 25
+border-color = #000000
+
+padding-left = 1
+padding-right = 1
+
+module-margin-left = 1
+module-margin-right = 1
+
+
+modules-left = bspwm sep kdeconnect
+modules-center = xwindow
+modules-right = updates-arch-combined sep filesystem2 sep xkeyboard pulseaudio2 date sep powermenu sep
+
+;modules-right = updates-arch-combined sep pulseaudio sep filesystem cpu temperature sep openweathermap-fullfeatured sep popup-calendar sep powermenu sep
+
+
+;separator = |
+
+tray-position = right
+tray-padding = 2
+tray-maxsize = 14
+tray-background = #000000
+
+
+wm-restack = bspwm
+;wm-restack = i3
+
+;override-redirect = true
+
+;scroll-up = bspwm-desknext
+;scroll-down = bspwm-deskprev
+
+;scroll-up = i3wm-wsnext
+;scroll-down = i3wm-wsprev
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+########################
+#           _          #
+#   ____   (_)____ ___ #
+#  / __ \ / // __ `__ \#
+# / / / // // / / / / /#
+#/_/ /_//_//_/ /_/ /_/ #
+########################                                                                                                           
+                                        
+[bar/nim]
+width = 280
+height = 20
+offset-x = 1081
+offset-y = 5
+radius = 1
+fixed-center = false
+bottom = true
+background = ${colors.background}
+foreground = ${colors.foreground}
+monitor-strict = false
+
+border-bottom-size = 1
+border-bottom-color = ${colors.xwindow}
+
+padding-left = 0
+padding-right = 0
+
+module-margin-left = 1
+module-margin-right = 0
+
+font-0 = scientifica:style=Regular:pixelsize=10;2
+font-1 = erus erusfont:style=Regular:pixelsize=10;3
+font-2 = unifont:fontformat=truetype:size=8:antialias=false;0
+font-3 = siji:pixelsize=10;2
+font-4 = "Iosevka Nerd Font:pixelsize=13;3"
+
+modules-left
+modules-center =  kdeconnect sep xkeyboard pulseaudio2 sep2 battery sep popup-calendar sep
+modules-right = pc
+
+wm-restack = bspwm
+
+override-redirect = false
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+tray-position = right
+tray-padding = 2
+tray-maxsize = 14
+tray-background = #000000
+
+
+[bar/nimdes]
+width = 225
+height = 20
+offset-x = 5
+offset-y = 5
+radius = 1
+bottom = true
+fixed-center = true
+background = ${colors.background}
+foreground = ${colors.foreground}
+monitor-strict = true
+
+border-bottom-size = 1
+border-bottom-color = ${colors.xwindow}
+
+font-0 = scientifica:style=Regular:pixelsize=10;2
+font-1 = FuraCode Nerd Font:style=Regular:size=10;2
+font-2 = unifont:fontformat=truetype:size=8:antialias=false;0
+font-3 = Wuncon Siji:pixelsize=10;2
+
+modules-center = bspwm
+
+wm-restack = bspwm
+
+override-redirect = false
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+[bar/nimius]
+width = 260
+height = 20
+offset-x = 41%
+offset-y = 5
+radius = 1
+bottom = true
+fixed-center = true
+background = ${colors.background}
+foreground = ${colors.foreground}
+monitor-strict = true
+
+border-bottom-size = 1
+border-bottom-color = ${colors.xwindow}
+
+font-0 = scientifica:style=Regular:pixelsize=10;2
+font-1 = FuraCode Nerd Font:style=Regular:size=10;2
+font-2 = unifont:fontformat=truetype:size=8:antialias=false;0
+font-3 = Wuncon Siji:pixelsize=10;2
+font-4 = tiramisu:pixelsize=8;2
+
+modules-center = xwindow2
+
+wm-restack = bspwm
+
+override-redirect = false
+
+cursor-click = pointer
+cursor-scroll = ns-resize
+
+------------------------------------------------
+-  __  __  ___  ____  _   _ _     _____ ____  -
+- |  \/  |/ _ \|  _ \| | | | |   | ____/ ___| -
+- | |\/| | | | | | | | | | | |   |  _| \___ \ -
+- | |  | | |_| | |_| | |_| | |___| |___ ___) |-
+- |_|  |_|\___/|____/ \___/|_____|_____|____/ -
+------------------------------------------------
+
+[module/date]
+type = internal/date
+interval = 1
+
+format =  " <label>"
+format-foreground = ${colors.foreground}
+format-background = ${colors.background}
+
+label = "%date%%time%"
+label-foreground = ${colors.foreground}
+
+time = %a %d, %H:%M
+time-alt = %a %d, %H:%M:%S
+
+[module/pc]
+type = custom/text
+content = ""
+content-background = ${colors.pc}
+content-foreground = ${colors.foreground}
+content-padding = 2
+
+[module/filesystem2]
+type = internal/fs
+
+mount-0 = /
+interval = 10
+fixed-values = true
+spacing = 2
+
+format-mounted = <label-mounted>
+format-background = ${colors.mus}
+format-foreground = ${colors.foreground}
+
+label-mounted = " %used% "
+label-background = ${colors.mus}
+label-foreground = ${colors.foreground}
+
+
+[module/sep2]
+type=custom/text
+content = " "
+
+[module/xwindow2]
+type=internal/xwindow
+format=<label>
+label="%title% "
+label-foreground=${colors.foreground}
+label-padding=0
+label-maxlen = 50
+
+[module/pulseaudio2]
+type = internal/pulseaudio
+
+format-volume = <ramp-volume><label-volume>
+label-volume = "%percentage% "
+label-volume-foreground = ${colors.foreground}
+
+label-muted = " muted "
+label-muted-foreground = #333335
+
+ramp-volume-0 = " "
+ramp-volume-1 = " "
+ramp-volume-2 = " "
+
+ramp-volume-foreground = ${colors.pulse}
+
+
+[module/xkeyboard]
+type = internal/xkeyboard
+blacklist-0 = num lock
+blacklist-1 = caps lock
+
+format-prefix = " "
+format-prefix-foreground = ${colors.xkb}
+
+label-layout = "%layout%"
+
+[module/weather]
+type = custom/script
+exec = ~/.config/polybar/scripts/polybar-forecast
+exec-if = ping openweathermap.org -c 1
+interval = 600
+label-font = 1
+
+[module/battery]
+type = internal/battery
+battery = BAT0
+adapter = ADP1
+full-at = 98
+
+format-charging = <animation-charging> <label-charging>
+
+format-discharging = <ramp-capacity> <label-discharging>
+
+format-full-prefix = " "
+format-full-prefix-foreground = ${colors.foreground-alt}
+
+ramp-capacity-0 = 
+ramp-capacity-1 = 
+ramp-capacity-2 = 
+ramp-capacity-foreground = ${colors.foreground-alt}
+
+animation-charging-0 = 
+animation-charging-1 = 
+animation-charging-2 = 
+animation-charging-foreground = ${colors.foreground-alt}
+animation-charging-framerate = 750
+
+[module/kdeconnect]
+type = custom/script
+exec =  ~/.config/polybar/scripts/polybar-kdeconnect.sh -d
+label-font = 2
+format-background=#000000
+format-padding= 1
+tail = true
+
+[module/sep]
+type = custom/text
+content = "|"
+
+[module/pulseaudio]
+type = internal/pulseaudio
+format-volume = <label-volume> <bar-volume>
+label-volume = %percentage%%
+label-volume-foreground = ${root.foreground}
+label-muted = muted
+label-muted-foreground = #666
+bar-volume-width = 6
+bar-volume-foreground-0 = ${xrdb:color2}
+bar-volume-foreground-1 = ${xrdb:color2}
+bar-volume-foreground-2 = ${xrdb:color2}
+bar-volume-foreground-3 = ${xrdb:color2}
+bar-volume-foreground-4 = ${xrdb:color2}
+bar-volume-foreground-5 = ${xrdb:color3}
+bar-volume-foreground-6 = ${xrdb:color1}
+bar-volume-gradient = false
+bar-volume-indicator = |
+bar-volume-indicator-font = 2
+bar-volume-fill = --
+bar-volume-fill-font = 2
+bar-volume-empty = --
+bar-volume-empty-font = 2
+bar-volume-empty-foreground = ${colors.foreground-alt}
+format-padding = 5    
+
+[module/popup-calendar]
+type = custom/script
+exec = ~/.config/polybar/scripts/popup-calendar.sh
+interval = 1
+click-left = ~/.config/polybar/scripts/popup-calendar.sh --popup
+
+[module/xwindow]
+type = internal/xwindow
+format-padding = 1
+label = %title:0:100: ...%
+
+[module/updates-arch-combined]
+type = custom/script
+exec = ~/.config/polybar/scripts/updates-arch-combined.sh
+interval = 600
+click-left = sh ~/.scripts/updates-arch-combined
+
+[module/openweathermap-fullfeatured]
+type = custom/script
+exec = ~/.config/polybar/scripts/openweathermap-fullfeatured.sh
+interval = 100
+label-font = 1
+
+[module/openweathermap-forecast]
+type = custom/script
+exec = /home/lenivaya/.config/polybar/scripts/openweathermap-forecast.sh
+interval = 100
+label-font = 1
+
+[module/filesystem]
+type = internal/fs
+interval = 25
+
+mount-0 = /
+
+label-mounted = %{F##1c1a1a}%mountpoint%%{F-}:%percentage_used%%
+label-unmounted = %mountpoint% not mounted
+label-unmounted-foreground = ${colors.foreground-alt}
+
+[module/bspwm]
+type = internal/bspwm
+pin-workspaces = true
+label-focused = %name%
+label-focused-background = ${colors.background-alt}
+label-focused-underline= ${colors.primary}
+label-focused-padding = 2
+
+label-occupied = %name%
+label-occupied-padding = 2
+
+label-urgent = %name%
+label-urgent-background = ${colors.alert}
+label-urgent-padding = 3
+
+label-empty = %name%
+label-empty-foreground = #333335
+label-empty-padding = 2
+
+; Separator in between workspaces
+; label-separator = |
+
+[module/i3]
+type = internal/i3
+format = <label-state> <label-mode>
+index-sort = true
+;pin-workspaces = true
+;wrapping-scroll = true
+;strip-wsnumbers = true
+
+enable-click = true
+;scroll-up = i3wm-wsnext
+;scroll-down = i3wm-wsprev
+click-left = i3wm-wsprev
+;click-right = i3wm-wsnext
+
+label-mode = %mode%
+label-mode-padding = 1
+label-mode-foreground = #BBBBBB
+
+label-focused = %name%
+;label-focused = 
+;label-focused = 
+
+label-indicator-padding = 2
+label-indicator-background = #BBBBBB
+label-indicator-underline = #3c7511
+;label-indicator-overline = #3c7511
+
+label-focused-foreground = #BBBBBB
+label-focused-padding = 2
+;label-focused-background = #383838
+;label-focused-overline= #3c7511
+
+label-unfocused = %name%
+;label-unfocused = 
+label-unfocused-foreground = #747474
+label-unfocused-padding = 1
+
+label-visible = %name
+;label-visible = 
+label-visible-foregroud = #888888
+label-visible-padding = 1
+label-visible-background = #BBBBBB
+label-visible-underline = #3c7511
+;label-visible-overline = #3c7511
+
+label-urgent = %name%
+;label-urgent = 
+;label-urgent = 
+;label-urgent = 
+;label-urgent = 
+label-urgent-padding = 5
+;label-urgent-foreground = #FA8007
+label-urgent-foreground = #3c7511
+
+[module/cpu]
+type = internal/cpu
+label = %{T1}%{T-} %percentage%% 
+#
+
+[module/temperature]
+type = internal/temperature
+thermal-zone = 0
+
+[module/powermenu]
+type = custom/menu
+; expand-right = true
+
+format-spacing = 1
+
+label-open =""
+label-open-font = 0
+label-open-background = ${colors.background}
+label-open-foreground = ${colors.secondary}
+label-close = "Cancel"
+label-close-font = 0
+label-close-background = ${colors.background}
+label-close-foreground = ${colors.secondary}
+label-separator = |
+label-separator-foreground = ${colors.foreground-alt}
+
+menu-0-0 = Reboot
+menu-0-0-font = 0
+menu-0-0-exec = menu-open-1
+menu-0-1 = Power Off
+menu-0-1-font = 0
+menu-0-1-exec = menu-open-2
+menu-0-2 = Hibernate
+menu-0-2-font = 0
+menu-0-2-exec = menu-open-3
+menu-0-3 = Lock
+menu-0-3-font = 0
+menu-0-3-exec = menu-open-4
+menu-0-4 = Suspend
+menu-0-4-font = 0
+menu-0-4-exec = menu-open-5
+menu-0-5 = Exit
+menu-0-5-font = 0
+menu-0-5-exec = menu-open-6
+
+menu-1-0 = Reboot
+menu-1-0-font = 0
+menu-1-0-exec = systemctl reboot
+menu-1-1 = Cancel
+menu-1-1-font = 0
+menu-1-1-exec = menu-open-0
+
+menu-2-0 = Power Off
+menu-2-0-font = 0
+menu-2-0-exec = systemctl poweroff
+menu-2-1 = Cancel
+menu-2-1-font = 0
+menu-2-1-exec = menu-open-0
+
+menu-3-0 = Hibernate
+menu-3-0-font = 0
+menu-3-0-exec = i3lock --color "#000000" && sleep 1 && systemctl hibernate
+menu-3-1 = Cancel
+menu-3-1-font = 0
+menu-3-1-exec = menu-open-0
+
+menu-4-0 = Lock
+menu-4-0-font = 0
+menu-4-0-exec = betterlock && sleep 1
+menu-4-1 = Cancel
+menu-4-1-font = 0
+menu-4-1-exec = menu-open-0
+
+menu-5-0 = Suspend
+menu-5-0-font = 0
+menu-5-0-exec = systemctl suspend && i3lock --color "#000000" && sleep 1
+menu-5-1 = Cancel
+menu-5-1-font = 0
+menu-5-1-exec = menu-open-0
+
+menu-6-0 = Exit
+menu-6-0-font = 0
+menu-6-0-exec = kill -9 -1
+menu-6-1 = Cancel
+menu-6-1-font = 0
+menu-6-1-exec = menu-open-0

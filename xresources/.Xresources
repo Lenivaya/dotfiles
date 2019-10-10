@@ -1,0 +1,164 @@
+!Urxvt
+! special
+URxvt.foreground:           #a19782
+URxvt.background:           #0b0806
+URxvt.cursorColor:          #844d2c
+URxvt.underlineColor:       #c1ab83
+
+! black
+URxvt.color0:               #0b0806
+URxvt.color8:               #2f2b2a
+
+! red
+URxvt.color1:               #844d2c
+URxvt.color9:               #a64848
+
+! green
+URxvt.color2:               #57553a
+URxvt.color10:              #897f5a
+
+! yellow
+URxvt.color3:               #a17c38
+URxvt.color11:              #c8b38d
+
+! blue
+URxvt.color4:               #41434f
+URxvt.color12:              #526274
+
+! magenta
+URxvt.color5:               #6b4444
+URxvt.color13:              #755c47
+
+! cyan
+URxvt.color6:               #59664c
+URxvt.color14:              #718062
+
+! white
+URxvt.color7:               #a19782
+URxvt.color15:              #c1ab83
+
+URxvt.font:                 xft:tewi:style=Regular:size=8,  \
+                            xft:Biwidth,                    \
+                            xft:Fixed,                      \
+                            xft:Misc Fixed Wide
+
+URxvt.boldFont:             xft:tewi:style=Bold:size=8,     \
+                            xft:tewi:style=Regular:size=8,  \
+                            xft:Biwidth,                    \
+                            xft:Fixed,                      \
+                            xft:Misc Fixed Wide
+
+URxvt.italicFont:           xft:tewi:style=Regular:size=8,  \
+                            xft:Biwidth,                    \
+                            xft:Fixed,                      \
+                            xft:Misc Fixed Wide
+
+URxvt.boldItalicFont:       xft:tewi:style=Bold:size=8,     \
+                            xft:tewi:style=Regular:size=8,  \
+                            xft:Biwidth,                    \
+                            xft:Fixed,                      \
+                            xft:Misc Fixed Wide
+
+URxvt.internalBorder:       6
+URxvt.letterSpace:          0
+URxvt.lineSpace:            0
+
+URxvt.termName:             rxvt-256color
+URxvt.imLocate:             en_US.UTF-8
+
+URxvt.buffered:             true
+
+URxvt.cursorUnderline:      false
+URxvt.cursorBlink:          true
+
+URxvt.loginShell:           true
+
+URxvt.perl-ext-common:      default,clipboard,matcher
+
+URxvt.matcher.pattern.0:    \\b(http|https):\/\/[\\w\\-\\@;\\/?:&=%\\$.+!*\x27,~#]+
+URxvt.matcher.launcher.0:   qutebrowser
+
+!URxvt.matcher.pattern.0:    \\b(http|https):\/\/www\.youtube\.com/watch\\?v=([\\w-&=]+)
+!URxvt.matcher.launcher.0:   streamlink
+
+!URxvt.matcher.pattern.1:    \\b(http|https):\/\/(?!www\\.youtube.*)[\\w\\-\\@;\\/?:&=%\\$.+!*\x27,~#]+
+!URxvt.matcher.launcher.1:   qutebrowser
+
+URxvt.matcher.button:       1
+URxvt.matcher.rend.0:       Uline fg5
+
+URxvt.jumpScroll:           true
+
+URxvt.saveLines:            4096
+
+URxvt.scrollBar:            false
+URxvt.scrollTtyKeypress:    true
+URxvt.scrollTtyOutput:      false
+URxvt.scrollWidthBuffer:    true
+URxvt.scrollstyle:          plain
+
+URxvt.urgentOnBell:         true
+URxvt.visualBell:           false
+!! st
+*.termname:     xterm-256color
+st.font:   tewi-scaled:pixelsize=12:antialias=true:autohint=true;
+!!st.font: scientifica:size=22
+*.font: Iosevka Term:pixelsize=16
+*.borderpx:          15
+*.cursorshape:       2
+*.cursorthickness:   2
+*.bold_font:         0
+*.xfps:              120
+*.actionfps:         30
+*.mouseScrollLines:  1
+*.chscale:           1.0
+*.cwscale:           1.0
+*.blinktimeout:      800
+*.bellvolume:        100
+st.alpha: 1
+! *.shell:        /bin/fish
+st.foreground:           #a19782
+st.background:           #0b0806
+st.cursorColor:          #844d2c
+st.underlineColor:       #c1ab83
+
+! black
+st.color0:               #0b0806
+st.color8:               #2f2b2a
+
+! red
+st.color1:               #844d2c
+st.color9:               #a64848
+
+! green
+st.color2:               #57553a
+st.color10:              #897f5a
+
+! yellow
+st.color3:               #a17c38
+st.color11:              #c8b38d
+
+! blue
+st.color4:               #41434f
+st.color12:              #526274
+
+! magenta
+st.color5:               #6b4444
+st.color13:              #755c47
+
+! cyan
+st.color6:               #59664c
+st.color14:              #718062
+
+! white
+st.color7:               #a19782
+st.color15:              #c1ab83
+
+
+
+!Emacs
+Emacs.font: Iosevka-9
+Xcursor.theme: OSX-ElCap
+
+#include ".Xresources.d/colors"
+
