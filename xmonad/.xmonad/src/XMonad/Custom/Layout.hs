@@ -25,6 +25,7 @@ import           XMonad.Layout.Spacing
 import           XMonad.Layout.SubLayouts
 import           XMonad.Layout.Tabbed
 import           XMonad.Layout.WindowNavigation
+import           XMonad.Layout.ResizableTile
 
 applySpacing :: l a -> ModifiedLayout Spacing l a
 applySpacing = spacingRaw False (Border 6 6 6 6) True (Border 6 6 6 6) True
@@ -36,6 +37,7 @@ instance Transformer CustomTransformers Window where
     transform GAPS x k = k (avoidStruts $ applySpacing x) (const x)
 
 layoutHook = fullscreenFloat
+             . smartBorders
              $ lessBorders OnlyLayoutFloat
              $ mkToggle (single NBFULL)
              $ avoidStruts

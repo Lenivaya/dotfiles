@@ -15,11 +15,16 @@ projects =
 
     , Project { projectName      = "Emacs"
               , projectDirectory = "~/"
-              , projectStartHook = Just $ spawnOn "Emacs" "st -e emacsclient -t -c"
+              , projectStartHook = Just $ spawnOn "Emacs" (C.emacs C.applications)
               }
 
     , Project { projectName      = "WWW"
               , projectDirectory = "~/"
               , projectStartHook = Just $ spawnOn "WWW" (C.browser C.applications)
+              }
+
+    , Project { projectName      = "Read"
+              ,  projectDirectory = "~/"
+              ,  projectStartHook = Just $ spawnOn "Read" (C.reader C.applications)
               }
     ]

@@ -164,13 +164,14 @@ keysWorkspaces _ =
 
 keysSpawnables :: XConfig Layout -> [(String, X ())]
 keysSpawnables _ =
-    [ ("M-<Return>" , spawn (C.term C.applications))
-    , ("M-b"        , spawn (C.browser C.applications))
-    , ("M-c"        , namedScratchpadAction scratchpads "console")
-    , ("M-m"        , namedScratchpadAction scratchpads "music")
-    , ("M-t"        , namedScratchpadAction scratchpads "top")
-    , ("M-v"        , namedScratchpadAction scratchpads "volume")
-    , ("M-C-e"      , spawn "st -e emacsclient -t -c")
+    [ ("M-<Return>"   , spawn (C.term C.applications))
+    , ("M-S-<Return>" , spawn (C.termfont C.applications))
+    , ("M-b"          , spawn (C.browser C.applications))
+    , ("M-c"          , namedScratchpadAction scratchpads "console")
+    , ("M-m"          , namedScratchpadAction scratchpads "music")
+    , ("M-t"          , namedScratchpadAction scratchpads "top")
+    , ("M-v"          , namedScratchpadAction scratchpads "volume")
+    , ("M-C-e"        , spawn (C.emacs C.applications))
     ]
 
 keysWindows :: XConfig Layout -> [(String, X())]
@@ -232,16 +233,12 @@ keysResize _ =
 
 mouseBindings :: XConfig Layout -> M.Map (KeyMask, Button) (Window -> X ())
 mouseBindings XConfig {} = M.fromList
-    [ ((modMask, button1), \w -> focus w
-                                 >> F.mouseWindow F.position w
-                                 >> ifClick (snapSpacedMagicMove gapFull
-                                                (Just 50) (Just 50) w)
-                                 >> windows S.shiftMaster
-      )
-    , ((modMask, button3), \w -> focus w
-                                 >> F.mouseWindow F.linear w
-                                 >> ifClick (snapMagicResize [L, R, U, D]
-                                                (Just 50) (Just 50) w)
-                                 >> windows S.shiftMaster
-      )
+ -- mod-button1, flexible linear scale
+    [ ((mod4Mask, button1), \w -> focus w >> F.mouseWindow F.discrete w)
+    -- mod-button2, Raise the window to the top of the stack
+    , ((mod4Mask, button2), \w -> focus w >> windows S.shiftMaster)
+    -- mod-button3, Set the window to floating mode and resize by dragging
+    , ((mod4Mask, button3), \w -> focus w >> mouseResizeWindow w
+                                      >> windows S.shiftMaster)
+    -- you may also bind events to the mouse scroll wheel (button4 and button5)
     ]

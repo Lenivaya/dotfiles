@@ -17,7 +17,6 @@ shopt -s cmdhist
 shopt -s histappend
 shopt -s histreedit
 HISTCONTROL=ignoredups:ignorespace
-HISTFILESIZE=$HISTSIZE
 
 complete -A directory cd
 

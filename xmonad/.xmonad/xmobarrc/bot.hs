@@ -21,14 +21,10 @@ Config { font = "xft:tewi:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
        , persistent = False
        , border = FullBM 0
        , borderColor = "#2f2b2a"
-       , borderWidth = 1
-       , iconRoot = "."
-       , commands = [ Run StdinReader
-                    , Run Battery [ "-t", "<fn=1><acstatus></fn><left>%"
+       , borderWidth = 1 , iconRoot = "." , commands = [ Run StdinReader , Run Battery [ "-t", "<fn=1><acstatus></fn><left>%"
                                   , "--"
                                   , "-i", "\57914", "-O", "\57913" , "-o", "\57911"
-                                  ] 10
-                    , Run Cpu [ "-t", "<fn=1>\57381</fn><total>%" ] 10
+                                  ] 10 , Run Cpu [ "-t", "<fn=1>\57381</fn><total>%" ] 10
                     , Run CoreTemp [ "-t", "<core0>°C / <core1>°C" ] 10
                     , Run Memory [ "-t", "<fn=1>\57384</fn> <usedratio>%" ] 10
                     , Run ThermalZone 0 ["-t","<fn=1>\57371</fn> <temp>°C"] 10
@@ -40,7 +36,7 @@ Config { font = "xft:tewi:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
                               , ("ua","<fn=1>\57967</fn>Ukrainian")]
                     , Run Com "/home/free/.xmonad/scripts/xmobar/fcitx.sh" [] "fcitx" 3
                     , Run Locks
-                    , Run MPD [ "-t", "<fn=1><statei></fn> <artist> - <title>"
+                    , Run MPD [ "-t", "<fn=1><statei></fn> <artist> - <title>   /"
                               , "--"
                               , "-P", "\57498", "-Z", "\57499", "-S", "\57497"
                               ] 10
@@ -51,15 +47,16 @@ Config { font = "xft:tewi:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
                                                     , "--onc"  , "#a19782"
                                                     , "--offc" , "#a19782"
                                                     ] 10
+                    , Run Mpris2 "spotify" ["-t", "<artist> - <title>   /"] 10
                     ]
        , sepChar = "%"
        , alignSep = "}{"
        , template = " \
                     \%battery%   %wlp3s0wi%   %dynnetwork%   %StdinReader%\
                     \}\
-                    \%kbd%\
+                    \\
                     \{\
-                    \%mpd%   %default:Master%\
+                    \%kbd%   %default:Master%\
                     \ "
        }
 

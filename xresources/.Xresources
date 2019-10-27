@@ -103,56 +103,56 @@ URxvt.visualBell:           false
 *.termname:     xterm-256color
 st.font:   tewi-scaled:pixelsize=12:antialias=true:autohint=true;
 !!st.font: scientifica:size=22
-*.font: Iosevka Term:pixelsize=16
-*.borderpx:          15
-*.cursorshape:       2
-*.cursorthickness:   2
-*.bold_font:         0
-*.xfps:              120
-*.actionfps:         30
-*.mouseScrollLines:  1
-*.chscale:           1.0
-*.cwscale:           1.0
-*.blinktimeout:      800
-*.bellvolume:        100
+!! st.font: Iosevka Term:pixelsize=16
+st.borderpx:          15
+st.cursorshape:       2
+st.cursorthickness:   2
+st.bold_font:         0
+st.xfps:              120
+st.actionfps:         30
+st.mouseScrollLines:  1
+st.chscale:           1.0
+st.cwscale:           1.0
+st.blinktimeout:      800
+st.bellvolume:        100
 st.alpha: 1
 ! *.shell:        /bin/fish
-st.foreground:           #a19782
-st.background:           #0b0806
-st.cursorColor:          #844d2c
-st.underlineColor:       #c1ab83
+*.foreground:           #a19782
+*.background:           #0b0806
+*.cursorColor:          #844d2c
+*.underlineColor:       #c1ab83
 
 ! black
-st.color0:               #0b0806
-st.color8:               #2f2b2a
+*.color0:               #0b0806
+*.color8:               #2f2b2a
 
 ! red
-st.color1:               #844d2c
-st.color9:               #a64848
+*.color1:               #844d2c
+*.color9:               #a64848
 
 ! green
-st.color2:               #57553a
-st.color10:              #897f5a
+*.color2:               #57553a
+*.color10:              #897f5a
 
 ! yellow
-st.color3:               #a17c38
-st.color11:              #c8b38d
+*.color3:               #a17c38
+*.color11:              #c8b38d
 
 ! blue
-st.color4:               #41434f
-st.color12:              #526274
+*.color4:               #41434f
+*.color12:              #526274
 
 ! magenta
-st.color5:               #6b4444
-st.color13:              #755c47
+*.color5:               #6b4444
+*.color13:              #755c47
 
 ! cyan
-st.color6:               #59664c
-st.color14:              #718062
+*.color6:               #59664c
+*.color14:              #718062
 
 ! white
-st.color7:               #a19782
-st.color15:              #c1ab83
+*.color7:               #a19782
+*.color15:              #c1ab83
 
 
 
@@ -160,5 +160,4 @@ st.color15:              #c1ab83
 Emacs.font: Iosevka-9
 Xcursor.theme: OSX-ElCap
 
-#include ".Xresources.d/colors"
-
+rofi.font: Iosevka 16

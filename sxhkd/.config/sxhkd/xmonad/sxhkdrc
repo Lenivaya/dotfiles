@@ -5,6 +5,10 @@ super + Escape
 
 # launch apps with super + <shift> keypad
 super + KP_Left
+    st -e nnn
+
+
+super + shift + KP_Left
 	st -e lf
 
 super + KP_Home

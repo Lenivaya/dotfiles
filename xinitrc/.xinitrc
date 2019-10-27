@@ -33,7 +33,10 @@ fi
     xsetroot -cursor_name left_ptr
 
 [ "$(command -v synclient)" ] && \
-    synclient VertEdgeScroll=1 TapButton1=1 TapButton2=3 TapButton3=1 HorizTwoFingerScroll=1
+    synclient  TapButton1=1 TapButton2=3 TapButton3=1 VertEdgeScroll=1 HorizScrollDelta=-111 VertScrollDelta=-111
+
+[ "$(command -v syndaemon)" ] && \
+    syndaemon -i 0.5 -t -K -R &
 
 [ "$(command -v xautolock)" ] && \
     xautolock -detectsleep -time 20 -locker "betterlockscreen -l dim" &

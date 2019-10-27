@@ -24,7 +24,6 @@ composeActions =
     , className =? "urxvt"                                      -?> tileBelow
     , className =? "xterm"                                      -?> tileBelow
     , className =? "st"                                         -?> tileBelow
-    , className =? "dunst"                                      -?> doFullFloat
     , isDialog                                                  -?> doCenterFloat
     , isFullscreen                                              -?> doFullFloat
     , pure True                                                 -?> tileNormal
