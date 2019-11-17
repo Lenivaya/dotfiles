@@ -33,9 +33,9 @@ import           XMonad.Layout.NoBorders
 import           XMonad.Layout.Named
 import           XMonad.Layout.ResizableTile
 import           XMonad.Layout.LimitWindows (limitWindows, increaseLimit, decreaseLimit)
-import           XMonad.Layout.Renamed (renamed, Rename(CutWordsLeft, Replace))
 import           XMonad.Layout.OneBig
-
+import           XMonad.Layout.GridVariants (Grid(Grid))
+import           XMonad.Layout.SimplestFloat
 
 applySpacing :: l a -> ModifiedLayout Spacing l a
 applySpacing = spacingRaw False (Border 6 6 6 6) True (Border 6 6 6 6) True
@@ -69,21 +69,18 @@ spacingses = spacingRaw True (Border      0  (x' gs) (x' gs) (x' gs))
                         True (Border (x' gs) (x' gs) (x' gs) (x' gs))
                         True
 
-space = renamed [Replace "space"] 
-        $ limitWindows 4  
-        $ spacing 12 
-        $ Mirror 
-        $ mkToggle (single MIRROR) 
-        $ mkToggle (single REFLECTX) 
-        $ mkToggle (single REFLECTY) 
-        $ OneBig (2/3) (2/3)
+floats = named "Floats"
+         $ limitWindows 20
+         $ hiddenWindows
+         $ simplestFloat
 
-oneBig = renamed [Replace "oneBig"]
+oneBig = named "oneBig"
         $ limitWindows 6  
         $ Mirror 
         $ mkToggle (single MIRROR) 
         $ mkToggle (single REFLECTX) 
         $ mkToggle (single REFLECTY) 
+        $ hiddenWindows
         $ OneBig (5/9) (8/12)
 
 full = named "Fullscreen"
@@ -92,13 +89,14 @@ tall = named "Tall"
      $ IfMax 1 full
      $ gapses
      . spacingses
+     $ hiddenWindows
      $ ResizableTall 1 (2/100) (1/2) []
 
 tcm  = named "Three Columns"
      $ IfMax 1 full
      $ gapses
-     $ hiddenWindows
      . spacingses
+     $ hiddenWindows
      $ ThreeColMid 1 (1/10) (1/2)
 
 bsp = named "BSP"
@@ -118,8 +116,9 @@ layoutHook = fullscreenFloat
              $ mkToggle (single REFLECTY)
              $ mkToggle (single NBFULL)
 
-             $ bsp 
+
+             $ bsp
           ||| tcm
           ||| tall
           ||| oneBig
-          ||| space
+          ||| floats

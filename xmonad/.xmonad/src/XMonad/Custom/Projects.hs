@@ -15,7 +15,7 @@ projects =
 
     , Project { projectName      = "Emacs"
               , projectDirectory = "~/"
-              , projectStartHook = Just $ spawnOn "Emacs" (C.emacs C.applications)
+              , projectStartHook = Just $ spawnOn "Emacs" (C.emacsGUI C.applications)
               }
 
     , Project { projectName      = "WWW"

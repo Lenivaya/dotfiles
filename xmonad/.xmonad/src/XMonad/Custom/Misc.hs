@@ -15,6 +15,7 @@ data Applications = Applications
     , top      ::  !String
     , reader   ::  !String
     , emacs    ::  !String
+    , emacsGUI ::  !String
     } deriving (Eq, Show)
 
 applications :: Applications
@@ -28,4 +29,5 @@ applications = Applications
     , top      = "htop"
     , reader   = "zathura"
     , emacs    = "st -f Iosevka-Term:pixelsize=16 -e emacsclient -t -c"
+    , emacsGUI = "emacsclient -c"
     }
