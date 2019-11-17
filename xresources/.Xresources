@@ -154,10 +154,17 @@ st.alpha: 1
 *.color7:               #a19782
 *.color15:              #c1ab83
 
-
-
 !Emacs
 Emacs.font: Iosevka-9
 Xcursor.theme: OSX-ElCap
 
 rofi.font: Iosevka 16
+
+!Fonts
+Xft.dpi: 96
+Xft.antialias: true
+Xft.hinting: true
+Xft.rgba: rgb
+Xft.autohint: false
+Xft.hintstyle: hintslight
+Xft.lcdfilter: lcddefault
