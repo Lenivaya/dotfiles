@@ -2,7 +2,7 @@
 
 if ! pgrep redshift
 then
-    redshift -c "${XDG_CONFIG_HOME}/redshift.conf" &
+    redshift -c "${XDG_CONFIG_HOME}/redshift/redshift.conf" &
     disown redshift
 else
     pkill redshift
