@@ -35,6 +35,12 @@ zplugin ice wait lucid
 zplugin snippet OMZ::lib/theme-and-appearance.zsh
 zplugin ice wait lucid
 zplugin snippet OMZ::lib/grep.zsh
+zplugin ice wait lucid
+zplugin snippet OMZ::lib/compfix.zsh
+zplugin ice wait lucid
+zplugin snippet OMZ::lib/directories.zsh
+zplugin ice wait lucid
+zplugin snippet OMZ::lib/spectrum.zsh
 zplugin snippet OMZ::lib/key-bindings.zsh
 zplugin snippet OMZ::lib/history.zsh
 zplugin snippet OMZ::plugins/vi-mode/vi-mode.plugin.zsh
@@ -48,17 +54,21 @@ zplugin ice wait"1" lucid atinit"ZPLGM[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay
 zplugin light zdharma/fast-syntax-highlighting
 zplugin ice blockf; zplugin light zsh-users/zsh-completions
 
+zplugin ice wait lucid
 zplugin light zsh-users/zsh-history-substring-search
+zplugin ice wait lucid 
 zplugin light Tarrasch/zsh-bd
+zplugin ice wait"2" lucid
 zplugin light mafredri/zsh-async
+zplugin ice wait lucid
 zplugin light ael-code/zsh-colored-man-pages
-zplugin light MichaelAquilina/zsh-autoswitch-virtualenv
+zplugin ice wait lucid 
+zplugin light MichaelAquilina/zsh-auto-notify
+zplugin ice wait lucid
 zplugin light wfxr/forgit
 
 # fzf
 zplugin ice wait lucid from"gh-r" as"program"
-zplugin light junegunn/fzf-bin
-zplugin light hschne/fzf-git
 [ -f ~/.fzf.colors ] && source ~/.fzf.colors
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
