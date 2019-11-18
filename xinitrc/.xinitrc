@@ -8,11 +8,6 @@ fi
 [ "$(command -v xrdb)" ] && [ -f "$HOME/.Xresources" ] && \
     xrdb "$HOME/.Xresources"
 
-[ "$(command -v setxkbmap)" ] && \
-    setxkbmap -layout "us, ru, ua" -option "grp:win_space_toggle" -option "compose:menu"
-
-[ "$(command -v compton)" ] && compton -b
-
 if [ "$(command -v xset)" ]
 then
     xset b off
@@ -32,23 +27,23 @@ fi
 [ "$(command -v xsetroot)" ] && \
     xsetroot -cursor_name left_ptr
 
-[ "$(command -v synclient)" ] && \
-    synclient  TapButton1=1 TapButton2=3 TapButton3=1 VertEdgeScroll=1 HorizScrollDelta=-111 VertScrollDelta=-111
-
-[ "$(command -v syndaemon)" ] && \
-    syndaemon -i 0.5 -t -K -R &
+PAPE="$HOME/Pictures/walls/gregory_crewdson-Brief_Encounter.jpg"
+[ "$(command -v hsetroot)" ] && [ -f "$PAPE" ] && \
+    hsetroot -cover "$PAPE"
 
 [ "$(command -v xautolock)" ] && \
     xautolock -detectsleep -time 20 -locker "betterlockscreen -l dim" &
 
-PAPE=$HOME/Pictures/walls/Johan_Christian_Claussen_Dahl_-_Frederiksborg_slott_\(1817\).jpg
-[ "$(command -v hsetroot)" ] && \
-    hsetroot -cover $PAPE
+[ "$(command -v setxkbmap)" ] && \
+    setxkbmap -layout "us, ru, ua" -option "grp:win_space_toggle" -option "compose:menu"
 
-[ "$(command -v betterlockscreen)" ] && \
-    betterlockscreen -u $PAPE
+[ "$(command -v synclient)" ] && \
+    synclient  TapButton1=1 TapButton2=3 TapButton3=1 HorizEdgeScroll=0 HorizScrollDelta=-111 VertScrollDelta=-111
 
-[ "$(command -v clight)" ] && \
+[ "$(command -v syndaemon)" ] && \
+    syndaemon -i 0.5 -t -K -R &
+
+[ "$(command -v clight)" ] && [ -f "$PAPE" ] && \
     clight &
 
 [ "$(command -v dunst)" ] && \
@@ -59,5 +54,7 @@ PAPE=$HOME/Pictures/walls/Johan_Christian_Claussen_Dahl_-_Frederiksborg_slott_\(
 
 [ "$(command -v dex)" ] && \
     dex /etc/xdg/autostart/org.kde.kdeconnect.daemon.desktop
+
+[ "$(command -v picom)" ] && picom -b
 
 exec xmonad
