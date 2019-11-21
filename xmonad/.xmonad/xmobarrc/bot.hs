@@ -47,7 +47,7 @@ Config { font = "xft:tewi:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
                                                     , "--onc"  , "#a19782"
                                                     , "--offc" , "#a19782"
                                                     ] 10
-                    , Run Mpris2 "spotify" ["-t", "<artist> - <title>   /"] 10
+                    , Run Mpris2 "spotify" ["-t", "<artist> - <title>"] 10
                     ]
        , sepChar = "%"
        , alignSep = "}{"
@@ -56,7 +56,7 @@ Config { font = "xft:tewi:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
                     \}\
                     \\
                     \{\
-                    \%kbd%   %default:Master%\
+                    \%mpris2%  /  %kbd%   %default:Master%\
                     \ "
        }
 
