@@ -10,6 +10,7 @@ import           XMonad.Actions.CopyWindow
 import           XMonad.Custom.Theme
 import           XMonad.Hooks.CurrentWorkspaceOnTop
 import           XMonad.Hooks.DynamicLog
+import           XMonad.Hooks.RefocusLast
 import           XMonad.Hooks.EwmhDesktops
 import           XMonad.Util.NamedScratchpad
 import           XMonad.Util.SpawnNamedPipe
@@ -51,6 +52,7 @@ safePrintToPipe = maybe (\_ -> return ()) hPutStrLn
 
 logHook :: X ()
 logHook = do
+    refocusLastLogHook
     currentWorkspaceOnTop
     ewmhDesktopsLogHook
     t <- getNamedPipe "xmobarTop"
