@@ -675,7 +675,7 @@ c.fonts.tabs = '8pt monospace'
 
 # Font family for standard fonts.
 # Type: FontFamily
-c.fonts.web.family.standard = 'Iosevka'
+# c.fonts.web.family.standard = 'Iosevka'
 
 # Font family for fixed fonts.
 # Type: FontFamily
@@ -683,19 +683,19 @@ c.fonts.web.family.fixed = 'Iosevka'
 
 # Font family for serif fonts.
 # Type: FontFamily
-c.fonts.web.family.serif = 'Iosevka'
+# c.fonts.web.family.serif = 'Iosevka'
 
 # Font family for sans-serif fonts.
 # Type: FontFamily
-c.fonts.web.family.sans_serif = 'Iosevka'
+# c.fonts.web.family.sans_serif = 'Iosevka'
 
 # Font family for cursive fonts.
 # Type: FontFamily
-c.fonts.web.family.cursive = 'Iosevka'
+# c.fonts.web.family.cursive = 'Iosevka'
 
 # Font family for fantasy fonts.
 # Type: FontFamily
-c.fonts.web.family.fantasy = 'Iosevka'
+# c.fonts.web.family.fantasy = 'Iosevka'
 
 # Bindings for normal mode
 config.bind('z', 'hint links spawn mpv {hint-url}')

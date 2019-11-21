@@ -1,9 +1,14 @@
 #!/usr/bin/env zsh
 
-setopt autocd
-setopt extended_glob
+setopt auto_cd
+setopt auto_name_dirs
+setopt auto_pushd
+setopt cdable_vars
+setopt clobber
 setopt no_case_glob
 setopt prompt_subst
+setopt pushd_silent
+setopt pushd_to_home
 
 zstyle ':completion:*' format '%d'
 zstyle ':completion:*' list-colors ''
@@ -15,6 +20,8 @@ zstyle ':completion:*' squeeze-slashes true
 zstyle ':completion:*' use-compctl false
 zstyle ':completion:*' verbose true
 zstyle ':completion:*:functions' ignored-patterns '_*'
+
+setopt magic_equal_subst
 
 autoload -Uz compinit
 if [[ -n ${ZDOTDIR}/.zcompdump(#qN.mh+24) ]]; then
