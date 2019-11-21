@@ -1,10 +1,5 @@
 #!/bin/sh
 
-if [ "$(command -v xmodmap)" ] && [ -f "$HOME/.xmodmaprc" ]
-then
-    xmodmap "$HOME/.xmodmaprc"
-fi
-
 [ "$(command -v xrdb)" ] && [ -f "$HOME/.Xresources" ] && \
     xrdb "$HOME/.Xresources"
 
@@ -35,16 +30,20 @@ PAPE="$HOME/Pictures/walls/gregory_crewdson-Brief_Encounter.jpg"
     xautolock -detectsleep -time 20 -locker "betterlockscreen -l dim" &
 
 [ "$(command -v setxkbmap)" ] && \
-    setxkbmap -layout "us, ru, ua" -option "grp:win_space_toggle" -option "compose:menu"
+    setxkbmap -layout "us, ru, ua" -option "grp:win_space_toggle" -option "compose:menu" -option "caps:ctrl_modifier"
 
 [ "$(command -v synclient)" ] && \
-    synclient  TapButton1=1 TapButton2=3 TapButton3=1 HorizEdgeScroll=0 HorizScrollDelta=-111 VertScrollDelta=-111
+    synclient  TapButton1=1 TapButton2=3 TapButton3=1 VertEdgeScroll=0 HorizEdgeScroll=0 HorizScrollDelta=-111 VertScrollDelta=-111
 
 [ "$(command -v syndaemon)" ] && \
     syndaemon -i 0.5 -t -K -R &
 
 [ "$(command -v clight)" ] && [ -f "$PAPE" ] && \
     clight &
+
+[ "$(command -v redshift)" ] && \
+    redshift -c "$HOME/.config/redshift/redshift.conf" &
+    disown redshift
 
 [ "$(command -v dunst)" ] && \
     dunst &
