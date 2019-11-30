@@ -1,10 +1,14 @@
 #!/usr/bin/env zsh
 
+function set_term_title(){
+  echo -ne "\033]0;${USER}@${HOST} ${PWD}\007";
+}
+precmd_functions+=(set_term_title)
 setopt auto_cd
 setopt auto_name_dirs
 setopt auto_pushd
 setopt cdable_vars
-setopt clobber
+setopt no_case_glob
 setopt no_case_glob
 setopt prompt_subst
 setopt pushd_silent
@@ -63,19 +67,22 @@ zplugin ice blockf; zplugin light zsh-users/zsh-completions
 
 zplugin ice wait lucid
 zplugin light zsh-users/zsh-history-substring-search
-zplugin ice wait lucid 
+zplugin ice wait lucid
 zplugin light Tarrasch/zsh-bd
 zplugin ice wait"2" lucid
 zplugin light mafredri/zsh-async
 zplugin ice wait lucid
 zplugin light ael-code/zsh-colored-man-pages
-zplugin ice wait lucid 
+zplugin ice wait lucid
 zplugin light MichaelAquilina/zsh-auto-notify
 zplugin ice wait lucid
 zplugin light wfxr/forgit
+zplugin ice wait lucid
+zplugin light denisidoro/navi
 
 # fzf
 zplugin ice wait lucid from"gh-r" as"program"
+zplugin light junegunn/fzf-bin
 [ -f ~/.fzf.colors ] && source ~/.fzf.colors
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
