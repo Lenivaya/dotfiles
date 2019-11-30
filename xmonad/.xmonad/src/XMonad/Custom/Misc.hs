@@ -24,7 +24,7 @@ applications = Applications
     , mixer    = "pulsemixer"
     , notify   = "notify-send"
     , player   = "ncmpcpp"
-    , term     = "st"
+    , term     = "alacritty"
     , termfont = "st -f Iosevka-Term:pixelsize=16"
     , top      = "htop"
     , reader   = "zathura"

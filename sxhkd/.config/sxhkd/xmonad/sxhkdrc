@@ -5,12 +5,12 @@ super + Escape
 
 # launch apps with super + <shift> keypad
 super + KP_Left
-    st -e nnn
+    alacritty -e nnn
 
 
 super + shift + KP_Left
-	st -e lf
+	alacritty -e lf
 
 super + KP_Home
-	st -e tmux
+	alacritty -e tmux
 
