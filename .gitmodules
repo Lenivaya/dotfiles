@@ -1,0 +1,3 @@
+[submodule "nixos-config"]
+	path = nixos-config
+	url = https://github.com/Lenivaya/nixos-config
