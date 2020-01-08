@@ -35,9 +35,9 @@ import qualified XMonad.Prompt            as P
 import Data.Ratio
 
 font :: String
-font = "xft:tewi:style=Regular:size=8" -- TODO CJKのフォールバックフォントを追加する
+font = "xft:tewi:style=Regular:size=8"
 
-black1, black2 :: String -- TODO get variables from Xresources
+black1, black2 :: String
 (black1, black2) =
     ("#0b0806", "#2f2b2a")
 

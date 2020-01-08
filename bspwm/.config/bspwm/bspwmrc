@@ -1,6 +1,6 @@
 #! /bin/sh
 
-sxhkd &
+sxhkd ~/.config/sxhkd/bspwm/sxhkdrc &
 
 bspc monitor -d I II III IV V VI VII VIII IX X
 
@@ -40,10 +40,6 @@ bspc rule -a zathura state=tiled
 
 
 ~/.config/polybar/launch.sh &
-
-killall dunst && dunst -config ~/.config/dunst/dunstrc &
-
-xsetroot -cursor_name Adwaita &
 
 # bash /home/leniviy/.config/bspwm/bspwm_colors.sh &
 

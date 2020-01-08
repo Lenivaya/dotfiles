@@ -1,6 +1,0 @@
-resolver: lts-14..8
-packages:
-    - .
-    - ./vendor/xmonad
-    - ./vendor/xmonad-contrib
-    - ./vendor/xmobar

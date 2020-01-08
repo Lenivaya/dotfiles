@@ -1,6 +1,7 @@
 module Main where
 
 import           XMonad
+import           XMonad.Config.Kde
 import           XMonad.Actions.DynamicProjects
 import           XMonad.Actions.Navigation2D
 import qualified XMonad.Custom.Bindings         as C
@@ -26,8 +27,8 @@ main = xmonad
        $ withNavigation2DConfig C.navigation
        $ dynamicProjects C.projects
        $ def { borderWidth        = C.border
-             , workspaces         = C.workspaces -- TODO save WS state
-             , layoutHook         = C.layoutHook -- TODO save layout state and floating W position
+             , workspaces         = C.workspaces
+             , layoutHook         = C.layoutHook
              , terminal           = C.term C.applications
              , normalBorderColor  = C.colorN
              , focusedBorderColor = C.colorF
@@ -36,7 +37,7 @@ main = xmonad
              , logHook            = C.logHook
              , startupHook        = C.startupHook
              , mouseBindings      = C.mouseBindings
-             , manageHook         = C.manageHook
+             , manageHook         = manageHook kdeConfig <+> C.manageHook
              , handleEventHook    = C.handleEventHook
              , focusFollowsMouse  = False
              , clickJustFocuses   = False

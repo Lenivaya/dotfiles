@@ -2,7 +2,7 @@
 
 if ! pgrep compton
 then
-    compton -b --config "${XDG_CONFIG_HOME}/compton.conf"
+    compton -b 
 else
     pkill compton
 fi

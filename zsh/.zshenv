@@ -1,4 +1,3 @@
-export XDG_CONFIG_HOME="$HOME/.config"
 export PATH="$HOME/.cabal/bin:$PATH"
 export PATH="$HOME/.emacs.d/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
@@ -10,9 +9,8 @@ export LANG=en_US.UTF-8
 
 # emacs
 export ALTERNATE_EDITOR=""
-export EDITOR="emacsclient -t"
+export EDITOR="emacsclient -c"
 export VISUAL="emacsclient -c -a emacs"
-
 
 export QT_QPA_PLATFORMTHEME="qt5ct"
 export PF_INFO="ascii title os kernel uptime pkgs shell wm"

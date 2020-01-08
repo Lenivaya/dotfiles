@@ -100,12 +100,12 @@ URxvt.scrollstyle:          plain
 URxvt.urgentOnBell:         true
 URxvt.visualBell:           false
 !! st
-*.termname:     xterm-256color
+st.termname:     xterm-256color
 st.font:   tewi-scaled:pixelsize=12:antialias=true:autohint=true;
 !!st.font: scientifica:size=22
 !! st.font: Iosevka Term:pixelsize=16
 st.borderpx:          15
-st.cursorshape:       2
+st.cursorshape:       4
 st.cursorthickness:   2
 st.bold_font:         0
 st.xfps:              120

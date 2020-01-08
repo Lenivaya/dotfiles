@@ -1,14 +1,14 @@
 # configuration file for betterlockscreen
 
 insidecolor=00000000
-ringcolor=ffffffff
+ringcolor=00000000
 keyhlcolor=d23c3dff
 bshlcolor=d23c3dff
 separatorcolor=00000000
 insidevercolor=00000000
 insidewrongcolor=d23c3dff
-ringvercolor=ffffffff
-ringwrongcolor=ffffffff
+ringvercolor=00000000
+ringwrongcolor=d23c3dff
 verifcolor=ffffffff
 timecolor=ffffffff
 datecolor=ffffffff

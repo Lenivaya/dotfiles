@@ -2,7 +2,7 @@
 
 if mpc | grep -q '\[playing\]'
 then
-    mpc --no-status pause
+    mpc pause
 else
-    mpc --no-status play
+    mpc play
 fi

@@ -24,6 +24,7 @@ import           XMonad.Actions.PerConditionKeys
 import           XMonad.Actions.Promote
 import           XMonad.Actions.UpdatePointer
 import           XMonad.Actions.WithAll
+import           XMonad.Actions.GridSelect
 import           XMonad.Custom.Layout
 import qualified XMonad.Custom.Misc                  as C
 import           XMonad.Custom.Scratchpads
@@ -107,7 +108,7 @@ rawKeys c = withUpdatePointer $ concatMap ($ c) keymaps
 keysBase :: XConfig Layout -> [(String, X ())]
 keysBase _ =
     [ ("M-S-q"      , confirmPrompt hotPromptTheme "Quit XMonad?" $ io exitSuccess)
-    , ("M-q"        , spawn "xmonad --restart") -- TODO Replace with interal calls
+    , ("M-q"        , spawn "xmonad --restart") 
     , ("M-C-q"      , spawn "xmonad --recompile && xmonad --restart")
     , ("M-x"        , shellPrompt promptTheme)
     , ("M-w"        , windowPrompt promptTheme Goto  allWindows)
@@ -124,29 +125,22 @@ keysPass _ =
 
 keysSystem :: XConfig Layout -> [(String, X ())]
 keysSystem _ =
-    [ ("M-C-g"             , return ()) -- TODO Replace scripts with internal functions
-    , ("M-S-b"             , spawn "~/.xmonad/scripts/screenlock.sh")
+    [ ("M-S-b"             , spawn "~/.xmonad/scripts/screenlock.sh")
     , ("M-<Print>"         , spawn "~/.xmonad/scripts/xshot.sh")
     , ("M-S-<Print>"       , spawn "~/.xmonad/scripts/xshot-select.sh")
-    , ("M-<Insert>"        , spawn "~/.xmonad/scripts/xcast.sh --webm")
-    , ("M-S-<Insert>"      , spawn "~/.xmonad/scripts/xcast.sh --gif")
-    , ("M-C-<Insert>"      , spawn "pkill ffmpeg") -- FIXME Possible undefined behaviour
     , ("M-C-c"             , spawn "~/.xmonad/scripts/toggle-compton.sh")
     , ("M-C-r"             , spawn "~/.xmonad/scripts/toggle-redshift.sh")
-    , ("M-C-p"             , spawn "~/.xmonad/scripts/toggle-touchpad.sh")
-    , ("M-C-t"             , spawn "~/.xmonad/scripts/toggle-trackpoint.sh")
     ]
 
-keysMedia :: XConfig Layout -> [(String, X ())] -- TODO Make audio keys compatible with ALSA/PA at the same time
+keysMedia :: XConfig Layout -> [(String, X ())] 
 keysMedia _ =
-    [ ("<XF86AudioMicMute>"     , spawn "pactl set-source-mute 1 toggle") -- TODO Add indicator
+    [ ("<XF86AudioMicMute>"     , spawn "pactl set-source-mute 1 toggle") 
     , ("<XF86AudioMute>"        , spawn "pactl set-sink-mute 0 toggle")
     , ("<XF86AudioLowerVolume>" , spawn "pactl set-sink-mute 0 false && pactl set-sink-volume 0 -10%")
     , ("<XF86AudioRaiseVolume>" , spawn "pactl set-sink-mute 0 false && pactl set-sink-volume 0 +10%")
-    , ("<XF86AudioPlay>"        , spawn "~/.xmonad/scripts/mpc-play-pause.sh")
-    , ("<XF86AudioStop>"        , spawn "mpc --no-status stop")
-    , ("<XF86AudioPrev>"        , spawn "mpc --no-status prev")
-    , ("<XF86AudioNext>"        , spawn "mpc --no-status next")
+    , ("<XF86AudioStop>"        , spawn "mpc stop")
+    , ("<XF86AudioPrev>"        , spawn "mpc prev")
+    , ("<XF86AudioNext>"        , spawn "mpc next")
     ]
 
 keysWorkspaces :: XConfig Layout -> [(String, X ())]
@@ -165,13 +159,13 @@ keysWorkspaces _ =
 keysSpawnables :: XConfig Layout -> [(String, X ())]
 keysSpawnables _ =
     [ ("M-<Return>"   , spawn (C.term C.applications))
-    , ("M-S-<Return>" , spawn (C.termfont C.applications))
     , ("M-b"          , spawn (C.browser C.applications))
     , ("M-c"          , namedScratchpadAction scratchpads "console")
-    , ("M-m"          , namedScratchpadAction scratchpads "music")
+    -- , ("M-m"          , namedScratchpadAction scratchpads "music")
     , ("M-t"          , namedScratchpadAction scratchpads "top")
     , ("M-v"          , namedScratchpadAction scratchpads "volume")
     , ("M-C-e"        , spawn (C.emacs C.applications))
+    , ("M-m"        , spawn (C.appmenu C.applications))
     ]
 
 keysWindows :: XConfig Layout -> [(String, X())]
@@ -179,7 +173,7 @@ keysWindows _ =
     [ ("M-d"   , kill)
     , ("M-S-d" , confirmPrompt hotPromptTheme "Kill all" killAll)
     , ("M-a"   , toggleCopyToAll)
-    , ("M-e"   , withFocused hideWindow) -- FIXME This is so broken
+    , ("M-e"   , withFocused hideWindow) 
     , ("M-S-e" , popOldestHiddenWindow)
     , ("M-p"   , promote)
     , ("M-g"   , withFocused $ sendMessage . MergeAll)
@@ -195,7 +189,7 @@ keysWindows _ =
     , ("M-S-'" , windows S.swapDown)
     , ("M-S-;" , windows S.swapUp)
     ]
-    ++ zipKeys' "M-"   directionKeys directions windowGo   True -- TODO W moving
+    ++ zipKeys' "M-"   directionKeys directions windowGo   True 
     ++ zipKeys' "M-S-" directionKeys directions windowSwap True
     ++ zipKeys  "M-C-" directionKeys directions (sendMessage . pullGroup)
     ++ zipKeys' "M-"   arrowKeys directions screenGo       True
@@ -216,7 +210,6 @@ keysLayout c =
     , ("M-f"       , sequence_ [ withFocused $ windows . S.sink
                                , sendMessage $ Toggle NBFULL
                                ])
-    , ("M-C-g"     , sendMessage $ Toggle GAPS) -- FIXME Breaks merged tabbed layout
     ]
 
 keysResize :: XConfig Layout -> [(String, X())]

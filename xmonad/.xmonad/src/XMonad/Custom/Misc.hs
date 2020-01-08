@@ -15,12 +15,12 @@ data Applications = Applications
     , top      ::  !String
     , reader   ::  !String
     , emacs    ::  !String
-    , emacsGUI ::  !String
+    , appmenu  ::  !String
     } deriving (Eq, Show)
 
 applications :: Applications
 applications = Applications
-    { browser  = "qutebrowser"
+    { browser  = "chromium"
     , mixer    = "pulsemixer"
     , notify   = "notify-send"
     , player   = "ncmpcpp"
@@ -28,6 +28,6 @@ applications = Applications
     , termfont = "st -f Iosevka-Term:pixelsize=16"
     , top      = "htop"
     , reader   = "zathura"
-    , emacs    = "st -f Iosevka-Term:pixelsize=16 -e emacsclient -t -c"
-    , emacsGUI = "emacsclient -c"
+    , emacs    = "emacsclient -c"
+    , appmenu  = "rofi -show drun"
     }
