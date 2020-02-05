@@ -26,15 +26,15 @@ tabspaces: 4
 
 font:
   normal:
-    family: Iosevka
+    family: tewi
     style: Regular
 
   bold:
-    family: Iosevka
+    family: tewi
     style: Bold
 
   italic:
-    family: Iosevka
+    family: tewi
     style: Italic
 
   size: 12.0

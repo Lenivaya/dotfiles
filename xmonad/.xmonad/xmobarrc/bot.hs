@@ -5,11 +5,7 @@ Config { font = "xft:tewi:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
        , bgColor = "#0b0806"
        , fgColor = "#a19782"
        , alpha = 255
-       , position = Static { xpos = 10
-                           , ypos = 740
-                           , width = 1346
-                           , height = 24
-                           }
+       , position = BottomSize C 100 24
        , textOffset = 15
        , textOffsets = [15, 15]
        , iconOffset = -1

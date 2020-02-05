@@ -42,9 +42,6 @@ startupHook = do
     spawnNamedPipe "xmobar ~/.xmonad/xmobarrc/bot.hs" "xmobarBot"
     docksStartupHook
     addEWMHFullscreen
-    setWMName "xmonad"
     spawn "nitrogen --restore"
     spawn "xsetroot -cursor_name left_ptr"
-    spawn "compton -b"
-    spawn "clight &"
-    spawn "sxhkd -c ~/.config/sxhkd/xmonad/sxhkdrc"
+    setWMName "xmonad"

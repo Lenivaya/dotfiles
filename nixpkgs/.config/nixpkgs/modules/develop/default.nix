@@ -3,11 +3,19 @@
 {
   imports = [
     ./go.nix
+    ./haskell.nix
+    ./python.nix
   ];
 
   home.packages = with pkgs; [
+  # Nix
+    nixfmt
+
+  # Shell
+    shellcheck
+
   # Rust
-   rustup
+    rustup
 
   # Lisps
     clisp
@@ -18,6 +26,6 @@
     clang
     llvm
     rtags
-    unstable.ccls
+    ccls
   ];
 }

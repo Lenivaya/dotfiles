@@ -11,7 +11,6 @@ data Applications = Applications
     , notify   ::  !String
     , player   ::  !String
     , term     ::  !String
-    , termfont ::  !String
     , top      ::  !String
     , reader   ::  !String
     , emacs    ::  !String
@@ -20,12 +19,11 @@ data Applications = Applications
 
 applications :: Applications
 applications = Applications
-    { browser  = "chromium"
+    { browser  = "brave"
     , mixer    = "pulsemixer"
     , notify   = "notify-send"
-    , player   = "ncmpcpp"
-    , term     = "alacritty"
-    , termfont = "st -f Iosevka-Term:pixelsize=16"
+    , player   = "spotify"
+    , term     = "st"
     , top      = "htop"
     , reader   = "zathura"
     , emacs    = "emacsclient -c"

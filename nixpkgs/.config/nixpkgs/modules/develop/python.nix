@@ -3,7 +3,7 @@
 {
   home.packages = with pkgs; [
     (python37.withPackages(ps: with ps;
-      [ pip virualenvwrapper conda # Env
+      [ pip virtualenvwrapper conda # Env
         pytest nose                # Tests
         black                      # Formatter
         pylint

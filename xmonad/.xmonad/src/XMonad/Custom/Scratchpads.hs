@@ -9,7 +9,7 @@ import qualified XMonad.StackSet             as S
 import           XMonad.Util.NamedScratchpad
 
 spawnTerminalWith :: String -> String -> String
-spawnTerminalWith t c = term applications ++ " -t " ++ t ++ " -e " ++ c
+spawnTerminalWith cl cm = term applications ++ " -c " ++ cl ++ " -e " ++ cm
 
 floatingNSP :: ManageHook
 floatingNSP = customFloating $ S.RationalRect x y w h
@@ -23,18 +23,18 @@ scratchpads :: [NamedScratchpad]
 scratchpads =
     [ NS "console"
       (spawnTerminalWith "NSPConsole" "~/.xmonad/scripts/nsp-console.sh")
-      (title =? "NSPConsole")
+      (className =? "NSPConsole")
       floatingNSP
     , NS "volume"
       (spawnTerminalWith "NSPVolume" (C.mixer C.applications))
-      (title =? "NSPVolume")
+      (className =? "NSPVolume")
       floatingNSP
     , NS "music"
-      (spawnTerminalWith "NSPMusic" (C.player C.applications))
-      (title =? "NSPMusic")
+      (C.player C.applications)
+      (className =? "Spotify")
       floatingNSP
     , NS "top"
       (spawnTerminalWith "NSPTop" (C.top C.applications))
-      (title =? "NSPTop")
+      (className =? "NSPTop")
       floatingNSP
     ]

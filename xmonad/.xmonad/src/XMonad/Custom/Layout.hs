@@ -5,10 +5,13 @@
 
 module XMonad.Custom.Layout
     ( layoutHook
+    , selectLayoutByName
+    , toggleLayout
     , CustomTransformers (..)
     ) where
 
-import           XMonad                              hiding (layoutHook)
+
+import           XMonad                              hiding ((|||), layoutHook, float)
 import           XMonad.Custom.Theme
 import           XMonad.Hooks.ManageDocks
 import           XMonad.Layout.Accordion
@@ -25,18 +28,20 @@ import           XMonad.Layout.Spacing
 import           XMonad.Layout.SubLayouts
 import           XMonad.Layout.Tabbed
 import           XMonad.Layout.WindowNavigation
-import           XMonad.Layout.ResizableTile
-import           XMonad.Layout.Gaps
-import           XMonad.Layout.IfMax
-import           XMonad.Layout.ThreeColumns
-import           XMonad.Layout.NoBorders
 import           XMonad.Layout.Named
-import           XMonad.Layout.ResizableTile
-import           XMonad.Layout.LimitWindows (limitWindows, increaseLimit, decreaseLimit)
 import           XMonad.Layout.OneBig
-import           XMonad.Layout.GridVariants (Grid(Grid))
-import           XMonad.Layout.SimplestFloat
 import           XMonad.Layout.Circle
+import           XMonad.Layout.Spiral
+
+-- layout prompt
+import           Data.Map (Map)
+import qualified Data.Map as Map
+import           Data.Maybe (fromMaybe)
+import           XMonad.Custom.Prompt (aListCompFunc)
+import           XMonad.Prompt
+import           qualified XMonad.StackSet as Stack
+import           XMonad.Util.ExtensibleState as XState
+import           XMonad.Layout.LayoutCombinators
 
 applySpacing :: l a -> ModifiedLayout Spacing l a
 applySpacing = spacingRaw False (Border 6 6 6 6) True (Border 6 6 6 6) True
@@ -47,68 +52,92 @@ data CustomTransformers = GAPS
 instance Transformer CustomTransformers Window where
     transform GAPS x k = k (avoidStruts $ applySpacing x) (const x)
 
-data Gaps' = Gaps'
-  { u  :: Int
-  , d  :: Int
-  , x  :: Int
-  , x' :: Integer
-  }
 
-gs :: Gaps'
-gs = Gaps'
-  { u  = 30
-  , d  = 20
-  , x  = 15
-  , x' = 15
-  }
-
-gapses :: l a -> ModifiedLayout Gaps l a
-gapses     = gaps [(U, u gs), (R, x gs), (L, x gs), (D, d gs)]
-
-spacingses :: l a -> ModifiedLayout Spacing l a
-spacingses = spacingRaw True (Border      0  (x' gs) (x' gs) (x' gs))
-                        True (Border (x' gs) (x' gs) (x' gs) (x' gs))
-                        True
-
-oneBig = named "oneBig"
-        $ Mirror 
-        $ mkToggle (single MIRROR) 
-        $ mkToggle (single REFLECTX) 
-        $ mkToggle (single REFLECTY) 
-        $ hiddenWindows
-        $ OneBig (5/9) (8/12)
-
-tall = named "Tall"
-     $ IfMax 1 bsp
-     $ gapses
-     . spacingses
-     $ hiddenWindows
-     $ ResizableTall 1 (2/100) (1/2) []
-
-circle = named "Circle"
-        $ avoidStruts
-        $ windowNavigation
-        $ hiddenWindows
-        $ Circle
-
-bsp = named "BSP"
-             $ avoidStruts
-             $ applySpacing
-             $ lessBorders OnlyLayoutFloat
-             $ windowNavigation
-             $ hiddenWindows
-             $ addTabs shrinkText tabTheme
-          -- $ mkToggle (single GAPS)
-             $ subLayout [] (Simplest ||| Accordion)
-             emptyBSP
+oneBig    = named "oneBig" $ OneBig (5/9) (8/12)
+circle    = named "Circle" $ Circle
+fibonacci = named "Spiral" $ spiral (6/7)
+bsp       = named "BSP" emptyBSP
 
 layoutHook = fullscreenFloat
              . smartBorders
+             $ lessBorders OnlyLayoutFloat
+             $ mkToggle (single NBFULL)
+             $ avoidStruts
+             $ applySpacing
              $ mkToggle (single REFLECTX)
              $ mkToggle (single REFLECTY)
-             $ mkToggle (single NBFULL)
+             $ windowNavigation
+             $ hiddenWindows
+             $ addTabs shrinkText tabTheme
+             $ subLayout [] (Simplest ||| Accordion)
 
              $ bsp
-          ||| tall
           ||| circle
+          ||| fibonacci
           ||| oneBig
+
+--------------------------------------------------------------------------------
+-- | A data type for the @XPrompt@ class.
+data LayoutByName = LayoutByName
+
+instance XPrompt LayoutByName where
+  showXPrompt LayoutByName = "Layout: "
+
+--------------------------------------------------------------------------------
+-- | Use @Prompt@ to choose a layout.
+selectLayoutByName :: XPConfig -> X ()
+selectLayoutByName conf =
+  mkXPrompt LayoutByName conf (aListCompFunc conf layoutNames) go
+
+  where
+    go :: String -> X ()
+    go selected =
+      case lookup selected layoutNames of
+        Nothing   -> return ()
+        Just name -> sendMessage (JumpToLayout name)
+
+    layoutNames :: [(String, String)]
+    layoutNames =
+      [ ("BSP",               "BSP")
+      , ("Circle",            "Circle")
+      , ("Spiral",            "Spiral")
+      , ("oneBig",            "oneBig")
+      ]
+
+--------------------------------------------------------------------------------
+-- | Keep track of layouts when jumping with 'toggleLayout'.
+newtype LayoutHistory = LayoutHistory
+  { runLayoutHistory :: Map String String }
+  deriving (Typeable)
+
+instance ExtensionClass LayoutHistory where
+  initialValue = LayoutHistory Map.empty
+
+--------------------------------------------------------------------------------
+-- | Toggle between the current layout and the one given as an argument.
+toggleLayout :: String -> X ()
+toggleLayout name = do
+  winset <- XMonad.gets windowset
+
+  let ws = Stack.workspace . Stack.current $ winset
+      wn = Stack.tag ws
+      ld = description . Stack.layout $ ws
+
+  if name == ld
+    then restoreLayout wn
+    else rememberAndGo wn ld
+
+  where
+    -- Restore the previous workspace.
+    restoreLayout :: String -> X ()
+    restoreLayout ws = do
+      history <- runLayoutHistory <$> XState.get
+      let ld = fromMaybe "Auto" (Map.lookup ws history)
+      sendMessage (JumpToLayout ld)
+
+    -- Remember the current workspace and jump to the requested one.
+    rememberAndGo :: String -> String -> X ()
+    rememberAndGo ws current = do
+      history <- runLayoutHistory <$> XState.get
+      XState.put (LayoutHistory $ Map.insert ws current history)
+      sendMessage (JumpToLayout name)

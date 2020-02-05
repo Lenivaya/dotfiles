@@ -37,6 +37,7 @@ import           XMonad.Layout.MultiToggle.Instances
 import           XMonad.Layout.Reflect
 import           XMonad.Layout.ResizableTile
 import           XMonad.Layout.SubLayouts
+import           XMonad.Layout.Gaps
 import           XMonad.Prompt.ConfirmPrompt
 import           XMonad.Prompt.Shell
 import           XMonad.Prompt.Window
@@ -46,6 +47,9 @@ import qualified XMonad.StackSet                     as S
 import           XMonad.Util.EZConfig
 import           XMonad.Util.NamedScratchpad
 import           XMonad.Util.WorkspaceCompare
+
+-- Local
+import XMonad.Custom.Layout (selectLayoutByName, toggleLayout)
 
 modMask :: KeyMask
 modMask = mod4Mask
@@ -159,13 +163,13 @@ keysWorkspaces _ =
 keysSpawnables :: XConfig Layout -> [(String, X ())]
 keysSpawnables _ =
     [ ("M-<Return>"   , spawn (C.term C.applications))
+    , ("M-S-<Return>" , spawn (C.appmenu C.applications))
     , ("M-b"          , spawn (C.browser C.applications))
     , ("M-c"          , namedScratchpadAction scratchpads "console")
-    -- , ("M-m"          , namedScratchpadAction scratchpads "music")
+    , ("M-m"          , namedScratchpadAction scratchpads "music")
     , ("M-t"          , namedScratchpadAction scratchpads "top")
     , ("M-v"          , namedScratchpadAction scratchpads "volume")
     , ("M-C-e"        , spawn (C.emacs C.applications))
-    , ("M-m"        , spawn (C.appmenu C.applications))
     ]
 
 keysWindows :: XConfig Layout -> [(String, X())]
@@ -201,6 +205,7 @@ keysLayout c =
     [ ("M-<Tab>"   , sendMessage NextLayout)
     , ("M-C-<Tab>" , toSubl NextLayout)
     , ("M-S-<Tab>" , setLayout $ XMonad.layoutHook c)
+    , ("M-<Backspace>", selectLayoutByName promptTheme)
     , ("M-y"       , withFocused toggleFloat)
     , ("M-S-y"     , sinkAll)
     , ("M-S-,"     , sendMessage $ IncMasterN (-1))

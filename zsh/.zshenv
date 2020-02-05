@@ -9,10 +9,10 @@ export LANG=en_US.UTF-8
 
 # emacs
 export ALTERNATE_EDITOR=""
-export EDITOR="emacsclient -c"
+export EDITOR="emacsclient -c -a emacs"
 export VISUAL="emacsclient -c -a emacs"
 
-export QT_QPA_PLATFORMTHEME="qt5ct"
+# export QT_QPA_PLATFORMTHEME="qt5ct"
 export PF_INFO="ascii title os kernel uptime pkgs shell wm"
 export NNN_PLUG='o:fzy-open;p:mocplay;d:ndiff;m:nmount;n:notes;v:viuimg;t:thumb'
 export NNN_USE_EDITOR=1

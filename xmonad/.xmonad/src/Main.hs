@@ -39,6 +39,6 @@ main = xmonad
              , mouseBindings      = C.mouseBindings
              , manageHook         = manageHook kdeConfig <+> C.manageHook
              , handleEventHook    = C.handleEventHook
-             , focusFollowsMouse  = False
+             , focusFollowsMouse  = True
              , clickJustFocuses   = False
              }
