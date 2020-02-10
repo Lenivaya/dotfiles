@@ -28,21 +28,6 @@
     pulsemixer
     pass
 
-    # Emacs as email client
-    mu
-    isync
-
-    # Appearance
-    qt5ct lxappearance
-    plasma5.breeze-qt5
-    materia-theme
-    pywal wpgtk
-
-    killall
-    stow
-  ]
-  ++
-  (with pkgs.unstable; [
     vim neovim vscode
     alacritty
     starship
@@ -56,7 +41,20 @@
     betterlockscreen
     qutebrowser
     pfetch
-  ])
+
+    # Emacs as email client
+    mu
+    isync
+
+    # Appearance
+    qt5ct lxappearance
+    plasma5.breeze-qt5
+    materia-theme
+    pywal wpgtk
+
+    killall
+    stow
+  ]
   ++
   (with pkgs.gnome3; [
     adwaita-icon-theme
@@ -109,14 +107,14 @@
 
     compton = {
      enable = true;
-     package = pkgs.unstable.picom;
+     package = pkgs.picom;
      activeOpacity = "1.0";
      inactiveOpacity = "0.8";
      opacityRule = [ "100:name *= 'i3lock'"
                      "96:name *?= 'xmobar'"
                      "95:class_g *?= 'emacs'"
-                     "75:class_g = 'Code'"
-                     "75:class_g = 'code'"
+                     "95:class_g = 'Code'"
+                     "95:class_g = 'code'"
                      "95:class_g *?= 'tabbed'"
                      "0:_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
                      "96:_NET_WM_STATE@:32a *= '_NET_WM_STATE_STICKY'" ];
@@ -142,13 +140,13 @@
     broot.enable = true;
     bat.enable = true;
     fzf.enable = true;
-    # password-store = {
-    #   enable = true;
-    #   settings = {
-    #     PASSWORD_STORE_DIR = "$XDG_DATA_HOME/password-store";
-    #     PASSWORD_STORE_CLIP_TIME = "60";
-    #   };
-    # };
+    password-store = {
+      enable = true;
+      settings = {
+        PASSWORD_STORE_DIR = "$XDG_DATA_HOME/password-store";
+        PASSWORD_STORE_CLIP_TIME = "60";
+      };
+    };
 
     rofi = {
       enable = true;
@@ -156,7 +154,6 @@
       font = "Iosevka 14";
       scrollbar = true;
       cycle = true;
-      terminal = "${pkgs.unstable.alacritty}/bin/alacritty";
       theme = "gruvbox-dark-hard";
       extraConfig = ''
                       rofi.modi: drun
@@ -165,11 +162,11 @@
 
     chromium = {
       enable = true;
-      package = pkgs.unstable.brave;
+      package = pkgs.chromium;
       extensions = [
                      "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
                      "hfjbmagddngcpeloejdejnfgbamkjaeg" # vimium c
-                     #"cglpcedifkgalfdklahhcchnjepcckfn" # newtab adapter
+                     "cglpcedifkgalfdklahhcchnjepcckfn" # newtab adapter
                      "klbibkeccnjlkjkiokjodocebajanakg" # the great suspender
                      "hkgfoiooedgoejojocmhlaklaeopbecg" # picture-in-picture
                    ];

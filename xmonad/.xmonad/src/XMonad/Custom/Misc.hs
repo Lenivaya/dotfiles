@@ -19,7 +19,7 @@ data Applications = Applications
 
 applications :: Applications
 applications = Applications
-    { browser  = "brave"
+    { browser  = "chromium"
     , mixer    = "pulsemixer"
     , notify   = "notify-send"
     , player   = "spotify"

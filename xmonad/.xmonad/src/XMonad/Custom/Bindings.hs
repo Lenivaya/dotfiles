@@ -37,7 +37,6 @@ import           XMonad.Layout.MultiToggle.Instances
 import           XMonad.Layout.Reflect
 import           XMonad.Layout.ResizableTile
 import           XMonad.Layout.SubLayouts
-import           XMonad.Layout.Gaps
 import           XMonad.Prompt.ConfirmPrompt
 import           XMonad.Prompt.Shell
 import           XMonad.Prompt.Window

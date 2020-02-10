@@ -32,6 +32,7 @@ import           XMonad.Layout.Named
 import           XMonad.Layout.OneBig
 import           XMonad.Layout.Circle
 import           XMonad.Layout.Spiral
+import           XMonad.Layout.ResizableTile
 
 -- layout prompt
 import           Data.Map (Map)
@@ -53,10 +54,10 @@ instance Transformer CustomTransformers Window where
     transform GAPS x k = k (avoidStruts $ applySpacing x) (const x)
 
 
-oneBig    = named "oneBig" $ OneBig (5/9) (8/12)
+bsp       = named "BSP" emptyBSP
 circle    = named "Circle" $ Circle
 fibonacci = named "Spiral" $ spiral (6/7)
-bsp       = named "BSP" emptyBSP
+tall      = named "Tall" $ ResizableTall 1 (3/100) (1/2) []
 
 layoutHook = fullscreenFloat
              . smartBorders
@@ -74,7 +75,7 @@ layoutHook = fullscreenFloat
              $ bsp
           ||| circle
           ||| fibonacci
-          ||| oneBig
+          ||| tall
 
 --------------------------------------------------------------------------------
 -- | A data type for the @XPrompt@ class.
@@ -101,7 +102,7 @@ selectLayoutByName conf =
       [ ("BSP",               "BSP")
       , ("Circle",            "Circle")
       , ("Spiral",            "Spiral")
-      , ("oneBig",            "oneBig")
+      , ("Tall",              "Tall")
       ]
 
 --------------------------------------------------------------------------------

@@ -1,11 +1,11 @@
 { pkgs, ... }:
 
 {
-  home.sessionVariables = { GOROOT = [ "${pkgs.unstable.go.out}/share/go" ]; };
+  home.sessionVariables = { GOROOT = [ "${pkgs.go.out}/share/go" ]; };
 
   programs.go = {
     enable = true;
-    package = pkgs.unstable.go;
+    package = pkgs.go;
     goBin = "go/bin";
     goPath = "go";
   };
