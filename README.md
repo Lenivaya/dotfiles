@@ -8,4 +8,4 @@
 - font: Pragmata Pro
 - browser: google-chrome
 - editor: emacs
-- term : st
+- term: st
