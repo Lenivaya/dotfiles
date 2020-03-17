@@ -24,14 +24,17 @@ zinit ice wait"0b" lucid pick'autopair.zsh' nocompletions
 zinit light hlissner/zsh-autopair
 zinit ice silent wait:1 atload"!_zsh_autosuggest_start" 
 zinit light zsh-users/zsh-autosuggestions
-zinit wait lucid atinit"ZINIT[COMPINIT_OPTS]=-C; zpcompinit; zpcdreplay"
-zinit light zdharma/fast-syntax-highlighting
 zinit ice wait lucid atinit'zpcompinit; zpcdreplay'
 zinit light zdharma/fast-syntax-highlighting
 zinit ice wait lucid blockf atpull'zinit creinstall -q .'
 zinit light zsh-users/zsh-completions
 
-zinit load zdharma/history-search-multi-word
+zinit ice wait:2 lucid
+zinit light spwhitt/nix-zsh-completions
+zinit ice wait:2 lucid
+zinit light ninrod/pass-zsh-completion
+zinit ice wait:2 lucid
+zinit light sainnhe/rust-zsh-completions
 
 zinit ice wait:2 lucid
 zinit light zsh-users/zsh-history-substring-search
@@ -47,12 +50,6 @@ zinit ice wait:2 lucid
 zinit light wfxr/forgit
 zinit ice wait:2 lucid
 zinit light denisidoro/navi
-zinit ice wait:2 lucid
-zinit light spwhitt/nix-zsh-completions
-zinit ice wait:2 lucid
-zinit light ninrod/pass-zsh-completion
-# zinit ice wait lucid
-# zinit light chisui/zsh-nix-shell
 zinit ice wait:2 as"program" pick"tldr" lucid
 zinit light raylee/tldr
 zinit ice wait:2 lucid
@@ -63,6 +60,8 @@ zinit ice wait:2 lucid
 zinit light zinit-zsh/zinit-console
 zinit ice wait lucid
 zinit light Aloxaf/fzf-tab
+zinit ice wait lucid
+zinit light chisui/zsh-nix-shell
 
 zinit light trystan2k/zsh-tab-title
 
@@ -74,7 +73,8 @@ zinit light junegunn/fzf-bin
 _fix_cursor() {
    echo -ne '\e[5 q'
 }
-
 precmd_functions+=(_fix_cursor)
 
 eval "$(starship init zsh)"
+
+source /home/leniviy/.config/broot/launcher/bash/br

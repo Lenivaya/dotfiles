@@ -26,15 +26,15 @@ tabspaces: 4
 
 font:
   normal:
-    family: Iosevka
+    family: PragmataPro Mono Liga
     style: Regular
 
   bold:
-    family: Iosevka
+    family: PragamtaPro Mono Liga
     style: Bold
 
   italic:
-    family: Iosevka
+    family: PragmataPro Mono Liga
     style: Italic
 
   size: 12.0

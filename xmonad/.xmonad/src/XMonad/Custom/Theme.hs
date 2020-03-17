@@ -35,7 +35,7 @@ import qualified XMonad.Prompt            as P
 import Data.Ratio
 
 font :: String
-font = "xft:tewi:style=Regular:size=8"
+font = "xft:PragmataProMono:style=Regular:size=9:antialias=true"
 
 black1, black2 :: String
 (black1, black2) =

@@ -130,17 +130,18 @@ keysSystem :: XConfig Layout -> [(String, X ())]
 keysSystem _ =
     [ ("M-S-b"             , spawn "~/.xmonad/scripts/screenlock.sh")
     , ("M-<Print>"         , spawn "~/.xmonad/scripts/xshot.sh")
-    , ("M-S-<Print>"       , spawn "~/.xmonad/scripts/xshot-select.sh")
+    , ("M-C-S-<Print>"     , spawn "~/.xmonad/scripts/xshot-select.sh")
+    , ("M-S-<Print>"       , spawn "~/.xmonad/scripts/xshot-select-clipboard.sh")
     , ("M-C-c"             , spawn "~/.xmonad/scripts/toggle-compton.sh")
     , ("M-C-r"             , spawn "~/.xmonad/scripts/toggle-redshift.sh")
     ]
 
 keysMedia :: XConfig Layout -> [(String, X ())] 
 keysMedia _ =
-    [ ("<XF86AudioMicMute>"     , spawn "pactl set-source-mute 1 toggle") 
-    , ("<XF86AudioMute>"        , spawn "pactl set-sink-mute 0 toggle")
-    , ("<XF86AudioLowerVolume>" , spawn "pactl set-sink-mute 0 false && pactl set-sink-volume 0 -10%")
-    , ("<XF86AudioRaiseVolume>" , spawn "pactl set-sink-mute 0 false && pactl set-sink-volume 0 +10%")
+    [ ("<XF86AudioMicMute>"     , spawn "pulsemixer --toggle-mute --id 1") 
+    , ("<XF86AudioMute>"        , spawn "pulsemixer --toggle-mute --id 0")
+    , ("<XF86AudioLowerVolume>" , spawn "pulsemixer --change-volume -10 --id 0")
+    , ("<XF86AudioRaiseVolume>" , spawn "pulsemixer --change-volume +10 --id 0")
     , ("<XF86AudioStop>"        , spawn "mpc stop")
     , ("<XF86AudioPrev>"        , spawn "mpc prev")
     , ("<XF86AudioNext>"        , spawn "mpc next")

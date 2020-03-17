@@ -8,6 +8,7 @@ import           XMonad                     hiding (startupHook)
 import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.SetWMName
 import           XMonad.Util.SpawnNamedPipe
+import           XMonad.Util.SpawnOnce
 
 atomsToFullscreen :: [String]
 atomsToFullscreen =
@@ -39,9 +40,9 @@ addEWMHFullscreen = do
 startupHook :: X ()
 startupHook = do
     spawnNamedPipe "xmobar ~/.xmonad/xmobarrc/top.hs" "xmobarTop"
-    spawnNamedPipe "xmobar ~/.xmonad/xmobarrc/bot.hs" "xmobarBot"
+    spawnOnce "xmobar ~/.xmonad/xmobarrc/bot.hs"
     docksStartupHook
     addEWMHFullscreen
-    spawn "nitrogen --restore"
+    spawn "betterlockscreen -w"
     spawn "xsetroot -cursor_name left_ptr"
     setWMName "xmonad"

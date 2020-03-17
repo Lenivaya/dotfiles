@@ -7,5 +7,6 @@
       inherit pkgs;
     };
 
+    unstable = import <unstable> {};
   };
 }

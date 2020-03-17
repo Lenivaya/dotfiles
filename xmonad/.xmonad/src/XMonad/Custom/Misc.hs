@@ -19,7 +19,7 @@ data Applications = Applications
 
 applications :: Applications
 applications = Applications
-    { browser  = "chromium"
+    { browser  = "google-chrome-stable --force-dark-mode"
     , mixer    = "pulsemixer"
     , notify   = "notify-send"
     , player   = "spotify"

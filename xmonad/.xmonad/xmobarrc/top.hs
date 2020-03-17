@@ -1,6 +1,6 @@
-Config { font = "xft:tewi:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
+Config { font = "xft:PragmataProMono:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
        , additionalFonts = [ "xft:Siji:style=Regular"
-                           , "xft:tewi:style=Bold:pixelsize=11"
+                           , "xft:PragmataProMono:style=Regular:pixelsize=11"
                            ]
        , bgColor = "#0b0806"
        , fgColor = "#a19782"

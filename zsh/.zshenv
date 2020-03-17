@@ -1,3 +1,4 @@
+export PATH="$HOME/.npm-global/bin:$PATH"
 export PATH="$HOME/.cabal/bin:$PATH"
 export PATH="$HOME/.emacs.d/bin:$PATH"
 export PATH="$HOME/.local/bin:$PATH"
@@ -9,8 +10,8 @@ export LANG=en_US.UTF-8
 
 # emacs
 export ALTERNATE_EDITOR=""
-export EDITOR="emacsclient -c -a emacs"
-export VISUAL="emacsclient -c -a emacs"
+export EDITOR="emacsclient -c"
+export VISUAL="emacsclient -c"
 
 # export QT_QPA_PLATFORMTHEME="qt5ct"
 export PF_INFO="ascii title os kernel uptime pkgs shell wm"

@@ -1,5 +1,3 @@
-set font                        "Iosevka 10"
-
 set default-fg                  "#a19782"
 set default-bg                  "#0b0806"
 
@@ -33,7 +31,7 @@ set completion-group-bg         "#a19782"
 set recolor-darkcolor           "#a19782"
 set recolor-lightcolor          "#0b0806"
 
-set recolor                     false
+set recolor                     true
 set recolor-keephue             false
 set recolor-reverse-video       false
 

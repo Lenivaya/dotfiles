@@ -1,6 +1,5 @@
 !! st
 st.termname: xterm-256color
-st.font: Iosevka Term:pixelsize=16
 st.borderpx:          20
 st.alpha: 1
 
@@ -41,7 +40,6 @@ st.alpha: 1
 *.color7:               #a19782
 *.color15:              #c1ab83
 
-rofi.font: Iosevka 16
 
 Xcursor.theme: Adwaita
 

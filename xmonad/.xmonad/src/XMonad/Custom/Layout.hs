@@ -56,7 +56,6 @@ instance Transformer CustomTransformers Window where
 
 bsp       = named "BSP" emptyBSP
 circle    = named "Circle" $ Circle
-fibonacci = named "Spiral" $ spiral (6/7)
 tall      = named "Tall" $ ResizableTall 1 (3/100) (1/2) []
 
 layoutHook = fullscreenFloat
@@ -74,7 +73,6 @@ layoutHook = fullscreenFloat
 
              $ bsp
           ||| circle
-          ||| fibonacci
           ||| tall
 
 --------------------------------------------------------------------------------
@@ -101,7 +99,6 @@ selectLayoutByName conf =
     layoutNames =
       [ ("BSP",               "BSP")
       , ("Circle",            "Circle")
-      , ("Spiral",            "Spiral")
       , ("Tall",              "Tall")
       ]
 

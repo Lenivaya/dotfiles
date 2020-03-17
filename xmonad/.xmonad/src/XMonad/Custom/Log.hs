@@ -31,6 +31,11 @@ topBarPP = def
     , ppTitle           = xmobarColor white1 "" . shorten 80
     , ppTitleSanitize   = xmobarStrip
     , ppLayout          = xmobarColor white1 ""
+                          . (\layout -> case layout of
+                            "Spacing Hidden Tabbed BSP" -> " <fn=1>\57654</fn>"
+                            "Spacing Hidden Tabbed Circle" -> " <fn=1>\57521</fn>"
+                            "Spacing Hidden Tabbed Tall" -> " <fn=1>\57346</fn>"
+                            )
     , ppOrder           = id
     , ppSort            = (namedScratchpadFilterOutWorkspace .) <$> getSortByIndex
     , ppExtras          = []
@@ -56,7 +61,6 @@ logHook = do
     currentWorkspaceOnTop
     ewmhDesktopsLogHook
     t <- getNamedPipe "xmobarTop"
-    b <- getNamedPipe "xmobarBot"
     c <- wsContainingCopies
     let copiesCurrent ws | ws `elem` c = xmobarColor yellow2 "" . xmobarFont 2 . wrap "*" "=" $ ws
                          | otherwise   = xmobarColor white2  "" . xmobarFont 2 . wrap "=" "=" $ ws
@@ -69,7 +73,4 @@ logHook = do
         , ppHidden  = copiesHidden
         , ppUrgent  = copiesUrgent
         , ppOutput  = safePrintToPipe t
-        }
-    dynamicLogWithPP $ botBarPP
-        { ppOutput  = safePrintToPipe b
         }
