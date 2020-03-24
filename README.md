@@ -3,9 +3,10 @@
 
 ![screenshot](https://user-images.githubusercontent.com/49302467/76893514-26e24400-6895-11ea-80e4-97fb12a5a7ea.png)
 
-- wm: xmonad  **(Xmonad config is mainly stolen from [here](https://git.systemd.club/xmonad-config/))**
+- OS: NixOS
+- wm: xmonad  **(config is mainly stolen from [here](https://git.systemd.club/xmonad-config/))**
 - sh: zsh
 - font: Pragmata Pro
-- browser: google-chrome
+- browser: google-chrome / firefox
 - editor: emacs
 - term: st
