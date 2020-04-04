@@ -1,12 +1,19 @@
-{ pkgs, libs, ... }: {
+{ pkgs, lib, ... }:
+with lib;
+with import <home-manager/modules/lib/dag.nix> { inherit lib; }; {
   my.packages = with pkgs;
     [ zsh bat exa fd fzf htop tldr tree broot ]
     ++ (with pkgs.unstable; [ starship ]);
 
-  my.home.xdg.configFile."zsh" = {
-    source = <config/zsh>;
-    recursive = true;
-  };
+  # my.home.xdg.configFile."zsh" = {
+  #   source = <config/zsh>;
+  #   recursive = true;
+  # };
+
+  ##  to change and dont rebuild all nixos
+  my.home.home.activation.linkZshConfig = dagEntryAfter [ "writeBoundary" ] ''
+    [ -d $XDG_CONFIG_HOME/zsh ] || ln -sf "$HOME/.dotfiles/config/zsh" $XDG_CONFIG_HOME/zsh
+  '';
 
   my.home.xdg.configFile."starship.toml" = {
     source = <config/starship/starship.toml>;

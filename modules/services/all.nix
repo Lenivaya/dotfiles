@@ -1,9 +1,9 @@
-{ config, pkgs, ... }:
-{
+{ config, pkgs, ... }: {
   services = {
     clight.enable = true;
     xbanish.enable = true;
 
+    geoclue2.enable = true;
     thermald.enable = true;
     acpid.enable = true;
     tlp.enable = true;

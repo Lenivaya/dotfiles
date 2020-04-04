@@ -1,33 +1,72 @@
 # laptp1 -- my laptop
 
-{ pkgs, ... }:
-{
-  imports = [
-    ../personal.nix   # common settings
-    ./hardware-configuration.nix
-    <modules/zram-swap.nix>
+{ pkgs, options, config, ... }: {
+  imports = [ ../personal.nix ./hardware-configuration.nix ];
 
-    ## Dekstop environment
-    <modules/desktop>
-    <modules/desktop/apps>
-    <modules/desktop/xmonad.nix>
+  modules = {
+    desktop = {
+      xmonad.enable = true;
 
-    <modules/browser/firefox.nix>
+      apps = {
+        rofi.enable = true;
+        dunst.enable = true;
+        zathura.enable = true;
+      };
 
-    <modules/develop>
+      browsers = {
+        default = "firefox";
+        firefox.enable = true;
+      };
 
-    <modules/editors/emacs.nix>
+      term = {
+        st.enable = true;
+        default = "st";
+      };
+    };
 
-    <modules/services/kdeconnect.nix>
-    <modules/services/all.nix>
-    <modules/services/ssh.nix>
+    media = {
+      spotify.enable = true;
+      mpv.enable = true;
+    };
 
-    <modules/shell/tmux.nix>
-    <modules/shell/zsh.nix>
-    <modules/shell/git.nix>
-    <modules/shell/gnupg.nix>
-    <modules/shell/ranger.nix>
-  ];
+    editors = {
+      emacs.enable = true;
+      default = "emacsclient -c";
+    };
+
+    services = {
+      kdeconnect.enable = true;
+      ssh.enable = true;
+    };
+  };
+
+  # imports = [
+  #   ../personal.nix # common settings
+  #   ./hardware-configuration.nix
+  #   <modules/zram-swap.nix>
+
+  #   ## Dekstop environment
+  #   <modules/desktop>
+  #   <modules/desktop/xorg>
+  #   <modules/desktop/xorg/xmonad.nix>
+  #   <modules/desktop/apps>
+
+  #   <modules/browser/firefox.nix>
+
+  #   <modules/develop>
+
+  #   <modules/editors/emacs.nix>
+
+  #   <modules/services/kdeconnect.nix>
+  #   <modules/services/all.nix>
+  #   <modules/services/ssh.nix>
+
+  #   <modules/shell/tmux.nix>
+  #   <modules/shell/zsh.nix>
+  #   <modules/shell/git.nix>
+  #   <modules/shell/gnupg.nix>
+  #   <modules/shell/ranger.nix>
+  # ];
 
   networking.networkmanager.enable = true;
   time.timeZone = "Europe/Kiev";

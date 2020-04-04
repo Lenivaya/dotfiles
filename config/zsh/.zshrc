@@ -6,6 +6,12 @@ if [[ ! -d $HOME/.zinit ]]; then
         print -P "%F{160}▓▒░ The clone has failed.%f"
 fi
 
+
+_set_cursor() {
+   echo -ne '\e[5 q'
+}
+precmd_functions+=(_set_cursor)
+
 source ~/.zinit/bin/zinit.zsh
 autoload -Uz _zinit
 (( ${+_comps} )) && _comps[zinit]=_zinit
@@ -23,7 +29,6 @@ zinit ice wait lucid
 zinit snippet OMZ::lib/spectrum.zsh
 zinit snippet OMZ::lib/key-bindings.zsh
 zinit snippet OMZ::lib/history.zsh
-zinit snippet OMZ::plugins/vi-mode/vi-mode.plugin.zsh
 zinit snippet OMZ::lib/completion.zsh
 zinit snippet OMZ::lib/theme-and-appearance.zsh
 
@@ -36,6 +41,8 @@ zinit ice wait lucid atinit'zpcompinit; zpcdreplay'
 zinit light zdharma/fast-syntax-highlighting
 zinit ice wait lucid blockf atpull'zinit creinstall -q .'
 zinit light zsh-users/zsh-completions
+zinit ice wait lucid
+zinit light softmoth/zsh-vim-mode
 
 zinit ice wait:2 lucid
 zinit light spwhitt/nix-zsh-completions
@@ -76,11 +83,4 @@ zinit ice wait lucid from"gh-r" as"program"
 zinit light junegunn/fzf-bin
 [ -f $ZDOTDIR/.fzf-keys.zsh ] && source $ZDOTDIR/.fzf-keys.zsh
 
-_fix_cursor() {
-   echo -ne '\e[5 q'
-}
-precmd_functions+=(_fix_cursor)
-
 eval "$(starship init zsh)"
-
-source /home/leniviy/.config/broot/launcher/bash/br

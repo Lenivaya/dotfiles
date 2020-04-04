@@ -24,7 +24,5 @@ stdenv.mkDerivation rec {
     find -name "PragmataPro*.ttf" -exec mv {} $install_path \;
   '';
 
-  meta = with stdenv.lib; {
-    platfotms = platforms.linux;
-  };
+  meta = with stdenv.lib; { platfotms = platforms.linux; };
 }

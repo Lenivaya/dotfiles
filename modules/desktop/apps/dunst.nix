@@ -1,12 +1,19 @@
-{ config, pkgs, ...}:
+{ config, options, lib, pkgs, ... }:
 
-{
-  my.packages = with pkgs; [
-    dunst libnotify
-  ];
+with lib; {
+  options.modules.desktop.apps.dunst = {
+    enable = mkOption {
+      type = types.bool;
+      default = false;
+    };
+  };
 
-  my.home.xdg.configFile."dunst" = {
-    source = <config/dunst>;
-    recursive = true;
+  config = mkIf config.modules.desktop.apps.dunst.enable {
+    my.packages = with pkgs; [ dunst libnotify ];
+
+    my.home.xdg.configFile."dunst" = {
+      source = <config/dunst>;
+      recursive = true;
+    };
   };
 }

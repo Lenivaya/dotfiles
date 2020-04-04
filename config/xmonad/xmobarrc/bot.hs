@@ -34,7 +34,7 @@ Config { font = "xft:PragmataProMono:style=Regular:pixelsize=11,Biwidth:pixelsiz
                                                     , "--off"  , "\57426"
                                                     , "--onc"  , "#a19782"
                                                     , "--offc" , "#a19782"
-                                                    ] 10
+                                                    ] 1
                     , Run Mpris2 "spotify" ["-t", "<artist> - <title>"] 10
                     ]
        , sepChar = "%"

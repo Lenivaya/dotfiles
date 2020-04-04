@@ -17,7 +17,6 @@ import           XMonad.Actions.DynamicProjects
 import           XMonad.Actions.DynamicWorkspaces
 import qualified XMonad.Actions.FlexibleManipulate   as F
 import           XMonad.Actions.FloatSnap
-import           XMonad.Actions.FloatSnapSpaced
 import           XMonad.Actions.MessageFeedback
 import           XMonad.Actions.Navigation2D
 import           XMonad.Actions.PerConditionKeys
@@ -128,8 +127,7 @@ keysPass _ =
 
 keysSystem :: XConfig Layout -> [(String, X ())]
 keysSystem _ =
-    [ ("M-S-b"             , spawn "~/.dotfiles/config/xmonad/scripts/screenlock.sh")
-    , ("M-<Print>"         , spawn "~/.dotfiles/config/xxmonad/scripts/xshot.sh")
+    [ ("M-<Print>"         , spawn "~/.dotfiles/config/xmonad/scripts/xshot.sh")
     , ("M-C-S-<Print>"     , spawn "~/.dotfiles/config/xmonad/scripts/xshot-select.sh")
     , ("M-S-<Print>"       , spawn "~/.dotfiles/config/xmonad/scripts/xshot-select-clipboard.sh")
     , ("M-C-c"             , spawn "~/.dotfiles/config/xmonad/scripts/toggle-compton.sh")
@@ -151,6 +149,7 @@ keysWorkspaces :: XConfig Layout -> [(String, X ())]
 keysWorkspaces _ =
     [ ("M-S-o" , switchProjectPrompt  promptTheme)
     , ("M-S-p" , shiftToProjectPrompt promptTheme)
+    , ("M-S-n" , renameProjectPrompt promptTheme)
     , ("M-,"   , nextNonEmptyWS)
     , ("M-."   , prevNonEmptyWS)
     , ("M-i"   , toggleWS' ["NSP"])

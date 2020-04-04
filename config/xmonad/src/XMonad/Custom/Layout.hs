@@ -4,14 +4,18 @@
 {-# OPTIONS_GHC -Wno-missing-signatures #-}
 
 module XMonad.Custom.Layout
-    ( layoutHook
-    , selectLayoutByName
-    , toggleLayout
-    , CustomTransformers (..)
-    ) where
+  ( layoutHook
+  , selectLayoutByName
+  , toggleLayout
+  , CustomTransformers(..)
+  )
+where
 
 
-import           XMonad                              hiding ((|||), layoutHook, float)
+import           XMonad                  hiding ( (|||)
+                                                , layoutHook
+                                                , float
+                                                )
 import           XMonad.Custom.Theme
 import           XMonad.Hooks.ManageDocks
 import           XMonad.Layout.Accordion
@@ -33,15 +37,16 @@ import           XMonad.Layout.OneBig
 import           XMonad.Layout.Circle
 import           XMonad.Layout.Spiral
 import           XMonad.Layout.ResizableTile
+import           XMonad.Layout.PerWorkspace
 
 -- layout prompt
-import           Data.Map (Map)
-import qualified Data.Map as Map
-import           Data.Maybe (fromMaybe)
-import           XMonad.Custom.Prompt (aListCompFunc)
+import           Data.Map                       ( Map )
+import qualified Data.Map                      as Map
+import           Data.Maybe                     ( fromMaybe )
+import           XMonad.Custom.Prompt           ( aListCompFunc )
 import           XMonad.Prompt
-import           qualified XMonad.StackSet as Stack
-import           XMonad.Util.ExtensibleState as XState
+import qualified XMonad.StackSet               as Stack
+import           XMonad.Util.ExtensibleState   as XState
 import           XMonad.Layout.LayoutCombinators
 
 applySpacing :: l a -> ModifiedLayout Spacing l a
@@ -51,29 +56,31 @@ data CustomTransformers = GAPS
                         deriving (Read, Show, Eq, Typeable)
 
 instance Transformer CustomTransformers Window where
-    transform GAPS x k = k (avoidStruts $ applySpacing x) (const x)
+  transform GAPS x k = k (avoidStruts $ applySpacing x) (const x)
 
 
-bsp       = named "BSP" emptyBSP
-circle    = named "Circle" $ Circle
-tall      = named "Tall" $ ResizableTall 1 (3/100) (1/2) []
+bsp = named "BSP" emptyBSP
+circle = named "Circle" $ Circle
+tall = named "Tall" $ ResizableTall 1 (3 / 100) (1 / 2) []
 
-layoutHook = fullscreenFloat
-             . smartBorders
-             $ lessBorders OnlyLayoutFloat
-             $ mkToggle (single NBFULL)
-             $ avoidStruts
-             $ applySpacing
-             $ mkToggle (single REFLECTX)
-             $ mkToggle (single REFLECTY)
-             $ windowNavigation
-             $ hiddenWindows
-             $ addTabs shrinkText tabTheme
-             $ subLayout [] (Simplest ||| Accordion)
+layoutHook =
+  fullscreenFloat
+    .   smartBorders
+    $   lessBorders OnlyLayoutFloat
+    $   mkToggle (single NBFULL)
+    $   avoidStruts
+    $   applySpacing
+    $   mkToggle (single REFLECTX)
+    $   mkToggle (single REFLECTY)
+    $   windowNavigation
+    $   hiddenWindows
+    $   addTabs shrinkText tabTheme
+    $   subLayout [] (Simplest ||| Accordion)
+    $   onWorkspaces ["Read"] circle
 
-             $ bsp
-          ||| circle
-          ||| tall
+    $   bsp
+    ||| circle
+    ||| tall
 
 --------------------------------------------------------------------------------
 -- | A data type for the @XPrompt@ class.
@@ -85,22 +92,19 @@ instance XPrompt LayoutByName where
 --------------------------------------------------------------------------------
 -- | Use @Prompt@ to choose a layout.
 selectLayoutByName :: XPConfig -> X ()
-selectLayoutByName conf =
-  mkXPrompt LayoutByName conf (aListCompFunc conf layoutNames) go
+selectLayoutByName conf = mkXPrompt LayoutByName
+                                    conf
+                                    (aListCompFunc conf layoutNames)
+                                    go
 
-  where
-    go :: String -> X ()
-    go selected =
-      case lookup selected layoutNames of
-        Nothing   -> return ()
-        Just name -> sendMessage (JumpToLayout name)
+ where
+  go :: String -> X ()
+  go selected = case lookup selected layoutNames of
+    Nothing   -> return ()
+    Just name -> sendMessage (JumpToLayout name)
 
-    layoutNames :: [(String, String)]
-    layoutNames =
-      [ ("BSP",               "BSP")
-      , ("Circle",            "Circle")
-      , ("Tall",              "Tall")
-      ]
+  layoutNames :: [(String, String)]
+  layoutNames = [("BSP", "BSP"), ("Circle", "Circle"), ("Tall", "Tall")]
 
 --------------------------------------------------------------------------------
 -- | Keep track of layouts when jumping with 'toggleLayout'.
@@ -121,21 +125,19 @@ toggleLayout name = do
       wn = Stack.tag ws
       ld = description . Stack.layout $ ws
 
-  if name == ld
-    then restoreLayout wn
-    else rememberAndGo wn ld
+  if name == ld then restoreLayout wn else rememberAndGo wn ld
 
-  where
+ where
     -- Restore the previous workspace.
-    restoreLayout :: String -> X ()
-    restoreLayout ws = do
-      history <- runLayoutHistory <$> XState.get
-      let ld = fromMaybe "Auto" (Map.lookup ws history)
-      sendMessage (JumpToLayout ld)
+  restoreLayout :: String -> X ()
+  restoreLayout ws = do
+    history <- runLayoutHistory <$> XState.get
+    let ld = fromMaybe "Auto" (Map.lookup ws history)
+    sendMessage (JumpToLayout ld)
 
-    -- Remember the current workspace and jump to the requested one.
-    rememberAndGo :: String -> String -> X ()
-    rememberAndGo ws current = do
-      history <- runLayoutHistory <$> XState.get
-      XState.put (LayoutHistory $ Map.insert ws current history)
-      sendMessage (JumpToLayout name)
+  -- Remember the current workspace and jump to the requested one.
+  rememberAndGo :: String -> String -> X ()
+  rememberAndGo ws current = do
+    history <- runLayoutHistory <$> XState.get
+    XState.put (LayoutHistory $ Map.insert ws current history)
+    sendMessage (JumpToLayout name)

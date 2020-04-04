@@ -1,18 +1,25 @@
-{ pkgs, ... }:
-
-{
-  home-manager.users.leniviy = { pkgs, ... }: {
-    home.packages = with pkgs; [
-      (python37.withPackages(ps: with ps;
-        [ pip virtualenvwrapper conda # Env
-          pytest nose                # Tests
-          black                      # Formatter
-          pylint
-          python-language-server
-          pyls-black pyls-isort pyls-mypy
-          grip                       # Grip -- GitHub Readme Instant Preview
-        ]
-      ))
+{ lib, pkgs, ... }:
+let unstable = import <unstable> { };
+in {
+  my = {
+    packages = with pkgs; [
+      python37
+      python37Packages.pip
+      python37Packages.ipython
+      python37Packages.black
+      python37Packages.setuptools
+      python37Packages.pylint
+      unstable.python37Packages.poetry
     ];
+
+    env.IPYTHONDIR = "$XDG_CONFIG_HOME/ipython";
+    env.PIP_CONFIG_FILE = "$XDG_CONFIG_HOME/pip/pip.conf";
+    env.PIP_LOG_FILE = "$XDG_DATA_HOME/pip/log";
+    env.PYLINTHOME = "$XDG_DATA_HOME/pylint";
+    env.PYLINTRC = "$XDG_CONFIG_HOME/pylint/pylintrc";
+    env.PYTHONSTARTUP = "$XDG_CONFIG_HOME/python/pythonrc";
+    env.PYTHON_EGG_CACHE = "$XDG_CACHE_HOME/python-eggs";
+    env.JUPYTER_CONFIG_DIR = "$XDG_CONFIG_HOME/jupyter";
+
   };
 }

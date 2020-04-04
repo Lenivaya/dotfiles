@@ -1,7 +1,6 @@
 module Main where
 
 import           XMonad
-import           XMonad.Config.Kde
 import           XMonad.Actions.DynamicProjects
 import           XMonad.Actions.Navigation2D
 import qualified XMonad.Custom.Bindings         as C
@@ -14,7 +13,6 @@ import qualified XMonad.Custom.Navigation       as C
 import qualified XMonad.Custom.Projects         as C
 import qualified XMonad.Custom.Startup          as C
 import qualified XMonad.Custom.Theme            as C
-import qualified XMonad.Custom.Workspaces       as C
 import           XMonad.Hooks.EwmhDesktops
 import           XMonad.Hooks.ManageDocks
 import           XMonad.Layout.Fullscreen
@@ -37,7 +35,7 @@ main = xmonad
              , logHook            = C.logHook
              , startupHook        = C.startupHook
              , mouseBindings      = C.mouseBindings
-             , manageHook         = manageHook kdeConfig <+> C.manageHook
+             , manageHook         = C.manageHook
              , handleEventHook    = C.handleEventHook
              , focusFollowsMouse  = True
              , clickJustFocuses   = False

@@ -18,7 +18,6 @@
     };
   };
 
-
   my.home.qt.enable = true;
   my.home.qt.platformTheme = "gnome";
 
