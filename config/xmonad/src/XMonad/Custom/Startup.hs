@@ -49,13 +49,12 @@ getResolution = unsafePerformIO $ do
   return resolution
 
 percentFromNumber :: Int -> Float -> Int
-percentFromNumber n p =
-  round (realToFrac n * realToFrac (realToFrac p / realToFrac 100))
+percentFromNumber n p = round (realToFrac n * realToFrac (p / 100))
 
 generateBarPosition :: String -> String
-generateBarPosition bar = if bar == "top"
-  then printf position topBarYpos width
-  else printf position botBarYpos width
+generateBarPosition bar = case bar of
+  "top" -> printf position topBarYpos width
+  "bot" -> printf position botBarYpos width
  where
   position   = "'Static { xpos = 12 , ypos = %d , width = %d , height = 24}'"
   (w, h)     = getResolution
