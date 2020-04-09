@@ -22,4 +22,10 @@
     shell = pkgs.zsh;
   };
 
+  # Auto-mount
+  programs = {
+    gnome-disks.enable = true;
+    udevil.enable = true;
+  };
+
 }

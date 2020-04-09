@@ -6,12 +6,6 @@ device:
 
   imports = [ ./modules "${./hosts}/${device}" ];
 
-  # Auto-mount
-  programs = {
-    gnome-disks.enable = true;
-    udevil.enable = true;
-  };
-
   ### NixOS
   nix = {
     autoOptimiseStore = true;
