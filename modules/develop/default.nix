@@ -19,6 +19,7 @@
     sbcl
 
     # C / C++
+    gcc
     cmake
     clang
     llvm
