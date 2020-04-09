@@ -27,13 +27,16 @@ zinit ice wait lucid
 zinit snippet OMZ::lib/directories.zsh
 zinit ice wait lucid
 zinit snippet OMZ::lib/spectrum.zsh
-zinit snippet OMZ::lib/key-bindings.zsh
+zinit ice wait lucid
 zinit snippet OMZ::lib/history.zsh
+zinit ice wait lucid
 zinit snippet OMZ::lib/completion.zsh
+zinit ice wait lucid
 zinit snippet OMZ::lib/theme-and-appearance.zsh
+zinit snippet OMZ::lib/key-bindings.zsh
 
 
-zinit ice wait"0b" lucid pick'autopair.zsh' nocompletions
+zinit ice wait lucid pick'autopair.zsh' nocompletions
 zinit light hlissner/zsh-autopair
 zinit ice silent wait:1 atload"!_zsh_autosuggest_start" 
 zinit light zsh-users/zsh-autosuggestions
@@ -41,8 +44,6 @@ zinit ice wait lucid atinit'zpcompinit; zpcdreplay'
 zinit light zdharma/fast-syntax-highlighting
 zinit ice wait lucid blockf atpull'zinit creinstall -q .'
 zinit light zsh-users/zsh-completions
-zinit ice wait lucid
-zinit light softmoth/zsh-vim-mode
 
 zinit ice wait:2 lucid
 zinit light spwhitt/nix-zsh-completions
@@ -77,10 +78,11 @@ zinit ice wait lucid
 zinit light chisui/zsh-nix-shell
 
 zinit light trystan2k/zsh-tab-title
+zinit light softmoth/zsh-vim-mode
 
 # fzf
-zinit ice wait lucid from"gh-r" as"program"
+zinit ice wait lucid from"gh-r" as"program" atload"[ -f $ZDOTDIR/.fzf-keys.zsh ] && source $ZDOTDIR/.fzf-keys.zsh"
 zinit light junegunn/fzf-bin
-[ -f $ZDOTDIR/.fzf-keys.zsh ] && source $ZDOTDIR/.fzf-keys.zsh
+
 
 eval "$(starship init zsh)"
