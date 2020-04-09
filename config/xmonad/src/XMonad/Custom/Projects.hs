@@ -21,10 +21,13 @@ projects =
             , projectDirectory = "~/"
             , projectStartHook = Nothing
             }
-  , Project { projectName      = template
-            , projectDirectory = "~/"
-            , projectStartHook = Nothing
-            }
+  , Project
+    { projectName      = template
+    , projectDirectory = "~/"
+    , projectStartHook = Just $ do
+                           spawnOn wsWRK (C.term C.applications ++ "-e tmux")
+                           spawnOn wsWRK (C.browser C.applications)
+    }
   , Project { projectName      = code
             , projectDirectory = "~/"
             , projectStartHook = Just $ spawnOn code (C.emacs C.applications)
@@ -44,17 +47,14 @@ projects =
                            spawnOn sys (C.term C.applications)
                            spawnOn sys (C.term C.applications)
     }
-  , Project
-    { projectName      = tmp
-    , projectDirectory = "~/"
-    , projectStartHook = Just $ do
-                           return ()
-    }
+  , Project { projectName      = tmp
+            , projectDirectory = "~/"
+            , projectStartHook = Nothing
+            }
   , Project
     { projectName      = wsWRK
     , projectDirectory = "~/"
     , projectStartHook = Just $ do
-                           spawnOn wsWRK (C.term C.applications)
                            spawnOn wsWRK (C.browser C.applications)
     }
   ]
