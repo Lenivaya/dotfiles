@@ -4,13 +4,8 @@
   environment.systemPackages = with pkgs; [
     vim
     binutils
-    coreutils
-    killall
-    wget
     curl
-    git
     xclip
-    sshfs
     xorg.xkill # Xorg
   ];
 
