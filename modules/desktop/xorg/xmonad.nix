@@ -1,7 +1,6 @@
 { config, options, lib, pkgs, ... }:
 
-let unstable = import <unstable> { };
-in with lib; {
+with lib; {
 
   options.modules.desktop.xmonad = {
     enable = mkOption {

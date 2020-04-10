@@ -1,6 +1,4 @@
-{ lib, pkgs, ... }:
-let unstable = import <unstable> { };
-in {
+{ lib, pkgs, ... }: {
   my = {
     packages = with pkgs; [
       python37

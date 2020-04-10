@@ -1,7 +1,6 @@
 { config, pkgs, ... }:
 
-let unstable = import <unstable> { };
-in {
+{
   services.xserver.xautolock = {
     enable = true;
     time = 5;

@@ -1,6 +1,4 @@
-{ config, lib, pkgs, ... }:
-let unstable = import <unstable> { };
-in {
+{ config, lib, pkgs, ... }: {
   my.packages = with pkgs;
     [
       # some rust apps

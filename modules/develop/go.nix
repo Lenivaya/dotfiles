@@ -1,11 +1,9 @@
-{ pkgs, ... }:
-let unstable = import <unstable> { };
-in {
-  my.env = { GOROOT = [ "${unstable.go.out}/share/go" ]; };
+{ pkgs, ... }: {
+  my.env = { GOROOT = [ "${pkgs.unstable.go.out}/share/go" ]; };
 
   my.home.programs.go = {
     enable = true;
-    package = unstable.go;
+    package = pkgs.unstable.go;
     goBin = "go/bin";
     goPath = "go";
   };
