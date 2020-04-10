@@ -43,13 +43,6 @@ in {
           else
             (toString v));
       };
-      init = mkOption {
-        type = types.lines;
-        description = ''
-          An init script that runs after the environment has been rebuilt or
-          booted. Anything done here should be idempotent and inexpensive.
-        '';
-      };
 
       zsh = {
         env = mkOption {
@@ -77,7 +70,6 @@ in {
       exportLines = mapAttrsToList (n: v: ''export ${n}="${v}"'') config.my.env;
     in ''
       ${concatStringsSep "\n" exportLines}
-      ${config.my.init}
     '';
 
     # I avoid programs.zsh.*Init variables because they initialize too soon. My
