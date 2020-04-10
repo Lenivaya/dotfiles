@@ -18,6 +18,7 @@ import           XMonad                  hiding ( (|||)
                                                 )
 import           XMonad.Custom.Theme
 import           XMonad.Hooks.ManageDocks
+import           XMonad.Hooks.RefocusLast
 import           XMonad.Layout.Accordion
 import           XMonad.Layout.BinarySpacePartition
 import           XMonad.Layout.Fullscreen
@@ -78,6 +79,7 @@ layoutHook =
     .   smartBorders
     $   lessBorders OnlyLayoutFloat
     $   mkToggle (single NBFULL)
+    $   refocusLastLayoutHook
     $   avoidStruts
     $   applySpacing
     $   windowNavigation
