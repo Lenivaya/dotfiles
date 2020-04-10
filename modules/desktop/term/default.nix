@@ -1,9 +1,6 @@
 { config, options, lib, pkgs, ... }:
 with lib; {
-  imports = [
-    # ./alacritty.nix
-    ./st.nix
-  ];
+  imports = [ ./alacritty.nix ./st.nix ];
 
   options.modules.desktop.term = {
     default = mkOption {
