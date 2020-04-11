@@ -11,10 +11,6 @@
 (setq doom-font (font-spec :family "monospace" :size 12 :weight 'Regular)
       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
-(custom-set-faces!
-  `(markdown-code-face :background ,(doom-darken 'bg 0.075)))
-
-
 (setq prettify-symbols-unprettify-at-point 'right-edge)
 
 (defconst pragmatapro-prettify-symbols-alist
