@@ -1,6 +1,6 @@
 # default.nix --- my dotfile bootstrapper
 
-device:
+device: username:
 { pkgs, options, lib, config, ... }: {
   networking.hostName = lib.mkDefault device;
 
@@ -59,6 +59,14 @@ device:
       "-I"
       "bin=/etc/dotfiles/bin"
     ];
+  };
+
+  my.username = username;
+  my.user = {
+    isNormalUser = true;
+    uid = 1000;
+    extraGroups = [ "wheel" "networkmanager" "adbusers" "docker" ];
+    shell = pkgs.zsh;
   };
 
   # This value determines the NixOS release with which your system is to be
