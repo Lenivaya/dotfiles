@@ -1,7 +1,18 @@
 { config, lib, pkgs, ... }:
 
 {
-  imports = [ ./common.nix ];
+  environment.systemPackages = with pkgs; [
+    binutils
+    curl
+    xclip
+    xorg.xkill
+  ];
+
+  # Auto-mount
+  programs = {
+    gnome-disks.enable = true;
+    udevil.enable = true;
+  };
 
   boot.cleanTmpDir = true;
 
