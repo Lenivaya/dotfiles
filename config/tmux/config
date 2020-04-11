@@ -103,8 +103,9 @@ set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q' # Cursor shape
 bind C-c new-session
 bind C-f command-prompt -p find-session 'switch-client -t %%'
 
-# Automatic session restore
+# Automatic session restore & auto tmux start
 set -g @continuum-restore 'on'
+set -g @continuum-boot 'on'
 
 source $TMUX_HOME/plugins
 
