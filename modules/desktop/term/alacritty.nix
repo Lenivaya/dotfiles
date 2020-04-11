@@ -9,7 +9,13 @@ with lib; {
   };
 
   config = mkIf config.modules.desktop.term.alacritty.enable {
-    environment.systemPackages = with pkgs; [ alacritty ];
-  };
+    my = {
+      packages = with pkgs; [ alacritty ];
 
+      home.xdg.configFile."alacritty" = {
+        source = <config/alacritty>;
+        recursive = true;
+      };
+    };
+  };
 }
