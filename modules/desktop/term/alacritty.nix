@@ -10,7 +10,7 @@ with lib; {
 
   config = mkIf config.modules.desktop.term.alacritty.enable {
     my = {
-      packages = with pkgs; [ alacritty ];
+      packages = with pkgs.unstable; [ alacritty ];
 
       home.xdg.configFile."alacritty" = {
         source = <config/alacritty>;
