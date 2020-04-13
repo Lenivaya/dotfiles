@@ -60,18 +60,8 @@ instance Transformer CustomTransformers Window where
   transform GAPS x k = k (avoidStruts $ applySpacing x) (const x)
 
 
-bsp =
-  named "BSP"
-    $ mkToggle (single GAPS)
-    $ mkToggle (single REFLECTX)
-    $ mkToggle (single REFLECTY)
-    $ emptyBSP
-tall =
-  named "Tall"
-    $ mkToggle (single GAPS)
-    $ mkToggle (single REFLECTX)
-    $ mkToggle (single REFLECTY)
-    $ ResizableTall 1 (3 / 100) (1 / 2) []
+bsp = named "BSP" $ emptyBSP
+tall = named "Tall" $ ResizableTall 1 (3 / 100) (1 / 2) []
 circle = named "Circle" $ Circle
 
 layoutHook =
@@ -82,6 +72,9 @@ layoutHook =
     $   refocusLastLayoutHook
     $   avoidStruts
     $   applySpacing
+    $   mkToggle (single GAPS)
+    $   mkToggle (single REFLECTX)
+    $   mkToggle (single REFLECTY)
     $   windowNavigation
     $   hiddenWindows
     $   addTabs shrinkText tabTheme

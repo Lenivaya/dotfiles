@@ -6,6 +6,7 @@ module XMonad.Custom.Log
 where
 
 import           System.IO
+import           Data.List                      ( isInfixOf )
 import           XMonad                  hiding ( logHook )
 import           XMonad.Actions.CopyWindow
 import           XMonad.Custom.Theme
@@ -31,10 +32,11 @@ topBarPP = def
   , ppTitle           = xmobarColor white1 "" . shorten 80
   , ppTitleSanitize   = xmobarStrip
   , ppLayout          = xmobarColor white1 ""
-                          . (\layout -> case layout of
-                              "Spacing Hidden Tabbed BSP" -> " <fn=1>\57654</fn>"
-                              "Spacing Hidden Tabbed Circle" -> " <fn=1>\57521</fn>"
-                              "Spacing Hidden Tabbed Tall" -> " <fn=1>\57346</fn>"
+                          . (\layout -> case isInfixOf "BSP" layout of
+                              True  -> " <fn=1>\57654</fn>"
+                              False -> case isInfixOf "Circle" layout of
+                                True  -> " <fn=1>\57521</fn>"
+                                False -> " <fn=1>\57346</fn>" -- Tall
                             )
   , ppOrder           = id
   , ppSort            = (namedScratchpadFilterOutWorkspace .) <$> getSortByIndex
