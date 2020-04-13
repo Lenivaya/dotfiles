@@ -3,6 +3,7 @@
 device: username:
 { pkgs, options, lib, config, ... }: {
   networking.hostName = lib.mkDefault device;
+  my.username = username;
 
   imports = [ ./modules "${./hosts}/${device}" ];
 
@@ -61,7 +62,6 @@ device: username:
     ];
   };
 
-  my.username = username;
   my.user = {
     isNormalUser = true;
     uid = 1000;

@@ -1,12 +1,7 @@
 { config, lib, pkgs, ... }:
 
 {
-  environment.systemPackages = with pkgs; [
-    binutils
-    curl
-    xclip
-    xorg.xkill
-  ];
+  environment.systemPackages = with pkgs; [ binutils curl xclip xorg.xkill ];
 
   # Auto-mount
   programs = {
@@ -14,11 +9,17 @@
     udevil.enable = true;
   };
 
-  boot.cleanTmpDir = true;
+  # boot.cleanTmpDir = true;
+  boot.tmpOnTmpfs = true;
 
   boot.loader = {
-    systemd-boot.enable = true;
+    timeout = 1;
     efi.canTouchEfiVariables = true;
+    systemd-boot = {
+      enable = true;
+      editor = false;
+      configurationLimit = 10;
+    };
   };
 
   hardware.enableRedistributableFirmware = true;
