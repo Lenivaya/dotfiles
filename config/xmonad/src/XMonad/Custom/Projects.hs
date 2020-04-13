@@ -25,7 +25,7 @@ projects =
     { projectName      = template
     , projectDirectory = "~/"
     , projectStartHook = Just $ do
-                           spawnOn wsWRK (C.term C.applications ++ "-e tmux")
+                           spawnOn wsWRK (C.term C.applications ++ " -e tmux")
                            spawnOn wsWRK (C.browser C.applications)
     }
   , Project { projectName      = code
