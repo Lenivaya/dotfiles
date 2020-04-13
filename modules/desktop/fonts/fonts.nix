@@ -10,8 +10,6 @@ in {
       corefonts
       fira-code
       unstable.iosevka
-      tewi-font
-      siji
       symbola
       pragmatapro
     ];

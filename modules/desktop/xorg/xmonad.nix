@@ -29,6 +29,7 @@ with lib; {
     };
 
     my.packages = with pkgs.unstable; [ xmobar ];
+    fonts.fonts = with pkgs; [ siji ];
 
     modules.desktop.term.st.enable = true;
     modules.desktop.term.default = "st";
