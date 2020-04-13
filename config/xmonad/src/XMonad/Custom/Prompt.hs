@@ -29,6 +29,7 @@ promptTheme = def
   , alwaysHighlight   = True
   , searchPredicate   = fuzzyMatch
   , sorter            = fuzzySort
+  , promptKeymap      = emacsLikeXPKeymap
   }
 
 hotPromptTheme = promptTheme { bgColor  = T.black2
