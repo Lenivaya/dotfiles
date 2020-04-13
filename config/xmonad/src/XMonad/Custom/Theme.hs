@@ -33,6 +33,7 @@ import           Data.List
 import           Graphics.X11.Xlib.Types
 import           XMonad.Layout.Decoration
 import qualified XMonad.Prompt                 as P
+import           XMonad.Prompt.FuzzyMatch
 import           Data.Ratio
 
 font :: String
@@ -107,8 +108,9 @@ promptTheme = def
   , P.position = P.CenteredAt { P.xpCenterY = 3 % 10, P.xpWidth = 9 % 10 }
   , P.height            = height
   , P.maxComplRows      = Just 5
-  , P.searchPredicate   = isInfixOf `on` map toLower
   , P.alwaysHighlight   = True
+  , P.searchPredicate   = fuzzyMatch
+  , P.sorter            = fuzzySort
   }
 hotPromptTheme = promptTheme { P.bgColor  = black2
                              , P.fgColor  = white2
