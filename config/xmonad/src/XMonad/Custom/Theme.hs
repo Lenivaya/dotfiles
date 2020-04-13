@@ -21,9 +21,8 @@ module XMonad.Custom.Theme
   , gapBase
   , gapFull
   , border
+  , height
   , tabTheme
-  , promptTheme
-  , hotPromptTheme
   )
 where
 
@@ -32,9 +31,6 @@ import           Data.Function
 import           Data.List
 import           Graphics.X11.Xlib.Types
 import           XMonad.Layout.Decoration
-import qualified XMonad.Prompt                 as P
-import           XMonad.Prompt.FuzzyMatch
-import           Data.Ratio
 
 font :: String
 font = "xft:PragmataProMono:style=Regular:size=9:antialias=true"
@@ -95,25 +91,3 @@ tabTheme = def { activeColor         = black1
                , fontName            = font
                , decoHeight          = height
                }
-
-promptTheme, hotPromptTheme :: P.XPConfig
-promptTheme = def
-  { P.font              = font
-  , P.bgColor           = black1
-  , P.fgColor           = white1
-  , P.fgHLight          = white2
-  , P.bgHLight          = black2
-  , P.borderColor       = white2
-  , P.promptBorderWidth = border
-  , P.position = P.CenteredAt { P.xpCenterY = 3 % 10, P.xpWidth = 9 % 10 }
-  , P.height            = height
-  , P.maxComplRows      = Just 5
-  , P.alwaysHighlight   = True
-  , P.searchPredicate   = fuzzyMatch
-  , P.sorter            = fuzzySort
-  }
-hotPromptTheme = promptTheme { P.bgColor  = black2
-                             , P.fgColor  = white2
-                             , P.fgHLight = white1
-                             , P.bgHLight = black1
-                             }

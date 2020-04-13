@@ -31,7 +31,9 @@ import           XMonad.Actions.GridSelect
 import           XMonad.Custom.Layout
 import qualified XMonad.Custom.Misc            as C
 import           XMonad.Custom.Scratchpads
-import           XMonad.Custom.Theme
+import           XMonad.Custom.Prompt           ( promptTheme
+                                                , hotPromptTheme
+                                                )
 import           XMonad.Hooks.UrgencyHook
 import           XMonad.Layout.BinarySpacePartition
 import           XMonad.Layout.Hidden
