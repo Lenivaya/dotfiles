@@ -14,6 +14,10 @@
 ;; Prevents some cases of Emacs flickering
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
+;; Fix incorrect color of guides
+(after! highlight-indent-guides
+  (highlight-indent-guides-auto-set-faces))
+
 (setq prettify-symbols-unprettify-at-point 'right-edge)
 
 (defconst pragmatapro-prettify-symbols-alist
