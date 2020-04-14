@@ -11,6 +11,9 @@
 (setq doom-font (font-spec :family "monospace" :size 12 :weight 'Regular)
       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
+;; Prevents some cases of Emacs flickering
+(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+
 (setq prettify-symbols-unprettify-at-point 'right-edge)
 
 (defconst pragmatapro-prettify-symbols-alist
