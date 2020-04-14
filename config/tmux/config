@@ -105,7 +105,6 @@ bind C-f command-prompt -p find-session 'switch-client -t %%'
 
 # Automatic session restore & auto tmux start
 set -g @continuum-restore 'on'
-set -g @continuum-boot 'on'
 
 source $TMUX_HOME/plugins
 
