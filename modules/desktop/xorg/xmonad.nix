@@ -17,7 +17,6 @@ with lib; {
         haskellPackages.xmonad-contrib
         haskellPackages.xmonad-extras
         haskellPackages.xmonad
-        haskellPackages.xmobar
         haskellPackages.gloss
       ];
     };
