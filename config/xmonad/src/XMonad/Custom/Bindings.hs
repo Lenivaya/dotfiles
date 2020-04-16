@@ -21,19 +21,12 @@ import           XMonad.Actions.DynamicWorkspaces
 import qualified XMonad.Actions.FlexibleManipulate
                                                as F
 import           XMonad.Actions.FloatSnap
+import           XMonad.Actions.GridSelect
 import           XMonad.Actions.MessageFeedback
 import           XMonad.Actions.Navigation2D
-import           XMonad.Actions.PerConditionKeys
 import           XMonad.Actions.Promote
 import           XMonad.Actions.UpdatePointer
 import           XMonad.Actions.WithAll
-import           XMonad.Actions.GridSelect
-import           XMonad.Custom.Layout
-import qualified XMonad.Custom.Misc            as C
-import           XMonad.Custom.Scratchpads
-import           XMonad.Custom.Prompt           ( promptTheme
-                                                , hotPromptTheme
-                                                )
 import           XMonad.Hooks.UrgencyHook
 import           XMonad.Layout.BinarySpacePartition
 import           XMonad.Layout.Hidden
@@ -43,10 +36,10 @@ import           XMonad.Layout.Reflect
 import           XMonad.Layout.ResizableTile
 import           XMonad.Layout.SubLayouts
 import           XMonad.Prompt.ConfirmPrompt
+import           XMonad.Prompt.Pass
 import           XMonad.Prompt.Shell
 import           XMonad.Prompt.Window
 import           XMonad.Prompt.Workspace
-import           XMonad.Prompt.Pass
 import qualified XMonad.StackSet               as S
 import           XMonad.Util.EZConfig
 import           XMonad.Util.NamedScratchpad
@@ -56,6 +49,13 @@ import           XMonad.Util.WorkspaceCompare
 import           XMonad.Custom.Layout           ( selectLayoutByName
                                                 , toggleLayout
                                                 )
+import           XMonad.Custom.Layout
+import qualified XMonad.Custom.Misc            as C
+import           XMonad.Custom.Prompt           ( promptTheme
+                                                , hotPromptTheme
+                                                )
+import           XMonad.Custom.Scratchpads
+import           XMonad.Actions.PerConditionKeys
 
 modMask :: KeyMask
 modMask = mod4Mask

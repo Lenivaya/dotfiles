@@ -16,29 +16,27 @@ import           XMonad                  hiding ( (|||)
                                                 , layoutHook
                                                 , float
                                                 )
-import           XMonad.Custom.Theme
+import qualified XMonad.Custom.Theme           as T
 import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.RefocusLast
 import           XMonad.Layout.Accordion
 import           XMonad.Layout.BinarySpacePartition
+import           XMonad.Layout.Circle
 import           XMonad.Layout.Fullscreen
 import           XMonad.Layout.Hidden
 import           XMonad.Layout.LayoutModifier
 import           XMonad.Layout.MultiToggle
 import           XMonad.Layout.MultiToggle.Instances
+import           XMonad.Layout.Named
 import           XMonad.Layout.NoBorders
+import           XMonad.Layout.PerWorkspace
 import           XMonad.Layout.Reflect
+import           XMonad.Layout.ResizableTile
 import           XMonad.Layout.Simplest
 import           XMonad.Layout.Spacing
 import           XMonad.Layout.SubLayouts
 import           XMonad.Layout.Tabbed
 import           XMonad.Layout.WindowNavigation
-import           XMonad.Layout.Named
-import           XMonad.Layout.OneBig
-import           XMonad.Layout.Circle
-import           XMonad.Layout.Spiral
-import           XMonad.Layout.ResizableTile
-import           XMonad.Layout.PerWorkspace
 
 -- layout prompt
 import           Data.Map                       ( Map )
@@ -77,7 +75,7 @@ layoutHook =
     $   mkToggle (single REFLECTY)
     $   windowNavigation
     $   hiddenWindows
-    $   addTabs shrinkText tabTheme
+    $   addTabs shrinkText T.tabTheme
     $   subLayout [] (Simplest ||| Accordion)
     $   onWorkspaces ["Read"] circle
 
