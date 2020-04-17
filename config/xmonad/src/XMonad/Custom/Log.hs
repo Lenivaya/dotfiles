@@ -36,7 +36,9 @@ topBarPP = def
                               True  -> " <fn=1>\57654</fn>"
                               False -> case isInfixOf "Circle" layout of
                                 True  -> " <fn=1>\57521</fn>"
-                                False -> " <fn=1>\57346</fn>" -- Tall
+                                False -> case isInfixOf "Tall" layout of
+                                  True -> " <fn=1>\57346</fn>"
+                                  False -> " <fn=1>\57377</fn>" -- ThreeColMid
                             )
   , ppOrder           = id
   , ppSort            = (namedScratchpadFilterOutWorkspace .) <$> getSortByIndex

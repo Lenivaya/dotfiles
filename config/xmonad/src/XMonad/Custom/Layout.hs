@@ -22,6 +22,7 @@ import           XMonad.Hooks.RefocusLast
 import           XMonad.Layout.Accordion
 import           XMonad.Layout.BinarySpacePartition
 import           XMonad.Layout.Circle
+import           XMonad.Layout.ThreeColumns
 import           XMonad.Layout.Fullscreen
 import           XMonad.Layout.Hidden
 import           XMonad.Layout.LayoutModifier
@@ -61,6 +62,7 @@ instance Transformer CustomTransformers Window where
 bsp = named "BSP" $ emptyBSP
 tall = named "Tall" $ ResizableTall 1 (3 / 100) (1 / 2) []
 circle = named "Circle" $ Circle
+threecolmid = named "ThreeColMid" $ ThreeColMid 1 (3 / 100) (1 / 2)
 
 layoutHook =
   fullscreenFloat
@@ -82,6 +84,7 @@ layoutHook =
     $   bsp
     ||| circle
     ||| tall
+    ||| threecolmid
 
 --------------------------------------------------------------------------------
 -- | A data type for the @XPrompt@ class.
@@ -105,7 +108,12 @@ selectLayoutByName conf = mkXPrompt LayoutByName
     Just name -> sendMessage (JumpToLayout name)
 
   layoutNames :: [(String, String)]
-  layoutNames = [("BSP", "BSP"), ("Circle", "Circle"), ("Tall", "Tall")]
+  layoutNames =
+    [ ("BSP"        , "BSP")
+    , ("Circle"     , "Circle")
+    , ("Tall"       , "Tall")
+    , ("ThreeColMid", "ThreeColMid")
+    ]
 
 --------------------------------------------------------------------------------
 -- | Keep track of layouts when jumping with 'toggleLayout'.
