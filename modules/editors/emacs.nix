@@ -36,6 +36,8 @@ with import <home-manager/modules/lib/dag.nix> { inherit lib; }; {
         languagetool
         # :tools lookup
         sqlite
+        # :lang markdown previews
+        python37Packages.grip
         # :lang cc
         ccls
         # :lang javascript
