@@ -7,6 +7,9 @@
       python37Packages.black
       python37Packages.setuptools
       python37Packages.pylint
+      python37Packages.pyflakes
+      python37Packages.isort
+      python37Packages.pytest
       unstable.python37Packages.poetry
     ];
 
