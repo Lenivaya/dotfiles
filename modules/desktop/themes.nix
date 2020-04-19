@@ -13,6 +13,7 @@
     };
     gtk3.extraConfig = {
       gtk-decoration-layout = "appmenu:none";
+      outline = "none";
       gtk-cursor-theme-name = "Adwaita";
       gtk-cursor-theme-size = 0;
     };
