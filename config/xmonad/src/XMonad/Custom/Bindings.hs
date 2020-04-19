@@ -144,13 +144,11 @@ keysPass _ =
 
 keysSystem :: XConfig Layout -> [(String, X ())]
 keysSystem _ =
-  [ ("M-<Print>"    , spawn "~/.dotfiles/config/xmonad/scripts/xshot.sh")
-  , ("M-C-S-<Print>", spawn "~/.dotfiles/config/xmonad/scripts/xshot-select.sh")
-  , ( "M-S-<Print>"
+  [ ("<Print>"  , spawn "~/.dotfiles/config/xmonad/scripts/xshot.sh")
+  , ("S-<Print>", spawn "~/.dotfiles/config/xmonad/scripts/xshot-select.sh")
+  , ( "C-S-<Print>"
     , spawn "~/.dotfiles/config/xmonad/scripts/xshot-select-clipboard.sh"
     )
-  , ("M-C-c", spawn "~/.dotfiles/config/xmonad/scripts/toggle-compton.sh")
-  , ("M-C-r", spawn "~/.dotfiles/config/xmonad/scripts/toggle-redshift.sh")
   ]
 
 keysMedia :: XConfig Layout -> [(String, X ())]
