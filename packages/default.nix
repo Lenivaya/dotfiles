@@ -16,8 +16,4 @@
       # bleeding edge is necessary, as a last resort.
       unstable = import <unstable> { inherit config; };
     })
-
-  # emacsGit
-  (import (builtins.fetchTarball
-    "https://github.com/nix-community/emacs-overlay/archive/master.tar.gz"))
 ]
