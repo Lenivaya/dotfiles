@@ -11,11 +11,15 @@
       package = pkgs.gnome3.gnome_themes_standard;
       name = "Adwaita-dark";
     };
-    gtk3.extraConfig = {
-      gtk-decoration-layout = "appmenu:none";
-      outline = "none";
-      gtk-cursor-theme-name = "Adwaita";
-      gtk-cursor-theme-size = 0;
+    gtk3 = {
+      extraConfig = {
+        gtk-decoration-layout = "appmenu:none";
+        gtk-cursor-theme-name = "Adwaita";
+        gtk-cursor-theme-size = 0;
+      };
+      extraCss = ''
+        * { outline: none; }
+      '';
     };
   };
 
