@@ -23,7 +23,7 @@
   };
 
   my.home.services.compton = {
-    enable = true;
+    # enable = true;
     package = pkgs.unstable.picom;
     activeOpacity = "1.0";
     inactiveOpacity = "0.92";
@@ -45,8 +45,8 @@
     shadow = true;
     shadowOffsets = [ (-10) (-10) ];
     shadowOpacity = "0.22";
-    vSync = "opengl-swc";
     extraOptions = ''
+      vsync = true;
       shadow-radius = 12;
       blur-kern = "7x7box";
       blur-strength = 320;
