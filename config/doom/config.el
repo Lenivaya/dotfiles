@@ -8,12 +8,20 @@
       doom-theme 'doom-tomorrow-night
       treemacs-width 32)
 
+;;
+;;; UI
 (setq doom-font (font-spec :family "monospace" :size 12 :weight 'Regular)
       doom-variable-pitch-font (font-spec :family "sans" :size 13))
 
 ;; Prevents some cases of Emacs flickering
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
+(custom-set-faces!
+  `(markdown-code-face :background ,(doom-darken 'bg 0.075)))
+
+(setq fancy-splash-image (concat doom-private-dir "splash.png"))
+
+;;;
 ;; Fix incorrect color of guides
 (after! highlight-indent-guides
   (highlight-indent-guides-auto-set-faces))

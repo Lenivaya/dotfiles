@@ -4,4 +4,5 @@
 ;; (package! pragmatapro-lig
 ;;   :recipe (:host github :repo "lumiknit/emacs-pragmatapro-ligatures" :files ("pragmatapro-lig.el")))
 
+;; Support to non-default keyboard layouts
 (package! reverse-im)
