@@ -19,6 +19,9 @@
   (highlight-indent-guides-auto-set-faces))
 
 (setq prettify-symbols-unprettify-at-point 'right-edge)
+(use-package! reverse-im
+  :config
+  (reverse-im-activate '("russian-computer" "ukrainian-computer")))
 
 (defconst pragmatapro-prettify-symbols-alist
   (mapcar (lambda (s)
