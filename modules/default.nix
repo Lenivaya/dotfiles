@@ -16,7 +16,7 @@ in {
     ./services
     ./media
     ./shell
-    ./boot_animation
+    ./bootAnimation
     ./zram-swap.nix
     ./docker.nix
   ];
