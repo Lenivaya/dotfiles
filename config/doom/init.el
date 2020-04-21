@@ -133,6 +133,7 @@
        nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
        (org              ; organize your plain life in plain text
+        +pandoc
         +dragndrop       ; file drag & drop support
         +present         ; using Emacs for presentations
         +journal
