@@ -22,8 +22,8 @@
 
   };
 
-  my.home.services.compton = {
-    # enable = true;
+  my.home.services.picom = {
+    enable = true;
     package = pkgs.unstable.picom;
     activeOpacity = "1.0";
     inactiveOpacity = "0.92";
@@ -33,11 +33,12 @@
       "100:class_g = 'Inkspace'"
       "100:class_g = 'krita'"
       "100:class_g = 'feh'"
-      "95:class_g *?= 'tabbed'"
       "0:_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
       "96:_NET_WM_STATE@:32a *= '_NET_WM_STATE_STICKY'"
     ];
-    backend = "glx";
+    backend = "xrender";
+    vSync = true;
+    experimentalBackends = true;
     blurExclude = [ "window_type = 'dock'" "window_type = 'desktop'" ];
     fade = true;
     fadeDelta = 1;
@@ -46,7 +47,6 @@
     shadowOffsets = [ (-10) (-10) ];
     shadowOpacity = "0.22";
     extraOptions = ''
-      vsync = true;
       shadow-radius = 12;
       blur-kern = "7x7box";
       blur-strength = 320;
