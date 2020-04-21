@@ -5,8 +5,8 @@ stdenv.mkDerivation rec {
   version = "0.828";
 
   src = requireFile {
-    url = "file:///etc/nixos/modules/fonts/${name}.zip";
-    sha256 = "7049462b4a8122300f661c1c5a393b558a23c061b18e6afe5d2f77c16a63f71e";
+    url = "file:///etc/dotfiles/modules/desktop/fonts/${name}.zip";
+    sha256 = "07ppcdmc2xrgbpz6m3mic70272jm7cwml70wcq7k08l198mlcjbh";
   };
 
   buildInputs = [ unzip ];
