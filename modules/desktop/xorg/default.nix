@@ -8,7 +8,10 @@
     desktopManager.xterm.enable = lib.mkDefault false;
     autoRepeatDelay = 250;
     autoRepeatInterval = 50;
-    libinput.enable = true;
+    libinput = {
+      disableWhileTyping = true;
+      enable = true;
+    };
     layout = "us, ru, ua";
     xkbOptions = "grp:win_space_toggle, caps:ctrl_modifier";
 
