@@ -40,34 +40,6 @@
     };
   };
 
-  # imports = [
-  #   ../personal.nix # common settings
-  #   ./hardware-configuration.nix
-  #   <modules/zram-swap.nix>
-
-  #   ## Dekstop environment
-  #   <modules/desktop>
-  #   <modules/desktop/xorg>
-  #   <modules/desktop/xorg/xmonad.nix>
-  #   <modules/desktop/apps>
-
-  #   <modules/browser/firefox.nix>
-
-  #   <modules/develop>
-
-  #   <modules/editors/emacs.nix>
-
-  #   <modules/services/kdeconnect.nix>
-  #   <modules/services/all.nix>
-  #   <modules/services/ssh.nix>
-
-  #   <modules/shell/tmux.nix>
-  #   <modules/shell/zsh.nix>
-  #   <modules/shell/git.nix>
-  #   <modules/shell/gnupg.nix>
-  #   <modules/shell/ranger.nix>
-  # ];
-
   networking.networkmanager.enable = true;
   time.timeZone = "Europe/Kiev";
   location.provider = "geoclue2";
