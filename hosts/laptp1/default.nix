@@ -85,6 +85,9 @@
     package = pkgs.pulseaudioFull;
   };
 
+  # I want latest kernel here (why?)
+  boot.kernelPackages = pkgs.linuxPackages_latest;
+
   # Optimize power use
   environment.systemPackages = [ pkgs.acpi ];
   powerManagement.powertop.enable = true;
