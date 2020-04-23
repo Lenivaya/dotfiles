@@ -15,6 +15,7 @@ in {
     ];
 
     fontconfig = {
+      enable = true;
       subpixel.rgba = "rgb";
       antialias = true;
       hinting.enable = true;
