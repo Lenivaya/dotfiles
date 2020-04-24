@@ -52,16 +52,11 @@ with import <home-manager/modules/lib/dag.nix> { inherit lib; }; {
       env.PATH = [ "$HOME/.emacs.d/bin" ];
     };
 
-    services.emacs = {
-      enable = true;
-      defaultEditor = true;
-    };
-
-    # my.home.home.file.".doom.d" = {
-    #   source = <config/doom>;
-    #   recursive = true;
+    ## Decided to use just emacs
+    # services.emacs = {
+    #   enable = true;
+    #   defaultEditor = true;
     # };
-    #
 
     # Emacs-doom config
     ##  to change config and dont rebuild all nixos

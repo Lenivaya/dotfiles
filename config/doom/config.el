@@ -16,15 +16,7 @@
 ;; Prevents some cases of Emacs flickering
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
-(custom-set-faces!
-  `(markdown-code-face :background ,(doom-darken 'bg 0.075)))
-
 (setq fancy-splash-image (concat doom-private-dir "splash.png"))
-
-;;;
-;; Fix incorrect color of guides
-(after! highlight-indent-guides
-  (highlight-indent-guides-auto-set-faces))
 
 (use-package! reverse-im
   :config

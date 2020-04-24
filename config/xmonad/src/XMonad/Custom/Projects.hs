@@ -7,6 +7,8 @@ where
 import           XMonad                  hiding ( workspaces )
 import           XMonad.Actions.DynamicProjects
 import           XMonad.Actions.SpawnOn
+import           XMonad.Actions.WindowGo
+
 import qualified XMonad.Custom.Misc            as C
 
 (generic, code, template, web, wsread, sys, tmp, wsWRK) =
@@ -30,7 +32,7 @@ projects =
     }
   , Project { projectName      = code
             , projectDirectory = "~/"
-            , projectStartHook = Just $ spawnOn code (C.emacs C.applications)
+            , projectStartHook = Just $ raiseEditor
             }
   , Project { projectName      = web
             , projectDirectory = "~/"

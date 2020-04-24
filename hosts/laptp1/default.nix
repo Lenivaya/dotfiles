@@ -36,7 +36,7 @@
 
     editors = {
       emacs.enable = true;
-      default = "emacsclient -c";
+      default = "emacs";
     };
 
     services = {

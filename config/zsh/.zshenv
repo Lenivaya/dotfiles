@@ -9,9 +9,9 @@ export GOBIN=$GOPATH/bin
 export LANG=en_US.UTF-8
 
 # emacs
-export ALTERNATE_EDITOR=""
-export EDITOR="emacsclient -c"
-export VISUAL="emacsclient -c"
+# export ALTERNATE_EDITOR=""
+# export EDITOR="emacsclient -c"
+# export VISUAL="emacsclient -c"
 
 # export QT_QPA_PLATFORMTHEME="qt5ct"
 export PF_INFO="ascii title os kernel uptime pkgs shell wm"

@@ -27,6 +27,7 @@ import           XMonad.Actions.Navigation2D
 import           XMonad.Actions.Promote
 import           XMonad.Actions.UpdatePointer
 import           XMonad.Actions.WithAll
+import           XMonad.Actions.WindowGo
 import           XMonad.Hooks.UrgencyHook
 import           XMonad.Layout.BinarySpacePartition
 import           XMonad.Layout.Hidden
@@ -180,12 +181,12 @@ keysSpawnables :: XConfig Layout -> [(String, X ())]
 keysSpawnables _ =
   [ ("M-<Return>"  , spawn (C.term C.applications))
   , ("M-S-<Return>", spawn (C.appmenu C.applications))
-  , ("M-b"         , spawn (C.browser C.applications))
-  , ("M-c"         , namedScratchpadAction scratchpads "console")
+  , ("M-b"         , raiseBrowser)
+  , ("M-C-e"       , raiseEditor)
+  , ("M-c", namedScratchpadAction scratchpads "console")
   , ("M-m"         , namedScratchpadAction scratchpads "music")
   , ("M-t"         , namedScratchpadAction scratchpads "top")
-  , ("M-v"         , namedScratchpadAction scratchpads "volume")
-  , ("M-C-e"       , spawn (C.emacs C.applications))
+  , ("M-v", namedScratchpadAction scratchpads "volume")
   ]
 
 keysWindows :: XConfig Layout -> [(String, X ())]
