@@ -22,7 +22,7 @@ while getopts c:d:f:g:ps opt; do
     d) delay="$OPTARG" ;;
     f) fps=$OPTARG ;;
     g) geom="$OPTARG" ;;
-    p) compton= ;;
+    p) picom= ;;
     s) is_script=1 ;;
   esac
 done
