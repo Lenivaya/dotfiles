@@ -29,6 +29,11 @@
       mpv.enable = true;
     };
 
+    shell = {
+      gnupg.enable = true;
+      pass.enable = true;
+    };
+
     editors = {
       emacs.enable = true;
       default = "emacsclient -c";

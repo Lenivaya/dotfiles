@@ -23,7 +23,6 @@
       nitrogen
       ps_mem
       pulsemixer
-      pass
       lm_sensors
       vscode
       # Appearance
