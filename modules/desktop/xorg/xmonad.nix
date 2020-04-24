@@ -21,6 +21,10 @@ with lib; {
       ];
     };
 
+    services.xserver = {
+      displayManager.defaultSession = "none+xmonad";
+    };
+
     my.env = {
       XMONAD_CONFIG_DIR = <config/xmonad>;
       XMONAD_CACHE_DIR = "$XDG_CACHE_HOME/xmonad";

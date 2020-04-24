@@ -21,7 +21,7 @@ install: channels update config
 
 upgrade: update switch
 
-update:
+update:	channels
 	@sudo nix-channel --update
 
 switch:
