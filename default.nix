@@ -17,6 +17,19 @@ device: username:
     };
   };
 
+  system.autoUpgrade = {
+    enable = true;
+    dates = "weekly";
+    flags = [
+      "-I"
+      "config=/etc/dotfiles/config"
+      "-I"
+      "modules=/etc/dotfiles/modules"
+      "-I"
+      "bin=/etc/dotfiles/bin"
+    ];
+  };
+
   nix.nixPath = options.nix.nixPath.default ++ [
     # So we can use absolute import paths
     "bin=/etc/dotfiles/bin"
@@ -47,19 +60,6 @@ device: username:
     nsh = "nix-shell";
     nen = "nix-env";
     dots = "make -C ~/.dotfiles";
-  };
-
-  system.autoUpgrade = {
-    enable = true;
-    dates = "weekly";
-    flags = [
-      "-I"
-      "config=/etc/dotfiles/config"
-      "-I"
-      "modules=/etc/dotfiles/modules"
-      "-I"
-      "bin=/etc/dotfiles/bin"
-    ];
   };
 
   my.user = {
