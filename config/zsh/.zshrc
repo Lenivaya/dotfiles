@@ -38,7 +38,7 @@ zinit snippet OMZ::lib/key-bindings.zsh
 
 zinit ice wait lucid pick'autopair.zsh' nocompletions
 zinit light hlissner/zsh-autopair
-zinit ice silent wait:1 atload"!_zsh_autosuggest_start" 
+zinit ice silent wait atload"!_zsh_autosuggest_start && bindkey '^ ' autosuggest-accept"
 zinit light zsh-users/zsh-autosuggestions
 zinit ice wait lucid atinit'zpcompinit; zpcdreplay'
 zinit light zdharma/fast-syntax-highlighting
@@ -49,8 +49,6 @@ zinit ice wait:2 lucid
 zinit light spwhitt/nix-zsh-completions
 zinit ice wait:2 lucid
 zinit light ninrod/pass-zsh-completion
-zinit ice wait:2 lucid
-zinit light sainnhe/rust-zsh-completions
 
 zinit ice wait:2 lucid
 zinit light zsh-users/zsh-history-substring-search
