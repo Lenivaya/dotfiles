@@ -1,16 +1,15 @@
 { config, lib, pkgs, ... }:
-
-{
+let
+  # The developer of tmux chooses not to add XDG support for religious
+  # reasons (see tmux/tmux#142). Fortunately, nix makes this easy:
+  tmuxPackage = with pkgs;
+    writeScriptBin "tmux" ''
+      #!${stdenv.shell}
+      exec ${tmux}/bin/tmux -f "$TMUX_HOME/config" "$@"
+    '';
+in {
   my = {
-    packages = with pkgs;
-      [
-        # The developer of tmux chooses not to add XDG support for religious
-        # reasons (see tmux/tmux#142). Fortunately, nix makes this easy:
-        (writeScriptBin "tmux" ''
-          #!${stdenv.shell}
-          exec ${tmux}/bin/tmux -f "$TMUX_HOME/config" "$@"
-        '')
-      ];
+    packages = [ (tmuxPackage) ];
 
     env.TMUX_HOME = "$XDG_CONFIG_HOME/tmux";
 
@@ -28,4 +27,29 @@
       '';
     };
   };
+
+  ## Automatic start
+  systemd.user.services.tmux = {
+    unitConfig = { Description = "tmux default session"; };
+    wantedBy = [ "default.target" ];
+
+    path = [ (tmuxPackage) ];
+    environment = {
+      DISPLAY = "0";
+      TMUX_HOME = "/home/${config.my.username}/.config/tmux";
+    };
+
+    script = "tmux new-session -d";
+    preStop = ''
+      ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh
+      tmux kill-server
+    '';
+
+    serviceConfig = {
+      Type = "forking";
+      KillMode = "none";
+      RestartSec = 2;
+    };
+  };
+
 }
