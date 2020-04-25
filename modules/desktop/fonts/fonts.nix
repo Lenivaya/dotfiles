@@ -1,7 +1,8 @@
 { pkgs, ... }:
 
-let pragmatapro = pkgs.callPackage ./pragmatapro.nix { };
-
+let
+  pragmatapro = pkgs.callPackage ./pragmatapro.nix { };
+  defaultFont = "PragmataPro Mono Liga";
 in {
   fonts = {
     fonts = with pkgs; [
@@ -38,9 +39,9 @@ in {
         </match>
       '';
       defaultFonts = {
-        monospace = [ "PragmataPro Mono Liga" ];
-        sansSerif = [ "PragmataPro Mono Liga" ];
-        serif = [ "PragmataPro Mono Liga" ];
+        monospace = [ defaultFont ];
+        sansSerif = [ defaultFont ];
+        serif = [ defaultFont ];
       };
     };
   };
