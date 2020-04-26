@@ -39,7 +39,7 @@ in {
       TMUX_HOME = "/home/${config.my.username}/.config/tmux";
     };
 
-    script = "tmux new-session -d";
+    script = "tmux new-session";
     preStop = ''
       ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh
       tmux kill-server
