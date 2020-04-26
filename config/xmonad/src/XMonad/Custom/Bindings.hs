@@ -36,6 +36,7 @@ import           XMonad.Layout.MultiToggle.Instances
 import           XMonad.Layout.Reflect
 import           XMonad.Layout.ResizableTile
 import           XMonad.Layout.SubLayouts
+import           XMonad.Layout.Maximize
 import           XMonad.Prompt.ConfirmPrompt
 import           XMonad.Prompt.Pass
 import           XMonad.Prompt.Shell
@@ -231,6 +232,7 @@ keysLayout c =
   , ( "M-f"
     , sequence_ [withFocused $ windows . S.sink, sendMessage $ Toggle NBFULL]
     )
+  , ("M-S-f", withFocused (sendMessage . maximizeRestore))
   , ("M-C-g", sendMessage $ Toggle GAPS) -- FIXME Breaks merged tabbed layout
   ]
 
