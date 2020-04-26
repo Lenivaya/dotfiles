@@ -1,6 +1,6 @@
 # laptp1 -- my laptop
 
-{ pkgs, options, config, ... }: {
+{ pkgs, options, config, lib, ... }: {
   imports = [ ../personal.nix ./hardware-configuration.nix ];
 
   modules = {
@@ -45,6 +45,12 @@
     };
   };
 
+  # FIXME No opacity and xrender backend instead of glx (experiencing some problems)
+  my.home.services.picom = with lib; {
+    inactiveOpacity = mkForce "1.0";
+    backend = mkForce "xrender";
+  };
+
   networking.networkmanager.enable = true;
   time.timeZone = "Europe/Kiev";
   location.provider = "geoclue2";
@@ -60,6 +66,11 @@
   hardware.pulseaudio = {
     enable = true;
     package = pkgs.pulseaudioFull;
+  };
+
+  hardware.opengl = {
+    package = pkgs.unstable.mesa.drivers;
+    package32 = pkgs.unstable.pkgsi686Linux.mesa.drivers;
   };
 
   # I want latest kernel here (why?)

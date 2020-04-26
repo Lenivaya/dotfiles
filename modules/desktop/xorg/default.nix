@@ -18,7 +18,7 @@ with lib; {
         "0:_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
         "96:_NET_WM_STATE@:32a *= '_NET_WM_STATE_STICKY'"
       ];
-      backend = "xrender";
+      backend = "glx";
       vSync = true;
       experimentalBackends = true;
       blurExclude = [ "window_type = 'dock'" "window_type = 'desktop'" ];
