@@ -63,6 +63,7 @@ with import <home-manager/modules/lib/dag.nix> { inherit lib; }; {
     my.home.home.activation.linkDoomConfig =
       dagEntryAfter [ "writeBoundary" ] ''
         [ -d $HOME/.doom.d ] || ln -sf "$HOME/.dotfiles/config/doom" $HOME/.doom.d
+        [ -d $HOME/.emacs.d ] || git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
       '';
 
     fonts.fonts = [ pkgs.emacs-all-the-icons-fonts ];

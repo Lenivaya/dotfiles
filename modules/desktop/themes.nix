@@ -23,8 +23,12 @@
     };
   };
 
-  my.home.qt.enable = true;
-  my.home.qt.platformTheme = "gnome";
+  my.home.qt = { enable = true; };
+  my.packages = with pkgs; [ adwaita-qt ];
+  my.home.xdg.configFile."Trolltech.conf".text = ''
+    [Qt]
+    style=adwaita-dark
+  '';
 
   my.home.home.file.".Xresources".source = <config/xresources/.Xresources>;
 }

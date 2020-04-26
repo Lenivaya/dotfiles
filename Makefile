@@ -1,8 +1,7 @@
-##
-# Dotfiles
-#
-# @file
-# @version 0.1
+USER := leniviy
+HOST := laptp1
+HOME := /home/$(USER)
+
 
 NIXOS_VERSION := 20.03
 NIXOS_PREFIX  := $(PREFIX)/etc/nixos
@@ -16,7 +15,7 @@ FLAGS         := -I "config=$$(pwd)/config" \
 all: channels
 	@sudo nixos-rebuild $(FLAGS) $(COMMAND)
 
-install: channels update config
+install: channels update config move_to_home
 	@sudo nixos-install --root "$(PREFIX)" $(FLAGS)
 
 upgrade: update switch
@@ -51,6 +50,7 @@ clean:
 
 # Parts
 config: $(NIXOS_PREFIX)/configuration.nix
+move_to_home: $(HOME)/.dotfiles
 
 channels:
 	@sudo nix-channel --add "https://nixos.org/channels/nixos-${NIXOS_VERSION}" nixos
@@ -60,6 +60,14 @@ channels:
 $(NIXOS_PREFIX)/configuration.nix:
 	@sudo nixos-generate-config --root "$(PREFIX)"
 	@echo "import /etc/dotfiles \"$${HOST:-$$(hostname)}\" \"$$USER\"" | sudo tee "$(NIXOS_PREFIX)/configuration.nix"
+	@[ -f hosts/$(HOST) ] || echo "WARNING: hosts/$(HOST)/default.nix does not exist"
+
+$(HOME)/.dotfiles:
+	@mkdir -p $(HOME)
+	@[ -e $(HOME)/.dotfiles ] || sudo mv /etc/dotfiles $(HOME)/.dotfiles
+	@[ -e /etc/dotfiles ] || sudo ln -s $(HOME)/.dotfiles /etc/dotfiles
+	@chown $(USER):users $(HOME) $(HOME)/.dotfiles
+
 
 # Convenience aliases
 i: install

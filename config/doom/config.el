@@ -18,6 +18,7 @@
 
 (setq fancy-splash-image (concat doom-private-dir "splash.png"))
 
+
 (use-package! reverse-im
   :config
   (reverse-im-activate '("russian-computer" "ukrainian-computer")))
