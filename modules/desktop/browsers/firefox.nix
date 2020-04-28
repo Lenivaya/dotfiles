@@ -47,12 +47,15 @@ with lib; {
       '';
     };
 
-    # Hardware-acceleration
     my.home.programs.firefox.profiles.default.settings = {
+      "browser.tabs.closeWindowWithLastTab" = false;
+
+      # Hardware-acceleration
       "layers.acceleration.force-enabled" = true;
       "layers.omtp.enabled" = true;
       "layout.display-list.retain" = true;
       "layout.display-list.retain.chrome" = true;
     };
+
   };
 }

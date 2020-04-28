@@ -13,7 +13,7 @@ device: username:
     gc = {
       automatic = true;
       dates = "23:00";
-      options = "--delete-older-than 30d";
+      options = "--delete-older-than 10d";
     };
   };
 
