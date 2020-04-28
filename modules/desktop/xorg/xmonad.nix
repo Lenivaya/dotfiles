@@ -10,6 +10,8 @@ with lib; {
   };
 
   config = mkIf config.modules.desktop.xmonad.enable {
+    modules.desktop.WM.enable = true;
+
     services.xserver.windowManager.xmonad = {
       enable = true;
       haskellPackages = pkgs.unstable.haskellPackages;
@@ -21,9 +23,7 @@ with lib; {
       ];
     };
 
-    services.xserver = {
-      displayManager.defaultSession = "none+xmonad";
-    };
+    services.xserver = { displayManager.defaultSession = "none+xmonad"; };
 
     my.env = {
       XMONAD_CONFIG_DIR = <config/xmonad>;

@@ -1,9 +1,16 @@
-{ config, lib, pkgs, ... }:
+{ config, options, lib, pkgs, ... }:
 
 with lib; {
   imports = [ ./lockscreen.nix ./xmonad.nix ];
 
-  config = mkIf config.modules.desktop.xmonad.enable {
+  options.modules.desktop.WM = {
+    enable = mkOption {
+      type = types.bool;
+      default = false;
+    };
+  };
+
+  config = mkIf config.modules.desktop.WM.enable {
     my.home.services.picom = {
       enable = true;
       package = pkgs.unstable.picom;
@@ -20,7 +27,6 @@ with lib; {
       ];
       backend = "glx";
       vSync = true;
-      experimentalBackends = true;
       blurExclude = [ "window_type = 'dock'" "window_type = 'desktop'" ];
       fade = true;
       fadeDelta = 1;
