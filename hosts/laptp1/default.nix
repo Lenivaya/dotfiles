@@ -45,10 +45,11 @@
     };
   };
 
-  # FIXME No opacity and xrender backend instead of glx (experiencing some problems)
+  # Xrender + experimental backends works better but have some issues with opacity
   my.home.services.picom = with lib; {
-    inactiveOpacity = mkForce "1.0";
     backend = mkForce "xrender";
+    experimentalBackends = true;
+    inactiveOpacity = mkForce "1.0";
   };
 
   networking.networkmanager.enable = true;
@@ -67,14 +68,6 @@
     enable = true;
     package = pkgs.pulseaudioFull;
   };
-
-  hardware.opengl = {
-    package = pkgs.unstable.mesa.drivers;
-    package32 = pkgs.unstable.pkgsi686Linux.mesa.drivers;
-  };
-
-  # I want latest kernel here (why?)
-  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Optimize power use
   environment.systemPackages = [ pkgs.acpi ];
