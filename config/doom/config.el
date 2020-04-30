@@ -18,10 +18,16 @@
 
 (setq fancy-splash-image (concat doom-private-dir "splash.png"))
 
+;; Pragmata ligatures
+(load! "pragmata-lig.el")
 
+
+;;
+;;; Packages
 (use-package! reverse-im
   :config
   (reverse-im-activate '("russian-computer" "ukrainian-computer")))
 
-;; Pragmata ligatures
-(load! "pragmata-lig.el")
+(use-package! kdeconnect
+  :config
+  (setq kdeconnect-devices "274bdfc779b2e09e"))
