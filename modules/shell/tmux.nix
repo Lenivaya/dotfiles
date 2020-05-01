@@ -31,16 +31,21 @@ in {
   ## Automatic start
   systemd.user.services.tmux = {
     unitConfig = { Description = "tmux default session"; };
-    wantedBy = [ "default.target" ];
+    after = [ "graphical-session-pre.target" ];
+    partOf = [ "graphical-session.target" ];
+    wantedBy = [ "graphical-session.target" ];
 
-    path = [ (tmuxPackage) ];
+    path = [ (tmuxPackage) pkgs.ripgrep ];
     environment = {
       DISPLAY = "0";
       TMUX_HOME = "/home/${config.my.username}/.config/tmux";
     };
 
-    script = "tmux new-session";
+    script = ''
+      tmux new-session -d -s "main" -n "main"
+    '';
     preStop = ''
+      tmux list-sessions | rg -q "main" && tmux kill-session -t main
       ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh
       tmux kill-server
     '';
@@ -51,5 +56,4 @@ in {
       RestartSec = 2;
     };
   };
-
 }
