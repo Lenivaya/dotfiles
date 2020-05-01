@@ -49,6 +49,8 @@ with lib; {
 
     my.home.programs.firefox.profiles.default.settings = {
       "browser.tabs.closeWindowWithLastTab" = false;
+      "browser.tabs.insertAfterCurrent" = true;
+      "browser.tabs.loadBookmarksInTabs" = true;
 
       # Hardware-acceleration
       "layers.acceleration.force-enabled" = true;
