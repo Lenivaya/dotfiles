@@ -12,8 +12,8 @@ with import <home-manager/modules/lib/dag.nix> { inherit lib; }; {
   config = mkIf config.modules.editors.emacs.enable {
     my = {
       packages = with pkgs; [
-        ## Doom dependencies
         emacs
+        ## Doom dependencies
         git
         (ripgrep.override { withPCRE2 = true; })
 
@@ -43,7 +43,7 @@ with import <home-manager/modules/lib/dag.nix> { inherit lib; }; {
         # :lang javascript
         nodePackages.javascript-typescript-langserver
         # :lang latex & :lang org (latex previews)
-        texlive.combined.scheme-tetex
+        texlive.combined.scheme-full # FULL
         # :lang rust
         rustfmt
         rls
