@@ -1,9 +1,13 @@
 { pkgs, lib, ... }:
 with lib;
 with import <home-manager/modules/lib/dag.nix> { inherit lib; }; {
+
+  # Some nice shell things
   my.packages = with pkgs;
-    [ zsh bat exa fd fzf htop tldr tree broot ]
-    ++ (with pkgs.unstable; [ starship ]);
+    [ zsh bat exa fd fzf htop tldr tree ] ++ (with pkgs.unstable; [ starship ]);
+
+  my.home.programs.broot.enable = true;
+
 
   # my.home.xdg.configFile."zsh" = {
   #   source = <config/zsh>;

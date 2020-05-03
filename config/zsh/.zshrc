@@ -84,3 +84,5 @@ zinit light junegunn/fzf-bin
 
 
 eval "$(starship init zsh)"
+
+source $XDG_CONFIG_HOME/zsh/br
