@@ -195,10 +195,13 @@ keysWindows _ =
   [ ("M-d"  , kill)
     , ("M-S-d", confirmPrompt hotPromptTheme "Kill all" killAll)
     , ("M-a"  , toggleCopyToAll)
+    , ( "M-S-a"
+      , kill1
+      ) -- To remove focused copied window from current workspace
     , ("M-e"  , withFocused hideWindow)
     , ("M-S-e", popOldestHiddenWindow)
     , ("M-p"  , promote)
-    , ("M-g", withFocused $ sendMessage . MergeAll)
+    , ("M-g"  , withFocused $ sendMessage . MergeAll)
     , ("M-S-g", withFocused $ sendMessage . UnMerge)
     , ("M-u"  , focusUrgent)
     , ("M-s"  , windows S.focusMaster)

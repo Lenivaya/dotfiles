@@ -56,7 +56,7 @@ set abort-clear-search          true
 
 set incremental-search          true
 
-set adjust-open                 best-fit
+set adjust-open                 width
 
 set advance-pages-per-row       false
 
@@ -94,5 +94,3 @@ set scroll-page-aware           false
 
 set selection-clipboard         primary
 set selection-notification      false
-
-# vim:filetype=config

@@ -32,7 +32,7 @@
        ;;neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
        (popup            ; tame sudden yet inevitable temporary windows
-        ;; +all             ; catch all popups that start with an asterix
+        +all             ; catch all popups that start with an asterix
         +defaults)       ; default popup rules
        ;; (pretty-code +pragmata-pro)       ; replace bits of code with pretty symbols
        ;;tabs            ; FIXME an (incomplete) tab bar for Emacs
@@ -124,7 +124,7 @@
        ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
        (javascript +lsp)        ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
-       ;;kotlin            ; a better, slicker Java(Script)
+       ;; kotlin            ; a better, slicker Java(Script)
        ;;latex             ; writing papers in Emacs has never been so fun
        ;;ledger            ; an accounting system in Emacs
        ;;lua               ; one-based indices? one-based indices

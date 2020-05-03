@@ -38,6 +38,8 @@ device: username:
 
   # Add custom packages & unstable channel, so they can be accessed via pkgs.*
   nixpkgs.overlays = import ./packages;
+
+  environment.variables.NIXPKGS_ALLOW_UNFREE = "1";
   nixpkgs.config.allowUnfree = true; # forgive me Stallman senpai
 
   environment.systemPackages = with pkgs; [
