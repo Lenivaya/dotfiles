@@ -14,7 +14,7 @@
 - OS: NixOS
 - wm: xmonad **(config is mainly stolen from [here](https://git.systemd.club/xmonad-config/))**
 - sh: zsh
-- font: Pragmata Pro
-- browser: google-chrome / firefox
-- editor: emacs
+- font: Iosevka
+- browser: google-chrome / Firefox
+- editor: Emacs
 - term: st

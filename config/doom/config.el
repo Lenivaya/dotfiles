@@ -19,7 +19,7 @@
 (setq fancy-splash-image (concat doom-private-dir "splash.png"))
 
 ;; Pragmata ligatures
-(load! "pragmata-lig.el")
+;; (load! "pragmata-lig.el")
 
 
 ;;

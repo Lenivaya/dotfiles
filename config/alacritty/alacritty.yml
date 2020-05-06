@@ -23,15 +23,15 @@ scrolling:
 
 font:
   normal:
-    family: PragmataPro Mono Liga
+    family: monospace
     style: Regular
 
   bold:
-    family: PragamtaPro Mono Liga
+    family: monospace
     style: Bold
 
   italic:
-    family: PragmataPro Mono Liga
+    family: monospace
     style: Italic
 
 

@@ -2,17 +2,19 @@
 
 let
   pragmatapro = pkgs.callPackage ./pragmatapro.nix { };
-  defaultFont = "PragmataPro Mono Liga";
+  # defaultFont = "PragmataPro Mono Liga";
+  defaultFont = "Iosevka";
 in {
   fonts = {
     fonts = with pkgs; [
+      ubuntu_font_family
+      dejavu_fonts
       noto-fonts
       noto-fonts-emoji
       corefonts
       fira-code
       unstable.iosevka
       symbola
-      pragmatapro
     ];
 
     fontconfig = {
@@ -40,8 +42,7 @@ in {
       '';
       defaultFonts = {
         monospace = [ defaultFont ];
-        sansSerif = [ defaultFont ];
-        serif = [ defaultFont ];
+        sansSerif = [ "Ubuntu" ];
       };
     };
   };

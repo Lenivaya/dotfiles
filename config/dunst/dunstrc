@@ -18,7 +18,7 @@
 
     ### Text ###
 
-    font = PragmataPro Mono 9
+    font = monospace 9
     line_height = 0
     markup = full
     format = "<b>%s</b>\n%b"
