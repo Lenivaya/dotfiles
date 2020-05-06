@@ -1,12 +1,15 @@
 ;;; init.el -*- lexical-binding: t; -*-
 
-;; Copy this file to ~/.doom.d/init.el or ~/.config/doom/init.el ('doom
-;; quickstart' will do this for you). The `doom!' block below controls what
-;; modules are enabled and in what order they will be loaded. Remember to run
-;; 'doom refresh' after modifying it.
+;; NOTE Press 'SPC h d h' (or 'C-h d h' for non-vim users) to access Doom's
+;;      documentation. There you'll find information about all of Doom's
+;;      modules and what flags they support.
+
+;; NOTE Move your cursor over a module's name (or its flags) and press 'K' (or
+;;      'C-c g k' for non-vim users) to view its documentation. This works on
+;;      flags as well (those symbols that start with a plus).
 ;;
-;; More information about these modules (and what flags they support) can be
-;; found in modules/README.org.
+;;      Alternatively, press 'gd' (or 'C-c g d') on a module to browse its
+;;      directory (for easy access to its source code).
 
 (doom! :input
        ;;chinese
@@ -32,7 +35,7 @@
        ;;neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
        (popup            ; tame sudden yet inevitable temporary windows
-        +all             ; catch all popups that start with an asterix
+        ;; +all             ; catch all popups that start with an asterix
         +defaults)       ; default popup rules
        (pretty-code +iosevka)       ; replace bits of code with pretty symbols
        ;;tabs            ; FIXME an (incomplete) tab bar for Emacs
@@ -63,12 +66,13 @@
         +icons)          ; colorful icons for dired-mode
        electric          ; smarter, keyword-based electric-indent
        (ibuffer +icons)
+       undo
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
-       eshell            ; a consistent, cross-platform shell (WIP)
-       shell             ; a terminal REPL for Emacs
-       ;;term              ; terminals in Emacs
+       ;; eshell            ; a consistent, cross-platform shell (WIP)
+       ;; shell             ; a terminal REPL for Emacs
+       ;; term              ; terminals in Emacs
        ;; vterm             ; another terminals in Emacs
 
        :checkers
@@ -79,12 +83,11 @@
        :tools
        ;;ansible
        debugger          ; FIXME stepping through code, to help you add bugs
-       ;;direnv
        direnv
        docker
        editorconfig      ; let someone else argue about tabs vs spaces
        ;;ein               ; tame Jupyter notebooks with emacs
-       eval              ; run code, run (also, repls)
+       (eval +overlay)              ; run code, run (also, repls)
        gist              ; interacting with github gists
        (lookup           ; helps you navigate your code and documentation
         +docsets         ; ...or in Dash docsets locally
@@ -126,7 +129,7 @@
        (javascript +lsp)        ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
        ;; kotlin            ; a better, slicker Java(Script)
-       ;;latex             ; writing papers in Emacs has never been so fun
+       (latex +lsp +cdlatex +latexmk +fold)            ; writing papers in Emacs has never been so fun
        ;;ledger            ; an accounting system in Emacs
        ;;lua               ; one-based indices? one-based indices
        (markdown +grip)         ; writing docs for people to ignore
@@ -160,8 +163,7 @@
        ;;vala              ; GObjective-C
 
        :email
-                                        ;(mu4e
-                                        ; +gmail)       ; WIP
+       ;;(mu4e +gmail)       ; WIP
        ;;notmuch             ; WIP
        ;;(wanderlust +gmail) ; WIP
 

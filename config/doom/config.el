@@ -5,6 +5,7 @@
 (setq user-full-name "Daniil Osipchuk"
       user-mail-address "xocada@gmail.com"
 
+
       doom-theme 'doom-tomorrow-night
       treemacs-width 32)
 
@@ -22,8 +23,23 @@
 ;; (load! "pragmata-lig.el")
 
 
+;;
+;;; Modules
+
+;; I prefer search matching to be ordered; it's more precise
+(add-to-list 'ivy-re-builders-alist '(counsel-projectile-find-file . ivy--regex-plus))
+
+;; Switch to the new window after splitting
+(setq evil-split-window-below t
+      evil-vsplit-window-right t)
+
 ;; Silence all that useless output
 (setq direnv-always-show-summary nil)
+
+;; Latex preview
+(setq +latex-viewers '(pdf-tools))
+
+
 ;;
 ;;; Packages
 (use-package! reverse-im

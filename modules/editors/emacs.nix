@@ -43,6 +43,7 @@ with import <home-manager/modules/lib/dag.nix> { inherit lib; }; {
         # :lang javascript
         nodePackages.javascript-typescript-langserver
         # :lang latex & :lang org (latex previews)
+        texlab
         texlive.combined.scheme-full # FULL
         # :lang rust
         rustfmt
