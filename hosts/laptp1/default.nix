@@ -32,6 +32,7 @@
     shell = {
       gnupg.enable = true;
       pass.enable = true;
+      direnv.enable = true;
     };
 
     editors = {

@@ -22,6 +22,8 @@
 ;; (load! "pragmata-lig.el")
 
 
+;; Silence all that useless output
+(setq direnv-always-show-summary nil)
 ;;
 ;;; Packages
 (use-package! reverse-im
