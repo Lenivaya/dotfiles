@@ -7,12 +7,10 @@ let
 in {
   fonts = {
     fonts = with pkgs; [
-      ubuntu_font_family
       dejavu_fonts
       noto-fonts
       noto-fonts-emoji
       corefonts
-      fira-code
       unstable.iosevka
       symbola
     ];
@@ -42,7 +40,8 @@ in {
       '';
       defaultFonts = {
         monospace = [ defaultFont ];
-        sansSerif = [ "Ubuntu" ];
+        sansSerif = [ defaultFont ];
+        serif = [ defaultFont ];
       };
     };
   };
