@@ -182,7 +182,7 @@ keysSpawnables :: XConfig Layout -> [(String, X ())]
 keysSpawnables _ =
   [ ("M-<Return>"  , spawn (C.term C.applications))
   , ("M-S-<Return>", spawn (C.appmenu C.applications))
-  , ("M-b"         , raiseBrowser)
+  , ("M-b"         , spawn (C.browser C.applications))
   , ("M-C-e"       , raiseEditor)
   , ("M-c", namedScratchpadAction scratchpads "console")
   , ("M-m"         , namedScratchpadAction scratchpads "music")
