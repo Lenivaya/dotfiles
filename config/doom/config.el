@@ -5,10 +5,8 @@
 (setq user-full-name "Daniil Osipchuk"
       user-mail-address "xocada@gmail.com"
 
-
-      doom-theme 'doom-tomorrow-night
+      doom-theme 'doom-solarized-light
       treemacs-width 32)
-
 ;;
 ;;; UI
 (setq doom-font (font-spec :family "monospace" :size 12 :weight 'Regular)
@@ -18,6 +16,9 @@
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
 
 (setq fancy-splash-image (concat doom-private-dir "splash.png"))
+
+;; Don't like symbols, but want font ligatures
+(setq +pretty-code-symbols nil)
 
 ;; Pragmata ligatures
 ;; (load! "pragmata-lig.el")
@@ -37,7 +38,7 @@
 (setq direnv-always-show-summary nil)
 
 ;; Latex preview
-(setq +latex-viewers '(pdf-tools))
+(setq +latex-viewers '(zathura, pdf-tools))
 
 
 ;;
