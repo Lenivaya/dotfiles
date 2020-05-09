@@ -1,17 +1,23 @@
 { pkgs, ... }:
 
 let
-  pragmatapro = pkgs.callPackage ./pragmatapro.nix { };
+  # pragmatapro = pkgs.callPackage ./pragmatapro.nix { };
   # defaultFont = "PragmataPro Mono Liga";
-  defaultFont = "Iosevka";
+  defaultFont = "Iosevka Term";
 in {
   fonts = {
     fonts = with pkgs; [
+      (iosevka.override {
+        privateBuildPlan = {
+          family = "Iosevka Term";
+          design = [ "term" "ss08" ];
+        };
+        set = "term-ss08";
+      })
       dejavu_fonts
       noto-fonts
       noto-fonts-emoji
       corefonts
-      unstable.iosevka
       symbola
     ];
 
