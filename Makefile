@@ -60,7 +60,7 @@ channels:
 $(NIXOS_PREFIX)/configuration.nix:
 	@sudo nixos-generate-config --root "$(PREFIX)"
 	@echo "import /etc/dotfiles \"$${HOST:-$$(hostname)}\" \"$$USER\"" | sudo tee "$(NIXOS_PREFIX)/configuration.nix"
-	@[ -f hosts/$(HOST) ] || echo "WARNING: hosts/$(HOST)/default.nix does not exist"
+	@[ -f hosts/$(HOST)/default.nix ] || echo "WARNING: hosts/$(HOST)/default.nix does not exist"
 
 $(HOME)/.dotfiles:
 	@mkdir -p $(HOME)
@@ -76,5 +76,3 @@ up: upgrade
 
 
 .PHONY: config
-
-# end
