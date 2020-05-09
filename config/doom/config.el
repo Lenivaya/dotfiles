@@ -7,6 +7,9 @@
 
       doom-theme 'doom-solarized-light
       treemacs-width 32)
+
+(load! "+bindings.el")
+
 ;;
 ;;; UI
 (setq doom-font (font-spec :family "monospace" :size 12 :weight 'Regular)
@@ -19,10 +22,6 @@
 
 ;; Don't like symbols, but want font ligatures
 (setq +pretty-code-symbols nil)
-
-;; Pragmata ligatures
-;; (load! "pragmata-lig.el")
-
 
 ;;
 ;;; Modules
@@ -40,6 +39,20 @@
 ;; Latex preview
 (setq +latex-viewers '(zathura, pdf-tools))
 
+;; :lang rust
+(after! rustic
+  (setq rustic-format-trigger 'on-save))
+
+;; :lang org
+(setq org-directory "~/org/"
+      org-archive-location (concat org-directory ".archive/%s::")
+      org-roam-directory (concat org-directory "notes/")
+      org-journal-encrypt-journal t
+      org-ellipsis " ▼ "
+      org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷"))
+(after! org
+  (add-to-list 'org-modules 'org-habit t))
+
 
 ;;
 ;;; Packages
@@ -50,3 +63,10 @@
 (use-package! kdeconnect
   :config
   (setq kdeconnect-devices "274bdfc779b2e09e"))
+
+(use-package! which-key-posframe
+  :config
+  (setq
+   which-key-posframe-border-width 0
+   which-key-posframe-poshandler #'posframe-poshandler-frame-center)
+  (which-key-posframe-mode 1))
