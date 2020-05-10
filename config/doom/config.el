@@ -8,8 +8,6 @@
       doom-theme 'doom-solarized-light
       treemacs-width 32)
 
-(load! "+bindings.el")
-
 ;;
 ;;; UI
 (setq doom-font (font-spec :family "monospace" :size 12 :weight 'Regular)
@@ -70,3 +68,6 @@
    which-key-posframe-border-width 0
    which-key-posframe-poshandler #'posframe-poshandler-frame-center)
   (which-key-posframe-mode 1))
+
+(use-package! deadgrep
+  :bind ("<f5>". deadgrep))
