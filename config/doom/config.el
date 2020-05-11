@@ -81,7 +81,7 @@
 
 (use-package! kdeconnect
   :config
-  (setq kdeconnect-devices "274bdfc779b2e09e"))
+  (setq kdeconnect-devices "c714076c998c5de4"))
 
 (use-package! which-key-posframe
   :config

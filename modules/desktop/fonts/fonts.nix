@@ -1,8 +1,6 @@
 { pkgs, ... }:
 
 let
-  # pragmatapro = pkgs.callPackage ./pragmatapro.nix { };
-  # defaultFont = "PragmataPro Mono Liga";
   defaultFont = "Iosevka Term";
 in {
   fonts = {
