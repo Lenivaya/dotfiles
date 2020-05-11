@@ -51,13 +51,17 @@ zinit wait lucid light-mode for \
         pick"tldr" raylee/tldr \
     as"completion" \
         OMZP::docker/_docker \
-        spwhitt/nix-zsh-completions \
         ninrod/pass-zsh-completion \
+        spwhitt/nix-zsh-completions \
+        lukechilds/zsh-better-npm-completion \
+        srijanshetty/zsh-pandoc-completion \
+        thetic/extract
 
 
 ## light
 zinit light-mode for \
        softmoth/zsh-vim-mode \
+
 
 # fzf
 zinit wait lucid from"gh-r" as"program" \
