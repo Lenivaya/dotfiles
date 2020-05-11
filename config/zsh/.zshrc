@@ -60,7 +60,7 @@ zinit light-mode for \
        softmoth/zsh-vim-mode \
 
 # fzf
-zinit ice wait lucid from"gh-r" as"program" \
+zinit wait lucid from"gh-r" as"program" \
       atload"[ -f $ZDOTDIR/.fzf-keys.zsh ] && source $ZDOTDIR/.fzf-keys.zsh" for \
                junegunn/fzf-bin
 
