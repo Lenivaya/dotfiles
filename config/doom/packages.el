@@ -1,4 +1,3 @@
-;; -*- no-byte-compile: t; -*-
 ;;; ~/.doom.d/packages.el
 
 ;; Support to non-default keyboard layouts
@@ -18,3 +17,6 @@
 
 ;; Fast and beautiful text search
 (package! deadgrep)
+
+;; sideline buffer navigator powered by imenu
+(package! imenu-list)

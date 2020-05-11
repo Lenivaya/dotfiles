@@ -18,28 +18,49 @@
 
 (setq fancy-splash-image (concat doom-private-dir "splash.png"))
 
+;; Switch to the new window after splitting
+(setq evil-split-window-below t
+      evil-vsplit-window-right t)
+
+;; take new window space from all other windows (not just current)
+(setq window-combination-resize t)
+
+;; Don't blink the cursor, it's too distracting.
+(blink-cursor-mode -1)
+(setq visible-cursor nil)
+
 ;; Don't like symbols, but want font ligatures
 (setq +pretty-code-symbols nil)
 
 ;;
 ;;; Modules
 
+;; Avy
+(setq
+ ;; Avy can jump through windows
+ avy-all-windows t
+ ;; Avy can auto-jump when theres 1 candidate
+ avy-single-candidate-jump t)
+
+;; :completions ivy
 ;; I prefer search matching to be ordered; it's more precise
 (add-to-list 'ivy-re-builders-alist '(counsel-projectile-find-file . ivy--regex-plus))
 
-;; Switch to the new window after splitting
-(setq evil-split-window-below t
-      evil-vsplit-window-right t)
-
+;; :tools direnv
 ;; Silence all that useless output
 (setq direnv-always-show-summary nil)
 
 ;; Latex preview
 (setq +latex-viewers '(zathura, pdf-tools))
 
-;; :lang rust
-(after! rustic
-  (setq rustic-format-trigger 'on-save))
+;; :editor format +onsave
+(setq +format-on-save-enabled-modes '(c-mode
+                                      c++-mode
+                                      go-mode
+                                      rustic-mode
+                                      python-mode
+                                      js-mode
+                                      js-jsx-mode))
 
 ;; :lang org
 (setq org-directory "~/org/"
@@ -71,3 +92,20 @@
 
 (use-package! deadgrep
   :bind ("<f5>". deadgrep))
+
+(use-package! imenu-list
+  :defer t
+  :init
+  (setq
+   ;; just a tad lower than the default TODO normalize to treemacs & neotree
+   ;; size, or propose a global doom sidebar size?
+   imenu-list-size 0.25
+   ;; That modeline is plain ugly. Treemacs & neotree don't have a modeline either.
+   imenu-list-mode-line-format nil)
+  (map!
+   (:leader
+    :desc "Toggle imenu-list" "oi" #'imenu-list-smart-toggle)
+   :map imenu-list-major-mode-map
+   :g "r"   #'imenu-list-refresh
+   :g [tab] #'hs-toggle-hiding
+   :n "gr"  #'imenu-list-refresh))
