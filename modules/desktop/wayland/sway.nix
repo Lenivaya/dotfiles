@@ -20,7 +20,6 @@ with import <home-manager/modules/lib/dag.nix> { inherit lib; }; {
 
       enable = true;
       extraPackages = with pkgs; [
-        swaylock # lockscreen
         swayidle
         xwayland # for legacy apps
         waybar # status bar

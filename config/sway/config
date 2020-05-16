@@ -13,12 +13,17 @@ set $left h
 set $down j
 set $up k
 set $right l
+#
 # Your preferred terminal emulator
-set $term st
+set $term $TERMINAL
+
 # Your preferred application launcher
 # Note: pass the final command to swaymsg so that the resulting window can be opened
 # on the original workspace that the command was run on.
 set $menu dmenu_path | dmenu | xargs swaymsg exec --
+
+## Just need that
+exec xrdb .Xresources
 
 ### Output configuration
 #
@@ -31,15 +36,15 @@ output * bg $HOME/Pictures/walls/1587168686855.jpg fill
 #
 # You can get the names of your outputs by running: swaymsg -t get_outputs
 
-Idle configuration
+# Idle configuration
 
-Example configuration:
+# Example configuration:
 
 exec swayidle -w \
-         timeout 300 'swaylock -f -c 000000' \
+         timeout 300 'betterlockscreen -l dim' \
          timeout 600 'swaymsg "output * dpms off"' \
               resume 'swaymsg "output * dpms on"' \
-         before-sleep 'swaylock -f -c 000000'
+         before-sleep 'betterlockscreen -l dim'
 
 # This will lock your screen after 300 seconds of inactivity, then turn off
 # your displays after another 300 seconds, and turn your screens back on when
@@ -48,14 +53,14 @@ exec swayidle -w \
 ### Input configuration
 #
 # Example configuration:
-#
-#   input "2:14:SynPS/2_Synaptics_TouchPad" {
-#       dwt enabled
-#       tap enabled
-#       natural_scroll enabled
-#       middle_emulation enabled
-#   }
-#
+
+input "2:14:ETPS/2_Elantech_Touchpad" {
+    dwt enabled
+    tap enabled
+    natural_scroll enabled
+    middle_emulation enabled
+}
+
 # You can get the names of your inputs by running: swaymsg -t get_inputs
 # Read `man 5 sway-input` for more information about this section.
 
