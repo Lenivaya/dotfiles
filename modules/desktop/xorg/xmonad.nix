@@ -31,8 +31,16 @@ with lib; {
       XMONAD_DATA_DIR = "$XDG_DATA_HOME/xmonad";
     };
 
-    my.packages = with pkgs.unstable; [ xmobar ];
-    fonts.fonts = with pkgs; [ siji ];
+    my.packages = with pkgs.unstable; [
+      xmobar
+      jq # for weather script
+    ];
+    fonts.fonts = with pkgs; [
+      siji # some nice icons
+      weather-icons # for weather script
+    ];
+
+    my.env.PATH = [ <config/xmonad/scripts/xmobar> "$PATH" ];
 
     modules.desktop.term.st.enable = true;
     modules.desktop.term.default = "st";
