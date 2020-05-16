@@ -44,14 +44,12 @@
       kdeconnect.enable = true;
       ssh.enable = true;
     };
+
+    zram.enable = true;
   };
 
-  # Xrender + experimental backends works better but have some issues with opacity
-  my.home.services.picom = with lib; {
-    backend = mkForce "xrender";
-    experimentalBackends = true;
-    inactiveOpacity = mkForce "1.0";
-  };
+  # Jusd don't need picom here
+  my.home.services.picom = with lib; { enable = mkForce false; };
 
   networking.networkmanager.enable = true;
   time.timeZone = "Europe/Kiev";
@@ -64,6 +62,14 @@
     package = pkgs.bluezFull;
   };
   services.dbus.packages = [ pkgs.blueman ];
+
+  services.xserver = {
+    deviceSection = ''
+      Option "AccelMethod" "glamor"
+      Option "TearFree" "on"
+    '';
+    useGlamor = true;
+  };
 
   hardware.pulseaudio = {
     enable = true;
