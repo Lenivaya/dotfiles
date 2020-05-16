@@ -18,7 +18,6 @@ in {
     ./shell
     ./bootAnimation
     ./zram-swap.nix
-    ./docker.nix
   ];
 
   options = {
