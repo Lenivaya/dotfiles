@@ -38,7 +38,9 @@ import           XMonad.Layout.Spacing
 import           XMonad.Layout.SubLayouts
 import           XMonad.Layout.Tabbed
 import           XMonad.Layout.WindowNavigation
+import           XMonad.Layout.BoringWindows
 import           XMonad.Layout.Maximize
+import           XMonad.Layout.Minimize
 
 -- layout prompt
 import           Data.Map                       ( Map )
@@ -67,22 +69,28 @@ threecolmid = named "ThreeColMid" $ ThreeColMid 1 (3 / 100) (1 / 2)
 
 layoutHook =
   fullscreenFloat
-    . smartBorders
-    $ lessBorders OnlyLayoutFloat
-    $ mkToggle (single NBFULL)
-    $ refocusLastLayoutHook
-    $ avoidStruts
-    $ applySpacing
-    $ mkToggle (single GAPS)
-    $ mkToggle (single REFLECTX)
-    $ mkToggle (single REFLECTY)
-    $ windowNavigation
-    $ hiddenWindows
-    $ addTabs shrinkText T.tabTheme
-    $ subLayout [] (Simplest ||| Accordion)
-    $ onWorkspaces ["Read"] circle
+    .   smartBorders
+    .   boringWindows
+    $   lessBorders OnlyLayoutFloat
+    $   mkToggle (single NBFULL)
+    $   refocusLastLayoutHook
+    $   avoidStruts
+    $   applySpacing
+    $   mkToggle (single GAPS)
+    $   mkToggle (single REFLECTX)
+    $   mkToggle (single REFLECTY)
+    $   windowNavigation
+    $   hiddenWindows
+    $   addTabs shrinkText T.tabTheme
+    $   subLayout [] (Simplest ||| Accordion)
+    $   onWorkspaces ["Read"] circle
+    .   maximize
+    .   minimize
 
-    $ maximize (bsp ||| circle ||| tall ||| threecolmid)
+    $   bsp
+    ||| circle
+    ||| tall
+    ||| threecolmid
 
 --------------------------------------------------------------------------------
 -- | A data type for the @XPrompt@ class.

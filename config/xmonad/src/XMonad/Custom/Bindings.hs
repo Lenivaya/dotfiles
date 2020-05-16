@@ -28,6 +28,8 @@ import           XMonad.Actions.Promote
 import           XMonad.Actions.UpdatePointer
 import           XMonad.Actions.WithAll
 import           XMonad.Actions.WindowGo
+import           XMonad.Actions.WindowMenu
+import           XMonad.Actions.Minimize
 import           XMonad.Hooks.UrgencyHook
 import           XMonad.Layout.BinarySpacePartition
 import           XMonad.Layout.Hidden
@@ -128,20 +130,17 @@ rawKeys c = withUpdatePointer $ concatMap ($ c) keymaps
 
 keysBase :: XConfig Layout -> [(String, X ())]
 keysBase _ =
-  [ ("M-S-q", confirmPrompt hotPromptTheme "Quit XMonad?" $ io exitSuccess)
-  , ("M-q"  , spawn "xmonad --restart")
-  , ("M-C-q", spawn "xmonad --recompile && xmonad --restart")
-  , ("M-x"  , shellPrompt promptTheme)
-  , ("M-w"  , windowPrompt promptTheme Goto allWindows)
-  , ("M-S-w", windowPrompt promptTheme Bring allWindows)
+  [ ("M-q q", confirmPrompt hotPromptTheme "Quit XMonad?" $ io exitSuccess)
+  , ("M-q r"  , spawn "xmonad --restart")
+  , ("M-x"    , shellPrompt promptTheme)
   ]
 
 keysPass :: XConfig Layout -> [(String, X ())]
 keysPass _ =
-  [ ("M-C-S-p", passPrompt promptTheme)
-  , ("M-C-S-g", passGenerateAndCopyPrompt promptTheme)
-  , ("M-C-S-d", passRemovePrompt promptTheme)
-  , ("M-C-S-t", passTypePrompt promptTheme)
+  [ ("M-p p", passPrompt promptTheme)
+  , ("M-p g", passGenerateAndCopyPrompt promptTheme)
+  , ("M-p d", passRemovePrompt promptTheme)
+  , ("M-p t", passTypePrompt promptTheme)
   ]
 
 keysSystem :: XConfig Layout -> [(String, X ())]
@@ -166,12 +165,12 @@ keysMedia _ =
 
 keysWorkspaces :: XConfig Layout -> [(String, X ())]
 keysWorkspaces _ =
-  [ ("M-S-o", switchProjectPrompt promptTheme)
-    , ("M-S-p", shiftToProjectPrompt promptTheme)
-    , ("M-S-n", renameProjectPrompt promptTheme)
-    , ("M-,"  , nextNonEmptyWS)
-    , ("M-."  , prevNonEmptyWS)
-    , ("M-i"  , toggleWS' ["NSP"])
+  [ ("M-w S-o", switchProjectPrompt promptTheme)
+    , ("M-w S-p", shiftToProjectPrompt promptTheme)
+    , ("M-w S-n", renameProjectPrompt promptTheme)
+    , ("M-,"    , nextNonEmptyWS)
+    , ("M-."    , prevNonEmptyWS)
+    , ("M-i"    , toggleWS' ["NSP"])
     , ("M-n", workspacePrompt promptTheme $ windows . S.shift)
     ]
     ++ zipKeys "M-"     wsKeys [0 ..] (withNthWorkspace S.greedyView)
@@ -182,30 +181,33 @@ keysSpawnables :: XConfig Layout -> [(String, X ())]
 keysSpawnables _ =
   [ ("M-<Return>"  , spawn (C.term C.applications))
   , ("M-S-<Return>", spawn (C.appmenu C.applications))
-  , ("M-b"         , spawn (C.browser C.applications))
-  , ("M-C-e"       , raiseEditor)
-  , ("M-c", namedScratchpadAction scratchpads "console")
-  , ("M-m"         , namedScratchpadAction scratchpads "music")
-  , ("M-t"         , namedScratchpadAction scratchpads "top")
-  , ("M-v", namedScratchpadAction scratchpads "volume")
+  , ("M-o b"       , spawn (C.browser C.applications))
+  , ("M-o e"       , raiseEditor)
+  , ("M-o c", namedScratchpadAction scratchpads "console")
+  , ("M-o m"       , namedScratchpadAction scratchpads "music")
+  , ("M-o t"       , namedScratchpadAction scratchpads "top")
+  , ("M-o v", namedScratchpadAction scratchpads "volume")
   ]
 
 keysWindows :: XConfig Layout -> [(String, X ())]
 keysWindows _ =
-  [ ("M-d"  , kill)
-    , ("M-S-d", confirmPrompt hotPromptTheme "Kill all" killAll)
-    , ("M-a"  , toggleCopyToAll)
-    , ( "M-S-a"
+  [ ("M-w k"  , kill)
+    , ("M-w S-k", confirmPrompt hotPromptTheme "Kill all" killAll)
+    , ("M-w d"  , windowMenu)
+    , ("M-w g", windowPrompt promptTheme Goto allWindows)
+    , ("M-w b", windowPrompt promptTheme Bring allWindows)
+    , ("M-w c"  , toggleCopyToAll)
+    , ( "M-w S-c"
       , kill1
       ) -- To remove focused copied window from current workspace
-    , ("M-e"  , withFocused hideWindow)
-    , ("M-S-e", popOldestHiddenWindow)
-    , ("M-p"  , promote)
-    , ("M-g"  , withFocused $ sendMessage . MergeAll)
-    , ("M-S-g", withFocused $ sendMessage . UnMerge)
-    , ("M-u"  , focusUrgent)
-    , ("M-s"  , windows S.focusMaster)
-    , ("M-S-s", windows S.swapMaster)
+    , ("M-w h"  , withFocused hideWindow)
+    , ("M-w S-h", popOldestHiddenWindow)
+    , ("M-w p"  , promote)
+    , ("M-w t"  , withFocused $ sendMessage . MergeAll)
+    , ("M-w S-t", withFocused $ sendMessage . UnMerge)
+    , ("M-w u"  , focusUrgent)
+    , ("M-w m"  , windows S.focusMaster)
+    , ("M-w S-m", windows S.swapMaster)
     , ( "M-'"
       , bindOn LD [("Tabs", windows S.focusDown), ("", onGroup S.focusDown')]
       )
@@ -236,6 +238,8 @@ keysLayout c =
     , sequence_ [withFocused $ windows . S.sink, sendMessage $ Toggle NBFULL]
     )
   , ("M-S-f", withFocused (sendMessage . maximizeRestore))
+  , ("M-m m", withFocused minimizeWindow)
+  , ("M-m r", withLastMinimized maximizeWindowAndFocus)
   , ("M-C-g", sendMessage $ Toggle GAPS) -- FIXME Breaks merged tabbed layout
   ]
 
