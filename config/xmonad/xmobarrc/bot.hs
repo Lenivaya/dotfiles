@@ -22,6 +22,8 @@ Config { font = "xft:monospace:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
        , commands = [ Run Battery [ "-t", "<fn=1><acstatus></fn><left>%"
                                   , "--"
                                   , "-i", "\57914", "-O", "\57913" , "-o", "\57911"
+                                  ,"-a", "notify-send -u critical 'Battery running out!!! Only 10% left'"
+                                  ,"-A", "10"
                                   ] 10
                     , Run Wireless "wlp3s0" [ "-t", "<fn=1>\57775</fn><essid> @ <quality>%" ] 10
                     , Run DynNetwork [ "-t", "<fn=1>\57660</fn><rx> / <fn=1>\57659</fn><tx> kbps" ] 10
