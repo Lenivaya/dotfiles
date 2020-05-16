@@ -3,7 +3,7 @@
 <h1 align="center">dotfiles</h1>
 <p align="center">Different dotfiles which i use every day</p><br>
 
-![screenshot](https://user-images.githubusercontent.com/49302467/81593203-c4ef1800-93c7-11ea-9956-e53d6d986647.png)
+![screenshot](https://user-images.githubusercontent.com/49302467/82123117-4d8eff00-97a0-11ea-96ea-a8e5d7bfa345.png)
 
 <p align="center">
 <span><img src="https://user-images.githubusercontent.com/49302467/81593317-eea83f00-93c7-11ea-9cf1-8e237113cdfd.png" height="188" /></span>
