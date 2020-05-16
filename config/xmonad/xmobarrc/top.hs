@@ -23,7 +23,7 @@ Config { font = "xft:monospace:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
        , commands = [ Run StdinReader
                     , Run Date "<fn=1>\57893</fn>%d.%m.%y / %A / %H:%M" "date" 10
                     , Run Weather "UUWW" [ "-t", "<fn=1>\57550</fn> <tempC>°C / <rh>% / <pressure> Pa" ] 10000
-                    , Run ComX "openweathermap-detailed" [] " " "weather" 600
+                    , Run ComX "openweathermap" [] " " "weather" 600
                     ]
        , sepChar = "%"
        , alignSep = "}{"
