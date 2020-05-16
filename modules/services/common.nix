@@ -11,6 +11,6 @@
     devmon.enable = true;
     gvfs.enable = true;
     openssh.enable = true;
-    earlyoom.enable = true;
+    # earlyoom.enable = true;
   };
 }
