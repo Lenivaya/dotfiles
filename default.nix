@@ -12,19 +12,17 @@ device: username:
     autoOptimiseStore = true;
     gc = {
       automatic = true;
-      dates = "23:00";
+      dates = "weekly";
       options = "--delete-older-than 10d";
     };
   };
 
   system.autoUpgrade = {
     enable = true;
-    dates = "weekly";
+    dates = "monthly";
     flags = [
       "-I"
       "config=/etc/dotfiles/config"
-      "-I"
-      "modules=/etc/dotfiles/modules"
       "-I"
       "bin=/etc/dotfiles/bin"
     ];
