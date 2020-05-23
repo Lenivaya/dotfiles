@@ -6,4 +6,6 @@
     # ./ncmpcpp.nix
     ./spotify.nix
   ];
+
+  my.packages = with pkgs; [ youtube-dl ];
 }
