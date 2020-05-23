@@ -1,8 +1,6 @@
 { pkgs, ... }:
 
-let
-  defaultFont = "Iosevka Term";
-in {
+{
   fonts = {
     fonts = with pkgs; [
       (iosevka.override {
@@ -12,6 +10,7 @@ in {
         };
         set = "term-ss08";
       })
+      ibm-plex
       dejavu_fonts
       noto-fonts
       noto-fonts-emoji
@@ -43,9 +42,9 @@ in {
         </match>
       '';
       defaultFonts = {
-        monospace = [ defaultFont ];
-        sansSerif = [ defaultFont ];
-        serif = [ defaultFont ];
+        monospace = [ "Iosevka Term" ];
+        sansSerif = [ "IBM Plex Sans" ];
+        serif = [ "IBM Plex Serif" ];
       };
     };
   };
