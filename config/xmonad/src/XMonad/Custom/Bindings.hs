@@ -131,8 +131,8 @@ rawKeys c = withUpdatePointer $ concatMap ($ c) keymaps
 keysBase :: XConfig Layout -> [(String, X ())]
 keysBase _ =
   [ ("M-q q", confirmPrompt hotPromptTheme "Quit XMonad?" $ io exitSuccess)
-  , ("M-q r"  , spawn "xmonad --restart")
-  , ("M-x"    , shellPrompt promptTheme)
+  , ("M-q r", spawn "xmonad --restart")
+  , ("M-x"  , shellPrompt promptTheme)
   ]
 
 keysPass :: XConfig Layout -> [(String, X ())]
@@ -200,8 +200,8 @@ keysWindows _ =
     , ( "M-w S-c"
       , kill1
       ) -- To remove focused copied window from current workspace
-    , ("M-w h"  , withFocused hideWindow)
-    , ("M-w S-h", popOldestHiddenWindow)
+    , ("M-w h"  , withFocused minimizeWindow)
+    , ("M-w S-h", withLastMinimized maximizeWindowAndFocus)
     , ("M-w p"  , promote)
     , ("M-w t"  , withFocused $ sendMessage . MergeAll)
     , ("M-w S-t", withFocused $ sendMessage . UnMerge)
@@ -238,8 +238,6 @@ keysLayout c =
     , sequence_ [withFocused $ windows . S.sink, sendMessage $ Toggle NBFULL]
     )
   , ("M-S-f", withFocused (sendMessage . maximizeRestore))
-  , ("M-m m", withFocused minimizeWindow)
-  , ("M-m r", withLastMinimized maximizeWindowAndFocus)
   , ("M-C-g", sendMessage $ Toggle GAPS) -- FIXME Breaks merged tabbed layout
   ]
 
