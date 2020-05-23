@@ -1,6 +1,4 @@
-;;; ~/.doom.d/config.el -*- lexical-binding: t; -*-
-
-;; Place your private configuration here
+;;; General
 
 (setq user-full-name "Daniil Osipchuk"
       user-mail-address "xocada@gmail.com"
@@ -31,6 +29,11 @@
 
 ;; Don't like symbols, but want font ligatures
 (setq +pretty-code-symbols nil)
+
+;; I don't need it to tell me its UTF-8
+(setq doom-modeline-buffer-encoding nil
+      +modeline-encoding nil)
+
 
 ;;
 ;;; Modules
@@ -68,7 +71,8 @@
       org-roam-directory (concat org-directory "notes/")
       org-journal-encrypt-journal t
       org-ellipsis " ▼ "
-      org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷"))
+      org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")
+      org-export-in-background t)
 (after! org
   (add-to-list 'org-modules 'org-habit t))
 
@@ -97,8 +101,7 @@
   :defer t
   :init
   (setq
-   ;; just a tad lower than the default TODO normalize to treemacs & neotree
-   ;; size, or propose a global doom sidebar size?
+   ;; just a tad lower than the default
    imenu-list-size 0.25
    ;; That modeline is plain ugly. Treemacs & neotree don't have a modeline either.
    imenu-list-mode-line-format nil)
@@ -109,3 +112,8 @@
    :g "r"   #'imenu-list-refresh
    :g [tab] #'hs-toggle-hiding
    :n "gr"  #'imenu-list-refresh))
+
+(use-package! nov
+  :mode ("\\.epub\\'" . nov-mode)
+  :init
+  (setq nov-save-place-file (concat doom-etc-dir "nov-places")))

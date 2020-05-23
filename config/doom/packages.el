@@ -20,3 +20,6 @@
 
 ;; sideline buffer navigator powered by imenu
 (package! imenu-list)
+
+;; Reading EPUBs in emacs
+(package! nov)

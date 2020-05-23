@@ -23,6 +23,7 @@
         +childframe)
 
        :ui
+       hydra
        ;;deft              ; notational velocity for Emacs
        doom              ; what makes DOOM look the way it does
        doom-dashboard    ; a nifty splash screen for Emacs
@@ -30,7 +31,8 @@
        ;;fill-column       ; a `fill-column' indicator
        hl-todo           ; highlight TODO/FIXME/NOTE tags
        indent-guides     ; highlighted indent columns
-       modeline          ; snazzy, Atom-inspired modeline, plus API
+       minimap           ; show a map of the code on the side
+       (modeline +light)          ; snazzy, Atom-inspired modeline, plus API
        nav-flash         ; blink the current line after jumping
        ;;neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
@@ -66,7 +68,7 @@
         +icons)          ; colorful icons for dired-mode
        electric          ; smarter, keyword-based electric-indent
        (ibuffer +icons)
-       undo
+       (undo +tree)
        vc                ; version-control and Emacs, sitting in a tree
 
        :term
