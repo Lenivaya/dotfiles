@@ -59,7 +59,7 @@ generateBarPosition bar = case bar of
   position   = "'Static { xpos = 12 , ypos = %d , width = %d , height = 24}'"
   (w, h)     = getResolution
   width      = percentFromNumber w 98.0
-  botBarYpos = percentFromNumber h 96.0
+  botBarYpos = (h - (percentFromNumber h 1.0)) - 24
   topBarYpos = percentFromNumber h 1.0
 
 topBarCommand = "xmobar ~/.dotfiles/config/xmonad/xmobarrc/top.hs -p "
