@@ -58,7 +58,7 @@ generateBarPosition bar = case bar of
  where
   position   = "'Static { xpos = 12 , ypos = %d , width = %d , height = 24}'"
   (w, h)     = getResolution
-  width      = percentFromNumber w 98.0
+  width      = w - 24
   botBarYpos = (h - (percentFromNumber h 1.0)) - 24
   topBarYpos = percentFromNumber h 1.0
 
