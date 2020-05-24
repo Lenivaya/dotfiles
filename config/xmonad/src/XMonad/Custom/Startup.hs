@@ -70,9 +70,9 @@ botBarCommand = "xmobar ~/.dotfiles/config/xmonad/xmobarrc/bot.hs -p "
 startupHook :: X ()
 startupHook = do
   spawnNamedPipe topBarCommand "xmobarTop"
-  spawnOnce botBarCommand
+  spawnNamedPipe botBarCommand "xmobarBot"
   docksStartupHook
   addEWMHFullscreen
   -- spawnOnce "xsetroot -cursor_name left_ptr"
-  spawn "betterlockscreen -w"
+  spawnOnce "betterlockscreen -w"
   setWMName "xmonad"

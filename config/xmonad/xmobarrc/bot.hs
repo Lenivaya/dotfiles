@@ -19,7 +19,8 @@ Config { font = "xft:monospace:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
        , borderColor = "#2f2b2a"
        , borderWidth = 1
        , iconRoot = "."
-       , commands = [ Run Battery [ "-t", "<fn=1><acstatus></fn><left>%"
+       , commands = [  Run StdinReader
+           ,Run Battery [ "-t", "<fn=1><acstatus></fn><left>%"
                                   , "--"
                                   , "-i", "\57914", "-O", "\57913" , "-o", "\57911"
                                   ,"-a", "notify-send -u critical 'Battery running out!!! Only 10% left'"
@@ -42,7 +43,7 @@ Config { font = "xft:monospace:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
        , sepChar = "%"
        , alignSep = "}{"
        , template = " \
-                    \%battery%   %wlp3s0wi%   %dynnetwork%  \
+                    \%battery%   %wlp3s0wi%   %dynnetwork%  %StdinReader%\
                     \}\
                     \\
                     \{\

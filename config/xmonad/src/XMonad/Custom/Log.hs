@@ -37,7 +37,7 @@ topBarPP = def
                               False -> case isInfixOf "Circle" layout of
                                 True  -> " <fn=1>\57521</fn>"
                                 False -> case isInfixOf "Tall" layout of
-                                  True -> " <fn=1>\57346</fn>"
+                                  True  -> " <fn=1>\57346</fn>"
                                   False -> " <fn=1>\57377</fn>" -- ThreeColMid
                             )
   , ppOrder           = id
@@ -63,6 +63,7 @@ logHook = do
   currentWorkspaceOnTop
   ewmhDesktopsLogHook
   t <- getNamedPipe "xmobarTop"
+  b <- getNamedPipe "xmobarBot"
   c <- wsContainingCopies
   let copiesCurrent ws
         | ws `elem` c
@@ -80,3 +81,4 @@ logHook = do
                               , ppUrgent  = copiesUrgent
                               , ppOutput  = safePrintToPipe t
                               }
+  dynamicLogWithPP $ botBarPP { ppOutput = safePrintToPipe b }
