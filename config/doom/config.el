@@ -24,8 +24,8 @@
 (setq window-combination-resize t)
 
 ;; Don't blink the cursor, it's too distracting.
-(blink-cursor-mode -1)
-(setq visible-cursor nil)
+(setq visible-cursor nil
+      blink-cursor-mode -1)
 
 ;; Don't like symbols, but want font ligatures
 (setq +pretty-code-symbols nil)
@@ -117,3 +117,11 @@
   :mode ("\\.epub\\'" . nov-mode)
   :init
   (setq nov-save-place-file (concat doom-etc-dir "nov-places")))
+
+(use-package company-fuzzy
+  :defer t
+  :init
+  (setq company-fuzzy-sorting-backend 'flx)
+  (setq company-fuzzy-prefix-ontop nil)
+  (with-eval-after-load 'company
+    (global-company-fuzzy-mode t)))
