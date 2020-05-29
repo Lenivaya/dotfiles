@@ -74,5 +74,5 @@ startupHook = do
   docksStartupHook
   addEWMHFullscreen
   -- spawnOnce "xsetroot -cursor_name left_ptr"
-  spawnOnce "betterlockscreen -w"
+  spawn "betterlockscreen -w"
   setWMName "xmonad"
