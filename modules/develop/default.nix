@@ -1,10 +1,11 @@
 { config, options, lib, pkgs, ... }:
 
 {
-  imports = [ ./go.nix ./docker.nix ./haskell.nix ./node.nix ./python.nix ./rust.nix ];
+  imports =
+    [ ./go.nix ./docker.nix ./haskell.nix ./node.nix ./python.nix ./rust.nix ];
 
   my.packages = with pkgs; [
-    #
+    # Makefiles
     gnumake
 
     # Nix

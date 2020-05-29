@@ -1,6 +1,8 @@
 { pkgs, ... }: {
   my = {
-    packages = with pkgs; [ nodejs yarn ];
+    packages = with pkgs;
+      [ nodejs yarn ]
+      ++ (with pkgs.nodePackages; [ javascript-typescript-langserver ]);
 
     env.NPM_CONFIG_USERCONFIG = "$XDG_CONFIG_HOME/npm/config";
     env.NPM_CONFIG_CACHE = "$XDG_CACHE_HOME/npm";

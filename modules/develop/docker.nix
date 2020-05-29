@@ -1,6 +1,6 @@
 { config, lib, ... }:
 
 {
-  virtualisation.docker.enableOnBoot = lib.mkForce false;
+  virtualisation.docker.enableOnBoot = false;
   virtualisation.docker.enable = true;
 }

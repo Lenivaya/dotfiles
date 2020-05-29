@@ -38,16 +38,9 @@ with import <home-manager/modules/lib/dag.nix> { inherit lib; }; {
         sqlite
         # :lang markdown previews
         python37Packages.grip
-        # :lang cc
-        ccls
-        # :lang javascript
-        nodePackages.javascript-typescript-langserver
         # :lang latex & :lang org (latex previews)
         texlab
         texlive.combined.scheme-full # FULL
-        # :lang rust
-        rustfmt
-        rls
       ];
 
       env.PATH = [ "$HOME/.emacs.d/bin" ];
