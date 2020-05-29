@@ -95,7 +95,12 @@
   (which-key-posframe-mode 1))
 
 (use-package! deadgrep
-  :bind ("<f5>". deadgrep))
+  :defer t
+  :init
+  (map!
+   (:leader
+    :desc "Search via deadgrep" "s <f5>" #'deadgrep))
+  )
 
 (use-package! imenu-list
   :defer t
