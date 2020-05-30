@@ -20,12 +20,7 @@ device: username:
   system.autoUpgrade = {
     enable = true;
     dates = "monthly";
-    flags = [
-      "-I"
-      "config=/etc/dotfiles/config"
-      "-I"
-      "bin=/etc/dotfiles/bin"
-    ];
+    flags = [ "-I" "config=/etc/dotfiles/config" "-I" "bin=/etc/dotfiles/bin" ];
   };
 
   nix.nixPath = options.nix.nixPath.default ++ [
@@ -37,8 +32,11 @@ device: username:
   # Add custom packages & unstable channel, so they can be accessed via pkgs.*
   nixpkgs.overlays = import ./packages;
 
+  # Nixpkgs config
   environment.variables.NIXPKGS_ALLOW_UNFREE = "1";
-  nixpkgs.config.allowUnfree = true; # forgive me Stallman senpai
+  nixpkgs.config = import packages/config.nix;
+  my.home.nixpkgs.config = import packages/config.nix;
+  my.home.xdg.configFile."nixpkgs/config.nix".source = packages/config.nix;
 
   environment.systemPackages = with pkgs; [
     # Just the bear necessities~
