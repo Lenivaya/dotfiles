@@ -26,7 +26,7 @@ with lib; {
           desktopName = "Firefox (Private)";
           genericName = "Open a private Firefox window";
           icon = "firefox";
-          exec = "${firefox}/bin/firefox --private-window";
+          exec = "firefox --private-window";
           categories = "Network";
         })
       ];
