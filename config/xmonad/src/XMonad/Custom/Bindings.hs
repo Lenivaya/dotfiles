@@ -133,6 +133,7 @@ keysBase _ =
   [ ("M-q q", confirmPrompt hotPromptTheme "Quit XMonad?" $ io exitSuccess)
   , ("M-q r", spawn "xmonad --restart")
   , ("M-x"  , shellPrompt promptTheme)
+  , ("M-S-x", spawn (C.appmenu C.applications))
   ]
 
 keysPass :: XConfig Layout -> [(String, X ())]
@@ -180,7 +181,7 @@ keysWorkspaces _ =
 keysSpawnables :: XConfig Layout -> [(String, X ())]
 keysSpawnables _ =
   [ ("M-<Return>"  , spawn (C.term C.applications))
-  , ("M-S-<Return>", spawn (C.appmenu C.applications))
+  , ("M-S-<Return>", spawn ((C.term C.applications) ++ " -e tmux"))
   , ("M-o b"       , spawn (C.browser C.applications))
   , ("M-o e"       , raiseEditor)
   , ("M-o c", namedScratchpadAction scratchpads "console")
