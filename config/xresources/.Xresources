@@ -44,7 +44,6 @@ st.alpha: 1
 Xcursor.theme: Adwaita
 
 !Fonts
-Xft.dpi: 96
 Xft.antialias: true
 Xft.hinting: true
 Xft.rgba: rgb

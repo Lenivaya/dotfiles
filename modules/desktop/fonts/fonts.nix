@@ -20,11 +20,6 @@
 
     fontconfig = {
       enable = true;
-      subpixel.rgba = "rgb";
-      antialias = true;
-      hinting.enable = true;
-      hinting.autohint = true;
-      includeUserConf = true;
       localConf = ''
         <match target="font">
           <edit name="autohint" mode="assign">
