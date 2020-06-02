@@ -18,3 +18,5 @@
 ;; comany-fuzzy
 (package! company-fuzzy)
 (package! flx)
+;; Theme-switching for Emacs based on daytime
+(package! circadian)

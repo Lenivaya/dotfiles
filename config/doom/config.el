@@ -130,3 +130,9 @@
   (setq company-fuzzy-prefix-ontop nil)
   (with-eval-after-load 'company
     (global-company-fuzzy-mode t)))
+
+(use-package! circadian
+  :config
+  (setq circadian-themes '(("8:00" . doom-solarized-light)
+                           ("19:30" . doom-solarized-dark)))
+  (circadian-setup))
