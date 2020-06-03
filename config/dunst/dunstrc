@@ -35,7 +35,8 @@
 
     icon_position = left
     max_icon_size = 45
-    icon_path = /usr/share/icons/Papirus-Dark/16x16/status:/usr/share/icons/Papirus-Dark/16x16/devices
+    # Just don't want icons
+    icon_path = ""
 
     ### History ###
 
@@ -46,7 +47,6 @@
    
     # dmenu path
     dmenu = dmenu -p dunst:
-    browser = google-chrome-stable --force-dark-mode -new-tab
     always_run_script = true
     title = Dunst
     class = Dunst
@@ -89,7 +89,6 @@ frame_color = "#161418"
 timeout = 0
 background = "#161418"
 foreground = "#d2d1d2"
-frame_color = "#161418"
 frame_color = "#d5c4a1"
 separator_color = "#d5c4a1"
 
