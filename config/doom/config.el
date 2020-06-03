@@ -1,10 +1,7 @@
 ;;; General
 
 (setq user-full-name "Daniil Osipchuk"
-      user-mail-address "xocada@gmail.com"
-
-      doom-theme 'doom-solarized-light
-      treemacs-width 32)
+      user-mail-address "xocada@gmail.com")
 
 ;;
 ;;; UI
@@ -75,6 +72,10 @@
       org-export-in-background t)
 (after! org
   (add-to-list 'org-modules 'org-habit t))
+
+;; Treemacs
+(setq
+ treemacs-width 32)
 
 
 ;;
