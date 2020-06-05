@@ -37,8 +37,9 @@ bind F7 select-pane -t 7
 bind F8 select-pane -t 8
 bind F9 select-pane -t 9
 
-bind v split-window -h
-bind s split-window -v
+bind c new-window      -c "#{pane_current_path}"
+bind v split-window -h -c "#{pane_current_path}"
+bind s split-window -v -c "#{pane_current_path}"
 bind | select-layout even-horizontal
 bind _ select-layout even-vertical
 
