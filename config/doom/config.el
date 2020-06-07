@@ -53,15 +53,6 @@
 ;; Latex preview
 (setq +latex-viewers '(zathura, pdf-tools))
 
-;; :editor format +onsave
-(setq +format-on-save-enabled-modes '(c-mode
-                                      c++-mode
-                                      go-mode
-                                      rustic-mode
-                                      python-mode
-                                      js-mode
-                                      js-jsx-mode))
-
 ;; :lang org
 (setq org-directory "~/org/"
       org-archive-location (concat org-directory ".archive/%s::")
