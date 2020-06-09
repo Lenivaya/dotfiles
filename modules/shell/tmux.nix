@@ -7,9 +7,16 @@ let
       #!${stdenv.shell}
       exec ${tmux}/bin/tmux -f "$TMUX_HOME/config" "$@"
     '';
+  tmuxDesktopItem = with pkgs;
+    makeDesktopItem {
+      name = "tmux";
+      desktopName = "Tmux";
+      exec = "${config.modules.desktop.term.default} -e tmux";
+      categories = "System";
+    };
 in {
   my = {
-    packages = [ (tmuxPackage) ];
+    packages = [ (tmuxPackage) (tmuxDesktopItem) ];
 
     env.TMUX_HOME = "$XDG_CONFIG_HOME/tmux";
 
