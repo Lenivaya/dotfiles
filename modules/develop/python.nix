@@ -10,7 +10,7 @@
       python37Packages.pyflakes
       python37Packages.isort
       python37Packages.pytest
-      unstable.python37Packages.poetry
+      python37Packages.poetry
     ];
 
     env.IPYTHONDIR = "$XDG_CONFIG_HOME/ipython";
