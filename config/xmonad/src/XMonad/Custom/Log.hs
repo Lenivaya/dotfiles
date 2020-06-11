@@ -33,12 +33,12 @@ topBarPP = def
   , ppTitleSanitize   = xmobarStrip
   , ppLayout          = xmobarColor white1 ""
                           . (\layout -> case isInfixOf "BSP" layout of
-                              True  -> " <fn=1>\57654</fn>"
+                              True  -> " <fn=1>\57654</fn> "
                               False -> case isInfixOf "Circle" layout of
-                                True  -> " <fn=1>\57521</fn>"
+                                True  -> " <fn=1>\57521</fn> "
                                 False -> case isInfixOf "Tall" layout of
-                                  True  -> " <fn=1>\57346</fn>"
-                                  False -> " <fn=1>\57377</fn>" -- ThreeColMid
+                                  True  -> " <fn=1>\57346</fn> "
+                                  False -> " <fn=1>\57377</fn> " -- ThreeColMid
                             )
   , ppOrder           = id
   , ppSort            = (namedScratchpadFilterOutWorkspace .) <$> getSortByIndex

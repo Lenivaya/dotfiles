@@ -1,4 +1,4 @@
-Config { font = "xft:monospace:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
+Config { font = "xft:monospace:style=Regular:pixelsize=11"
        , additionalFonts = [ "xft:Siji:style=Regular"
                            , "xft:monospace:style=Regular:pixelsize=11"
                            , "xft:Weather Icons:style=Regular:pixelsize=11"
@@ -21,7 +21,7 @@ Config { font = "xft:monospace:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
        , borderWidth = 1
        , iconRoot = "."
        , commands = [ Run StdinReader
-                    , Run Date "<fn=1>\57893</fn>%d.%m.%y / %A / %H:%M" "date" 10
+                    , Run Date "<fn=1>\57893</fn> %d.%m.%y / %A / %H:%M" "date" 10
                     , Run Weather "UUWW" [ "-t", "<fn=1>\57550</fn> <tempC>°C / <rh>% / <pressure> Pa" ] 10000
                     , Run ComX "openweathermap" [] " " "weather" 600
                     ]
