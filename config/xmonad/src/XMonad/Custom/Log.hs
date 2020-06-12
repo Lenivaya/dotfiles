@@ -20,6 +20,14 @@ import           XMonad.Util.WorkspaceCompare
 xmobarFont :: Int -> String -> String
 xmobarFont f = wrap (concat ["<fn=", show f, ">"]) "</fn>"
 
+layoutIcon :: String -> String
+layoutIcon l | isInfixOf "BSP" l         = " <fn=1>\57654</fn> "
+             | isInfixOf "Circle" l      = " <fn=1>\57521</fn> "
+             | isInfixOf "Tall" l        = " <fn=1>\57346</fn> "
+             | isInfixOf "ThreeColMid" l = " <fn=1>\57377</fn> "
+             | otherwise                 = ""
+
+
 topBarPP :: PP
 topBarPP = def
   { ppCurrent         = xmobarColor white2 "" . xmobarFont 2 . wrap "=" "="
@@ -31,15 +39,7 @@ topBarPP = def
   , ppWsSep           = " "
   , ppTitle           = xmobarColor white1 "" . shorten 80
   , ppTitleSanitize   = xmobarStrip
-  , ppLayout          = xmobarColor white1 ""
-                          . (\layout -> case isInfixOf "BSP" layout of
-                              True  -> " <fn=1>\57654</fn> "
-                              False -> case isInfixOf "Circle" layout of
-                                True  -> " <fn=1>\57521</fn> "
-                                False -> case isInfixOf "Tall" layout of
-                                  True  -> " <fn=1>\57346</fn> "
-                                  False -> " <fn=1>\57377</fn> " -- ThreeColMid
-                            )
+  , ppLayout          = xmobarColor white1 "" . layoutIcon
   , ppOrder           = id
   , ppSort            = (namedScratchpadFilterOutWorkspace .) <$> getSortByIndex
   , ppExtras          = []
