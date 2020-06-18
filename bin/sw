@@ -1,0 +1,32 @@
+#! /usr/bin/env cached-nix-shell
+#! nix-shell -i bash -p xdo ripgrep gawk
+
+# Swallowing functionality for any WM
+
+# That means you can run graphical programs
+# from command line by avoiding cluttering
+# the screen with many unusable terminals.
+
+# Example usage
+# sw sxiv ~/Pictures/walls
+# sw mpv ~/recordings/video.mp4
+# sw zathura ~/Documents/books/sicp.pdf
+
+file="$XDG_DATA_HOME/unhide"
+app="$1"
+
+tid=$(xdo id)
+
+hidecurrent() {
+	echo "$tid+$app" >>"$file" &
+	xdo hide
+}
+
+showlast() {
+	sid=$(rg "$app" "$file" | awk -F "+" 'END{print $1}')
+	xdo show -r "$sid"
+}
+
+hidecurrent &
+"$@" >/dev/null 2>&1
+showlast
