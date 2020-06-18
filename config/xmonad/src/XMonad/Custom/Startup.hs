@@ -52,9 +52,8 @@ percentFromNumber :: Int -> Float -> Int
 percentFromNumber n p = round (realToFrac n * realToFrac (p / 100))
 
 generateBarPosition :: String -> String
-generateBarPosition bar = case bar of
-  "top" -> printf position topBarYpos width
-  "bot" -> printf position botBarYpos width
+generateBarPosition bar | bar == "top" = printf position topBarYpos width
+                        | bar == "bot" = printf position botBarYpos width
  where
   position   = "'Static { xpos = 12 , ypos = %d , width = %d , height = 24}'"
   (w, h)     = getResolution

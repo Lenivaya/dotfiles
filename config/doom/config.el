@@ -43,8 +43,9 @@
  avy-single-candidate-jump t)
 
 ;; :completions ivy
-;; I prefer search matching to be ordered; it's more precise
-(add-to-list 'ivy-re-builders-alist '(counsel-projectile-find-file . ivy--regex-plus))
+(after! ivy
+  ;; I prefer search matching to be ordered; it's more precise
+  (add-to-list 'ivy-re-builders-alist '(counsel-projectile-find-file . ivy--regex-plus)))
 
 ;; :tools direnv
 ;; Silence all that useless output
@@ -58,11 +59,10 @@
       org-archive-location (concat org-directory ".archive/%s::")
       org-roam-directory (concat org-directory "notes/")
       org-journal-encrypt-journal t
+      org-journal-file-format "%Y%m%d.org"
       org-ellipsis " ▼ "
       org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")
       org-export-in-background t)
-(after! org
-  (add-to-list 'org-modules 'org-habit t))
 
 ;; Treemacs
 (setq

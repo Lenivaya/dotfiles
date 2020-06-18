@@ -23,13 +23,14 @@ promptTheme = def
   , bgHLight          = T.black2
   , borderColor       = T.white2
   , promptBorderWidth = T.border
-  , position          = CenteredAt { xpCenterY = 3 % 10, xpWidth = 9 % 10 }
   , height            = T.height
+  , position          = CenteredAt { xpCenterY = 3 % 10, xpWidth = 9 % 10 }
   , maxComplRows      = Just 5
   , alwaysHighlight   = True
   , searchPredicate   = fuzzyMatch
   , sorter            = fuzzySort
   , promptKeymap      = emacsLikeXPKeymap
+  , autoComplete      = Just 5000
   }
 
 hotPromptTheme = promptTheme { bgColor  = T.black2

@@ -40,8 +40,12 @@
         exec = "st -e $SHELL -c 'qalc'";
         categories = "Development";
       })
-    ] ++ (with pkgs.unstable; [ neovim nnn jgmenu tdesktop pfetch ])
-    ++ (with pkgs.gnome3; [
+      neovim
+      nnn
+      jgmenu
+      tdesktop
+      pfetch
+    ] ++ (with pkgs.gnome3; [
       adwaita-icon-theme
       nautilus
       file-roller

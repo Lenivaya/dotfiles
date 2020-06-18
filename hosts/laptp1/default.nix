@@ -49,7 +49,10 @@
   };
 
   # Jusd don't need picom here
-  my.home.services.picom = with lib; { enable = mkForce false; };
+  my.home.services.picom = with lib; {
+    backend = mkForce "xrender";
+    experimentalBackends = true;
+  };
 
   networking.networkmanager.enable = true;
   time.timeZone = "Europe/Kiev";
@@ -75,9 +78,6 @@
     enable = true;
     package = pkgs.pulseaudioFull;
   };
-
-  # Want latest kernel here (why?)
-  boot.kernelPackages = pkgs.linuxPackages_latest;
 
   # Optimize power use
   environment.systemPackages = [ pkgs.acpi ];

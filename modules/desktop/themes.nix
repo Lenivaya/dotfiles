@@ -23,11 +23,10 @@
     };
   };
 
-  my.home.qt = { enable = true; };
   my.packages = with pkgs; [ adwaita-qt ];
   my.home.xdg.configFile."Trolltech.conf".text = ''
     [Qt]
-    style=adwaita-dark
+    style=Adwaita-Dark
   '';
 
   my.home.home.file.".Xresources".source = <config/xresources/.Xresources>;

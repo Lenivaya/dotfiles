@@ -151,6 +151,7 @@ keysSystem _ =
   , ( "C-S-<Print>"
     , spawn "~/.dotfiles/config/xmonad/scripts/xshot-select-clipboard.sh"
     )
+  , ("M-t c", spawn "~/.dotfiles/config/xmonad/scripts/toggle-compositor.sh")
   ]
 
 keysMedia :: XConfig Layout -> [(String, X ())]

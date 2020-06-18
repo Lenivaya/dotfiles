@@ -15,7 +15,7 @@ in {
       algorithm = "zstd";
       memoryPercent = 25;
       numDevices = 1;
-      priority = 1;
+      priority = 100;
     };
   };
 }
