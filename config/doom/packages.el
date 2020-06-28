@@ -20,3 +20,5 @@
 (package! flx)
 ;; Theme-switching for Emacs based on daytime
 (package! circadian)
+;; Display emojis
+(package! emojify)

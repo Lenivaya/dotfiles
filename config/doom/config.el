@@ -128,3 +128,9 @@
   (setq circadian-themes '(("8:00" . doom-solarized-light)
                            ("19:30" . doom-solarized-dark)))
   (circadian-setup))
+
+(use-package! emojify
+  :defer t
+  :config
+  (setq! emojify-emoji-styles '(unicode github))
+  (global-emojify-mode))
