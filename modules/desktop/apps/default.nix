@@ -8,6 +8,7 @@
     ./rofi.nix
     ./discord.nix
     ./zathura.nix
+    ./sxiv.nix
   ];
 
 }

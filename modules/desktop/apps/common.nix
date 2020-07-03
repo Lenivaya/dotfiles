@@ -16,7 +16,6 @@
       unrar
       ncdu # Disk space usage anlyzer
       android-file-transfer
-      sxiv
       feh
       pandoc # Universal Markup converter
       unoconv # for converting odt to pdf
