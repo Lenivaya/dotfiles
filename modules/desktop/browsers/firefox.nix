@@ -67,9 +67,6 @@ with lib; {
         @-moz-document url(chrome://browser/content/browser.xul),
                         url(chrome://browser/content/browser.xhtml)
         {
-          /* Remove the colored overline on the focused tab */
-          .tabbrowser-tab .tab-line { background: none !important; }
-
           /* Replace favicon on tabs with close button on mouse hover */
           .tabbrowser-tab:not(:hover) .tab-close-button,
           .tabbrowser-tab:not([pinned]):hover .tab-icon-image { display: none !important; }

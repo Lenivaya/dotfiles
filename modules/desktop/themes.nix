@@ -23,11 +23,11 @@
     };
   };
 
-  my.packages = with pkgs; [ adwaita-qt ];
-  my.home.xdg.configFile."Trolltech.conf".text = ''
-    [Qt]
-    style=Adwaita-Dark
-  '';
+  qt5 = {
+    enable = true;
+    platformTheme = "gnome";
+    style = "adwaita";
+  };
 
   my.home.home.file.".Xresources".source = <config/xresources/.Xresources>;
 }

@@ -45,7 +45,8 @@
 ;; :completions ivy
 (after! ivy
   ;; I prefer search matching to be ordered; it's more precise
-  (add-to-list 'ivy-re-builders-alist '(counsel-projectile-find-file . ivy--regex-plus)))
+  (add-to-list 'ivy-re-builders-alist '(counsel-projectile-find-file . ivy--regex-plus))
+  (setq +ivy-buffer-preview t))
 
 ;; :tools direnv
 ;; Silence all that useless output
@@ -77,7 +78,7 @@
 
 (use-package! kdeconnect
   :config
-  (setq kdeconnect-devices "c714076c998c5de4"))
+  (setq kdeconnect-devices "4748ae97492ece89"))
 
 (use-package! which-key-posframe
   :config
@@ -114,14 +115,6 @@
   :mode ("\\.epub\\'" . nov-mode)
   :init
   (setq nov-save-place-file (concat doom-etc-dir "nov-places")))
-
-(use-package company-fuzzy
-  :defer t
-  :init
-  (setq company-fuzzy-sorting-backend 'flx)
-  (setq company-fuzzy-prefix-ontop nil)
-  (with-eval-after-load 'company
-    (global-company-fuzzy-mode t)))
 
 (use-package! circadian
   :config

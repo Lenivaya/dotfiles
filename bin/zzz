@@ -24,9 +24,8 @@ else
 		;;
 	linux*)
 		if command -v betterlockscreen >/dev/null; then
-			pgrep "betterlockscreen" || betterlockscreen -l dim >/dev/null &
+			pgrep "betterlockscreen" || betterlockscreen -l dim >/dev/null
 		fi
-		sleep 5
 		xset dpms force off
 		;;
 	esac

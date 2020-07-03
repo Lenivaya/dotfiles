@@ -12,7 +12,7 @@
 </p>
 
 - OS: NixOS
-- wm: xmonad
+- WM: XMonad
 - sh: zsh (with [fastest plugin-manager](https://github.com/zdharma/zinit))
 - font: Iosevka / IBM Plex
 - browser: google-chrome / Firefox

@@ -15,9 +15,6 @@
 (package! imenu-list)
 ;; Reading EPUBs in emacs
 (package! nov)
-;; comany-fuzzy
-(package! company-fuzzy)
-(package! flx)
 ;; Theme-switching for Emacs based on daytime
 (package! circadian)
 ;; Display emojis

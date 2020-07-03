@@ -1,15 +1,21 @@
 { config, options, lib, pkgs, ... }:
 
-with lib; {
+with lib;
+let cfg = config.modules.desktop.xmonad;
+in {
 
   options.modules.desktop.xmonad = {
     enable = mkOption {
       type = types.bool;
       default = false;
     };
+    withKde = mkOption {
+      type = types.bool;
+      default = false;
+    };
   };
 
-  config = mkIf config.modules.desktop.xmonad.enable {
+  config = mkIf cfg.enable {
     modules.desktop.WM.enable = true;
 
     services.xserver.windowManager.xmonad = {
@@ -44,5 +50,7 @@ with lib; {
 
     modules.desktop.term.st.enable = true;
     modules.desktop.term.default = "st";
+
   };
+
 }
