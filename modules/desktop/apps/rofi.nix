@@ -1,6 +1,8 @@
 { config, options, lib, pkgs, ... }:
 
-with lib; {
+with lib;
+let cfg = config.modules.desktop.apps.rofi;
+in {
   options.modules.desktop.apps.rofi = {
     enable = mkOption {
       type = types.bool;
@@ -8,7 +10,7 @@ with lib; {
     };
   };
 
-  config = mkIf config.modules.desktop.apps.rofi.enable {
+  config = mkIf cfg.enable {
     my.home.programs = {
       rofi = {
         enable = true;
@@ -18,6 +20,7 @@ with lib; {
         theme = "gruvbox-dark-hard";
         extraConfig = ''
           rofi.modi: drun
+          rofi.show-icons: true
         '';
       };
     };
