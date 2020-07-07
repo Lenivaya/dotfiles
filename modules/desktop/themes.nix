@@ -4,8 +4,8 @@
   my.home.gtk.enable = true;
   my.home.gtk = {
     iconTheme = {
-      package = pkgs.paper-icon-theme;
-      name = "Paper";
+      package = pkgs.papirus-icon-theme;
+      name = "Papirus";
     };
     theme = {
       package = pkgs.gnome3.gnome_themes_standard;
