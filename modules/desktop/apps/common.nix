@@ -51,5 +51,5 @@
       file-roller
       gnome-autoar
       eog
-    ]);
+    ]) ++ (with pkgs.cinnamon; [ nemo ]);
 }
