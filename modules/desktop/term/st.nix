@@ -11,7 +11,8 @@ with lib; {
   config = mkIf config.modules.desktop.term.st.enable {
     environment.systemPackages = with pkgs; [
       (st.overrideAttrs (oldAttrs: {
-        buildInputs = with pkgs.xorg; [ libX11 libXft libXcursor ];
+        buildInputs = with pkgs.xorg;
+          [ libX11 libXft libXcursor ] ++ (with pkgs; [ harfbuzz ]);
         src = fetchGit { url = "https://github.com/Lenivaya/st"; };
       }))
 
