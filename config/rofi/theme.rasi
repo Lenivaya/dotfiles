@@ -1,0 +1,108 @@
+/* color definition */
+
+* {
+	bg: #0d0e12;
+	fg: #1c1d21;
+	bc: #0d0e12;
+
+	ibg: #0d0e12;
+	ibc: #846358;
+
+	abg: #87939c;
+	afg: #d5d5d5;
+
+	ebg: #0d0e12;
+	efg: #846358;
+	sbg: #121317;
+	sfg: #979392;
+	sul: #121317;
+
+	lpc: #979392;
+	dpc: #121317;
+	btc: #0d0e12;
+	sbtc: #0d0e12;
+	btbc: #0d0e12;
+
+	background-color: @bg;
+}
+
+#window {
+	border: 3px;
+	border-color: @bc;
+}
+
+#element.normal.normal {
+	text-color:       @fg;
+	background-color: @bg;
+}
+
+#element.normal.active {
+	text-color:       @afg;
+	background-color: @abg;
+}
+
+#element.urgent.normal {
+	text-color:       @fg;
+	background-color: @bg;
+}
+
+#element.selected.normal {
+	text-color:       @sfg;
+	background-color: @sbg;
+}
+
+#element.selected.active {
+	text-color:       @afg;
+	background-color: @abg;
+}
+
+#element.selected.normal, element.selected.active {
+	border-color: @sul;
+}
+
+#element.alternate.normal {
+	text-color:       @fg;
+	background-color: @bg;
+}
+
+#element.alternate.urgent {
+	text-color:       @fg;
+	background-color: @bg;
+}
+
+#element.alternate.active {
+	text-color:       @afg;
+	background-color: @abg;
+}
+
+#inputbar {
+	border:           0 0 2px;
+	border-color:     @ibc;
+	background-color: @ibg;
+}
+
+#entry {
+	text-color: @sfg;
+}
+
+#prompt {
+	text-color: @fg;
+}
+
+#textbox-prompt-colon {
+	text-color: @fg;
+}
+
+#sidebar {
+	margin: 10px 0 0 0;
+	border: 2px;
+	border-color: @btbc;
+}
+
+#button normal {
+	color: @btc;
+}
+
+#button selected {
+	color: @sbtc;
+}

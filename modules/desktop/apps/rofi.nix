@@ -14,15 +14,23 @@ in {
     my.home.programs = {
       rofi = {
         enable = true;
+        # package = pkgs.rofi.override {
+        #   plugins = [ rofi-emoji rofi-calc rofi-file-browser ];
+        # };
         lines = 10;
-        scrollbar = true;
-        cycle = true;
-        theme = "gruvbox-dark-hard";
+        theme = "list";
         extraConfig = ''
+          # rofi.modi: combi
+          # rofi.combi-modi: drun,calc,file-browser
           rofi.modi: drun
           rofi.show-icons: true
         '';
       };
+    };
+
+    my.home.xdg.configFile."rofi" = {
+      source = <config/rofi>;
+      recursive = true;
     };
 
     my.packages = with pkgs; [

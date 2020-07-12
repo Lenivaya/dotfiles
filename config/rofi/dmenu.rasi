@@ -1,0 +1,60 @@
+/* dmenu config */
+
+@import "theme"
+
+#window {
+	margin:     71px 200px;
+	anchor:     north;
+	location:   north;
+	width:      100%;
+	padding:    0px;
+	children:   [ horibox ];
+}
+
+#horibox {
+	spacing:     0px;
+	orientation: horizontal;
+	children:    [ inputbar, listview ];
+}
+
+#listview {
+	layout:      horizontal;
+	spacing:     0px;
+	lines:       100;
+}
+
+#element {
+	padding:      3px 20px;
+}
+
+#element.selected.normal, element.selected.active {
+	border:       0 0 2px;
+}
+
+#inputbar {
+	border:           0;
+	padding:          3px 3px;
+	children:         [ textbox-prompt-colon, entry ];
+	background-color: @ibg;
+}
+
+#entry {
+	width:        10em;
+	expand:       false;
+	background-color: @ibg;
+	margin:       0 0 -1px;
+}
+
+#prompt {
+	padding:      0px 3px;
+	margin:       0 0 0 2px;
+	background-color: @ibg;
+}
+
+#textbox-prompt-colon {
+	str:          "";
+	color:        @dpc;
+	expand:       false;
+	background-color: @ibg;
+	margin:       1px 3px -1px;
+}

@@ -1,0 +1,51 @@
+/* list config */
+
+@import "theme"
+
+#mainbox {
+	spacing: 0;
+	font:    "monospace 12";
+}
+
+#window {
+	width:          30%;
+	padding:        20px;
+}
+
+#listview {
+	padding:        0px 0px;
+	scrollbar:      false;
+	vertical-align: 0.5;
+}
+
+#inputbar {
+	margin:           0 0 10px;
+	padding:          5px 5px;
+	children:         [ prompt, entry ];
+}
+
+#entry {
+	background-color: @ibg;
+}
+
+#prompt {
+	background-color: @ibg;
+	margin:           0 2px 0 0;
+	color:            @lpc;
+}
+
+#textbox-prompt-colon {
+	str:              "";
+	color:            @lpc;
+	margin:           1px 2px 0 0;
+	expand:           false;
+	background-color: @ibg;
+}
+
+#element {
+	padding:        5px 5px;
+}
+
+sidebar {
+	color:          @fg;
+}
