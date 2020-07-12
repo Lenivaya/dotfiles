@@ -1,19 +1,24 @@
 /* list config */
 
+configuration {
+fixed-num-lines: false;
+}
+
 @import "theme"
 
 #mainbox {
-	spacing: 0;
 	font:    "monospace 12";
 }
 
 #window {
+    location:       center;
+    anchor:         center;
+    orientation:    horizontal;
 	width:          30%;
 	padding:        20px;
 }
 
 #listview {
-	padding:        0px 0px;
 	scrollbar:      false;
 	vertical-align: 0.5;
 }
