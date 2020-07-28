@@ -5,7 +5,10 @@
     enable = true;
     time = 5;
     locker = "${pkgs.betterlockscreen}/bin/betterlockscreen -l dim";
-    extraOptions = [ "-lockaftersleep" ];
+    notifier = ''
+      ${pkgs.libnotify}/bin/notify-send "Locking in 10 seconds"
+    '';
+    extraOptions = [ "-lockaftersleep" "-corners ----" ];
   };
 
   my.packages = with pkgs.unstable; [ betterlockscreen ];
