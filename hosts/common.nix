@@ -3,6 +3,8 @@
 {
   environment.systemPackages = with pkgs; [ binutils curl xclip xorg.xkill ];
 
+  networking.networkmanager.enable = true;
+
   # Auto-mount
   programs = {
     gnome-disks.enable = true;

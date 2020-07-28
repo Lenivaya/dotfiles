@@ -48,7 +48,6 @@
     zram.enable = true;
   };
 
-  networking.networkmanager.enable = true;
   time.timeZone = "Europe/Kiev";
   location.provider = "geoclue2";
 
