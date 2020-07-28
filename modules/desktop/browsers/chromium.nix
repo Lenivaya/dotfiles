@@ -48,7 +48,7 @@ in with lib; {
 
     modules.desktop.browsers.chromium.flags = [
       # Dark theme
-      "--force-dark-mode"
+      # "--force-dark-mode"
       # "--enable-features=WebUIDarkMode"
 
       # GPU acceleration
