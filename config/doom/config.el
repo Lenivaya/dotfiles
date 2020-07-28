@@ -80,13 +80,6 @@
   :config
   (setq kdeconnect-devices "4748ae97492ece89"))
 
-(use-package! which-key-posframe
-  :config
-  (setq
-   which-key-posframe-border-width 0
-   which-key-posframe-poshandler #'posframe-poshandler-frame-center)
-  (which-key-posframe-mode 1))
-
 (use-package! deadgrep
   :defer t
   :init

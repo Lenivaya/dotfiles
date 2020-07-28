@@ -7,8 +7,6 @@
 (package! speed-type)
 ;; Search in stackoverflow and it's sisters sites
 (package! howdoyou)
-;; postframe to show which-key popup
-(package! which-key-posframe)
 ;; Fast and beautiful text search
 (package! deadgrep)
 ;; sideline buffer navigator powered by imenu
