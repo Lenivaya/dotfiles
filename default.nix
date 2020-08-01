@@ -17,6 +17,7 @@ device: username:
     };
   };
 
+  # Monthly updates
   system.autoUpgrade = {
     enable = true;
     dates = "monthly";

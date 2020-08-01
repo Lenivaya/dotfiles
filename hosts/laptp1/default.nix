@@ -67,6 +67,8 @@
     useGlamor = true;
   };
 
+  zramSwap.memoryPercent = lib.mkForce 50;
+
   # Fix weird graphical glitches
   # https://github.com/NixOS/nixpkgs/issues/86212#issuecomment-64023258
   hardware.opengl.package = (import (pkgs.fetchzip {
@@ -84,4 +86,7 @@
   # Optimize power use
   environment.systemPackages = [ pkgs.acpi ];
   powerManagement.powertop.enable = true;
+
+  # Latest kernel
+  boot.kernelPackages = pkgs.linuxPackages_latest;
 }
