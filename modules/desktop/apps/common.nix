@@ -43,9 +43,8 @@
       neovim
       nnn
       jgmenu
-      tdesktop
       pfetch
-    ] ++ (with pkgs.gnome3; [
+    ] ++ (with pkgs.unstable; [ tdesktop ]) ++ (with pkgs.gnome3; [
       adwaita-icon-theme
       nautilus
       file-roller
