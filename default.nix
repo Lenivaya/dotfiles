@@ -5,7 +5,11 @@ device: username:
   networking.hostName = lib.mkDefault device;
   my.username = username;
 
-  imports = [ ./modules "${./hosts}/${device}" ];
+  imports = [ ./modules "${./hosts}/${device}" ]
+    ++ (if builtins.pathExists (/etc/nixos/cachix.nix) then
+      [ /etc/nixos/cachix.nix ]
+    else
+      [ ]);
 
   ### NixOS
   nix = {
@@ -48,14 +52,17 @@ device: username:
     vim
     wget
     sshfs
+    cachix
+    (writeScriptBin "nix-shell" ''
+      #!${stdenv.shell}
+      NIX_PATH="nixpkgs-overlays=/etc/dotfiles/packages/default.nix:$NIX_PATH" ${nix}/bin/nix-shell "$@"
+    '')
 
     gnumake # for makefile
     pkgs.my.cached-nix-shell # for instant nix-shell scripts
   ];
   environment.shellAliases = {
     nix-env = "NIXPKGS_ALLOW_UNFREE=1 nix-env";
-    nix-shell = ''
-      NIX_PATH="nixpkgs-overlays=/etc/dotfiles/packages/default.nix:$NIX_PATH" nix-shell'';
     nsh = "nix-shell";
     nen = "nix-env";
     dots = "make -C ~/.dotfiles";
