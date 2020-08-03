@@ -69,6 +69,8 @@
 (setq
  treemacs-width 32)
 
+;; Rust
+(setq rustic-lsp-server 'rust-analyzer)
 
 ;;
 ;;; Packages
