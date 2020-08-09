@@ -1,7 +1,7 @@
 Config { font = "xft:monospace:style=Regular:pixelsize=11"
        , additionalFonts = [ "xft:Siji:style=Regular"
                            , "xft:monospace:style=Regular:pixelsize=11"
-                           , "xft:Weather Icons:style=Regular:pixelsize=11"
+                           , "xft:Weather Icons:style=Regular:pixelsize=10"
                            ]
        , bgColor = "#0b0806"
        , fgColor = "#a19782"
