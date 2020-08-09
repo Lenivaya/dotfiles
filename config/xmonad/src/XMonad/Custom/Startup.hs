@@ -6,7 +6,6 @@ where
 import           Control.Monad
 import           Text.Printf
 import           Data.Maybe
-import           System.IO.Unsafe
 import           Graphics.Gloss.Interface.Environment
 import           XMonad                  hiding ( startupHook )
 import           XMonad.Hooks.ManageDocks
@@ -43,33 +42,37 @@ addEWMHFullscreen = do
   mapM_ addNETSupported s
 
 
-getResolution :: (Int, Int)
-getResolution = unsafePerformIO $ do
-  resolution <- getScreenSize
-  return resolution
-
 percentFromNumber :: Int -> Float -> Int
 percentFromNumber n p = round (realToFrac n * realToFrac (p / 100))
 
-generateBarPosition :: String -> String
-generateBarPosition bar | bar == "top" = printf position topBarYpos width
-                        | bar == "bot" = printf position botBarYpos width
+generateBarPosition :: (Int, Int) -> String -> String
+generateBarPosition (w, h) pos | pos == "top" = printf position topBarYpos width
+                               | pos == "bot" = printf position botBarYpos width
  where
   position   = "'Static { xpos = 12 , ypos = %d , width = %d , height = 24}'"
-  (w, h)     = getResolution
   width      = w - 24
   botBarYpos = (h - (percentFromNumber h 1.0)) - 24
   topBarYpos = percentFromNumber h 1.0
 
-topBarCommand = "xmobar ~/.dotfiles/config/xmonad/xmobarrc/top.hs -p "
-  ++ generateBarPosition "top"
-botBarCommand = "xmobar ~/.dotfiles/config/xmonad/xmobarrc/bot.hs -p "
-  ++ generateBarPosition "bot"
+
+barCommand :: (Int, Int) -> String -> String
+barCommand res pos
+  | pos == "top"
+  = "xmobar ~/.dotfiles/config/xmonad/xmobarrc/top.hs -p "
+    ++ generateBarPosition res pos
+  | pos == "bot"
+  = "xmobar ~/.dotfiles/config/xmonad/xmobarrc/bot.hs -p "
+    ++ generateBarPosition res pos
+
+spawnXmobar :: X ()
+spawnXmobar = do
+  resolution <- liftIO $ getScreenSize
+  spawnNamedPipe (barCommand resolution "top") "xmobarTop"
+  spawnNamedPipe (barCommand resolution "bot") "xmobarBot"
 
 startupHook :: X ()
 startupHook = do
-  spawnNamedPipe topBarCommand "xmobarTop"
-  spawnNamedPipe botBarCommand "xmobarBot"
+  spawnXmobar
   docksStartupHook
   addEWMHFullscreen
   -- spawnOnce "xsetroot -cursor_name left_ptr"
