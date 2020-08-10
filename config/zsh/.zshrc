@@ -1,6 +1,6 @@
 if [[ ! -d $HOME/.zinit ]]; then
     print -P "Installing Plugin Manager (zdharma/zinit)…"
-    command mkdir -p ~/.zinit
+    command mkdir -p ~/.zinit && mkdir -p ~/.zinit/completions
     command git clone https://github.com/zdharma/zinit ~/.zinit/bin && \
         print -P "%F{33}▓▒░ %F{34}Installation successful.%f" || \
         print -P "%F{160}▓▒░ The clone has failed.%f"
@@ -11,6 +11,9 @@ _set_cursor() {
    echo -ne '\e[5 q'
 }
 precmd_functions+=(_set_cursor)
+
+## System provided completions
+fpath+=( /run/current-system/sw/share/zsh/site-functions )
 
 source ~/.zinit/bin/zinit.zsh
 autoload -Uz _zinit
@@ -27,15 +30,24 @@ zinit wait lucid light-mode for \
         OMZL::directories.zsh \
         OMZL::spectrum.zsh \
         OMZL::history.zsh \
-        OMZL::completion.zsh \
         OMZL::theme-and-appearance.zsh
 
 zinit light-mode for \
         OMZL::key-bindings.zsh \
         OMZL::termsupport.zsh \
 
+zinit wait"0b" lucid light-mode for \
+    pick'autopair.zsh' nocompletions \
+        hlissner/zsh-autopair \
+    atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
+        zdharma/fast-syntax-highlighting \
+    silent atload"!_zsh_autosuggest_start && bindkey '^ ' autosuggest-accept" \
+        zsh-users/zsh-autosuggestions \
+    atload"zicompinit; zicdreplay" blockf \
+        zsh-users/zsh-completions \
+
 ## In turbo mode
-zinit wait lucid light-mode for \
+zinit wait"0c" lucid light-mode for \
         Aloxaf/fzf-tab \
         zsh-users/zsh-history-substring-search \
         Tarrasch/zsh-bd \
@@ -51,35 +63,23 @@ zinit wait lucid light-mode for \
         pick"tldr" raylee/tldr \
     as"completion" \
         OMZP::docker/_docker \
+        OMZL::completion.zsh \
         ninrod/pass-zsh-completion \
         spwhitt/nix-zsh-completions \
         lukechilds/zsh-better-npm-completion \
         srijanshetty/zsh-pandoc-completion \
-        thetic/extract
+        thetic/extract \
+        atinit='ZSH_BASH_COMPLETIONS_FALLBACK_LAZYLOAD_DISABLE=true' \
+            3v1n0/zsh-bash-completions-fallback
 
-
-## light
-zinit light-mode for \
-       softmoth/zsh-vim-mode \
+zinit wait"0a" lucid for \
+        softmoth/zsh-vim-mode \
 
 
 # fzf
 zinit wait lucid from"gh-r" as"program" \
       atload"[ -f $ZDOTDIR/.fzf-keys.zsh ] && source $ZDOTDIR/.fzf-keys.zsh" for \
                junegunn/fzf-bin
-
-
-
-zinit wait lucid light-mode for \
-    pick'autopair.zsh' nocompletions \
-        hlissner/zsh-autopair \
-    silent atload"!_zsh_autosuggest_start && bindkey '^ ' autosuggest-accept" \
-        zsh-users/zsh-autosuggestions \
-    atinit'zpcompinit; zpcdreplay' \
-        zdharma/fast-syntax-highlighting
-# Recommended Be Loaded Last.
-zinit ice wait blockf lucid atpull'zinit creinstall -q .'
-zinit load zsh-users/zsh-completions
 
 
 eval "$(starship init zsh)"
