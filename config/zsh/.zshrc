@@ -29,12 +29,12 @@ zinit wait lucid light-mode for \
         OMZL::compfix.zsh \
         OMZL::directories.zsh \
         OMZL::spectrum.zsh \
-        OMZL::history.zsh \
         OMZL::theme-and-appearance.zsh
 
 zinit light-mode for \
         OMZL::key-bindings.zsh \
         OMZL::termsupport.zsh \
+        OMZL::history.zsh \
 
 zinit wait"0b" lucid light-mode for \
     pick'autopair.zsh' nocompletions \
@@ -59,6 +59,9 @@ zinit wait"0c" lucid light-mode for \
         zdharma/zui \
         zinit-zsh/zinit-console \
         chisui/zsh-nix-shell \
+        kutsan/zsh-system-clipboard \
+        b4b4r07/emoji-cli \
+        sinetoami/web-search \
     as"program" \
         pick"tldr" raylee/tldr \
     as"completion" \
