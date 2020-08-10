@@ -8,7 +8,6 @@ with import <home-manager/modules/lib/dag.nix> { inherit lib; }; {
 
   my.home.programs.broot.enable = true;
 
-
   # my.home.xdg.configFile."zsh" = {
   #   source = <config/zsh>;
   #   recursive = true;
@@ -38,7 +37,6 @@ with import <home-manager/modules/lib/dag.nix> { inherit lib; }; {
     enable = true;
 
     # Slow
-    enableCompletion = false;
     enableGlobalCompInit = false;
     promptInit = "";
     setOptions = [ ];
