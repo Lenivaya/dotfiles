@@ -88,5 +88,5 @@
   powerManagement.powertop.enable = true;
 
   # Latest kernel
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = pkgs.unstable.linuxPackages_zen;
 }
