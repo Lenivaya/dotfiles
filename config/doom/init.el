@@ -31,6 +31,7 @@
        ;; fill-column       ; a `fill-column' indicator
        hl-todo           ; highlight TODO/FIXME/NOTE tags
        indent-guides     ; highlighted indent columns
+       ligatures         ; ligatures and symbols to make your code pretty again
        minimap           ; show a map of the code on the side
        (modeline +light)          ; snazzy, Atom-inspired modeline, plus API
        nav-flash         ; blink the current line after jumping
@@ -39,7 +40,6 @@
        (popup            ; tame sudden yet inevitable temporary windows
         ;; +all             ; catch all popups that start with an asterix
         +defaults)       ; default popup rules
-       (pretty-code +iosevka)       ; replace bits of code with pretty symbols
        ;;tabs            ; FIXME an (incomplete) tab bar for Emacs
        treemacs          ; a project drawer, like neotree but cooler
        unicode           ; extended unicode support for various languages
@@ -80,7 +80,7 @@
        :checkers
        (syntax
         +childframe)            ; tasing you for every semicolon you forget
-       spell             ; tasing you for misspelling mispelling
+       (spell +everywhere)             ; tasing you for misspelling mispelling
        grammar
 
        :tools
@@ -110,6 +110,9 @@
        ;;upload            ; map local to remote projects via ssh/ftp
        ;;wakatime
 
+       :os
+       tty               ; improve the terminal Emacs experience
+
        :lang
        ;;agda              ; types of types of types of types...
        ;;assembly          ; assembly for fun or debugging
@@ -120,6 +123,7 @@
        ;;crystal           ; ruby at the speed of c
        ;;csharp            ; unity, .NET, and mono shenanigans
        data              ; config/data formats
+       (dart +flutter +lsp)   ; paint ui and not much else
        ;;erlang            ; an elegant language for a more civilized age
        ;;elixir            ; erlang done right
        ;;elm               ; care for a cup of TEA?
@@ -133,7 +137,7 @@
        ;;(java +meghanada) ; the poster child for carpal tunnel syndrome
        (javascript +lsp)        ; all(hope(abandon(ye(who(enter(here))))))
        ;;julia             ; a better, faster MATLAB
-       ;; kotlin            ; a better, slicker Java(Script)
+       kotlin            ; a better, slicker Java(Script)
        (latex
         +lsp
         +cdlatex
