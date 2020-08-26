@@ -18,6 +18,7 @@ in {
     ./shell
     ./bootAnimation
     ./zram-swap.nix
+    ./hosts.nix
   ];
 
   options = {
