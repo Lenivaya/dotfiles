@@ -12,7 +12,7 @@ with import <home-manager/modules/lib/dag.nix> { inherit lib; }; {
   config = mkIf config.modules.editors.emacs.enable {
     my = {
       packages = with pkgs; [
-        emacs
+        unstable.emacs
         ## Doom dependencies
         git
         (ripgrep.override { withPCRE2 = true; })
