@@ -46,6 +46,7 @@
     };
 
     zram.enable = true;
+    hosts.enable = true;
   };
 
   time.timeZone = "Europe/Kiev";
