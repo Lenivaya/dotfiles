@@ -17,3 +17,9 @@
 (package! circadian)
 ;; Display emojis
 (package! emojify)
+;; Automatically toggle org-mode latex fragment previews as the cursor enters and exits them
+(package! org-fragtog)
+;; Make your Emacs sound like a proper typewriter.
+(package! selectric-mode)
+;; Recipes by url
+(package! org-chef)

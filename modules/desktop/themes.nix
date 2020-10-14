@@ -1,8 +1,8 @@
 { config, lib, pkgs, ... }:
 
-{
-  my.home.gtk.enable = true;
-  my.home.gtk = {
+with lib.my; {
+  home.gtk.enable = true;
+  home.gtk = {
     iconTheme = {
       package = pkgs.papirus-icon-theme;
       name = "Papirus";
@@ -29,5 +29,5 @@
     style = "adwaita";
   };
 
-  my.home.home.file.".Xresources".source = <config/xresources/.Xresources>;
+  home.file.".Xresources".source = <config/xresources/.Xresources>;
 }

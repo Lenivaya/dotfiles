@@ -1,14 +1,12 @@
-{ config, options, lib, pkgs, ... }:
+{ options, config, lib, pkgs, ... }:
 
-with lib; {
-  options.modules.desktop.term.st = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-  };
+with lib;
+with lib.my;
+let cfg = config.modules.desktop.term.st;
+in {
+  options.modules.desktop.term.st = { enable = mkBoolOpt false; };
 
-  config = mkIf config.modules.desktop.term.st.enable {
+  config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
       (st.overrideAttrs (oldAttrs: {
         buildInputs = with pkgs.xorg;

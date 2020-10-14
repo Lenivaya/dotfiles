@@ -1,15 +1,19 @@
-{ lib, pkgs, ... }: {
-  my = {
-    packages = with pkgs; [
+{ config, options, lib, pkgs, my, ... }:
+
+with lib;
+with lib.my;
+let cfg = config.modules.dev.python;
+in {
+  options.modules.dev.python = { enable = mkBoolOpt false; };
+
+  config = mkIf cfg.enable {
+    user.packages = with pkgs; [
       python37
       python37Packages.pip
       python37Packages.ipython
       python37Packages.black
       python37Packages.setuptools
       python37Packages.pylint
-      python37Packages.pyflakes
-      python37Packages.isort
-      python37Packages.pytest
       python37Packages.poetry
     ];
 
@@ -22,5 +26,13 @@
     env.PYTHON_EGG_CACHE = "$XDG_CACHE_HOME/python-eggs";
     env.JUPYTER_CONFIG_DIR = "$XDG_CONFIG_HOME/jupyter";
 
+    environment.shellAliases = {
+      py = "python";
+      py2 = "python2";
+      py3 = "python3";
+      po = "poetry";
+      ipy = "ipython --no-banner";
+      ipylab = "ipython --pylab=qt5 --no-banner";
+    };
   };
 }

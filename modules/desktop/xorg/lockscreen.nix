@@ -1,9 +1,9 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
-{
-  my.packages = with pkgs; [ betterlockscreen xidlehook ];
+with lib.my; {
+  user.packages = with pkgs; [ betterlockscreen xidlehook ];
 
-  my.home.xdg.configFile."betterlockscreenrc" = {
+  home.configFile."betterlockscreenrc" = {
     source = <config/betterlockscreen/betterlockscreenrc>;
     recursive = true;
   };

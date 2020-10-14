@@ -31,6 +31,9 @@
 (setq doom-modeline-buffer-encoding nil
       +modeline-encoding nil)
 
+ ;; Let’s make this popup a bit faster
+(setq which-key-idle-delay 0.5)
+
 
 ;;
 ;;; Modules
@@ -57,13 +60,14 @@
 
 ;; :lang org
 (setq org-directory "~/org/"
-      org-archive-location (concat org-directory ".archive/%s::")
-      org-roam-directory (concat org-directory "notes/")
-      org-journal-encrypt-journal t
-      org-journal-file-format "%Y%m%d.org"
-      org-ellipsis " ▼ "
-      org-superstar-headline-bullets-list '("☰" "☱" "☲" "☳" "☴" "☵" "☶" "☷" "☷" "☷" "☷")
-      org-export-in-background t)
+        org-archive-location (concat org-directory ".archive/%s::")
+        org-roam-directory (concat org-directory "notes/")
+        org-journal-encrypt-journal t
+        org-journal-file-format "%Y%m%d.org"
+        org-ellipsis " ▼ "
+        org-export-in-background t)
+(add-hook 'org-mode-hook 'org-fragtog-mode)
+
 
 ;; Treemacs
 (setq
@@ -80,7 +84,7 @@
 
 (use-package! kdeconnect
   :config
-  (setq kdeconnect-devices "4748ae97492ece89"))
+  (setq kdeconnect-devices "4c8f091b19eceabb"))
 
 (use-package! deadgrep
   :defer t
@@ -122,3 +126,6 @@
   :config
   (setq! emojify-emoji-styles '(unicode github))
   (global-emojify-mode))
+
+
+(use-package! org-chef)

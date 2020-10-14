@@ -1,15 +1,11 @@
-{ config, options, lib, pkgs, ... }:
+{ options, config, lib, pkgs, ... }:
 
-with lib; {
+with lib.my;
+let cfg = config.modules.services.kdeconnect;
+in {
+  options.modules.services.kdeconnect = { enable = mkBoolOpt false; };
 
-  options.modules.services.kdeconnect = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-  };
-
-  config = mkIf config.modules.services.kdeconnect.enable {
+  config = mkIf cfg.enable {
     # Open ports
     networking = {
       firewall.allowedTCPPortRanges = [{
