@@ -1,4 +1,5 @@
 { config, options, lib, ... }:
+
 with lib;
 let cfg = config.modules.zram;
 in {
@@ -12,7 +13,7 @@ in {
   config = mkIf cfg.enable {
     zramSwap = {
       enable = true;
-      algorithm = "zstd";
+      algorithm = "lz4";
       memoryPercent = 25;
       numDevices = 1;
     };

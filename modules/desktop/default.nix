@@ -1,7 +1,8 @@
-{ config, lib, pkgs, ... }:
+{ config, options, lib, pkgs, ... }:
 
-{
-  imports = [ ./apps ./term ./browsers ./fonts ./xorg ./wayland ./themes.nix ];
+with lib;
+with lib.my; {
+  # imports = [ ./apps ./term ./browsers ./fonts ./xorg ./wayland ./themes.nix ];
   services.xserver = {
     enable = true;
     desktopManager.xterm.enable = lib.mkDefault false;

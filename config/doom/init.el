@@ -33,7 +33,7 @@
        indent-guides     ; highlighted indent columns
        ligatures         ; ligatures and symbols to make your code pretty again
        minimap           ; show a map of the code on the side
-       (modeline +light)          ; snazzy, Atom-inspired modeline, plus API
+       modeline          ; snazzy, Atom-inspired modeline, plus API
        nav-flash         ; blink the current line after jumping
        ;;neotree           ; a project drawer, like NERDTree for vim
        ophints           ; highlight the region an operation acts on
@@ -80,7 +80,7 @@
        :checkers
        (syntax
         +childframe)            ; tasing you for every semicolon you forget
-       (spell +everywhere)             ; tasing you for misspelling mispelling
+       spell              ; tasing you for misspelling mispelling
        grammar
 
        :tools
@@ -150,6 +150,7 @@
        nix               ; I hereby declare "nix geht mehr!"
        ;;ocaml             ; an objective camel
        (org              ; organize your plain life in plain text
+        +pretty
         +pandoc
         +dragndrop       ; file drag & drop support
         +present         ; using Emacs for presentations

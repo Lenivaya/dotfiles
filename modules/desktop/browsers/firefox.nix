@@ -1,25 +1,22 @@
 { config, options, lib, pkgs, ... }:
 
-with lib; {
+with lib;
+with lib.my;
+let cfg = config.modules.desktop.browsers.firefox;
+in {
   options.modules.desktop.browsers.firefox = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-    profileName = mkOption {
-      type = types.str;
-      default = config.my.username;
-    };
+    enable = mkBoolOpt false;
+    profileName = mkOpt types.str config.user.name;
   };
 
-  config = mkIf config.modules.desktop.browsers.firefox.enable {
+  config = mkIf cfg.enable {
 
-    my.home.programs.firefox = {
+    programs.firefox = {
       enable = true;
       package = pkgs.firefox;
     };
 
-    my.packages = with pkgs;
+    user.packages = with pkgs;
       [
         (makeDesktopItem {
           name = "firefox-private";
@@ -31,10 +28,9 @@ with lib; {
         })
       ];
 
-    my.env.XDG_DESKTOP_DIR = "$HOME"; # prevent firefox creating ~/Desktop
+    env.XDG_DESKTOP_DIR = "$HOME"; # prevent firefox creating ~/Desktop
 
-    my.home.home.file = let cfg = config.modules.desktop.browsers.firefox;
-    in {
+    home.file = {
       ".mozilla/firefox/profiles.ini".text = ''
         [Profile0]
         Name=default
@@ -47,7 +43,7 @@ with lib; {
       '';
     };
 
-    my.home.programs.firefox.profiles.default = {
+    programs.firefox.profiles.default = {
       settings = {
         "browser.tabs.closeWindowWithLastTab" = false;
         "browser.tabs.insertAfterCurrent" = true;
@@ -59,6 +55,50 @@ with lib; {
         "layers.omtp.enabled" = true;
         "layout.display-list.retain" = true;
         "layout.display-list.retain.chrome" = true;
+
+        # Do not check if Firefox is the default browser
+        "browser.shell.checkDefaultBrowser" = false;
+        # Disable new tab tile ads & preload
+        # http://www.thewindowsclub.com/disable-remove-ad-tiles-from-firefox
+        # http://forums.mozillazine.org/viewtopic.php?p=13876331#p13876331
+        # https://wiki.mozilla.org/Tiles/Technical_Documentation#Ping
+        # https://gecko.readthedocs.org/en/latest/browser/browser/DirectoryLinksProvider.html#browser-newtabpage-directory-source
+        # https://gecko.readthedocs.org/en/latest/browser/browser/DirectoryLinksProvider.html#browser-newtabpage-directory-ping
+        "browser.newtabpage.enhanced" = false;
+        "browser.newtab.preload" = false;
+        "browser.newtabpage.directory.ping" = "";
+        "browser.newtabpage.directory.source" = "data:text/plain,{}";
+        # Disable some not so useful functionality.
+        "extensions.htmlaboutaddons.recommendations.enabled" = false;
+        "extensions.htmlaboutaddons.discover.enabled" = false;
+        "extensions.pocket.enabled" = false;
+        "app.normandy.enabled" = false;
+        "app.normandy.api_url" = "";
+        "extensions.shield-recipe-client.enabled" = false;
+        "app.shield.optoutstudies.enabled" = false;
+        # Disable telemetry
+        # https://wiki.mozilla.org/Platform/Features/Telemetry
+        # https://wiki.mozilla.org/Privacy/Reviews/Telemetry
+        # https://wiki.mozilla.org/Telemetry
+        # https://www.mozilla.org/en-US/legal/privacy/firefox.html#telemetry
+        # https://support.mozilla.org/t5/Firefox-crashes/Mozilla-Crash-Reporter/ta-p/1715
+        # https://wiki.mozilla.org/Security/Reviews/Firefox6/ReviewNotes/telemetry
+        # https://gecko.readthedocs.io/en/latest/browser/experiments/experiments/manifest.html
+        # https://wiki.mozilla.org/Telemetry/Experiments
+        # https://support.mozilla.org/en-US/questions/1197144
+        # https://firefox-source-docs.mozilla.org/toolkit/components/telemetry/telemetry/internals/preferences.html#id1
+        "toolkit.telemetry.enabled" = false;
+        "toolkit.telemetry.unified" = false;
+        "toolkit.telemetry.archive.enabled" = false;
+        "experiments.supported" = false;
+        "experiments.enabled" = false;
+        "experiments.manifest.uri" = "";
+        # Disable health reports (basically more telemetry)
+        # https://support.mozilla.org/en-US/kb/firefox-health-report-understand-your-browser-perf
+        # https://gecko.readthedocs.org/en/latest/toolkit/components/telemetry/telemetry/preferences.html
+        "datareporting.healthreport.uploadEnabled" = false;
+        "datareporting.healthreport.service.enabled" = false;
+        "datareporting.policy.dataSubmissionEnabled" = false;
       };
 
       userChrome = ''

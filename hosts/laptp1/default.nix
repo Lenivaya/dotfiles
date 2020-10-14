@@ -1,6 +1,6 @@
 # laptp1 -- my laptop
 
-{ pkgs, options, config, lib, ... }: {
+{ pkgs, lib, ... }: {
   imports = [ ../common.nix ./hardware-configuration.nix ];
 
   modules = {
@@ -31,8 +31,9 @@
 
     shell = {
       gnupg.enable = true;
-      pass.enable = true;
       direnv.enable = true;
+      pass.enable = true;
+      git.enable = true;
     };
 
     editors = {
@@ -67,8 +68,6 @@
     '';
     useGlamor = true;
   };
-
-  zramSwap.memoryPercent = lib.mkForce 50;
 
   # Fix weird graphical glitches
   # https://github.com/NixOS/nixpkgs/issues/86212#issuecomment-64023258

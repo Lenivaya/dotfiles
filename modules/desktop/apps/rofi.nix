@@ -1,17 +1,12 @@
 { config, options, lib, pkgs, ... }:
 
-with lib;
+with lib.my;
 let cfg = config.modules.desktop.apps.rofi;
 in {
-  options.modules.desktop.apps.rofi = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-  };
+  options.modules.desktop.apps.rofi = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
-    my.home.programs = {
+    user.home.programs = {
       rofi = {
         enable = true;
         # package = pkgs.rofi.override {
@@ -28,12 +23,12 @@ in {
       };
     };
 
-    my.home.xdg.configFile."rofi" = {
+    user.home.xdg.configFile."rofi" = {
       source = <config/rofi>;
       recursive = true;
     };
 
-    my.packages = with pkgs; [
+    user.packages = with pkgs; [
       (makeDesktopItem {
         name = "reboot";
         desktopName = "System: Reboot";

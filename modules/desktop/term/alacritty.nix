@@ -1,21 +1,17 @@
-{ config, lib, pkgs, ... }:
+{ options, config, lib, pkgs, ... }:
 
-with lib; {
-  options.modules.desktop.term.alacritty = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-  };
+with lib;
+with lib.my;
+let cfg = config.modules.desktop.term.alcritty;
+in {
+  options.modules.desktop.term.alacritty = { enable = mkBoolOpt false; };
 
-  config = mkIf config.modules.desktop.term.alacritty.enable {
-    my = {
-      packages = with pkgs.unstable; [ alacritty ];
+  config = mkIf cfg.enable {
+    packages = with pkgs.unstable; [ alacritty ];
 
-      home.xdg.configFile."alacritty" = {
-        source = <config/alacritty>;
-        recursive = true;
-      };
+    home.configFile."alacritty" = {
+      source = <config/alacritty>;
+      recursive = true;
     };
   };
 }

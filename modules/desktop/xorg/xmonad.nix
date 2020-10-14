@@ -1,18 +1,13 @@
 { config, options, lib, pkgs, ... }:
 
 with lib;
+with lib.my;
 let cfg = config.modules.desktop.xmonad;
 in {
 
   options.modules.desktop.xmonad = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-    withKde = mkOption {
-      type = types.bool;
-      default = false;
-    };
+    enable = mkBoolOpt false;
+    withKde = mkBoolOpt false;
   };
 
   config = mkIf cfg.enable {

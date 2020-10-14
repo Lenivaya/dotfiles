@@ -11,22 +11,12 @@ if [[ $1 == -h ]]; then
 	echo "  $bin -f    # put computer to sleep"
 elif [[ $1 == -f ]]; then
 	echo "Going to sleep..."
-	case $OSTYPE in
-	darwin*) pmset sleepnow ;;
-	linux*) systemctl suspend ;;
-	esac
+	systemctl suspend
 else
 	echo "Shutting my eyes..."
-	case $OSTYPE in
-	darwin*)
-		sleep 1
-		pmset displaysleepnow
-		;;
-	linux*)
-		if command -v betterlockscreen >/dev/null; then
-			pgrep "betterlockscreen" || betterlockscreen -l dim >/dev/null
-		fi
-		xset dpms force off
-		;;
-	esac
+	if command -v betterlockscreen >/dev/null; then
+		pgrep "betterlockscreen" || betterlockscreen -l dim >/dev/null &
+	fi
+	sleep 10
+	xset dpms force off
 fi

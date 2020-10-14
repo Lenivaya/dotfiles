@@ -1,6 +1,9 @@
 { config, options, lib, pkgs, ... }:
 
-with lib; {
+with lib;
+with lib.my;
+let cfg = config.modules.desktop.WM;
+in {
   imports = [ ./lockscreen.nix ./xmonad.nix ];
 
   options.modules.desktop.WM = {
@@ -10,8 +13,8 @@ with lib; {
     };
   };
 
-  config = mkIf config.modules.desktop.WM.enable {
-    my.home.services.picom = {
+  config = mkIf cfg.enable {
+    home.services.picom = {
       enable = true;
       package = pkgs.unstable.picom;
       backend = "glx";
@@ -51,7 +54,7 @@ with lib; {
       '';
     };
 
-    my.home.services.sxhkd = {
+    home.services.sxhkd = {
       enable = true;
       keybindings = {
         "super + Escape" = "pkill -USR1 -x sxhkd";
