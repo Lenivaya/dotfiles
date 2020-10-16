@@ -4,7 +4,7 @@ with lib.my; {
   user.packages = with pkgs; [ betterlockscreen xidlehook ];
 
   home.configFile."betterlockscreenrc" = {
-    source = <config/betterlockscreen/betterlockscreenrc>;
+    source = "${configDir}/betterlockscreen/betterlockscreenrc";
     recursive = true;
   };
 

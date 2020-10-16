@@ -10,7 +10,7 @@ in {
     my.packages = with pkgs; [ zathura ];
 
     home.configFile."zathura" = {
-      source = <config/zathura>;
+      source = "${configDir}/zathura";
       recursive = true;
     };
   };

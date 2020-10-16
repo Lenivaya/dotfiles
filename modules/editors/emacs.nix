@@ -2,10 +2,15 @@
 
 with lib;
 with lib.my;
-with import <home-manager/modules/lib/dag.nix> { inherit lib; };
 let cfg = config.modules.editors.emacs;
 in {
-  options.modules.editors.emacs = { enable = mkBoolOpt false; };
+  options.modules.editors.emacs = {
+    enable = mkBoolOpt false;
+    doom = {
+      enable = mkBoolOpt true;
+      fromSSH = mkBoolOpt false;
+    };
+  };
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
@@ -39,20 +44,19 @@ in {
 
     env.PATH = [ "$HOME/.emacs.d/bin" ];
 
-    ## Decided to use just emacs
-    # services.emacs = {
-    #   enable = true;
-    #   defaultEditor = true;
-    # };
-
-    # Emacs-doom config
-    ##  to change config and dont rebuild all nixos
-    my.home.home.activation.linkDoomConfig =
-      dagEntryAfter [ "writeBoundary" ] ''
-        [ -d $HOME/.doom.d ] || ln -sf "$HOME/.dotfiles/config/doom" $HOME/.doom.d
-        [ -d $HOME/.emacs.d ] || git clone --depth 1 https://github.com/hlissner/doom-emacs ~/.emacs.d
-      '';
-
     fonts.fonts = [ pkgs.emacs-all-the-icons-fonts ];
+
+    # init.doomEmacs = mkIf cfg.doom.enable ''
+    #   if [ -d $HOME/.config/emacs ]; then
+    #      ${optionalString cfg.doom.fromSSH ''
+    #         git clone git@github.com:hlissner/doom-emacs.git $HOME/.config/emacs
+    #         git clone git@github.com:hlissner/doom-emacs-private.git $HOME/.config/doom
+    #      ''}
+    #      ${optionalString (cfg.doom.fromSSH == false) ''
+    #         git clone https://github.com/hlissner/doom-emacs $HOME/.config/emacs
+    #         git clone https://github.com/hlissner/doom-emacs-private $HOME/.config/doom
+    #      ''}
+    #   fi
+    # '';
   };
 }
