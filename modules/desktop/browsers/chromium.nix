@@ -1,5 +1,7 @@
 { config, options, lib, pkgs, ... }:
 
+with lib;
+with lib.my;
 let
   cfg = config.modules.desktop.browsers.chromium;
 
@@ -10,7 +12,7 @@ let
       exec ${p}/bin/${p.packageName} ${lib.concatStringsSep " " f}
     '';
 
-in with lib; {
+in {
   options.modules.desktop.browsers.chromium = {
     enable = mkOption {
       type = types.bool;
