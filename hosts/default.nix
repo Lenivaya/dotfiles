@@ -26,9 +26,18 @@ with lib.my; {
     gnumake
   ];
 
-  networking.firewall.enable = true;
+  networking = {
+    networkmanager.enable = true;
+    firewall.enable = true;
+  };
   # Use the latest kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
+
+  # Auto-mount
+  programs = {
+    gnome-disks.enable = true;
+    udevil.enable = true;
+  };
 
   ## System security tweaks
   boot.tmpOnTmpfs = true;
@@ -37,6 +46,20 @@ with lib.my; {
   # Fix a security hole in place for backwards compatibility. See desc in
   # nixpkgs/nixos/modules/system/boot/loader/systemd-boot/systemd-boot.nix
   boot.loader.systemd-boot.editor = false;
+
+  # hardware related stuff
+  hardware.enableAllFirmware = true;
+  hardware.opengl = {
+    enable = true;
+    driSupport = true;
+    driSupport32Bit = true;
+    extraPackages = with pkgs; [
+      vaapiIntel
+      vaapiVdpau
+      libvdpau-va-gl
+      intel-media-driver
+    ];
+  };
 
   # Change me later!
   user.initialPassword = "nix";
