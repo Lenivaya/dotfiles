@@ -1,7 +1,7 @@
 # laptp1 -- my laptop
 
 { pkgs, lib, ... }: {
-  imports = [ ../common.nix ./hardware-configuration.nix ];
+  imports = [ ./hardware-configuration.nix ];
 
   modules = {
     desktop = {
