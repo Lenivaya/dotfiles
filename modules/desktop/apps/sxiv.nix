@@ -1,10 +1,12 @@
 { config, lib, pkgs, ... }:
 
 with lib.my; {
-  user.packages = with pkgs; [ sxiv ];
+  config = {
+    user.packages = with pkgs; [ sxiv ];
 
-  home.configFile."sxiv" = {
-    source = "${configDir}/sxiv";
-    recursive = true;
+    home.configFile."sxiv" = {
+      source = "${configDir}/sxiv";
+      recursive = true;
+    };
   };
 }
