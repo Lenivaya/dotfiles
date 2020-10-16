@@ -1,13 +1,15 @@
 { config, lib, pkgs, ... }:
 
 with lib.my; {
-  user.packages = with pkgs; [
-    ranger
-    (lib.mkIf config.services.xserver.enable ueberzug)
-  ];
+  config = {
+    user.packages = with pkgs; [
+      ranger
+      (lib.mkIf config.services.xserver.enable ueberzug)
+    ];
 
-  home.configFile."ranger" = {
-    source = "${configDir}/ranger";
-    recursive = true;
+    home.configFile."ranger" = {
+      source = "${configDir}/ranger";
+      recursive = true;
+    };
   };
 }
