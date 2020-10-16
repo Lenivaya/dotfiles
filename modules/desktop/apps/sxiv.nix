@@ -3,7 +3,7 @@
 {
   my.packages = with pkgs; [ sxiv ];
 
-  my.home.xdg.configFile."sxiv" = {
+  home.configFile."sxiv" = {
     source = <config/sxiv>;
     recursive = true;
   };

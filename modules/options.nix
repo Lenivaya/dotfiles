@@ -30,7 +30,7 @@ with lib.my; {
       extraGroups = [ "wheel" ];
       isNormalUser = true;
       name = let name = builtins.getEnv "USER";
-      in if elem name [ "" "root" ] then "lenivaya" else name;
+      in if elem name [ "" "root" ] then "leniviy" else name;
       uid = 1000;
     };
 
@@ -71,7 +71,7 @@ with lib.my; {
 
     # must already begin with pre-existing PATH. Also, can't use binDir here,
     # because it contains a nix store path.
-    env.PATH = [ "$XDG_CONFIG_HOME/dotfiles/bin" "$PATH" ];
+    env.PATH = [ binDir "$PATH" ];
 
     environment.extraInit = concatStringsSep "\n"
       (mapAttrsToList (n: v: ''export ${n}="${v}"'') config.env);

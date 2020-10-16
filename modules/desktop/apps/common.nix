@@ -48,6 +48,7 @@
       xorg.xkill
       xclip
       curl
+      youtube-dl
     ] ++ (with pkgs.unstable; [ tdesktop ]) ++ (with pkgs.gnome3; [
       adwaita-icon-theme
       nautilus

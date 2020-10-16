@@ -1,17 +1,15 @@
 { config, options, lib, pkgs, ... }:
 
-with lib; {
-  options.modules.desktop.apps.dunst = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-  };
+with lib;
+with lib.my;
+let cfg = config.modules.desktop.apps.dunst;
+in {
+  options.modules.desktop.apps.dunst = { enable = mkBoolOpt false; };
 
-  config = mkIf config.modules.desktop.apps.dunst.enable {
-    my.packages = with pkgs; [ dunst libnotify ];
+  config = mkIf cfg.enable {
+    user.packages = with pkgs; [ dunst libnotify ];
 
-    my.home.xdg.configFile."dunst" = {
+    home.configFile."dunst" = {
       source = <config/dunst>;
       recursive = true;
     };

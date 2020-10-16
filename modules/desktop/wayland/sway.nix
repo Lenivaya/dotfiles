@@ -1,4 +1,4 @@
-{ config, pkgs, options, lib, ... }:
+{ options, config, lib, pkgs, ... }:
 
 with lib;
 with import <home-manager/modules/lib/dag.nix> { inherit lib; }; {

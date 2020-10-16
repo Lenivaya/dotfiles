@@ -1,7 +1,9 @@
 { config, options, lib, pkgs, ... }:
 
 with lib;
-let abstract_ring = pkgs.callPackage ./abstract_ring.nix { };
+let
+  abstract_ring = pkgs.callPackage ./abstract_ring.nix { };
+  cfg = config.modules.bootAnimation;
 in {
 
   options.modules.bootAnimation = {
@@ -11,7 +13,7 @@ in {
     };
   };
 
-  config = mkIf config.modules.bootAnimation.enable {
+  config = mkIf cfg.enable {
     boot.plymouth = {
       enable = true;
       theme = "abstract_ring";

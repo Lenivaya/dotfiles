@@ -1,17 +1,15 @@
 { config, options, lib, pkgs, ... }:
 
-with lib; {
-  options.modules.desktop.apps.zathura = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-  };
+with lib;
+with lib.my;
+let cfg = config.modules.desktop.apps.sxiv;
+in {
+  options.modules.desktop.apps.zathura = { enable = mkBoolOpt false; };
 
-  config = mkIf config.modules.desktop.apps.zathura.enable {
+  config = mkIf cfg.enable {
     my.packages = with pkgs; [ zathura ];
 
-    my.home.xdg.configFile."zathura" = {
+    home.configFile."zathura" = {
       source = <config/zathura>;
       recursive = true;
     };
