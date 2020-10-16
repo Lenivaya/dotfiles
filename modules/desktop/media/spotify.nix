@@ -6,7 +6,7 @@ let cfg = config.modules.desktop.media.spotify;
 in {
   options.modules.media.spotify = { enable = mkBoolOpt false; };
 
-  config = mkIf config.modules.media.spotify.enable {
+  config = mkIf cfg.enable {
     user.packages = with pkgs; [ spotify ];
   };
 
