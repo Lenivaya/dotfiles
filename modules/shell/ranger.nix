@@ -7,7 +7,7 @@ with lib.my; {
   ];
 
   home.configFile."ranger" = {
-    source = <config/ranger>;
+    source = "${configDir}/ranger";
     recursive = true;
   };
 }

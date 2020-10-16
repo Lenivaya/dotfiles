@@ -25,7 +25,7 @@ in {
     };
 
     home.configFile."rofi" = {
-      source = <config/rofi>;
+      source = "${configDir}/rofi";
       recursive = true;
     };
 
@@ -46,13 +46,13 @@ in {
         name = "sleep";
         desktopName = "System: Sleep";
         icon = "system-suspend";
-        exec = "${<bin/zzz>} -f";
+        exec = "${binDir}/zzz -f";
       })
       (makeDesktopItem {
         name = "lock-display";
         desktopName = "Lock screen";
         icon = "system-lock-screen";
-        exec = "${<bin/zzz>}";
+        exec = "${binDir}/zzz";
       })
     ];
   };

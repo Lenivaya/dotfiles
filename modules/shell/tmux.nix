@@ -24,7 +24,7 @@ in {
 
   home.configFile = {
     "tmux" = {
-      source = <config/tmux>;
+      source = "${configDir}/tmux";
       recursive = true;
     };
     "tmux/plugins".text = ''

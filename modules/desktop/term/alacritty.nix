@@ -10,7 +10,7 @@ in {
     packages = with pkgs.unstable; [ alacritty ];
 
     home.configFile."alacritty" = {
-      source = <config/alacritty>;
+      source = "${configDir}/alacritty";
       recursive = true;
     };
   };

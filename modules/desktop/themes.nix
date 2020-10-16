@@ -29,5 +29,5 @@ with lib.my; {
     style = "adwaita";
   };
 
-  home.file.".Xresources".source = <config/xresources/.Xresources>;
+  home.file.".Xresources".source = "${configDir}/xresources/.Xresources";
 }

@@ -10,7 +10,7 @@ in {
     user.packages = with pkgs; [ dunst libnotify ];
 
     home.configFile."dunst" = {
-      source = <config/dunst>;
+      source = "${configDir}/dunst";
       recursive = true;
     };
   };
