@@ -34,6 +34,7 @@
       direnv.enable = true;
       pass.enable = true;
       git.enable = true;
+      zsh.enable = true;
     };
 
     editors = {
