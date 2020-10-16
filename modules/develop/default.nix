@@ -1,7 +1,7 @@
 { config, options, lib, pkgs, ... }:
 
 {
-  my.packages = with pkgs;
+  user.packages = with pkgs;
     [
       # Nix
       nixfmt

@@ -7,11 +7,7 @@ in {
   options.modules.media.spotify = { enable = mkBoolOpt false; };
 
   config = mkIf config.modules.media.spotify.enable {
-    my.packages = with pkgs;
-      [
-
-        spotify
-      ];
+    user.packages = with pkgs; [ spotify ];
   };
 
 }

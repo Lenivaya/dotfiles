@@ -7,7 +7,7 @@ in {
   options.modules.desktop.apps.zathura = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
-    my.packages = with pkgs; [ zathura ];
+    user.packages = with pkgs; [ zathura ];
 
     home.configFile."zathura" = {
       source = "${configDir}/zathura";

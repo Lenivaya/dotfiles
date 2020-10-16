@@ -4,32 +4,26 @@ with lib;
 with lib.my;
 let cfg = config.modules.shell.gnupg;
 in {
-  options.modules.shell.gnupg = {
+  options.modules.shell.gnupg = with types; {
     enable = mkBoolOpt false;
     cacheTTL = mkOpt int 3600; # 1hr
   };
 
   config = mkIf cfg.enable {
-    my = {
-      environment.variables.GNUPGHOME = "$XDG_CONFIG_HOME/gnupg";
-      user.packages = [ pkgs.tomb ];
-      programs.gnupg.agent = {
-        enable = true;
-        enableSSHSupport = true;
-      };
+    environment.variables.GNUPGHOME = "$XDG_CONFIG_HOME/gnupg";
 
-      # HACK Without this config file you get "No pinentry program" on 20.03.
-      #      program.gnupg.agent.pinentryFlavor doesn't appear to work, and this
-      #      is cleaner than overriding the systemd unit.
-      home.configFile."gnupg/gpg-agent.conf" = {
-        text = ''
-          enable-ssh-support
-          allow-emacs-pinentry
-          default-cache-ttl ${toString gnupgCfg.cacheTTL}
-          pinentry-program ${pkgs.pinentry.gtk2}/bin/pinentry
-        '';
-      };
+    programs.gnupg.agent.enable = true;
+
+    user.packages = [ pkgs.tomb ];
+
+    # HACK Without this config file you get "No pinentry program" on 20.03.
+    #      programs.gnupg.agent.pinentryFlavor doesn't appear to work, and this
+    #      is cleaner than overriding the systemd unit.
+    home.configFile."gnupg/gpg-agent.conf" = {
+      text = ''
+        default-cache-ttl ${toString cfg.cacheTTL}
+        pinentry-program ${pkgs.pinentry.gtk2}/bin/pinentry
+      '';
     };
-
   };
 }
