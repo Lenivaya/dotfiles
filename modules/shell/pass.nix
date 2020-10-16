@@ -6,7 +6,6 @@ let cfg = config.modules.shell.pass;
 in {
   options.modules.shell.pass = { enable = mkBoolOpt false; };
 
-  config = mkIf config.modules.shell.pass.enable {
     config = mkIf cfg.enable {
       user.packages = with pkgs;
         [
@@ -19,5 +18,4 @@ in {
         ];
       env.PASSWORD_STORE_DIR = "$HOME/.secrets/password-store";
     };
-  };
 }
