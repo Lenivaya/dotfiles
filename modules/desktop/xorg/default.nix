@@ -4,7 +4,6 @@ with lib;
 with lib.my;
 let cfg = config.modules.desktop.WM;
 in {
-  imports = [ ./lockscreen.nix ./xmonad.nix ];
 
   options.modules.desktop.WM = {
     enable = mkOption {

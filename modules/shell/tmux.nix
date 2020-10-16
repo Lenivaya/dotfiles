@@ -46,7 +46,7 @@ in {
     path = [ (tmuxPackage) pkgs.ripgrep ];
     environment = {
       DISPLAY = "0";
-      TMUX_HOME = "/home/${config.my.username}/.config/tmux";
+      TMUX_HOME = "/home/${config.user.name}/.config/tmux";
     };
 
     script = ''
