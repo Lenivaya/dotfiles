@@ -1,4 +1,4 @@
-{ options, config, lib, pkgs, ... }:
+{ config, options, lib, pkgs, ... }:
 
 with lib.my;
 let cfg = config.modules.services.kdeconnect;

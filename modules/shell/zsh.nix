@@ -20,7 +20,7 @@ with import <home-manager/modules/lib/dag.nix> { inherit lib; }; {
   };
 
   # Some nice shell things
-  my.packages = with pkgs;
+  user.packages = with pkgs;
     [ zsh bat exa fd fzf htop tldr tree fasd ]
     ++ (with pkgs.unstable; [ starship ]);
 

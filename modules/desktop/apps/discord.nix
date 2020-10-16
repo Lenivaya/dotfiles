@@ -1,13 +1,19 @@
 { config, options, lib, pkgs, ... }:
-with lib; {
-  options.modules.desktop.apps.discord = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-  };
 
-  config = mkIf config.modules.desktop.apps.discord.enable {
-    my.packages = with pkgs; [ discord ];
+with lib;
+with lib.my;
+let cfg = config.modules.desktop.apps.discord;
+in {
+  options.modules.desktop.apps.discord = { enable = mkBoolOpt false; };
+
+  config = mkIf cfg.enable {
+    user.packages = with pkgs;
+      [
+        # If not installed from unstable, Discord will sometimes soft-lock itself
+        # on a "there's an update for discord" screen.
+        unstable.discord
+
+        # unstable.ripcord
+      ];
   };
 }

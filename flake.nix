@@ -8,6 +8,7 @@
     home-manager.url = "github:rycee/home-manager/master";
     home-manager.inputs.nixpkgs.follows = "nixos-unstable";
 
+    # Extras
     nixos-hardware.url = "github:nixos/nixos-hardware";
   };
 
@@ -57,9 +58,6 @@
               networking.hostName = removeSuffix ".nix" (baseNameOf modulePath);
               environment.variables.NIXPKGS_ALLOW_UNFREE = "1";
               nixpkgs.config = import packages/config.nix;
-              my.home.nixpkgs.config = import packages/config.nix;
-              my.home.xdg.configFile."nixpkgs/config.nix".source =
-                packages/config.nix;
               environment.variables.DOTFILES = dotFilesDir;
               nixpkgs.pkgs = pkgs;
               nix = {

@@ -1,5 +1,6 @@
 { config, options, lib, pkgs, ... }:
 
+with lib;
 with lib.my;
 let cfg = config.modules.desktop.apps.rofi;
 in {
@@ -23,7 +24,7 @@ in {
       };
     };
 
-    user.home.xdg.configFile."rofi" = {
+    home.configFile."rofi" = {
       source = <config/rofi>;
       recursive = true;
     };
