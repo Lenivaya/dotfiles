@@ -27,7 +27,7 @@ in with lib; {
   };
 
   config = mkIf cfg.enable {
-    my.home.programs.chromium = {
+    home.programs.chromium = {
       enable = true;
 
       package = if cfg.ungoogled then
