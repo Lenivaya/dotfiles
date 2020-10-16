@@ -14,6 +14,6 @@ in {
       }];
     };
 
-    my.home.services = { kdeconnect.enable = true; };
+    home.services.kdeconnect.enable = true;
   };
 }

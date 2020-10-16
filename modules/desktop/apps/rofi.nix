@@ -7,7 +7,7 @@ in {
   options.modules.desktop.apps.rofi = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
-    user.home.programs = {
+    home.programs = {
       rofi = {
         enable = true;
         # package = pkgs.rofi.override {

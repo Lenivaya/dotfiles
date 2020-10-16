@@ -1,5 +1,5 @@
 { config, lib, pkgs, ... }: {
-  my.packages = with pkgs;
+  user.packages = with pkgs;
     [
       # some rust apps
       ripgrep # fast grepper

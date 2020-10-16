@@ -23,7 +23,7 @@ with lib.my; {
     [ zsh bat exa fd fzf htop tldr tree fasd ]
     ++ (with pkgs.unstable; [ starship ]);
 
-  my.home.programs.broot.enable = true;
+  home.programs.broot.enable = true;
 
   home.configFile = {
     # Write it recursively so other modules can write files to it
