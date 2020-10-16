@@ -10,6 +10,7 @@
       scrot # Screenshots
       dunst # notification daemon
       libnotify
+      binutils
       usbutils
       unzip
       zip
@@ -44,6 +45,9 @@
       nnn
       jgmenu
       pfetch
+      xorg.xkill
+      xclip
+      curl
     ] ++ (with pkgs.unstable; [ tdesktop ]) ++ (with pkgs.gnome3; [
       adwaita-icon-theme
       nautilus
