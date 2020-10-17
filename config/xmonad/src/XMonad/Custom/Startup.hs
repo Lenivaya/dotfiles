@@ -58,10 +58,10 @@ generateBarPosition (w, h) pos | pos == "top" = printf position topBarYpos width
 barCommand :: (Int, Int) -> String -> String
 barCommand res pos
   | pos == "top"
-  = "xmobar ~/.dotfiles/config/xmonad/xmobarrc/top.hs -p "
+  = "xmobar $XDG_CONFIG_HOME/dotfiles/config/xmonad/xmobarrc/top.hs -p "
     ++ generateBarPosition res pos
   | pos == "bot"
-  = "xmobar ~/.dotfiles/config/xmonad/xmobarrc/bot.hs -p "
+  = "xmobar $XDG_CONFIG_HOME/dotfiles/config/xmonad/xmobarrc/bot.hs -p "
     ++ generateBarPosition res pos
 
 spawnXmobar :: X ()

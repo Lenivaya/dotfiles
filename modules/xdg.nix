@@ -28,9 +28,9 @@
       '';
       CUDA_CACHE_PATH = "$XDG_CACHE_HOME/nv";
       HISTFILE = "$XDG_DATA_HOME/bash/history";
-      INPUTRC = "$XDG_CACHE_HOME/readline/inputrc";
+      INPUTRC = "$XDG_CONFIG_HOME/readline/inputrc";
       LESSHISTFILE = "$XDG_CACHE_HOME/lesshst";
-      WGETRC = "$XDG_CACHE_HOME/wgetrc";
+      WGETRC = "$XDG_CONFIG_HOME/wgetrc";
     };
 
     # Move ~/.Xauthority out of $HOME

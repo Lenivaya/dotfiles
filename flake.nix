@@ -57,7 +57,6 @@
             {
               networking.hostName = removeSuffix ".nix" (baseNameOf modulePath);
               environment.variables.NIXPKGS_ALLOW_UNFREE = "1";
-              nixpkgs.config = import packages/config.nix;
               environment.variables.DOTFILES = dotFilesDir;
               nixpkgs.pkgs = pkgs;
               nix = {
@@ -65,8 +64,9 @@
                 extraOptions = "experimental-features = nix-command flakes";
                 nixPath = [
                   "nixpkgs=${nixos}"
-		  "nixpkgs-unstable=${nixos-unstable}"
+                  "nixpkgs-unstable=${nixos-unstable}"
                   "nixpkgs-overlays=${dotFilesDir}/overlays"
+                  "home-manager=${home-manager}"
                   "dotfiles=${dotFilesDir}"
                 ];
                 binaryCaches = [

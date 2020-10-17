@@ -1,19 +1,7 @@
-{ config, options, lib, pkgs, ... }:
+{ pkgs, config, home-manager, ... } :
 
-with lib;
-with lib.my;
-let cfg = config.modules.desktop.WM;
-in {
-
-  options.modules.desktop.WM = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-  };
-
-  config = mkIf cfg.enable {
-    home.services.picom = {
+{
+     home-manager.users.${config.user.name}.services.picom = {
       enable = true;
       package = pkgs.unstable.picom;
       backend = "glx";
@@ -52,22 +40,4 @@ in {
         shadow-radius = 7;
       '';
     };
-
-    home.services.sxhkd = {
-      enable = true;
-      keybindings = {
-        "super + Escape" = "pkill -USR1 -x sxhkd";
-
-        # screencast region to mp4
-        "super + Print" = "scrrec -s ~/recordings/$(date +%F-%T).mp4";
-        # screencast region to gif
-        "super + ctrl + Print" = "scrrec -s ~/recordings/$(date +%F-%T).gif";
-
-        "super + KP_Left" = "st -e ranger";
-        "super + shift + KP_Left" = "st -e nnn";
-        "super + KP_Home" = "st -e tmux";
-      };
-    };
-  };
-
 }

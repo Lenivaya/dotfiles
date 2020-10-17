@@ -7,7 +7,6 @@
 
     fontconfig = {
       enable = true;
-      penultimate.enable = true;
       hinting = {
         autohint = false;
         enable = true;

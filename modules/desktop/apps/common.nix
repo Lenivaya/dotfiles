@@ -1,4 +1,5 @@
 { config, lib, pkgs, ... }: {
+
   user.packages = with pkgs;
     [
       # some rust apps
@@ -38,7 +39,7 @@
         name = "scratch-calc";
         desktopName = "Calculator";
         icon = "calc";
-        exec = "st -e $SHELL -c 'qalc'";
+        exec = "st -e $SHELL -c qalc";
         categories = "Development";
       })
       neovim

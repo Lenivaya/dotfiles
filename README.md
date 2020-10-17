@@ -29,12 +29,12 @@
 
 Behold. `bin/hey`.
 
-| Command             | Description                                                     |
-| ------------------- | --------------------------------------------------------------- |
-| `hey rebuild`       | Rebuild this flake                                              |
-| `hey upgrade`       | Update flake lockfile and switch to it                          |
-| `hey rollback`      | Roll back to previous system generation                         |
-| `hey gc`            | Runs `nix-collect-garbage -d`. Use sudo to clean system profile |
-| `hey deploy REMOTE` | Deploy these dotfiles to REMOTE (over ssh)                      |
-| `hey check`         | Run tests and checks for this flake                             |
-| `hey show`          | Show flake outputs of this repo                                 |
+| Command           | Description                                                     |
+|-------------------|-----------------------------------------------------------------|
+| `hey rebuild`     | Rebuild this flake (shortcut: `hey re`)                         |
+| `hey upgrade`     | Update flake lockfile and switch to it (shortcut: `hey up`)     |
+| `hey rollback`    | Roll back to previous system generation                         |
+| `hey gc`          | Runs `nix-collect-garbage -d`. Use sudo to clean system profile |
+| `hey push REMOTE` | Deploy these dotfiles to REMOTE (over ssh)                      |
+| `hey check`       | Run tests and checks for this flake                             |
+| `hey show`        | Show flake outputs of this repo                                 |

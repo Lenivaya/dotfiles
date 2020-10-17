@@ -117,8 +117,8 @@
 
 (use-package! circadian
   :config
-  (setq circadian-themes '(("8:00" . doom-solarized-light)
-                           ("19:30" . doom-solarized-dark)))
+  (setq circadian-themes '(("8:00" . doom-one)
+                           ("19:30" . doom-one)))
   (circadian-setup))
 
 (use-package! emojify

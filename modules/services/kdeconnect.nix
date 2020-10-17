@@ -1,4 +1,4 @@
-{ config, options, lib, pkgs, ... }:
+{ config, options, lib, pkgs, home-manager, ... }:
 
 with lib;
 with lib.my;
@@ -15,6 +15,6 @@ in {
       }];
     };
 
-    home.services.kdeconnect.enable = true;
+    home-manager.users.${config.user.name}.services.kdeconnect.enable = true;
   };
 }

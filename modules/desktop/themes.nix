@@ -1,7 +1,6 @@
 { config, lib, pkgs, home-manager, ... }:
 
 with lib.my; {
-  config = {
     home-manager.users.${config.user.name} = {
       gtk = {
         enable = true;
@@ -34,5 +33,4 @@ with lib.my; {
     };
 
     home.file.".Xresources".source = "${configDir}/xresources/.Xresources";
-  };
 }

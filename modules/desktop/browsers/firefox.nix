@@ -1,4 +1,4 @@
-{ config, options, lib, pkgs, ... }:
+{ config, options, lib, pkgs, home-manager, ... }:
 
 with lib;
 with lib.my;
@@ -11,10 +11,6 @@ in {
 
   config = mkIf cfg.enable {
 
-    home.programs.firefox = {
-      enable = true;
-      package = pkgs.firefox;
-    };
 
     user.packages = with pkgs;
       [
@@ -43,7 +39,10 @@ in {
       '';
     };
 
-    programs.firefox.profiles.default = {
+    home-manager.users.${config.user.name}.programs.firefox = {
+	enable = true;
+
+      profiles.default = {
       settings = {
         "browser.tabs.closeWindowWithLastTab" = false;
         "browser.tabs.insertAfterCurrent" = true;
@@ -139,6 +138,7 @@ in {
           .scrollbutton-up[orient="horizontal"]~spacer { border-width: 0px; opacity: 0 }
         }
       '';
+    };
     };
 
   };

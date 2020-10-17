@@ -1,4 +1,4 @@
-{ config, options, lib, pkgs, ... }:
+{ config, options, lib, pkgs, home-manager, ... }:
 
 with lib;
 with lib.my;
@@ -29,7 +29,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.programs.chromium = {
+    home-manager.users.${config.user.name}.programs.chromium = {
       enable = true;
 
       package = if cfg.ungoogled then

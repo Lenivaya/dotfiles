@@ -12,8 +12,15 @@ with lib.my; {
   fileSystems."/".device = "/dev/disk/by-label/nixos";
 
   boot.loader = {
+    timeout = 1;
     efi.canTouchEfiVariables = true;
-    systemd-boot.configurationLimit = 10;
+    systemd-boot = {
+      enable = true;
+      configurationLimit = 10;
+      # Fix a security hole in place for backwards compatibility. See desc in
+      # nixpkgs/nixos/modules/system/boot/loader/systemd-boot/systemd-boot.nix
+      editor = false;
+    };
   };
 
   # Just the bear necessities...
@@ -43,9 +50,6 @@ with lib.my; {
   boot.tmpOnTmpfs = true;
   security.hideProcessInformation = true;
   security.protectKernelImage = true;
-  # Fix a security hole in place for backwards compatibility. See desc in
-  # nixpkgs/nixos/modules/system/boot/loader/systemd-boot/systemd-boot.nix
-  boot.loader.systemd-boot.editor = false;
 
   # hardware related stuff
   hardware.enableAllFirmware = true;
