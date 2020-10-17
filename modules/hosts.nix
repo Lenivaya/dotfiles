@@ -1,6 +1,7 @@
 # Blocking some internet shit here
 
 { config, options, lib, ... }:
+
 with lib;
 let cfg = config.modules.hosts;
 in {

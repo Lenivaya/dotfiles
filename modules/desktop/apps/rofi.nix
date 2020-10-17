@@ -1,4 +1,4 @@
-{ config, options, lib, pkgs, ... }:
+{ config, options, lib, pkgs, home-manager, ... }:
 
 with lib;
 with lib.my;
@@ -7,18 +7,18 @@ in {
   options.modules.desktop.apps.rofi = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
-    home.programs = {
+    home-manager.users.${config.user.name}.programs = {
       rofi = {
         enable = true;
-        # package = pkgs.rofi.override {
-        #   plugins = [ rofi-emoji rofi-calc rofi-file-browser ];
-        # };
+        package = pkgs.rofi.override {
+          plugins = [ rofi-emoji rofi-calc rofi-file-browser ];
+        };
         lines = 10;
         theme = "list";
         extraConfig = ''
-          # rofi.modi: combi
-          # rofi.combi-modi: drun,calc,file-browser
-          rofi.modi: drun
+          rofi.modi: combi
+          rofi.combi-modi: drun,calc,file-browser
+          # rofi.modi: drun
           rofi.show-icons: true
         '';
       };

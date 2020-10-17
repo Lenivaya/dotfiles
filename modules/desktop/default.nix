@@ -1,30 +1,41 @@
-{ config, options, lib, pkgs, ... }:
+{ config, options, lib, pkgs, home-manager, ... }:
 
 with lib;
 with lib.my; {
-  config = mkIf config.services.xserver.enable {
-    services.xserver = {
+  services.xserver = {
+    enable = true;
+    desktopManager.xterm.enable = lib.mkDefault false;
+    autoRepeatDelay = 250;
+    autoRepeatInterval = 50;
+    libinput = {
+      disableWhileTyping = true;
       enable = true;
-      desktopManager.xterm.enable = lib.mkDefault false;
-      autoRepeatDelay = 250;
-      autoRepeatInterval = 50;
-      libinput = {
-        disableWhileTyping = true;
-        enable = true;
-      };
-      layout = "us, ru, ua";
-      xkbOptions = "grp:win_space_toggle, caps:ctrl_modifier";
+    };
+    layout = "us, ru, ua";
+    xkbOptions = "grp:win_space_toggle, caps:ctrl_modifier";
 
-      displayManager.lightdm = {
-        enable = true;
-        greeters.gtk.theme = {
-          name = "Adwaita-dark";
-          package = pkgs.gnome3.gnome_themes_standard;
-        };
+    displayManager.lightdm = {
+      enable = true;
+      greeters.gtk.theme = {
+        name = "Adwaita-dark";
+        package = pkgs.gnome3.gnome_themes_standard;
       };
+    };
+
+  };
+  services.dbus.packages = with pkgs; [ gnome3.dconf ];
+  programs.dconf.enable = true;
+
+  home-manager.users.${config.user.name}.services.sxhkd = {
+    enable = true;
+    keybindings = {
+      "super + Escape" = "pkill -USR1 -x sxhkd";
+
+      # screencast region to mp4
+      "super + Print" = "scrrec -s ~/recordings/$(date +%F-%T).mp4";
+      # screencast region to gif
+      "super + ctrl + Print" = "scrrec -s ~/recordings/$(date +%F-%T).gif";
 
     };
-    services.dbus.packages = with pkgs; [ gnome3.dconf ];
-    programs.dconf.enable = true;
   };
 }

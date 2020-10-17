@@ -11,7 +11,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    modules.desktop.WM.enable = true;
 
     services.xserver.windowManager.xmonad = {
       enable = true;
@@ -27,7 +26,7 @@ in {
     services.xserver = { displayManager.defaultSession = "none+xmonad"; };
 
     env = {
-      XMONAD_CONFIG_DIR = "${configDir}/xmonad";
+      XMONAD_CONFIG_DIR = "$XDG_CONFIG_HOME/dotfiles/config/xmonad";
       XMONAD_CACHE_DIR = "$XDG_CACHE_HOME/xmonad";
       XMONAD_DATA_DIR = "$XDG_DATA_HOME/xmonad";
     };

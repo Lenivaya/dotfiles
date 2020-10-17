@@ -21,10 +21,10 @@ xmobarFont :: Int -> String -> String
 xmobarFont f = wrap (concat ["<fn=", show f, ">"]) "</fn>"
 
 layoutIcon :: String -> String
-layoutIcon l | isInfixOf "BSP" l         = " <fn=1>\57654</fn> "
-             | isInfixOf "Circle" l      = " <fn=1>\57521</fn> "
-             | isInfixOf "Tall" l        = " <fn=1>\57346</fn> "
-             | isInfixOf "ThreeColMid" l = " <fn=1>\57377</fn> "
+layoutIcon l | isInfixOf "BSP" l         = " <fn=1>\57654</fn>"
+             | isInfixOf "Circle" l      = " <fn=1>\57521</fn>"
+             | isInfixOf "Tall" l        = " <fn=1>\57346</fn>"
+             | isInfixOf "ThreeColMid" l = " <fn=1>\57377</fn>"
              | otherwise                 = ""
 
 

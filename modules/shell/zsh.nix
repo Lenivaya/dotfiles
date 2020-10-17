@@ -1,11 +1,11 @@
-{ config, options, pkgs, lib, ... }:
+{ config, options, pkgs, lib, home-manager, ... }:
 
 with lib;
 with lib.my;
 let cfg = config.modules.shell.zsh;
 in {
   options.modules.shell.zsh = with types; {
-    enalbe = mkBoolOpt false;
+    enable = mkBoolOpt false;
 
     aliases = mkOpt (attrsOf (either str path)) { };
 
@@ -39,7 +39,7 @@ in {
       [ zsh bat exa fd fzf htop tldr tree fasd ]
       ++ (with pkgs.unstable; [ starship ]);
 
-    home.programs.broot.enable = true;
+    home-manager.users.${config.user.name}.programs.broot.enable = true;
 
     home.configFile = {
       # Write it recursively so other modules can write files to it

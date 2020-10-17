@@ -1,3 +1,4 @@
 [character]
-symbol = "λ"
+success_symbol = "[λ](green)"
+error_symbol = "[λ](bold red)"
 vicmd_symbol = "<<"

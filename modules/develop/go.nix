@@ -1,4 +1,4 @@
-{ config, options, lib, pkgs, ... }:
+{ config, options, lib, pkgs, home-manager, ... }:
 
 with lib;
 with lib.my;
@@ -8,7 +8,7 @@ in {
 
   config = mkIf cfg.enable {
 
-    home.programs.go = {
+    home-manager.users.${config.user.name}.programs.go = {
       enable = true;
       package = pkgs.go;
       goBin = "go/bin";

@@ -146,12 +146,12 @@ keysPass _ =
 
 keysSystem :: XConfig Layout -> [(String, X ())]
 keysSystem _ =
-  [ ("<Print>"  , spawn "~/.dotfiles/config/xmonad/scripts/xshot.sh")
-  , ("S-<Print>", spawn "~/.dotfiles/config/xmonad/scripts/xshot-select.sh")
+  [ ("<Print>"  , spawn "$XMONAD_CONFIG_DIR/scripts/xshot.sh")
+  , ("S-<Print>", spawn "$XMONAD_CONFIG_DIR/scripts/xshot-select.sh")
   , ( "C-S-<Print>"
-    , spawn "~/.dotfiles/config/xmonad/scripts/xshot-select-clipboard.sh"
+    , spawn "$XMONAD_CONFIG_DIR/scripts/xshot-select-clipboard.sh"
     )
-  , ("M-t c", spawn "~/.dotfiles/config/xmonad/scripts/toggle-compositor.sh")
+  , ("M-t c", spawn "$XMONAD_CONFIG_DIR/scripts/toggle-compositor.sh")
   ]
 
 keysMedia :: XConfig Layout -> [(String, X ())]
