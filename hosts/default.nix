@@ -52,7 +52,7 @@ with lib.my; {
   security.protectKernelImage = true;
 
   # hardware related stuff
-  hardware.enableAllFirmware = true;
+  # hardware.enableAllFirmware = true;
   hardware.opengl = {
     enable = true;
     driSupport = true;
