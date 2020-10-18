@@ -11,7 +11,6 @@ in {
 
   config = mkIf cfg.enable {
 
-
     user.packages = with pkgs;
       [
         (makeDesktopItem {
@@ -40,105 +39,105 @@ in {
     };
 
     home-manager.users.${config.user.name}.programs.firefox = {
-	enable = true;
+      enable = true;
 
       profiles.default = {
-      settings = {
-        "browser.tabs.closeWindowWithLastTab" = false;
-        "browser.tabs.insertAfterCurrent" = true;
-        "browser.tabs.loadBookmarksInTabs" = true;
-        "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+        settings = {
+          "browser.tabs.closeWindowWithLastTab" = false;
+          "browser.tabs.insertAfterCurrent" = true;
+          "browser.tabs.loadBookmarksInTabs" = true;
+          "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
 
-        # Hardware-acceleration
-        "layers.acceleration.force-enabled" = true;
-        "layers.omtp.enabled" = true;
-        "layout.display-list.retain" = true;
-        "layout.display-list.retain.chrome" = true;
+          # Hardware-acceleration
+          "layers.acceleration.force-enabled" = true;
+          "layers.omtp.enabled" = true;
+          "layout.display-list.retain" = true;
+          "layout.display-list.retain.chrome" = true;
 
-        # Do not check if Firefox is the default browser
-        "browser.shell.checkDefaultBrowser" = false;
-        # Disable new tab tile ads & preload
-        # http://www.thewindowsclub.com/disable-remove-ad-tiles-from-firefox
-        # http://forums.mozillazine.org/viewtopic.php?p=13876331#p13876331
-        # https://wiki.mozilla.org/Tiles/Technical_Documentation#Ping
-        # https://gecko.readthedocs.org/en/latest/browser/browser/DirectoryLinksProvider.html#browser-newtabpage-directory-source
-        # https://gecko.readthedocs.org/en/latest/browser/browser/DirectoryLinksProvider.html#browser-newtabpage-directory-ping
-        "browser.newtabpage.enhanced" = false;
-        "browser.newtab.preload" = false;
-        "browser.newtabpage.directory.ping" = "";
-        "browser.newtabpage.directory.source" = "data:text/plain,{}";
-        # Disable some not so useful functionality.
-        "extensions.htmlaboutaddons.recommendations.enabled" = false;
-        "extensions.htmlaboutaddons.discover.enabled" = false;
-        "extensions.pocket.enabled" = false;
-        "app.normandy.enabled" = false;
-        "app.normandy.api_url" = "";
-        "extensions.shield-recipe-client.enabled" = false;
-        "app.shield.optoutstudies.enabled" = false;
-        # Disable telemetry
-        # https://wiki.mozilla.org/Platform/Features/Telemetry
-        # https://wiki.mozilla.org/Privacy/Reviews/Telemetry
-        # https://wiki.mozilla.org/Telemetry
-        # https://www.mozilla.org/en-US/legal/privacy/firefox.html#telemetry
-        # https://support.mozilla.org/t5/Firefox-crashes/Mozilla-Crash-Reporter/ta-p/1715
-        # https://wiki.mozilla.org/Security/Reviews/Firefox6/ReviewNotes/telemetry
-        # https://gecko.readthedocs.io/en/latest/browser/experiments/experiments/manifest.html
-        # https://wiki.mozilla.org/Telemetry/Experiments
-        # https://support.mozilla.org/en-US/questions/1197144
-        # https://firefox-source-docs.mozilla.org/toolkit/components/telemetry/telemetry/internals/preferences.html#id1
-        "toolkit.telemetry.enabled" = false;
-        "toolkit.telemetry.unified" = false;
-        "toolkit.telemetry.archive.enabled" = false;
-        "experiments.supported" = false;
-        "experiments.enabled" = false;
-        "experiments.manifest.uri" = "";
-        # Disable health reports (basically more telemetry)
-        # https://support.mozilla.org/en-US/kb/firefox-health-report-understand-your-browser-perf
-        # https://gecko.readthedocs.org/en/latest/toolkit/components/telemetry/telemetry/preferences.html
-        "datareporting.healthreport.uploadEnabled" = false;
-        "datareporting.healthreport.service.enabled" = false;
-        "datareporting.policy.dataSubmissionEnabled" = false;
+          # Do not check if Firefox is the default browser
+          "browser.shell.checkDefaultBrowser" = false;
+          # Disable new tab tile ads & preload
+          # http://www.thewindowsclub.com/disable-remove-ad-tiles-from-firefox
+          # http://forums.mozillazine.org/viewtopic.php?p=13876331#p13876331
+          # https://wiki.mozilla.org/Tiles/Technical_Documentation#Ping
+          # https://gecko.readthedocs.org/en/latest/browser/browser/DirectoryLinksProvider.html#browser-newtabpage-directory-source
+          # https://gecko.readthedocs.org/en/latest/browser/browser/DirectoryLinksProvider.html#browser-newtabpage-directory-ping
+          "browser.newtabpage.enhanced" = false;
+          "browser.newtab.preload" = false;
+          "browser.newtabpage.directory.ping" = "";
+          "browser.newtabpage.directory.source" = "data:text/plain,{}";
+          # Disable some not so useful functionality.
+          "extensions.htmlaboutaddons.recommendations.enabled" = false;
+          "extensions.htmlaboutaddons.discover.enabled" = false;
+          "extensions.pocket.enabled" = false;
+          "app.normandy.enabled" = false;
+          "app.normandy.api_url" = "";
+          "extensions.shield-recipe-client.enabled" = false;
+          "app.shield.optoutstudies.enabled" = false;
+          # Disable telemetry
+          # https://wiki.mozilla.org/Platform/Features/Telemetry
+          # https://wiki.mozilla.org/Privacy/Reviews/Telemetry
+          # https://wiki.mozilla.org/Telemetry
+          # https://www.mozilla.org/en-US/legal/privacy/firefox.html#telemetry
+          # https://support.mozilla.org/t5/Firefox-crashes/Mozilla-Crash-Reporter/ta-p/1715
+          # https://wiki.mozilla.org/Security/Reviews/Firefox6/ReviewNotes/telemetry
+          # https://gecko.readthedocs.io/en/latest/browser/experiments/experiments/manifest.html
+          # https://wiki.mozilla.org/Telemetry/Experiments
+          # https://support.mozilla.org/en-US/questions/1197144
+          # https://firefox-source-docs.mozilla.org/toolkit/components/telemetry/telemetry/internals/preferences.html#id1
+          "toolkit.telemetry.enabled" = false;
+          "toolkit.telemetry.unified" = false;
+          "toolkit.telemetry.archive.enabled" = false;
+          "experiments.supported" = false;
+          "experiments.enabled" = false;
+          "experiments.manifest.uri" = "";
+          # Disable health reports (basically more telemetry)
+          # https://support.mozilla.org/en-US/kb/firefox-health-report-understand-your-browser-perf
+          # https://gecko.readthedocs.org/en/latest/toolkit/components/telemetry/telemetry/preferences.html
+          "datareporting.healthreport.uploadEnabled" = false;
+          "datareporting.healthreport.service.enabled" = false;
+          "datareporting.policy.dataSubmissionEnabled" = false;
+        };
+
+        userChrome = ''
+          /* @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"); */
+
+          @-moz-document url(chrome://browser/content/browser.xul),
+                          url(chrome://browser/content/browser.xhtml)
+          {
+            /* Replace favicon on tabs with close button on mouse hover */
+            .tabbrowser-tab:not(:hover) .tab-close-button,
+            .tabbrowser-tab:not([pinned]):hover .tab-icon-image { display: none !important; }
+            .tabbrowser-tab:not([pinned]):hover .tab-close-button { display:block !important; }
+
+            .tabbrowser-tab:hover .tab-throbber,
+            .tabbrowser-tab:hover .tab-icon-image,
+            .tabbrowser-tab:hover .tab-sharing-icon-overlay,
+            .tabbrowser-tab:hover .tab-icon-overlay,
+            .tabbrowser-tab:hover .tab-label-container,
+            .tabbrowser-tab:hover .tab-icon-sound {
+              -moz-box-ordinal-group: 2 !important;
+            }
+
+            .tabbrowser-tab .tab-close-button {
+              margin-left: -2px !important;
+              margin-right: 4px !important;
+            }
+
+            .tab-close-button:hover {
+              fill-opacity: 0 !important;
+            }
+
+            .tabbrowser-tab::after,
+            .tabbrowser-tab::before {
+              border-left: none !important;
+              border-right: none !important;
+            }
+
+            .scrollbutton-up[orient="horizontal"]~spacer { border-width: 0px; opacity: 0 }
+          }
+        '';
       };
-
-      userChrome = ''
-        /* @namespace url("http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul"); */
-
-        @-moz-document url(chrome://browser/content/browser.xul),
-                        url(chrome://browser/content/browser.xhtml)
-        {
-          /* Replace favicon on tabs with close button on mouse hover */
-          .tabbrowser-tab:not(:hover) .tab-close-button,
-          .tabbrowser-tab:not([pinned]):hover .tab-icon-image { display: none !important; }
-          .tabbrowser-tab:not([pinned]):hover .tab-close-button { display:block !important; }
-
-          .tabbrowser-tab:hover .tab-throbber,
-          .tabbrowser-tab:hover .tab-icon-image,
-          .tabbrowser-tab:hover .tab-sharing-icon-overlay,
-          .tabbrowser-tab:hover .tab-icon-overlay,
-          .tabbrowser-tab:hover .tab-label-container,
-          .tabbrowser-tab:hover .tab-icon-sound {
-            -moz-box-ordinal-group: 2 !important;
-          }
-
-          .tabbrowser-tab .tab-close-button {
-            margin-left: -2px !important;
-            margin-right: 4px !important;
-          }
-
-          .tab-close-button:hover {
-            fill-opacity: 0 !important;
-          }
-
-          .tabbrowser-tab::after,
-          .tabbrowser-tab::before {
-            border-left: none !important;
-            border-right: none !important;
-          }
-
-          .scrollbutton-up[orient="horizontal"]~spacer { border-width: 0px; opacity: 0 }
-        }
-      '';
-    };
     };
 
   };
