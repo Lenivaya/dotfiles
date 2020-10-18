@@ -97,6 +97,6 @@
   environment.systemPackages = [ pkgs.acpi ];
   powerManagement.powertop.enable = true;
 
-  # Latest kernel
-  boot.kernelPackages = lib.mkForce pkgs.unstable.linuxPackages_zen;
+  # Latest zen kernel
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_zen;
 }
