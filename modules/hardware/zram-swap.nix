@@ -1,9 +1,9 @@
 { config, options, lib, ... }:
 
 with lib;
-let cfg = config.modules.zram;
+let cfg = config.modules.hardware.zram;
 in {
-  options.modules.zram = {
+  options.modules.hardware.zram = {
     enable = mkOption {
       type = types.bool;
       default = false;

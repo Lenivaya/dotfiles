@@ -56,7 +56,11 @@
       ssh.enable = true;
     };
 
-    zram.enable = true;
+    hardware = {
+      audio.enable = true;
+      bluetooth.enable = true;
+      zram.enable = true;
+    };
     #    hosts.enable = true;
   };
 
@@ -64,12 +68,6 @@
   location.provider = "geoclue2";
 
   hardware.cpu.intel.updateMicrocode = true;
-
-  hardware.bluetooth = {
-    enable = true;
-    package = pkgs.bluezFull;
-  };
-  services.dbus.packages = [ pkgs.blueman ];
 
   services.xserver = {
     deviceSection = ''
@@ -87,11 +85,6 @@
       "https://github.com/NixOS/nixpkgs/archive/0a11634a29c1c9ffe7bfa08fc234fef2ee978dbb.tar.gz";
     sha256 = "0vj5k3djn1wlwabzff1kiiy3vs60qzzqgzjbaiwqxacbvlrci10y";
   }) { localSystem = "x86_64-linux"; }).mesa.drivers;
-
-  hardware.pulseaudio = {
-    enable = true;
-    package = pkgs.pulseaudioFull;
-  };
 
   # Optimize power use
   environment.systemPackages = [ pkgs.acpi ];
