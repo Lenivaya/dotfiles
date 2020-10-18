@@ -11,14 +11,12 @@ in {
       rofi = {
         enable = true;
         package = pkgs.rofi.override {
-          plugins = [ rofi-emoji rofi-calc rofi-file-browser ];
+          plugins = with pkgs; [ rofi-emoji rofi-calc rofi-file-browser ];
         };
         lines = 10;
         theme = "list";
         extraConfig = ''
-          rofi.modi: combi
-          rofi.combi-modi: drun,calc,file-browser
-          # rofi.modi: drun
+          rofi.modi: drun
           rofi.show-icons: true
         '';
       };
