@@ -12,11 +12,7 @@ in {
   options.modules.dev.node = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs; [
-      nodejs
-      yarn
-      nodePackages.javascript-typescript-langserver
-    ];
+    user.packages = with pkgs; [ nodejs yarn ];
 
     env.NPM_CONFIG_USERCONFIG = "$XDG_CONFIG_HOME/npm/config";
     env.NPM_CONFIG_CACHE = "$XDG_CACHE_HOME/npm";

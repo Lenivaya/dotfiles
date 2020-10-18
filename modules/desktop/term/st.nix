@@ -11,11 +11,17 @@ in {
       (st.overrideAttrs (oldAttrs: {
         buildInputs = with pkgs.xorg;
           [ libX11 libXft libXcursor ] ++ (with pkgs; [ harfbuzz ]);
-        src = fetchgit { url = "https://github.com/Lenivaya/st"; sha256 = "pZdvcia6T07r3mVAszSQx3/oeZbAfOBymFKo1YumAg8="; };
+        src = fetchgit {
+          url = "https://github.com/Lenivaya/st";
+          sha256 = "pZdvcia6T07r3mVAszSQx3/oeZbAfOBymFKo1YumAg8=";
+        };
       }))
 
       (dmenu.overrideAttrs (oldAttr: {
-        src = fetchgit { url = "https://github.com/LukeSmithxyz/dmenu"; sha256 = "NJ6oiSLprh6OzW2KefRry77O3tQ0VsPFTJr8ySOjy4U="; };
+        src = fetchgit {
+          url = "https://github.com/LukeSmithxyz/dmenu";
+          sha256 = "NJ6oiSLprh6OzW2KefRry77O3tQ0VsPFTJr8ySOjy4U=";
+        };
       }))
 
       (makeDesktopItem {
