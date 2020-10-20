@@ -68,6 +68,9 @@
         org-export-in-background t)
 (add-hook 'org-mode-hook 'org-fragtog-mode)
 
+;; :lang nix
+(setq-hook! 'nix-mode-hook company-idle-delay nil)
+
 
 ;; Treemacs
 (setq
