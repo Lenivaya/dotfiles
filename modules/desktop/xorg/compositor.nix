@@ -1,9 +1,8 @@
-{ pkgs, config, home-manager, ... }:
+{ pkgs, config, ... }:
 
 {
   home-manager.users.${config.user.name}.services.picom = {
     enable = true;
-    package = pkgs.unstable.picom;
     backend = "glx";
     vSync = true;
 
@@ -40,4 +39,5 @@
       shadow-radius = 7;
     '';
   };
+
 }
