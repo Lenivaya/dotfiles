@@ -36,6 +36,9 @@ with lib.my; {
       # screencast region to gif
       "super + ctrl + Print" = "scrrec -s ~/recordings/$(date +%F-%T).gif";
 
+      "super + KP_Left" = "st -e ranger";
+      "super + shift + KP_Left" = "st -e nnn";
+      "super + KP_Home" = "st -e tmux";
     };
   };
 }
