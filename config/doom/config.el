@@ -124,11 +124,4 @@
                            ("19:30" . doom-one)))
   (circadian-setup))
 
-(use-package! emojify
-  :defer t
-  :config
-  (setq! emojify-emoji-styles '(unicode github))
-  (global-emojify-mode))
-
-
 (use-package! org-chef)
