@@ -38,8 +38,11 @@
     };
 
     editors = {
-      emacs.enable = true;
-      default = "emacs";
+      emacs = {
+        enable = true;
+        doom.enable = true;
+        default = true;
+      };
     };
 
     dev = {
