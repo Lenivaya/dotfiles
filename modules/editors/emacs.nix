@@ -6,10 +6,8 @@ let cfg = config.modules.editors.emacs;
 in {
   options.modules.editors.emacs = {
     enable = mkBoolOpt false;
-    doom = {
-      enable = mkBoolOpt true;
-      fromSSH = mkBoolOpt false;
-    };
+    default = mkBoolOpt false;
+    doom = { enable = mkBoolOpt true; };
   };
 
   config = mkIf cfg.enable {
@@ -46,17 +44,18 @@ in {
 
     fonts.fonts = [ pkgs.emacs-all-the-icons-fonts ];
 
-    # init.doomEmacs = mkIf cfg.doom.enable ''
-    #   if [ -d $HOME/.config/emacs ]; then
-    #      ${optionalString cfg.doom.fromSSH ''
-    #         git clone git@github.com:hlissner/doom-emacs.git $HOME/.config/emacs
-    #         git clone git@github.com:hlissner/doom-emacs-private.git $HOME/.config/doom
-    #      ''}
-    #      ${optionalString (cfg.doom.fromSSH == false) ''
-    #         git clone https://github.com/hlissner/doom-emacs $HOME/.config/emacs
-    #         git clone https://github.com/hlissner/doom-emacs-private $HOME/.config/doom
-    #      ''}
-    #   fi
-    # '';
+    services.emacs = {
+      enable = true;
+      defaultEditor = mkIf cfg.default true;
+    };
+
+    init.doomEmacs = mkIf cfg.doom.enable ''
+      if [ -d $HOME/.config/emacs ]; then
+            git clone https://github.com/hlissner/doom-emacs $HOME/.emacs.d
+      fi
+      if [ -d $HOME/.config/doom ]; then
+            ln -s ${configDir}/doom ~/.config/doom
+      fi
+    '';
   };
 }
