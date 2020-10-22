@@ -59,7 +59,6 @@ import           XMonad.Custom.Prompt           ( promptTheme
                                                 , hotPromptTheme
                                                 )
 import           XMonad.Custom.Scratchpads
-import           XMonad.Actions.PerConditionKeys
 
 modMask :: KeyMask
 modMask = mod4Mask
@@ -210,12 +209,10 @@ keysWindows _ =
     , ("M-w u"  , focusUrgent)
     , ("M-w m"  , windows S.focusMaster)
     , ("M-w S-m", windows S.swapMaster)
-    , ( "M-'"
-      , bindOn LD [("Tabs", windows S.focusDown), ("", onGroup S.focusDown')]
-      )
-    , ("M-;", bindOn LD [("Tabs", windows S.focusUp), ("", onGroup S.focusUp')])
-    , ("M-S-'", windows S.swapDown)
-    , ("M-S-;", windows S.swapUp)
+    , ("M-'"    , onGroup S.focusDown')
+    , ("M-;"    , onGroup S.focusUp')
+    , ("M-S-'"  , windows S.swapDown)
+    , ("M-S-;"  , windows S.swapUp)
     ]
     ++ zipKeys' "M-"   directionKeys directions windowGo   True
     ++ zipKeys' "M-S-" directionKeys directions windowSwap True
