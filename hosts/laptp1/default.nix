@@ -1,7 +1,7 @@
 # laptp1 -- my laptop
 
 { pkgs, lib, ... }: {
-  imports = [ ./hardware-configuration.nix ];
+  imports = [ ../personal.nix ./hardware-configuration.nix ];
 
   modules = {
     desktop = {
@@ -66,9 +66,6 @@
     };
     #    hosts.enable = true;
   };
-
-  time.timeZone = "Europe/Kiev";
-  location.provider = "geoclue2";
 
   hardware.cpu.intel.updateMicrocode = true;
 

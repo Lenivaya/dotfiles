@@ -8,9 +8,16 @@
 #   hey cd|check      -> nix flake check $DOTFILES
 #   hey sh|show       -> nix flake show $DOTFILES
 #   hey u|update      -> nix flake update --recreate-lock-file $DOTFILES
-#   hey re|rebuild    -> nixos-rebuild --flake $DOTFILES#$HOSTNAME ${1:-build}
+#   hey re|rebuild    -> nixos-rebuild --flake $DOTFILES#$HOST ${1:-build}
+#   hey t|test        -> nixos-rebuild --flake $DOTFILES#$HOST --fast test
+#   hey theme $THEME  -> THEME=$THEME hey test (quick theme swapping)
 #   hey rollback      -> hey rebuild --rollback switch
 #   hey s|search      -> nix search nixpkgs $@
+#   hey swap $PATH    -> swaps all specified nix-store symlinks (or recursively
+#                        in a specified directory) with copies so they can be
+#                        modified in place (while tweaking). Run again to
+#                        restore the old link (careful, you'll lose work if you
+#                        don't save your changes elsewhere!)
 #   hey vm            -> hey rebuild vm
 #   hey up|upgrade    -> hey update && hey rebuild switch
 #   hey gc            -> GC user profile, optimise nix store
@@ -37,32 +44,44 @@ function main {
     echo "Usage: hey COMMAND [FLAGS...] [ARGS...]"
     echo
     echo "Available commands:"
-    echo "  init               TODO"
-    echo "  upgrade (up)       TODO"
-    echo "  rebuild (re)       TODO"
-    echo "  rollback           TODO"
-    echo "  gc                 TODO"
-    echo "  vm                 TODO"
-    echo "  push               Push thie config to a remote NixOS system and rebuild it"
+    echo "  check (ch)         Same as 'nix flake check \$DOTFILES'"
+    echo "  gc                 Garbage collect and optimize store"
     echo "  generations (gen)  TODO"
+    echo "  push               Push thie config to a remote NixOS system and rebuild it"
+    echo "  rebuild (re)       Rebuild current system flake"
+    echo "  rollback           Roll back to last generation"
+    echo "  search (s)         Searches nixpkgs for a package"
+    echo "  show (sh)          Same as 'nix flake show \$DOTFILES'"
+    echo "  swap               Swap nix-store link (or directory thereof) for tweaking"
+    echo "  test (t)           Quickly rebuild, for quick iteration"
+    echo "  theme              Quickly swap to another theme"
+    echo "  upgrade (up)       Update flake lockfile and rebuild"
+    echo "  vm                 Build flake into a VM image"
   }
 
   function _rebuild {
     # Move to $DOTFILES to prevent polluting the system with result links
     pushd $DOTFILES >/dev/null
-    _do sudo nixos-rebuild --flake ".#$HOSTNAME" ${@:-build}
+    _do sudo nixos-rebuild --flake ".#$HOST" ${@:-build}
     popd >/dev/null
   }
 
   function _update {
     echo "Updating NixOS flake"
-    _do nix flake update --recreate-lock-file "$DOTFILES"
+    if [[ "$@" ]]; then
+      for flake in $@; do
+        _do nix flake update --update-input "$flake" "$DOTFILES"
+      done
+    else
+      _do nix flake update --recreate-lock-file "$DOTFILES"
+    fi
   }
 
   function _gc {
     if [[ $EUID == 0 ]]; then
       echo "Cleaning up your system..."
       _do sudo nix-collect-garbage ${@:--d}
+      _do nix-store --optimise
       # nix-collect-garbage is a Nix tool, not a NixOS tool. It won't delete old
       # boot entries until you do a nixos-rebuild (which means we'll always have
       # 2 boot entries at any time). Instead, we properly delete them by
@@ -73,7 +92,38 @@ function main {
       echo "Cleaning up your user profile..."
       _do nix-collect-garbage ${@:--d}
     fi
-    _do nix-store --optimise
+  }
+
+  function _swap {
+    for target in $@; do
+      if [ -d "$target" ]; then
+        files=( "$target"/**/*.nix-store-backup )
+        links=( $(find "$target" -type l) )
+        if [[ "$files" ]]; then
+          echo "There are swapped files here. Unswapping!"
+          for file in $files[@]; do
+            _swap "$link"
+          done
+        else
+          echo "Swapping files in $target"
+          for link in $links[@]; do
+            if [[ "$(readlink $link)" == /nix/store/* ]]; then
+              _swap "$link"
+            fi
+          done
+        fi
+      elif [ -f "$target.nix-store-backup" ]; then
+        echo "Unswapping $target"
+        _do mv -i "$target.nix-store-backup" "$target"
+      elif [ -f "$target" ]; then
+        echo "Swapping $target"
+        _do mv "$target" "$target.nix-store-backup"
+        _do cp "$target.nix-store-backup" "$target"
+      else
+        >&2 echo "Not a valid target: $target"
+        exit 1
+      fi
+    done
   }
 
   ###
@@ -84,9 +134,11 @@ function main {
     # sh|shell)    _do nix-shell "$@"             ;;
     # repl)        _do nix develop "$@"           ;;
 
-    ch|check)    _do nix flake check "$DOTFILES";;
-    sh|show)     _do nix flake show "$DOTFILES" ;;
+    ch|check)    _do nix flake check "$@" "$DOTFILES";;
+    sh|show)     _do nix flake show "$@" "$DOTFILES" ;;
 
+    theme)       THEME="$1" _rebuild --fast test ;;
+    t|test)      _rebuild --fast test "$@"      ;;
     re|rebuild)  _rebuild "${@:-switch}"        ;;
     rollback)    _rebuild --rollback switch     ;;
     vm)          _rebuild "$@" vm               ;;
@@ -95,10 +147,11 @@ function main {
     up|upgrade)  _update && _rebuild switch     ;;
     s|search)    nix search nixpkgs "$@"        ;;
 
+    swap)        _swap $@                       ;;
     gc)          _gc "$@"                       ;;
     push)
       rsync -avzh ./ "$1:$REMOTE/"
-      ssh -t -l "$USERNAME" "$1" "$REMOTE/hey re" "${@[2,-1]}"
+      ssh -t -l "$USERNAME" "$1" "$REMOTE/bin/hey re" "${@[2,-1]}"
       ;;
 
     gen|generations)
