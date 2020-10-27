@@ -1,4 +1,4 @@
-{ config, options, lib, pkgs, ... }:
+{ config, lib, pkgs, inputs, ... }:
 
 with lib;
 with lib.my;
@@ -49,13 +49,13 @@ in {
       defaultEditor = mkIf cfg.default true;
     };
 
-    init.doomEmacs = mkIf cfg.doom.enable ''
-      if [ -d $HOME/.config/emacs ]; then
-            git clone https://github.com/hlissner/doom-emacs $HOME/.emacs.d
-      fi
-      if [ -d $HOME/.config/doom ]; then
-            ln -s ${configDir}/doom ~/.config/doom
-      fi
-    '';
+    # init.doomEmacs = mkIf cfg.doom.enable ''
+    #   if [ -d $HOME/.config/emacs ]; then
+    #         git clone https://github.com/hlissner/doom-emacs $HOME/.emacs.d
+    #   fi
+    #   if [ -d $HOME/.config/doom ]; then
+    #         ln -s ${configDir}/doom ~/.config/doom
+    #   fi
+    # '';
   };
 }
