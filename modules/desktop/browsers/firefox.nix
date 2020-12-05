@@ -11,6 +11,7 @@ in {
 
   config = mkIf cfg.enable {
 
+    # Desktop entry for private firefox window
     user.packages = with pkgs;
       [
         (makeDesktopItem {
@@ -32,6 +33,7 @@ in {
         IsRelative=1
         Path=${cfg.profileName}.default
         Default=1
+
         [General]
         StartWithLastProfile=1
         Version=2
@@ -43,6 +45,7 @@ in {
 
       profiles.default = {
         settings = {
+          "devtools.theme" = "dark";
           "browser.tabs.closeWindowWithLastTab" = false;
           "browser.tabs.insertAfterCurrent" = true;
           "browser.tabs.loadBookmarksInTabs" = true;
@@ -56,6 +59,14 @@ in {
 
           # Do not check if Firefox is the default browser
           "browser.shell.checkDefaultBrowser" = false;
+          # Disable the "new tab page" feature and show a blank tab instead
+          # https://wiki.mozilla.org/Privacy/Reviews/New_Tab
+          # https://support.mozilla.org/en-US/kb/new-tab-page-show-hide-and-customize-top-sites#w_how-do-i-turn-the-new-tab-page-off
+          "browser.newtabpage.enabled" = false;
+          "browser.newtab.url" = "about:blank";
+          # Disable Activity Stream
+          # https://wiki.mozilla.org/Firefox/Activity_Stream
+          "browser.newtabpage.activity-stream.enabled" = false;
           # Disable new tab tile ads & preload
           # http://www.thewindowsclub.com/disable-remove-ad-tiles-from-firefox
           # http://forums.mozillazine.org/viewtopic.php?p=13876331#p13876331
