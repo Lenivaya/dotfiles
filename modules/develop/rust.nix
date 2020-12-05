@@ -7,7 +7,7 @@ in {
   options.modules.dev.rust = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs; [ rustup rustfmt unstable.rust-analyzer rls ];
+    user.packages = with pkgs; [ rustup rustfmt rust-analyzer rls ];
 
     env.RUSTUP_HOME = "$XDG_DATA_HOME/.rustup";
     env.CARGO_HOME = "$XDG_DATA_HOME/.cargo";
