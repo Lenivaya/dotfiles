@@ -13,5 +13,9 @@ in {
       source = "${configDir}/dunst";
       recursive = true;
     };
+
+    services.xserver.displayManager.sessionCommands = ''
+      ${pkgs.dunst}/bin/dunst &
+    '';
   };
 }
