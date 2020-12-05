@@ -204,6 +204,8 @@ keysWindows _ =
     , ("M-w h"  , withFocused minimizeWindow)
     , ("M-w S-h", withLastMinimized maximizeWindowAndFocus)
     , ("M-w p"  , promote)
+    , ("M-w r"  , tryMessageR_ Rotate (Toggle REFLECTX))
+    , ("M-w S-r", sendMessage $ Toggle REFLECTX)
     , ("M-w t"  , withFocused $ sendMessage . MergeAll)
     , ("M-w S-t", withFocused $ sendMessage . UnMerge)
     , ("M-w u"  , focusUrgent)
@@ -231,8 +233,6 @@ keysLayout c =
   , ("M-S-y"        , sinkAll)
   , ("M-S-,"        , sendMessage $ IncMasterN (-1))
   , ("M-S-."        , sendMessage $ IncMasterN 1)
-  , ("M-r"          , tryMessageR_ Rotate (Toggle REFLECTX))
-  , ("M-S-r"        , sendMessage $ Toggle REFLECTX)
   , ( "M-f"
     , sequence_ [withFocused $ windows . S.sink, sendMessage $ Toggle NBFULL]
     )
