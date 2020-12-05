@@ -120,8 +120,8 @@
 
 (use-package! circadian
   :config
-  (setq circadian-themes '(("8:00" . doom-one)
-                           ("19:30" . doom-one)))
+  (setq circadian-themes '(("8:00" . doom-tomorrow-night)
+                           ("20:30" . doom-tomorrow-night)))
   (circadian-setup))
 
 (use-package! org-chef)
