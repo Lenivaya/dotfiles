@@ -35,9 +35,18 @@ in {
     };
 
     # Some nice shell things
-    user.packages = with pkgs;
-      [ zsh bat exa fd fzf htop tldr tree fasd ]
-      ++ (with pkgs.unstable; [ starship ]);
+    user.packages = with pkgs; [
+      zsh
+      bat
+      exa
+      fd
+      fzf
+      htop
+      tldr
+      tree
+      fasd
+      starship
+    ];
 
     home-manager.users.${config.user.name}.programs.broot.enable = true;
 

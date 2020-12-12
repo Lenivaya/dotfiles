@@ -7,7 +7,7 @@ in {
   options.modules.desktop.term.alacritty = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs.unstable; [ alacritty ];
+    user.packages = with pkgs; [ alacritty ];
 
     home.configFile."alacritty" = {
       source = "${configDir}/alacritty";

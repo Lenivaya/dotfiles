@@ -31,7 +31,7 @@ in {
       XMONAD_DATA_DIR = "$XDG_DATA_HOME/xmonad";
     };
 
-    user.packages = with pkgs.unstable; [
+    user.packages = with pkgs; [
       xmobar
       jq # for weather script
     ];
