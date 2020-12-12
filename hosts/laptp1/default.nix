@@ -46,6 +46,7 @@
     };
 
     dev = {
+      shell.enable = true;
       cc.enable = true;
       rust.enable = true;
       go.enable = true;
@@ -64,7 +65,8 @@
       bluetooth.enable = true;
       zram.enable = true;
     };
-    #    hosts.enable = true;
+
+    hosts.enable = true;
   };
 
   hardware.cpu.intel.updateMicrocode = true;

@@ -33,7 +33,7 @@ in {
       enable = true;
 
       package = if cfg.ungoogled then
-        (wrapWithFlags pkgs.unstable.ungoogled-chromium cfg.flags)
+        (wrapWithFlags pkgs.ungoogled-chromium cfg.flags)
       else
         (wrapWithFlags pkgs.chromium cfg.flags);
 

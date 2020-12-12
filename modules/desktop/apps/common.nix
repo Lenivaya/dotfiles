@@ -50,7 +50,9 @@
       xclip
       curl
       youtube-dl
-    ] ++ (with pkgs.unstable; [ tdesktop ]) ++ (with pkgs.gnome3; [
+      appimage-run
+      tdesktop
+    ] ++ (with pkgs.gnome3; [
       adwaita-icon-theme
       nautilus
       file-roller

@@ -21,8 +21,10 @@ with inputs; {
     package = pkgs.unstable.nixFlakes;
     extraOptions = "experimental-features = nix-command flakes";
     nixPath = [
-      "nixpkgs=${nixos}"
-      "nixpkgs-unstable=${nixos-unstable}"
+      "nixpkgs=${nixpkgs}"
+      "nixpkgs-unstable=${nixpkgs-unstable}"
+      # "nixpkgs=${nixos}"
+      # "nixpkgs-unstable=${nixos-unstable}"
       "nixpkgs-overlays=${dotFilesDir}/overlays"
       "home-manager=${home-manager}"
       "dotfiles=${dotFilesDir}"
@@ -63,7 +65,7 @@ with inputs; {
 
   # Just the bear necessities...
   environment.systemPackages = with pkgs; [
-    unstable.cached-nix-shell
+    cached-nix-shell
     coreutils
     git
     vim
