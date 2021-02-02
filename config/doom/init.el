@@ -19,6 +19,7 @@
        (company
         +childframe)           ; the ultimate code completion backend
        (ivy               ; a search engine for love and life
+        +prescient
         +icons
         +childframe)
 
@@ -34,7 +35,7 @@
        ;; fill-column       ; a `fill-column' indicator
        hl-todo           ; highlight TODO/FIXME/NOTE tags
        indent-guides     ; highlighted indent columns
-       ligatures         ; ligatures and symbols to make your code pretty again
+       (ligatures +iosevka)         ; ligatures and symbols to make your code pretty again
        minimap           ; show a map of the code on the side
        modeline          ; snazzy, Atom-inspired modeline, plus API
        nav-flash         ; blink the current line after jumping
@@ -48,8 +49,7 @@
        unicode           ; extended unicode support for various languages
        vc-gutter         ; vcs diff in the fringe
        vi-tilde-fringe   ; fringe tildes to mark beyond EOB
-       (window-select     ; visually switch windows
-        +ace-window)
+       window-select     ; visually switch windows
        workspaces        ; tab emulation, persistence & separate workspaces
        zen
 
@@ -67,7 +67,7 @@
 
        :emacs
        (dired            ; making dired pretty [functional]
-        ;;+ranger         ; bringing the goodness of ranger to dired
+        +ranger         ; bringing the goodness of ranger to dired
         +icons)          ; colorful icons for dired-mode
        electric          ; smarter, keyword-based electric-indent
        (ibuffer +icons)
@@ -99,7 +99,7 @@
        (lookup           ; helps you navigate your code and documentation
         +docsets         ; ...or in Dash docsets locally
         +dictionary)
-       lsp
+       (lsp +peek)
        ;;macos             ; MacOS-specific commands
        (magit +forge)                               ; a git porcelain for Emacs
        make              ; run make tasks from Emacs

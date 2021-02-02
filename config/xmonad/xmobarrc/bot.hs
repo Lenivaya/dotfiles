@@ -38,7 +38,6 @@ Config { font = "xft:monospace:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
                                                     , "--onc"  , "#a19782"
                                                     , "--offc" , "#a19782"
                                                     ] 1
-                    , Run Mpris2 "spotify" ["-t", "<artist> - <title>"] 10
                     ]
        , sepChar = "%"
        , alignSep = "}{"
@@ -47,6 +46,6 @@ Config { font = "xft:monospace:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
                     \}\
                     \\
                     \{\
-                    \%mpris2%  /  %kbd%   %default:Master%\
+                    \ %kbd%   %default:Master%\
                     \ "
        }

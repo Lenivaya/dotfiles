@@ -15,10 +15,10 @@ in {
         };
         lines = 10;
         theme = "list";
-        extraConfig = ''
-          rofi.modi: drun
-          rofi.show-icons: true
-        '';
+        extraConfig = {
+          modi = "drun";
+          show-icons = true;
+        };
       };
     };
 
