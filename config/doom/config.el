@@ -31,8 +31,9 @@
 (setq doom-modeline-buffer-encoding nil
       +modeline-encoding nil)
 
- ;; Let’s make this popup a bit faster
+;; Let’s make this popup a bit faster
 (setq which-key-idle-delay 0.5)
+
 
 
 ;;
@@ -60,12 +61,12 @@
 
 ;; :lang org
 (setq org-directory "~/org/"
-        org-archive-location (concat org-directory ".archive/%s::")
-        org-roam-directory (concat org-directory "notes/")
-        org-journal-encrypt-journal t
-        org-journal-file-format "%Y%m%d.org"
-        org-ellipsis " ▼ "
-        org-export-in-background t)
+      org-archive-location (concat org-directory ".archive/%s::")
+      org-roam-directory (concat org-directory "notes/")
+      org-journal-encrypt-journal t
+      org-journal-file-format "%Y%m%d.org"
+      org-ellipsis " ▼ "
+      org-export-in-background t)
 (add-hook 'org-mode-hook 'org-fragtog-mode)
 
 ;; :lang nix
@@ -78,6 +79,16 @@
 
 ;; Rust
 (setq rustic-lsp-server 'rust-analyzer)
+
+;; :lang python
+(after! lsp-python-ms
+  (setq lsp-python-ms-executable (executable-find "python-language-server"))
+  (set-lsp-priority! 'mspyls 1)
+  ) ;; nixos
+
+;; :lang js
+(setq-hook! 'js2-mode-hook +format-with-lsp nil) ;; Prefer prettier formaGter
+
 
 ;;
 ;;; Packages
@@ -125,3 +136,7 @@
   (circadian-setup))
 
 (use-package! org-chef)
+
+(use-package company-prescient
+  :after company
+  :hook (company-mode . company-prescient-mode))

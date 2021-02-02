@@ -16,6 +16,8 @@
       browsers = {
         default = "firefox";
         firefox.enable = true;
+        chromium.enable = true;
+        brave.enable = true;
       };
 
       term = {
@@ -69,6 +71,11 @@
     hosts.enable = true;
   };
 
+  zramSwap = {
+    algorithm = lib.mkForce "lz4";
+    # memoryPercent = lib.mkForce 50;
+  };
+
   hardware.cpu.intel.updateMicrocode = true;
 
   services.xserver = {
@@ -95,6 +102,7 @@
   environment.systemPackages = [ pkgs.acpi ];
   powerManagement.powertop.enable = true;
 
-  # Latest zen kernel
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_zen;
+  # Kernel
+  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_lqx;
+  # boot.kernelPackages = lib.mkForce pkgs.linuxPackages_zen;
 }

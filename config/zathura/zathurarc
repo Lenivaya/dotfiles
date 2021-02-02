@@ -92,5 +92,5 @@ set scroll-full-overlap         0
 set scroll-wrap                 true
 set scroll-page-aware           false
 
-set selection-clipboard         primary
+set selection-clipboard clipboard
 set selection-notification      false

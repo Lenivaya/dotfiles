@@ -26,11 +26,24 @@ with lib.my; {
     };
   };
 
+  # qt5 = {
+  #   enable = true;
+  #   platformTheme = "gnome";
+  #   style = "adwaita";
+  # };
+
+  # Try really hard to get QT to respect my GTK theme.
+  env.GTK_DATA_PREFIX = [ "${config.system.path}" ];
+  env.QT_QPA_PLATFORMTHEME = "gtk2";
   qt5 = {
-    enable = true;
-    platformTheme = "gnome";
-    style = "adwaita";
+    style = "gtk2";
+    platformTheme = "gtk2";
   };
+
+  services.xserver.displayManager.sessionCommands = ''
+    # GTK2_RC_FILES must be available to the display manager.
+    export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
+  '';
 
   home.file.".Xresources".source = "${configDir}/xresources/.Xresources";
 }

@@ -21,3 +21,5 @@
 (package! selectric-mode)
 ;; Recipes by url
 (package! org-chef)
+;; company persient sorting
+(package! company-prescient)

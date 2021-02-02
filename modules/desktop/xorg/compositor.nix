@@ -8,6 +8,7 @@
 
     activeOpacity = "1.0";
     inactiveOpacity = "0.92";
+    inactiveDim = "0.3";
     opacityRule = [
       "100:name *= 'i3lock'"
       "100:class_g = 'Gimp'"
@@ -37,6 +38,9 @@
       blur-strength = 320;
 
       shadow-radius = 7;
+
+      unredir-if-possible = true;
+      dbe = true;
     '';
   };
 

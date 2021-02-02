@@ -14,13 +14,14 @@ in {
 
     services.xserver.windowManager.xmonad = {
       enable = true;
-      haskellPackages = pkgs.unstable.haskellPackages;
+      # haskellPackages = pkgs.unstable.haskellPackages;
       extraPackages = haskellPackages: [
         haskellPackages.xmonad-contrib
         haskellPackages.xmonad-extras
         haskellPackages.xmonad
         haskellPackages.gloss
       ];
+      ghcArgs = [ "-O2" ];
     };
 
     services.xserver = { displayManager.defaultSession = "none+xmonad"; };

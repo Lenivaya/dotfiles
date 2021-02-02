@@ -20,7 +20,7 @@ in {
       (dmenu.overrideAttrs (oldAttr: {
         src = fetchgit {
           url = "https://github.com/LukeSmithxyz/dmenu";
-          sha256 = "NJ6oiSLprh6OzW2KefRry77O3tQ0VsPFTJr8ySOjy4U=";
+          sha256 = "qwOcJqYGMftFwayfYA3XM0xaOo6ALV4gu1HpFRapbFg=";
         };
       }))
 

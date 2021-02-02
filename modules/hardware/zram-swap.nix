@@ -13,7 +13,7 @@ in {
   config = mkIf cfg.enable {
     zramSwap = {
       enable = true;
-      algorithm = "lz4";
+      algorithm = "zstd";
       memoryPercent = 25;
       numDevices = 1;
     };

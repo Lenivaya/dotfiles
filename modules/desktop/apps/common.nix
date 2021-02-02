@@ -13,7 +13,6 @@
       libnotify
       binutils
       usbutils
-      unzip
       zip
       unrar
       ncdu # Disk space usage anlyzer

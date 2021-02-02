@@ -41,4 +41,12 @@ with lib.my; {
       "super + KP_Home" = "st -e tmux";
     };
   };
+
+  # Clean up leftovers, as much as we can
+  system.userActivationScripts.cleanupHome = ''
+    pushd "${config.user.home}"
+    rm -rf .compose-cache .nv .pki .dbus .fehbg
+    [ -s .xsession-errors ] || rm -f .xsession-errors*
+    popd
+  '';
 }

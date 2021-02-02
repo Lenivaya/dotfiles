@@ -13,6 +13,7 @@ with lib; {
     gnome-disks.enable = true;
     udevil.enable = true;
   };
+  services.udisks2.enable = true;
 
   # hardware related stuff
   hardware.enableRedistributableFirmware = true;
