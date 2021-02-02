@@ -35,7 +35,7 @@ with lib.my; {
     useSandbox = true;
   };
   system.configurationRevision = with inputs; mkIf (self ? rev) self.rev;
-  system.stateVersion = "21.03";
+  system.stateVersion = "20.09";
 
   ## Some reasonable, global defaults
   # This is here to appease 'nix flake check' for generic hosts with no
