@@ -8,7 +8,7 @@ with lib.my; {
     autoRepeatDelay = 250;
     autoRepeatInterval = 50;
     libinput = {
-      disableWhileTyping = true;
+      touchpad.disableWhileTyping = true;
       enable = true;
     };
     layout = "us, ru, ua";
