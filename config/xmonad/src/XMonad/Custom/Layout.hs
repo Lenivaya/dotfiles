@@ -8,28 +8,30 @@ module XMonad.Custom.Layout
   , selectLayoutByName
   , toggleLayout
   , CustomTransformers(..)
-  )
-where
+  ) where
 
 
-import           XMonad                  hiding ( (|||)
+import           XMonad                  hiding ( float
                                                 , layoutHook
-                                                , float
+                                                , (|||)
                                                 )
 import qualified XMonad.Custom.Theme           as T
 import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.RefocusLast
 import           XMonad.Layout.Accordion
 import           XMonad.Layout.BinarySpacePartition
+import           XMonad.Layout.BoringWindows
 import           XMonad.Layout.Circle
-import           XMonad.Layout.ThreeColumns
 import           XMonad.Layout.Fullscreen
 import           XMonad.Layout.Hidden
 import           XMonad.Layout.LayoutModifier
+import           XMonad.Layout.Maximize
+import           XMonad.Layout.Minimize
 import           XMonad.Layout.MultiToggle
 import           XMonad.Layout.MultiToggle.Instances
 import           XMonad.Layout.Named
 import           XMonad.Layout.NoBorders
+import           XMonad.Layout.OneBig
 import           XMonad.Layout.PerWorkspace
 import           XMonad.Layout.Reflect
 import           XMonad.Layout.ResizableTile
@@ -37,26 +39,24 @@ import           XMonad.Layout.Simplest
 import           XMonad.Layout.Spacing
 import           XMonad.Layout.SubLayouts
 import           XMonad.Layout.Tabbed
+import           XMonad.Layout.ThreeColumns
 import           XMonad.Layout.WindowNavigation
-import           XMonad.Layout.BoringWindows
-import           XMonad.Layout.Maximize
-import           XMonad.Layout.Minimize
 
 -- layout prompt
 import           Data.Map                       ( Map )
 import qualified Data.Map                      as Map
 import           Data.Maybe                     ( fromMaybe )
 import           XMonad.Custom.Prompt           ( aListCompFunc )
+import           XMonad.Layout.LayoutCombinators
 import           XMonad.Prompt
 import qualified XMonad.StackSet               as Stack
 import           XMonad.Util.ExtensibleState   as XState
-import           XMonad.Layout.LayoutCombinators
 
 applySpacing :: l a -> ModifiedLayout Spacing l a
 applySpacing = spacingRaw False (Border 6 6 6 6) True (Border 6 6 6 6) True
 
 data CustomTransformers = GAPS
-                        deriving (Read, Show, Eq, Typeable)
+  deriving (Read, Show, Eq, Typeable)
 
 instance Transformer CustomTransformers Window where
   transform GAPS x k = k (avoidStruts $ applySpacing x) (const x)
@@ -66,6 +66,7 @@ bsp = named "BSP" $ emptyBSP
 tall = named "Tall" $ ResizableTall 1 (3 / 100) (1 / 2) []
 circle = named "Circle" $ Circle
 threecolmid = named "ThreeColMid" $ ThreeColMid 1 (3 / 100) (1 / 2)
+onebig = named "OneBig" $ OneBig (3 / 4) (3 / 4)
 
 layoutHook =
   fullscreenFloat
@@ -83,7 +84,7 @@ layoutHook =
     $   hiddenWindows
     $   addTabs shrinkText T.tabTheme
     $   subLayout [] (Simplest ||| Accordion)
-    $   onWorkspaces ["Read"] circle
+    $   onWorkspace "Read" (circle ||| onebig)
     .   maximize
     .   minimize
 
@@ -91,6 +92,7 @@ layoutHook =
     ||| circle
     ||| tall
     ||| threecolmid
+    ||| onebig
 
 --------------------------------------------------------------------------------
 -- | A data type for the @XPrompt@ class.
@@ -119,6 +121,7 @@ selectLayoutByName conf = mkXPrompt LayoutByName
     , ("Circle"     , "Circle")
     , ("Tall"       , "Tall")
     , ("ThreeColMid", "ThreeColMid")
+    , ("OneBig"     , "OneBig")
     ]
 
 --------------------------------------------------------------------------------

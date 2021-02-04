@@ -2,11 +2,10 @@
 
 module XMonad.Custom.Log
   ( logHook
-  )
-where
+  ) where
 
-import           System.IO
 import           Data.List                      ( isInfixOf )
+import           System.IO
 import           XMonad                  hiding ( logHook )
 import           XMonad.Actions.CopyWindow
 import           XMonad.Custom.Theme
@@ -25,6 +24,7 @@ layoutIcon l | isInfixOf "BSP" l         = " <fn=1>\57654</fn>"
              | isInfixOf "Circle" l      = " <fn=1>\57521</fn>"
              | isInfixOf "Tall" l        = " <fn=1>\57346</fn>"
              | isInfixOf "ThreeColMid" l = " <fn=1>\57377</fn>"
+             | isInfixOf "OneBig" l      = " <fn=1>\57377</fn>"
              | otherwise                 = ""
 
 

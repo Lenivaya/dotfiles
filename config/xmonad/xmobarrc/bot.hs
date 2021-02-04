@@ -46,6 +46,6 @@ Config { font = "xft:monospace:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
                     \}\
                     \\
                     \{\
-                    \ %kbd%   %default:Master%\
+                    \%kbd%   %default:Master%\
                     \ "
        }
