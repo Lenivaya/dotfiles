@@ -4,15 +4,14 @@ module XMonad.Custom.Prompt
   , predicateFunction
   , promptTheme
   , hotPromptTheme
-  )
-where
+  ) where
 
 import           Data.Char
 import           Data.List
 import           Data.Ratio
+import qualified XMonad.Custom.Theme           as T
 import           XMonad.Prompt
 import           XMonad.Prompt.FuzzyMatch
-import qualified XMonad.Custom.Theme           as T
 
 promptTheme, hotPromptTheme :: XPConfig
 promptTheme = def
@@ -33,10 +32,11 @@ promptTheme = def
   , autoComplete      = Just 5000
   }
 
-hotPromptTheme = promptTheme { bgColor  = T.black2
-                             , fgColor  = T.white2
-                             , fgHLight = T.white1
-                             , bgHLight = T.black1
+hotPromptTheme = promptTheme { bgColor      = T.black2
+                             , fgColor      = T.white2
+                             , fgHLight     = T.white1
+                             , bgHLight     = T.black1
+                             , autoComplete = Nothing
                              }
 
 listCompFunc :: XPConfig -> [String] -> String -> IO [String]

@@ -5,8 +5,7 @@ module XMonad.Custom.Bindings
   , rawKeys
   , modMask
   , mouseBindings
-  )
-where
+  ) where
 
 import qualified Data.Map                      as M
 import           System.Exit
@@ -23,22 +22,22 @@ import qualified XMonad.Actions.FlexibleManipulate
 import           XMonad.Actions.FloatSnap
 import           XMonad.Actions.GridSelect
 import           XMonad.Actions.MessageFeedback
+import           XMonad.Actions.Minimize
 import           XMonad.Actions.Navigation2D
 import           XMonad.Actions.Promote
 import           XMonad.Actions.UpdatePointer
-import           XMonad.Actions.WithAll
 import           XMonad.Actions.WindowGo
 import           XMonad.Actions.WindowMenu
-import           XMonad.Actions.Minimize
+import           XMonad.Actions.WithAll
 import           XMonad.Hooks.UrgencyHook
 import           XMonad.Layout.BinarySpacePartition
 import           XMonad.Layout.Hidden
+import           XMonad.Layout.Maximize
 import           XMonad.Layout.MultiToggle
 import           XMonad.Layout.MultiToggle.Instances
 import           XMonad.Layout.Reflect
 import           XMonad.Layout.ResizableTile
 import           XMonad.Layout.SubLayouts
-import           XMonad.Layout.Maximize
 import           XMonad.Prompt.ConfirmPrompt
 import           XMonad.Prompt.Pass
 import           XMonad.Prompt.Shell
@@ -55,8 +54,8 @@ import           XMonad.Custom.Layout           ( selectLayoutByName
                                                 )
 import           XMonad.Custom.Layout
 import qualified XMonad.Custom.Misc            as C
-import           XMonad.Custom.Prompt           ( promptTheme
-                                                , hotPromptTheme
+import           XMonad.Custom.Prompt           ( hotPromptTheme
+                                                , promptTheme
                                                 )
 import           XMonad.Custom.Scratchpads
 
@@ -168,7 +167,7 @@ keysWorkspaces :: XConfig Layout -> [(String, X ())]
 keysWorkspaces _ =
   [ ("M-w S-o", switchProjectPrompt promptTheme)
     , ("M-w S-p", shiftToProjectPrompt promptTheme)
-    , ("M-w S-n", renameProjectPrompt promptTheme)
+    , ("M-w S-n", renameProjectPrompt hotPromptTheme)
     , ("M-,"    , nextNonEmptyWS)
     , ("M-."    , prevNonEmptyWS)
     , ("M-i"    , toggleWS' ["NSP"])
@@ -198,15 +197,13 @@ keysWindows _ =
     , ("M-w g", windowPrompt promptTheme Goto allWindows)
     , ("M-w b", windowPrompt promptTheme Bring allWindows)
     , ("M-w c"  , toggleCopyToAll)
-    , ( "M-w S-c"
-      , kill1
-      ) -- To remove focused copied window from current workspace
+    , ("M-w S-c", kill1) -- To remove focused copied window from current workspace
     , ("M-w h"  , withFocused minimizeWindow)
     , ("M-w S-h", withLastMinimized maximizeWindowAndFocus)
     , ("M-w p"  , promote)
-    , ("M-w r"  , tryMessageR_ Rotate (Toggle REFLECTX))
+    , ("M-w r", tryMessageR_ Rotate (Toggle REFLECTX))
     , ("M-w S-r", sendMessage $ Toggle REFLECTX)
-    , ("M-w t"  , withFocused $ sendMessage . MergeAll)
+    , ("M-w t", withFocused $ sendMessage . MergeAll)
     , ("M-w S-t", withFocused $ sendMessage . UnMerge)
     , ("M-w u"  , focusUrgent)
     , ("M-w m"  , windows S.focusMaster)
@@ -255,13 +252,9 @@ keysResize _ =
 mouseBindings :: XConfig Layout -> M.Map (KeyMask, Button) (Window -> X ())
 mouseBindings XConfig{} = M.fromList
  -- mod-button1, flexible linear scale
-  [ ( (mod4Mask, button1)
-    , \w -> focus w >> F.mouseWindow F.discrete w
-    )
+  [ ((mod4Mask, button1), \w -> focus w >> F.mouseWindow F.discrete w)
     -- mod-button2, Raise the window to the top of the stack
-  , ( (mod4Mask, button2)
-    , \w -> focus w >> windows S.shiftMaster
-    )
+  , ((mod4Mask, button2), \w -> focus w >> windows S.shiftMaster)
     -- mod-button3, Set the window to floating mode and resize by dragging
   , ( (mod4Mask, button3)
     , \w -> focus w >> mouseResizeWindow w >> windows S.shiftMaster
