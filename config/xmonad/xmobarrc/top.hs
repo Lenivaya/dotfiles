@@ -36,4 +36,3 @@ Config { font = "xft:monospace:style=Regular:pixelsize=11"
                     \ "
        }
 
--- vim: filetype=haskell
