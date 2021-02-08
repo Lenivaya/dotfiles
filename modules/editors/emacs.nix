@@ -27,6 +27,11 @@ in {
       zstd # for undo-tree compression
 
       ## Module dependencies
+      # :app everywhere
+      xdotool
+      xclip
+      xorg.xwininfo
+      xorg.xprop
       # :checkers spell
       (aspellWithDicts (ds: with ds; [ en en-computers en-science ]))
       # :checkers grammar
