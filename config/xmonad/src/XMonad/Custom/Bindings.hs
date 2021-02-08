@@ -183,6 +183,7 @@ keysSpawnables _ =
   , ("M-S-<Return>", spawn ((C.term C.applications) ++ " -e tmux"))
   , ("M-o b"       , spawn (C.browser C.applications))
   , ("M-o e"       , raiseEditor)
+  , ("M-o S-e", spawn "emacsclient --eval '(emacs-everywhere)'") -- Edit some text in emacs
   , ("M-o c", namedScratchpadAction scratchpads "console")
   , ("M-o m"       , namedScratchpadAction scratchpads "music")
   , ("M-o t"       , namedScratchpadAction scratchpads "top")
