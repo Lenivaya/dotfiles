@@ -11,6 +11,7 @@
         rofi.enable = true;
         dunst.enable = true;
         zathura.enable = true;
+        discord.enable = true;
       };
 
       browsers = {
@@ -95,8 +96,8 @@
   #   sha256 = "0vj5k3djn1wlwabzff1kiiy3vs60qzzqgzjbaiwqxacbvlrci10y";
   # }) { localSystem = "x86_64-linux"; }).mesa.drivers;
 
-  services.xserver.videoDrivers = [ "modesetting" ];
-  environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
+  # services.xserver.videoDrivers = [ "modesetting" ];
+  # environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
 
   # Optimize power use
   environment.systemPackages = [ pkgs.acpi ];
