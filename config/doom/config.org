@@ -264,8 +264,9 @@ grammar                      ; tasing grammar mistake every you make
 #+name: doom-tools
 #+begin_src emacs-lisp
 ;; ansible                      ; a crucible for infrastructure as code
-(debugger                     ; FIXME stepping through code, to help you add bugs
- +lsp)
+;; (
+debugger                     ; FIXME stepping through code, to help you add bugs
+;;+lsp)
 direnv                     ; be direct about your environment
 docker                     ; port everything to containers
 editorconfig               ; let someone else argue about tabs vs spaces
@@ -476,19 +477,6 @@ This makes manual pages nicer to look at :)
 Variable pitch fontification + colouring
 #+begin_src emacs-lisp
 (package! info-colors :pin "47ee73cc19b1049eef32c9f3e264ea7ef2aaf8a5")
-#+end_src
-
-**** Large files
-The /very large files/ mode loads large files in chunks, allowing one to open
-ridiculously large files.
-#+begin_src emacs-lisp
-(package! vlf :recipe (:host github :repo "m00natic/vlfi" :files ("*.el"))
-  :disable t)
-#+end_src
-To make VLF available without delaying startup, we'll just load it in quiet moments.
-#+begin_src emacs-lisp :tangle yes
-(use-package! vlf-setup
-  :defer-incrementally vlf-tune vlf-base vlf-write vlf-search vlf-occur vlf-follow vlf-ediff vlf)
 #+end_src
 
 **** Calibre and ebook reading
@@ -907,10 +895,11 @@ Then, to actually read the ebooks we use =nov=.
 #+end_src
 * Language configuration
 ** Js
-Prefer prettier formatter
+Prefer prettier formatter.
 #+begin_src emacs-lisp
 (setq-hook! 'js2-mode-hook +format-with-lsp nil)
 (setq-hook! 'typescript-mode-hook +format-with-lsp nil)
+(setq-hook! 'typescript-tsx-mode-hook +format-with-lsp nil)
 #+end_src
 
 Show eslint help
@@ -939,6 +928,20 @@ Set rust-analyzer as prefered lsp-server.
 (setq-hook! 'nix-mode-hook company-idle-delay nil)
 #+end_src
 ** Org
+:PROPERTIES:
+:CUSTOM_ID: org
+:header-args:emacs-lisp: :tangle no :noweb-ref org-conf
+:END:
+
+Finally, because this section is fairly expensive to initialise, we'll wrap it
+in an ~(after! ...)~ block.
+#+begin_src emacs-lisp :noweb no-export :tangle yes :noweb-ref nil
+(after! org
+  <<org-conf>>
+)
+#+end_src
+
+*** Simple settings
 Some settings
 #+begin_src emacs-lisp
 (setq org-directory "~/org/"
