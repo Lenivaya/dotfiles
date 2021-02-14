@@ -5,8 +5,8 @@ let cfg = config.modules.editors;
 in {
   options.modules.editors = { default = mkOpt types.str "vim"; };
 
-  config =
-    mkIf (cfg.default != null && config.services.emacs.defaultEditor == false) {
+  config = mkIf
+    (cfg.default != null && config.modules.editors.emacs.default == false) {
       env.EDITOR = cfg.default;
     };
 }

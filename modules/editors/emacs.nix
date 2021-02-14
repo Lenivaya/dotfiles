@@ -1,8 +1,17 @@
-{ config, lib, pkgs, inputs, ... }:
+{ config, lib, pkgs, inputs, home-manager, ... }:
 
 with lib;
 with lib.my;
-let cfg = config.modules.editors.emacs;
+let
+  cfg = config.modules.editors.emacs;
+  editorScript = pkgs.writeScriptBin "emacseditor" ''
+    #!${pkgs.runtimeShell}
+    if [ -z "$1" ]; then
+      exec emacsclient --create-frame --alternate-editor emacs
+    else
+      exec emacsclient --alternate-editor emacs "$@"
+    fi
+  '';
 in {
   options.modules.editors.emacs = {
     enable = mkBoolOpt false;
@@ -50,10 +59,19 @@ in {
 
     fonts.fonts = [ pkgs.emacs-all-the-icons-fonts ];
 
-    services.emacs = {
+    # services.emacs = {
+    #   enable = true;
+    #   defaultEditor = mkIf cfg.default true;
+    # };
+
+    home-manager.users.${config.user.name}.services.emacs = {
       enable = true;
-      defaultEditor = mkIf cfg.default true;
+      client.enable = true;
+      socketActivation.enable = true;
     };
+
+    env.EDITOR =
+      mkIf cfg.default (mkOverride 900 "${editorScript}/bin/emacseditor");
 
     # init.
     system.userActivationScripts.doomEmacs = mkIf cfg.doom.enable ''
