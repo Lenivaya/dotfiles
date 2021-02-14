@@ -1,0 +1,1054 @@
+#+title: Emacs Configuration
+#+author: leniviy
+#+property: header-args:emacs-lisp :tangle yes :cache yes :results silent :comments link
+
+#+begin_quote
+Let us change our traditional attitude to the construction of programs:
+Instead of imagining that our main task is to instruct a computer what to do,
+let us concentrate rather on explaining to human beings what we want a
+computer to do. @@latex:\mbox{@@--- Donald Knuth@@latex:}@@
+#+end_quote
+
+* Config
+Make this file run (slightly) faster with lexical binding (see [[https://nullprogram.com/blog/2016/12/22/][this blog post]]
+for more info).
+#+begin_src emacs-lisp :comments no
+;;; config.el -*- lexical-binding: t; -*-
+#+end_src
+** Personal information
+Basic personal information
+#+begin_src emacs-lisp
+(setq user-full-name "Daniil Osipchuk"
+      user-mail-address "xocada@gmail.com")
+#+end_src
+** Better defaults
+*** Simple settings
+Some better defaults from internet
+#+begin_src emacs-lisp
+(setq-default
+ delete-by-moving-to-trash t                      ; Delete files to trash
+ window-combination-resize t                      ; take new window space from all other windows (not just current)
+ x-stretch-cursor t)                              ; Stretch cursor to the glyph width
+
+(setq undo-limit 80000000                         ; Raise undo-limit to 80Mb
+      evil-want-fine-undo t                       ; By default while in insert all changes are one big blob. Be more granular
+      auto-save-default t                         ; Nobody likes to loose work, I certainly don't
+      truncate-string-ellipsis "…")               ; Unicode ellispis are nicer than "...", and also save /precious/ space
+
+(if (equal "Battery status not available"
+           (battery))
+    (display-battery-mode 1)                        ; On laptops it's nice to know how much power you have
+  (setq password-cache-expiry nil))               ; I can trust my desktops ... can't I? (no battery = desktop)
+
+(global-subword-mode 1)                           ; Iterate through CamelCase words
+#+end_src
+***  Frame sizing
+It's nice to control the size of new frames, when launching Emacs that can be
+done with ~emacs -geometry 160x48~. After the font size adjustment during
+initialisation this works out to be ~102x31~.
+
+Thanks to hotkeys, it's easy for me to expand a frame to half/full-screen, so it
+makes sense to be conservative with the sizing of new frames.
+
+Then, for creating new frames within the same Emacs instance, we'll just set the
+default to be something roughly 80% of that size.
+
+#+begin_src emacs-lisp
+(add-to-list 'default-frame-alist '(height . 24))
+(add-to-list 'default-frame-alist '(width . 80))
+#+end_src
+*** Auto-customisations
+By default changes made via a customisation interface are added to =init.el=.
+I prefer the idea of using a separate file for this. We just need to change a
+setting, and load it if it exists.
+#+begin_src emacs-lisp
+(setq-default custom-file (expand-file-name ".custom.el" doom-private-dir))
+(when (file-exists-p custom-file)
+  (load custom-file))
+#+end_src
+*** Windows
+I find it rather handy to be asked which buffer I want to see after splitting
+the window. Let's make that happen.
+First, we'll enter the new window
+#+begin_src emacs-lisp
+(setq evil-vsplit-window-right t
+      evil-split-window-below t)
+#+end_src
+Then, we'll pull up ~ivy~
+#+begin_src emacs-lisp
+(defadvice! prompt-for-buffer (&rest _)
+  :after '(evil-window-split evil-window-vsplit)
+  (+ivy/switch-buffer))
+#+end_src
+Oh, and previews are nice
+#+begin_src emacs-lisp
+(setq +ivy-buffer-preview t)
+#+end_src
+
+Window rotation is nice, and can be found under =SPC w r= and =SPC w R=.
+/Layout/ rotation is also nice though. Let's stash this under =SPC w SPC=, inspired
+by Tmux's use of =C-b SPC= to rotate windows.
+
+We could also do with adding the missing arrow-key variants of the window
+navigation/swapping commands.
+#+begin_src emacs-lisp
+(map! :map evil-window-map
+      "SPC" #'rotate-layout
+      ;; Navigation
+      "<left>"     #'evil-window-left
+      "<down>"     #'evil-window-down
+      "<up>"       #'evil-window-up
+      "<right>"    #'evil-window-right
+      ;; Swapping windows
+      "C-<left>"       #'+evil/window-move-left
+      "C-<down>"       #'+evil/window-move-down
+      "C-<up>"         #'+evil/window-move-up
+      "C-<right>"      #'+evil/window-move-right)
+#+end_src
+
+** Doom configuration
+***  Modules
+:PROPERTIES:
+:header-args:emacs-lisp: :tangle no
+:END:
+Doom has this lovely /modular configuration base/ that takes a lot of work out of
+configuring Emacs. Each module (when enabled) can provide a list of packages to
+install (on ~doom sync~) and configuration to be applied. The modules can also
+have flags applied to tweak their behaviour.
+
+#+name: init.el
+#+attr_html: :collapsed t
+#+begin_src emacs-lisp :tangle "init.el" :noweb no-export :comments none
+;;; init.el -*- lexical-binding: t; -*-
+
+;; This file controls what Doom modules are enabled and what order they load in.
+;; Press 'K' on a module to view its documentation, and 'gd' to browse its directory.
+
+(doom! :completion
+       <<doom-completion>>
+
+       :ui
+       <<doom-ui>>
+
+       :editor
+       <<doom-editor>>
+
+       :emacs
+       <<doom-emacs>>
+
+       :term
+       <<doom-term>>
+
+       :checkers
+       <<doom-checkers>>
+
+       :tools
+       <<doom-tools>>
+
+       :os
+       <<doom-os>>
+
+       :lang
+       <<doom-lang>>
+
+       :email
+       <<doom-email>>
+
+       :app
+       <<doom-app>>
+
+       :config
+       <<doom-config>>
+       )
+#+end_src
+**** Structure
+As you may have noticed by this point, this is a [[https://en.wikipedia.org/wiki/Literate_programming][literate]] configuration. Doom
+has good support for this which we access though the ~literate~ module.
+
+While we're in the ~:config~ section, we'll use Dooms nicer defaults, along with
+the bindings and smartparens behaviour (the flags aren't documented, but they exist).
+#+name: doom-config
+#+begin_src emacs-lisp
+literate
+(default +bindings +smartparens)
+#+end_src
+**** Interface
+#+name: doom-completion
+#+begin_src emacs-lisp
+(company                     ; the ultimate code completion backend
+ +childframe)                ; ... when your children are better than you
+;;helm                       ; the *other* search engine for love and life
+;;ido                        ; the other *other* search engine...
+(ivy                         ; a search engine for love and life
+ +icons                      ; ... icons are nice
+ +childframe                 ; ... when your children are better than you
+ +prescient)                 ; ... I know what I want(ed)
+#+end_src
+
+
+#+name: doom-ui
+#+begin_src emacs-lisp
+;;deft                       ; notational velocity for Emacs
+doom                         ; what makes DOOM look the way it does
+doom-dashboard               ; a nifty splash screen for Emacs
+doom-quit                    ; DOOM quit-message prompts when you quit Emacs
+(emoji                       ; 🙂
+ +unicode
+ +github)
+;;fill-column                ; a `fill-column' indicator
+hl-todo                      ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
+hydra                      ; quick documentation for related commands
+indent-guides              ; highlighted indent columns, notoriously slow
+(ligatures +iosevka)           ; ligatures and symbols to make your code pretty again
+minimap                    ; show a map of the code on the side
+modeline                     ; snazzy, Atom-inspired modeline, plus API
+nav-flash                    ; blink the current line after jumping
+;;neotree                    ; a project drawer, like NERDTree for vim
+ophints                      ; highlight the region an operation acts on
+(popup                       ; tame sudden yet inevitable temporary windows
+ +all                        ; catch all popups that start with an asterix
+ +defaults)                  ; default popup rules
+;;(tabs                      ; an tab bar for Emacs
+;;  +centaur-tabs)           ; ... with prettier tabs
+treemacs                     ; a project drawer, like neotree but cooler
+unicode                    ; extended unicode support for various languages
+vc-gutter                    ; vcs diff in the fringe
+vi-tilde-fringe              ; fringe tildes to mark beyond EOB
+window-select                ; visually switch windows
+workspaces                   ; tab emulation, persistence & separate workspaces
+zen                          ; distraction-free coding or writing
+#+end_src
+
+#+name: doom-editor
+#+begin_src emacs-lisp
+(evil +everywhere)           ; come to the dark side, we have cookies
+file-templates               ; auto-snippets for empty files
+fold                         ; (nigh) universal code folding
+(format +onsave)             ; automated prettiness
+;;god                        ; run Emacs commands without modifier keys
+;;lispy                      ; vim for lisp, for people who don't like vim
+multiple-cursors             ; editing in many places at once
+;;objed                      ; text object editing for the innocent
+;;parinfer                   ; turn lisp into python, sort of
+rotate-text                  ; cycle region at point between text candidates
+snippets                     ; my elves. They type so I don't have to
+;;word-wrap                  ; soft wrapping with language-aware indent
+#+end_src
+
+#+name: doom-emacs
+#+begin_src emacs-lisp
+(dired +icons)               ; making dired pretty [functional]
+electric                     ; smarter, keyword-based electric-indent
+(ibuffer +icons)             ; interactive buffer management
+(undo +tree)                 ; persistent, smarter undo for your inevitable mistakes
+vc                           ; version-control and Emacs, sitting in a tree
+#+end_src
+
+
+#+name: doom-term
+#+begin_src emacs-lisp
+eshell            ; a consistent, cross-platform shell (WIP)
+shell             ; a terminal REPL for Emacs
+;; term              ; terminals in Emacs
+;; vterm             ; another terminals in Emacs
+#+end_src
+
+#+name: doom-checkers
+#+begin_src emacs-lisp
+(syntax                       ; tasing you for every semicolon you forget
+ +childframe)
+spell                        ; tasing you for misspelling mispelling
+grammar                      ; tasing grammar mistake every you make
+#+end_src
+
+#+name: doom-tools
+#+begin_src emacs-lisp
+;; ansible                      ; a crucible for infrastructure as code
+(debugger                     ; FIXME stepping through code, to help you add bugs
+ +lsp)
+direnv                     ; be direct about your environment
+docker                     ; port everything to containers
+editorconfig               ; let someone else argue about tabs vs spaces
+;;ein                        ; tame Jupyter notebooks with emacs
+(eval +overlay)              ; run code, run (also, repls)
+gist                       ; interacting with github gists
+(lookup                      ; helps you navigate your code and documentation
+ +dictionary                 ; dictionary/thesaurus is nice
+ +docsets)                   ; ...or in Dash docsets locally
+lsp                          ; Language Server Protocol
+;;macos                      ; MacOS-specific commands
+(magit                       ; a git porcelain for Emacs
+ +forge)                     ; interface with git forges
+make                         ; run make tasks from Emacs
+pass                       ; password manager for nerds
+pdf                          ; pdf enhancements
+;;prodigy                    ; FIXME managing external services & code builders
+rgb                          ; creating color strings
+;;taskrunner                 ; taskrunner for all your projects
+;;terraform                  ; infrastructure as code
+tmux                       ; an API for interacting with tmux
+upload                       ; map local to remote projects via ssh/ftp
+#+end_src
+
+#+name: doom-os
+#+begin_src emacs-lisp
+tty                          ; improve the terminal Emacs experience
+#+end_src
+**** Language support 
+#+name: doom-lang
+#+begin_src emacs-lisp
+;;agda              ; types of types of types of types...
+;;assembly          ; assembly for fun or debugging
+(cc +lsp)                ; C/C++/Obj-C madness
+;;clojure           ; java with a lisp
+common-lisp       ; if you've seen one lisp, you've seen them all
+;;coq               ; proofs-as-programs
+;;crystal           ; ruby at the speed of c
+;;csharp            ; unity, .NET, and mono shenanigans
+data              ; config/data formats
+(dart +flutter +lsp)   ; paint ui and not much else
+;;erlang            ; an elegant language for a more civilized age
+ess                          ; emacs speaks statistics
+;;elixir            ; erlang done right
+;;elm               ; care for a cup of TEA?
+emacs-lisp        ; drown in parentheses
+;;ess               ; emacs speaks statistics
+;;fsharp           ; ML stands for Microsoft's Language
+(go +lsp)                ; the hipster dialect
+haskell             ; a language that's lazier than I am
+;;hy                ; readability of scheme w/ speed of python
+;;idris             ;
+;;(java +meghanada) ; the poster child for carpal tunnel syndrome
+(javascript +lsp)        ; all(hope(abandon(ye(who(enter(here))))))
+;;julia             ; a better, faster MATLAB
+kotlin            ; a better, slicker Java(Script)
+(latex
++lsp
++cdlatex
++latexmk
++fold)            ; writing papers in Emacs has never been so fun
+;;ledger            ; an accounting system in Emacs
+;;lua               ; one-based indices? one-based indices
+(markdown +grip)         ; writing docs for people to ignore
+;;nim               ; python + lisp at the speed of c
+nix               ; I hereby declare "nix geht mehr!"
+;;ocaml             ; an objective camel
+(org              ; organize your plain life in plain text
++pretty
++pandoc
++dragndrop       ; file drag & drop support
++present         ; using Emacs for presentations
++journal
++roam )
+;;perl              ; write code no one else can comprehend
+;;php               ; perl's insecure younger brother
+;;plantuml          ; diagrams for confusing people more
+;;purescript        ; javascript, but functional
+(python
++lsp)           ; beautiful is better than ugly
+;;qt                ; the 'cutest' gui framework ever
+;;racket            ; a DSL for DSLs
+;;rest              ; Emacs as a REST client
+;;ruby              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+(rust +lsp)            ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+;;scala             ; java, but good
+scheme            ; a fully conniving family of lisps
+sh                ; she sells {ba,z,fi}sh shells on the C xor
+;;solidity          ; do you need a blockchain? No.
+;;swift             ; who asked for emoji variables?
+;;terra             ; Earth and Moon in alignment for performance.
+(web +lsp)              ; the tubes
+yaml
+;;vala              ; GObjective-C
+#+end_src
+**** Everything in Emacs
+It's just too convenient being able to have everything in Emacs.
+I couldn't resist the Email and Feed modules.
+
+#+name: doom-email
+#+begin_src emacs-lisp
+(mu4e +org +gmail)
+;;notmuch
+;;(wanderlust +gmail)
+#+end_src
+
+#+name: doom-app
+#+begin_src emacs-lisp
+calendar
+everywhere                   ; *leave* Emacs!? You must be joking.
+irc                          ; how neckbeards socialize
+(rss +org)                   ; emacs as an RSS reader
+;;twitter                    ; twitter client https://twitter.com/vnought
+#+end_src
+
+*** Visual settings
+**** Font Face
+Use font aliases defined in fontconfig.
+#+begin_src emacs-lisp
+(setq doom-font (font-spec :family "monospace" :size 12 :weight 'Regular)
+      doom-big-font (font-spec :family "monospace" :size 24)
+      doom-variable-pitch-font (font-spec :family "sans" :size 12))
+#+end_src
+**** Theme and modeline
+#+begin_src emacs-lisp
+(setq doom-theme 'doom-tomorrow-night)
+#+end_src
+
+I don't need it to tell me its UTF-8
+#+begin_src emacs-lisp
+;; I don't need it to tell me its UTF-8
+(setq doom-modeline-buffer-encoding nil
+      +modeline-encoding nil)
+#+end_src
+**** Miscellaneous
+Prevents some cases of Emacs flickering
+#+begin_src emacs-lisp
+(add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
+#+end_src
+
+ Don't blink the cursor, it's too distracting.
+ #+begin_src emacs-lisp
+(setq visible-cursor nil
+      blink-cursor-mode -1)
+#+end_src
+
+Don't like symbols in pretty-code mode, but want font ligatures
+#+begin_src emacs-lisp
+(setq +pretty-code-symbols nil)
+#+end_src
+** Other Things
+*** Splash screen
+#+begin_src emacs-lisp
+(setq fancy-splash-image (concat doom-private-dir "splash.png"))
+#+end_src
+* Package loading
+:PROPERTIES:
+:header-args:emacs-lisp: :tangle "packages.el" :comments no
+:END:
+This file shouldn't be byte compiled.
+#+begin_src emacs-lisp :tangle "packages.el" :comments no
+;; -*- no-byte-compile: t; -*-
+#+end_src
+** General packages
+*** Fun
+Every so often, you want everyone else to /know/ that you're typing, or just to
+amuse oneself. Introducing: typewriter sounds!
+#+begin_src emacs-lisp
+(package! selectric-mode)
+#+end_src
+
+Practice typing speed
+#+begin_src emacs-lisp
+(package! speed-type)
+#+end_src
+
+
+For some reason, I find myself demoing Emacs every now and then. Showing what
+keyboard stuff I'm doing on-screen seems helpful. While [[https://gitlab.com/screenkey/screenkey][screenkey]] does exist,
+having something that doesn't cover up screen content is nice.
+#+begin_src emacs-lisp
+(package! keycast :pin "a3a0798349adf3e33277091fa8dee63173b68edf")
+#+end_src
+let's just make sure this is lazy-loaded appropriately.
+#+begin_src emacs-lisp :tangle yes
+(use-package! keycast
+  :commands keycast-mode
+  :config
+  (define-minor-mode keycast-mode
+    "Show current command and its key binding in the mode line."
+    :global t
+    (if keycast-mode
+        (progn
+          (add-hook 'pre-command-hook 'keycast--update t)
+          (add-to-list 'global-mode-string '("" mode-line-keycast " ")))
+      (remove-hook 'pre-command-hook 'keycast--update)
+      (setq global-mode-string (remove '("" mode-line-keycast " ") global-mode-string))))
+  (custom-set-faces!
+    '(keycast-command :inherit doom-modeline-debug
+                      :height 0.9)
+    '(keycast-key :inherit custom-modified
+                  :height 1.1
+                  :weight bold)))
+#+end_src
+*** Features
+**** Info colors
+This makes manual pages nicer to look at :)
+Variable pitch fontification + colouring
+#+begin_src emacs-lisp
+(package! info-colors :pin "47ee73cc19b1049eef32c9f3e264ea7ef2aaf8a5")
+#+end_src
+
+**** Large files
+The /very large files/ mode loads large files in chunks, allowing one to open
+ridiculously large files.
+#+begin_src emacs-lisp
+(package! vlf :recipe (:host github :repo "m00natic/vlfi" :files ("*.el"))
+  :disable t)
+#+end_src
+To make VLF available without delaying startup, we'll just load it in quiet moments.
+#+begin_src emacs-lisp :tangle yes
+(use-package! vlf-setup
+  :defer-incrementally vlf-tune vlf-base vlf-write vlf-search vlf-occur vlf-follow vlf-ediff vlf)
+#+end_src
+
+**** Calibre and ebook reading
+For managing my ebooks, I'll hook into the well-established ebook library
+manager [[https://calibre-ebook.com/][calibre]]. A number of Emacs clients for this exist, but this seems like a
+good option.
+#+begin_src emacs-lisp
+(package! calibredb)
+#+end_src
+
+Then for reading them, the only currently viable options seems to be [[https://depp.brause.cc/nov.el/][nov.el]].
+#+begin_src emacs-lisp
+(package! nov)
+#+end_src
+
+Together these should give me a rather good experience reading ebooks.
+**** Theme schedule
+#+begin_src emacs-lisp
+(package! circadian)
+#+end_src
+**** Non-default keyboard layouts support
+#+begin_src emacs-lisp
+(package! reverse-im)
+#+end_src
+**** Kdeconnect
+#+begin_src emacs-lisp
+(package! kdeconnect)
+#+end_src
+****  Imenu
+#+begin_src emacs-lisp
+(package! imenu-list)
+#+end_src
+**** Deadgrep
+#+begin_src emacs-lisp
+(package! deadgrep)
+#+end_src
+**** Company prescient
+#+begin_src emacs-lisp
+(package! company-prescient)
+#+end_src
+** Language packages
+*** Org Mode
+**** Improve agenda/capture
+The agenda is nice, but a souped up version is nicer.
+#+begin_src emacs-lisp
+(package! org-super-agenda)
+#+end_src
+
+Similarly ~doct~ (Declarative Org Capture Templates) seems to be a nicer way to
+set up org-capture.
+#+begin_src emacs-lisp
+(package! doct
+  :recipe (:host github :repo "progfolio/doct")
+  )
+#+end_src
+**** Visuals
+Org tables aren't the prettiest thing to look at. This package is supposed to
+redraw them in the buffer with box-drawing characters. Sounds like an
+improvement to me! Just need to get it working...
+#+begin_src emacs-lisp
+(package! org-pretty-table-mode
+  :recipe (:host github :repo "Fuco1/org-pretty-table"))
+#+end_src
+
+For automatically toggling LaTeX fragment previews there's this nice package
+#+begin_src emacs-lisp
+(package! org-fragtog :pin)
+#+end_src
+
+Then for pretty markers
+#+begin_src emacs-lisp
+(package! org-appear :recipe (:host github :repo "awth13/org-appear"))
+#+end_src
+
+~org-superstar-mode~ is great. While we're at it we may as well make tags prettier as well :)
+#+begin_src emacs-lisp
+(package! org-pretty-tags)
+#+end_src
+
+There's this nice package that can provide nice syntax highlighting with LaTeX
+exports.
+#+begin_src emacs-lisp
+(package! engrave-faces :recipe (:host github :repo "tecosaur/engrave-faces"))
+#+end_src
+#+begin_src emacs-lisp :tangle yes
+(use-package! engrave-faces-latex
+  :after ox-latex)
+#+end_src
+**** Extra functionality
+Because of the /[[https://github.com/commonmark/commonmark-spec/wiki/markdown-flavors][lovely variety in markdown implementations]]/ there isn't actually
+such a thing a standard table spec ... or standard anything really. Because
+~org-md~ is a goody-two-shoes, it just uses HTML for all these non-standardised
+elements (a lot of them). So ~ox-gfm~ is handy for exporting markdown with all the
+features that GitHub has.
+#+begin_src emacs-lisp
+(package! ox-gfm)
+#+end_src
+#+begin_src emacs-lisp :tangle yes
+(use-package! ox-gfm
+  :after org)
+#+end_src
+
+Now and then citations need to happen
+#+begin_src emacs-lisp
+(package! org-ref)
+#+end_src
+
+Came across this and ... it's cool
+#+begin_src emacs-lisp
+(package! org-graph-view :recipe (:host github :repo "alphapapa/org-graph-view"))
+#+end_src
+
+I *need* this in my life. It take a URL to a recipe from a common site, and
+inserts an org-ified version at point. Isn't that just great.
+#+begin_src emacs-lisp
+(package! org-chef)
+#+end_src
+
+Sometimes I'm given non-org files, that's very sad. Luckily Pandoc offers a way
+to make that right again, and this package makes that even easier to do.
+#+begin_src emacs-lisp
+(package! org-pandoc-import :recipe
+  (:host github :repo "tecosaur/org-pandoc-import" :files ("*.el" "filters" "preprocessors")))
+#+end_src
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-pandoc-import
+  :after org)
+#+end_src
+
+Org-roam is nice by itself, but there are so /extra/ nice packages which integrate
+with it.
+#+begin_src emacs-lisp
+(package! org-roam-server)
+#+end_src
+#+begin_src emacs-lisp :tangle yes
+(use-package org-roam-server
+  :after (org-roam server)
+  :config
+  (setq org-roam-server-host "127.0.0.1"
+        org-roam-server-port 8078
+        org-roam-server-export-inline-images t
+        org-roam-server-authenticate nil
+        org-roam-server-network-label-truncate t
+        org-roam-server-network-label-truncate-length 60
+        org-roam-server-network-label-wrap-length 20)
+  (defun org-roam-server-open ()
+    "Ensure the server is active, then open the roam graph."
+    (interactive)
+    (org-roam-server-mode 1)
+    (browse-url-xdg-open (format "http://localhost:%d" org-roam-server-port))))
+#+end_src
+* Package configuration
+** Reverse-im (Keyboard layouts)
+#+begin_src emacs-lisp
+(use-package! reverse-im
+  :config
+  (reverse-im-activate '("russian-computer" "ukrainian-computer"))
+)
+#+end_src
+** Circadian (Theme schedule)
+#+begin_src emacs-lisp
+(use-package! circadian
+  :config
+  (setq circadian-themes '(("8:00" . doom-tomorrow-night)
+                           ("20:30" . doom-tomorrow-night)))
+  (circadian-setup)
+)
+#+end_src
+** Kdeconnect
+#+begin_src emacs-lisp
+(use-package! kdeconnect
+  :config
+  (setq kdeconnect-devices "62f011766549feda"))
+#+end_src
+** Imenu
+#+begin_src emacs-lisp
+(use-package! imenu-list
+  :defer t
+  :init
+  (setq
+   ;; just a tad lower than the default
+   imenu-list-size 0.25
+   ;; That modeline is plain ugly. Treemacs & neotree don't have a modeline either.
+   imenu-list-mode-line-format nil)
+  (map!
+   (:leader
+    :desc "Toggle imenu-list" "oi" #'imenu-list-smart-toggle)
+   :map imenu-list-major-mode-map
+   :g "r"   #'imenu-list-refresh
+   :g [tab] #'hs-toggle-hiding
+   :n "gr"  #'imenu-list-refresh))
+#+end_src
+** Deadgrep
+#+begin_src emacs-lisp
+(use-package! deadgrep
+  :defer t
+  :init
+  (map!
+   (:leader
+    :desc "Search via deadgrep" "s <f5>" #'deadgrep))
+  )
+#+end_src
+** Company
+It's nice to have completions almost all the time, in my opinion. Key strokes
+are just waiting to be saved!
+#+begin_src emacs-lisp
+(after! company
+  (setq company-idle-delay 0.5
+        company-minimum-prefix-length 2)
+  (setq company-show-numbers t)
+  (add-hook 'evil-normal-state-entry-hook #'company-abort)) ;; make aborting less annoying.
+#+end_src
+
+Use prescient sorting
+#+begin_src emacs-lisp
+(use-package company-prescient
+  :after company
+  :hook (company-mode . company-prescient-mode))
+#+end_src
+
+** Info colours
+#+begin_src emacs-lisp
+(use-package! info-colors
+  :commands (info-colors-fontify-node))
+
+(add-hook 'Info-selection-hook 'info-colors-fontify-node)
+
+(add-hook 'Info-mode-hook #'mixed-pitch-mode)
+#+end_src
+** Ivy
+I prefer search matching to be ordered; it's more precise
+#+begin_src emacs-lisp
+(after! ivy
+  (add-to-list 'ivy-re-builders-alist '(counsel-projectile-find-file . ivy--regex-plus))
+  (setq +ivy-buffer-preview t))
+#+end_src
+
+While in an ivy mini-buffer =C-o= shows a list of all possible actions one may take.
+By default this is ~#'ivy-read-action-by-key~ however a better interface to this
+is using Hydra.
+#+begin_src emacs-lisp
+(setq ivy-read-action-function #'ivy-hydra-read-action)
+#+end_src
+** Avy
+I want avy to jump though windows and auto-jump when theres 1 candidate
+#+begin_src  emacs-lisp
+(setq
+ ;; Avy can jump through windows
+ avy-all-windows t
+ ;; Avy can auto-jump when theres 1 candidate
+ avy-single-candidate-jump t)
+#+end_src
+** Org Chef
+Loading after org seems a bit premature. Let's just load it when we try to use
+it, either by command or in a capture template.
+#+begin_src emacs-lisp
+(use-package! org-chef
+  :commands (org-chef-insert-recipe org-chef-get-recipe-from-url))
+#+end_src
+** Which-key
+Let's make this popup a bit faster
+#+begin_src emacs-lisp
+(setq which-key-idle-delay 0.5) ;; I need the help, I really do
+#+end_src
+** Direnv
+Silence all that useless output
+#+begin_src emacs-lisp
+(setq direnv-always-show-summary nil)
+#+end_src
+** YASnippet
+Nested snippets are good, enable that.
+#+begin_src emacs-lisp
+(setq yas-triggers-in-field t)
+#+end_src
+* Applications
+** Ebooks
+=calibredb= lets us use calibre through Emacs, because who wouldn't want to use
+something through Emacs?
+#+begin_src emacs-lisp
+(use-package! calibredb
+  :commands calibredb
+  :config
+  (setq calibredb-root-dir "~/Documents/books"
+        calibredb-db-dir (expand-file-name "metadata.db" calibredb-root-dir))
+  (map! :map calibredb-show-mode-map
+        :ne "?" #'calibredb-entry-dispatch
+        :ne "o" #'calibredb-find-file
+        :ne "O" #'calibredb-find-file-other-frame
+        :ne "V" #'calibredb-open-file-with-default-tool
+        :ne "s" #'calibredb-set-metadata-dispatch
+        :ne "e" #'calibredb-export-dispatch
+        :ne "q" #'calibredb-entry-quit
+        :ne "." #'calibredb-open-dired
+        :ne [tab] #'calibredb-toggle-view-at-point
+        :ne "M-t" #'calibredb-set-metadata--tags
+        :ne "M-a" #'calibredb-set-metadata--author_sort
+        :ne "M-A" #'calibredb-set-metadata--authors
+        :ne "M-T" #'calibredb-set-metadata--title
+        :ne "M-c" #'calibredb-set-metadata--comments)
+  (map! :map calibredb-search-mode-map
+        :ne [mouse-3] #'calibredb-search-mouse
+        :ne "RET" #'calibredb-find-file
+        :ne "?" #'calibredb-dispatch
+        :ne "a" #'calibredb-add
+        :ne "A" #'calibredb-add-dir
+        :ne "c" #'calibredb-clone
+        :ne "d" #'calibredb-remove
+        :ne "D" #'calibredb-remove-marked-items
+        :ne "j" #'calibredb-next-entry
+        :ne "k" #'calibredb-previous-entry
+        :ne "l" #'calibredb-virtual-library-list
+        :ne "L" #'calibredb-library-list
+        :ne "n" #'calibredb-virtual-library-next
+        :ne "N" #'calibredb-library-next
+        :ne "p" #'calibredb-virtual-library-previous
+        :ne "P" #'calibredb-library-previous
+        :ne "s" #'calibredb-set-metadata-dispatch
+        :ne "S" #'calibredb-switch-library
+        :ne "o" #'calibredb-find-file
+        :ne "O" #'calibredb-find-file-other-frame
+        :ne "v" #'calibredb-view
+        :ne "V" #'calibredb-open-file-with-default-tool
+        :ne "." #'calibredb-open-dired
+        :ne "b" #'calibredb-catalog-bib-dispatch
+        :ne "e" #'calibredb-export-dispatch
+        :ne "r" #'calibredb-search-refresh-and-clear-filter
+        :ne "R" #'calibredb-search-clear-filter
+        :ne "q" #'calibredb-search-quit
+        :ne "m" #'calibredb-mark-and-forward
+        :ne "f" #'calibredb-toggle-favorite-at-point
+        :ne "x" #'calibredb-toggle-archive-at-point
+        :ne "h" #'calibredb-toggle-highlight-at-point
+        :ne "u" #'calibredb-unmark-and-forward
+        :ne "i" #'calibredb-edit-annotation
+        :ne "DEL" #'calibredb-unmark-and-backward
+        :ne [backtab] #'calibredb-toggle-view
+        :ne [tab] #'calibredb-toggle-view-at-point
+        :ne "M-n" #'calibredb-show-next-entry
+        :ne "M-p" #'calibredb-show-previous-entry
+        :ne "/" #'calibredb-search-live-filter
+        :ne "M-t" #'calibredb-set-metadata--tags
+        :ne "M-a" #'calibredb-set-metadata--author_sort
+        :ne "M-A" #'calibredb-set-metadata--authors
+        :ne "M-T" #'calibredb-set-metadata--title
+        :ne "M-c" #'calibredb-set-metadata--comments))
+#+end_src
+
+Then, to actually read the ebooks we use =nov=.
+
+#+begin_src emacs-lisp
+(use-package! nov
+  :mode ("\\.epub\\'" . nov-mode)
+  :config
+  (map! :map nov-mode-map
+        :n "RET" #'nov-scroll-up)
+
+  (defun doom-modeline-segment--nov-info ()
+    (concat
+     " "
+     (propertize
+      (cdr (assoc 'creator nov-metadata))
+      'face 'doom-modeline-project-parent-dir)
+     " "
+     (cdr (assoc 'title nov-metadata))
+     " "
+     (propertize
+      (format "%d/%d"
+              (1+ nov-documents-index)
+              (length nov-documents))
+      'face 'doom-modeline-info)))
+
+  (advice-add 'nov-render-title :override #'ignore)
+
+  (defun +nov-mode-setup ()
+    (face-remap-add-relative 'variable-pitch
+                             :family "Merriweather"
+                             :height 1.4
+                             :width 'semi-expanded)
+    (face-remap-add-relative 'default :height 1.3)
+    (setq-local line-spacing 0.2
+                next-screen-context-lines 4
+                shr-use-colors nil)
+    (require 'visual-fill-column nil t)
+    (setq-local visual-fill-column-center-text t
+                visual-fill-column-width 80
+                nov-text-width 80)
+    (visual-fill-column-mode 1)
+    (hl-line-mode -1)
+
+    (add-to-list '+lookup-definition-functions #'+lookup/dictionary-definition)
+
+    (setq-local mode-line-format
+                `((:eval
+                   (doom-modeline-segment--workspace-name))
+                  (:eval
+                   (doom-modeline-segment--window-number))
+                  (:eval
+                   (doom-modeline-segment--nov-info))
+                  ,(propertize
+                    " %P "
+                    'face 'doom-modeline-buffer-minor-mode)
+                  ,(propertize
+                    " "
+                    'face (if (doom-modeline--active) 'mode-line 'mode-line-inactive)
+                    'display `((space
+                                :align-to
+                                (- (+ right right-fringe right-margin)
+                                   ,(* (let ((width (doom-modeline--font-width)))
+                                         (or (and (= width 1) 1)
+                                             (/ width (frame-char-width) 1.0)))
+                                       (string-width
+                                        (format-mode-line (cons "" '(:eval (doom-modeline-segment--major-mode))))))))))
+                  (:eval (doom-modeline-segment--major-mode)))))
+
+  (add-hook 'nov-mode-hook #'+nov-mode-setup))
+#+end_src
+* Language configuration
+** Js
+Prefer prettier formatter
+#+begin_src emacs-lisp
+(setq-hook! 'js2-mode-hook +format-with-lsp nil)
+(setq-hook! 'typescript-mode-hook +format-with-lsp nil)
+#+end_src
+
+Show eslint help
+#+begin_src emacs-lisp
+(after! (:and lsp-mode flycheck-mode)
+  (flycheck-add-next-checker 'lsp 'javascript-eslint))
+#+end_src
+
+** Python
+Since I'm using =mypyls=, as suggested in [[file:~/.emacs.d/modules/lang/python/README.org::*Language Server Protocol Support][:lang python LSP support]] I'll tweak the
+priority of =mypyls=. Also fixing binary finding on nixos.
+#+begin_src emacs-lisp
+(after! lsp-python-ms
+  (setq lsp-python-ms-executable (executable-find "python-language-server"))
+  (set-lsp-priority! 'mspyls 1)
+)
+#+end_src
+** Rust
+Set rust-analyzer as prefered lsp-server.
+#+begin_src emacs-lisp
+(setq rustic-lsp-server 'rust-analyzer)
+#+end_src
+** Nix
+Set rust-analyzer as prefered lsp-server.
+#+begin_src emacs-lisp
+(setq-hook! 'nix-mode-hook company-idle-delay nil)
+#+end_src
+** Org
+Some settings
+#+begin_src emacs-lisp
+(setq org-directory "~/org/"
+      org-archive-location (concat org-directory ".archive/%s::")
+      org-roam-directory (concat org-directory "notes/")
+      org-journal-encrypt-journal t
+      org-journal-file-format "%Y%m%d.org"
+      org-ellipsis " ▼ "
+      org-export-in-background t)
+(add-hook! org-mode :append
+          #'org-fragtog-mode
+          #'variable-pitch-mode
+)
+#+end_src
+*** Visuals
+**** Font Display
+Mixed pitch is great. As is ~+org-pretty-mode~, let's use them.
+#+begin_src emacs-lisp
+(add-hook! 'org-mode-hook #'+org-pretty-mode #'mixed-pitch-mode)
+#+end_src
+Earlier I loaded the ~org-pretty-table~ package, let's enable it everywhere!
+#+begin_src emacs-lisp
+(setq global-org-pretty-table-mode t)
+#+end_src
+
+Let's make headings a bit bigger
+#+begin_src emacs-lisp
+(custom-set-faces!
+  '(outline-1 :weight extra-bold :height 1.25)
+  '(outline-2 :weight bold :height 1.15)
+  '(outline-3 :weight bold :height 1.12)
+  '(outline-4 :weight semi-bold :height 1.09)
+  '(outline-5 :weight semi-bold :height 1.06)
+  '(outline-6 :weight semi-bold :height 1.03)
+  '(outline-8 :weight semi-bold)
+  '(outline-9 :weight semi-bold))
+#+end_src
+
+And the same with the title.
+#+begin_src emacs-lisp
+(custom-set-faces!
+  '(org-document-title :height 1.2))
+#+end_src
+
+It seems reasonable to have deadlines in the error face when they're passed.
+#+begin_src emacs-lisp
+(setq org-agenda-deadline-faces
+      '((1.001 . error)
+        (1.0 . org-warning)
+        (0.5 . org-upcoming-deadline)
+        (0.0 . org-upcoming-distant-deadline)))
+#+end_src
+
+We can then have quote blocks stand out a bit more by making them /italic/.
+#+begin_src emacs-lisp
+(setq org-fontify-quote-and-verse-blocks t)
+#+end_src
+
+While ~org-hide-emphasis-markers~ is very nice, it can sometimes make edits which
+occur at the border a bit more fiddley. We can improve this situation without
+sacrificing visual amenities with the =org-appear= package.
+#+begin_src emacs-lisp
+(use-package! org-appear
+  :hook (org-mode . org-appear-mode)
+  :config
+  (setq org-appear-autoemphasis t
+        org-appear-autosubmarkers t
+        org-appear-autolinks nil)
+  ;; for proper first-time setup, `org-appear--set-fragments'
+  ;; needs to be run after other hooks have acted.
+  (run-at-time nil nil #'org-appear--set-fragments))
+#+end_src
+** LaTeX
+#+begin_src emacs-lisp
+(setq TeX-save-query nil
+      TeX-show-compilation t
+      TeX-command-extra-options "-shell-escape")
+(after! latex
+  (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t)))
+#+end_src
+
+Let's re-order the preferences.
+#+begin_src emacs-lisp
+(setq +latex-viewers '(zathura pdf-tools evince okular skim sumatrapdf))
+#+end_src
+** Markdown
+Let's use mixed pitch, because it's great
+#+begin_src emacs-lisp
+(add-hook! (gfm-mode markdown-mode) #'mixed-pitch-mode)
+#+end_src
+
+Most of the time when I write markdown, it's going into some app/website which
+will do it's own line wrapping, hence we /only/ want to use visual line wrapping. No hard stuff.
+#+begin_src emacs-lisp
+(add-hook! (gfm-mode markdown-mode) #'visual-line-mode #'turn-off-auto-fill)
+#+end_src
+
+Since markdown is often seen as rendered HTML, let's try to somewhat mirror the
+style or markdown renderers.
+
+Most markdown renders seem to make the first three headings levels larger than
+normal text, the first two much so. Then the fourth level tends to be the same
+as body text, while the fifth and sixth are (increasingly) smaller, with the
+sixth greyed out. Since the sixth level is so small, I'll turn up the boldness a notch.
+#+begin_src emacs-lisp
+(custom-set-faces!
+  '(markdown-header-face-1 :height 1.25 :weight extra-bold :inherit markdown-header-face)
+  '(markdown-header-face-2 :height 1.15 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-3 :height 1.08 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-4 :height 1.00 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-5 :height 0.90 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-6 :height 0.75 :weight extra-bold :inherit markdown-header-face))
+#+end_src

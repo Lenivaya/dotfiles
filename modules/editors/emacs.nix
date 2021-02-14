@@ -25,6 +25,7 @@ in {
       (lib.mkIf (config.programs.gnupg.agent.enable)
         pinentry_emacs) # in-emacs gnupg prompts
       zstd # for undo-tree compression
+      calibre # for calibredb
 
       ## Module dependencies
       # :app everywhere
@@ -54,13 +55,14 @@ in {
       defaultEditor = mkIf cfg.default true;
     };
 
-    # init.doomEmacs = mkIf cfg.doom.enable ''
-    #   if [ -d $HOME/.config/emacs ]; then
-    #         git clone https://github.com/hlissner/doom-emacs $HOME/.emacs.d
-    #   fi
-    #   if [ -d $HOME/.config/doom ]; then
-    #         ln -s ${configDir}/doom ~/.config/doom
-    #   fi
-    # '';
+    init.doomEmacs = mkIf cfg.doom.enable ''
+      if [ -d $HOME/.config/emacs ]; then
+            git clone https://github.com/hlissner/doom-emacs $HOME/.emacs.d
+      fi
+      if [ -d $HOME/.config/doom ]; then
+            ln -s ${configDir}/doom ~/.config/doom
+            ${pkgs.emacs}/bin/emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/.config/doom/config.org")'
+      fi
+    '';
   };
 }
