@@ -1,6 +1,8 @@
 #+title: Emacs Configuration
 #+author: leniviy
+#+startup: fold
 #+property: header-args:emacs-lisp :tangle yes :cache yes :results silent :comments link
+#+property: header-args :tangle no :results silent
 
 #+begin_quote
 Let us change our traditional attitude to the construction of programs:
@@ -42,7 +44,7 @@ Some better defaults from internet
 
 (global-subword-mode 1)                           ; Iterate through CamelCase words
 #+end_src
-***  Frame sizing
+*** Frame sizing
 It's nice to control the size of new frames, when launching Emacs that can be
 done with ~emacs -geometry 160x48~. After the font size adjustment during
 initialisation this works out to be ~102x31~.
@@ -107,7 +109,7 @@ navigation/swapping commands.
 #+end_src
 
 ** Doom configuration
-***  Modules
+*** Modules
 :PROPERTIES:
 :header-args:emacs-lisp: :tangle no
 :END:
@@ -418,9 +420,35 @@ Don't like symbols in pretty-code mode, but want font ligatures
 (setq +pretty-code-symbols nil)
 #+end_src
 ** Other Things
+*** Editor interaction
+**** Mouse buttons
+#+begin_src emacs-lisp
+(map! :n [mouse-8] #'better-jumper-jump-backward
+      :n [mouse-9] #'better-jumper-jump-forward)
+#+end_src
 *** Splash screen
 #+begin_src emacs-lisp
 (setq fancy-splash-image (concat doom-private-dir "splash.png"))
+#+end_src
+*** Tangle-on-save
+Here i'm removing default literate on-save-hook.
+#+begin_src emacs-lisp
+(remove-hook 'org-mode-hook #'+literate-enable-recompile-h)
+#+end_src
+
+Just because i'ts more convenient for me to use
+#+begin_src shell :tangle no
+org-tangle ~/.config/doom/config.org
+#+end_src
+
+And finally add function to tangle config from emacs
+#+begin_src emacs-lisp
+(defun config-tangle ()
+  (interactive)
+  (shell-command
+   (concat "org-tangle " +literate-config-file " " "&")
+   )
+  )
 #+end_src
 * Package loading
 :PROPERTIES:
@@ -443,35 +471,26 @@ Practice typing speed
 (package! speed-type)
 #+end_src
 
-
 For some reason, I find myself demoing Emacs every now and then. Showing what
 keyboard stuff I'm doing on-screen seems helpful. While [[https://gitlab.com/screenkey/screenkey][screenkey]] does exist,
 having something that doesn't cover up screen content is nice.
 #+begin_src emacs-lisp
-(package! keycast :pin "a3a0798349adf3e33277091fa8dee63173b68edf")
+(package! keycast)
 #+end_src
-let's just make sure this is lazy-loaded appropriately.
-#+begin_src emacs-lisp :tangle yes
-(use-package! keycast
-  :commands keycast-mode
-  :config
-  (define-minor-mode keycast-mode
-    "Show current command and its key binding in the mode line."
-    :global t
-    (if keycast-mode
-        (progn
-          (add-hook 'pre-command-hook 'keycast--update t)
-          (add-to-list 'global-mode-string '("" mode-line-keycast " ")))
-      (remove-hook 'pre-command-hook 'keycast--update)
-      (setq global-mode-string (remove '("" mode-line-keycast " ") global-mode-string))))
-  (custom-set-faces!
-    '(keycast-command :inherit doom-modeline-debug
-                      :height 0.9)
-    '(keycast-key :inherit custom-modified
-                  :height 1.1
-                  :weight bold)))
+
+In a similar manner, [[https://gitlab.com/ambrevar/emacs-gif-screencast][gif-screencast]] may come in handy.
+#+begin_src emacs-lisp
+(package! gif-screencast)
 #+end_src
+
 *** Features
+**** CalcTeX
+This is a nice extension to ~calc~
+#+begin_src emacs-lisp
+(package! calctex :recipe (:host github :repo "johnbcoughlin/calctex"
+                           :files ("*.el" "calctex/*.el" "calctex-contrib/*.el" "org-calctex/*.el"))
+)
+#+end_src
 **** Info colors
 This makes manual pages nicer to look at :)
 Variable pitch fontification + colouring
@@ -493,6 +512,120 @@ Then for reading them, the only currently viable options seems to be [[https://d
 #+end_src
 
 Together these should give me a rather good experience reading ebooks.
+**** Screenshots
+This makes it a breeze to take lovely screenshots.
+#+begin_src emacs-lisp
+(package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
+#+end_src
+**** Improve agenda/capture
+The agenda is nice, but a souped up version is nicer.
+#+begin_src emacs-lisp
+(package! org-super-agenda)
+#+end_src
+
+Similarly ~doct~ (Declarative Org Capture Templates) seems to be a nicer way to
+set up org-capture.
+#+begin_src emacs-lisp
+(package! doct
+  :recipe (:host github :repo "progfolio/doct")
+)
+#+end_src
+**** Visuals
+Org tables aren't the prettiest thing to look at. This package is supposed to
+redraw them in the buffer with box-drawing characters. Sounds like an
+improvement to me! Just need to get it working...
+#+begin_src emacs-lisp
+(package! org-pretty-table-mode
+  :recipe (:host github :repo "Fuco1/org-pretty-table"))
+#+end_src
+
+For automatically toggling LaTeX fragment previews there's this nice package
+#+begin_src emacs-lisp
+(package! org-fragtog :pin)
+#+end_src
+
+Then for pretty markers
+#+begin_src emacs-lisp
+(package! org-appear :recipe (:host github :repo "awth13/org-appear")
+)
+#+end_src
+
+~org-superstar-mode~ is great. While we're at it we may as well make tags prettier as well :)
+#+begin_src emacs-lisp
+(package! org-pretty-tags)
+#+end_src
+
+There's this nice package that can provide nice syntax highlighting with LaTeX exports.
+#+begin_src emacs-lisp
+(package! engrave-faces :recipe (:host github :repo "tecosaur/engrave-faces"))
+#+end_src
+**** Extra functionality
+Because of the /[[https://github.com/commonmark/commonmark-spec/wiki/markdown-flavors][lovely variety in markdown implementations]]/ there isn't actually
+such a thing a standard table spec ... or standard anything really. Because
+~org-md~ is a goody-two-shoes, it just uses HTML for all these non-standardised
+elements (a lot of them). So ~ox-gfm~ is handy for exporting markdown with all the
+features that GitHub has.
+#+begin_src emacs-lisp
+(package! ox-gfm)
+#+end_src
+#+begin_src emacs-lisp :tangle yes
+(use-package! ox-gfm
+  :after org)
+#+end_src
+
+Now and then citations need to happen
+#+begin_src emacs-lisp
+(package! org-ref)
+#+end_src
+
+Came across this and ... it's cool
+#+begin_src emacs-lisp
+(package! org-graph-view :recipe (:host github :repo "alphapapa/org-graph-view"))
+#+end_src
+
+I *need* this in my life. It take a URL to a recipe from a common site, and
+inserts an org-ified version at point. Isn't that just great.
+#+begin_src emacs-lisp
+(package! org-chef)
+#+end_src
+
+Sometimes I'm given non-org files, that's very sad. Luckily Pandoc offers a way
+to make that right again, and this package makes that even easier to do.
+#+begin_src emacs-lisp
+(package! org-pandoc-import :recipe
+  (:local-repo "lisp/org-pandoc-import" :files ("*.el" "filters" "preprocessors")))
+#+end_src
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-pandoc-import
+  :after org)
+#+end_src
+
+Org-roam is nice by itself, but there are so /extra/ nice packages which integrate
+with it.
+#+begin_src emacs-lisp
+(package! org-roam-server)
+#+end_src
+#+begin_src emacs-lisp :tangle yes
+(use-package org-roam-server
+  :after (org-roam server)
+  :config
+  (setq org-roam-server-host "127.0.0.1"
+        org-roam-server-port 8078
+        org-roam-server-export-inline-images t
+        org-roam-server-authenticate nil
+        org-roam-server-network-label-truncate t
+        org-roam-server-network-label-truncate-length 60
+        org-roam-server-network-label-wrap-length 20)
+  (defun org-roam-server-open ()
+    "Ensure the server is active, then open the roam graph."
+    (interactive)
+    (org-roam-server-mode 1)
+    (browse-url-xdg-open (format "http://localhost:%d" org-roam-server-port))))
+#+end_src
+#+begin_src emacs-lisp
+(package! beancount :recipe (:host github :repo "beancount/beancount-mode")
+  :pin "7a0ef01d1ff6f8c318af944131310ca06d4c65ff")
+#+end_src
 **** Theme schedule
 #+begin_src emacs-lisp
 (package! circadian)
@@ -505,7 +638,7 @@ Together these should give me a rather good experience reading ebooks.
 #+begin_src emacs-lisp
 (package! kdeconnect)
 #+end_src
-****  Imenu
+**** Imenu
 #+begin_src emacs-lisp
 (package! imenu-list)
 #+end_src
@@ -513,9 +646,14 @@ Together these should give me a rather good experience reading ebooks.
 #+begin_src emacs-lisp
 (package! deadgrep)
 #+end_src
-**** Company prescient
+**** Company
+*****  Prescient
 #+begin_src emacs-lisp
 (package! company-prescient)
+#+end_src
+*****  Math
+#+begin_src emacs-lisp
+(package! company-math)
 #+end_src
 ** Language packages
 *** Org Mode
@@ -561,6 +699,7 @@ exports.
 #+begin_src emacs-lisp
 (package! engrave-faces :recipe (:host github :repo "tecosaur/engrave-faces"))
 #+end_src
+
 #+begin_src emacs-lisp :tangle yes
 (use-package! engrave-faces-latex
   :after ox-latex)
@@ -636,6 +775,72 @@ with it.
   (reverse-im-activate '("russian-computer" "ukrainian-computer"))
 )
 #+end_src
+** Keycast
+let's just make sure this is lazy-loaded appropriately.
+#+begin_src emacs-lisp
+(use-package! keycast
+  :commands keycast-mode
+  :config
+  (define-minor-mode keycast-mode
+    "Show current command and its key binding in the mode line."
+    :global t
+    (if keycast-mode
+        (progn
+          (add-hook 'pre-command-hook 'keycast--update t)
+          (add-to-list 'global-mode-string '("" mode-line-keycast " ")))
+      (remove-hook 'pre-command-hook 'keycast--update)
+      (setq global-mode-string (remove '("" mode-line-keycast " ") global-mode-string))))
+  (custom-set-faces!
+    '(keycast-command :inherit doom-modeline-debug
+                      :height 0.9)
+    '(keycast-key :inherit custom-modified
+                  :height 1.1
+                  :weight bold)))
+#+end_src
+** Gif-screencast
+We can lazy load this using the start/stop commands.
+
+I initially installed ~scrot~ for this, since it was the default capture program.
+However it raised ~glib error: Saving to file ... failed~ each time it was run.
+Google didn't reveal any easy fixed, so I switched to [[https://github.com/naelstrof/maim][maim]]. We now need to pass
+it the window ID. This doesn't change throughout the lifetime of an emacs
+instance, so as long as a single window is used ~xdotool getactivewindow~ will
+give a satisfactory result.
+
+It seems that when new colours appear, that tends to make ~gifsicle~ introduce
+artefacts. To avoid this we pre-populate the colour map using the current doom
+theme.
+#+begin_src emacs-lisp
+(use-package! gif-screencast
+  :commands gif-screencast-mode
+  :config
+  (map! :map gif-screencast-mode-map
+        :g "<f8>" #'gif-screencast-toggle-pause
+        :g "<f9>" #'gif-screencast-stop)
+  (setq gif-screencast-program "maim"
+        gif-screencast-args `("--quality" "3" "-i" ,(string-trim-right
+                                                     (shell-command-to-string
+                                                      "xdotool getactivewindow")))
+        gif-screencast-optimize-args '("--batch" "--optimize=3" "--usecolormap=/tmp/doom-color-theme"))
+  (defun gif-screencast-write-colormap ()
+    (f-write-text
+     (replace-regexp-in-string
+      "\n+" "\n"
+      (mapconcat (lambda (c) (if (listp (cdr c))
+                                 (cadr c))) doom-themes--colors "\n"))
+     'utf-8
+     "/tmp/doom-color-theme" ))
+  (gif-screencast-write-colormap)
+  (add-hook 'doom-load-theme-hook #'gif-screencast-write-colormap))
+#+end_src
+** Screenshot
+Some light configuring is all we need, so we can make use of the [[https://github.com/Calinou/0x0][0x0]] wrapper
+file uploading script (which I've renamed to ~upload~).
+#+begin_src emacs-lisp :tangle yes
+(use-package! screenshot
+  :defer t
+  :config (setq screenshot-upload-fn "upload %s 2>/dev/null"))
+#+end_src
 ** Circadian (Theme schedule)
 #+begin_src emacs-lisp
 (use-package! circadian
@@ -690,6 +895,13 @@ are just waiting to be saved!
   (add-hook 'evil-normal-state-entry-hook #'company-abort)) ;; make aborting less annoying.
 #+end_src
 
+Now, the improvements from ~precedent~ are mostly from remembering history, so
+let's improve that memory.
+#+begin_src emacs-lisp
+(setq-default history-length 1000)
+(setq-default prescient-history-length 1000)
+#+end_src
+
 Use prescient sorting
 #+begin_src emacs-lisp
 (use-package company-prescient
@@ -697,6 +909,18 @@ Use prescient sorting
   :hook (company-mode . company-prescient-mode))
 #+end_src
 
+Math support
+#+begin_src emacs-lisp
+(use-package! company-math
+  :after (:any org-mode TeX-mode)
+  :config
+  (set-company-backend! 'org-mode 'company-math-symbols-latex)
+  (set-company-backend! 'TeX-mode 'company-math-symbols-latex)
+  (set-company-backend! 'org-mode 'company-latex-commands)
+  (set-company-backend! 'TeX-mode 'company-latex-commands)
+  (setq company-tooltip-align-annotations t)
+  (setq company-math-allow-latex-symbols-in-faces t))
+#+end_src
 ** Info colours
 #+begin_src emacs-lisp
 (use-package! info-colors
@@ -750,6 +974,45 @@ Silence all that useless output
 Nested snippets are good, enable that.
 #+begin_src emacs-lisp
 (setq yas-triggers-in-field t)
+#+end_src
+** Calc
+#+begin_src emacs-lisp
+(add-hook 'calc-mode-hook #'calctex-mode)
+#+end_src
+** Writeroom
+For starters, I think Doom is a bit over-zealous when zooming in
+#+begin_src emacs-lisp
+(setq +zen-text-scale 0.6)
+#+end_src
+
+Now, I think it would also be nice to remove line numbers and org stars in
+writeroom.
+#+begin_src emacs-lisp
+(after! writeroom-mode
+  (add-hook 'writeroom-mode-hook
+            (defun +zen-cleaner-org ()
+              (when (and (eq major-mode 'org-mode) writeroom-mode)
+                (setq-local -display-line-numbers display-line-numbers
+                            display-line-numbers nil)
+                (setq-local -org-indent-mode org-indent-mode)
+                (org-indent-mode -1)
+                (when (featurep 'org-superstar)
+                  (setq-local -org-superstar-headline-bullets-list org-superstar-headline-bullets-list
+                              ;; org-superstar-headline-bullets-list '("🙐" "🙑" "🙒" "🙓" "🙔" "🙕" "🙖" "🙗")
+                              org-superstar-headline-bullets-list '("🙘" "🙙" "🙚" "🙛")
+                              -org-superstar-remove-leading-stars org-superstar-remove-leading-stars
+                              org-superstar-remove-leading-stars t)
+                  (org-superstar-restart)))))
+  (add-hook 'writeroom-mode-disable-hook
+            (defun +zen-dirty-org ()
+              (when (eq major-mode 'org-mode)
+                (setq-local display-line-numbers -display-line-numbers)
+                (when -org-indent-mode
+                  (org-indent-mode 1))
+                (when (featurep 'org-superstar)
+                  (setq-local org-superstar-headline-bullets-list -org-superstar-headline-bullets-list
+                              org-superstar-remove-leading-stars -org-superstar-remove-leading-stars)
+                  (org-superstar-restart))))))
 #+end_src
 * Applications
 ** Ebooks
@@ -894,6 +1157,15 @@ Then, to actually read the ebooks we use =nov=.
   (add-hook 'nov-mode-hook #'+nov-mode-setup))
 #+end_src
 * Language configuration
+** Plaintext
+It's nice to see ANSI colour codes displayed
+#+begin_src emacs-lisp
+(after! text-mode
+  (add-hook! 'text-mode-hook
+             ;; Apply ANSI color codes
+             (with-silent-modifications
+               (ansi-color-apply-on-region (point-min) (point-max)))))
+#+end_src
 ** Js
 Prefer prettier formatter.
 #+begin_src emacs-lisp
@@ -907,15 +1179,12 @@ Show eslint help
 (after! (:and lsp-mode flycheck-mode)
   (flycheck-add-next-checker 'lsp 'javascript-eslint))
 #+end_src
-
 ** Python
-Since I'm using =mypyls=, as suggested in [[file:~/.emacs.d/modules/lang/python/README.org::*Language Server Protocol Support][:lang python LSP support]] I'll tweak the
-priority of =mypyls=. Also fixing binary finding on nixos.
+Since I'm using =mypyls=, as suggested in [[file:~/.emacs.d/modules/lang/python/README.org::*Language Server Protocol Support][:lang python LSP support]] I'll tweak the priority of =mypyls=. Also fixing binary finding on nixos.
 #+begin_src emacs-lisp
 (after! lsp-python-ms
   (setq lsp-python-ms-executable (executable-find "python-language-server"))
-  (set-lsp-priority! 'mspyls 1)
-)
+  (set-lsp-priority! 'mspyls 1))
 #+end_src
 ** Rust
 Set rust-analyzer as prefered lsp-server.
@@ -923,7 +1192,7 @@ Set rust-analyzer as prefered lsp-server.
 (setq rustic-lsp-server 'rust-analyzer)
 #+end_src
 ** Nix
-Set rust-analyzer as prefered lsp-server.
+Turn off company for nix
 #+begin_src emacs-lisp
 (setq-hook! 'nix-mode-hook company-idle-delay nil)
 #+end_src
@@ -932,9 +1201,9 @@ Set rust-analyzer as prefered lsp-server.
 :CUSTOM_ID: org
 :header-args:emacs-lisp: :tangle no :noweb-ref org-conf
 :END:
-
 Finally, because this section is fairly expensive to initialise, we'll wrap it
 in an ~(after! ...)~ block.
+
 #+begin_src emacs-lisp :noweb no-export :tangle yes :noweb-ref nil
 (after! org
   <<org-conf>>
@@ -949,12 +1218,11 @@ Some settings
       org-roam-directory (concat org-directory "notes/")
       org-journal-encrypt-journal t
       org-journal-file-format "%Y%m%d.org"
-      org-ellipsis " ▼ "
       org-export-in-background t)
 (add-hook! org-mode :append
-          #'org-fragtog-mode
-          #'variable-pitch-mode
-)
+           #'org-fragtog-mode
+           #'variable-pitch-mode
+           )
 #+end_src
 *** Visuals
 **** Font Display
@@ -1014,6 +1282,67 @@ sacrificing visual amenities with the =org-appear= package.
   ;; needs to be run after other hooks have acted.
   (run-at-time nil nil #'org-appear--set-fragments))
 #+end_src
+
+Syntax highlighting with LaTeX exports.
+#+begin_src emacs-lisp
+(use-package! engrave-faces-latex
+  :after ox-latex)
+#+end_src
+**** Symbols
+It's also nice to change the character used for collapsed items (by default ~…~),
+I think ~▾~ is better for indicating 'collapsed section'.
+and add an extra ~org-bullet~ to the default list of four.
+I've also added some fun alternatives, just commented out.
+#+begin_src emacs-lisp
+;; (use-package org-pretty-tags
+;; :config
+;;  (setq org-pretty-tags-surrogate-strings
+;;        `(("uni"        . ,(all-the-icons-faicon   "graduation-cap" :face 'all-the-icons-purple  :v-adjust 0.01))
+;;          ("ucc"        . ,(all-the-icons-material "computer"       :face 'all-the-icons-silver  :v-adjust 0.01))
+;;          ("assignment" . ,(all-the-icons-material "library_books"  :face 'all-the-icons-orange  :v-adjust 0.01))
+;;          ("test"       . ,(all-the-icons-material "timer"          :face 'all-the-icons-red     :v-adjust 0.01))
+;;          ("lecture"    . ,(all-the-icons-fileicon "keynote"        :face 'all-the-icons-orange  :v-adjust 0.01))
+;;          ("email"      . ,(all-the-icons-faicon   "envelope"       :face 'all-the-icons-blue    :v-adjust 0.01))
+;;          ("read"       . ,(all-the-icons-octicon  "book"           :face 'all-the-icons-lblue   :v-adjust 0.01))
+;;          ("article"    . ,(all-the-icons-octicon  "file-text"      :face 'all-the-icons-yellow  :v-adjust 0.01))
+;;          ("web"        . ,(all-the-icons-faicon   "globe"          :face 'all-the-icons-green   :v-adjust 0.01))
+;;          ("info"       . ,(all-the-icons-faicon   "info-circle"    :face 'all-the-icons-blue    :v-adjust 0.01))
+;;          ("issue"      . ,(all-the-icons-faicon   "bug"            :face 'all-the-icons-red     :v-adjust 0.01))
+;;          ("someday"    . ,(all-the-icons-faicon   "calendar-o"     :face 'all-the-icons-cyan    :v-adjust 0.01))
+;;          ("idea"       . ,(all-the-icons-octicon  "light-bulb"     :face 'all-the-icons-yellow  :v-adjust 0.01))
+;;          ("emacs"      . ,(all-the-icons-fileicon "emacs"          :face 'all-the-icons-lpurple :v-adjust 0.01))))
+;;  (org-pretty-tags-global-mode))
+
+(after! org-superstar
+  (setq org-superstar-headline-bullets-list '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
+        ;; org-superstar-headline-bullets-list '("Ⅰ" "Ⅱ" "Ⅲ" "Ⅳ" "Ⅴ" "Ⅵ" "Ⅶ" "Ⅷ" "Ⅸ" "Ⅹ")
+        org-superstar-prettify-item-bullets t ))
+
+(setq org-ellipsis " ▾ "
+      org-hide-leading-stars t
+      org-priority-highest ?A
+      org-priority-lowest ?E
+      org-priority-faces
+      '((?A . 'all-the-icons-red)
+        (?B . 'all-the-icons-orange)
+        (?C . 'all-the-icons-yellow)
+        (?D . 'all-the-icons-green)
+        (?E . 'all-the-icons-blue)))
+#+end_src
+*** Extra functionality
+**** List bullet sequence
+I think it makes sense to have list bullets change with depth
+#+begin_src emacs-lisp
+(setq org-list-demote-modify-bullet '(("+" . "-") ("-" . "+") ("*" . "+") ("1." . "a.")))
+#+end_src
+**** Citation
+Occasionally I want to cite something.
+#+begin_src emacs-lisp
+(use-package! org-ref
+  :after org
+  :config
+  (setq org-ref-completion-library 'org-ref-ivy-cite))
+#+end_src
 ** LaTeX
 #+begin_src emacs-lisp
 (setq TeX-save-query nil
@@ -1054,4 +1383,24 @@ sixth greyed out. Since the sixth level is so small, I'll turn up the boldness a
   '(markdown-header-face-4 :height 1.00 :weight bold       :inherit markdown-header-face)
   '(markdown-header-face-5 :height 0.90 :weight bold       :inherit markdown-header-face)
   '(markdown-header-face-6 :height 0.75 :weight extra-bold :inherit markdown-header-face))
+#+end_src
+* Functions
+** Org-mode
+Export pdf asynchronously
+#+begin_src emacs-lisp
+(defun leniviy/org-save-and-export-pdf ()
+  (interactive)
+  (if (eq major-mode 'org-mode)
+      (org-latex-export-to-pdf :async t)))
+#+end_src
+
+Export TeX
+#+begin_src emacs-lisp
+(defun leniviy/org-save-and-export-latex ()
+  (interactive)
+  (if (eq major-mode 'org-mode)
+      (org-latex-export-to-latex :async t)))
+(defun leniviy/org-save-and-export-beamer ()
+  (if (eq major-mode 'org-mode)
+      (org-beamer-export-to-latex :async t)))
 #+end_src
