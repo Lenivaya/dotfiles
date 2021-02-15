@@ -80,7 +80,8 @@ in {
       fi
       if ! [ -d $HOME/.config/doom ]; then
             ln -s ${configDir}/doom ~/.config/doom
-            ${pkgs.emacs}/bin/emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/.config/doom/config.org")'
+            # ${pkgs.emacs}/bin/emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/.config/doom/config.org")'
+            $HOME/.emacs.d/bin/org-tangle ~/.config/doom/config.org
       fi
     '';
   };
