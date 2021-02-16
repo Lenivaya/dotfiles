@@ -404,6 +404,12 @@ I don't need it to tell me its UTF-8
       +modeline-encoding nil)
 #+end_src
 **** Miscellaneous
+Relative line numbers are fantastic for knowing how far away line numbers are,
+then =ESC 12 <UP>= gets you exactly where you think.
+#+begin_src emacs-lisp
+(setq display-line-numbers-type 'relative)
+#+end_src
+
 Prevents some cases of Emacs flickering
 #+begin_src emacs-lisp
 (add-to-list 'default-frame-alist '(inhibit-double-buffering . t))
