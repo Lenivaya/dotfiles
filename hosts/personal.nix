@@ -22,7 +22,7 @@ with lib; {
     driSupport = true;
     driSupport32Bit = true;
     extraPackages = with pkgs; [
-      vaapiIntel
+      (vaapiIntel.override { enableHybridCodec = true; })
       vaapiVdpau
       libvdpau-va-gl
       intel-media-driver
