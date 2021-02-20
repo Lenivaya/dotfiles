@@ -1,8 +1,7 @@
 module XMonad.Custom.Projects
   ( projects
   , workspaces
-  )
-where
+  ) where
 
 import           XMonad                  hiding ( workspaces )
 import           XMonad.Actions.DynamicProjects
@@ -10,6 +9,12 @@ import           XMonad.Actions.SpawnOn
 import           XMonad.Actions.WindowGo
 
 import qualified XMonad.Custom.Misc            as C
+
+-- browser prompt
+import           XMonad.Custom.Prompt           ( aListCompFunc
+                                                , promptTheme
+                                                )
+import           XMonad.Prompt
 
 (generic, code, template, web, wsread, sys, tmp, wsWRK) =
   ("GEN", "Code", "Template", "WWW", "Read", "SYS", "TMP", "WRK")
@@ -36,7 +41,8 @@ projects =
             }
   , Project { projectName      = web
             , projectDirectory = "~/"
-            , projectStartHook = Just $ spawnOn web (C.browser C.applications)
+            , projectStartHook = Just $ selectBrowserByName promptTheme
+              -- spawnOn web (C.browser C.applications)
             }
   , Project { projectName      = wsread
             , projectDirectory = "~/"
@@ -60,3 +66,28 @@ projects =
                            spawnOn wsWRK (C.browser C.applications)
     }
   ]
+
+
+--------------------------------------------------------------------------------
+-- | A data type for the @XPrompt@ class.
+data BrowserByName = BrowserByName
+
+instance XPrompt BrowserByName where
+  showXPrompt BrowserByName = "Browser: "
+
+--------------------------------------------------------------------------------
+-- | Use @Prompt@ to choose a browser which then will be runned on WWW.
+selectBrowserByName :: XPConfig -> X ()
+selectBrowserByName conf = mkXPrompt BrowserByName
+                                     conf
+                                     (aListCompFunc conf browserNames)
+                                     go
+ where
+  go :: String -> X ()
+  go selected = case lookup selected browserNames of
+    Nothing      -> return ()
+    Just browser -> spawnOn web browser
+
+  browserNames :: [(String, String)]
+  browserNames =
+    [("Firefox", "firefox"), ("Chromium", "chromium"), ("Brave", "brave")]
