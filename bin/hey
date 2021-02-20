@@ -1,5 +1,5 @@
 #!/usr/bin/env cached-nix-shell
-#! nix-shell -p ruby -i "ruby -S" --quiet
+#! nix-shell -p ruby_2_7 -i "ruby -S" --quiet
 
 DESC = <<~DESC
   Nix's CLI has a poor user story, in my opinion. It could be better; Guix is a
@@ -87,7 +87,7 @@ module Hey
   defcmd :repl do
     desc "Open a nix-repl with nixpkgs and dotfiles preloaded"
     lambda do |args|
-      sh ["nix", "repl", @@opts[:flake], "<nixpkgs>", *args]
+      sh ["nix", "repl", "<nixpkgs>", *args]
     end
   end
 
@@ -215,8 +215,8 @@ module Hey
 
   defcmd :gc do
     desc "Garbage collect & optimize nix store"
-    opts "-a", "--all",         "GC both the user and system profiles"
-    opts "-s", "--system",      "Only GC the system profile"
+    opts "-a", "--all",    "GC both the user and system profiles"
+    opts "-s", "--system", "Only GC the system profile"
     lambda do |_args|
       if @@opts[:all] or not @@opts[:system]
         puts "Cleaning up your user profile..."
