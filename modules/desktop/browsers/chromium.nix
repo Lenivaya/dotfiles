@@ -32,10 +32,11 @@ in {
     home-manager.users.${config.user.name}.programs.chromium = {
       enable = true;
 
-      package = if cfg.ungoogled then
-        (wrapWithFlags pkgs.ungoogled-chromium cfg.flags)
-      else
-        (wrapWithFlags pkgs.chromium cfg.flags);
+      package = with pkgs;
+        (wrapWithFlags
+          ((if cfg.ungoogled then ungoogled-chromium else chromium).override {
+            enableVaapi = true;
+          }) cfg.flags);
 
       extensions = [
         "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
@@ -50,11 +51,11 @@ in {
 
     modules.desktop.browsers.chromium.flags = [
       # Dark theme
-      # "--force-dark-mode"
+      "--force-dark-mode"
       # "--enable-features=WebUIDarkMode"
 
       # GPU acceleration
-      "--ignore-gpu-blacklist"
+      "--ignore-gpu-blocklist"
       "--enable-gpu-rasterization"
       "--enable-native-gpu-memory-buffers"
       "--enable-zero-copy"
