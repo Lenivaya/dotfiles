@@ -452,7 +452,7 @@ And finally add function to tangle config from emacs
 (defun config-tangle ()
   (interactive)
   (shell-command
-   (concat "org-tangle " +literate-config-file " " "&")
+   (concat "org-tangle " doom-private-dir "config.org" " &")
    )
   )
 #+end_src
@@ -891,21 +891,21 @@ file uploading script (which I've renamed to ~upload~).
   )
 #+end_src
 ** Company
-It's nice to have completions almost all the time, in my opinion. Key strokes
-are just waiting to be saved!
+Some settings
 #+begin_src emacs-lisp
 (after! company
-  (setq company-idle-delay 0.5
-        company-minimum-prefix-length 2)
-  (setq company-show-numbers t)
-  (add-hook 'evil-normal-state-entry-hook #'company-abort)) ;; make aborting less annoying.
+  (setq
+   company-show-numbers t
+   company-minimum-prefix-length 2
+   )
+  )
 #+end_src
 
 Now, the improvements from ~precedent~ are mostly from remembering history, so
 let's improve that memory.
 #+begin_src emacs-lisp
-(setq-default history-length 1000)
-(setq-default prescient-history-length 1000)
+;; (setq-default history-length 1000)
+;; (setq-default prescient-history-length 1000)
 #+end_src
 
 Use prescient sorting
