@@ -4,6 +4,7 @@ with lib;
 with lib.my;
 let
   cfg = config.modules.editors.emacs;
+  emacsPkg = pkgs.emacsPgtkGcc; # 28 + pgtk + native-comp
   editorScript = pkgs.writeScriptBin "emacseditor" ''
     #!${pkgs.runtimeShell}
     if [ -z "$1" ]; then
@@ -20,8 +21,12 @@ in {
   };
 
   config = mkIf cfg.enable {
+    nixpkgs.overlays = [ inputs.emacs-overlay.overlay ];
+
     user.packages = with pkgs; [
-      emacs
+      binutils # native-comp needs 'as', provided by this
+      emacsPkg
+
       ## Doom dependencies
       git
       (ripgrep.override { withPCRE2 = true; })
@@ -66,6 +71,7 @@ in {
 
     home-manager.users.${config.user.name}.services.emacs = {
       enable = true;
+      package = emacsPkg;
       client.enable = true;
       socketActivation.enable = true;
     };
