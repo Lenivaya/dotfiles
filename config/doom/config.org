@@ -390,7 +390,8 @@ Use font aliases defined in fontconfig.
 #+begin_src emacs-lisp
 (setq doom-font (font-spec :family "monospace" :size 12 :weight 'Regular)
       doom-big-font (font-spec :family "monospace" :size 24)
-      doom-variable-pitch-font (font-spec :family "sans" :size 12))
+      doom-variable-pitch-font (font-spec :family "sans" :size 12)
+      doom-unicode-font doom-variable-pitch-font)
 #+end_src
 **** Theme and modeline
 #+begin_src emacs-lisp
