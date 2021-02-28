@@ -10,7 +10,6 @@
       apps = {
         rofi.enable = true;
         dunst.enable = true;
-        zathura.enable = true;
         discord.enable = true;
       };
 
@@ -27,6 +26,11 @@
       };
 
       media = {
+        documents = {
+          enable = true;
+          pdf.enable = true;
+          ebook.enable = true;
+        };
         spotify.enable = true;
         mpv.enable = true;
       };
