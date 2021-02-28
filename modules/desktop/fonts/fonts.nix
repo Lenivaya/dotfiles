@@ -2,8 +2,18 @@
 
 {
   fonts = {
+    fontDir.enable = true;
     enableDefaultFonts = true;
-    fonts = with pkgs; [ iosevka ibm-plex noto-fonts corefonts symbola ];
+    enableGhostscriptFonts = true;
+    fonts = with pkgs; [
+      iosevka
+      ibm-plex
+      noto-fonts
+      ubuntu_font_family
+      corefonts
+      fira-code
+      fira-code-symbols
+    ];
 
     fontconfig = {
       enable = true;
