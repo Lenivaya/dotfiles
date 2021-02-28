@@ -9,9 +9,17 @@ in {
   config = mkIf cfg.enable {
     user.packages = with pkgs;
       [
-        (haskellPackages.ghcWithPackages
-          (ps: with ps; [ cabal-install stack hlint brittany ] # ghc-mod
-          ))
+        # haskell-language-server
+
+        (haskellPackages.ghcWithHoogle (ps:
+          with ps; [
+            stack
+            cabal-install
+            hlint
+            brittany
+            hasktags
+            haskell-language-server
+          ]))
       ];
   };
 
