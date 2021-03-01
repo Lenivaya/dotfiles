@@ -10,6 +10,8 @@
       maim
       scrot # Screenshots
       dunst # notification daemon
+      dua # Disk Usage Analyzer
+
       libnotify
       binutils
       usbutils
