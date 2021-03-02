@@ -33,6 +33,11 @@ with lib.my; {
     ];
     registry = registryInputs // { dotfiles.flake = inputs.self; };
     useSandbox = true;
+    gc = {
+      automatic = true;
+      dates = "monthly";
+      options = "--delete-older-than 7d";
+    };
   };
   system.configurationRevision = with inputs; mkIf (self ? rev) self.rev;
   system.stateVersion = "20.09";
