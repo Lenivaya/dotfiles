@@ -1,0 +1,57 @@
+configuration {
+    display-combi: "λ";
+    display-drun: "λ";
+    fixed-num-lines: false;
+    combi-hide-mode-prefix: true;
+}
+
+* {
+  background-color: #262b38;
+  border-color: #393b4a;
+  text-color: white;
+  spacing: 0;
+  width: 24em;
+}
+
+window {
+    location:	 center;
+    anchor:		 center;
+}
+
+inputbar {
+  border: 0 0 1px 0;
+  children: [prompt,entry];
+}
+
+prompt {
+  padding: 0.8em 0.9em 0.8em 0.8em;
+  border: 0 1px 0 0;
+}
+
+textbox {
+  background-color: #393b4a;
+  border: 0 0 1px 0;
+  border-color: #282C33;
+  padding: 0.4em 0.8em;
+}
+
+entry {
+  padding: 0.8em;
+}
+
+listview {
+  cycle: false;
+  margin: 0 0 -1px 0;
+  scrollbar: false;
+}
+
+element {
+  border: 0 0 1px 0;
+  padding: 0.8em;
+}
+
+element selected {
+  background-color: #393b4a;
+}
+
+element-icon { size: 1.65ch ; }

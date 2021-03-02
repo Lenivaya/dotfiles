@@ -14,7 +14,7 @@ in {
           plugins = with pkgs; [ rofi-emoji rofi-calc rofi-file-browser ];
         };
         lines = 10;
-        theme = "list";
+        theme = "main";
         extraConfig = {
           modi = "drun";
           show-icons = true;
@@ -28,6 +28,19 @@ in {
     };
 
     user.packages = with pkgs; [
+      (makeDesktopItem {
+        name = "Rofi-calc";
+        desktopName = "Rofi: Calculator";
+        icon = "calc";
+        exec = "rofi -show calc";
+        categories = "Development";
+      })
+      (makeDesktopItem {
+        name = "Rofi-files";
+        desktopName = "Rofi: Filebrowser";
+        icon = "system-file-manager";
+        exec = "rofi -show file-browser";
+      })
       (makeDesktopItem {
         name = "reboot";
         desktopName = "System: Reboot";
