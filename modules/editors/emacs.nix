@@ -48,7 +48,7 @@ in {
       xorg.xwininfo
       xorg.xprop
       # :checkers spell
-      (aspellWithDicts (ds: with ds; [ en en-computers en-science ]))
+      (aspellWithDicts (ds: with ds; [ en en-computers en-science uk ru ]))
       # :checkers grammar
       languagetool
       # :tools lookup
