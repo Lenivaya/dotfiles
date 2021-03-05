@@ -245,9 +245,9 @@ vc                           ; version-control and Emacs, sitting in a tree
 #+name: doom-term
 #+begin_src emacs-lisp
 eshell            ; a consistent, cross-platform shell (WIP)
-shell             ; a terminal REPL for Emacs
+;; shell             ; a terminal REPL for Emacs
 ;; term              ; terminals in Emacs
-;; vterm             ; another terminals in Emacs
+vterm             ; another terminals in Emacs
 #+end_src
 
 #+name: doom-checkers

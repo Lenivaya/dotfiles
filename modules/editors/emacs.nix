@@ -25,7 +25,6 @@ in {
 
     user.packages = with pkgs; [
       binutils # native-comp needs 'as', provided by this
-      emacsPkg
 
       ## Doom dependencies
       git
@@ -58,22 +57,29 @@ in {
       # :lang latex & :lang org (latex previews)
       texlab
       texlive.combined.scheme-full # FULL
+      # :term vterm
+      libtool
     ];
 
     env.PATH = [ "$HOME/.emacs.d/bin" ];
 
     fonts.fonts = [ pkgs.emacs-all-the-icons-fonts ];
 
-    # services.emacs = {
-    #   enable = true;
-    #   defaultEditor = mkIf cfg.default true;
-    # };
+    home-manager.users.${config.user.name} = {
+      programs.emacs = {
+        enable = true;
+        package = emacsPkg;
+        extraPackages = epkgs: [
+          # :term vterm
+          epkgs.vterm
+        ];
+      };
 
-    home-manager.users.${config.user.name}.services.emacs = {
-      enable = true;
-      package = emacsPkg;
-      client.enable = true;
-      socketActivation.enable = true;
+      services.emacs = {
+        enable = true;
+        client.enable = true;
+        socketActivation.enable = true;
+      };
     };
 
     env.EDITOR =
