@@ -7,6 +7,8 @@
     desktop = {
       xmonad.enable = true;
 
+      fonts.pragmatapro.enable = true;
+
       apps = {
         rofi.enable = true;
         dunst.enable = true;
