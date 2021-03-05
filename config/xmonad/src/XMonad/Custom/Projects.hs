@@ -62,8 +62,7 @@ projects =
   , Project
     { projectName      = wsWRK
     , projectDirectory = "~/"
-    , projectStartHook = Just $ do
-                           spawnOn wsWRK (C.browser C.applications)
+    , projectStartHook = Nothing
     }
   ]
 

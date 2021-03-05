@@ -29,7 +29,6 @@ prompt {
 }
 
 textbox {
-  background-color: #393b4a;
   border: 0 0 1px 0;
   border-color: #282C33;
   padding: 0.4em 0.8em;
