@@ -8,6 +8,7 @@ in {
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
+      python-language-server
       python37
       python37Packages.pip
       python37Packages.ipython
