@@ -42,6 +42,12 @@ in {
         exec = "rofi -show file-browser";
       })
       (makeDesktopItem {
+        name = "Rofi-emojis";
+        desktopName = "Rofi: emoji";
+        icon = "face-smile";
+        exec = "rofi -show emoji";
+      })
+      (makeDesktopItem {
         name = "reboot";
         desktopName = "System: Reboot";
         icon = "system-reboot";
