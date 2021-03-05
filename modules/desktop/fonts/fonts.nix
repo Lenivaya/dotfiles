@@ -18,8 +18,6 @@ in {
         noto-fonts
         ubuntu_font_family
         corefonts
-        fira-code
-        fira-code-symbols
       ];
 
       fontconfig = {
@@ -29,11 +27,16 @@ in {
           enable = true;
         };
         subpixel.lcdfilter = "default";
-        defaultFonts = {
-          monospace = [ (if pragmata.enable then "PragmataPro Mono Liga" else "Iosevka") ];
+        defaultFonts = (if pragmata.enable then {
+          # Use pragmata everywhere when it's enabled (exactly what i want)
+          monospace = [ "PragmataPro Mono Liga" ];
+          sansSerif = [ "PragmataPro Liga" ];
+          serif = [ "PragmataPro Liga" ];
+        } else {
+          monospace = [ "Iosevka"];
           sansSerif = [ "IBM Plex Sans" ];
           serif = [ "IBM Plex Serif" ];
-        };
+        });
       };
     };
 
