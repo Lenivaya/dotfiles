@@ -6,7 +6,6 @@
     geoclue2.enable = true;
     thermald.enable = true;
     acpid.enable = true;
-    tlp.enable = true;
     upower.enable = true;
     devmon.enable = true;
     gvfs.enable = true;
