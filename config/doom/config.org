@@ -274,7 +274,6 @@ gist                       ; interacting with github gists
  +dictionary                 ; dictionary/thesaurus is nice
  +docsets)                   ; ...or in Dash docsets locally
 lsp                          ; Language Server Protocol
-;;macos                      ; MacOS-specific commands
 (magit                       ; a git porcelain for Emacs
  +forge)                     ; interface with git forges
 make                         ; run make tasks from Emacs
@@ -290,6 +289,7 @@ upload                       ; map local to remote projects via ssh/ftp
 
 #+name: doom-os
 #+begin_src emacs-lisp
+(:if IS-MAC macos)  ; improve compatibility with macOS
 tty                          ; improve the terminal Emacs experience
 #+end_src
 **** Language support 
@@ -337,6 +337,7 @@ nix               ; I hereby declare "nix geht mehr!"
  +pretty
  +pandoc
  +dragndrop       ; file drag & drop support
+ +noter                      ; enhanced PDF notetaking
  +present         ; using Emacs for presentations
  +journal
  +roam )
@@ -388,7 +389,7 @@ Use font aliases defined in fontconfig.
 (setq doom-font (font-spec :family "monospace" :size 12 :weight 'Regular)
       doom-big-font (font-spec :family "monospace" :size 24)
       doom-variable-pitch-font (font-spec :family "sans" :size 12)
-      doom-unicode-font doom-variable-pitch-font)
+)
 #+end_src
 **** Theme and modeline
 #+begin_src emacs-lisp
@@ -475,6 +476,11 @@ Practice typing speed
 (package! speed-type)
 #+end_src
 
+Why not flash words on the screen. Why not --- hey, it could be fun.
+#+begin_src emacs-lisp
+(package! spray)
+#+end_src
+
 For some reason, I find myself demoing Emacs every now and then. Showing what
 keyboard stuff I'm doing on-screen seems helpful. While [[https://gitlab.com/screenkey/screenkey][screenkey]] does exist,
 having something that doesn't cover up screen content is nice.
@@ -520,115 +526,6 @@ Together these should give me a rather good experience reading ebooks.
 This makes it a breeze to take lovely screenshots.
 #+begin_src emacs-lisp
 (package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
-#+end_src
-**** Improve agenda/capture
-The agenda is nice, but a souped up version is nicer.
-#+begin_src emacs-lisp
-(package! org-super-agenda)
-#+end_src
-
-Similarly ~doct~ (Declarative Org Capture Templates) seems to be a nicer way to
-set up org-capture.
-#+begin_src emacs-lisp
-(package! doct
-  :recipe (:host github :repo "progfolio/doct")
-)
-#+end_src
-**** Visuals
-Org tables aren't the prettiest thing to look at. This package is supposed to
-redraw them in the buffer with box-drawing characters. Sounds like an
-improvement to me! Just need to get it working...
-#+begin_src emacs-lisp
-(package! org-pretty-table-mode
-  :recipe (:host github :repo "Fuco1/org-pretty-table"))
-#+end_src
-
-For automatically toggling LaTeX fragment previews there's this nice package
-#+begin_src emacs-lisp
-(package! org-fragtog :pin)
-#+end_src
-
-Then for pretty markers
-#+begin_src emacs-lisp
-(package! org-appear :recipe (:host github :repo "awth13/org-appear")
-)
-#+end_src
-
-~org-superstar-mode~ is great. While we're at it we may as well make tags prettier as well :)
-#+begin_src emacs-lisp
-(package! org-pretty-tags)
-#+end_src
-
-There's this nice package that can provide nice syntax highlighting with LaTeX exports.
-#+begin_src emacs-lisp
-(package! engrave-faces :recipe (:host github :repo "tecosaur/engrave-faces"))
-#+end_src
-**** Extra functionality
-Because of the /[[https://github.com/commonmark/commonmark-spec/wiki/markdown-flavors][lovely variety in markdown implementations]]/ there isn't actually
-such a thing a standard table spec ... or standard anything really. Because
-~org-md~ is a goody-two-shoes, it just uses HTML for all these non-standardised
-elements (a lot of them). So ~ox-gfm~ is handy for exporting markdown with all the
-features that GitHub has.
-#+begin_src emacs-lisp
-(package! ox-gfm)
-#+end_src
-#+begin_src emacs-lisp :tangle yes
-(use-package! ox-gfm
-  :after org)
-#+end_src
-
-Now and then citations need to happen
-#+begin_src emacs-lisp
-(package! org-ref)
-#+end_src
-
-Came across this and ... it's cool
-#+begin_src emacs-lisp
-(package! org-graph-view :recipe (:host github :repo "alphapapa/org-graph-view"))
-#+end_src
-
-I *need* this in my life. It take a URL to a recipe from a common site, and
-inserts an org-ified version at point. Isn't that just great.
-#+begin_src emacs-lisp
-(package! org-chef)
-#+end_src
-
-Sometimes I'm given non-org files, that's very sad. Luckily Pandoc offers a way
-to make that right again, and this package makes that even easier to do.
-#+begin_src emacs-lisp
-(package! org-pandoc-import :recipe
-  (:local-repo "lisp/org-pandoc-import" :files ("*.el" "filters" "preprocessors")))
-#+end_src
-#+begin_src emacs-lisp :tangle yes
-(use-package! org-pandoc-import
-  :after org)
-#+end_src
-
-Org-roam is nice by itself, but there are so /extra/ nice packages which integrate
-with it.
-#+begin_src emacs-lisp
-(package! org-roam-server)
-#+end_src
-#+begin_src emacs-lisp :tangle yes
-(use-package org-roam-server
-  :after (org-roam server)
-  :config
-  (setq org-roam-server-host "127.0.0.1"
-        org-roam-server-port 8078
-        org-roam-server-export-inline-images t
-        org-roam-server-authenticate nil
-        org-roam-server-network-label-truncate t
-        org-roam-server-network-label-truncate-length 60
-        org-roam-server-network-label-wrap-length 20)
-  (defun org-roam-server-open ()
-    "Ensure the server is active, then open the roam graph."
-    (interactive)
-    (org-roam-server-mode 1)
-    (browse-url-xdg-open (format "http://localhost:%d" org-roam-server-port))))
-#+end_src
-#+begin_src emacs-lisp
-(package! beancount :recipe (:host github :repo "beancount/beancount-mode")
-  :pin "7a0ef01d1ff6f8c318af944131310ca06d4c65ff")
 #+end_src
 **** Theme schedule
 #+begin_src emacs-lisp
@@ -848,6 +745,7 @@ file uploading script (which I've renamed to ~upload~).
 ** Circadian (Theme schedule)
 #+begin_src emacs-lisp
 (use-package! circadian
+  :ensure t
   :config
   (setq circadian-themes '(("8:00" . doom-tomorrow-night)
                            ("20:30" . doom-tomorrow-night)))
@@ -948,6 +846,12 @@ is using Hydra.
 #+begin_src emacs-lisp
 (setq ivy-read-action-function #'ivy-hydra-read-action)
 #+end_src
+** Spray
+Let's make this suit me slightly better.
+#+begin_src emacs-lisp
+(setq spray-wpm 500
+      spray-height 700)
+#+end_src
 ** Avy
 I want avy to jump though windows and auto-jump when theres 1 candidate
 #+begin_src  emacs-lisp
@@ -986,38 +890,69 @@ Nested snippets are good, enable that.
 ** Writeroom
 For starters, I think Doom is a bit over-zealous when zooming in
 #+begin_src emacs-lisp
-(setq +zen-text-scale 0.6)
+(setq +zen-text-scale 0.8)
 #+end_src
 
-Now, I think it would also be nice to remove line numbers and org stars in
-writeroom.
+Then, when using Org it would be nice to make a number of other aesthetic
+tweaks. Namely:
++ Use a serifed variable-pitch font
++ Hiding headline leading stars
++ Hiding line numbers
++ Removing outline indentation
++ Centring the text
++ Turning on ~org-pretty-table-mode~
+
 #+begin_src emacs-lisp
+(defvar +zen-serif-p t
+  "Whether to use a serifed font with `mixed-pitch-mode'.")
 (after! writeroom-mode
-  (add-hook 'writeroom-mode-hook
-            (defun +zen-cleaner-org ()
-              (when (and (eq major-mode 'org-mode) writeroom-mode)
-                (setq-local -display-line-numbers display-line-numbers
-                            display-line-numbers nil)
-                (setq-local -org-indent-mode org-indent-mode)
-                (org-indent-mode -1)
-                (when (featurep 'org-superstar)
-                  (setq-local -org-superstar-headline-bullets-list org-superstar-headline-bullets-list
-                              ;; org-superstar-headline-bullets-list '("🙐" "🙑" "🙒" "🙓" "🙔" "🙕" "🙖" "🙗")
-                              org-superstar-headline-bullets-list '("🙘" "🙙" "🙚" "🙛")
-                              -org-superstar-remove-leading-stars org-superstar-remove-leading-stars
-                              org-superstar-remove-leading-stars t)
-                  (org-superstar-restart)))))
-  (add-hook 'writeroom-mode-disable-hook
-            (defun +zen-dirty-org ()
+  (defvar-local +zen--original-org-indent-mode-p nil)
+  (defvar-local +zen--original-mixed-pitch-mode-p nil)
+  (defvar-local +zen--original-solaire-mode-p nil)
+  (defvar-local +zen--original-org-pretty-table-mode-p nil)
+  (defun +zen-enable-mixed-pitch-mode-h ()
+    "Enable `mixed-pitch-mode' when in `+zen-mixed-pitch-modes'."
+    (when (apply #'derived-mode-p +zen-mixed-pitch-modes)
+      (if writeroom-mode
+          (progn
+            (setq +zen--original-solaire-mode-p solaire-mode)
+            (solaire-mode -1)
+            (setq +zen--original-mixed-pitch-mode-p mixed-pitch-mode)
+            (funcall (if +zen-serif-p #'mixed-pitch-serif-mode #'mixed-pitch-mode) 1))
+        (funcall #'mixed-pitch-mode (if +zen--original-mixed-pitch-mode-p 1 -1))
+        (when +zen--original-solaire-mode-p (solaire-mode 1)))))
+  (pushnew! writeroom--local-variables
+            'display-line-numbers
+            'visual-fill-column-width
+            'org-adapt-indentation
+            'org-superstar-headline-bullets-list
+            'org-superstar-remove-leading-stars)
+  (add-hook 'writeroom-mode-enable-hook
+            (defun +zen-prose-org-h ()
+              "Reformat the current Org buffer appearance for prose."
               (when (eq major-mode 'org-mode)
-                (setq-local display-line-numbers -display-line-numbers)
-                (when -org-indent-mode
-                  (org-indent-mode 1))
+                (setq display-line-numbers nil
+                      visual-fill-column-width 60
+                      org-adapt-indentation nil)
                 (when (featurep 'org-superstar)
-                  (setq-local org-superstar-headline-bullets-list -org-superstar-headline-bullets-list
-                              org-superstar-remove-leading-stars -org-superstar-remove-leading-stars)
-                  (org-superstar-restart))))))
+                  (setq-local org-superstar-remove-leading-stars t)
+                  (org-superstar-restart))
+                (setq
+                 +zen--original-org-indent-mode-p org-indent-mode
+                 +zen--original-org-pretty-table-mode-p (bound-and-true-p org-pretty-table-mode))
+                (org-indent-mode -1)
+                (org-pretty-table-mode 1))))
+  (add-hook 'writeroom-mode-disable-hook
+            (defun +zen-nonprose-org-h ()
+              "Reverse the effect of `+zen-prose-org'."
+              (when (eq major-mode 'org-mode)
+                (when (featurep 'org-superstar)
+                  (org-superstar-restart))
+                (when +zen--original-org-indent-mode-p (org-indent-mode 1))
+                ;; (unless +zen--original-org-pretty-table-mode-p (org-pretty-table-mode -1))
+                ))))
 #+end_src
+
 * Applications
 ** Ebooks
 =calibredb= lets us use calibre through Emacs, because who wouldn't want to use
@@ -1336,19 +1271,132 @@ I've also added some fun alternatives, just commented out.
         (?D . 'all-the-icons-green)
         (?E . 'all-the-icons-blue)))
 #+end_src
-*** Extra functionality
-**** List bullet sequence
+**** LaTeX Fragments
+***** Prettier highlighting
+First off, we want those fragments to look good.
+#+begin_src emacs-lisp
+(setq org-highlight-latex-and-related '(native script entities))
+#+end_src
+
+However, by using =native= highlighting the =org-block= face is added, and that
+doesn't look too great --- particularly when the fragments are previewed.
+
+Ideally ~org-src-font-lock-fontify-block~ wouldn't add the =org-block= face, but we
+can avoid advising that entire function by just adding another face with
+=:inherit default= which will override the background colour.
+
+Inspecting ~org-do-latex-and-related~ shows that ="latex"= is the language argument
+passed, and so we can override the background as discussed above.
+#+begin_src emacs-lisp
+(add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
+#+end_src
+
+***** More eager rendering
+What's better than syntax-highlighted LaTeX is /rendered/ LaTeX though, and we can
+have this be performed automatically with =org-fragtog=.
+#+begin_src emacs-lisp
+(use-package! org-fragtog
+  :hook (org-mode . org-fragtog-mode))
+#+end_src
+
+***** Prettier rendering
+Since we can, instead of making the background colour match the =default= face,
+let's make it transparent.
+#+begin_src emacs-lisp
+(setq org-format-latex-options
+      (plist-put org-format-latex-options :background "Transparent"))
+#+end_src
+
+*** Behavior
+**** Extra functionality
+***** Org buffer creation
+Let's also make creating an org buffer just that little bit easier.
+#+begin_src emacs-lisp :tangle yes :noweb-ref none
+(evil-define-command evil-buffer-org-new (count file)
+  "Creates a new ORG buffer replacing the current window, optionally
+   editing a certain FILE"
+  :repeat nil
+  (interactive "P<f>")
+  (if file
+      (evil-edit file)
+    (let ((buffer (generate-new-buffer "*new org*")))
+      (set-window-buffer nil buffer)
+      (with-current-buffer buffer
+        (org-mode)))))
+(map! :leader
+      (:prefix "b"
+       :desc "New empty ORG buffer" "o" #'evil-buffer-org-new))
+#+end_src
+***** List bullet sequence
 I think it makes sense to have list bullets change with depth
 #+begin_src emacs-lisp
 (setq org-list-demote-modify-bullet '(("+" . "-") ("-" . "+") ("*" . "+") ("1." . "a.")))
 #+end_src
-**** Citation
+***** Citation
 Occasionally I want to cite something.
 #+begin_src emacs-lisp
 (use-package! org-ref
   :after org
   :config
   (setq org-ref-completion-library 'org-ref-ivy-cite))
+#+end_src
+*** Exporting
+**** General settings
+#+begin_src emacs-lisp
+(setq org-export-headline-levels 5) ; I like nesting
+#+end_src
+I'm also going to make use of an item in =ox-extra= so that I can add an =:ignore:=
+tag to headings for the content to be kept, but the heading itself ignored
+(unlike =:noexport:= which ignored both heading and content). This is useful when
+I want to use headings to provide a structure for writing that doesn't appear in
+the final documents.
+#+begin_src emacs-lisp
+(require 'ox-extra)
+(ox-extras-activate '(ignore-headlines))
+#+end_src
+*** LaTeX Export
+**** Extra special strings
+LaTeX already recognises =---= and =--= as em/en-dashes, =\-= as a shy hyphen, and the
+conversion of =...= to =\ldots{}= is hardcoded into ~org-latex-plain-text~ (unlike
+~org-html-plain-text~).
+
+I'd quite like to also recognise =->= and =<-=, so let's set come up with some advice.
+
+#+begin_src emacs-lisp
+(defvar org-latex-extra-special-string-regexps
+  '(("->" . "\\\\textrightarrow{}")
+    ("<-" . "\\\\textleftarrow{}")))
+
+(defun org-latex-convert-extra-special-strings (string)
+  "Convert special characters in STRING to LaTeX."
+  (dolist (a org-latex-extra-special-string-regexps string)
+    (let ((re (car a))
+          (rpl (cdr a)))
+      (setq string (replace-regexp-in-string re rpl string t)))))
+
+(defadvice! org-latex-plain-text-extra-special-a (orig-fn text info)
+  "Make `org-latex-plain-text' handle some extra special strings."
+  :around #'org-latex-plain-text
+  (let ((output (funcall orig-fn text info)))
+    (when (plist-get info :with-special-strings)
+      (setq output (org-latex-convert-extra-special-strings output)))
+    output))
+#+end_src
+
+**** Make verbatim different to code
+Since have just gone to so much effort above let's make the most of it by making
+=verbatim= use ~verb~ instead of ~protectedtexttt~ (default).
+
+This gives the same advantages as mentioned in the [[*Make verbatim different to code][HTML export section]].
+
+#+begin_src emacs-lisp
+(setq org-latex-text-markup-alist
+      '((bold . "\\textbf{%s}")
+        (code . protectedtexttt)
+        (italic . "\\emph{%s}")
+        (strike-through . "\\sout{%s}")
+        (underline . "\\uline{%s}")
+        (verbatim . verb)))
 #+end_src
 ** LaTeX
 #+begin_src emacs-lisp
