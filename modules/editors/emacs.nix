@@ -69,10 +69,11 @@ in {
       programs.emacs = {
         enable = true;
         package = emacsPkg;
-        extraPackages = epkgs: [
-          # :term vterm
-          epkgs.vterm
-        ];
+        extraPackages = epkgs:
+          [
+            # :term vterm
+            epkgs.vterm
+          ];
       };
 
       services.emacs = {
