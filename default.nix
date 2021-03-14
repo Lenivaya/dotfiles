@@ -12,7 +12,11 @@ with lib.my; {
 
   # Common config for all nixos machines; and to ensure the flake operates
   # soundly
-  environment.variables.DOTFILES = dotFilesDir;
+  environment.variables.DOTFILES = findFirst pathExists dotFilesDir [
+    "${config.user.home}/.config/dotfiles"
+    "/etc/dotfiles"
+  ];
+  environment.variables.DOTFILES_BIN = "$DOTFILES/bin";
 
   # Configure nix and nixpkgs
   environment.variables.NIXPKGS_ALLOW_UNFREE = "1";
@@ -32,7 +36,7 @@ with lib.my; {
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
     ];
     registry = registryInputs // { dotfiles.flake = inputs.self; };
-    useSandbox = true;
+    autoOptimiseStore = true;
     gc = {
       automatic = true;
       dates = "monthly";
@@ -40,7 +44,7 @@ with lib.my; {
     };
   };
   system.configurationRevision = with inputs; mkIf (self ? rev) self.rev;
-  system.stateVersion = "20.09";
+  system.stateVersion = "21.05";
 
   ## Some reasonable, global defaults
   # This is here to appease 'nix flake check' for generic hosts with no
