@@ -17,6 +17,7 @@ with lib.my; {
           gtk-decoration-layout = "appmenu:none";
           gtk-cursor-theme-name = "Adwaita";
           gtk-cursor-theme-size = 0;
+          gtk-application-prefer-dark-theme = true;
         };
         extraCss = ''
           * { outline: none; }
