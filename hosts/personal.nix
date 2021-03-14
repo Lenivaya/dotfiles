@@ -8,12 +8,6 @@ with lib; {
     firewall.enable = true;
   };
 
-  # Auto-mount
-  programs = {
-    gnome-disks.enable = true;
-    udevil.enable = true;
-  };
-  services.udisks2.enable = true;
 
   # hardware related stuff
   hardware.enableRedistributableFirmware = true;

@@ -70,6 +70,7 @@
     };
 
     hardware = {
+      fs.enable = true;
       audio.enable = true;
       bluetooth.enable = true;
       zram.enable = true;
