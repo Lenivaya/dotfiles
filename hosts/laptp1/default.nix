@@ -77,6 +77,8 @@
     };
 
     hosts.enable = true;
+
+    bootsplash = { enable = true; };
   };
 
   zramSwap = {
