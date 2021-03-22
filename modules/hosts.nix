@@ -17,8 +17,8 @@ in {
       hostsFile = pkgs.fetchFromGitHub {
         owner = "StevenBlack";
         repo = "hosts";
-        rev = "1cd35b6c75db3ac5256a6f724fb91af633418359";
-        sha256 = "0al0qlclly4frnsl7yh495876algpz9y1549p52cgbnphfdcj6ij";
+        rev = "0977726aa3fe7e02b72f175816b1a354e86485de";
+        sha256 = "0np4pllhclknbnwhx65nxz853gb40zpymk20yd50j22jhwb1jnps";
       };
     in builtins.readFile "${hostsFile}/hosts";
   };
