@@ -3,6 +3,8 @@
 #+startup: fold
 #+property: header-args:emacs-lisp :tangle yes :cache yes :results silent :comments link
 #+property: header-args :tangle no :results silent
+#+options: coverpage:yes
+#+startup: fold
 
 #+begin_quote
 Let us change our traditional attitude to the construction of programs:
@@ -307,7 +309,7 @@ data              ; config/data formats
 (dart +flutter +lsp)   ; paint ui and not much else
 ;;erlang            ; an elegant language for a more civilized age
 ess                          ; emacs speaks statistics
-;;elixir            ; erlang done right
+elixir             ; erlang done right
 ;;elm               ; care for a cup of TEA?
 emacs-lisp        ; drown in parentheses
 ;;ess               ; emacs speaks statistics
@@ -557,6 +559,25 @@ This makes it a breeze to take lovely screenshots.
 (package! company-math)
 #+end_src
 ** Language packages
+*** LaTeX
+For mathematical convenience, WIP
+#+begin_src emacs-lisp
+(package! aas :recipe (:host github :repo "ymarco/auto-activating-snippets"))
+(package! laas :recipe (:local-repo " tecosaur/LaTeX-auto-activating-snippets "))
+#+end_src
+And some basic config
+#+begin_src emacs-lisp :tangle yes
+(use-package! aas
+  :commands aas-mode)
+
+(use-package! laas
+  :hook (LaTeX-mode . laas-mode)
+  :config
+  (defun laas-tex-fold-maybe ()
+    (unless (equal "/" aas-transient-snippet-key)
+      (+latex-fold-last-macro-a)))
+  (add-hook 'aas-post-snippet-expand-hook #'laas-tex-fold-maybe))
+#+end_src
 *** Org Mode
 **** Improve agenda/capture
 The agenda is nice, but a souped up version is nicer.
@@ -668,7 +689,43 @@ with it.
     (org-roam-server-mode 1)
     (browse-url-xdg-open (format "http://localhost:%d" org-roam-server-port))))
 #+end_src
+*** Graphviz
+Graphviz is a nice method of visualising simple graphs, based on plaintext
+=.dot= / =.gv= files.
+#+begin_src emacs-lisp
+(package! graphviz-dot-mode :pin "3642a0a5f41a80c8ecef7c6143d514200b80e194")
+#+end_src
+*** Authinfo
+#+begin_src emacs-lisp
+(package! authinfo-color-mode
+  :recipe (:host github :repo  "tecosaur/authinfo-color-mode"))
+#+end_src
+Now we just need to load it appropriately.
+#+begin_src emacs-lisp :tangle yes
+(use-package! authinfo-color-mode
+  :mode ("authinfo.gpg\\'" . authinfo-color-mode)
+  :init (advice-add 'authinfo-mode :override #'authinfo-color-mode))
+#+end_src
 * Package configuration
+** Abbrev mode
+Thanks to [[https://emacs.stackexchange.com/questions/45462/use-a-single-abbrev-table-for-multiple-modes/45476#45476][use a single abbrev-table for multiple modes? - Emacs Stack Exchange]] I
+have the following.
+#+begin_src emacs-lisp
+(use-package abbrev
+  :init
+  (setq-default abbrev-mode t)
+  ;; a hook funtion that sets the abbrev-table to org-mode-abbrev-table
+  ;; whenever the major mode is a text mode
+  (defun tec/set-text-mode-abbrev-table ()
+    (if (derived-mode-p 'text-mode)
+        (setq local-abbrev-table org-mode-abbrev-table)))
+  :commands abbrev-mode
+  :hook
+  (abbrev-mode . tec/set-text-mode-abbrev-table)
+  :config
+  (setq abbrev-file-name (expand-file-name "abbrev.el" doom-private-dir))
+  (setq save-abbrevs 'silently))
+#+end_src
 ** Reverse-im (Keyboard layouts)
 #+begin_src emacs-lisp
 (use-package! reverse-im
@@ -734,14 +791,6 @@ theme.
   (gif-screencast-write-colormap)
   (add-hook 'doom-load-theme-hook #'gif-screencast-write-colormap))
 #+end_src
-** Screenshot
-Some light configuring is all we need, so we can make use of the [[https://github.com/Calinou/0x0][0x0]] wrapper
-file uploading script (which I've renamed to ~upload~).
-#+begin_src emacs-lisp :tangle yes
-(use-package! screenshot
-  :defer t
-  :config (setq screenshot-upload-fn "upload %s 2>/dev/null"))
-#+end_src
 ** Circadian (Theme schedule)
 #+begin_src emacs-lisp
 (use-package! circadian
@@ -800,8 +849,8 @@ Some settings
 Now, the improvements from ~precedent~ are mostly from remembering history, so
 let's improve that memory.
 #+begin_src emacs-lisp
-;; (setq-default history-length 1000)
-;; (setq-default prescient-history-length 1000)
+(setq-default history-length 1000)
+(setq-default prescient-history-length 1000)
 #+end_src
 
 Use prescient sorting
@@ -823,6 +872,7 @@ Math support
   (setq company-tooltip-align-annotations t)
   (setq company-math-allow-latex-symbols-in-faces t))
 #+end_src
+*** ESS
 ** Info colours
 #+begin_src emacs-lisp
 (use-package! info-colors
@@ -831,6 +881,12 @@ Math support
 (add-hook 'Info-selection-hook 'info-colors-fontify-node)
 
 (add-hook 'Info-mode-hook #'mixed-pitch-mode)
+#+end_src
+** Eros-eval
+This makes the result of evals with =gr= and =gR= just slightly prettier. Every bit
+counts right?
+#+begin_src emacs-lisp
+(setq eros-eval-result-prefix "⟹ ")
 #+end_src
 ** Ivy
 I prefer search matching to be ordered; it's more precise
@@ -872,6 +928,17 @@ it, either by command or in a capture template.
 Let's make this popup a bit faster
 #+begin_src emacs-lisp
 (setq which-key-idle-delay 0.5) ;; I need the help, I really do
+#+end_src
+
+I also think that having =evil-= appear in so many popups is a bit too verbose, let's change that, and do a few other similar tweaks while we're at it.
+#+begin_src emacs-lisp
+(setq which-key-allow-multiple-replacements t)
+(after! which-key
+  (pushnew!
+   which-key-replacement-alist
+   '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . "◂\\1"))
+   '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . "◃\\1"))
+   ))
 #+end_src
 ** Direnv
 Silence all that useless output
@@ -953,6 +1020,8 @@ tweaks. Namely:
                 ))))
 #+end_src
 
+#+attr_html: :class invertible :alt Writeroom applied to an Org file
+[[https://tecosaur.com/lfs/emacs-config/screenshots/writeroom-and-org.png]]
 * Applications
 ** Ebooks
 =calibredb= lets us use calibre through Emacs, because who wouldn't want to use
@@ -1154,29 +1223,325 @@ in an ~(after! ...)~ block.
 )
 #+end_src
 
-*** Simple settings
-Some settings
+*** Behavior
+**** Tweaking defaults
+Some simple settings
 #+begin_src emacs-lisp
 (setq org-directory "~/org/"
       org-archive-location (concat org-directory ".archive/%s::")
       org-roam-directory (concat org-directory "notes/")
       org-journal-encrypt-journal t
       org-journal-file-format "%Y%m%d.org"
-      org-export-in-background t)
+      )
 (add-hook! org-mode :append
            #'org-fragtog-mode
            #'variable-pitch-mode
            )
 #+end_src
+
+
+#+begin_src emacs-lisp
+(setq
+      org-use-property-inheritance t              ; it's convenient to have properties inherited
+      org-log-done 'time                          ; having the time a item is done sounds convininet
+      org-list-allow-alphabetical t               ; have a. A. a) A) list bullets
+      org-export-in-background t                  ; run export processes in external emacs process
+      org-catch-invisible-edits 'smart            ; try not to accidently do weird stuff in invisible regions
+      org-export-with-sub-superscripts '{}        ; don't treat lone _ / ^ as sub/superscripts, require _{} / ^{}
+      org-re-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"
+)
+#+end_src
+
+I also like the ~:comments~ header-argument, so let's make that a default.
+#+begin_src emacs-lisp
+(setq org-babel-default-header-args
+      '((:session . "none")
+        (:results . "replace")
+        (:exports . "code")
+        (:cache . "no")
+        (:noweb . "no")
+        (:hlines . "no")
+        (:tangle . "no")
+        (:comments . "link")))
+#+end_src
+**** Extra functionality
+***** Org buffer creation
+Let's also make creating an org buffer just that little bit easier.
+#+begin_src emacs-lisp :tangle yes :noweb-ref none
+(evil-define-command evil-buffer-org-new (count file)
+  "Creates a new ORG buffer replacing the current window, optionally
+   editing a certain FILE"
+  :repeat nil
+  (interactive "P<f>")
+  (if file
+      (evil-edit file)
+    (let ((buffer (generate-new-buffer "*new org*")))
+      (set-window-buffer nil buffer)
+      (with-current-buffer buffer
+        (org-mode)))))
+(map! :leader
+      (:prefix "b"
+       :desc "New empty ORG buffer" "o" #'evil-buffer-org-new))
+#+end_src
+***** List bullet sequence
+I think it makes sense to have list bullets change with depth
+#+begin_src emacs-lisp
+(setq org-list-demote-modify-bullet '(("+" . "-") ("-" . "+") ("*" . "+") ("1." . "a.")))
+#+end_src
+***** Citation
+Occasionally I want to cite something.
+#+begin_src emacs-lisp
+(use-package! org-ref
+  :after org
+  :config
+  (setq org-ref-completion-library 'org-ref-ivy-cite))
+#+end_src
+***** cdlatex
+It's also nice to be able to use ~cdlatex~.
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook 'turn-on-org-cdlatex)
+#+end_src
+
+It's handy to be able to quickly insert environments with =C-c }=. I almost always
+want to edit them afterwards though, so let's make that happen by default.
+#+begin_src emacs-lisp
+(defadvice! org-edit-latex-emv-after-insert ()
+  :after #'org-cdlatex-environment-indent
+  (org-edit-latex-environment))
+#+end_src
+
+At some point in the future it could be good to investigate [[https://scripter.co/splitting-an-org-block-into-two/][splitting org blocks]].
+Likewise [[https://archive.casouri.cat/note/2020/insert-math-symbol-in-emacs/][this]] looks good for symbols.
+***** View exported file
+='localeader v= has no pre-existing binding, so I may as well use it with the same
+functionality as in LaTeX. Let's try viewing possible output files with this.
+#+begin_src emacs-lisp
+(map! :map org-mode-map
+      :localleader
+      :desc "View exported file" "v" #'org-view-output-file)
+
+(defun org-view-output-file (&optional org-file-path)
+  "Visit buffer open on the first output file (if any) found, using `org-view-output-file-extensions'"
+  (interactive)
+  (let* ((org-file-path (or org-file-path (buffer-file-name) ""))
+         (dir (file-name-directory org-file-path))
+         (basename (file-name-base org-file-path))
+         (output-file nil))
+    (dolist (ext org-view-output-file-extensions)
+      (unless output-file
+        (when (file-exists-p
+               (concat dir basename "." ext))
+          (setq output-file (concat dir basename "." ext)))))
+    (if output-file
+        (if (member (file-name-extension output-file) org-view-external-file-extensions)
+            (browse-url-xdg-open output-file)
+          (pop-to-buffer (or (find-buffer-visiting output-file)
+                             (find-file-noselect output-file))))
+      (message "No exported file found"))))
+
+(defvar org-view-output-file-extensions '("pdf" "md" "rst" "txt" "tex" "html")
+  "Search for output files with these extensions, in order, viewing the first that matches")
+(defvar org-view-external-file-extensions '("html")
+  "File formats that should be opened externally.")
+#+end_src
+**** Super agenda
+#+begin_src emacs-lisp
+(use-package! org-super-agenda
+  :commands (org-super-agenda-mode))
+(after! org-agenda
+  (org-super-agenda-mode))
+
+(setq org-agenda-skip-scheduled-if-done t
+      org-agenda-skip-deadline-if-done t
+      org-agenda-include-deadlines t
+      org-agenda-block-separator nil
+      org-agenda-tags-column 100 ;; from testing this seems to be a good value
+      org-agenda-compact-blocks t)
+
+(setq org-agenda-custom-commands
+      '(("o" "Overview"
+         ((agenda "" ((org-agenda-span 'day)
+                      (org-super-agenda-groups
+                       '((:name "Today"
+                          :time-grid t
+                          :date today
+                          :todo "TODAY"
+                          :scheduled today
+                          :order 1)))))
+          (alltodo "" ((org-agenda-overriding-header "")
+                       (org-super-agenda-groups
+                        '((:name "Next to do"
+                           :todo "NEXT"
+                           :order 1)
+                          (:name "Important"
+                           :tag "Important"
+                           :priority "A"
+                           :order 6)
+                          (:name "Due Today"
+                           :deadline today
+                           :order 2)
+                          (:name "Due Soon"
+                           :deadline future
+                           :order 8)
+                          (:name "Overdue"
+                           :deadline past
+                           :face error
+                           :order 7)
+                          (:name "Assignments"
+                           :tag "Assignment"
+                           :order 10)
+                          (:name "Issues"
+                           :tag "Issue"
+                           :order 12)
+                          (:name "Emacs"
+                           :tag "Emacs"
+                           :order 13)
+                          (:name "Projects"
+                           :tag "Project"
+                           :order 14)
+                          (:name "Research"
+                           :tag "Research"
+                           :order 15)
+                          (:name "To read"
+                           :tag "Read"
+                           :order 30)
+                          (:name "To watch"
+                           :tag "Watch"
+                           :order 30)
+                          (:name "Waiting"
+                           :todo "WAITING"
+                           :order 20)
+                          (:name "University"
+                           :tag "uni"
+                           :order 32)
+                          (:name "Trivial"
+                           :priority<= "E"
+                           :tag ("Trivial" "Unimportant")
+                           :todo ("SOMEDAY" )
+                           :order 90)
+                          (:discard (:tag ("Chore" "Routine" "Daily")))))))))))
+#+end_src
+**** Snippet Helpers
+I often want to set =src-block= headers, and it's a pain to
++ type them out
++ remember what the accepted values are
++ oh, and specifying the same language again and again
+
+We can solve this in three steps
++ having one-letter snippets, conditioned on ~(point)~ being within a src header
++ creating a nice prompt showing accepted values and the current default
++ pre-filling the =src-block= language with the last language used
+
+For header args, the keys I'll use are
++ =r= for =:results=
++ =e= for =:exports=
++ =v= for =:eval=
++ =s= for =:session=
++ =d= for =:dir=
+
+#+begin_src emacs-lisp
+(defun +yas/org-src-header-p ()
+  "Determine whether `point' is within a src-block header or header-args."
+  (pcase (org-element-type (org-element-context))
+    ('src-block (< (point) ; before code part of the src-block
+                   (save-excursion (goto-char (org-element-property :begin (org-element-context)))
+                                   (forward-line 1)
+                                   (point))))
+    ('inline-src-block (< (point) ; before code part of the inline-src-block
+                          (save-excursion (goto-char (org-element-property :begin (org-element-context)))
+                                          (search-forward "]{")
+                                          (point))))
+    ('keyword (string-match-p "^header-args" (org-element-property :value (org-element-context))))))
+#+end_src
+
+Now let's write a function we can reference in yasnippets to produce a nice
+interactive way to specify header args.
+
+#+begin_src emacs-lisp
+(defun +yas/org-prompt-header-arg (arg question values)
+  "Prompt the user to set ARG header property to one of VALUES with QUESTION.
+The default value is identified and indicated. If either default is selected,
+or no selection is made: nil is returned."
+  (let* ((src-block-p (not (looking-back "^#\\+property:[ \t]+header-args:.*" (line-beginning-position))))
+         (default
+           (or
+            (cdr (assoc arg
+                        (if src-block-p
+                            (nth 2 (org-babel-get-src-block-info t))
+                          (org-babel-merge-params
+                           org-babel-default-header-args
+                           (let ((lang-headers
+                                  (intern (concat "org-babel-default-header-args:"
+                                                  (+yas/org-src-lang)))))
+                             (when (boundp lang-headers) (eval lang-headers t)))))))
+            ""))
+         default-value)
+    (setq values (mapcar
+                  (lambda (value)
+                    (if (string-match-p (regexp-quote value) default)
+                        (setq default-value
+                              (concat value " "
+                                      (propertize "(default)" 'face 'font-lock-doc-face)))
+                      value))
+                  values))
+    (let ((selection (ivy-read question values :preselect default-value)))
+      (unless (or (string-match-p "(default)$" selection)
+                  (string= "" selection))
+        selection))))
+#+end_src
+
+Finally, we fetch the language information for new source blocks.
+
+Since we're getting this info, we might as well go a step further and also
+provide the ability to determine the most popular language in the buffer that
+doesn't have any =header-args= set for it (with =#+properties=).
+
+#+begin_src emacs-lisp
+(defun +yas/org-src-lang ()
+  "Try to find the current language of the src/header at `point'.
+Return nil otherwise."
+  (let ((context (org-element-context)))
+    (pcase (org-element-type context)
+      ('src-block (org-element-property :language context))
+      ('inline-src-block (org-element-property :language context))
+      ('keyword (when (string-match "^header-args:\\([^ ]+\\)" (org-element-property :value context))
+                  (match-string 1 (org-element-property :value context)))))))
+
+(defun +yas/org-last-src-lang ()
+  "Return the language of the last src-block, if it exists."
+  (save-excursion
+    (beginning-of-line)
+    (when (re-search-backward "^[ \t]*#\\+begin_src" nil t)
+      (org-element-property :language (org-element-context)))))
+
+(defun +yas/org-most-common-no-property-lang ()
+  "Find the lang with the most source blocks that has no global header-args, else nil."
+  (let (src-langs header-langs)
+    (save-excursion
+      (goto-char (point-min))
+      (while (re-search-forward "^[ \t]*#\\+begin_src" nil t)
+        (push (+yas/org-src-lang) src-langs))
+      (goto-char (point-min))
+      (while (re-search-forward "^[ \t]*#\\+property: +header-args" nil t)
+        (push (+yas/org-src-lang) header-langs)))
+
+    (setq src-langs
+          (mapcar #'car
+                  ;; sort alist by frequency (desc.)
+                  (sort
+                   ;; generate alist with form (value . frequency)
+                   (cl-loop for (n . m) in (seq-group-by #'identity src-langs)
+                            collect (cons n (length m)))
+                   (lambda (a b) (> (cdr a) (cdr b))))))
+
+    (car (cl-set-difference src-langs header-langs :test #'string=))))
+#+end_src
+
 *** Visuals
 **** Font Display
 Mixed pitch is great. As is ~+org-pretty-mode~, let's use them.
 #+begin_src emacs-lisp
 (add-hook! 'org-mode-hook #'+org-pretty-mode #'mixed-pitch-mode)
-#+end_src
-Earlier I loaded the ~org-pretty-table~ package, let's enable it everywhere!
-#+begin_src emacs-lisp
-(setq global-org-pretty-table-mode t)
 #+end_src
 
 Let's make headings a bit bigger
@@ -1222,14 +1587,92 @@ sacrificing visual amenities with the =org-appear= package.
   (setq org-appear-autoemphasis t
         org-appear-autosubmarkers t
         org-appear-autolinks nil)
-  )
+  ;; for proper first-time setup, `org-appear--set-elements'
+  ;; needs to be run after other hooks have acted.
+  (run-at-time nil nil #'org-appear--set-elements))
+#+end_src
+**** Fontifying inline src blocks
+Org does lovely things with =#+begin_src= blocks, like using font-lock for
+language's major-mode behind the scenes and pulling out the lovely colourful
+results. By contrast, inline =src_= blocks are somewhat neglected.
+
+I am not the first person to feel this way, thankfully others have [[https://stackoverflow.com/questions/20309842/how-to-syntax-highlight-for-org-mode-inline-source-code-src-lang/28059832][taken to
+stackexchange]] to voice their desire for inline src fontification. I was going to
+steal their work, but unfortunately they didn't perform /true/ source code
+fontification, but simply applied the =org-code= face to the content.
+
+We can do better than that, and we shall! Using ~org-src-font-lock-fontify-block~
+we can apply language-appropriate syntax highlighting. Then, continuing on to
+={{{results(...)}}}= , it can have the =org-block= face applied to match, and then
+the value-surrounding constructs hidden by mimicking the behaviour of
+~prettify-symbols-mode~.
+
+
+#+begin_src emacs-lisp
+(defvar org-prettify-inline-results t
+  "Whether to use (ab)use prettify-symbols-mode on {{{results(...)}}}.")
+
+(defun org-fontify-inline-src-blocks (limit)
+  "Try to apply `org-fontify-inline-src-blocks-1'."
+  (condition-case nil
+      (org-fontify-inline-src-blocks-1 limit)
+    (error (message "Org mode fontification error in %S at %d"
+                    (current-buffer)
+                    (line-number-at-pos)))))
+
+(defun org-fontify-inline-src-blocks-1 (limit)
+  "Fontify inline src_LANG blocks, from  `point' up to LIMIT."
+  (let ((case-fold-search t))
+    (when (re-search-forward "\\_<src_\\([^ \t\n[{]+\\)[{[]?" limit t) ; stolen from `org-element-inline-src-block-parser'
+      (let ((beg (match-beginning 0))
+            pt
+            (lang-beg (match-beginning 1))
+            (lang-end (match-end 1)))
+        (remove-text-properties beg lang-end '(face nil))
+        (font-lock-append-text-property lang-beg lang-end 'face 'org-meta-line)
+        (font-lock-append-text-property beg lang-beg 'face 'shadow)
+        (font-lock-append-text-property beg lang-end 'face 'org-block)
+        (setq pt (goto-char lang-end))
+        (when (org-element--parse-paired-brackets ?\[)
+          (remove-text-properties pt (point) '(face nil))
+          (font-lock-append-text-property pt (point) 'face 'org-block)
+          (setq pt (point)))
+        (when (org-element--parse-paired-brackets ?\{)
+          (remove-text-properties pt (point) '(face nil))
+          (font-lock-append-text-property pt (1+ pt) 'face '(org-block shadow))
+          (unless (= (1+ pt) (1- (point)))
+            (if org-src-fontify-natively
+                (org-src-font-lock-fontify-block (buffer-substring-no-properties lang-beg lang-end) (1+ pt) (1- (point)))
+              (font-lock-append-text-property (1+ pt) (1- (point)) 'face 'org-block)))
+          (font-lock-append-text-property (1- (point)) (point) 'face '(org-block shadow))
+          (setq pt (point)))
+        (when (and org-prettify-inline-results (re-search-forward "\\= {{{results(" limit t))
+          (font-lock-append-text-property pt (1+ pt) 'face 'org-block)
+          (goto-char pt))))
+    (when (and org-prettify-inline-results (re-search-forward "{{{results(\\(.+?\\))}}}" limit t))
+      (remove-list-of-text-properties (match-beginning 0) (point)
+                                      '(composition
+                                        prettify-symbols-start
+                                        prettify-symbols-end))
+      (font-lock-append-text-property (match-beginning 0) (match-end 0) 'face 'org-block)
+      (let ((start (match-beginning 0)) (end (match-beginning 1)))
+        (with-silent-modifications
+          (compose-region start end "⟨")
+          (add-text-properties start end `(prettify-symbols-start ,start prettify-symbols-end ,end))))
+      (let ((start (match-end 1)) (end (point)))
+        (with-silent-modifications
+          (compose-region start end "⟩")
+          (add-text-properties start end `(prettify-symbols-start ,start prettify-symbols-end ,end)))))))
+
+(defun org-fontify-inline-src-blocks-enable ()
+  "Add inline src fontification to font-lock in Org.
+Must be run as part of `org-font-lock-set-keywords-hook'."
+  (setq org-font-lock-extra-keywords
+        (append org-font-lock-extra-keywords '((org-fontify-inline-src-blocks)))))
+
+(add-hook 'org-font-lock-set-keywords-hook #'org-fontify-inline-src-blocks-enable)
 #+end_src
 
-Syntax highlighting with LaTeX exports.
-#+begin_src emacs-lisp
-(use-package! engrave-faces-latex
-  :after ox-latex)
-#+end_src
 **** Symbols
 It's also nice to change the character used for collapsed items (by default ~…~),
 I think ~▾~ is better for indicating 'collapsed section'.
@@ -1256,7 +1699,7 @@ I've also added some fun alternatives, just commented out.
 ;;  (org-pretty-tags-global-mode))
 
 (after! org-superstar
-  (setq org-superstar-headline-bullets-list '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
+  (setq ;; org-superstar-headline-bullets-list '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
         ;; org-superstar-headline-bullets-list '("Ⅰ" "Ⅱ" "Ⅲ" "Ⅳ" "Ⅴ" "Ⅵ" "Ⅶ" "Ⅷ" "Ⅸ" "Ⅹ")
         org-superstar-prettify-item-bullets t ))
 
@@ -1271,6 +1714,80 @@ I've also added some fun alternatives, just commented out.
         (?D . 'all-the-icons-green)
         (?E . 'all-the-icons-blue)))
 #+end_src
+It's also nice to make use of the Unicode characters for check boxes, and other commands.
+#+begin_src emacs-lisp
+(appendq! +ligatures-extra-symbols
+          `(:checkbox      "☐"
+            :pending       "◼"
+            :checkedbox    "☑"
+            :list_property "∷"
+            :em_dash       "—"
+            :ellipses      "…"
+            :arrow_right   "→"
+            :arrow_left    "←"
+            :title         "𝙏"
+            :subtitle      "𝙩"
+            :author        "𝘼"
+            :date          "𝘿"
+            :property      "☸"
+            :options       "⌥"
+            :latex_class   "🄲"
+            :latex_header  "⇥"
+            :beamer_header "↠"
+            :attr_latex    "🄛"
+            :attr_html     "🄗"
+            :begin_quote   "❝"
+            :end_quote     "❞"
+            :caption       "☰"
+            :header        "›"
+            :results       "🠶"
+            :begin_export  "⏩"
+            :end_export    "⏪"
+            :properties    "⚙"
+            :end           "∎"
+            :priority_a   ,(propertize "⚑" 'face 'all-the-icons-red)
+            :priority_b   ,(propertize "⬆" 'face 'all-the-icons-orange)
+            :priority_c   ,(propertize "■" 'face 'all-the-icons-yellow)
+            :priority_d   ,(propertize "⬇" 'face 'all-the-icons-green)
+            :priority_e   ,(propertize "❓" 'face 'all-the-icons-blue)))
+(set-ligatures! 'org-mode
+  :merge t
+  :checkbox      "[ ]"
+  :pending       "[-]"
+  :checkedbox    "[X]"
+  :list_property "::"
+  :em_dash       "---"
+  :ellipsis      "..."
+  :arrow_right   "->"
+  :arrow_left    "<-"
+  :title         "#+title:"
+  :subtitle      "#+subtitle:"
+  :author        "#+author:"
+  :date          "#+date:"
+  :property      "#+property:"
+  :options       "#+options:"
+  :latex_class   "#+latex_class:"
+  :latex_header  "#+latex_header:"
+  :beamer_header "#+beamer_header:"
+  :attr_latex    "#+attr_latex:"
+  :attr_html     "#+attr_latex:"
+  :begin_quote   "#+begin_quote"
+  :end_quote     "#+end_quote"
+  :caption       "#+caption:"
+  :header        "#+header:"
+  :begin_export  "#+begin_export"
+  :end_export    "#+end_export"
+  :results       "#+RESULTS:"
+  :property      ":PROPERTIES:"
+  :end           ":END:"
+  :priority_a    "[#A]"
+  :priority_b    "[#B]"
+  :priority_c    "[#C]"
+  :priority_d    "[#D]"
+  :priority_e    "[#E]")
+(plist-put +ligatures-extra-symbols :name "⁍")
+#+end_src
+
 **** LaTeX Fragments
 ***** Prettier highlighting
 First off, we want those fragments to look good.
@@ -1299,47 +1816,6 @@ have this be performed automatically with =org-fragtog=.
   :hook (org-mode . org-fragtog-mode))
 #+end_src
 
-***** Prettier rendering
-Since we can, instead of making the background colour match the =default= face,
-let's make it transparent.
-#+begin_src emacs-lisp
-(setq org-format-latex-options
-      (plist-put org-format-latex-options :background "Transparent"))
-#+end_src
-
-*** Behavior
-**** Extra functionality
-***** Org buffer creation
-Let's also make creating an org buffer just that little bit easier.
-#+begin_src emacs-lisp :tangle yes :noweb-ref none
-(evil-define-command evil-buffer-org-new (count file)
-  "Creates a new ORG buffer replacing the current window, optionally
-   editing a certain FILE"
-  :repeat nil
-  (interactive "P<f>")
-  (if file
-      (evil-edit file)
-    (let ((buffer (generate-new-buffer "*new org*")))
-      (set-window-buffer nil buffer)
-      (with-current-buffer buffer
-        (org-mode)))))
-(map! :leader
-      (:prefix "b"
-       :desc "New empty ORG buffer" "o" #'evil-buffer-org-new))
-#+end_src
-***** List bullet sequence
-I think it makes sense to have list bullets change with depth
-#+begin_src emacs-lisp
-(setq org-list-demote-modify-bullet '(("+" . "-") ("-" . "+") ("*" . "+") ("1." . "a.")))
-#+end_src
-***** Citation
-Occasionally I want to cite something.
-#+begin_src emacs-lisp
-(use-package! org-ref
-  :after org
-  :config
-  (setq org-ref-completion-library 'org-ref-ivy-cite))
-#+end_src
 *** Exporting
 **** General settings
 #+begin_src emacs-lisp
@@ -1354,7 +1830,30 @@ the final documents.
 (require 'ox-extra)
 (ox-extras-activate '(ignore-headlines))
 #+end_src
+
 *** LaTeX Export
+**** Compiling
+By default Org uses ~pdflatex~ \times 3 + ~bibtex~. This simply won't do in our
+modern world. ~latexmk~ + ~biber~ (which is used automatically with ~latexmk~) is a
+simply superior combination.
+
+#+begin_src emacs-lisp
+;; org-latex-compilers = ("pdflatex" "xelatex" "lualatex"), which are the possible values for %latex
+(setq org-latex-pdf-process '("latexmk -f -pdf -%latex -shell-escape -interaction=nonstopmode -output-directory=%o %f"))
+#+end_src
+
+While ~org-latex-pdf-process~ does support a function, and we could use that
+instead, this would no longer use the log buffer --- it's a bit blind, you give
+it the file name and expect it to do its thing.
+
+The default values of ~org-latex-compilers~ is given in commented form to see how
+~org-latex-pdf-process~ works with them.
+
+While the ~-%latex~ above is slightly hacky (~-pdflatex~ expects to be given a
+value) it allows us to leave ~org-latex-compilers~ unmodified.
+This is nice in case I open an org file that uses =#+LATEX_COMPILER= for example,
+it should still work.
+
 **** Extra special strings
 LaTeX already recognises =---= and =--= as em/en-dashes, =\-= as a shy hyphen, and the
 conversion of =...= to =\ldots{}= is hardcoded into ~org-latex-plain-text~ (unlike
@@ -1397,6 +1896,46 @@ This gives the same advantages as mentioned in the [[*Make verbatim different to
         (strike-through . "\\sout{%s}")
         (underline . "\\uline{%s}")
         (verbatim . verb)))
+#+end_src
+**** Support images from URLs
+You can link to remote images easily, and they work nicely with HTML-based
+exports. However, LaTeX can only include local files, and so the current
+behaviour of =org-latex-link= is just to insert a URL to the image.
+
+We can do better than that by downloading the image to a predictable location,
+and using that. By making the filename predictable as opposed to just another
+tempfile, this can provide a caching mechanism.
+
+#+begin_src emacs-lisp
+(defadvice! +org-latex-link (orig-fn link desc info)
+  "Acts as `org-latex-link', but supports remote images."
+  :around #'org-latex-link
+  (setq o-link link
+        o-desc desc
+        o-info info)
+  (if (and (member (plist-get (cadr link) :type) '("http" "https"))
+           (member (file-name-extension (plist-get (cadr link) :path))
+                   '("png" "jpg" "jpeg" "pdf" "svg")))
+      (org-latex-link--remote link desc info)
+    (funcall orig-fn link desc info)))
+
+(defun org-latex-link--remote (link _desc info)
+  (let* ((url (plist-get (cadr link) :raw-link))
+         (ext (file-name-extension url))
+         (target (format "%s%s.%s"
+                         (temporary-file-directory)
+                         (replace-regexp-in-string "[./]" "-"
+                                                   (file-name-sans-extension (substring (plist-get (cadr link) :path) 2)))
+                         ext)))
+    (unless (file-exists-p target)
+      (url-copy-file url target))
+    (setcdr link (--> (cadr link)
+                   (plist-put it :type "file")
+                   (plist-put it :path target)
+                   (plist-put it :raw-link (concat "file:" target))
+                   (list it)))
+    (concat "% fetched from " url "\n"
+            (org-latex--inline-image link info))))
 #+end_src
 ** LaTeX
 #+begin_src emacs-lisp
