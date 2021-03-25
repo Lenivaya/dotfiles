@@ -10,7 +10,7 @@
 Let us change our traditional attitude to the construction of programs:
 Instead of imagining that our main task is to instruct a computer what to do,
 let us concentrate rather on explaining to human beings what we want a
-computer to do. @@latex:\mbox{@@--- Donald Knuth@@latex:}@@
+computer to do. --- Donald Knuth
 #+end_quote
 
 * Config
@@ -198,7 +198,7 @@ doom-quit                    ; DOOM quit-message prompts when you quit Emacs
 hl-todo                      ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
 hydra                      ; quick documentation for related commands
 indent-guides              ; highlighted indent columns, notoriously slow
-(ligatures +iosevka +pragmata-pro)           ; ligatures and symbols to make your code pretty again
+(ligatures +extra)           ; ligatures and symbols to make your code pretty again
 minimap                    ; show a map of the code on the side
 modeline                     ; snazzy, Atom-inspired modeline, plus API
 nav-flash                    ; blink the current line after jumping
@@ -294,7 +294,7 @@ upload                       ; map local to remote projects via ssh/ftp
 (:if IS-MAC macos)  ; improve compatibility with macOS
 tty                          ; improve the terminal Emacs experience
 #+end_src
-**** Language support 
+**** Language support
 #+name: doom-lang
 #+begin_src emacs-lisp
 ;;agda              ; types of types of types of types...
@@ -421,10 +421,26 @@ Prevents some cases of Emacs flickering
 (setq visible-cursor nil
       blink-cursor-mode -1)
 #+end_src
-
-Don't like symbols in pretty-code mode, but want font ligatures
+#+end_src
+**** Ligatures
+I really don't like some ligatures so disabling them here.
 #+begin_src emacs-lisp
-(setq +pretty-code-symbols nil)
+(plist-put! +ligatures-extra-symbols
+  :name          nil
+  :composition   nil
+  :map           nil
+  :not           nil
+  :in            nil
+  :not-in        nil
+  :and           nil
+  :or            nil
+  :for           nil
+  :return        nil
+  :yield         nil
+  :diff          nil
+  :tuple         nil
+  :pipe          nil
+)
 #+end_src
 ** Other Things
 *** Editor interaction
@@ -1019,9 +1035,6 @@ tweaks. Namely:
                 ;; (unless +zen--original-org-pretty-table-mode-p (org-pretty-table-mode -1))
                 ))))
 #+end_src
-
-#+attr_html: :class invertible :alt Writeroom applied to an Org file
-[[https://tecosaur.com/lfs/emacs-config/screenshots/writeroom-and-org.png]]
 * Applications
 ** Ebooks
 =calibredb= lets us use calibre through Emacs, because who wouldn't want to use
@@ -1732,8 +1745,6 @@ It's also nice to make use of the Unicode characters for check boxes, and other 
             :property      "☸"
             :options       "⌥"
             :latex_class   "🄲"
-            :latex_header  "⇥"
-            :beamer_header "↠"
             :attr_latex    "🄛"
             :attr_html     "🄗"
             :begin_quote   "❝"
