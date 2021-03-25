@@ -33,10 +33,10 @@ in {
       enable = true;
 
       package = with pkgs;
-        (wrapWithFlags
-          ((if cfg.ungoogled then ungoogled-chromium else chromium).override {
-            enableVaapi = true;
-          }) cfg.flags);
+        (wrapWithFlags ((if cfg.ungoogled then
+          chromium.override { ungoogled = true; }
+        else
+          chromium)) cfg.flags);
 
       extensions = [
         "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
