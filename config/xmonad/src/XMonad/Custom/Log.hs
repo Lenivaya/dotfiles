@@ -12,6 +12,7 @@ import           XMonad.Custom.Theme
 import           XMonad.Hooks.CurrentWorkspaceOnTop
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.EwmhDesktops
+import           XMonad.Hooks.RefocusLast
 import           XMonad.Util.NamedScratchpad
 import           XMonad.Util.SpawnNamedPipe
 import           XMonad.Util.WorkspaceCompare
@@ -62,6 +63,7 @@ logHook :: X ()
 logHook = do
   currentWorkspaceOnTop
   ewmhDesktopsLogHook
+  refocusLastLogHook
   t <- getNamedPipe "xmobarTop"
   b <- getNamedPipe "xmobarBot"
   c <- wsContainingCopies

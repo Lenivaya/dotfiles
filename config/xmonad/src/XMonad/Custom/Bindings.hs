@@ -29,6 +29,7 @@ import           XMonad.Actions.UpdatePointer
 import           XMonad.Actions.WindowGo
 import           XMonad.Actions.WindowMenu
 import           XMonad.Actions.WithAll
+import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.UrgencyHook
 import           XMonad.Layout.BinarySpacePartition
 import           XMonad.Layout.Hidden
@@ -201,14 +202,13 @@ keysWindows _ =
     , ("M-w S-c", kill1) -- To remove focused copied window from current workspace
     , ("M-w h"  , withFocused minimizeWindow)
     , ("M-w S-h", withLastMinimized maximizeWindowAndFocus)
-    , ("M-w p"  , promote)
     , ("M-w r", tryMessageR_ Rotate (Toggle REFLECTX))
     , ("M-w S-r", sendMessage $ Toggle REFLECTX)
     , ("M-w t", withFocused $ sendMessage . MergeAll)
     , ("M-w S-t", withFocused $ sendMessage . UnMerge)
     , ("M-w u"  , focusUrgent)
     , ("M-w m"  , windows S.focusMaster)
-    , ("M-w S-m", windows S.swapMaster)
+    , ("M-w S-m", promote)
     , ("M-'"    , onGroup S.focusDown')
     , ("M-;"    , onGroup S.focusUp')
     , ("M-S-'"  , windows S.swapDown)
@@ -236,6 +236,7 @@ keysLayout c =
     )
   , ("M-S-f", withFocused (sendMessage . maximizeRestore))
   , ("M-C-g", sendMessage $ Toggle GAPS) -- FIXME Breaks merged tabbed layout
+  , ("M-t g", sendMessage ToggleStruts)
   ]
 
 keysResize :: XConfig Layout -> [(String, X ())]
