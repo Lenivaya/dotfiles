@@ -1,6 +1,5 @@
 #+title: Emacs Configuration
 #+author: leniviy
-#+startup: fold
 #+property: header-args:emacs-lisp :tangle yes :cache yes :results silent :comments link
 #+property: header-args :tangle no :results silent
 #+options: coverpage:yes
@@ -198,7 +197,8 @@ doom-quit                    ; DOOM quit-message prompts when you quit Emacs
 hl-todo                      ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
 hydra                      ; quick documentation for related commands
 indent-guides              ; highlighted indent columns, notoriously slow
-(ligatures +extra)           ; ligatures and symbols to make your code pretty again
+(ligatures
+ +extra)           ; ligatures and symbols to make your code pretty again
 minimap                    ; show a map of the code on the side
 modeline                     ; snazzy, Atom-inspired modeline, plus API
 nav-flash                    ; blink the current line after jumping
@@ -430,8 +430,6 @@ I really don't like some ligatures so disabling them here.
   :composition   nil
   :map           nil
   :not           nil
-  :in            nil
-  :not-in        nil
   :and           nil
   :or            nil
   :for           nil
@@ -1730,9 +1728,7 @@ I've also added some fun alternatives, just commented out.
 It's also nice to make use of the Unicode characters for check boxes, and other commands.
 #+begin_src emacs-lisp
 (appendq! +ligatures-extra-symbols
-          `(:checkbox      "☐"
-            :pending       "◼"
-            :checkedbox    "☑"
+          `(
             :list_property "∷"
             :em_dash       "—"
             :ellipses      "…"
@@ -1742,30 +1738,16 @@ It's also nice to make use of the Unicode characters for check boxes, and other 
             :subtitle      "𝙩"
             :author        "𝘼"
             :date          "𝘿"
-            :property      "☸"
-            :options       "⌥"
             :latex_class   "🄲"
             :attr_latex    "🄛"
             :attr_html     "🄗"
             :begin_quote   "❝"
             :end_quote     "❞"
             :caption       "☰"
-            :header        "›"
-            :results       "🠶"
-            :begin_export  "⏩"
-            :end_export    "⏪"
-            :properties    "⚙"
-            :end           "∎"
-            :priority_a   ,(propertize "⚑" 'face 'all-the-icons-red)
-            :priority_b   ,(propertize "⬆" 'face 'all-the-icons-orange)
-            :priority_c   ,(propertize "■" 'face 'all-the-icons-yellow)
-            :priority_d   ,(propertize "⬇" 'face 'all-the-icons-green)
-            :priority_e   ,(propertize "❓" 'face 'all-the-icons-blue)))
+            :header        "›")
+)
 (set-ligatures! 'org-mode
   :merge t
-  :checkbox      "[ ]"
-  :pending       "[-]"
-  :checkedbox    "[X]"
   :list_property "::"
   :em_dash       "---"
   :ellipsis      "..."
@@ -1775,27 +1757,14 @@ It's also nice to make use of the Unicode characters for check boxes, and other 
   :subtitle      "#+subtitle:"
   :author        "#+author:"
   :date          "#+date:"
-  :property      "#+property:"
-  :options       "#+options:"
   :latex_class   "#+latex_class:"
-  :latex_header  "#+latex_header:"
-  :beamer_header "#+beamer_header:"
   :attr_latex    "#+attr_latex:"
   :attr_html     "#+attr_latex:"
   :begin_quote   "#+begin_quote"
   :end_quote     "#+end_quote"
   :caption       "#+caption:"
   :header        "#+header:"
-  :begin_export  "#+begin_export"
-  :end_export    "#+end_export"
-  :results       "#+RESULTS:"
-  :property      ":PROPERTIES:"
-  :end           ":END:"
-  :priority_a    "[#A]"
-  :priority_b    "[#B]"
-  :priority_c    "[#C]"
-  :priority_d    "[#D]"
-  :priority_e    "[#E]")
+)
 (plist-put +ligatures-extra-symbols :name "⁍")
 #+end_src
 
