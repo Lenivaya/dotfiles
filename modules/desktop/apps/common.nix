@@ -10,12 +10,13 @@
       maim
       scrot # Screenshots
       dunst # notification daemon
+      dua # space usage
       libnotify
       binutils
       usbutils
       zip
       unrar
-      ncdu # Disk space usage anlyzer
+      ncdu # space usage
       android-file-transfer
       feh
       pandoc # Universal Markup converter
