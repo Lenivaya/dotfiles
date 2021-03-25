@@ -46,9 +46,11 @@ in {
       profiles.default = {
         settings = {
           "devtools.theme" = "dark";
+          # Keep window opened when last tab closed
           "browser.tabs.closeWindowWithLastTab" = false;
           "browser.tabs.insertAfterCurrent" = true;
           "browser.tabs.loadBookmarksInTabs" = true;
+          # Enable userContent.css and userChrome.css for our theme modules
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
 
           # Hardware-acceleration
@@ -85,6 +87,16 @@ in {
           "app.normandy.api_url" = "";
           "extensions.shield-recipe-client.enabled" = false;
           "app.shield.optoutstudies.enabled" = false;
+          # Disable battery API
+          # https://developer.mozilla.org/en-US/docs/Web/API/BatteryManager
+          # https://bugzilla.mozilla.org/show_bug.cgi?id=1313580
+          "dom.battery.enabled" = false;
+          # Disable "beacon" asynchronous HTTP transfers (used for analytics)
+          # https://developer.mozilla.org/en-US/docs/Web/API/navigator.sendBeacon
+          "beacon.enabled" = false;
+          # Disable pinging URIs specified in HTML <a> ping= attributes
+          # http://kb.mozillazine.org/Browser.send_pings
+          "browser.send_pings" = false;
           # Disable telemetry
           # https://wiki.mozilla.org/Platform/Features/Telemetry
           # https://wiki.mozilla.org/Privacy/Reviews/Telemetry
