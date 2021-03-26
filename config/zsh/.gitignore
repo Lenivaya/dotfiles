@@ -1,3 +1,4 @@
 extra.zshenv
 extra.zshrc
-.zcompdump
+.zcompdump*
+.zinit/
