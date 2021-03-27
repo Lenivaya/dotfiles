@@ -52,6 +52,7 @@
         doom.enable = true;
         default = true;
       };
+      vscode.enable = true;
     };
 
     dev = {
