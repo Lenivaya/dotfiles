@@ -440,6 +440,15 @@ I really don't like some ligatures so disabling them here.
   :pipe          nil
 )
 #+end_src
+**** Daemon colors
+Fix wrong colors when using emacsclient
+#+begin_src emacs-lisp
+;; fix theme when frame created by emacsclient
+(add-hook! 'after-make-frame-functions
+  (defun my-load-theme-fix (frame)
+      (select-frame frame)
+      (doom/reload-theme)))
+#+end_src
 ** Other Things
 *** Editor interaction
 **** Mouse buttons
