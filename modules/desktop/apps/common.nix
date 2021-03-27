@@ -26,7 +26,6 @@
       pulsemixer
       pamix
       lm_sensors
-      vscode
       # Appearance
       qt5ct
       lxappearance
