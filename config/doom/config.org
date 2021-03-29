@@ -478,8 +478,15 @@ Configuration
       :n [mouse-9] #'better-jumper-jump-forward)
 #+end_src
 *** Splash screen
+Splash image
 #+begin_src emacs-lisp
 (setq fancy-splash-image (concat doom-private-dir "splash.png"))
+#+end_src
+
+Hide modeline and cursor
+#+begin_src emacs-lisp
+(add-hook! '+doom-dashboard-mode-hook (hide-mode-line-mode 1) (hl-line-mode -1))
+(setq-hook! '+doom-dashboard-mode-hook evil-normal-state-cursor (list nil))
 #+end_src
 *** Tangle-on-save
 Here i'm removing default literate on-save-hook.
