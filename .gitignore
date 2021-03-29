@@ -2,5 +2,5 @@
 .idea
 *.log
 tmp/
-
-
+.tex
+.auctex-auto/
