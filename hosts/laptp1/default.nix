@@ -91,9 +91,11 @@
   hardware.cpu.intel.updateMicrocode = true;
 
   services.xserver = {
+    videoDrivers = [ "radeon" ];
     deviceSection = ''
       Option "TearFree" "on"
     '';
+    useGlamor = true;
   };
   environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
 
