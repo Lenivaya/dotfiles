@@ -42,6 +42,7 @@ in {
 
     home-manager.users.${config.user.name}.programs.firefox = {
       enable = true;
+      package = pkgs.firefox-bin;
 
       profiles.default = {
         settings = {
@@ -50,7 +51,7 @@ in {
           "browser.tabs.closeWindowWithLastTab" = false;
           "browser.tabs.insertAfterCurrent" = true;
           "browser.tabs.loadBookmarksInTabs" = true;
-          # Enable userContent.css and userChrome.css for our theme modules
+          # Enable userContent.css and userChrome.css
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
 
           # Hardware-acceleration
