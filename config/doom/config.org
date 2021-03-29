@@ -449,6 +449,27 @@ Fix wrong colors when using emacsclient
       (select-frame frame)
       (doom/reload-theme)))
 #+end_src
+**** Tree-sitter highlighting
+Since doom-emacs doesn't support tree-sitter yet, I'm enabling it here
+
+Required packages
+#+begin_src emacs-lisp :tangle packages.el
+(package! tree-sitter)
+(package! tree-sitter-langs)
+#+end_src
+
+Configuration
+#+begin_src emacs-lisp
+(use-package! tree-sitter
+  :config
+  (require 'tree-sitter-langs)
+  (global-tree-sitter-mode)
+  (add-hook 'tree-sitter-after-on-hook #'tree-sitter-hl-mode)
+  ;; .scss support
+  (pushnew! tree-sitter-major-mode-language-alist
+        '(scss-mode . css))
+)
+#+end_src
 ** Other Things
 *** Editor interaction
 **** Mouse buttons
