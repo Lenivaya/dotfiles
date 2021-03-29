@@ -5,7 +5,7 @@ with lib.my; {
   services.xserver = {
     enable = true;
     desktopManager.xterm.enable = lib.mkDefault false;
-    autoRepeatDelay = 250;
+    autoRepeatDelay = 200;
     autoRepeatInterval = 50;
     libinput = {
       touchpad.disableWhileTyping = true;
