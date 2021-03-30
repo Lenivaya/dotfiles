@@ -92,10 +92,10 @@
 
   services.xserver = {
     videoDrivers = [ "radeon" ];
-    deviceSection = ''
-      Option "TearFree" "on"
-    '';
-    useGlamor = true;
+    # deviceSection = ''
+    #   Option "TearFree" "on"
+    # '';
+    # useGlamor = true;
   };
   environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
 
