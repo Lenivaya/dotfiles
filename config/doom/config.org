@@ -562,6 +562,18 @@ Variable pitch fontification + colouring
 (package! info-colors :pin "47ee73cc19b1049eef32c9f3e264ea7ef2aaf8a5")
 #+end_src
 
+**** Large files
+The /very large files/ mode loads large files in chunks, allowing one to open
+ridiculously large files.
+#+begin_src emacs-lisp
+(package! vlf :recipe (:host github :repo "m00natic/vlfi" :files ("*.el"))
+  :pin "cc02f2533782d6b9b628cec7e2dcf25b2d05a27c" :disable t)
+#+end_src
+To make VLF available without delaying startup, we'll just load it in quiet moments.
+#+begin_src emacs-lisp :tangle yes
+(use-package! vlf-setup
+  :defer-incrementally vlf-tune vlf-base vlf-write vlf-search vlf-occur vlf-follow vlf-ediff vlf)
+#+end_src
 **** Calibre and ebook reading
 For managing my ebooks, I'll hook into the well-established ebook library
 manager [[https://calibre-ebook.com/][calibre]]. A number of Emacs clients for this exist, but this seems like a
