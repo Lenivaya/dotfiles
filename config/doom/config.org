@@ -471,6 +471,18 @@ Configuration
         '(scss-mode . css))
 )
 #+end_src
+**** Scrolling
+Smooth scrolling in emacs
+#+begin_src emacs-lisp :tangle packages.el
+(package! good-scroll)
+#+end_src
+#+begin_src emacs-lisp
+(use-package! good-scroll
+  :config
+  (good-scroll-mode)
+)
+#+end_src
+
 ** Other Things
 *** Editor interaction
 **** Mouse buttons
