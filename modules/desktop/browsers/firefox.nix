@@ -162,6 +162,20 @@ in {
             .scrollbutton-up[orient="horizontal"]~spacer { border-width: 0px; opacity: 0 }
           }
         '';
+
+        userContent = ''
+          /* Hide scrollbar */
+
+          :root{
+            scrollbar-width: none !important;
+          }
+
+          @-moz-document url(about:privatebrowsing) {
+            :root{
+              scrollbar-width: none !important;
+            }
+          }
+        '';
       };
     };
   };
