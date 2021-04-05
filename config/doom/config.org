@@ -199,6 +199,7 @@ hl-todo                      ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
 hydra                      ; quick documentation for related commands
 indent-guides              ; highlighted indent columns, notoriously slow
 (ligatures
+ +pragmata-pro
  +extra)           ; ligatures and symbols to make your code pretty again
 minimap                    ; show a map of the code on the side
 modeline                     ; snazzy, Atom-inspired modeline, plus API
@@ -444,7 +445,6 @@ I really don't like some ligatures so disabling them here.
 **** Daemon colors
 Fix wrong colors when using emacsclient
 #+begin_src emacs-lisp
-;; fix theme when frame created by emacsclient
 (add-hook! 'after-make-frame-functions
   (defun my-load-theme-fix (frame)
       (select-frame frame)
@@ -753,6 +753,11 @@ with it.
     (org-roam-server-mode 1)
     (browse-url-xdg-open (format "http://localhost:%d" org-roam-server-port))))
 #+end_src
+*** Systemd
+For editing systemd unit files
+#+begin_src emacs-lisp
+(package! systemd :pin "b6ae63a236605b1c5e1069f7d3afe06ae32a7bae")
+#+end_src
 *** Graphviz
 Graphviz is a nice method of visualising simple graphs, based on plaintext
 =.dot= / =.gv= files.
@@ -771,6 +776,101 @@ Now we just need to load it appropriately.
   :init (advice-add 'authinfo-mode :override #'authinfo-color-mode))
 #+end_src
 * Package configuration
+** Abbrev mode
+Thanks to [[https://emacs.stackexchange.com/questions/45462/use-a-single-abbrev-table-for-multiple-modes/45476#45476][use a single abbrev-table for multiple modes? - Emacs Stack Exchange]] I
+have the following.
+#+begin_src emacs-lisp
+(use-package abbrev
+  :init
+  (setq-default abbrev-mode t)
+  ;; a hook funtion that sets the abbrev-table to org-mode-abbrev-table
+  ;; whenever the major mode is a text mode
+  (defun tec/set-text-mode-abbrev-table ()
+    (if (derived-mode-p 'text-mode)
+        (setq local-abbrev-table org-mode-abbrev-table)))
+  :commands abbrev-mode
+  :hook
+  (abbrev-mode . tec/set-text-mode-abbrev-table)
+  :config
+  (setq abbrev-file-name (expand-file-name "abbrev.el" doom-private-dir))
+  (setq save-abbrevs 'silently))
+#+end_src
+** Avy
+I want avy to jump though windows and auto-jump when theres 1 candidate
+#+begin_src  emacs-lisp
+(setq
+ ;; Avy can jump through windows
+ avy-all-windows t
+ ;; Avy can auto-jump when theres 1 candidate
+ avy-single-candidate-jump t)
+#+end_src
+** Calc
+#+begin_src emacs-lisp
+(add-hook 'calc-mode-hook #'calctex-mode)
+#+end_src
+** Circadian (Theme schedule)
+#+begin_src emacs-lisp
+(use-package! circadian
+  :ensure t
+  :config
+  (setq circadian-themes '(("8:00" . doom-tomorrow-night)
+                           ("20:30" . doom-tomorrow-night)))
+  (circadian-setup)
+)
+#+end_src
+** Company
+Some settings
+#+begin_src emacs-lisp
+(after! company
+  (setq
+   company-show-numbers t
+   company-minimum-prefix-length 2
+   )
+  )
+#+end_src
+
+Now, the improvements from ~precedent~ are mostly from remembering history, so
+let's improve that memory.
+#+begin_src emacs-lisp
+(setq-default history-length 1000)
+(setq-default prescient-history-length 1000)
+#+end_src
+
+Use prescient sorting
+#+begin_src emacs-lisp
+(use-package company-prescient
+  :after company
+  :hook (company-mode . company-prescient-mode))
+#+end_src
+
+Math support
+#+begin_src emacs-lisp
+(use-package! company-math
+  :after (:any org-mode TeX-mode)
+  :config
+  (set-company-backend! 'org-mode 'company-math-symbols-latex)
+  (set-company-backend! 'TeX-mode 'company-math-symbols-latex)
+  (set-company-backend! 'org-mode 'company-latex-commands)
+  (set-company-backend! 'TeX-mode 'company-latex-commands)
+  (setq company-tooltip-align-annotations t)
+  (setq company-math-allow-latex-symbols-in-faces t))
+#+end_src
+*** ESS
+** Deadgrep
+#+begin_src emacs-lisp
+(use-package! deadgrep
+  :defer t
+  :init
+  (map!
+   (:leader
+    :desc "Search via deadgrep" "s <f5>" #'deadgrep))
+  )
+#+end_src
+** Direnv
+Silence all that useless output
+#+begin_src emacs-lisp
+(setq direnv-always-show-summary nil)
+#+end_src
 ** Doom modeline
 Very nice and pretty, however I think the PDF modeline could do with tweaking.
 I raised [[https://github.com/seagle0128/doom-modeline/pull/425][an issue]] on this, however the response was basically "put your
@@ -820,53 +920,24 @@ icon. Then we'll redefine two functions used to generate the modeline.
     '(misc-info matches major-mode process vcs)))
 #+end_src
 
-** Abbrev mode
-Thanks to [[https://emacs.stackexchange.com/questions/45462/use-a-single-abbrev-table-for-multiple-modes/45476#45476][use a single abbrev-table for multiple modes? - Emacs Stack Exchange]] I
-have the following.
+** Eros-eval
+This makes the result of evals with =gr= and =gR= just slightly prettier. Every bit
+counts right?
 #+begin_src emacs-lisp
-(use-package abbrev
-  :init
-  (setq-default abbrev-mode t)
-  ;; a hook funtion that sets the abbrev-table to org-mode-abbrev-table
-  ;; whenever the major mode is a text mode
-  (defun tec/set-text-mode-abbrev-table ()
-    (if (derived-mode-p 'text-mode)
-        (setq local-abbrev-table org-mode-abbrev-table)))
-  :commands abbrev-mode
-  :hook
-  (abbrev-mode . tec/set-text-mode-abbrev-table)
-  :config
-  (setq abbrev-file-name (expand-file-name "abbrev.el" doom-private-dir))
-  (setq save-abbrevs 'silently))
+(setq eros-eval-result-prefix "⟹ ")
 #+end_src
-** Reverse-im (Keyboard layouts)
+** EVIL
+I don't use ~evil-escape-mode~, so I may as well turn it off, I've heard it
+contributes a typing delay. I'm not sure it's much, but it is an extra
+~pre-command-hook~ that I don't benefit from, so...
 #+begin_src emacs-lisp
-(use-package! reverse-im
-  :config
-  (reverse-im-activate '("russian-computer" "ukrainian-computer"))
-)
+(after! evil-escape (evil-escape-mode -1))
 #+end_src
-** Keycast
-let's just make sure this is lazy-loaded appropriately.
+
+When I want to make a substitution, I want it to be global more often than not
+--- so let's make that the default.
 #+begin_src emacs-lisp
-(use-package! keycast
-  :commands keycast-mode
-  :config
-  (define-minor-mode keycast-mode
-    "Show current command and its key binding in the mode line."
-    :global t
-    (if keycast-mode
-        (progn
-          (add-hook 'pre-command-hook 'keycast--update t)
-          (add-to-list 'global-mode-string '("" mode-line-keycast " ")))
-      (remove-hook 'pre-command-hook 'keycast--update)
-      (setq global-mode-string (remove '("" mode-line-keycast " ") global-mode-string))))
-  (custom-set-faces!
-    '(keycast-command :inherit doom-modeline-debug
-                      :height 0.9)
-    '(keycast-key :inherit custom-modified
-                  :height 1.1
-                  :weight bold)))
+(after! evil (setq evil-ex-substitute-global t)) ; I like my s/../.. to by global by default
 #+end_src
 ** Gif-screencast
 We can lazy load this using the start/stop commands.
@@ -904,22 +975,6 @@ theme.
   (gif-screencast-write-colormap)
   (add-hook 'doom-load-theme-hook #'gif-screencast-write-colormap))
 #+end_src
-** Circadian (Theme schedule)
-#+begin_src emacs-lisp
-(use-package! circadian
-  :ensure t
-  :config
-  (setq circadian-themes '(("8:00" . doom-tomorrow-night)
-                           ("20:30" . doom-tomorrow-night)))
-  (circadian-setup)
-)
-#+end_src
-** Kdeconnect
-#+begin_src emacs-lisp
-(use-package! kdeconnect
-  :config
-  (setq kdeconnect-devices "62f011766549feda"))
-#+end_src
 ** Imenu
 #+begin_src emacs-lisp
 (use-package! imenu-list
@@ -938,54 +993,6 @@ theme.
    :g [tab] #'hs-toggle-hiding
    :n "gr"  #'imenu-list-refresh))
 #+end_src
-** Deadgrep
-#+begin_src emacs-lisp
-(use-package! deadgrep
-  :defer t
-  :init
-  (map!
-   (:leader
-    :desc "Search via deadgrep" "s <f5>" #'deadgrep))
-  )
-#+end_src
-** Company
-Some settings
-#+begin_src emacs-lisp
-(after! company
-  (setq
-   company-show-numbers t
-   company-minimum-prefix-length 2
-   )
-  )
-#+end_src
-
-Now, the improvements from ~precedent~ are mostly from remembering history, so
-let's improve that memory.
-#+begin_src emacs-lisp
-(setq-default history-length 1000)
-(setq-default prescient-history-length 1000)
-#+end_src
-
-Use prescient sorting
-#+begin_src emacs-lisp
-(use-package company-prescient
-  :after company
-  :hook (company-mode . company-prescient-mode))
-#+end_src
-
-Math support
-#+begin_src emacs-lisp
-(use-package! company-math
-  :after (:any org-mode TeX-mode)
-  :config
-  (set-company-backend! 'org-mode 'company-math-symbols-latex)
-  (set-company-backend! 'TeX-mode 'company-math-symbols-latex)
-  (set-company-backend! 'org-mode 'company-latex-commands)
-  (set-company-backend! 'TeX-mode 'company-latex-commands)
-  (setq company-tooltip-align-annotations t)
-  (setq company-math-allow-latex-symbols-in-faces t))
-#+end_src
-*** ESS
 ** Info colours
 #+begin_src emacs-lisp
 (use-package! info-colors
@@ -994,12 +1001,6 @@ Math support
 (add-hook 'Info-selection-hook 'info-colors-fontify-node)
 
 (add-hook 'Info-mode-hook #'mixed-pitch-mode)
-#+end_src
-** Eros-eval
-This makes the result of evals with =gr= and =gR= just slightly prettier. Every bit
-counts right?
-#+begin_src emacs-lisp
-(setq eros-eval-result-prefix "⟹ ")
 #+end_src
 ** Ivy
 I prefer search matching to be ordered; it's more precise
@@ -1015,20 +1016,33 @@ is using Hydra.
 #+begin_src emacs-lisp
 (setq ivy-read-action-function #'ivy-hydra-read-action)
 #+end_src
-** Spray
-Let's make this suit me slightly better.
+** Kdeconnect
 #+begin_src emacs-lisp
-(setq spray-wpm 500
-      spray-height 700)
+(use-package! kdeconnect
+  :config
+  (setq kdeconnect-devices "62f011766549feda"))
 #+end_src
-** Avy
-I want avy to jump though windows and auto-jump when theres 1 candidate
-#+begin_src  emacs-lisp
-(setq
- ;; Avy can jump through windows
- avy-all-windows t
- ;; Avy can auto-jump when theres 1 candidate
- avy-single-candidate-jump t)
+** Keycast
+let's just make sure this is lazy-loaded appropriately.
+#+begin_src emacs-lisp
+(use-package! keycast
+  :commands keycast-mode
+  :config
+  (define-minor-mode keycast-mode
+    "Show current command and its key binding in the mode line."
+    :global t
+    (if keycast-mode
+        (progn
+          (add-hook 'pre-command-hook 'keycast--update t)
+          (add-to-list 'global-mode-string '("" mode-line-keycast " ")))
+      (remove-hook 'pre-command-hook 'keycast--update)
+      (setq global-mode-string (remove '("" mode-line-keycast " ") global-mode-string))))
+  (custom-set-faces!
+    '(keycast-command :inherit doom-modeline-debug
+                      :height 0.9)
+    '(keycast-key :inherit custom-modified
+                  :height 1.1
+                  :weight bold)))
 #+end_src
 ** Org Chef
 Loading after org seems a bit premature. Let's just load it when we try to use
@@ -1036,6 +1050,19 @@ it, either by command or in a capture template.
 #+begin_src emacs-lisp
 (use-package! org-chef
   :commands (org-chef-insert-recipe org-chef-get-recipe-from-url))
+#+end_src
+** Reverse-im (Keyboard layouts)
+#+begin_src emacs-lisp
+(use-package! reverse-im
+  :config
+  (reverse-im-activate '("russian-computer" "ukrainian-computer"))
+)
+#+end_src
+** Spray
+Let's make this suit me slightly better.
+#+begin_src emacs-lisp
+(setq spray-wpm 500
+      spray-height 700)
 #+end_src
 ** Which-key
 Let's make this popup a bit faster
@@ -1052,20 +1079,6 @@ I also think that having =evil-= appear in so many popups is a bit too verbose, 
    '(("" . "\\`+?evil[-:]?\\(?:a-\\)?\\(.*\\)") . (nil . "◂\\1"))
    '(("\\`g s" . "\\`evilem--?motion-\\(.*\\)") . (nil . "◃\\1"))
    ))
-#+end_src
-** Direnv
-Silence all that useless output
-#+begin_src emacs-lisp
-(setq direnv-always-show-summary nil)
-#+end_src
-** YASnippet
-Nested snippets are good, enable that.
-#+begin_src emacs-lisp
-(setq yas-triggers-in-field t)
-#+end_src
-** Calc
-#+begin_src emacs-lisp
-(add-hook 'calc-mode-hook #'calctex-mode)
 #+end_src
 ** Writeroom
 For starters, I think Doom is a bit over-zealous when zooming in
@@ -1131,6 +1144,11 @@ tweaks. Namely:
                 (when +zen--original-org-indent-mode-p (org-indent-mode 1))
                 ;; (unless +zen--original-org-pretty-table-mode-p (org-pretty-table-mode -1))
                 ))))
+#+end_src
+** YASnippet
+Nested snippets are good, enable that.
+#+begin_src emacs-lisp
+(setq yas-triggers-in-field t)
 #+end_src
 * Applications
 ** Ebooks
@@ -1275,14 +1293,10 @@ Then, to actually read the ebooks we use =nov=.
   (add-hook 'nov-mode-hook #'+nov-mode-setup))
 #+end_src
 * Language configuration
-** Plaintext
-It's nice to see ANSI colour codes displayed
+** Haskell
+Prefer brittany  formatter.
 #+begin_src emacs-lisp
-(after! text-mode
-  (add-hook! 'text-mode-hook
-             ;; Apply ANSI color codes
-             (with-silent-modifications
-               (ansi-color-apply-on-region (point-min) (point-max)))))
+(setq-hook! 'haskell-mode +format-with-lsp nil)
 #+end_src
 ** Js
 Prefer prettier formatter.
@@ -1297,22 +1311,46 @@ Show eslint help
 (after! (:and lsp-mode flycheck-mode)
   (flycheck-add-next-checker 'lsp 'javascript-eslint))
 #+end_src
-** Python
-Since I'm using =mypyls=, as suggested in [[file:~/.emacs.d/modules/lang/python/README.org::*Language Server Protocol Support][:lang python LSP support]] I'll tweak the priority of =mypyls=. Also fixing binary finding on nixos.
+** LaTeX
 #+begin_src emacs-lisp
-(after! lsp-python-ms
-  (setq lsp-python-ms-executable (executable-find "python-language-server"))
-  (set-lsp-priority! 'mspyls 1))
+(setq TeX-save-query nil
+      TeX-show-compilation t
+      TeX-command-extra-options "-shell-escape")
+(after! latex
+  (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t)))
 #+end_src
-** Rust
-Set rust-analyzer as prefered lsp-server.
+
+Let's re-order the preferences.
 #+begin_src emacs-lisp
-(setq rustic-lsp-server 'rust-analyzer)
+(setq +latex-viewers '(zathura pdf-tools evince okular skim sumatrapdf))
 #+end_src
-** Haskell
-Prefer brittany  formatter.
+** Markdown
+Let's use mixed pitch, because it's great
 #+begin_src emacs-lisp
-(setq-hook! 'haskell-mode +format-with-lsp nil)
+(add-hook! (gfm-mode markdown-mode) #'mixed-pitch-mode)
+#+end_src
+
+Most of the time when I write markdown, it's going into some app/website which
+will do it's own line wrapping, hence we /only/ want to use visual line wrapping. No hard stuff.
+#+begin_src emacs-lisp
+(add-hook! (gfm-mode markdown-mode) #'visual-line-mode #'turn-off-auto-fill)
+#+end_src
+
+Since markdown is often seen as rendered HTML, let's try to somewhat mirror the
+style or markdown renderers.
+
+Most markdown renders seem to make the first three headings levels larger than
+normal text, the first two much so. Then the fourth level tends to be the same
+as body text, while the fifth and sixth are (increasingly) smaller, with the
+sixth greyed out. Since the sixth level is so small, I'll turn up the boldness a notch.
+#+begin_src emacs-lisp
+(custom-set-faces!
+  '(markdown-header-face-1 :height 1.25 :weight extra-bold :inherit markdown-header-face)
+  '(markdown-header-face-2 :height 1.15 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-3 :height 1.08 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-4 :height 1.00 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-5 :height 0.90 :weight bold       :inherit markdown-header-face)
+  '(markdown-header-face-6 :height 0.75 :weight extra-bold :inherit markdown-header-face))
 #+end_src
 ** Nix
 Turn off company for nix
@@ -1373,6 +1411,16 @@ I also like the ~:comments~ header-argument, so let's make that a default.
         (:hlines . "no")
         (:tangle . "no")
         (:comments . "link")))
+#+end_src
+
+There also seem to be a few keybindings which use =hjkl=, but miss arrow key equivalents.
+#+begin_src emacs-lisp
+(map! :map evil-org-mode-map
+      :after evil-org
+      :n "g <up>" #'org-backward-heading-same-level
+      :n "g <down>" #'org-forward-heading-same-level
+      :n "g <left>" #'org-up-element
+      :n "g <right>" #'org-down-element)
 #+end_src
 **** Extra functionality
 ***** Org buffer creation
@@ -1532,6 +1580,7 @@ functionality as in LaTeX. Let's try viewing possible output files with this.
                           (:discard (:tag ("Chore" "Routine" "Daily")))))))))))
 #+end_src
 **** Snippet Helpers
+
 I often want to set =src-block= headers, and it's a pain to
 + type them out
 + remember what the accepted values are
@@ -1647,6 +1696,33 @@ Return nil otherwise."
     (car (cl-set-difference src-langs header-langs :test #'string=))))
 #+end_src
 
+**** Translate capital keywords (old) to lower case (new)
+Everyone used to use ~#+CAPITAL~ keywords. Then people realised that ~#+lowercase~
+is actually both marginally easier and visually nicer, so now the capital
+version is just used in the manual.
+#+begin_quote
+Org is standardized on lower case. Uppercase is used in the manual as a poor
+man's bold, and supported for historical reasons. --- [[https://orgmode.org/list/87tuuw3n15.fsf@nicolasgoaziou.fr][Nicolas Goaziou on the Org ML]]
+#+end_quote
+
+To avoid sometimes having to choose between the hassle out of updating old
+documents and using mixed syntax, I'll whip up a basic transcode-y function.
+It likely misses some edge cases, but should mostly work.
+
+#+begin_src emacs-lisp
+(defun org-syntax-convert-keyword-case-to-lower ()
+  "Convert all #+KEYWORDS to #+keywords."
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (let ((count 0)
+          (case-fold-search nil))
+      (while (re-search-forward "^[ \t]*#\\+[A-Z_]+" nil t)
+        (unless (s-matches-p "RESULTS" (match-string 0))
+          (replace-match (downcase (match-string 0)) t)
+          (setq count (1+ count))))
+      (message "Replaced %d occurances" count))))
+#+end_src
 *** Visuals
 **** Font Display
 Mixed pitch is great. As is ~+org-pretty-mode~, let's use them.
@@ -1701,6 +1777,7 @@ sacrificing visual amenities with the =org-appear= package.
   ;; needs to be run after other hooks have acted.
   (run-at-time nil nil #'org-appear--set-elements))
 #+end_src
+
 **** Fontifying inline src blocks
 Org does lovely things with =#+begin_src= blocks, like using font-lock for
 language's major-mode behind the scenes and pulling out the lovely colourful
@@ -1717,10 +1794,20 @@ we can apply language-appropriate syntax highlighting. Then, continuing on to
 the value-surrounding constructs hidden by mimicking the behaviour of
 ~prettify-symbols-mode~.
 
+#+begin_warning
+This currently only highlights a single inline src block per line.
+I have no idea why it stops, but I'd rather it didn't.
+If you have any idea what's going on or how to fix this /please/ get in touch.
+#+end_warning
 
 #+begin_src emacs-lisp
 (defvar org-prettify-inline-results t
-  "Whether to use (ab)use prettify-symbols-mode on {{{results(...)}}}.")
+  "Whether to use (ab)use prettify-symbols-mode on {{{results(...)}}}.
+Either t or a cons cell of strings which are used as substitutions
+for the start and end of inline results, respectively.")
+
+(defvar org-fontify-inline-src-blocks-max-length 200
+  "Maximum content length of an inline src block that will be fontified.")
 
 (defun org-fontify-inline-src-blocks (limit)
   "Try to apply `org-fontify-inline-src-blocks-1'."
@@ -1731,9 +1818,10 @@ the value-surrounding constructs hidden by mimicking the behaviour of
                     (line-number-at-pos)))))
 
 (defun org-fontify-inline-src-blocks-1 (limit)
-  "Fontify inline src_LANG blocks, from  `point' up to LIMIT."
-  (let ((case-fold-search t))
-    (when (re-search-forward "\\_<src_\\([^ \t\n[{]+\\)[{[]?" limit t) ; stolen from `org-element-inline-src-block-parser'
+  "Fontify inline src_LANG blocks, from `point' up to LIMIT."
+  (let ((case-fold-search t)
+        (initial-point (point)))
+    (while (re-search-forward "\\_<src_\\([^ \t\n[{]+\\)[{[]?" limit t) ; stolen from `org-element-inline-src-block-parser'
       (let ((beg (match-beginning 0))
             pt
             (lang-beg (match-beginning 1))
@@ -1743,36 +1831,46 @@ the value-surrounding constructs hidden by mimicking the behaviour of
         (font-lock-append-text-property beg lang-beg 'face 'shadow)
         (font-lock-append-text-property beg lang-end 'face 'org-block)
         (setq pt (goto-char lang-end))
-        (when (org-element--parse-paired-brackets ?\[)
-          (remove-text-properties pt (point) '(face nil))
-          (font-lock-append-text-property pt (point) 'face 'org-block)
-          (setq pt (point)))
-        (when (org-element--parse-paired-brackets ?\{)
-          (remove-text-properties pt (point) '(face nil))
-          (font-lock-append-text-property pt (1+ pt) 'face '(org-block shadow))
-          (unless (= (1+ pt) (1- (point)))
-            (if org-src-fontify-natively
-                (org-src-font-lock-fontify-block (buffer-substring-no-properties lang-beg lang-end) (1+ pt) (1- (point)))
-              (font-lock-append-text-property (1+ pt) (1- (point)) 'face 'org-block)))
-          (font-lock-append-text-property (1- (point)) (point) 'face '(org-block shadow))
-          (setq pt (point)))
+        ;; `org-element--parse-paired-brackets' doesn't take a limit, so to
+        ;; prevent it searching the entire rest of the buffer we temporarily
+        ;; narrow the active region.
+        (save-restriction
+          (narrow-to-region beg (min (point-max) limit (+ lang-end org-fontify-inline-src-blocks-max-length)))
+          (when (ignore-errors (org-element--parse-paired-brackets ?\[))
+            (remove-text-properties pt (point) '(face nil))
+            (font-lock-append-text-property pt (point) 'face 'org-block)
+            (setq pt (point)))
+          (when (ignore-errors (org-element--parse-paired-brackets ?\{))
+            (remove-text-properties pt (point) '(face nil))
+            (font-lock-append-text-property pt (1+ pt) 'face '(org-block shadow))
+            (unless (= (1+ pt) (1- (point)))
+              (if org-src-fontify-natively
+                  (org-src-font-lock-fontify-block (buffer-substring-no-properties lang-beg lang-end) (1+ pt) (1- (point)))
+                (font-lock-append-text-property (1+ pt) (1- (point)) 'face 'org-block)))
+            (font-lock-append-text-property (1- (point)) (point) 'face '(org-block shadow))
+            (setq pt (point))))
         (when (and org-prettify-inline-results (re-search-forward "\\= {{{results(" limit t))
           (font-lock-append-text-property pt (1+ pt) 'face 'org-block)
           (goto-char pt))))
-    (when (and org-prettify-inline-results (re-search-forward "{{{results(\\(.+?\\))}}}" limit t))
-      (remove-list-of-text-properties (match-beginning 0) (point)
-                                      '(composition
-                                        prettify-symbols-start
-                                        prettify-symbols-end))
-      (font-lock-append-text-property (match-beginning 0) (match-end 0) 'face 'org-block)
-      (let ((start (match-beginning 0)) (end (match-beginning 1)))
-        (with-silent-modifications
-          (compose-region start end "⟨")
-          (add-text-properties start end `(prettify-symbols-start ,start prettify-symbols-end ,end))))
-      (let ((start (match-end 1)) (end (point)))
-        (with-silent-modifications
-          (compose-region start end "⟩")
-          (add-text-properties start end `(prettify-symbols-start ,start prettify-symbols-end ,end)))))))
+    (when org-prettify-inline-results
+      (goto-char initial-point)
+      (org-fontify-inline-src-results limit))))
+
+(defun org-fontify-inline-src-results (limit)
+  (while (re-search-forward "{{{results(\\(.+?\\))}}}" limit t)
+    (remove-list-of-text-properties (match-beginning 0) (point)
+                                    '(composition
+                                      prettify-symbols-start
+                                      prettify-symbols-end))
+    (font-lock-append-text-property (match-beginning 0) (match-end 0) 'face 'org-block)
+    (let ((start (match-beginning 0)) (end (match-beginning 1)))
+      (with-silent-modifications
+        (compose-region start end (if (eq org-prettify-inline-results t) "⟨" (car org-prettify-inline-results)))
+        (add-text-properties start end `(prettify-symbols-start ,start prettify-symbols-end ,end))))
+    (let ((start (match-end 1)) (end (point)))
+      (with-silent-modifications
+        (compose-region start end (if (eq org-prettify-inline-results t) "⟩" (cdr org-prettify-inline-results)))
+        (add-text-properties start end `(prettify-symbols-start ,start prettify-symbols-end ,end))))))
 
 (defun org-fontify-inline-src-blocks-enable ()
   "Add inline src fontification to font-lock in Org.
@@ -1893,6 +1991,13 @@ have this be performed automatically with =org-fragtog=.
 #+begin_src emacs-lisp
 (use-package! org-fragtog
   :hook (org-mode . org-fragtog-mode))
+#+end_src
+***** Prettier rendering
+Since we can, instead of making the background colour match the =default= face,
+let's make it transparent.
+#+begin_src emacs-lisp
+(setq org-format-latex-options
+      (plist-put org-format-latex-options :background "Transparent"))
 #+end_src
 
 *** Exporting
@@ -2016,46 +2121,38 @@ tempfile, this can provide a caching mechanism.
     (concat "% fetched from " url "\n"
             (org-latex--inline-image link info))))
 #+end_src
-** LaTeX
+*** Beamer Export
+It's nice to use a different theme by default
 #+begin_src emacs-lisp
-(setq TeX-save-query nil
-      TeX-show-compilation t
-      TeX-command-extra-options "-shell-escape")
-(after! latex
-  (add-to-list 'TeX-command-list '("XeLaTeX" "%`xelatex%(mode)%' %t" TeX-run-TeX nil t)))
+(setq org-beamer-theme "[progressbar=foot]metropolis")
 #+end_src
 
-Let's re-order the preferences.
+And I think that it's natural to divide a presentation into sections, e.g.
+Introduction, Overview... so let's set bump up the headline level that becomes a
+frame from ~1~ to ~2~.
 #+begin_src emacs-lisp
-(setq +latex-viewers '(zathura pdf-tools evince okular skim sumatrapdf))
+(setq org-beamer-frame-level 2)
 #+end_src
-** Markdown
-Let's use mixed pitch, because it's great
+** Plaintext
+It's nice to see ANSI colour codes displayed
 #+begin_src emacs-lisp
-(add-hook! (gfm-mode markdown-mode) #'mixed-pitch-mode)
+(after! text-mode
+  (add-hook! 'text-mode-hook
+             ;; Apply ANSI color codes
+             (with-silent-modifications
+               (ansi-color-apply-on-region (point-min) (point-max)))))
 #+end_src
-
-Most of the time when I write markdown, it's going into some app/website which
-will do it's own line wrapping, hence we /only/ want to use visual line wrapping. No hard stuff.
+** Python
+Since I'm using =mypyls=, as suggested in [[file:~/.emacs.d/modules/lang/python/README.org::*Language Server Protocol Support][:lang python LSP support]] I'll tweak the priority of =mypyls=. Also fixing binary finding on nixos.
 #+begin_src emacs-lisp
-(add-hook! (gfm-mode markdown-mode) #'visual-line-mode #'turn-off-auto-fill)
+(after! lsp-python-ms
+  (setq lsp-python-ms-executable (executable-find "python-language-server"))
+  (set-lsp-priority! 'mspyls 1))
 #+end_src
-
-Since markdown is often seen as rendered HTML, let's try to somewhat mirror the
-style or markdown renderers.
-
-Most markdown renders seem to make the first three headings levels larger than
-normal text, the first two much so. Then the fourth level tends to be the same
-as body text, while the fifth and sixth are (increasingly) smaller, with the
-sixth greyed out. Since the sixth level is so small, I'll turn up the boldness a notch.
+** Rust
+Set rust-analyzer as prefered lsp-server.
 #+begin_src emacs-lisp
-(custom-set-faces!
-  '(markdown-header-face-1 :height 1.25 :weight extra-bold :inherit markdown-header-face)
-  '(markdown-header-face-2 :height 1.15 :weight bold       :inherit markdown-header-face)
-  '(markdown-header-face-3 :height 1.08 :weight bold       :inherit markdown-header-face)
-  '(markdown-header-face-4 :height 1.00 :weight bold       :inherit markdown-header-face)
-  '(markdown-header-face-5 :height 0.90 :weight bold       :inherit markdown-header-face)
-  '(markdown-header-face-6 :height 0.75 :weight extra-bold :inherit markdown-header-face))
+(setq rustic-lsp-server 'rust-analyzer)
 #+end_src
 * Functions
 ** Org-mode
