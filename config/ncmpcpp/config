@@ -4,16 +4,16 @@ lyrics_directory    = "~/.local/share/ncmpcpp/lyrics"
 mpd_host                = "localhost"
 mpd_port                = "6600"
 mpd_connection_timeout  = "10"
-mpd_music_dir           = "~/audios/music"
+mpd_music_dir           = "~/music"
 mpd_crossfade_time      = "0"
 
-visualizer_fifo_path            = "/tmp/mpd.fifo"
-visualizer_output_name          = "fifo"
-visualizer_in_stereo            = "yes"
-visualizer_sync_interval        = "10"
-visualizer_type                 = "wave_filled" (spectrum/wave/wave_filled/ellipse)
-visualizer_look                 = "■■"
-visualizer_color                = "white"
+# visualizer_fifo_path            = "/tmp/mpd.fifo"
+# visualizer_output_name          = "fifo"
+# visualizer_in_stereo            = "yes"
+# visualizer_sync_interval        = "10"
+# visualizer_type                 = "wave_filled" (spectrum/wave/wave_filled/ellipse)
+# visualizer_look                 = "■■"
+# visualizer_color                = "white"
 
 system_encoding = "UTF-8"
 
@@ -41,10 +41,10 @@ playlist_show_remaining_time    = "no"
 playlist_shorten_total_times    = "no"
 playlist_separate_albums        = "no"
 
-playlist_display_mode           = "classic" (classic/columns)
-browser_display_mode            = "classic" (classic/columns)
-search_engine_display_mode      = "classic" (classic/columns)
-playlist_editor_display_mode    = "classic" (classic/columns)
+playlist_display_mode           = "classic"
+browser_display_mode            = "classic"
+search_engine_display_mode      = "classic"
+playlist_editor_display_mode    = "classic"
 
 incremental_seeking = "yes"
 seek_time           = "1"
@@ -54,25 +54,25 @@ volume_change_step  = "5"
 autocenter_mode = "yes"
 centered_cursor = "yes"
 
-progressbar_look = "─╼─"
+progressbar_look = "->-"
 
-default_place_to_search_in                      = "database" (database/playlist)
-search_engine_default_search_mode               = "1" (1/2/3)
+default_place_to_search_in                      = "database"
+search_engine_default_search_mode               = "1"
 data_fetching_delay                             = "no"
-media_library_primary_tag                       = "album_artist" (artist/album_artist/genre)
+media_library_primary_tag                       = "album_artist"
 browser_sort_mode                               = "name"
-default_find_mode                               = "wrapped" (normal/wrapped)
+default_find_mode                               = "wrapped"
 default_tag_editor_pattern                      = "%n - %t"
 empty_tag_marker                                = "<blank>"
 tags_separator                                  = " | "
 tag_editor_extended_numeration                  = "yes"
 media_library_sort_by_mtime                     = "no"
-regular_expressions                             = "none" (none/basic/extended/perl)
+regular_expressions                             = "none"
 block_search_constraints_change_if_items_found  = "yes"
 
 ignore_leading_the      = "yes"
 
-enable_window_title     = "yes"
+enable_window_title     = "no"
 
 header_visibility       = "no"
 statusbar_visibility    = "no"
@@ -97,7 +97,7 @@ screen_switcher_mode                = "playlist, browser"
 startup_screen                      = "playlist"
 startup_slave_screen                = ""
 startup_slave_screen_focus          = "no"
-locked_screen_width_part            = "50" (20-80)
+locked_screen_width_part            = "50"
 ask_for_locked_screen_width_part    = "yes"
 
 jump_to_now_playing_song_at_start   = "no"
@@ -127,5 +127,3 @@ progressbar_elapsed_color       = "white"
 statusbar_color                 = "yellow"
 window_border_color             = "green"
 active_window_border            = "red"
-
-# vim:filetype=config
