@@ -164,15 +164,15 @@ in {
         '';
 
         userContent = ''
-          /* Hide scrollbar */
+          /* scrollbar */
 
           :root{
-            scrollbar-width: none !important;
+            scrollbar-width: thin !important;
           }
 
           @-moz-document url(about:privatebrowsing) {
             :root{
-              scrollbar-width: none !important;
+              scrollbar-width: thin !important;
             }
           }
         '';
