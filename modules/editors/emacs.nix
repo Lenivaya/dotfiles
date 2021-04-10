@@ -4,7 +4,6 @@ with lib;
 with lib.my;
 let
   cfg = config.modules.editors.emacs;
-  emacsPkg = pkgs.emacsPgtkGcc; # 28 + pgtk + native-comp
   editorScript = pkgs.writeScriptBin "emacseditor" ''
     #!${pkgs.runtimeShell}
     if [ -z "$1" ]; then
@@ -68,7 +67,7 @@ in {
     home-manager.users.${config.user.name} = {
       programs.emacs = {
         enable = true;
-        package = emacsPkg;
+        # FIXME package = pkgs.emacsPgtkGcc; # 28 + pgtk + native-comp
         extraPackages = epkgs:
           [
             # :term vterm
@@ -79,7 +78,6 @@ in {
       services.emacs = {
         enable = true;
         client.enable = true;
-        socketActivation.enable = true;
       };
     };
 
