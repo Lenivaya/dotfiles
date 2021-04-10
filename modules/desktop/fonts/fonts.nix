@@ -18,6 +18,7 @@ in {
         noto-fonts
         ubuntu_font_family
         corefonts
+        symbola
       ];
 
       fontconfig = {
