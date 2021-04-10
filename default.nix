@@ -40,7 +40,7 @@ with lib.my; {
     gc = {
       automatic = true;
       dates = "monthly";
-      options = "--delete-older-than 7d";
+      options = "--delete-older-than 30d";
     };
   };
   system.configurationRevision = with inputs; mkIf (self ? rev) self.rev;
