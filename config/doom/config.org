@@ -394,7 +394,7 @@ Use font aliases defined in fontconfig.
        doom-big-font (font-spec :family "monospace" :size 24)
        doom-variable-pitch-font (font-spec :family "sans" :size 12)
        doom-unicode-font doom-variable-pitch-font
-)
+       )
 #+end_src
 **** Theme and modeline
 #+begin_src emacs-lisp
@@ -469,10 +469,11 @@ Smooth scrolling in emacs
 #+begin_src emacs-lisp :tangle packages.el
 (package! good-scroll)
 #+end_src
+# FIXME doesn't work on 28
 #+begin_src emacs-lisp
 (use-package! good-scroll
   :config
-  (good-scroll-mode)
+  ;; (good-scroll-mode)
 )
 #+end_src
 
@@ -827,7 +828,6 @@ I want avy to jump though windows and auto-jump when theres 1 candidate
 ** Circadian (Theme schedule)
 #+begin_src emacs-lisp
 (use-package! circadian
-  :ensure t
   :config
   (setq circadian-themes '(("8:00" . doom-tomorrow-night)
                            ("20:30" . doom-tomorrow-night)))
