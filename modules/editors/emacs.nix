@@ -74,11 +74,6 @@ in {
             epkgs.vterm
           ];
       };
-
-      services.emacs = {
-        enable = true;
-        client.enable = true;
-      };
     };
 
     env.EDITOR =
