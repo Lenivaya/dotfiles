@@ -443,14 +443,6 @@ I really don't like some ligatures so disabling them here.
   :pipe          nil
 )
 #+end_src
-**** Daemon colors
-Fix wrong colors when using emacsclient
-#+begin_src emacs-lisp
-(add-hook! 'after-make-frame-functions
-  (defun my-load-theme-fix (frame)
-      (select-frame frame)
-      (doom/reload-theme)))
-#+end_src
 **** Tree-sitter highlighting
 Since doom-emacs doesn't support tree-sitter yet, I'm enabling it here
 
@@ -521,6 +513,17 @@ And finally add function to tangle config from emacs
    (concat "org-tangle " doom-private-dir "config.org" " &")
    )
   )
+#+end_src
+*** Daemon
+**** Dashboard
+I'm not sure quite why it happens, but after a bit it seems that
+new Emacsclient frames start on the =*scratch*= buffer instead of the dashboard.
+I prefer the dashboard, so let's ensure that's always switched to in new frames.
+
+#+name: daemon initialization
+#+begin_src emacs-lisp
+(when (daemonp)
+  (add-hook! 'server-after-make-frame-hook (switch-to-buffer +doom-dashboard-name)))
 #+end_src
 * Package loading
 :PROPERTIES:
