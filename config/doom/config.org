@@ -1092,9 +1092,21 @@ it, either by command or in a capture template.
 ** Reverse-im (Keyboard layouts)
 #+begin_src emacs-lisp
 (use-package! reverse-im
+  :custom
+  (reverse-im-input-methods '("russian-computer" "ukrainian-computer"))
+  (reverse-im-char-fold t)
   :config
-  (reverse-im-activate '("russian-computer" "ukrainian-computer"))
-)
+  (reverse-im-mode t)
+  )
+#+end_src
+
+Char folding
+#+begin_src emacs-lisp
+(use-package! char-fold
+  :custom
+  (char-fold-symetric t)
+  (search-default-mode #'char-fold-to-regexp)
+  )
 #+end_src
 ** Spray
 Let's make this suit me slightly better.
