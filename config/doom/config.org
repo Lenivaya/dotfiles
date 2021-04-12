@@ -469,10 +469,10 @@ Smooth scrolling in emacs
 #+begin_src emacs-lisp :tangle packages.el
 (package! good-scroll)
 #+end_src
-# FIXME doesn't work on 28
 #+begin_src emacs-lisp
 (use-package! good-scroll
   :config
+  ;; FIXME on 28
   ;; (good-scroll-mode)
 )
 #+end_src
@@ -1092,20 +1092,15 @@ it, either by command or in a capture template.
 ** Reverse-im (Keyboard layouts)
 #+begin_src emacs-lisp
 (use-package! reverse-im
+  :after char-fold
+  :bind
+  ("M-T" . reverse-im-translate-word)
   :custom
-  (reverse-im-input-methods '("russian-computer" "ukrainian-computer"))
   (reverse-im-char-fold t)
+  (reverse-im-read-char-advice-function #'reverse-im-read-char-exclude)
+  (reverse-im-input-methods '("russian-computer" "ukrainian-computer"))
   :config
   (reverse-im-mode t)
-  )
-#+end_src
-
-Char folding
-#+begin_src emacs-lisp
-(use-package! char-fold
-  :custom
-  (char-fold-symetric t)
-  (search-default-mode #'char-fold-to-regexp)
   )
 #+end_src
 ** Spray
