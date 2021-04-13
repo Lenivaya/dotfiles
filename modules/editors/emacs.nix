@@ -38,6 +38,7 @@ in {
         pinentry_emacs) # in-emacs gnupg prompts
       zstd # for undo-tree compression
       calibre # for calibredb
+      python38Packages.pylatexenc # LaTeX parser
 
       ## Module dependencies
       # :app everywhere
