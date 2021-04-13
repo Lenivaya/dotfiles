@@ -11,6 +11,7 @@
       scrot # Screenshots
       dunst # notification daemon
       dua # space usage
+      ytfzf # find and watch videos on youtube
       libnotify
       binutils
       usbutils
