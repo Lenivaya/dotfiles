@@ -72,6 +72,7 @@
     };
 
     hardware = {
+      cpu.intel.enable = true;
       fs.enable = true;
       audio.enable = true;
       bluetooth.enable = true;
