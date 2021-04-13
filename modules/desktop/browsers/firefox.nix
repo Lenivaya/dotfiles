@@ -53,6 +53,9 @@ in {
           "browser.tabs.loadBookmarksInTabs" = true;
           # Enable userContent.css and userChrome.css
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
+          "browser.aboutConfig.showWarning" = false;
+          # Hide 'http://' from url
+          "browser.urlbar.trimURLs" = true;
 
           # Hardware-acceleration
           "layers.acceleration.force-enabled" = true;
