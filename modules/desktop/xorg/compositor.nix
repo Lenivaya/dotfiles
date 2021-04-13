@@ -5,7 +5,7 @@
     enable = true;
     backend = "glx";
     vSync = true;
-    # experimentalBackends = true;
+    experimentalBackends = true;
 
     activeOpacity = "1.0";
     inactiveOpacity = "0.92";
@@ -29,6 +29,8 @@
     shadowOffsets = [ (-7) (-7) ];
     shadowOpacity = "0.7";
     shadowExclude = [
+      "! name~=''"
+      "name *= 'picom'"
       "_GTK_FRAME_EXTENTS@:c"
       "_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
     ];
