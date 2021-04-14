@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.dev.go;
-in {
+in
+{
   options.modules.dev.go = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {

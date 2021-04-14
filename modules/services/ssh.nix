@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.services.ssh;
-in {
+in
+{
   options.modules.services.ssh = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
@@ -20,12 +21,13 @@ in {
       '';
     };
 
-    user.openssh.authorizedKeys.keys = if config.user.name == "leniviy" then
-      [
-        "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDXRowxPRtucIfNFHhd950gZnmHf4fxJuL1UalgSgpctDQ8JwkxxZs93u7ad+bcVGQV8oTRW5czMNz5V8Ary0bQkcQqbOB0AvrBlqQRl/HnluoscITpT/wwXs6Rp+psvJbrTHo9wwhjpku9ITugqcikLzYYA8rU9AwyfkeTmHTbq6UdAk2fnW5mu3S8XhJSJOdZGrOGp+QmEAaSzUMl2/6SSdGhUblJoxaGkEesXR+7pYN6EhtjghD3lb/PUCsyU4UaGl+69lodxE28pmvVIO2thULG6MpgDaxmgsfaNRhUWoD/3vGclOTFDlmyA6c9cMVZjC4Lf9h9ZJbGZKxmZ8xt xocada@gmail.com"
-      ]
-    else
-      [ ];
+    user.openssh.authorizedKeys.keys =
+      if config.user.name == "leniviy" then
+        [
+          "ssh-rsa AAAAB3NzaC1yc2EAAAADAQABAAABAQDXRowxPRtucIfNFHhd950gZnmHf4fxJuL1UalgSgpctDQ8JwkxxZs93u7ad+bcVGQV8oTRW5czMNz5V8Ary0bQkcQqbOB0AvrBlqQRl/HnluoscITpT/wwXs6Rp+psvJbrTHo9wwhjpku9ITugqcikLzYYA8rU9AwyfkeTmHTbq6UdAk2fnW5mu3S8XhJSJOdZGrOGp+QmEAaSzUMl2/6SSdGhUblJoxaGkEesXR+7pYN6EhtjghD3lb/PUCsyU4UaGl+69lodxE28pmvVIO2thULG6MpgDaxmgsfaNRhUWoD/3vGclOTFDlmyA6c9cMVZjC4Lf9h9ZJbGZKxmZ8xt xocada@gmail.com"
+        ]
+      else
+        [ ];
 
   };
 }

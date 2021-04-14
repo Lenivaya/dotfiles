@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.browsers.firefox;
-in {
+in
+{
   options.modules.desktop.browsers.firefox = {
     enable = mkBoolOpt false;
     profileName = mkOpt types.str config.user.name;

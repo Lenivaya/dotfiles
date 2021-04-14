@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.dev.python;
-in {
+in
+{
   options.modules.dev.python = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {

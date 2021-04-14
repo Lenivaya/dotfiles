@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.term;
-in {
+in
+{
   # imports = [ ./alacritty.nix ./st.nix ];
 
   options.modules.desktop.term = { default = mkOpt types.str "xterm"; };

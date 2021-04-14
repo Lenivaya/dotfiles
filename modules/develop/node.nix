@@ -8,7 +8,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.dev.node;
-in {
+in
+{
   options.modules.dev.node = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
