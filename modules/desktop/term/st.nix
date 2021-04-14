@@ -5,7 +5,7 @@ with lib.my;
 let cfg = config.modules.desktop.term.st;
 in
 {
-  options.modules.desktop.term.st = { enable = mkBoolOpt false; };
+  options.modules.desktop.term.st.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [

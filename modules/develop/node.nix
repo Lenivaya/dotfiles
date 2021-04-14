@@ -10,7 +10,7 @@ with lib.my;
 let cfg = config.modules.dev.node;
 in
 {
-  options.modules.dev.node = { enable = mkBoolOpt false; };
+  options.modules.dev.node.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [ nodejs yarn ];

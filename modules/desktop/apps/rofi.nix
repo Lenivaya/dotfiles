@@ -5,7 +5,7 @@ with lib.my;
 let cfg = config.modules.desktop.apps.rofi;
 in
 {
-  options.modules.desktop.apps.rofi = { enable = mkBoolOpt false; };
+  options.modules.desktop.apps.rofi.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
     home-manager.users.${config.user.name}.programs = {
