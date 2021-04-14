@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.hardware.audio;
-in {
+in
+{
   options.modules.hardware.audio = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {

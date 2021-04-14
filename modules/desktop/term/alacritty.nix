@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.term.alacritty;
-in {
+in
+{
   options.modules.desktop.term.alacritty = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {

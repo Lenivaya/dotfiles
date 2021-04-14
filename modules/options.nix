@@ -24,17 +24,19 @@ with lib.my; {
   };
 
   config = {
-    user = let
-      user = builtins.getEnv "USER";
-      name = if elem user [ "" "root" ] then "leniviy" else user;
-    in {
-      inherit name;
-      description = "The primary user account";
-      extraGroups = [ "wheel" ];
-      isNormalUser = true;
-      home = "/home/${name}";
-      uid = 1000;
-    };
+    user =
+      let
+        user = builtins.getEnv "USER";
+        name = if elem user [ "" "root" ] then "leniviy" else user;
+      in
+      {
+        inherit name;
+        description = "The primary user account";
+        extraGroups = [ "wheel" ];
+        isNormalUser = true;
+        home = "/home/${name}";
+        uid = 1000;
+      };
 
     # Install user packages to /etc/profiles instead. Necessary for
     # nixos-rebuild build-vm to work.
@@ -65,11 +67,13 @@ with lib.my; {
 
     users.users.${config.user.name} = mkAliasDefinitions options.user;
 
-    nix = let users = [ "root" config.user.name ];
-    in {
-      trustedUsers = users;
-      allowedUsers = users;
-    };
+    nix =
+      let users = [ "root" config.user.name ];
+      in
+      {
+        trustedUsers = users;
+        allowedUsers = users;
+      };
 
     # must already begin with pre-existing PATH. Also, can't use binDir here,
     # because it contains a nix store path.

@@ -34,6 +34,7 @@
         };
         spotify.enable = true;
         mpv.enable = true;
+        ncmpcpp.enable = true;
       };
 
       vm.qemu.enable = true;
@@ -99,6 +100,23 @@
   # Optimize power use
   environment.systemPackages = [ pkgs.acpi ];
   powerManagement.powertop.enable = true;
+
+  # fancontrol
+  # hardware.fancontrol = {
+  #   enable = true;
+  #   config = ''
+  #     INTERVAL=10
+  #     DEVPATH=hwmon3=devices/platform/coretemp.0 hwmon4=devices/platform/asus-nb-wmi
+  #     DEVNAME=hwmon3=coretemp hwmon4=asus
+  #     FCTEMPS=hwmon4/pwm1=hwmon3/temp1_input
+  #     FCFANS= hwmon4/pwm1=hwmon4/pwm1
+  #     MINTEMP=hwmon4/pwm1=20
+  #     MAXTEMP=hwmon4/pwm1=70
+  #     MINSTART=hwmon4/pwm1=150
+  #     MINSTOP=hwmon4/pwm1=0
+  #     MAXPWM=hwmon4/pwm1=160
+  #   '';
+  # };
 
   # Kernel
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_lqx;

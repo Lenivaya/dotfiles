@@ -5,7 +5,8 @@ let
   nixBin = writeShellScriptBin "nix" ''
     ${nixFlakes}/bin/nix --option experimental-features "nix-command flakes" "$@"
   '';
-in mkShell {
+in
+mkShell {
   buildInputs = [ git gnupg nix-zsh-completions ];
   shellHook = ''
     export DOTFILES="$(pwd)"

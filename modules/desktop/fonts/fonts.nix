@@ -2,7 +2,8 @@
 
 with lib.my;
 let pragmata = config.modules.desktop.fonts.pragmatapro;
-in {
+in
+{
   options.modules.desktop.fonts.pragmatapro = { enable = mkBoolOpt false; };
 
   config = {
@@ -33,7 +34,7 @@ in {
           sansSerif = [ "PragmataPro Liga" ];
           serif = [ "PragmataPro Liga" ];
         } else {
-          monospace = [ "Iosevka"];
+          monospace = [ "Iosevka" ];
           sansSerif = [ "IBM Plex Sans" ];
           serif = [ "IBM Plex Serif" ];
         });

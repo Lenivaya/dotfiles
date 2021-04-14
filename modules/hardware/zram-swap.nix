@@ -2,7 +2,8 @@
 
 with lib;
 let cfg = config.modules.hardware.zram;
-in {
+in
+{
   options.modules.hardware.zram = {
     enable = mkOption {
       type = types.bool;

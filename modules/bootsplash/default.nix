@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.bootsplash;
-in {
+in
+{
   options.modules.bootsplash = {
     enable = mkBoolOpt false;
   };

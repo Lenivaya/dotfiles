@@ -38,7 +38,8 @@
           lib = self;
         };
       });
-    in {
+    in
+    {
       lib = lib.my;
 
       overlay = final: prev: {

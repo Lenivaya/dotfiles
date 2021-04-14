@@ -6,6 +6,7 @@
       [
         # Nix
         nixfmt
+        nixpkgs-fmt
       ];
   };
 }
