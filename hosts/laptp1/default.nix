@@ -36,6 +36,8 @@
         spotify.enable = true;
         mpv.enable = true;
       };
+
+      vm.qemu.enable = true;
     };
 
     shell = {
