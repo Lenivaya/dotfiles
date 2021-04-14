@@ -17,6 +17,7 @@ in {
       (mkIf cfg.ebook.enable calibre)
       (mkIf cfg.pdf.enable evince)
       zathura
+      libreoffice-fresh
     ];
 
     home.configFile."zathura" = {
