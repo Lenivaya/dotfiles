@@ -5,7 +5,7 @@ with lib.my;
 let cfg = config.modules.desktop.apps.dunst;
 in
 {
-  options.modules.desktop.apps.dunst = { enable = mkBoolOpt false; };
+  options.modules.desktop.apps.dunst.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [ dunst libnotify ];

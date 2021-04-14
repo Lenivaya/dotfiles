@@ -9,7 +9,7 @@ with lib.my;
 let cfg = config.modules.desktop.browsers.brave;
 in
 {
-  options.modules.desktop.browsers.brave = { enable = mkBoolOpt false; };
+  options.modules.desktop.browsers.brave.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [

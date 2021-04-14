@@ -23,6 +23,7 @@
 
       term = {
         st.enable = true;
+        alacritty.enable = true;
         default = "st";
       };
 

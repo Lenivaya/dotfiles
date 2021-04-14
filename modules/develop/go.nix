@@ -5,7 +5,7 @@ with lib.my;
 let cfg = config.modules.dev.go;
 in
 {
-  options.modules.dev.go = { enable = mkBoolOpt false; };
+  options.modules.dev.go.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
 

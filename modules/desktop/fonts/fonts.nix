@@ -4,7 +4,7 @@ with lib.my;
 let pragmata = config.modules.desktop.fonts.pragmatapro;
 in
 {
-  options.modules.desktop.fonts.pragmatapro = { enable = mkBoolOpt false; };
+  options.modules.desktop.fonts.pragmatapro.enable = mkBoolOpt false;
 
   config = {
 
