@@ -19,7 +19,6 @@
         default = "firefox";
         firefox.enable = true;
         chromium.enable = true;
-        brave.enable = true;
       };
 
       term = {
@@ -87,18 +86,13 @@
   };
 
   zramSwap = {
-    algorithm = lib.mkForce "lz4";
-    # memoryPercent = lib.mkForce 50;
+    # algorithm = lib.mkForce "lz4";
+    memoryPercent = lib.mkForce 50;
   };
 
-  hardware.cpu.intel.updateMicrocode = true;
 
   services.xserver = {
     videoDrivers = [ "radeon" ];
-    # deviceSection = ''
-    #   Option "TearFree" "on"
-    # '';
-    # useGlamor = true;
   };
   environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
 
