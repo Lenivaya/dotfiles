@@ -1092,6 +1092,8 @@ it, either by command or in a capture template.
 ** Reverse-im (Keyboard layouts)
 #+begin_src emacs-lisp
 (use-package! reverse-im
+  :ensure t
+  :demand t
   :after char-fold
   :bind
   ("M-T" . reverse-im-translate-word)
