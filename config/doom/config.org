@@ -1768,6 +1768,17 @@ It likely misses some edge cases, but should mostly work.
           (setq count (1+ count))))
       (message "Replaced %d occurances" count))))
 #+end_src
+**** Fix problematic hooks
+When one of the src_elisp{org-mode-hook} functions errors, it halts the hook
+execution. This is problematic, and there are two hooks in particular which
+cause issues. Let's make their failure less eventful.
+
+#+begin_src emacs-lisp
+(defadvice! shut-up-org-problematic-hooks (orig-fn &rest args)
+  :around #'org-fancy-priorities-mode
+  :around #'org-superstar-mode
+  (ignore-errors (apply orig-fn args)))
+#+end_src
 *** Visuals
 **** Font Display
 Mixed pitch is great. As is ~+org-pretty-mode~, let's use them.
