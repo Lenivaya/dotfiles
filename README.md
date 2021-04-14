@@ -1,4 +1,4 @@
-[![NixOS 21.05](https://img.shields.io/badge/NixOS-v20.09-blue.svg?style=flat-square&logo=NixOS&logoColor=white)](https://nixos.org)
+[![NixOS 21.05](https://img.shields.io/badge/NixOS-v21.05-blue.svg?style=flat-square&logo=NixOS&logoColor=white)](https://nixos.org)
 [![CI](https://github.com/Lenivaya/dotfiles/actions/workflows/CI.yml/badge.svg)](https://github.com/Lenivaya/dotfiles/actions/workflows/CI.yml)
 
 <h1 align="center">dotfiles</h1>
