@@ -3,12 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.browsers.firefox;
-in
-{
-  options.modules.desktop.browsers.firefox = {
-    enable = mkBoolOpt false;
-    profileName = mkOpt types.str config.user.name;
-  };
+in {
+  options.modules.desktop.browsers.firefox.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
 
@@ -26,20 +22,6 @@ in
       ];
 
     env.XDG_DESKTOP_DIR = "$HOME"; # prevent firefox creating ~/Desktop
-
-    home.file = {
-      ".mozilla/firefox/profiles.ini".text = ''
-        [Profile0]
-        Name=default
-        IsRelative=1
-        Path=${cfg.profileName}.default
-        Default=1
-
-        [General]
-        StartWithLastProfile=1
-        Version=2
-      '';
-    };
 
     home-manager.users.${config.user.name}.programs.firefox = {
       enable = true;
