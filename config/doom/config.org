@@ -211,7 +211,8 @@ ophints                      ; highlight the region an operation acts on
  +defaults)                  ; default popup rules
 ;;(tabs                      ; an tab bar for Emacs
 ;;  +centaur-tabs)           ; ... with prettier tabs
-treemacs                     ; a project drawer, like neotree but cooler
+(treemacs                     ; a project drawer, like neotree but cooler
+ +lsp)
 unicode                    ; extended unicode support for various languages
 vc-gutter                    ; vcs diff in the fringe
 vi-tilde-fringe              ; fringe tildes to mark beyond EOB
@@ -423,7 +424,6 @@ Prevents some cases of Emacs flickering
  #+begin_src emacs-lisp
 (setq visible-cursor nil
       blink-cursor-mode -1)
-#+end_src
 #+end_src
 **** Ligatures
 I really don't like some ligatures so disabling them here.
@@ -852,7 +852,8 @@ I want avy to jump though windows and auto-jump when theres 1 candidate
         modus-themes-syntax 'alt-syntax-yellow-comments
         modus-themes-scale-headings t
         modus-themes-headings '((t . rainbow))
-        modus-themes-mode-line 'borderless-moody
+        modus-themes-mode-line 'borderless
+        modus-themes-org-blocks 'grayscale
         )
   )
 #+end_src
@@ -1063,7 +1064,7 @@ It's nice to have leetcode in emacs
 (use-package! leetcode
   :config
   (setq leetcode-save-solutions t
-        leetcode-directory "~/code/study/leetcode"
+        leetcode-directory "~/code/practice/leetcode"
         leetcode-prefer-sql "sqlite3")
   )
 #+end_src
@@ -1151,7 +1152,6 @@ tweaks. Namely:
 + Use a serifed variable-pitch font
 + Hiding headline leading stars
 + Hiding line numbers
-+ Removing outline indentation
 + Centring the text
 + Turning on ~org-pretty-table-mode~
 
