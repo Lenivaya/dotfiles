@@ -8,11 +8,14 @@ in
   options.modules.services.ssh.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
+    programs.ssh.startAgent = true;
+
     services.openssh = {
       enable = true;
       forwardX11 = true;
       permitRootLogin = "no";
       passwordAuthentication = true;
+      startWhenNeeded = true;
 
       # Allow local LAN to connect with passwords
       extraConfig = ''
