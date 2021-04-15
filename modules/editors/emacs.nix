@@ -39,7 +39,7 @@ in
         pinentry_emacs) # in-emacs gnupg prompts
       zstd # for undo-tree compression
       calibre # for calibredb
-      python38Packages.pylatexenc # LaTeX parser
+      python39Packages.pylatexenc # LaTeX parser
       my.my_cookies # leetcode cookie retriever
 
       ## Module dependencies
@@ -55,7 +55,7 @@ in
       # :tools lookup
       sqlite
       # :lang markdown previews
-      python37Packages.grip
+      python39Packages.grip
       # :lang latex & :lang org (latex previews)
       texlab
       texlive.combined.scheme-full # FULL

@@ -10,13 +10,13 @@ in
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
       python-language-server
-      python37
-      python37Packages.pip
-      python37Packages.ipython
-      python37Packages.black
-      python37Packages.setuptools
-      python37Packages.pylint
-      python37Packages.poetry
+      python39
+      python39Packages.pip
+      python39Packages.ipython
+      python39Packages.black
+      python39Packages.setuptools
+      python39Packages.pylint
+      python39Packages.poetry
     ];
 
     env.IPYTHONDIR = "$XDG_CONFIG_HOME/ipython";
