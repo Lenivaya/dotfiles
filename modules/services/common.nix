@@ -11,5 +11,7 @@
     gvfs.enable = true;
     openssh.enable = true;
     earlyoom.enable = true;
+
+    gnome3.gnome-keyring.enable = true;
   };
 }
