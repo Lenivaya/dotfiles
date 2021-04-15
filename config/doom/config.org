@@ -1054,6 +1054,19 @@ is using Hydra.
 #+begin_src emacs-lisp
 (setq ivy-read-action-function #'ivy-hydra-read-action)
 #+end_src
+** Leetcode
+It's nice to have leetcode in emacs
+#+begin_src emacs-lisp :tangle packages.el
+(package! leetcode)
+#+end_src
+#+begin_src emacs-lisp
+(use-package! leetcode
+  :config
+  (setq leetcode-save-solutions t
+        leetcode-directory "~/code/study/leetcode"
+        leetcode-prefer-sql "sqlite3")
+  )
+#+end_src
 ** Kdeconnect
 #+begin_src emacs-lisp
 (use-package! kdeconnect
