@@ -40,6 +40,7 @@ in
       zstd # for undo-tree compression
       calibre # for calibredb
       python38Packages.pylatexenc # LaTeX parser
+      my.my_cookies # leetcode cookie retriever
 
       ## Module dependencies
       # :app everywhere
