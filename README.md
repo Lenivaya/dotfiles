@@ -4,12 +4,12 @@
 <h1 align="center">dotfiles</h1>
 <p align="center">Different dotfiles which i use every day</p><br>
 
-![screenshot](https://user-images.githubusercontent.com/49302467/96636356-df89cd80-1325-11eb-9c91-b8861cfbbbaf.png)
+![screenshot](https://user-images.githubusercontent.com/49302467/115119757-b7b4b300-9fb2-11eb-8ad3-5c1036eb94ad.png)
 
 <p align="center">
-<span><img src="https://user-images.githubusercontent.com/49302467/96636467-ffb98c80-1325-11eb-855a-3bc7d97df150.png" height="187" /></span>
-<span><img src="https://user-images.githubusercontent.com/49302467/96636725-5fb03300-1326-11eb-8040-d2f8a808d186.png" height="187" /></span>
-<span><img src="https://user-images.githubusercontent.com/49302467/96636790-73f43000-1326-11eb-9283-2e9593b4e246.png" height="187" /></span>
+<span><img src="https://user-images.githubusercontent.com/49302467/115119761-bd11fd80-9fb2-11eb-9f82-bb471292e48f.png" height="187" /></span>
+<span><img src="https://user-images.githubusercontent.com/49302467/115119764-c0a58480-9fb2-11eb-87e6-4dbcd9e2a860.png" height="187" /></span>
+<span><img src="https://user-images.githubusercontent.com/49302467/115119767-c4390b80-9fb2-11eb-81d6-602482bc056b.png" height="187" /></span>
 </p>
 
 ---
