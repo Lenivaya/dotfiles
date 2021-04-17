@@ -36,13 +36,14 @@ in
     user.packages = with pkgs; [
       xmobar
       jq # for weather script
+      playerctl # current track script
     ];
     fonts.fonts = with pkgs; [
       siji # some nice icons
       weather-icons # for weather script
     ];
 
-    env.PATH = [ "${configDir}/xmonad/scripts/xmobar" ];
+    env.PATH = [ "$DOTFILES/config/xmonad/scripts/xmobar" ];
 
     modules.desktop.term.st.enable = true;
     modules.desktop.term.default = "st";
