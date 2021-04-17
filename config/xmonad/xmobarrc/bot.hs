@@ -38,6 +38,7 @@ Config { font = "xft:monospace:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
                                                     , "--onc"  , "#a19782"
                                                     , "--offc" , "#a19782"
                                                     ] 1
+                    , Run ComX "player" [] " " "player" 3
                     ]
        , sepChar = "%"
        , alignSep = "}{"
@@ -46,6 +47,6 @@ Config { font = "xft:monospace:style=Regular:pixelsize=11,Biwidth:pixelsize=12"
                     \}\
                     \\
                     \{\
-                    \%kbd%   %default:Master%\
+                    \%player%  /  %kbd%   %default:Master%\
                     \ "
        }
