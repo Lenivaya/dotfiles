@@ -278,7 +278,7 @@ gist                       ; interacting with github gists
 (lookup                      ; helps you navigate your code and documentation
  +dictionary                 ; dictionary/thesaurus is nice
  +docsets)                   ; ...or in Dash docsets locally
-lsp                          ; Language Server Protocol
+(lsp +peek)                          ; Language Server Protocol
 (magit                       ; a git porcelain for Emacs
  +forge)                     ; interface with git forges
 make                         ; run make tasks from Emacs
@@ -477,6 +477,39 @@ Smooth scrolling in emacs
 )
 #+end_src
 
+*** Allow babel execution in CLI actions
+In this config I sometimes generate code to include in my config.
+This works nicely, but for it to work with =doom sync= et. al. I need to make sure
+that Org doesn't try to confirm that I want to allow evaluation (I do!).
+
+Thankfully Doom supports =$DOOMDIR/cli.el= file which is sourced every time a CLI
+command is run, so we can just enable evaluation by setting
+~org-confirm-babel-evaluate~ to ~nil~ there.
+While we're at it, we should silence ~org-babel-execute-src-block~ to
+avoid polluting the output.
+
+#+begin_src emacs-lisp :tangle cli.el :comments none
+;;; cli.el -*- lexical-binding: t; -*-
+(setq org-confirm-babel-evaluate nil)
+
+(defun doom-shut-up-a (orig-fn &rest args)
+  (quiet! (apply orig-fn args)))
+
+(advice-add 'org-babel-execute-src-block :around #'doom-shut-up-a)
+#+end_src
+*** Asyncronous config tangling
+Doom adds an =org-mode= hook ~+literate-enable-recompile-h~. This is a nice idea,
+but it's too blocking for my taste. Since I trust my tangling to be fairly
+straightforward, I'll just redefine it to a simpler, async, function.
+#+begin_src emacs-lisp
+(defadvice! +literate-tangle-async-h ()
+  "A very simplified version of `+literate-tangle-h', but async."
+  :override #'+literate-tangle-h
+  (let ((default-directory doom-private-dir))
+    (async-shell-command
+     (format "emacs --batch --eval \"(progn (require 'org) (setq org-confirm-babel-evaluate nil) (org-babel-tangle-file \\\"%s\\\"))\""
+             +literate-config-file))))
+#+end_src
 ** Other Things
 *** Editor interaction
 **** Mouse buttons
@@ -494,26 +527,6 @@ Hide modeline and cursor
 #+begin_src emacs-lisp
 (add-hook! '+doom-dashboard-mode-hook (hide-mode-line-mode 1) (hl-line-mode -1))
 (setq-hook! '+doom-dashboard-mode-hook evil-normal-state-cursor (list nil))
-#+end_src
-*** Tangle-on-save
-Here i'm removing default literate on-save-hook.
-#+begin_src emacs-lisp
-(remove-hook 'org-mode-hook #'+literate-enable-recompile-h)
-#+end_src
-
-Just because i'ts more convenient for me to use
-#+begin_src shell :tangle no
-org-tangle ~/.config/doom/config.org
-#+end_src
-
-And finally add function to tangle config from emacs
-#+begin_src emacs-lisp
-(defun config-tangle ()
-  (interactive)
-  (shell-command
-   (concat "org-tangle " doom-private-dir "config.org" " &")
-   )
-  )
 #+end_src
 *** Daemon
 **** Dashboard
@@ -1356,6 +1369,11 @@ Then, to actually read the ebooks we use =nov=.
 Prefer brittany  formatter.
 #+begin_src emacs-lisp
 (setq-hook! 'haskell-mode +format-with-lsp nil)
+#+end_src
+** Rust
+Disable lsp formatter
+#+begin_src emacs-lisp
+(setq-hook! 'rustic-mode +format-with-lsp nil)
 #+end_src
 ** Js
 Prefer prettier formatter.
@@ -2318,4 +2336,14 @@ Export TeX
 (defun leniviy/org-save-and-export-beamer ()
   (if (eq major-mode 'org-mode)
       (org-beamer-export-to-latex :async t)))
+#+end_src
+
+config tangling
+#+begin_src emacs-lisp
+(defun config-tangle ()
+  (interactive)
+  (shell-command
+   (concat "org-tangle " doom-private-dir "config.org" " &")
+   )
+  )
 #+end_src
