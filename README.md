@@ -25,6 +25,19 @@
 | **term:**    | st                                                                    |
 
 ---
+## Quick start
+
+1. Download the latest build of [NixOS 21.05][nixos].
+2. Boot into the installer.
+3. Do your partitions and mount your root to `/mnt` 
+4. Install these dotfiles:
+5. `nix-shell -p git nixFlakes`
+6. `git clone https://github.com/hlissner/dotfiles /mnt/etc/nixos`
+7. Install NixOS: `nixos-install --root /mnt --flake /mnt/etc/nixos#XYZ`, where
+   `XYZ` is [the host you want to install](hosts/).  Use `#generic` for a
+   simple, universal config, or create a sub-directory in `hosts/` for your device.
+8. Reboot!
+9. Change your `root` and `$USER` passwords!
 
 ## Management
 
