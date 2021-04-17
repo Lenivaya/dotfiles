@@ -64,13 +64,13 @@ in
         name = "sleep";
         desktopName = "System: Sleep";
         icon = "system-suspend";
-        exec = "$DOTFILES_BIN/zzz -f";
+        exec = "zzz -f";
       })
       (makeDesktopItem {
         name = "lock-display";
         desktopName = "Lock screen";
         icon = "system-lock-screen";
-        exec = "$DOTFILES_BIN/zzz";
+        exec = "zzz";
       })
     ];
   };
