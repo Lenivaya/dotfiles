@@ -6,12 +6,7 @@ with lib;
 let cfg = config.modules.hosts;
 in
 {
-  options.modules.hosts = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-  };
+  options.modules.hosts.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
     networking.extraHosts =
@@ -19,8 +14,8 @@ in
         hostsFile = pkgs.fetchFromGitHub {
           owner = "StevenBlack";
           repo = "hosts";
-          rev = "0977726aa3fe7e02b72f175816b1a354e86485de";
-          sha256 = "0np4pllhclknbnwhx65nxz853gb40zpymk20yd50j22jhwb1jnps";
+          rev = "c202dbda759bb0ab52c68e9f675ccd2ad4b59c3e";
+          sha256 = "etXlrCUOBU2U/T/lHYOzAtIyLW4k1OXA7Q/+WMvPiZg=";
         };
       in
       builtins.readFile "${hostsFile}/hosts";
