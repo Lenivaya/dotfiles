@@ -653,6 +653,10 @@ This makes it a breeze to take lovely screenshots.
 #+begin_src emacs-lisp
 (package! company-math)
 #+end_src
+**** Top in emacs
+#+begin_src emacs-lisp
+(package! explain-pause-mode)
+#+end_src
 ** Language packages
 *** LaTeX
 For mathematical convenience, WIP
