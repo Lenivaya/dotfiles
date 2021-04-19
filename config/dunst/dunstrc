@@ -73,6 +73,10 @@
     history = ctrl+grave
     context = ctrl+shift+period
 
+[play_sound]
+    summary = "*"
+    script = dunst_alert
+
 [urgency_low]
 timeout = 20
 background = "#161418"

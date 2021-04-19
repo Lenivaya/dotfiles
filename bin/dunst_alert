@@ -1,0 +1,2 @@
+#!/bin/sh
+paplay "$DOTFILES/config/dunst/Submarine.wav"
