@@ -39,6 +39,9 @@ with lib.my; {
       "super + KP_Left" = "st -e ranger";
       "super + shift + KP_Left" = "st -e nnn";
       "super + KP_Home" = "st -e tmux";
+
+      # media keys
+      "XF86Audio{LowerVolume,RaiseVolume,Mute}" = "volumedunst {down,up,mute}";
     };
   };
 

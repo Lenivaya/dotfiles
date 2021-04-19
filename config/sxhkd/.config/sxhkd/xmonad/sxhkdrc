@@ -16,11 +16,5 @@ super + KP_Home
 	alacritty -e tmux
 
 # media keys
-ctrl + F10
-     volumedunst mute
-
-ctrl + F11
-     volumedunst down
-
-ctrl + F12
-     volumedunst up
+XF86Audio{LowerVolume,RaiseVolume,Mute}
+    volumedunst {down,up,mute}
