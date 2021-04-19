@@ -5,7 +5,7 @@
     geometry = "330x50-10+44"
     indicate_hidden = yes
     shrink = no
-    transparency = 0
+    transparency = 5
     notification_height = 0
     separator_height = 0
     padding = 15
@@ -46,7 +46,8 @@
     ### Misc/Advanced ###
    
     # dmenu path
-    dmenu = dmenu -p dunst:
+    dmenu = rofi -dmenu -p dunst:
+
     always_run_script = true
     title = Dunst
     class = Dunst
@@ -94,7 +95,4 @@ timeout = 0
 background = "#161418"
 foreground = "#d2d1d2"
 frame_color = "#d5c4a1"
-separator_color = "#d5c4a1"
-
-
-
+separator_color = "#c8b38d"
