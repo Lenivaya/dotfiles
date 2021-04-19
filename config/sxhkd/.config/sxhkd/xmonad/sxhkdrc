@@ -15,3 +15,12 @@ super + shift + KP_Left
 super + KP_Home
 	alacritty -e tmux
 
+# media keys
+ctrl + F10
+     volumedunst mute
+
+ctrl + F11
+     volumedunst down
+
+ctrl + F12
+     volumedunst up
