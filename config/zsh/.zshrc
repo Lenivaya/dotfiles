@@ -54,6 +54,8 @@ MenkeTechnologies/zsh-expand \
 ## In turbo mode
 zinit wait"0c" lucid light-mode for \
         Aloxaf/fzf-tab \
+        pick'shell/*.plugin.zsh' \
+                denisidoro/navi \
         joshskidmore/zsh-fzf-history-search \
         zsh-users/zsh-history-substring-search \
         Tarrasch/zsh-bd \

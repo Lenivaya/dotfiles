@@ -47,6 +47,7 @@ in
       tree
       fasd
       thefuck
+      navi
       starship
     ];
 
