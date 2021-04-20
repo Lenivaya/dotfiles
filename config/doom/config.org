@@ -2352,3 +2352,14 @@ config tangling
    )
   )
 #+end_src
+** Files
+#+begin_src emacs-lisp
+(defun open-file-external (file)
+  (interactive "f")
+  (let ((process-connection-type nil))
+    (start-process
+     "" nil shell-file-name
+     shell-command-switch
+     (format "nohup 1>/dev/null 2>/dev/null xdg-open %s"
+             (expand-file-name file)))))
+#+end_src
