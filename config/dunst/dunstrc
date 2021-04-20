@@ -36,7 +36,7 @@
     icon_position = left
     max_icon_size = 45
     # Just don't want icons
-    icon_path = ""
+    # icon_path = ""
 
     ### History ###
 
