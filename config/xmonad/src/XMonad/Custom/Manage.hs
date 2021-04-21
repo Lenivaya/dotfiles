@@ -21,7 +21,7 @@ composeActions =
   , className =? "explorer.exe" -?> doFullFloat
   , className =? "qemu-system-x86" -?> doCenterFloat
   , className =? "qemu-system-x86_64" -?> doCenterFloat
-  , className =? "urxvt" -?> tileBelow
+  , className =? "alacritty" -?> tileBelow
   , className =? "xterm" -?> tileBelow
   , className =? "st" -?> tileBelow
   , isDialog -?> doCenterFloat

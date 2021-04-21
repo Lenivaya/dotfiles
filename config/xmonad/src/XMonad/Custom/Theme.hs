@@ -23,8 +23,7 @@ module XMonad.Custom.Theme
   , border
   , height
   , tabTheme
-  )
-where
+  ) where
 
 import           Data.Char
 import           Data.Function

@@ -1,16 +1,15 @@
 module XMonad.Custom.Event
   ( handleEventHook
-  )
-where
+  ) where
 
+import qualified Data.Map.Strict               as M
 import           Data.Monoid
 import           XMonad                  hiding ( handleEventHook )
 import           XMonad.Custom.Scratchpads
 import           XMonad.Hooks.EwmhDesktops
 import           XMonad.Hooks.ManageDocks
-import           XMonad.Util.Loggers.NamedScratchpad
 import           XMonad.Hooks.RefocusLast
-import qualified Data.Map.Strict               as M
+import           XMonad.Util.Loggers.NamedScratchpad
 
 -- Keeps last focused window
 myPred = refocusingIsActive <||> isFloat

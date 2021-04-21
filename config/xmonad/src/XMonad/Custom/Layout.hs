@@ -1,6 +1,6 @@
-{-# LANGUAGE DeriveDataTypeable    #-}
+{-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE MultiParamTypeClasses #-}
-{-# LANGUAGE TypeSynonymInstances  #-}
+{-# LANGUAGE TypeSynonymInstances #-}
 {-# OPTIONS_GHC -Wno-missing-signatures #-}
 
 module XMonad.Custom.Layout
@@ -10,11 +10,15 @@ module XMonad.Custom.Layout
   , CustomTransformers(..)
   ) where
 
-
+-- layout prompt
+import           Data.Map                       ( Map )
+import qualified Data.Map                      as Map
+import           Data.Maybe                     ( fromMaybe )
 import           XMonad                  hiding ( float
                                                 , layoutHook
                                                 , (|||)
                                                 )
+import           XMonad.Custom.Prompt           ( aListCompFunc )
 import qualified XMonad.Custom.Theme           as T
 import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.RefocusLast
@@ -24,6 +28,7 @@ import           XMonad.Layout.BoringWindows
 import           XMonad.Layout.Circle
 import           XMonad.Layout.Fullscreen
 import           XMonad.Layout.Hidden
+import           XMonad.Layout.LayoutCombinators
 import           XMonad.Layout.LayoutModifier
 import           XMonad.Layout.Maximize
 import           XMonad.Layout.Minimize
@@ -41,13 +46,6 @@ import           XMonad.Layout.SubLayouts
 import           XMonad.Layout.Tabbed
 import           XMonad.Layout.ThreeColumns
 import           XMonad.Layout.WindowNavigation
-
--- layout prompt
-import           Data.Map                       ( Map )
-import qualified Data.Map                      as Map
-import           Data.Maybe                     ( fromMaybe )
-import           XMonad.Custom.Prompt           ( aListCompFunc )
-import           XMonad.Layout.LayoutCombinators
 import           XMonad.Prompt
 import qualified XMonad.StackSet               as Stack
 import           XMonad.Util.ExtensibleState   as XState
@@ -61,11 +59,14 @@ data CustomTransformers = GAPS
 instance Transformer CustomTransformers Window where
   transform GAPS x k = k (avoidStruts $ applySpacing x) (const x)
 
-
 bsp = named "BSP" $ emptyBSP
+
 tall = named "Tall" $ ResizableTall 1 (3 / 100) (1 / 2) []
+
 circle = named "Circle" $ Circle
+
 threecolmid = named "ThreeColMid" $ ThreeColMid 1 (3 / 100) (1 / 2)
+
 onebig = named "OneBig" $ OneBig (3 / 4) (3 / 4)
 
 layoutHook =
@@ -87,7 +88,6 @@ layoutHook =
     $   onWorkspace "Read" (circle ||| onebig)
     .   maximize
     .   minimize
-
     $   bsp
     ||| circle
     ||| tall
@@ -95,6 +95,7 @@ layoutHook =
     ||| onebig
 
 --------------------------------------------------------------------------------
+
 -- | A data type for the @XPrompt@ class.
 data LayoutByName = LayoutByName
 
@@ -102,13 +103,13 @@ instance XPrompt LayoutByName where
   showXPrompt LayoutByName = "Layout: "
 
 --------------------------------------------------------------------------------
+
 -- | Use @Prompt@ to choose a layout.
 selectLayoutByName :: XPConfig -> X ()
 selectLayoutByName conf = mkXPrompt LayoutByName
                                     conf
                                     (aListCompFunc conf layoutNames)
                                     go
-
  where
   go :: String -> X ()
   go selected = case lookup selected layoutNames of
@@ -125,15 +126,17 @@ selectLayoutByName conf = mkXPrompt LayoutByName
     ]
 
 --------------------------------------------------------------------------------
+
 -- | Keep track of layouts when jumping with 'toggleLayout'.
 newtype LayoutHistory = LayoutHistory
-  { runLayoutHistory :: Map String String }
+  {runLayoutHistory :: Map String String}
   deriving (Typeable)
 
 instance ExtensionClass LayoutHistory where
   initialValue = LayoutHistory Map.empty
 
 --------------------------------------------------------------------------------
+
 -- | Toggle between the current layout and the one given as an argument.
 toggleLayout :: String -> X ()
 toggleLayout name = do
@@ -144,7 +147,6 @@ toggleLayout name = do
       ld = description . Stack.layout $ ws
 
   if name == ld then restoreLayout wn else rememberAndGo wn ld
-
  where
     -- Restore the previous workspace.
   restoreLayout :: String -> X ()

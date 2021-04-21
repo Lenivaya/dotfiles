@@ -21,13 +21,12 @@ xmobarFont :: Int -> String -> String
 xmobarFont f = wrap (concat ["<fn=", show f, ">"]) "</fn>"
 
 layoutIcon :: String -> String
-layoutIcon l | isInfixOf "BSP" l         = " <fn=1>\57654</fn>"
-             | isInfixOf "Circle" l      = " <fn=1>\57521</fn>"
-             | isInfixOf "Tall" l        = " <fn=1>\57346</fn>"
-             | isInfixOf "ThreeColMid" l = " <fn=1>\57377</fn>"
-             | isInfixOf "OneBig" l      = " <fn=1>\57377</fn>"
-             | otherwise                 = ""
-
+layoutIcon l | "BSP" `isInfixOf` l         = " <fn=1>\57654</fn>"
+             | "Circle" `isInfixOf` l      = " <fn=1>\57521</fn>"
+             | "Tall" `isInfixOf` l        = " <fn=1>\57346</fn>"
+             | "ThreeColMid" `isInfixOf` l = " <fn=1>\57377</fn>"
+             | "OneBig" `isInfixOf` l      = " <fn=1>\57377</fn>"
+             | otherwise                   = ""
 
 topBarPP :: PP
 topBarPP = def

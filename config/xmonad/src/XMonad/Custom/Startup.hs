@@ -1,12 +1,11 @@
 module XMonad.Custom.Startup
   ( startupHook
-  )
-where
+  ) where
 
 import           Control.Monad
-import           Text.Printf
 import           Data.Maybe
 import           Graphics.Gloss.Interface.Environment
+import           Text.Printf
 import           XMonad                  hiding ( startupHook )
 import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.SetWMName
@@ -41,7 +40,6 @@ addEWMHFullscreen = do
   s <- mapM getAtom atomsToFullscreen
   mapM_ addNETSupported s
 
-
 percentFromNumber :: Int -> Float -> Int
 percentFromNumber n p = round (realToFrac n * realToFrac (p / 100))
 
@@ -51,22 +49,16 @@ generateBarPosition (w, h) pos | pos == "top" = printf position topBarYpos width
  where
   position   = "'Static { xpos = 12 , ypos = %d , width = %d , height = 24}'"
   width      = w - 24
-  botBarYpos = (h - (percentFromNumber h 1.0)) - 24
+  botBarYpos = (h - percentFromNumber h 1.0) - 24
   topBarYpos = percentFromNumber h 1.0
 
-
 barCommand :: (Int, Int) -> String -> String
-barCommand res pos
-  | pos == "top"
-  = "xmobar $XDG_CONFIG_HOME/dotfiles/config/xmonad/xmobarrc/top.hs -p "
-    ++ generateBarPosition res pos
-  | pos == "bot"
-  = "xmobar $XDG_CONFIG_HOME/dotfiles/config/xmonad/xmobarrc/bot.hs -p "
-    ++ generateBarPosition res pos
+barCommand res pos = printf command pos ++ generateBarPosition res pos
+  where command = "xmobar $XMONAD_CONFIG_DIR/xmobarrc/%s.hs -p "
 
 spawnXmobar :: X ()
 spawnXmobar = do
-  resolution <- liftIO $ getScreenSize
+  resolution <- liftIO getScreenSize
   spawnNamedPipe (barCommand resolution "top") "xmobarTop"
   spawnNamedPipe (barCommand resolution "bot") "xmobarBot"
 
