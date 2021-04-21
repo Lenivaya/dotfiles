@@ -29,7 +29,7 @@ promptTheme = def
   , searchPredicate   = fuzzyMatch
   , sorter            = fuzzySort
   , promptKeymap      = emacsLikeXPKeymap
-  , autoComplete      = Just 5000
+  , autoComplete      = Just 15000
   }
 
 hotPromptTheme = promptTheme { bgColor      = T.black2

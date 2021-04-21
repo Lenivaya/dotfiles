@@ -30,7 +30,6 @@ import           XMonad.Actions.UpdatePointer
 import           XMonad.Actions.WindowGo
 import           XMonad.Actions.WindowMenu
 import           XMonad.Actions.WithAll
-
 import           XMonad.Custom.Layout
 import           XMonad.Custom.Layout           ( selectLayoutByName
                                                 , toggleLayout
@@ -134,10 +133,7 @@ keysBase _ =
   , ("M-q r", spawn "xmonad --restart")
   , ("M-x"  , shellPrompt promptTheme)
   , ("M-S-x", spawn (C.appmenu C.applications))
-  , ( "M-c"
-    , spawn
-      "rofi -modi 'clipboard:greenclip print' -show clipboard -run-command '{cmd}'"
-    )
+  , ("M-c"  , spawn (C.clipboardSelector C.applications))
   ]
 
 keysPass :: XConfig Layout -> [(String, X ())]
@@ -190,7 +186,8 @@ keysSpawnables _ =
   , ("M-o b"       , spawn (C.browser C.applications))
   , ("M-o e"       , raiseEditor)
   , ("M-o S-e", spawn "emacsclient --eval '(emacs-everywhere)'")
-  , -- Edit some text in emacs
+  ,
+    -- Edit some text in emacs
     ("M-o c", namedScratchpadAction scratchpads "console")
   , ("M-o m"       , namedScratchpadAction scratchpads "music")
   , ("M-o t"       , namedScratchpadAction scratchpads "top")
@@ -206,7 +203,8 @@ keysWindows _ =
     , ("M-w b", windowPrompt promptTheme Bring allWindows)
     , ("M-w c"  , toggleCopyToAll)
     , ("M-w S-c", kill1)
-    , -- To remove focused copied window from current workspace
+    ,
+    -- To remove focused copied window from current workspace
       ("M-w h"  , withFocused minimizeWindow)
     , ("M-w S-h", withLastMinimized maximizeWindowAndFocus)
     , ("M-w r", tryMessageR_ Rotate (Toggle REFLECTX))
@@ -243,7 +241,8 @@ keysLayout c =
     )
   , ("M-S-f", withFocused (sendMessage . maximizeRestore))
   , ("M-C-g", sendMessage $ Toggle GAPS)
-  , -- FIXME Breaks merged tabbed layout
+  ,
+    -- FIXME Breaks merged tabbed layout
     ("M-t g", sendMessage ToggleStruts)
   ]
 
