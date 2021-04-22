@@ -22,10 +22,10 @@ in
         haskellPackages.xmonad
         haskellPackages.gloss
       ];
-      ghcArgs = [ "-O2" ];
+      ghcArgs = [ "-O3" ];
     };
 
-    services.xserver = { displayManager.defaultSession = "none+xmonad"; };
+    services.xserver.displayManager.defaultSession = "none+xmonad";
 
     env = {
       XMONAD_CONFIG_DIR = "$XDG_CONFIG_HOME/dotfiles/config/xmonad";
