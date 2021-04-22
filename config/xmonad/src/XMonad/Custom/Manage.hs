@@ -15,6 +15,7 @@ composeActions =
   [ appName =? "emacs-popup" -?> tileBelowNoFocus
   , appName =? "eterm" -?> tileBelow
   , className =? "Pinentry" -?> doCenterFloat
+  , className =? "Emacs" <&&> title =? "emacs-anywhere" -?> doFullFloat
   , className =? "Steam" <&&> not <$> title =? "Steam" -?> doFloat
   , className =? "Xmessage" -?> doCenterFloat
   , className =? "Zenity" -?> doCenterFloat
@@ -35,7 +36,6 @@ composeActions =
   tileNormal       = insertPosition Above Newer
   tileBelow        = insertPosition Below Newer
   tileBelowNoFocus = insertPosition Below Older
-
 
 manageHook :: ManageHook
 manageHook = composeAll
