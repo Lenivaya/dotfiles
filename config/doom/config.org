@@ -976,7 +976,11 @@ icon. Then we'll redefine two functions used to generate the modeline.
     '(bar window-number pdf-pages pdf-icon buffer-name)
     '(misc-info matches major-mode process vcs)))
 #+end_src
-
+** Emacs-everywhere
+Make it easier to match with xmonad rule
+#+begin_src emacs-lisp
+(setq emacs-everywhere-frame-name-format "emacs-anywhere")
+#+end_src
 ** Eros-eval
 This makes the result of evals with =gr= and =gR= just slightly prettier. Every bit
 counts right?
