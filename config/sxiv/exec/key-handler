@@ -1,7 +1,7 @@
 #!/usr/bin/env sh
 while read file; do
 	case "$1" in
-	"w") setwall "$file" &;;
+	"w") setwall "$file" & ;;
 	"r")
 		convert -rotate 90 "$file" "$file"
 		;;
