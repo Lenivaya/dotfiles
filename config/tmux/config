@@ -1,10 +1,31 @@
 set-option -g prefix C-a
 
-bind-key r source-file ~/.config/tmux/config \; display-message "tmux config reloaded"
+bind-key r source-file $TMUX_HOME/config \; display-message "tmux config reloaded"
+bind ^r refresh-client
+
+# Zero-based indexing is fine in programming languages, but not so much in a
+# multiplexer when zero is on the other side of the keyboard.
+set  -g base-index 1
+setw -g pane-base-index 1
+# display tmux messages longer
+set  -g display-time 1500
+set  -g display-panes-time 800
+# Address vim-mode switching delay (http://superuser.com/a/252717/65504)
+set  -s escape-time   0
+set -sg repeat-time   600
+set  -g history-limit 10000
+# For terminals that support them, propagate these events to programs that
+# understand them.
+set  -s focus-events on
+# Enable mouse + mouse wheel
+set  -g mouse on
 
 set-option -g status-keys vi
 set-option -g mode-keys vi
 
+# Rather than constraining window size to the maximum size of any client
+# connected to the *session*, constrain window size to the maximum size of any
+# client connected to *that window*. Much more reasonable.
 setw -g aggressive-resize off
 
 bind h resize-pane -L
@@ -37,25 +58,51 @@ bind F7 select-pane -t 7
 bind F8 select-pane -t 8
 bind F9 select-pane -t 9
 
+bind < swap-pane -D
+bind > swap-pane -U
+
 bind c new-window      -c "#{pane_current_path}"
 bind v split-window -h -c "#{pane_current_path}"
 bind s split-window -v -c "#{pane_current_path}"
 bind | select-layout even-horizontal
 bind _ select-layout even-vertical
 
+bind o resize-pane -Z
 bind S choose-session
 bind W choose-window
 bind / choose-session
 bind . choose-window
 
-bind -T copy-mode-vi y send-keys -X copy-pipe-and-cancel 'xclip -in -selection clipboard'
+# Disable confirmation
+bind x kill-pane
+bind X kill-window
+bind q kill-session
+bind Q kill-server
 
-set -g base-index 1
-set -g pane-base-index 1
+# break pane into a window
+bind = select-layout even-vertical
+bind + select-layout even-horizontal
+bind - break-pane
+bind _ join-pane
 
-set -sg escape-time 0
+########################################
+# Copy mode                            #
+########################################
 
-set -sg default-terminal "xterm-256color"
+bind Enter copy-mode # enter copy mode
+bind b list-buffers  # list paster buffers
+bind B choose-buffer # choose which buffer to paste from
+bind p paste-buffer  # paste from the top paste buffer
+bind P run "xclip -selection clipboard -o | tmux load-buffer - ; tmux paste-buffer"
+
+bind -T copy-mode-vi v send-keys -X begin-selection
+bind -T copy-mode-vi C-v send-keys -X rectangle-toggle
+bind -T copy-mode-vi Escape send-keys -X cancel
+bind -T copy-mode-vi C-g send-keys -X cancel
+bind -T copy-mode-vi H send-keys -X start-of-line
+bind -T copy-mode-vi L send-keys -X end-of-line
+
+set -sg default-terminal "screen-256color"
 # Add truecolor support
 set -as terminal-overrides ',xterm*:Tc:sitm=\E[3m'
 
@@ -65,15 +112,12 @@ set -g pane-base-index 1
 set -g message-limit 100
 set -g buffer-limit 10
 
-set -g history-limit 4096
+set -g history-limit 10000
 set -g history-file ~/.local/share/tmux/history
 
 set-option -g terminal-overrides 'xterm*:smcup@:rmcup@'
 
-setw -g aggressive-resize on
-
 set-option -g status-position bottom
-set -g status-bg default
 
 set-option -g status-right ""
 set-option -g status-left ""
@@ -83,15 +127,12 @@ bind t set status
 bind-key -n S-Left previous-window
 bind-key -n S-Right next-window
 
+set -g status-bg black
 setw -g window-status-format "#[fg=colour107] #I #[fg=colour15]#W#[fg=colour195]#F "
 setw -g window-status-current-format "#[fg=colour107,bold] #I:#[fg=colour15,bold]#W#[fg=colour195,bold]#F "
 setw -g window-status-style dim
 
-set -sg escape-time 0
-
 set -sg set-clipboard on
-
-set -sg mouse on
 
 setw -g automatic-rename on # rename window to reflect current program
 set -g renumber-windows on  # renumber windows when a window is closed
@@ -108,16 +149,3 @@ bind C-f command-prompt -p find-session 'switch-client -t %%'
 set -g @continuum-restore 'on'
 
 source $TMUX_HOME/plugins
-
-# All in nixos config instead
-
-# ----- Plugins -----
-
-# # Tmux plugin manager
-# set -g @plugin 'tmux-plugins/tpm'
-# set -g @plugin 'tmux-plugins/tmux-sensible'
-
-# set -g @plugin 'tmux-plugins/tmux-resurrect'
-# set -g @plugin 'tmux-plugins/tmux-continuum'
-
-# run -b '~/.tmux/plugins/tpm/tpm'
