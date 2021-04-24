@@ -657,6 +657,10 @@ This makes it a breeze to take lovely screenshots.
 #+begin_src emacs-lisp
 (package! explain-pause-mode)
 #+end_src
+**** Google-translate
+#+begin_src emacs-lisp
+(package! go-translate)
+#+end_src
 ** Language packages
 *** LaTeX
 For mathematical convenience, WIP
@@ -1035,6 +1039,24 @@ theme.
      "/tmp/doom-color-theme" ))
   (gif-screencast-write-colormap)
   (add-hook 'doom-load-theme-hook #'gif-screencast-write-colormap))
+#+end_src
+** Google-translate
+#+begin_src emacs-lisp
+(use-package! go-translate
+  :defer t
+  :init
+  (setq
+   go-translate-extra-directions '(("en" . "ru") ("ru"  . "en"))
+   go-translate-buffer-follow-p t
+  ;; FIXME https://github.com/lorniu/go-translate/issues/10
+   go-translate-token-current (cons 430675 2721866130)
+   )
+  (map!
+   (:leader
+    (:prefix-map ("o g" . "google")
+     :desc "Open google-translator" "t" #'go-translate)
+    ))
+  )
 #+end_src
 ** Imenu
 #+begin_src emacs-lisp
