@@ -35,6 +35,7 @@ addNETSupported x = withDisplay $ \d -> do
     when (fromIntegral x `notElem` p)
       $ changeProperty32 d r n a propModeAppend [fromIntegral x]
 
+-- TODO replace this with ewmhFullscreen when new version of xmonad-contrib arrives
 addEWMHFullscreen :: X ()
 addEWMHFullscreen = do
   s <- mapM getAtom atomsToFullscreen
@@ -67,6 +68,5 @@ startupHook = do
   spawnXmobar
   docksStartupHook
   addEWMHFullscreen
-  -- spawnOnce "xsetroot -cursor_name left_ptr"
   spawn "betterlockscreen -w"
   setWMName "xmonad"
