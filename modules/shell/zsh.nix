@@ -96,6 +96,11 @@ in
       recursive = true;
     };
 
+    home.configFile."bat" = {
+      source = "${configDir}/bat";
+      recursive = true;
+    };
+
     env = {
       ZDOTDIR = "$XDG_CONFIG_HOME/zsh";
       ZSH_CACHE = "$XDG_CACHE_HOME/zsh";
