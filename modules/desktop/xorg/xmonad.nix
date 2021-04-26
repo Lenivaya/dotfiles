@@ -40,6 +40,7 @@ in
     ];
     fonts.fonts = with pkgs; [
       siji # some nice icons
+      font-awesome # even more nice icons
       weather-icons # for weather script
     ];
 
