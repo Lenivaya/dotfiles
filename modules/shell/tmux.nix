@@ -8,7 +8,7 @@ let
   tmuxPackage = with pkgs; (
     writeScriptBin "tmux" ''
       #!${stdenv.shell}
-      ${tmux}/bin/tmux -f "$TMUX_HOME/config" "$@"
+      exec ${tmux}/bin/tmux -f "$TMUX_HOME/config" "$@"
     '');
   tmuxDesktopItem = with pkgs;
     makeDesktopItem {
@@ -40,7 +40,7 @@ in {
 
     ## Automatic start
     systemd.user.services.tmux = {
-      unitConfig = { Description = "tmux default session"; };
+      description = "tmux default session";
       after = [ "graphical-session-pre.target" ];
       partOf = [ "graphical-session.target" ];
       wantedBy = [ "graphical-session.target" ];
@@ -62,11 +62,10 @@ in {
 
       serviceConfig = {
         Type = "forking";
-        KillMode = "control-group";
-        RestartSec = 2;
+        KillMode = "none";
+        Restart = "on-failure";
       };
     };
 
   };
-
 }
