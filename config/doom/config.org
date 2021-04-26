@@ -295,7 +295,7 @@ upload                       ; map local to remote projects via ssh/ftp
 #+name: doom-os
 #+begin_src emacs-lisp
 (:if IS-MAC macos)  ; improve compatibility with macOS
-tty                          ; improve the terminal Emacs experience
+(tty +osc)                          ; improve the terminal Emacs experience
 #+end_src
 **** Language support
 #+name: doom-lang
