@@ -88,7 +88,7 @@
   };
 
   zramSwap = {
-    # algorithm = lib.mkForce "lz4";
+    algorithm = lib.mkForce "lz4";
     memoryPercent = lib.mkForce 50;
   };
 
