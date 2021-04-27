@@ -25,7 +25,7 @@ import           XMonad.Actions.GridSelect
 import           XMonad.Actions.MessageFeedback
 import           XMonad.Actions.Minimize
 import           XMonad.Actions.Navigation2D
-import           XMonad.Actions.Promote
+import           XMonad.Actions.DwmPromote
 import           XMonad.Actions.UpdatePointer
 import           XMonad.Actions.WindowGo
 import           XMonad.Actions.WindowMenu
@@ -213,7 +213,7 @@ keysWindows _ =
     , ("M-w S-t", withFocused $ sendMessage . UnMerge)
     , ("M-w u"  , focusUrgent)
     , ("M-w m"  , windows S.focusMaster)
-    , ("M-w S-m", promote)
+    , ("M-w S-m", dwmpromote)
     , ("M-'"    , onGroup S.focusDown')
     , ("M-;"    , onGroup S.focusUp')
     , ("M-S-'"  , windows S.swapDown)
