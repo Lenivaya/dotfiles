@@ -18,7 +18,10 @@
       browsers = {
         default = "firefox";
         firefox.enable = true;
-        chromium.enable = true;
+        chromium = {
+          enable = true;
+          ungoogled = true;
+        };
       };
 
       term = {
