@@ -26,7 +26,7 @@ in
 
     home-manager.users.${config.user.name}.programs.firefox = {
       enable = true;
-      package = pkgs.firefox-bin;
+      package = pkgs.unstable.firefox-bin;
 
       profiles.default = {
         settings = {

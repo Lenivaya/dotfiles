@@ -37,7 +37,7 @@ in
         (wrapWithFlags
           (
             (if cfg.ungoogled then
-              chromium.override { ungoogled = true; }
+              unstable.ungoogled-chromium
             else
               chromium)
           )
