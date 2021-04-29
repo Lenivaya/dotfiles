@@ -851,7 +851,7 @@ I want avy to jump though windows and auto-jump when theres 1 candidate
 #+begin_src emacs-lisp
 (use-package! circadian
   :config
-  (setq circadian-themes '(("8:00" . doom-tomorrow-night)
+  (setq circadian-themes '(("8:00" . doom-gruvbox-light)
                            ("20:30" . doom-tomorrow-night)))
   (circadian-setup)
 )
