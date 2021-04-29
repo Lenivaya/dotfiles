@@ -9,7 +9,8 @@ let
     writeScriptBin "tmux" ''
       #!${stdenv.shell}
       exec ${tmux}/bin/tmux -f "$TMUX_HOME/config" "$@"
-    '');
+    ''
+  );
   tmuxDesktopItem = with pkgs;
     makeDesktopItem {
       name = "tmux";
@@ -17,7 +18,8 @@ let
       exec = "${config.modules.desktop.term.default} -e tmux";
       categories = "System";
     };
-in {
+in
+{
   config = {
     user.packages = [ tmuxPackage (tmuxDesktopItem) ];
 
