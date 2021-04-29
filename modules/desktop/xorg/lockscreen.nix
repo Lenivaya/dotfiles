@@ -12,13 +12,29 @@ with lib.my; {
     description = "General-purpose replacement for xautolock.";
     wantedBy = [ "graphical-session.target" ];
     partOf = [ "graphical-session.target" ];
+
+    path =
+      let
+        locker = with pkgs;
+          (writeScriptBin "locker" ''
+            #!${stdenv.shell}
+            ${pkgs.betterlockscreen}/bin/betterlockscreen -l dim
+          '');
+      in
+      [ locker ];
+
+    environment = {
+      XIDLEHOOK_SOCK = "%t/xidlehook.socket";
+    };
+
     serviceConfig = {
       ExecStart = ''
         ${pkgs.xidlehook}/bin/xidlehook \
+          --detect-sleep \
           --not-when-fullscreen \
           --not-when-audio \
-          --timer 300 "${pkgs.betterlockscreen}/bin/betterlockscreen -l dim" \
-          ""
+          --socket "$XIDLEHOOK_SOCK" \
+          --timer 300 locker ""
       '';
       Restart = "always";
       RestartSec = 2;
