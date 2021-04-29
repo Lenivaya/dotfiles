@@ -64,6 +64,7 @@ in
       "--enable-gpu-rasterization"
       "--enable-native-gpu-memory-buffers"
       "--enable-zero-copy"
+      "--enable-features=VaapiVideoDecoder"
     ];
 
   };
