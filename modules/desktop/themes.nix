@@ -23,22 +23,16 @@ with lib.my; {
           * { outline: none; }
         '';
       };
-
     };
-  };
 
-  # qt5 = {
-  #   enable = true;
-  #   platformTheme = "gnome";
-  #   style = "adwaita";
-  # };
-
-  # Try really hard to get QT to respect my GTK theme.
-  env.GTK_DATA_PREFIX = [ "${config.system.path}" ];
-  env.QT_QPA_PLATFORMTHEME = "gtk2";
-  qt5 = {
-    style = "gtk2";
-    platformTheme = "gtk2";
+    qt = {
+      enable = true;
+      platformTheme = "gnome";
+      style = {
+        package = pkgs.adwaita-qt;
+        name = "adwaita";
+      };
+    };
   };
 
   services.xserver.displayManager.sessionCommands = ''
