@@ -13,16 +13,6 @@ with lib.my; {
     wantedBy = [ "graphical-session.target" ];
     partOf = [ "graphical-session.target" ];
 
-    path =
-      let
-        locker = with pkgs;
-          (writeScriptBin "locker" ''
-            #!${stdenv.shell}
-            ${pkgs.betterlockscreen}/bin/betterlockscreen -l dim
-          '');
-      in
-      [ locker ];
-
     environment = {
       XIDLEHOOK_SOCK = "%t/xidlehook.socket";
     };
@@ -34,10 +24,9 @@ with lib.my; {
           --not-when-fullscreen \
           --not-when-audio \
           --socket "$XIDLEHOOK_SOCK" \
-          --timer 300 locker ""
+          --timer 300 "${pkgs.betterlockscreen}/bin/betterlockscreen -l dim" ""
       '';
       Restart = "always";
-      RestartSec = 2;
     };
   };
 }
