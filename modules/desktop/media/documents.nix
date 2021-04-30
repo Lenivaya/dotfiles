@@ -16,6 +16,7 @@ in
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
       (mkIf cfg.ebook.enable calibre)
+      (mkIf cfg.ebook.enable foliate)
       (mkIf cfg.pdf.enable evince)
       zathura
       libreoffice-fresh

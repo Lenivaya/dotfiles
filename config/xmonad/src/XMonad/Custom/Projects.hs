@@ -44,7 +44,8 @@ projects =
             }
   , Project { projectName      = wsread
             , projectDirectory = "~/"
-            , projectStartHook = Just $ spawnOn wsread (C.reader C.applications)
+            , projectStartHook = Just $ selectReaderByName promptTheme
+              -- spawnOn wsread (C.reader C.applications)
             }
   , Project
     { projectName      = sys
@@ -65,15 +66,12 @@ projects =
 
 --------------------------------------------------------------------------------
 
--- | A data type for the @XPrompt@ class.
+-- | Use @Prompt@ to choose a browser which then will be runned on WWW.
 data BrowserByName = BrowserByName
 
 instance XPrompt BrowserByName where
   showXPrompt BrowserByName = "Browser: "
 
---------------------------------------------------------------------------------
-
--- | Use @Prompt@ to choose a browser which then will be runned on WWW.
 selectBrowserByName :: XPConfig -> X ()
 selectBrowserByName conf = mkXPrompt BrowserByName
                                      conf
@@ -88,3 +86,24 @@ selectBrowserByName conf = mkXPrompt BrowserByName
   browserNames :: [(String, String)]
   browserNames =
     [("Firefox", "firefox"), ("Chromium", "chromium"), ("Brave", "brave")]
+
+
+-- | Use @Prompt@ to choose a reader which then will be runned on Read workspace.
+data ReaderByName = ReaderByName
+
+instance XPrompt ReaderByName where
+  showXPrompt ReaderByName = "Reader: "
+
+selectReaderByName :: XPConfig -> X ()
+selectReaderByName conf = mkXPrompt ReaderByName
+                                     conf
+                                     (aListCompFunc conf readerNames)
+                                     go
+ where
+  go :: String -> X ()
+  go selected = case lookup selected readerNames of
+    Nothing      -> return ()
+    Just reader -> spawnOn wsread reader
+
+  readerNames :: [(String, String)]
+  readerNames = [("Zathura", "zathura"), ("Foliate", "foliate")]
