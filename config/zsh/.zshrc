@@ -38,6 +38,7 @@ zinit light-mode for \
 
 zinit wait"0a" lucid for \
         zpm-zsh/colors \
+        softmoth/zsh-vim-mode \
 
 zinit wait"0b" lucid light-mode for \
     pick'autopair.zsh' nocompletions \
@@ -89,9 +90,6 @@ zinit wait"0c" lucid light-mode for \
         thetic/extract \
         atinit='ZSH_BASH_COMPLETIONS_FALLBACK_LAZYLOAD_DISABLE=true' \
             3v1n0/zsh-bash-completions-fallback
-
-zinit ice depth=1
-zinit light jeffreytse/zsh-vi-mode
 
 source $XDG_CONFIG_HOME/zsh/br
 
