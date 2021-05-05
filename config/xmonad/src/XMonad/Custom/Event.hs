@@ -21,9 +21,9 @@ myPred = refocusingIsActive <||> isFloat
 
 handleEventHook :: Event -> X All
 handleEventHook = mconcat
-  [ dynamicTitle manageHook
-  , docksEventHook
-  , fullscreenEventHook
+  [ docksEventHook
   , nspTrackHook scratchpads
+  , fullscreenEventHook
   , refocusLastWhen myPred
+  , dynamicTitle manageHook
   ]
