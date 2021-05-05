@@ -507,7 +507,9 @@ straightforward, I'll just redefine it to a simpler, async, function.
   :override #'+literate-tangle-h
   (let ((default-directory doom-private-dir))
     (async-shell-command
-     (format "emacs --batch --eval \"(progn (require 'org) (setq org-confirm-babel-evaluate nil) (org-babel-tangle-file \\\"%s\\\"))\""
+     (format "emacs --batch --eval \"(progn \
+(require 'org) (setq org-confirm-babel-evaluate nil) \
+(org-babel-tangle-file \\\"%s\\\"))\""
              +literate-config-file))))
 #+end_src
 ** Other Things
@@ -851,7 +853,7 @@ I want avy to jump though windows and auto-jump when theres 1 candidate
 #+begin_src emacs-lisp
 (use-package! circadian
   :config
-  (setq circadian-themes '(("8:00" . doom-gruvbox-light)
+  (setq circadian-themes '(("8:00" . doom-tomorrow-night)
                            ("20:30" . doom-tomorrow-night)))
   (circadian-setup)
 )
@@ -1164,11 +1166,35 @@ it, either by command or in a capture template.
   )
 #+end_src
 ** Spray
-Let's make this suit me slightly better.
+It would be nice if Spray's default speed suited me better, and the keybindings
+worked in evil mode. Let's do that and make the display slightly nicer while
+we're at it.
+
 #+begin_src emacs-lisp
-(setq spray-wpm 500
-      spray-height 700)
+(use-package! spray
+  :commands spray-mode
+  :config
+  (setq spray-wpm 600
+        spray-height 800)
+  (defun spray-mode-hide-cursor ()
+    "Hide or unhide the cursor as is appropriate."
+    (if spray-mode
+        (setq-local spray--last-evil-cursor-state evil-normal-state-cursor
+                    evil-normal-state-cursor '(nil))
+      (setq-local evil-normal-state-cursor spray--last-evil-cursor-state)))
+  (add-hook 'spray-mode-hook #'spray-mode-hide-cursor)
+  (map! :map spray-mode-map
+        "<return>" #'spray-start/stop
+        "f" #'spray-faster
+        "s" #'spray-slower
+        "t" #'spray-time
+        "<right>" #'spray-forward-word
+        "h" #'spray-forward-word
+        "<left>" #'spray-backward-word
+        "l" #'spray-backward-word
+        "q" #'spray-quit))
 #+end_src
+
 ** Which-key
 Let's make this popup a bit faster
 #+begin_src emacs-lisp
@@ -1503,8 +1529,7 @@ Some simple settings
       org-list-allow-alphabetical t               ; have a. A. a) A) list bullets
       org-export-in-background t                  ; run export processes in external emacs process
       org-catch-invisible-edits 'smart            ; try not to accidently do weird stuff in invisible regions
-      org-export-with-sub-superscripts '{}        ; don't treat lone _ / ^ as sub/superscripts, require _{} / ^{}
-      org-re-reveal-root "https://cdn.jsdelivr.net/npm/reveal.js"
+      org-export-with-sub-superscripts '{}       ; don't treat lone _ / ^ as sub/superscripts, require _{} / ^{}
 )
 #+end_src
 
@@ -1555,12 +1580,42 @@ I think it makes sense to have list bullets change with depth
 (setq org-list-demote-modify-bullet '(("+" . "-") ("-" . "+") ("*" . "+") ("1." . "a.")))
 #+end_src
 ***** Citation
-Occasionally I want to cite something.
+Occasionally I want to cite something, and =org-ref= is /the/ package for that.
+
+Unfortunately, it ignores the ~file = {...}~ =.bib= keys though. Let's fix that.
+I separate files on =;=, which may just be a Zotero/BetterBibLaTeX thing, but it's
+a good idea in my case at least.
+
 #+begin_src emacs-lisp
 (use-package! org-ref
   :after org
   :config
-  (setq org-ref-completion-library 'org-ref-ivy-cite))
+  (setq org-ref-completion-library 'org-ref-ivy-cite)
+  (defadvice! org-ref-open-bibtex-pdf-a ()
+    :override #'org-ref-open-bibtex-pdf
+    (save-excursion
+      (bibtex-beginning-of-entry)
+      (let* ((bibtex-expand-strings t)
+             (entry (bibtex-parse-entry t))
+             (key (reftex-get-bib-field "=key=" entry))
+             (pdf (or
+                   (car (-filter (lambda (f) (string-match-p "\\.pdf$" f))
+                                 (split-string (reftex-get-bib-field "file" entry) ";")))
+                   (funcall org-ref-get-pdf-filename-function key))))
+        (if (file-exists-p pdf)
+            (org-open-file pdf)
+          (ding)))))
+  (defadvice! org-ref-open-pdf-at-point-a ()
+    "Open the pdf for bibtex key under point if it exists."
+    :override #'org-ref-open-pdf-at-point
+    (interactive)
+    (let* ((results (org-ref-get-bibtex-key-and-file))
+           (key (car results))
+           (pdf-file (funcall org-ref-get-pdf-filename-function key)))
+      (with-current-buffer (find-file-noselect (cdr results))
+        (save-excursion
+          (bibtex-search-entry (car results))
+          (org-ref-open-bibtex-pdf))))))
 #+end_src
 ***** cdlatex
 It's also nice to be able to use ~cdlatex~.
@@ -2093,7 +2148,7 @@ It's also nice to make use of the Unicode characters for check boxes, and other 
   :date          "#+date:"
   :latex_class   "#+latex_class:"
   :attr_latex    "#+attr_latex:"
-  :attr_html     "#+attr_latex:"
+  :attr_html     "#+attr_html:"
   :begin_quote   "#+begin_quote"
   :end_quote     "#+end_quote"
   :caption       "#+caption:"
@@ -2376,6 +2431,15 @@ information."
             (cdr unicode) latex)))))
 #+end_src
 
+*** Reveal export
+By default reveal is rather nice, there are just a few tweaks that I consider a
+good idea.
+
+#+begin_src emacs-lisp
+(setq org-re-reveal-theme "white"
+      org-re-reveal-transition "slide"
+      org-re-reveal-plugins '(markdown notes math search zoom))
+#+end_src
 ** Plaintext
 It's nice to see ANSI colour codes displayed
 #+begin_src emacs-lisp
@@ -2398,7 +2462,7 @@ Set rust-analyzer as prefered lsp-server.
 (setq rustic-lsp-server 'rust-analyzer)
 #+end_src
 * Functions
-** Org-mode
+** Org
 Export pdf asynchronously
 #+begin_src emacs-lisp
 (defun leniviy/org-save-and-export-pdf ()
