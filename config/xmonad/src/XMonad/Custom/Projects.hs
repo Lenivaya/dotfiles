@@ -3,6 +3,8 @@ module XMonad.Custom.Projects
   , workspaces
   ) where
 
+import Data.Foldable
+
 import           XMonad                  hiding ( workspaces )
 import           XMonad.Actions.DynamicProjects
 import           XMonad.Actions.SpawnOn
@@ -79,9 +81,7 @@ selectBrowserByName conf = mkXPrompt BrowserByName
                                      go
  where
   go :: String -> X ()
-  go selected = case lookup selected browserNames of
-    Nothing      -> return ()
-    Just browser -> spawnOn web browser
+  go selected = forM_ (lookup selected browserNames) (spawnOn web)
 
   browserNames :: [(String, String)]
   browserNames =
@@ -101,9 +101,10 @@ selectReaderByName conf = mkXPrompt ReaderByName
                                      go
  where
   go :: String -> X ()
-  go selected = case lookup selected readerNames of
-    Nothing      -> return ()
-    Just reader -> spawnOn wsread reader
+  go selected = forM_ (lookup selected readerNames) (spawnOn wsread)
+  -- case lookup selected readerNames of
+  --   Nothing      -> return ()
+  --   Just reader -> spawnOn wsread reader
 
   readerNames :: [(String, String)]
-  readerNames = [("Zathura", "zathura"), ("Foliate", "foliate")]
+  readerNames = [("Zathura", "zathura"), ("Foliate", "foliate"), ("Evince", "evince")]
