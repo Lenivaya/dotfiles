@@ -14,6 +14,7 @@ composeActions :: [MaybeManageHook]
 composeActions =
   [ appName =? "emacs-popup" -?> tileBelowNoFocus
   , appName =? "eterm" -?> tileBelow
+  , appName =? "spotify" -?> tileBelowNoFocus
   , className =? "Pinentry" -?> doCenterFloat
   , className =? "Emacs" <&&> title =? "emacs-anywhere" -?> doFullFloat
   , className =? "Steam" <&&> not <$> title =? "Steam" -?> doFloat
