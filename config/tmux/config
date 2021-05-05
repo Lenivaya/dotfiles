@@ -119,7 +119,7 @@ set-option -g terminal-overrides 'xterm*:smcup@:rmcup@'
 
 set-option -g status-position bottom
 
-set-option -g status-right ""
+set-option -g status-right "#{prefix_highlight}"
 set-option -g status-left ""
 
 bind t set status
@@ -145,7 +145,12 @@ set -g -a terminal-overrides ',*:Ss=\E[%p1%d q:Se=\E[2 q' # Cursor shape
 bind C-c new-session
 bind C-f command-prompt -p find-session 'switch-client -t %%'
 
+# Plugins
+source $TMUX_HOME/plugins
+
 # Automatic session restore
+set -g @resurrect-capture-pane-contents 'on'
 set -g @continuum-restore 'on'
 
-source $TMUX_HOME/plugins
+# Prefix highlight
+set -g @prefix_highlight_bg 'colour107' # default is 'colour231'
