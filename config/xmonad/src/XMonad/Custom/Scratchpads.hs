@@ -30,7 +30,7 @@ scratchpads =
        (spawnTerminalWith "NSPVolume" (C.mixer C.applications))
        (className =? "NSPVolume")
        floatingNSP
-  , NS "music" (C.player C.applications) (className =? "Spotify") floatingNSP
+  , NS "music" (C.player C.applications) (className =? "Spotify") nonFloating
   , NS "top"
        (spawnTerminalWith "NSPTop" (C.top C.applications))
        (className =? "NSPTop")
