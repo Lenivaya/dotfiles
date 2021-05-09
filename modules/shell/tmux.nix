@@ -57,14 +57,17 @@ in
         tmux new-session -d -s "main" -n "main"
       '';
       preStop = ''
+        tmux list-sessions | rg -q "main" && tmux kill-session -t main
         ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh
-        tmux kill-server
+        tmux kill-server && pkill tmux
+
       '';
 
       serviceConfig = {
         Type = "forking";
         KillMode = "none";
         Restart = "on-failure";
+        RestartSec = 2;
       };
     };
 
