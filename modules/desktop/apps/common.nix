@@ -21,7 +21,6 @@
       android-file-transfer
       feh
       pandoc # Universal Markup converter
-      unoconv # for converting odt to pdf
       nitrogen
       ps_mem
       pulsemixer
