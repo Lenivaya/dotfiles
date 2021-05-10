@@ -8,6 +8,7 @@ with lib.my; {
     autoRepeatDelay = 200;
     autoRepeatInterval = 50;
     libinput = {
+      scrollMethod = "edge";
       touchpad.disableWhileTyping = true;
       enable = true;
     };
