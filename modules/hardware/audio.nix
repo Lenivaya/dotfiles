@@ -11,5 +11,6 @@ in
     sound.enable = true;
     hardware.pulseaudio.enable = true;
     user.extraGroups = [ "audio" ];
+    user.packages = with pkgs; [ pulseeffects-pw ];
   };
 }
