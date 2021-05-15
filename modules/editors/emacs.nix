@@ -70,7 +70,7 @@ in
     home-manager.users.${config.user.name} = {
       programs.emacs = {
         enable = true;
-        package = pkgs.emacsPgtkGcc; # 28 + pgtk + native-comp
+        package = pkgs.emacsPgtk; # 28 + pgtk + native-comp
         extraPackages = epkgs:
           [
             # :term vterm
