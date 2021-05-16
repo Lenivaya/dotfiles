@@ -10,6 +10,7 @@ data Applications = Applications
   , mixer             :: !String
   , notify            :: !String
   , player            :: !String
+  , soundEffects      :: !String
   , term              :: !String
   , top               :: !String
   , reader            :: !String
@@ -25,6 +26,7 @@ applications = Applications
   , mixer             = "pulsemixer"
   , notify            = "notify-send"
   , player            = "spotify"
+  , soundEffects      = "pulseeffects"
   , term              = "$TERMINAL"
   , top               = "htop"
   , reader            = "zathura"

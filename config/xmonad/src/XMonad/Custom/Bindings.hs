@@ -16,6 +16,7 @@ import           XMonad                  hiding ( keys
                                                 )
 import           XMonad.Actions.CopyWindow
 import           XMonad.Actions.CycleWS
+import           XMonad.Actions.DwmPromote
 import           XMonad.Actions.DynamicProjects
 import           XMonad.Actions.DynamicWorkspaces
 import qualified XMonad.Actions.FlexibleManipulate
@@ -25,7 +26,6 @@ import           XMonad.Actions.GridSelect
 import           XMonad.Actions.MessageFeedback
 import           XMonad.Actions.Minimize
 import           XMonad.Actions.Navigation2D
-import           XMonad.Actions.DwmPromote
 import           XMonad.Actions.UpdatePointer
 import           XMonad.Actions.WindowGo
 import           XMonad.Actions.WindowMenu
@@ -185,13 +185,13 @@ keysSpawnables _ =
   , ("M-S-<Return>", spawn (C.term C.applications ++ " -e tmux"))
   , ("M-o b"       , spawn (C.browser C.applications))
   , ("M-o e"       , raiseEditor)
-  , ("M-o S-e", spawn "emacsclient --eval '(emacs-everywhere)'")
-  ,
     -- Edit some text in emacs
-    ("M-o c", namedScratchpadAction scratchpads "console")
+  , ("M-o S-e", spawn "emacsclient --eval '(emacs-everywhere)'")
+  , ("M-o c", namedScratchpadAction scratchpads "console")
   , ("M-o m"       , namedScratchpadAction scratchpads "music")
   , ("M-o t"       , namedScratchpadAction scratchpads "top")
   , ("M-o v", namedScratchpadAction scratchpads "volume")
+  , ("M-o s", namedScratchpadAction scratchpads "soundEffects")
   ]
 
 keysWindows :: XConfig Layout -> [(String, X ())]
@@ -202,10 +202,9 @@ keysWindows _ =
     , ("M-w g", windowPrompt promptTheme Goto allWindows)
     , ("M-w b", windowPrompt promptTheme Bring allWindows)
     , ("M-w c"  , toggleCopyToAll)
-    , ("M-w S-c", kill1)
-    ,
     -- To remove focused copied window from current workspace
-      ("M-w h"  , withFocused minimizeWindow)
+    , ("M-w S-c", kill1)
+    , ("M-w h"  , withFocused minimizeWindow)
     , ("M-w S-h", withLastMinimized maximizeWindowAndFocus)
     , ("M-w r", tryMessageR_ Rotate (Toggle REFLECTX))
     , ("M-w S-r", sendMessage $ Toggle REFLECTX)
@@ -240,10 +239,9 @@ keysLayout c =
     , sequence_ [withFocused $ windows . S.sink, sendMessage $ Toggle NBFULL]
     )
   , ("M-S-f", withFocused (sendMessage . maximizeRestore))
-  , ("M-C-g", sendMessage $ Toggle GAPS)
-  ,
     -- FIXME Breaks merged tabbed layout
-    ("M-t g", sendMessage ToggleStruts)
+  , ("M-C-g", sendMessage $ Toggle GAPS)
+  , ("M-t g", sendMessage ToggleStruts)
   ]
 
 keysResize :: XConfig Layout -> [(String, X ())]
