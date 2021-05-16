@@ -23,8 +23,6 @@
       pandoc # Universal Markup converter
       nitrogen
       ps_mem
-      pulsemixer
-      pamix
       lm_sensors
       # Appearance
       qt5ct
