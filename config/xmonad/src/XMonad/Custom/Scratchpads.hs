@@ -30,6 +30,10 @@ scratchpads =
        (spawnTerminalWith "NSPVolume" (C.mixer C.applications))
        (className =? "NSPVolume")
        floatingNSP
+  , NS "soundEffects"
+       (C.soundEffects C.applications)
+       (className =? "Pulseeffects")
+       floatingNSP
   , NS "music" (C.player C.applications) (className =? "Spotify") nonFloating
   , NS "top"
        (spawnTerminalWith "NSPTop" (C.top C.applications))
