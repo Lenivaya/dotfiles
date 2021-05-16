@@ -1,0 +1,24 @@
+# reload congiguration
+super + Escape
+    pkill -USR1 -x sxhkd
+
+# screencasting
+super + Print
+    scrrec -s ~/recordings/$(date +%F-%T).mp4
+
+super + ctrl + Print
+    scrrec -s ~/recordings/$(date +%F-%T).gif
+
+# launch apps with super + <shift> keypad
+super + KP_Left
+    alacritty -e ranger
+
+super + shift + KP_Left
+    alacritty -e nnn
+
+super + KP_Home
+    alacritty -e tmux
+
+# media keys
+XF86Audio{LowerVolume,RaiseVolume,Mute}
+    volumedunst {down,up,mute}
