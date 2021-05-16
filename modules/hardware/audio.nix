@@ -9,8 +9,22 @@ in
 
   config = mkIf cfg.enable {
     sound.enable = true;
-    hardware.pulseaudio.enable = true;
+    security.rtkit.enable = true;
     user.extraGroups = [ "audio" ];
-    user.packages = with pkgs; [ pulseeffects-pw ];
+
+    # hardware.pulseaudio.enable = true;
+    services.pipewire = {
+      enable = true;
+      alsa.enable = true;
+      alsa.support32Bit = true;
+      pulse.enable = true;
+      jack.enable = true;
+    };
+
+    user.packages = with pkgs;
+      [ pulseeffects-pw pulsemixer pamix pulseaudio pavucontrol ]
+      ++ [ carla ] # JACK utilities
+      ++ [ lsp-plugins rnnoise-plugin ] # Audio plugins
+    ;
   };
 }
