@@ -858,29 +858,29 @@ I want avy to jump though windows and auto-jump when theres 1 candidate
   (circadian-setup)
 )
 #+end_src
-** Modus themes
-#+begin_src emacs-lisp :tangle packages.el
-(package! modus-themes)
-#+end_src
+# ** Modus themes
+# #+begin_src emacs-lisp :tangle packages.el
+# (package! modus-themes)
+# #+end_src
 
-#+begin_src emacs-lisp
-(use-package modus-themes
-  :config
-  (setq modus-themes-slanted-constructs t
-        modus-themes-bold-constructs t
-        modus-themes-subtle-line-numbers t
-        modus-themes-paren-match 'intense-bold
-        modus-themes-prompts 'subtle-accented
-        modus-themes-completions nil
-        modus-themes-region 'accent-no-extend
-        modus-themes-syntax 'alt-syntax-yellow-comments
-        modus-themes-scale-headings t
-        modus-themes-headings '((t . rainbow))
-        modus-themes-mode-line 'borderless
-        modus-themes-org-blocks 'grayscale
-        )
-  )
-#+end_src
+# #+begin_src emacs-lisp
+# (use-package modus-themes
+#   :config
+#   (setq modus-themes-slanted-constructs t
+#         modus-themes-bold-constructs t
+#         modus-themes-subtle-line-numbers t
+#         modus-themes-paren-match 'intense-bold
+#         modus-themes-prompts 'subtle-accented
+#         modus-themes-completions nil
+#         modus-themes-region 'accent-no-extend
+#         modus-themes-syntax 'alt-syntax-yellow-comments
+#         modus-themes-scale-headings t
+#         modus-themes-headings '((t . rainbow))
+#         modus-themes-mode-line 'borderless
+#         modus-themes-org-blocks 'grayscale
+#         )
+#   )
+# #+end_src
 ** Company
 Some settings
 #+begin_src emacs-lisp
