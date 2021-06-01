@@ -18,7 +18,8 @@ in
       alsa.enable = true;
       alsa.support32Bit = true;
       pulse.enable = true;
-      jack.enable = true;
+      # FIXME that brokes foliate
+      # jack.enable = true;
     };
 
     user.packages = with pkgs;
