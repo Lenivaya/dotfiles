@@ -3,10 +3,10 @@
 
   inputs = {
     # Core dependencies
-    nixpkgs.url = "nixpkgs/nixos-unstable"; # primary nixpkgs
+    nixpkgs.url = "nixpkgs/nixos-21.05"; # primary nixpkgs
     nixpkgs-unstable.url = "nixpkgs/master"; # for packages on the edge
 
-    home-manager.url = "github:rycee/home-manager/master";
+    home-manager.url = "github:rycee/home-manager/release-21.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     agenix.url = "github:ryantm/agenix";
@@ -28,6 +28,10 @@
         import pkgs {
           inherit system;
           config.allowUnfree = true; # forgive me Stallman senpai
+          # FIXME
+          config.permittedInsecurePackages = [
+                "ffmpeg-3.4.8"
+          ];
           overlays = extraOverlays ++ (lib.attrValues self.overlays);
         };
       pkgs = mkPkgs nixpkgs [ self.overlay ];
