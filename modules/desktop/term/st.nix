@@ -14,7 +14,7 @@ in
           [ libX11 libXft libXcursor ] ++ (with pkgs; [ harfbuzz ]);
         src = fetchgit {
           url = "https://github.com/Lenivaya/st";
-          sha256 = "08sf63mwaawsarlzp9gs9nnqvx7nd352knzah43mf0s06xgbhkks";
+          sha256 = "N9q/s3y5243zLzkY9JRrFQF3PIrOEaGvV2Nl5XF1ksg=";
         };
       }))
 
