@@ -85,7 +85,11 @@ selectBrowserByName conf = mkXPrompt BrowserByName
 
   browserNames :: [(String, String)]
   browserNames =
-    [("Firefox", "firefox"), ("Chromium", "chromium"), ("Brave", "brave")]
+    [ ("Firefox"    , "firefox")
+    , ("Chromium"   , "chromium")
+    , ("Brave"      , "brave")
+    , ("Qutebrowser", "qutebrowser")
+    ]
 
 
 -- | Use @Prompt@ to choose a reader which then will be runned on Read workspace.
