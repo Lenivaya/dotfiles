@@ -40,7 +40,7 @@ in
       zstd # for undo-tree compression
       calibre # for calibredb
       python39Packages.pylatexenc # LaTeX parser
-      my.my_cookies # leetcode cookie retriever
+      # my.my_cookies # leetcode cookie retriever
 
       ## Module dependencies
       # :app everywhere
@@ -70,7 +70,7 @@ in
     home-manager.users.${config.user.name} = {
       programs.emacs = {
         enable = true;
-        package = pkgs.emacsPgtk; # 28 + pgtk + native-comp
+        package = pkgs.emacsPgtkGcc; # 28 + pgtk + native-comp
         extraPackages = epkgs:
           [
             # :term vterm

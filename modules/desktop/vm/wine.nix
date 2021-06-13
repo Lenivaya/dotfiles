@@ -7,7 +7,9 @@ in {
   options.modules.desktop.vm.wine.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs;
-      [ (winetricks.override { wine = wineWowPackages.staging; }) ];
+    environment.systemPackages = with pkgs; [
+      wineWowPackages.staging
+      (winetricks.override { wine = wineWowPackages.staging; })
+    ];
   };
 }
