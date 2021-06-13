@@ -472,8 +472,7 @@ Smooth scrolling in emacs
 #+begin_src emacs-lisp
 (use-package! good-scroll
   :config
-  ;; FIXME on 28
-  ;; (good-scroll-mode)
+  (good-scroll-mode)
 )
 #+end_src
 
