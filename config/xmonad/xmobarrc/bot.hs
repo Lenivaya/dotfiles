@@ -42,6 +42,7 @@ Config
           10,
         Run Wireless "wlp3s0" ["-t", "<fn=1>\57775</fn><essid> @ <quality>%"] 10,
         Run DynNetwork ["-t", "<fn=1>\57660</fn><rx> / <fn=1>\57659</fn><tx> kbps"] 10,
+        -- Run Brightness ["-t", "<bar>"] 60
         Run
           Kbd
           [ ("us", "<fn=1>\57967</fn>English"),
@@ -65,7 +66,7 @@ Config
             "#a19782"
           ]
           1,
-        Run ComX "player" [] " " "player" 3
+        Run ComX "player" [] "" "player" 10
       ],
     sepChar = "%",
     alignSep = "}{",
