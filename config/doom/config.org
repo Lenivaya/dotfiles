@@ -429,6 +429,7 @@ Prevents some cases of Emacs flickering
 I really don't like some ligatures so disabling them here.
 #+begin_src emacs-lisp
 (plist-put! +ligatures-extra-symbols
+  :int           nil
   :name          nil
   :composition   nil
   :map           nil
