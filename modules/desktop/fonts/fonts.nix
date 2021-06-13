@@ -19,6 +19,7 @@ in
         noto-fonts
         ubuntu_font_family
         corefonts
+        merriweather
       ];
 
       fontconfig = {
