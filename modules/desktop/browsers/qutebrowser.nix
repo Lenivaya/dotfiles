@@ -16,7 +16,7 @@ in {
     enable = mkBoolOpt false;
     userStyles = mkOpt lines "";
     extraConfig = mkOpt lines "";
-    dicts = mkOpt (listOf str) [ "en-US" ];
+    dicts = mkOpt (listOf str) [ "en-US" "ru-RU" ];
   };
 
   config = mkIf cfg.enable {
