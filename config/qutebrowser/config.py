@@ -13,6 +13,18 @@
 # Change the argument to True to still load settings configured via autoconfig.yml
 config.load_autoconfig(False)
 
+## Adblocking
+# Use (superior) Brave adblock if available, or fall back to host blocking
+c.content.blocking.method = "auto"
+c.content.blocking.hosts.lists = [
+    'https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts',
+    'https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&mimetype=plaintext'
+    # 'https://www.malwaredomainlist.com/hostslist/hosts.txt',
+    # 'http://someonewhocares.org/hosts/hosts',
+    # 'http://winhelp2002.mvps.org/hosts.zip',
+    # 'http://malwaredomains.lehigh.edu/files/justdomains.zip',
+]
+
 # Require a confirmation before quitting the application.
 # Type: ConfirmQuit
 # Valid values:
