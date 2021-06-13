@@ -1364,6 +1364,8 @@ Then, to actually read the ebooks we use =nov=.
 #+begin_src emacs-lisp
 (use-package! nov
   :mode ("\\.epub\\'" . nov-mode)
+  :hook (nov-mode . visual-line-mode)
+  :hook (nov-mode . visual-fill-column-mode)
   :config
   (map! :map nov-mode-map
         :n "RET" #'nov-scroll-up)
@@ -1383,8 +1385,6 @@ Then, to actually read the ebooks we use =nov=.
               (length nov-documents))
       'face 'doom-modeline-info)))
 
-  (advice-add 'nov-render-title :override #'ignore)
-
   (defun +nov-mode-setup ()
     (face-remap-add-relative 'variable-pitch
                              :family "Merriweather"
@@ -1396,9 +1396,8 @@ Then, to actually read the ebooks we use =nov=.
                 shr-use-colors nil)
     (require 'visual-fill-column nil t)
     (setq-local visual-fill-column-center-text t
-                visual-fill-column-width 80
-                nov-text-width 80)
-    (visual-fill-column-mode 1)
+                visual-fill-column-width 100
+                nov-text-width 100)
     (hl-line-mode -1)
 
     (add-to-list '+lookup-definition-functions #'+lookup/dictionary-definition)
