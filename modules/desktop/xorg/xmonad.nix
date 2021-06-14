@@ -8,7 +8,7 @@ in
 
   options.modules.desktop.xmonad = {
     enable = mkBoolOpt false;
-    withKde = mkBoolOpt false;
+    # withKde = mkBoolOpt false;
   };
 
   config = mkIf cfg.enable {
