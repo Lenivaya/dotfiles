@@ -22,8 +22,8 @@ Config
     borderWidth = 1,
     iconRoot = ".",
     commands =
-      [ Run StdinReader,
-        Run
+        [ Run StdinReader,
+          Run
           Battery
           [ "-t",
             "<fn=1><acstatus></fn><left>%",
@@ -42,12 +42,11 @@ Config
           10,
         Run Wireless "wlp3s0" ["-t", "<fn=1>\57775</fn><essid> @ <quality>%"] 10,
         Run DynNetwork ["-t", "<fn=1>\57660</fn><rx> / <fn=1>\57659</fn><tx> kbps"] 10,
-        -- Run Brightness ["-t", "<bar>"] 60
         Run
           Kbd
           [ ("us", "<fn=1>\57967</fn>English"),
-            ("ru", "<fn=1>\57967</fn>Russian"),
-            ("ua", "<fn=1>\57967</fn>Ukrainian")
+            ("ru", "<fn=1>\57967</fn>Русский"),
+            ("ua", "<fn=1>\57967</fn>Українська")
           ],
         Run
           Volume
@@ -65,17 +64,17 @@ Config
             "--offc",
             "#a19782"
           ]
-          1,
+          10,
         Run ComX "player" [] "" "player" 10
       ],
     sepChar = "%",
     alignSep = "}{",
     template =
       " \
-      \%battery%   %wlp3s0wi%   %dynnetwork%  %StdinReader%\
+      \%battery%   %wlp3s0wi%   %dynnetwork%   %StdinReader%\
       \}\
-      \\
+      \%player%\
       \{\
-      \%player%  /  %kbd%   %default:Master%\
+      \%kbd%   %default:Master%\
       \ "
   }
