@@ -27,12 +27,8 @@ with lib.my; {
   services.dbus.packages = with pkgs; [ gnome3.dconf ];
   programs.dconf.enable = true;
 
-  home.configFile."sxhkd/sxhkdrc" = {
-    source = "${configDir}/sxhkd";
-    recursive = true;
-  };
   services.xserver.displayManager.sessionCommands = ''
-    ${pkgs.sxhkd}/bin/sxhkd &
+    ${pkgs.sxhkd}/bin/sxhkd -c ${configDir}/sxhkd/sxhkdrc &
   '';
 
   # Clean up leftovers, as much as we can
