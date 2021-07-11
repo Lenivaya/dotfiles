@@ -37,7 +37,7 @@ in
         (wrapWithFlags
           (
             (if cfg.ungoogled then
-              unstable.ungoogled-chromium
+              ungoogled-chromium
             else
               chromium)
           )
