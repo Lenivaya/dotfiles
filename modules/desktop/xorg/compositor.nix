@@ -5,7 +5,7 @@
     enable = true;
     backend = "glx";
     vSync = true;
-    # experimentalBackends = true;
+    experimentalBackends = true;
 
     activeOpacity = "1.0";
     inactiveOpacity = "0.92";
