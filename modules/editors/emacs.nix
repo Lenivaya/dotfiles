@@ -12,8 +12,7 @@ let
       exec emacsclient --alternate-editor emacs "$@"
     fi
   '';
-in
-{
+in {
   options.modules.editors.emacs = {
     enable = mkBoolOpt false;
     default = mkBoolOpt false;
@@ -59,8 +58,11 @@ in
       # :lang latex & :lang org (latex previews)
       texlab
       texlive.combined.scheme-full # FULL
+      rubber
       # :term vterm
       libtool
+      # wakatime
+      wakatime
     ];
 
     env.PATH = [ "$HOME/.emacs.d/bin" ];
@@ -70,7 +72,8 @@ in
     home-manager.users.${config.user.name} = {
       programs.emacs = {
         enable = true;
-        package = pkgs.emacsPgtkGcc; # 28 + pgtk + native-comp
+        package = pkgs.emacsGcc; # 28 + native-comp
+        # pkgs.emacPgtksGcc; # 28 + pgtk + native-comp
         extraPackages = epkgs:
           [
             # :term vterm
