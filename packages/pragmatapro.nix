@@ -2,24 +2,24 @@
 
 stdenv.mkDerivation rec {
   name = "PragmataPro${version}";
-  version = "0.828";
+  version = "0.829";
   buildInputs = [ unzip ];
 
   src = requireFile {
     url = "file://path/to/${name}.zip";
-    sha256 = "07ppcdmc2xrgbpz6m3mic70272jm7cwml70wcq7k08l198mlcjbh";
+    sha256 = "1c9j3s09md4qpw2i9083qr102nmmfkpjcpis5d71hv22a4ayjh1i";
   };
 
-  configurePhase = ''
-    install_path=$out/share/fonts/truetype/pragmatapro
-    mkdir -p $install_path
-  '';
-
-  buildPhase = ''
-    unzip $src
-  '';
+  # Work around the "unpacker appears to have produced no directories"
+  # case that happens when the archive doesn't have a subdirectory.
+  setSourceRoot = "sourceRoot=`pwd`";
 
   installPhase = ''
+    # unzip $src
+
+    install_path=$out/share/fonts/truetype/pragmatapro
+    mkdir -p $install_path
+
     find -name "PragmataPro*.ttf" -exec mv {} $install_path \;
   '';
 
