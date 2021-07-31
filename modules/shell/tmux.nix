@@ -3,14 +3,6 @@
 with lib;
 with lib.my;
 let
-  # The developer of tmux chooses not to add XDG support for religious
-  # reasons (see tmux/tmux#142). Fortunately, nix makes this easy:
-  tmuxPackage = with pkgs; (
-    writeScriptBin "tmux" ''
-      #!${stdenv.shell}
-      exec ${tmux}/bin/tmux -f "$TMUX_HOME/config" "$@"
-    ''
-  );
   tmuxDesktopItem = with pkgs;
     makeDesktopItem {
       name = "tmux";
@@ -21,7 +13,7 @@ let
 in
 {
   config = {
-    user.packages = [ tmuxPackage (tmuxDesktopItem) ];
+    user.packages = with pkgs; [ tmux (tmuxDesktopItem) ];
 
     env.TMUX_HOME = "$XDG_CONFIG_HOME/tmux";
 
@@ -47,7 +39,7 @@ in
       partOf = [ "graphical-session.target" ];
       wantedBy = [ "graphical-session.target" ];
 
-      path = [ tmuxPackage pkgs.ripgrep ];
+      path = [ tmux pkgs.ripgrep ];
       environment = {
         DISPLAY = "0";
         TMUX_HOME = "/home/${config.user.name}/.config/tmux";
