@@ -663,6 +663,14 @@ This makes it a breeze to take lovely screenshots.
 #+begin_src emacs-lisp
 (package! go-translate)
 #+end_src
+**** Timesheet
+#+begin_src emacs-lisp
+(package! timesheet)
+#+end_src
+**** Wakatime
+#+begin_src emacs-lisp
+(package! wakatime-mode)
+#+end_src
 ** Language packages
 *** LaTeX
 For mathematical convenience, WIP
@@ -1121,15 +1129,15 @@ is using Hydra.
 ** Leetcode
 It's nice to have leetcode in emacs
 #+begin_src emacs-lisp :tangle packages.el
-(package! leetcode)
+;; (package! leetcode)
 #+end_src
 #+begin_src emacs-lisp
-(use-package! leetcode
-  :config
-  (setq leetcode-save-solutions t
-        leetcode-directory "~/code/practice/leetcode"
-        leetcode-prefer-sql "sqlite3")
-  )
+;; (use-package! leetcode
+;;   :config
+;;   (setq leetcode-save-solutions t
+;;         leetcode-directory "~/code/practice/leetcode"
+;;         leetcode-prefer-sql "sqlite3")
+;;   )
 #+end_src
 ** Kdeconnect
 #+begin_src emacs-lisp
@@ -1290,6 +1298,10 @@ tweaks. Namely:
                 (when +zen--original-org-indent-mode-p (org-indent-mode 1))
                 ;; (unless +zen--original-org-pretty-table-mode-p (org-pretty-table-mode -1))
                 ))))
+#+end_src
+** Wakatime
+#+begin_src emacs-lisp
+(use-package! wakatime-mode)
 #+end_src
 ** YASnippet
 Nested snippets are good, enable that.
