@@ -23,11 +23,11 @@ in
         recursive = true;
       };
       "tmux/plugins".text = ''
-        run-shell ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/resurrect.tmux
         run-shell ${pkgs.tmuxPlugins.prefix-highlight}/share/tmux-plugins/prefix-highlight/prefix_highlight.tmux
         run-shell ${pkgs.tmuxPlugins.copycat}/share/tmux-plugins/copycat/copycat.tmux
         run-shell ${pkgs.tmuxPlugins.yank}/share/tmux-plugins/yank/yank.tmux
         run-shell ${pkgs.tmuxPlugins.sensible}/share/tmux-plugins/sensible/sensible.tmux
+        run-shell ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/resurrect.tmux
         run-shell ${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum/continuum.tmux
       '';
     };
@@ -39,7 +39,7 @@ in
       partOf = [ "graphical-session.target" ];
       wantedBy = [ "graphical-session.target" ];
 
-      path = [ tmux pkgs.ripgrep ];
+      path = with pkgs; [ tmux ripgrep ];
       environment = {
         DISPLAY = "0";
         TMUX_HOME = "/home/${config.user.name}/.config/tmux";
