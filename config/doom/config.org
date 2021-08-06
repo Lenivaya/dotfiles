@@ -73,16 +73,17 @@ First, we'll enter the new window
 (setq evil-vsplit-window-right t
       evil-split-window-below t)
 #+end_src
-Then, we'll pull up ~ivy~
+
+Then, we'll pull up a buffer prompt.
 #+begin_src emacs-lisp
 (defadvice! prompt-for-buffer (&rest _)
   :after '(evil-window-split evil-window-vsplit)
-  (+ivy/switch-buffer))
+  (consult-buffer))
 #+end_src
-Oh, and previews are nice
-#+begin_src emacs-lisp
-(setq +ivy-buffer-preview t)
-#+end_src
+# Oh, and previews are nice
+# #+begin_src emacs-lisp
+# (setq +ivy-buffer-preview t)
+# #+end_src
 
 Window rotation is nice, and can be found under =SPC w r= and =SPC w R=.
 /Layout/ rotation is also nice though. Let's stash this under =SPC w SPC=, inspired
@@ -178,10 +179,11 @@ literate
  +childframe)                ; ... when your children are better than you
 ;;helm                       ; the *other* search engine for love and life
 ;;ido                        ; the other *other* search engine...
-(ivy                         ; a search engine for love and life
- +icons                      ; ... icons are nice
- +childframe                 ; ... when your children are better than you
- +prescient)                 ; ... I know what I want(ed)
+;; (ivy                         ; a search engine for love and life
+;;  +icons                      ; ... icons are nice
+;;  +childframe                 ; ... when your children are better than you
+;;  +prescient)                 ; ... I know what I want(ed)
+(vertico +icons)
 #+end_src
 
 
@@ -1112,20 +1114,20 @@ theme.
 
 (add-hook 'Info-mode-hook #'mixed-pitch-mode)
 #+end_src
-** Ivy
-I prefer search matching to be ordered; it's more precise
-#+begin_src emacs-lisp
-(after! ivy
-  (add-to-list 'ivy-re-builders-alist '(counsel-projectile-find-file . ivy--regex-plus))
-  (setq +ivy-buffer-preview t))
-#+end_src
+# ** Ivy
+# I prefer search matching to be ordered; it's more precise
+# #+begin_src emacs-lisp
+# (after! ivy
+#   (add-to-list 'ivy-re-builders-alist '(counsel-projectile-find-file . ivy--regex-plus))
+#   (setq +ivy-buffer-preview t))
+# #+end_src
 
-While in an ivy mini-buffer =C-o= shows a list of all possible actions one may take.
-By default this is ~#'ivy-read-action-by-key~ however a better interface to this
-is using Hydra.
-#+begin_src emacs-lisp
-(setq ivy-read-action-function #'ivy-hydra-read-action)
-#+end_src
+# While in an ivy mini-buffer =C-o= shows a list of all possible actions one may take.
+# By default this is ~#'ivy-read-action-by-key~ however a better interface to this
+# is using Hydra.
+# #+begin_src emacs-lisp
+# (setq ivy-read-action-function #'ivy-hydra-read-action)
+# #+end_src
 ** Leetcode
 It's nice to have leetcode in emacs
 #+begin_src emacs-lisp :tangle packages.el
@@ -1640,7 +1642,6 @@ a good idea in my case at least.
 (use-package! org-ref
   :after org
   :config
-  (setq org-ref-completion-library 'org-ref-ivy-cite)
   (defadvice! org-ref-open-bibtex-pdf-a ()
     :override #'org-ref-open-bibtex-pdf
     (save-excursion
@@ -1856,7 +1857,7 @@ or no selection is made: nil is returned."
                                       (propertize "(default)" 'face 'font-lock-doc-face)))
                       value))
                   values))
-    (let ((selection (ivy-read question values :preselect default-value)))
+    (let ((selection (consult--read question values :default default-value)))
       (unless (or (string-match-p "(default)$" selection)
                   (string= "" selection))
         selection))))
@@ -2477,7 +2478,7 @@ information."
              (unicode (and (eq (plist-get info :ascii-charset) 'utf-8)
                            org-ascii-convert-latex
                              (doom-call-process "latex2text" "-q" "--code" latex))))
-        (if (= (car unicode) 0) ; utf-8 set, and sucessfully ran latex2text
+        (if (and unicode (= (car unicode) 0)) ; utf-8 set, and sucessfully ran latex2text
             (cdr unicode) latex)))))
 #+end_src
 
