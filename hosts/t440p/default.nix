@@ -80,7 +80,10 @@
 
     hardware = {
       cpu.intel.enable = true;
-      fs.enable = true;
+      fs = {
+        ssd.enable = true;
+        enable = true;
+      };
       audio.enable = true;
       bluetooth.enable = true;
       zram.enable = true;
