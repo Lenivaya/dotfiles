@@ -87,6 +87,7 @@
       audio.enable = true;
       bluetooth.enable = true;
       zram.enable = true;
+      nvidia.enable = true;
     };
 
     hosts.enable = true;
