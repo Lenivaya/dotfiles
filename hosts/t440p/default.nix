@@ -96,7 +96,10 @@
   # Optimize power use
   environment.systemPackages = [ pkgs.acpi ];
   powerManagement.powertop.enable = true;
-
+  networking.useDHCP = false;
+  networking.interfaces.enp0s25.useDHCP = true;
+  networking.interfaces.wlp4s0.useDHCP = true;
+  
   # Kernel
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_lqx;
 }
