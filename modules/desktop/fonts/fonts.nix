@@ -2,8 +2,7 @@
 
 with lib.my;
 let pragmata = config.modules.desktop.fonts.pragmatapro;
-in
-{
+in {
   options.modules.desktop.fonts.pragmatapro.enable = mkBoolOpt false;
 
   config = {
@@ -13,8 +12,7 @@ in
       enableDefaultFonts = true;
       enableGhostscriptFonts = true;
       fonts = with pkgs; [
-        (if pragmata.enable then my.pragmatapro else null)
-        iosevka
+        (if pragmata.enable then my.pragmatapro else iosevka)
         ibm-plex
         noto-fonts
         ubuntu_font_family
