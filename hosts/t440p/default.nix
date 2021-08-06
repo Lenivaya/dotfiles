@@ -95,7 +95,7 @@
     bootsplash = { enable = true; };
   };
 
-  services.xserver = { videoDrivers = [ "modesetting" "nvidia" ]; };
+  # services.xserver = { videoDrivers = [ "modesetting" "nvidia" ]; };
 
   # Optimize power use
   environment.systemPackages = [ pkgs.acpi ];
