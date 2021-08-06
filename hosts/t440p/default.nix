@@ -87,7 +87,7 @@
       audio.enable = true;
       bluetooth.enable = true;
       zram.enable = true;
-      nvidia.enable = true;
+      # nvidia.enable = true;
     };
 
     hosts.enable = true;
@@ -95,7 +95,7 @@
     bootsplash = { enable = true; };
   };
 
-  services.xserver = { videoDrivers = [ "nvidia" ]; };
+  services.xserver = { videoDrivers = [ "modesetting" "nvidia" ]; };
 
   # Optimize power use
   environment.systemPackages = [ pkgs.acpi ];
@@ -103,7 +103,7 @@
   networking.useDHCP = false;
   networking.interfaces.enp0s25.useDHCP = true;
   networking.interfaces.wlp4s0.useDHCP = true;
-  
+
   # Kernel
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_lqx;
 }
