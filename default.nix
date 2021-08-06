@@ -72,13 +72,4 @@ with lib.my; {
     gnumake
     unzip
   ];
-
-  /* Prevent Nix from hogging entire system. */
-  systemd.services.nix-daemon.serviceConfig.Slice = "user-nixbld.slice";
-  systemd.slices.user-nixbld.sliceConfig = {
-    # 200 * 12 / config.nix.maxJobs / 2
-    CPUWeight = toString (200 * 12 / (config.nix.maxJobs * 2));
-    # config.nix.maxJobs / 12 / 2 * 1024
-    CPUShares = toString (1024 * config.nix.maxJobs / 24);
-  };
 }
