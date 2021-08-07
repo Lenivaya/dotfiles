@@ -124,6 +124,7 @@
     #      mission critical or server/headless builds exposed to the world.
     "mitigations=off"
   ];
+  hardware.cpu.intel.updateMicrocode = true;
 
   # Kernel
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_lqx;
