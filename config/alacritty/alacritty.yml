@@ -22,6 +22,8 @@ scrolling:
   multiplier: 3
 
 font:
+  size: 14
+
   normal:
     family: monospace
     style: Regular
