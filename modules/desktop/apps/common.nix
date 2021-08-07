@@ -49,6 +49,7 @@
       youtube-dl
       appimage-run
       tdesktop
+      brightnessctl
     ] ++ (with pkgs.gnome3; [
       adwaita-icon-theme
       nautilus
