@@ -32,7 +32,7 @@ import           Graphics.X11.Xlib.Types
 import           XMonad.Layout.Decoration
 
 font :: String
-font = "xft:monospace:style=Regular:size=9:antialias=true"
+font = "xft:monospace:style=Regular:size=10:antialias=true"
 
 black1, black2 :: String
 (black1, black2) = ("#0b0806", "#2f2b2a")
@@ -74,8 +74,8 @@ gapBase = 6
 gapFull = gapBase * 2
 
 height, border :: Dimension
-height = 12 * 2
-border = 1
+height = 16 * 2
+border = 2
 
 tabTheme :: Theme
 tabTheme = def { activeColor         = black1

@@ -48,9 +48,9 @@ generateBarPosition :: (Int, Int) -> String -> String
 generateBarPosition (w, h) pos | pos == "top" = printf position topBarYpos width
                                | pos == "bot" = printf position botBarYpos width
  where
-  position   = "'Static { xpos = 12 , ypos = %d , width = %d , height = 24}'"
-  width      = w - 24
-  botBarYpos = (h - percentFromNumber h 1.0) - 24
+  position   = "'Static { xpos = 12 , ypos = %d , width = %d , height = 32}'"
+  width      = w - 32
+  botBarYpos = (h - percentFromNumber h 1.0) - 32
   topBarYpos = percentFromNumber h 1.0
 
 barCommand :: (Int, Int) -> String -> String
