@@ -4,27 +4,39 @@
 { config, lib, pkgs, modulesPath, ... }:
 
 {
-  imports =
-    [ (modulesPath + "/installer/scan/not-detected.nix")
-    ];
+  imports = [ (modulesPath + "/installer/scan/not-detected.nix") ];
 
-  boot.initrd.availableKernelModules = [ "xhci_pci" "ehci_pci" "ahci" "usb_storage" "sd_mod" "sr_mod" "rtsx_pci_sdmmc" ];
+  boot.initrd.availableKernelModules = [
+    "xhci_pci"
+    "ehci_pci"
+    "ahci"
+    "usb_storage"
+    "sd_mod"
+    "sr_mod"
+    "rtsx_pci_sdmmc"
+  ];
   boot.initrd.kernelModules = [ ];
   boot.kernelModules = [ ];
   boot.extraModulePackages = [ ];
+  boot.supportedFilesystems = [ "ntfs" ];
 
-  fileSystems."/" =
-    { device = "/dev/disk/by-uuid/071e094d-4489-42fa-938a-4e936da0dbb3";
-      fsType = "ext4";
-    };
+  fileSystems."/" = {
+    device = "/dev/disk/by-uuid/071e094d-4489-42fa-938a-4e936da0dbb3";
+    fsType = "ext4";
+  };
 
-  fileSystems."/boot" =
-    { device = "/dev/disk/by-uuid/4E3B-71EF";
-      fsType = "vfat";
-    };
+  fileSystems."/boot" = {
+    device = "/dev/disk/by-uuid/4E3B-71EF";
+    fsType = "vfat";
+  };
+
+  fileSystems."/house" = {
+    device = "/dev/disk/by-uuid/02A6D1CDA6D1C0F9";
+    fsType = "ntfs";
+    options = [ "rw" "uid=1000" ];
+  };
 
   swapDevices =
-    [ { device = "/dev/disk/by-uuid/0c3fe70b-2f22-4161-b5fa-87ba058a7b86"; }
-    ];
+    [{ device = "/dev/disk/by-uuid/0c3fe70b-2f22-4161-b5fa-87ba058a7b86"; }];
 
 }
