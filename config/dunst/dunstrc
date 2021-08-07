@@ -2,7 +2,7 @@
     ### Display ###
     monitor = 0
     follow = none
-    geometry = "330x50-10+44"
+    geometry = "330x50-10+50"
     indicate_hidden = yes
     shrink = no
     transparency = 5
