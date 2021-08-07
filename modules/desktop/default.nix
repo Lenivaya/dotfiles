@@ -29,6 +29,7 @@ with lib.my; {
 
   services.xserver.displayManager.sessionCommands = ''
     ${pkgs.sxhkd}/bin/sxhkd -c ${configDir}/sxhkd/sxhkdrc &
+    ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1 &
   '';
 
   # Clean up leftovers, as much as we can
