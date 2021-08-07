@@ -114,9 +114,16 @@
   services.xserver.dpi = 120;
   fonts.fontconfig.dpi = 120;
 
-  libinput.touchpad = {
-    naturalScrolling = true;
-  };
+  services.xserver.libinput.touchpad = { naturalScrolling = true; };
+
+  boot.kernelParams = [
+    "acpi_osi=Linux"
+    "acpi_osi='!Windows 2012'"
+    # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
+    #      vulnerabilities. Don't copy this blindly! And especially not for
+    #      mission critical or server/headless builds exposed to the world.
+    "mitigations=off"
+  ];
 
   # Kernel
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_lqx;
