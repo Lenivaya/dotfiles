@@ -20,12 +20,21 @@ import           XMonad.Util.WorkspaceCompare
 xmobarFont :: Int -> String -> String
 xmobarFont f = wrap (concat ["<fn=", show f, ">"]) "</fn>"
 
-layoutIcon :: String -> String
-layoutIcon l | "BSP" `isInfixOf` l         = " <fn=1>\57654</fn>"
-             | "Circle" `isInfixOf` l      = " <fn=1>\57521</fn>"
-             | "Tall" `isInfixOf` l        = " <fn=1>\57346</fn>"
-             | "ThreeColMid" `isInfixOf` l = " <fn=1>\57377</fn>"
-             | "OneBig" `isInfixOf` l      = " <fn=1>\57377</fn>"
+-- layoutIcon :: String -> String
+-- layoutIcon l | "BSP" `isInfixOf` l         = " <fn=1>\57654</fn>"
+--              | "Circle" `isInfixOf` l      = " <fn=1>\57521</fn>"
+--              | "Tall" `isInfixOf` l        = " <fn=1>\57346</fn>"
+--              | "ThreeColMid" `isInfixOf` l = " <fn=1>\57377</fn>"
+--              | "OneBig" `isInfixOf` l      = " <fn=1>\57377</fn>"
+--              | otherwise                   = ""
+
+
+layoutName :: String -> String
+layoutName l | "BSP" `isInfixOf` l         = "BSP"
+             | "Circle" `isInfixOf` l      = "Circle"
+             | "Tall" `isInfixOf` l        = "Tall"
+             | "ThreeColMid" `isInfixOf` l = "ThreeColMid"
+             | "OneBig" `isInfixOf` l      = "OneBig"
              | otherwise                   = ""
 
 topBarPP :: PP
@@ -39,7 +48,7 @@ topBarPP = def
   , ppWsSep           = " "
   , ppTitle           = xmobarColor white1 "" . shorten 80
   , ppTitleSanitize   = xmobarStrip
-  , ppLayout          = xmobarColor white1 "" . layoutIcon
+  , ppLayout          = xmobarColor white1 "" . layoutName
   , ppOrder           = id
   , ppSort            = (namedScratchpadFilterOutWorkspace .) <$> getSortByIndex
   , ppExtras          = []

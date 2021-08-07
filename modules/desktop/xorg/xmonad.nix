@@ -39,7 +39,7 @@ in
       playerctl # current track script
     ];
     fonts.fonts = with pkgs; [
-      siji # some nice icons
+      siji # some nice icons (awfull on hidpi)
       font-awesome # even more nice icons
       weather-icons # for weather script
     ];

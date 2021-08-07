@@ -1,15 +1,16 @@
 Config
-  { font = "xft:monospace:style=Regular:pixelsize=11,Biwidth:pixelsize=12",
+  { font = "xft:monospace:style=Regular:size=10,Biwidth:pixelsize=11",
     additionalFonts =
       [ "xft:Siji:style=Regular",
-        "xft:monospace:style=Bold:pixelsize=11"
+        "xft:monospace:style=Bold:size=10",
+        "xft:FontAwesome:style=Regular:size=8:hinting=true"
       ],
     bgColor = "#0b0806",
     fgColor = "#a19782",
     alpha = 255,
     position = BottomSize C 100 24,
-    textOffset = 15,
-    textOffsets = [15, 15],
+    textOffset = 19,
+    textOffsets = [19, 19],
     iconOffset = -1,
     lowerOnStart = True,
     hideOnStart = False,
@@ -26,21 +27,21 @@ Config
           Run
           Battery
           [ "-t",
-            "<fn=1><acstatus></fn><left>%",
+            "<fn=3><acstatus></fn> <left>%",
             "--",
             "-i",
-            "\57914",
+            "",
             "-O",
-            "\57913",
+            "  ",
             "-o",
-            "\57911",
+            "",
             "-a",
             "notify-send -u critical 'Battery running out!!!'",
             "-A",
-            "15"
+            "5"
           ]
           10,
-        Run Wireless "wlp3s0" ["-t", "<fn=1>\57775</fn><essid> @ <quality>%"] 10,
+        Run Wireless "wlp4s0" ["-t", "<fn=1>\57775</fn><essid> @ <quality>%"] 10,
         Run DynNetwork ["-t", "<fn=1>\57660</fn><rx> / <fn=1>\57659</fn><tx> kbps"] 10,
         Run
           Kbd
@@ -71,7 +72,7 @@ Config
     alignSep = "}{",
     template =
       " \
-      \%battery%   %wlp3s0wi%   %dynnetwork%   %StdinReader%\
+      \%battery%   %wlp4s0wi%   %dynnetwork%   %StdinReader%\
       \}\
       \%player%\
       \{\
