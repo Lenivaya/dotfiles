@@ -22,3 +22,7 @@ super + KP_Home
 # media keys
 XF86Audio{LowerVolume,RaiseVolume,Mute}
     volumedunst {down,up,mute}
+
+# media keys
+XF86MonBrightness{Up,Down}
+    brightnessdunst {up,down}
