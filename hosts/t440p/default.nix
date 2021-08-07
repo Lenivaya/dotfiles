@@ -1,7 +1,11 @@
 # t440p -- thinkpad t440p
 
-{ pkgs, lib, ... }: {
-  imports = [ ../personal.nix ./hardware-configuration.nix ];
+{ pkgs, lib, inputs, ... }: {
+  imports = [
+    ../personal.nix
+    ./hardware-configuration.nix
+    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t440p
+  ];
 
   modules = {
     desktop = {
@@ -28,7 +32,7 @@
       term = {
         st.enable = true;
         alacritty.enable = true;
-        default = "st";
+        default = lib.mkForce "alacritty";
       };
 
       media = {
@@ -79,7 +83,7 @@
     };
 
     hardware = {
-      cpu.intel.enable = true;
+      # cpu.intel.enable = true;
       fs = {
         ssd.enable = true;
         enable = true;
@@ -100,9 +104,19 @@
   # Optimize power use
   environment.systemPackages = [ pkgs.acpi ];
   powerManagement.powertop.enable = true;
+
   networking.useDHCP = false;
   networking.interfaces.enp0s25.useDHCP = true;
   networking.interfaces.wlp4s0.useDHCP = true;
+
+  # Dpi
+  hardware.video.hidpi.enable = true;
+  services.xserver.dpi = 120;
+  fonts.fontconfig.dpi = 120;
+
+  libinput.touchpad = {
+    naturalScrolling = true;
+  };
 
   # Kernel
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_lqx;
