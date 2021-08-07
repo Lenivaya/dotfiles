@@ -26,11 +26,10 @@
           enable = true;
           ungoogled = true;
         };
-        qutebrowser.enable = true;
       };
 
       term = {
-        st.enable = true;
+        # st.enable = true;
         alacritty.enable = true;
         default = lib.mkForce "alacritty";
       };
@@ -46,7 +45,7 @@
         # ncmpcpp.enable = true;
       };
 
-      vm = { qemu.enable = true; };
+      # vm = { qemu.enable = true; };
     };
 
     shell = {
