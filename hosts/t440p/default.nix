@@ -148,6 +148,22 @@
   security.pam.services.login.fprintAuth = true;
   security.pam.services.xscreensaver.fprintAuth = true;
 
+  services.thinkfan = {
+    enable = true;
+    levels = [
+      [ 0 0 49 ]
+      [ 1 42 65 ]
+      [ 2 55 68 ]
+      [ 3 56 71 ]
+      [ 4 57 73 ]
+      [ 5 58 75 ]
+      [ 7 63 32767 ]
+    ];
+  };
+  boot.extraModprobeConfig = ''
+    options thinkpad_acpi fan_control=1 experimental=1
+  '';
+
   # Kernel
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_lqx;
 }
