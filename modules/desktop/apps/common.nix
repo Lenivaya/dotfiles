@@ -36,7 +36,7 @@
         name = "scratch-calc";
         desktopName = "Calculator";
         icon = "calc";
-        exec = "$TERMINAL -e $SHELL -c qalc";
+        exec = "$TERMINAL --class qalc,qalc -e qalc";
         categories = "Development";
       })
       neovim
