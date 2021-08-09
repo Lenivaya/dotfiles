@@ -46,6 +46,7 @@ in {
     hardware.cpu.intel.updateMicrocode = true;
     hardware.opengl.extraPackages = with pkgs; [ intel-ocl ];
 
-    services.throttled.enable = lib.mkDefault true;
+    services.thermald.enable = true;
+    # services.throttled.enable = lib.mkDefault true;
   };
 }
