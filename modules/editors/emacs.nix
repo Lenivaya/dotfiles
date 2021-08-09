@@ -74,7 +74,7 @@ in
       programs.emacs = {
         enable = true;
         package = pkgs.emacsGcc; # 28 + native-comp
-        # pkgs.emacPgtksGcc; # 28 + pgtk + native-comp
+        # pkgs.emacPgtkGcc; # 28 + pgtk + native-comp
         extraPackages = epkgs:
           [
             # :term vterm
