@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.hardware.gpu.intel;
-in {
+in
+{
   options.modules.hardware.gpu.intel.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
