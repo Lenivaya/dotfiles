@@ -13,9 +13,7 @@ with lib.my; {
     wantedBy = [ "graphical-session.target" ];
     partOf = [ "graphical-session.target" ];
 
-    environment = {
-      XIDLEHOOK_SOCK = "%t/xidlehook.socket";
-    };
+    environment = { XIDLEHOOK_SOCK = "%t/xidlehook.socket"; };
 
     serviceConfig = {
       ExecStart = ''
@@ -25,7 +23,10 @@ with lib.my; {
           --not-when-audio \
           --socket "$XIDLEHOOK_SOCK" \
           --timer 300 "${pkgs.betterlockscreen}/bin/betterlockscreen -l dim" ""
-      '';
+      '' + (if config.modules.hardware.profiles.laptop.enable then
+        ''--timer 3600 "systemctl suspend"''
+      else
+        "");
       Restart = "always";
     };
   };
