@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.hardware.profiles.laptop;
-in {
+in
+{
   options.modules.hardware.profiles.laptop.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {

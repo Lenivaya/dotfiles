@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.hardware.cpu.intel;
-in {
+in
+{
   options.modules.hardware.cpu.intel.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
