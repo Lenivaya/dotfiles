@@ -12,6 +12,7 @@ with lib.my; {
     description = "General-purpose replacement for xautolock.";
     wantedBy = [ "graphical-session.target" ];
     partOf = [ "graphical-session.target" ];
+    path = with pkgs; [ betterlockscreen ];
 
     environment = { XIDLEHOOK_SOCK = "%t/xidlehook.socket"; };
 
@@ -22,9 +23,9 @@ with lib.my; {
           --not-when-fullscreen \
           --not-when-audio \
           --socket "$XIDLEHOOK_SOCK" \
-          --timer 300 "${pkgs.betterlockscreen}/bin/betterlockscreen -l dim" ""
+          --timer 300 "betterlockscreen -l dim" ""
       '' + (if config.modules.hardware.profiles.laptop.enable then
-        ''--timer 3600 "systemctl suspend"''
+        ''\ --timer 3600 "systemctl suspend" ""''
       else
         "");
       Restart = "always";
