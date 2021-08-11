@@ -50,11 +50,12 @@
       appimage-run
       tdesktop
       brightnessctl
-    ] ++ (with pkgs.gnome3; [
+    ] ++ (with pkgs.gnome; [
       adwaita-icon-theme
       nautilus
       file-roller
       gnome-autoar
+      gnome-system-monitor
       eog
     ]) ++ (with pkgs.cinnamon; [ nemo ]);
 }
