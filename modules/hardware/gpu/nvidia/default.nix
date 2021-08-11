@@ -21,8 +21,8 @@ in {
 
     environment.systemPackages = with pkgs; [
       glxinfo
-      cudnn
-      cudatoolkit
+      # cudnn
+      # cudatoolkit
       vdpauinfo
 
       # Respect XDG conventions, damn it!
