@@ -5,7 +5,7 @@
 
 function lock_screen {
 	if command -v betterlockscreen >/dev/null; then
-		pgrep "betterlockscreen" || betterlockscreen -l dim >/dev/null &
+		pgrep "betterlockscreen" || betterlockscreen -l dim >/dev/null
 	fi
 }
 
