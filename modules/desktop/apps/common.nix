@@ -57,5 +57,6 @@
       gnome-autoar
       gnome-system-monitor
       eog
+      geary
     ]) ++ (with pkgs.cinnamon; [ nemo ]);
 }
