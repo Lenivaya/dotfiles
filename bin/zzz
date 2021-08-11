@@ -3,6 +3,12 @@
 # If -f, then put computer to sleep.
 # Otherwise, lock screen and turn off monitor.
 
+function lock_screen {
+	if command -v betterlockscreen >/dev/null; then
+		pgrep "betterlockscreen" || betterlockscreen -l dim >/dev/null &
+	fi
+}
+
 if [[ $1 == -h ]]; then
 	bin=${0##*/}
 	echo "Usage: $bin [-f]"
@@ -11,12 +17,11 @@ if [[ $1 == -h ]]; then
 	echo "  $bin -f    # put computer to sleep"
 elif [[ $1 == -f ]]; then
 	echo "Going to sleep..."
+	lock_screen
 	systemctl suspend
 else
 	echo "Shutting my eyes..."
-	if command -v betterlockscreen >/dev/null; then
-		pgrep "betterlockscreen" || betterlockscreen -l dim >/dev/null &
-	fi
+	lock_screen
 	sleep 5
 	xset dpms force off
 fi
