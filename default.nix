@@ -56,6 +56,7 @@ with lib.my; {
   # Use the latest kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
+  boot.initrd.compressor = "${lib.getBin pkgs.zstd}/bin/zstd";
   boot.loader = {
     efi.canTouchEfiVariables = mkDefault true;
     systemd-boot.configurationLimit = 10;
