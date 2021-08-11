@@ -32,7 +32,7 @@ with lib.my; {
       {
         inherit name;
         description = "The primary user account";
-        extraGroups = [ "wheel" ];
+        extraGroups = [ "wheel adbuser networkmanager video" ];
         isNormalUser = true;
         home = "/home/${name}";
         uid = 1000;
