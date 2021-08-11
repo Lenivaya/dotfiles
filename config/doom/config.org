@@ -1181,7 +1181,6 @@ it, either by command or in a capture template.
 (use-package! reverse-im
   :ensure t
   :demand t
-  :after char-fold
   :bind
   ("M-T" . reverse-im-translate-word)
   :custom
