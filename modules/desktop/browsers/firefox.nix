@@ -3,8 +3,7 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.browsers.firefox;
-in
-{
+in {
   options.modules.desktop.browsers.firefox.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -40,6 +39,7 @@ in
           "browser.aboutConfig.showWarning" = false;
           # Hide 'http://' from url
           "browser.urlbar.trimURLs" = true;
+          "browser.compactmode.show" = true;
 
           # Hardware-acceleration
           "layers.acceleration.force-enabled" = true;
