@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.apps.dmenu;
-in {
+in
+{
   options.modules.desktop.apps.dmenu.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
