@@ -7,10 +7,6 @@ in {
   options.modules.hardware.gpu.nvidia = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
-
-    boot.kernelModules =
-      [ "nvidia" "nvidia_drm" "nvidia_uvm" "nvidia_modeset" ];
-
     environment.variables = {
       # Ultra low latency mode
       # https://devtalk.nvidia.com/default/topic/1067593/linux/how-to-turn-on-low-latency-mode-max-pre-render-frames-on-linux-/
@@ -33,7 +29,6 @@ in {
       '')
     ];
 
-    hardware.nvidia.package = config.boot.kernelPackages.nvidiaPackages.beta;
     hardware.nvidia.nvidiaPersistenced = true;
     hardware.nvidia.powerManagement.enable = true;
     hardware.nvidia.powerManagement.finegrained = true;
