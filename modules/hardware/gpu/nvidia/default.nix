@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.hardware.gpu.nvidia;
-in {
+in
+{
   options.modules.hardware.gpu.nvidia = { enable = mkBoolOpt false; };
 
   config = mkIf cfg.enable {
