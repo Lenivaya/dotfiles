@@ -163,6 +163,8 @@
   #   options thinkpad_acpi fan_control=1 experimental=1
   # '';
 
+  services.fwupd.enable = true;
+
   # Kernel
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_lqx;
 }
