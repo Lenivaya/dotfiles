@@ -18,13 +18,6 @@ in
         };
       }))
 
-      (dmenu.overrideAttrs (oldAttr: {
-        src = fetchgit {
-          url = "https://github.com/LukeSmithxyz/dmenu";
-          sha256 = "qwOcJqYGMftFwayfYA3XM0xaOo6ALV4gu1HpFRapbFg=";
-        };
-      }))
-
       (makeDesktopItem {
         name = "st";
         desktopName = "Suckless Terminal";
