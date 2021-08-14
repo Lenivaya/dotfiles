@@ -2,7 +2,9 @@
 
 with lib;
 with lib.my;
-let cfg = config.modules.desktop.apps.dunst;
+let
+  cfg = config.modules.desktop.apps.dunst;
+  configDir = config.dotfiles.configDir;
 in {
   options.modules.desktop.apps.dunst.enable = mkBoolOpt false;
 

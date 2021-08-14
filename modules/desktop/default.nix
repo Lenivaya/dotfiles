@@ -1,7 +1,9 @@
 { config, options, lib, pkgs, home-manager, ... }:
 
 with lib;
-with lib.my; {
+with lib.my;
+let configDir = config.dotfiles.configDir;
+in {
   services.xserver = {
     enable = true;
     desktopManager.xterm.enable = lib.mkDefault false;

@@ -1,6 +1,8 @@
 { config, lib, pkgs, ... }:
 
-with lib.my; {
+with lib.my;
+let configDir = config.dotfiles.configDir;
+in {
   config = {
     user.packages = with pkgs; [ sxiv ];
 

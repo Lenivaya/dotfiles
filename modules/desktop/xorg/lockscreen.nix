@@ -1,6 +1,8 @@
 { config, pkgs, lib, ... }:
 
-with lib.my; {
+with lib.my;
+let configDir = config.dotfiles.configDir;
+in {
   user.packages = with pkgs; [ betterlockscreen xidlehook ];
 
   home.configFile."betterlockscreenrc" = {

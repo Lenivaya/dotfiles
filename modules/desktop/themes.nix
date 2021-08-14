@@ -1,6 +1,8 @@
 { config, lib, pkgs, home-manager, ... }:
 
-with lib.my; {
+with lib.my;
+let configDir = config.dotfiles.configDir;
+in {
   home-manager.users.${config.user.name} = {
     gtk = {
       enable = true;

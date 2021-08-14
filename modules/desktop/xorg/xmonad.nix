@@ -3,8 +3,7 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.xmonad;
-in
-{
+in {
 
   options.modules.desktop.xmonad = {
     enable = mkBoolOpt false;
@@ -46,8 +45,8 @@ in
 
     env.PATH = [ "$DOTFILES/config/xmonad/scripts/xmobar" ];
 
-    modules.desktop.term.st.enable = true;
-    modules.desktop.term.default = "st";
+    modules.desktop.term.alacritty.enable = true;
+    modules.desktop.term.default = "alacritty";
 
   };
 
