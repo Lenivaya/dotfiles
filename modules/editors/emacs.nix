@@ -4,6 +4,7 @@ with lib;
 with lib.my;
 let
   cfg = config.modules.editors.emacs;
+  configDir = config.dotfiles.configDir;
   editorScript = pkgs.writeScriptBin "emacseditor" ''
     #!${pkgs.runtimeShell}
     if [ -z "$1" ]; then
@@ -12,8 +13,7 @@ let
       exec emacsclient --alternate-editor emacs "$@"
     fi
   '';
-in
-{
+in {
   options.modules.editors.emacs = {
     enable = mkBoolOpt false;
     default = mkBoolOpt false;

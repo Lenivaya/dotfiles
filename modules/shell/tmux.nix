@@ -3,6 +3,7 @@
 with lib;
 with lib.my;
 let
+  configDir = config.dotfiles.configDir;
   tmuxDesktopItem = with pkgs;
     makeDesktopItem {
       name = "tmux";
@@ -10,8 +11,8 @@ let
       exec = "${config.modules.desktop.term.default} -e tmux";
       categories = "System";
     };
-in
-{
+
+in {
   config = {
     user.packages = with pkgs; [ tmux (tmuxDesktopItem) ];
 
