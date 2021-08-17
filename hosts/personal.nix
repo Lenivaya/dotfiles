@@ -8,6 +8,7 @@ with lib; {
     firewall.enable = true;
   };
 
+  console.earlySetup = true;
   # hardware related stuff
   hardware.enableRedistributableFirmware = true;
   hardware.opengl = {
