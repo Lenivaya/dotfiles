@@ -13,7 +13,8 @@ in {
 
     boot.kernelModules =
       [ "snd_seq" "snd_seq_midi" "snd_rawmidi" ] # ALSA Sequencer kernel modules
-      ++ [ "snd_pcm_oss" "snd_mixer_oss" "snd_seq_oss" ];
+      ++ [ "snd_pcm_oss" "snd_mixer_oss" "snd_seq_oss" ]
+      ++ [ "uinput" ]; # AVRCP protocol support/compatibility for input device
 
     # hardware.pulseaudio.enable = true;
     services.pipewire = {
@@ -79,5 +80,21 @@ in {
           "$HOME/.nix-profile/lib/${type}"
           "/run/current-system/sw/lib/${type}"
         ])) [ "dssi" "lv2" "lxvst" "vst" "vst3" ]));
+
+    hardware.bluetooth.disabledPlugins = [ "sap" ];
+    hardware.bluetooth.settings = {
+      General = {
+        MultiProfile = "multiple";
+        FastConnectable = true;
+        Privacy = "device";
+      };
+
+      GATT = { KeySize = 16; };
+
+      AVDTP = {
+        SessionMode = "ertm";
+        StreamMode = "streaming";
+      };
+    };
   };
 }
