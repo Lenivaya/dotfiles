@@ -30,7 +30,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    home-manager.users.${config.user.name}.programs.chromium = {
+    home.programs.chromium = {
       enable = true;
 
       package = with pkgs;

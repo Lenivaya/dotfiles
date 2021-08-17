@@ -1,7 +1,7 @@
 { pkgs, config, ... }:
 
 {
-  home-manager.users.${config.user.name}.services.picom = {
+  home.services.picom = {
     enable = true;
     backend = "glx";
     vSync = true;

@@ -52,7 +52,7 @@ in {
       starship
     ];
 
-    home-manager.users.${config.user.name}.programs.broot.enable = true;
+    home.programs.broot.enable = true;
 
     home.configFile = {
       # Write it recursively so other modules can write files to it

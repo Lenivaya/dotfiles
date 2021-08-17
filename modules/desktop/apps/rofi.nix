@@ -2,14 +2,14 @@
 
 with lib;
 with lib.my;
-let cfg = config.modules.desktop.apps.rofi;
-    configDir = config.dotfiles.configDir;
-in
-{
+let
+  cfg = config.modules.desktop.apps.rofi;
+  configDir = config.dotfiles.configDir;
+in {
   options.modules.desktop.apps.rofi.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    home-manager.users.${config.user.name}.programs = {
+    home.programs = {
       rofi = {
         enable = true;
         package = pkgs.rofi.override {
