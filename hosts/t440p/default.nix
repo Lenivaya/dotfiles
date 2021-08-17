@@ -91,6 +91,7 @@
         enable = true;
       };
       audio.enable = true;
+      fingerprint.enable = true;
       bluetooth.enable = true;
       zram.enable = true;
       # nvidia.enable = true;
@@ -143,11 +144,6 @@
     #      mission critical or server/headless builds exposed to the world.
     "mitigations=off"
   ];
-
-  # Fingerprint
-  services.fprintd.enable = true;
-  security.pam.services.login.fprintAuth = true;
-  security.pam.services.xscreensaver.fprintAuth = true;
 
   # services.thinkfan = {
   #   enable = true;
