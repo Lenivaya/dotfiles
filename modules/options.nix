@@ -45,7 +45,7 @@ with lib.my; {
     in {
       inherit name;
       description = "The primary user account";
-      extraGroups = [ "wheel" "adbuser" "networkmanager" "video" ];
+      extraGroups = [ "wheel" "adbuser" "networkmanager" "video" "systemd-journal" ];
       isNormalUser = true;
       home = "/home/${name}";
       uid = 1000;
