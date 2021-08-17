@@ -1,6 +1,5 @@
 { config, pkgs, ... }: {
   services = {
-    clight.enable = true;
     xbanish.enable = true;
 
     geoclue2.enable = true;
