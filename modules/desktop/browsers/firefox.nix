@@ -24,7 +24,7 @@ in
 
     env.XDG_DESKTOP_DIR = "$HOME"; # prevent firefox creating ~/Desktop
 
-    home-manager.users.${config.user.name}.programs.firefox = {
+    home.programs.firefox = {
       enable = true;
       package = pkgs.firefox-bin;
 

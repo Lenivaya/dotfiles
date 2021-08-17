@@ -21,6 +21,9 @@ with lib.my; {
       file = mkOpt' attrs { } "Files to place directly in $HOME";
       configFile = mkOpt' attrs { } "Files to place in $XDG_CONFIG_HOME";
       dataFile = mkOpt' attrs { } "Files to place in $XDG_DATA_HOME";
+
+      programs = mkOpt' attrs { } "user programs";
+      services = mkOpt' attrs { } "user services";
     };
 
     env = mkOption {
@@ -61,6 +64,8 @@ with lib.my; {
       #   home.file        ->  home-manager.users.hlissner.home.file
       #   home.configFile  ->  home-manager.users.hlissner.home.xdg.configFile
       #   home.dataFile    ->  home-manager.users.hlissner.home.xdg.dataFile
+      #   home.programs    ->  home-manager.users.hlissner.home.programs
+      #   home.services    ->  home-manager.users.hlissner.home.services
       users.${config.user.name} = {
         home = {
           file = mkAliasDefinitions options.home.file;
@@ -72,6 +77,9 @@ with lib.my; {
           configFile = mkAliasDefinitions options.home.configFile;
           dataFile = mkAliasDefinitions options.home.dataFile;
         };
+
+        programs = mkAliasDefinitions options.home.programs;
+        services = mkAliasDefinitions options.home.services;
       };
     };
 

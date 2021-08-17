@@ -3,8 +3,7 @@
 with lib;
 with lib.my;
 let cfg = config.modules.services.kdeconnect;
-in
-{
+in {
   options.modules.services.kdeconnect.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -16,6 +15,6 @@ in
       }];
     };
 
-    home-manager.users.${config.user.name}.services.kdeconnect.enable = true;
+    home.services.kdeconnect.enable = true;
   };
 }

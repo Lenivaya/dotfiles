@@ -70,17 +70,15 @@ in {
 
     fonts.fonts = [ pkgs.emacs-all-the-icons-fonts ];
 
-    home-manager.users.${config.user.name} = {
-      programs.emacs = {
-        enable = true;
-        package = pkgs.emacsGcc; # 28 + native-comp
-        # pkgs.emacPgtkGcc; # 28 + pgtk + native-comp
-        extraPackages = epkgs:
-          [
-            # :term vterm
-            epkgs.vterm
-          ];
-      };
+    home.programs.emacs = {
+      enable = true;
+      package = pkgs.emacsGcc; # 28 + native-comp
+      # pkgs.emacPgtkGcc; # 28 + pgtk + native-comp
+      extraPackages = epkgs:
+        [
+          # :term vterm
+          epkgs.vterm
+        ];
     };
 
     env.EDITOR =
