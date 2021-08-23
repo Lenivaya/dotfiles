@@ -3,7 +3,7 @@ module XMonad.Custom.Projects
   , workspaces
   ) where
 
-import Data.Foldable
+import           Data.Foldable
 
 import           XMonad                  hiding ( workspaces )
 import           XMonad.Actions.DynamicProjects
@@ -15,6 +15,7 @@ import           XMonad.Custom.Prompt           ( aListCompFunc
                                                 , promptTheme
                                                 )
 import           XMonad.Prompt
+import           XMonad.Prompt.Shell
 
 (generic, code, template, web, wsread, sys, tmp, wsWRK) =
   ("GEN", "Code", "Template", "WWW", "Read", "SYS", "TMP", "WRK")
@@ -75,10 +76,13 @@ instance XPrompt BrowserByName where
   showXPrompt BrowserByName = "Browser: "
 
 selectBrowserByName :: XPConfig -> X ()
-selectBrowserByName conf = mkXPrompt BrowserByName
-                                     conf
-                                     (aListCompFunc conf browserNames)
-                                     go
+selectBrowserByName conf = do
+  cmds <- io getCommands
+  mkXPrompt
+    BrowserByName
+    conf
+    (aListCompFunc conf $ filter (\(x, y) -> y `elem` cmds) browserNames)
+    go
  where
   go :: String -> X ()
   go selected = forM_ (lookup selected browserNames) (spawnOn web)
@@ -92,6 +96,7 @@ selectBrowserByName conf = mkXPrompt BrowserByName
     ]
 
 
+
 -- | Use @Prompt@ to choose a reader which then will be runned on Read workspace.
 data ReaderByName = ReaderByName
 
@@ -99,10 +104,13 @@ instance XPrompt ReaderByName where
   showXPrompt ReaderByName = "Reader: "
 
 selectReaderByName :: XPConfig -> X ()
-selectReaderByName conf = mkXPrompt ReaderByName
-                                     conf
-                                     (aListCompFunc conf readerNames)
-                                     go
+selectReaderByName conf = do
+  cmds <- io getCommands
+  mkXPrompt
+    ReaderByName
+    conf
+    (aListCompFunc conf $ filter (\(x, y) -> y `elem` cmds) readerNames)
+    go
  where
   go :: String -> X ()
   go selected = forM_ (lookup selected readerNames) (spawnOn wsread)
@@ -111,4 +119,5 @@ selectReaderByName conf = mkXPrompt ReaderByName
   --   Just reader -> spawnOn wsread reader
 
   readerNames :: [(String, String)]
-  readerNames = [("Zathura", "zathura"), ("Foliate", "foliate"), ("Evince", "evince")]
+  readerNames =
+    [("Zathura", "zathura"), ("Foliate", "foliate"), ("Evince", "evince")]
