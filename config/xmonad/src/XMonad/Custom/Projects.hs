@@ -44,12 +44,10 @@ projects =
   , Project { projectName      = web
             , projectDirectory = "~/"
             , projectStartHook = Just $ selectBrowserByName promptTheme
-        -- spawnOn web (C.browser C.applications)
             }
   , Project { projectName      = wsread
             , projectDirectory = "~/"
             , projectStartHook = Just $ selectReaderByName promptTheme
-              -- spawnOn wsread (C.reader C.applications)
             }
   , Project
     { projectName      = sys

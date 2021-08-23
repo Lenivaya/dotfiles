@@ -35,7 +35,7 @@ import           XMonad.Custom.Layout           ( selectLayoutByName
                                                 , toggleLayout
                                                 )
 import qualified XMonad.Custom.Misc            as C
-import           XMonad.Custom.Projects          ( selectBrowserByName )
+import           XMonad.Custom.Projects         ( selectBrowserByName )
 import           XMonad.Custom.Prompt           ( hotPromptTheme
                                                 , promptTheme
                                                 )
