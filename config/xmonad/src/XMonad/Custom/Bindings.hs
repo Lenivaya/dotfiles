@@ -35,6 +35,7 @@ import           XMonad.Custom.Layout           ( selectLayoutByName
                                                 , toggleLayout
                                                 )
 import qualified XMonad.Custom.Misc            as C
+import           XMonad.Custom.Projects          ( selectBrowserByName )
 import           XMonad.Custom.Prompt           ( hotPromptTheme
                                                 , promptTheme
                                                 )
@@ -185,6 +186,7 @@ keysSpawnables _ =
   [ ("M-<Return>"  , spawn (C.term C.applications))
   , ("M-S-<Return>", spawn (C.term C.applications ++ " -e tmux"))
   , ("M-o b"       , spawn (C.browser C.applications))
+  , ("M-o S-b"     , selectBrowserByName promptTheme)
   , ("M-o e"       , raiseEditor)
     -- Edit some text in emacs
   , ("M-o S-e", spawn "emacsclient --eval '(emacs-everywhere)'")
