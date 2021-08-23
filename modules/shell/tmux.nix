@@ -52,7 +52,7 @@ in {
       preStop = ''
         tmux list-sessions | rg -q "main" && tmux kill-session -t main
         ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh
-        tmux kill-server && pkill tmux
+        tmux kill-server
       '';
 
       serviceConfig = {
