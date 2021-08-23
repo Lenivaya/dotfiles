@@ -37,8 +37,12 @@
     noDockShadow = false;
 
     extraOptions = ''
-      blur-kern = "7x7box";
-      blur-strength = 320;
+      blur: {
+        strength = 2;
+        size = 10
+        deviation = 5.0
+        method = "dual_kawase";
+      };
 
       shadow-radius = 7;
 
@@ -58,6 +62,8 @@
       # calls are finished before picom starts drawing. Needed on
       # nvidia-drivers with GLX backend for some users.
       xrender-sync-fence = true;
+
+      use-damage = true;
 
       dbe = true;
     '';
