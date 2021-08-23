@@ -170,7 +170,7 @@ keysMedia _ =
 keysWorkspaces :: XConfig Layout -> [(String, X ())]
 keysWorkspaces _ =
   [ ("M-w S-o", switchProjectPrompt promptTheme)
-    , ("M-w S-p", shiftToProjectPrompt promptTheme)
+    , ("M-w S-s", shiftToProjectPrompt promptTheme)
     , ("M-w S-n", renameProjectPrompt hotPromptTheme)
     , ("M-,"    , nextNonEmptyWS)
     , ("M-."    , prevNonEmptyWS)
