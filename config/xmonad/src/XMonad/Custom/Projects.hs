@@ -1,6 +1,7 @@
 module XMonad.Custom.Projects
   ( projects
   , workspaces
+  , selectBrowserByName
   ) where
 
 import           Data.Foldable
