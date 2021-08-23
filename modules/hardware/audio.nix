@@ -79,7 +79,7 @@ in {
           "$HOME/.${type}"
           "$HOME/.nix-profile/lib/${type}"
           "/run/current-system/sw/lib/${type}"
-        ])) [ "dssi" "lv2" "lxvst" "vst" "vst3" ]));
+        ])) [ "dssi" "ladspa" "lv2" "lxvst" "vst" "vst3" ]));
 
     hardware.bluetooth.disabledPlugins = [ "sap" ];
     hardware.bluetooth.settings = {
