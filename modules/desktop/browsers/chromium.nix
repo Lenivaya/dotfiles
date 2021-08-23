@@ -12,8 +12,7 @@ let
       exec ${p}/bin/${p.packageName} ${lib.concatStringsSep " " f}
     '';
 
-in
-{
+in {
   options.modules.desktop.browsers.chromium = {
     enable = mkOption {
       type = types.bool;
@@ -30,18 +29,24 @@ in
   };
 
   config = mkIf cfg.enable {
+    user.packages = with pkgs;
+      [
+        (makeDesktopItem {
+          name = "chromium";
+          desktopName = "Chromium";
+          genericName = "Chromium browser";
+          icon = "chromium";
+          exec = "chromium";
+          categories = "Network";
+        })
+      ];
+
     home.programs.chromium = {
       enable = true;
 
       package = with pkgs;
         (wrapWithFlags
-          (
-            (if cfg.ungoogled then
-              ungoogled-chromium
-            else
-              chromium)
-          )
-          cfg.flags);
+          ((if cfg.ungoogled then ungoogled-chromium else chromium)) cfg.flags);
 
       extensions = [
         "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
