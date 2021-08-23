@@ -347,27 +347,28 @@ nix               ; I hereby declare "nix geht mehr!"
  +noter                      ; enhanced PDF notetaking
  +present         ; using Emacs for presentations
  +journal
- +roam )
-;;perl              ; write code no one else can comprehend
-;;php               ; perl's insecure younger brother
-;;plantuml          ; diagrams for confusing people more
-;;purescript        ; javascript, but functional
-(python
- +lsp)           ; beautiful is better than ugly
-;;qt                ; the 'cutest' gui framework ever
-;;racket            ; a DSL for DSLs
-;;rest              ; Emacs as a REST client
-;;ruby              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
-(rust +lsp)            ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
-(scala +lsp)             ; java, but good
-scheme            ; a fully conniving family of lisps
-sh                ; she sells {ba,z,fi}sh shells on the C xor
-;;solidity          ; do you need a blockchain? No.
-;;swift             ; who asked for emoji variables?
-;;terra             ; Earth and Moon in alignment for performance.
-(web +lsp)              ; the tubes
-yaml
-;;vala              ; GObjective-C
+ ;;+roam2
+ )
+ ;;perl              ; write code no one else can comprehend
+ ;;php               ; perl's insecure younger brother
+ ;;plantuml          ; diagrams for confusing people more
+ ;;purescript        ; javascript, but functional
+ (python
+  +lsp)           ; beautiful is better than ugly
+ ;;qt                ; the 'cutest' gui framework ever
+ ;;racket            ; a DSL for DSLs
+ ;;rest              ; Emacs as a REST client
+ ;;ruby              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
+ (rust +lsp)            ; Fe2O3.unwrap().unwrap().unwrap().unwrap()
+ (scala +lsp)             ; java, but good
+ scheme            ; a fully conniving family of lisps
+ sh                ; she sells {ba,z,fi}sh shells on the C xor
+ ;;solidity          ; do you need a blockchain? No.
+ ;;swift             ; who asked for emoji variables?
+ ;;terra             ; Earth and Moon in alignment for performance.
+ (web +lsp)              ; the tubes
+ yaml
+ ;;vala              ; GObjective-C
 #+end_src
 **** Everything in Emacs
 It's just too convenient being able to have everything in Emacs.
@@ -780,29 +781,6 @@ to make that right again, and this package makes that even easier to do.
 #+begin_src emacs-lisp :tangle yes
 (use-package! org-pandoc-import
   :after org)
-#+end_src
-
-Org-roam is nice by itself, but there are so /extra/ nice packages which integrate
-with it.
-#+begin_src emacs-lisp
-(package! org-roam-server)
-#+end_src
-#+begin_src emacs-lisp :tangle yes
-(use-package org-roam-server
-  :after (org-roam server)
-  :config
-  (setq org-roam-server-host "127.0.0.1"
-        org-roam-server-port 8078
-        org-roam-server-export-inline-images t
-        org-roam-server-authenticate nil
-        org-roam-server-network-label-truncate t
-        org-roam-server-network-label-truncate-length 60
-        org-roam-server-network-label-wrap-length 20)
-  (defun org-roam-server-open ()
-    "Ensure the server is active, then open the roam graph."
-    (interactive)
-    (org-roam-server-mode 1)
-    (browse-url-xdg-open (format "http://localhost:%d" org-roam-server-port))))
 #+end_src
 *** Systemd
 For editing systemd unit files
