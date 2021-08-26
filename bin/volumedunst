@@ -18,7 +18,7 @@ function is_mute {
 }
 
 function send_notification {
-	iconSound="audio-volume-high"
+	iconSound="audio-volume-medium-symbolic"
 	iconMuted="audio-volume-muted"
 	if is_mute; then
 		dunstify -i $iconMuted -r 2593 -u normal "mute"
@@ -26,28 +26,32 @@ function send_notification {
 		volume=$(get_volume)
 		# Make the bar with the special character ─ (it's not dash -)
 		# https://en.wikipedia.org/wiki/Box-drawing_character
-		bar=$(seq --separator="─" 0 "$(((volume / (6/2))))" | sed 's/[0-9]//g')
+		bar=$(seq --separator="─" 0 "$(((volume / (6 / 2))))" | sed 's/[0-9]//g')
 		# Send the notification
 		dunstify -i $iconSound -r 5555 -u normal "   $bar"
 	fi
 }
 
 case $1 in
-up)
-	# set the volume on (if it was muted)
-	amixer set Master on >/dev/null
-	# up the volume (+ 5%)
-	amixer set Master 10%+ >/dev/null
-	send_notification
-	;;
-down)
-	amixer set Master on >/dev/null
-	amixer set Master 10%- >/dev/null
-	send_notification
-	;;
-mute)
-	# toggle mute
-	amixer set Master 1+ toggle >/dev/null
-	send_notification
-	;;
+	up)
+		# set the volume on (if it was muted)
+		amixer set Master on >/dev/null
+		# up the volume (+ 5%)
+		amixer set Master 10%+ >/dev/null
+		send_notification
+		;;
+	down)
+		amixer set Master on >/dev/null
+		amixer set Master 10%- >/dev/null
+		send_notification
+		;;
+	mute)
+		# toggle mute
+		amixer set Master 1+ toggle >/dev/null
+		send_notification
+		;;
+	mic_mute)
+		amixer set Capture toggle
+		dunstify -r 2593 -u normal "micro mute"
+		;;
 esac

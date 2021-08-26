@@ -20,8 +20,8 @@ super + KP_Home
     alacritty -e tmux
 
 # media keys
-XF86Audio{LowerVolume,RaiseVolume,Mute}
-    volumedunst {down,up,mute}
+XF86Audio{LowerVolume,RaiseVolume,Mute,MicMute}
+    volumedunst {down,up,mute,mic_mute}
 
 # media keys
 XF86MonBrightness{Up,Down}
