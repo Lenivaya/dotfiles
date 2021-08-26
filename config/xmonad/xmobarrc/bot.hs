@@ -1,9 +1,9 @@
 Config
-  { font = "xft:monospace:style=Regular:size=10,Biwidth:pixelsize=11",
+  { font = "xft:monospace:style=Regular:size=12",
     additionalFonts =
       [ "xft:Siji:style=Regular",
-        "xft:monospace:style=Bold:size=10",
-        "xft:FontAwesome:style=Regular:size=8:hinting=true"
+        "xft:monospace:style=Bold:size=12",
+        "xft:FontAwesome:style=Regular:size=10:hinting=true"
       ],
     bgColor = "#0b0806",
     fgColor = "#a19782",
