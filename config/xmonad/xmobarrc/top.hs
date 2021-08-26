@@ -1,11 +1,11 @@
 Config
-  { font = "xft:monospace:style=Regular:size=10,Biwidth:size=11",
+  { font = "xft:monospace:style=Regular:size=12",
     additionalFonts =
       [
         "xft:Siji:style=Regular:size=12",
-        "xft:monospace:style=Regular:size=10",
-        "xft:Weather Icons:style=Regular:size=8:hinting=true",
-        "xft:FontAwesome:style=Regular:size=8:hinting=true"
+        "xft:monospace:style=Regular:size=12",
+        "xft:Weather Icons:style=Regular:size=10:hinting=true",
+        "xft:FontAwesome:style=Regular:size=10:hinting=true"
       ],
     bgColor = "#0b0806",
     fgColor = "#a19782",
