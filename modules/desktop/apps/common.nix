@@ -9,10 +9,8 @@
       tokei # code statistic
       maim
       scrot # Screenshots
-      dunst # notification daemon
       dua # space usage
       ytfzf # find and watch videos on youtube
-      libnotify
       binutils
       usbutils
       zip
@@ -52,10 +50,12 @@
       brightnessctl
     ] ++ (with pkgs.gnome; [
       adwaita-icon-theme
+      sushi
       nautilus
       file-roller
       gnome-autoar
       gnome-system-monitor
+      gnome-usage
       eog
       geary
     ]) ++ (with pkgs.cinnamon; [ nemo ]);
