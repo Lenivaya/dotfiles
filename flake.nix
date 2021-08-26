@@ -16,14 +16,6 @@
     nixos-hardware.url = "github:nixos/nixos-hardware";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     nur.url = "github:nix-community/NUR";
-
-    # User flakes
-    external = {
-      type = "github";
-      owner = "eadwu";
-      repo = "flakes";
-      inputs.nixpkgs.follows = "/nixpkgs";
-    };
   };
 
   outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, ... }:
