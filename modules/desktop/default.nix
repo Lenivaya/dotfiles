@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let configDir = config.dotfiles.configDir;
-in {
+in
+{
   services.xserver = {
     enable = true;
     desktopManager.xterm.enable = lib.mkDefault false;

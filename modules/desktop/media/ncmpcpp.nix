@@ -5,7 +5,8 @@ with lib.my;
 let
   cfg = config.modules.desktop.media.ncmpcpp;
   configDir = config.dotfiles.configDir;
-in {
+in
+{
   options.modules.desktop.media.ncmpcpp = {
     enable = mkBoolOpt false;
     # modipy.enable = mkBoolOpt false;

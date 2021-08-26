@@ -12,7 +12,8 @@ let
       exec ${p}/bin/${p.packageName} ${lib.concatStringsSep " " f}
     '';
 
-in {
+in
+{
   options.modules.desktop.browsers.chromium = {
     enable = mkOption {
       type = types.bool;
@@ -46,7 +47,8 @@ in {
 
       package = with pkgs;
         (wrapWithFlags
-          ((if cfg.ungoogled then ungoogled-chromium else chromium)) cfg.flags);
+          ((if cfg.ungoogled then ungoogled-chromium else chromium))
+          cfg.flags);
 
       extensions = [
         "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin

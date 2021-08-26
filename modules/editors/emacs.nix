@@ -13,7 +13,8 @@ let
       exec emacsclient --alternate-editor emacs "$@"
     fi
   '';
-in {
+in
+{
   options.modules.editors.emacs = {
     enable = mkBoolOpt false;
     default = mkBoolOpt false;

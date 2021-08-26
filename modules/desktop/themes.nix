@@ -2,7 +2,8 @@
 
 with lib.my;
 let configDir = config.dotfiles.configDir;
-in {
+in
+{
   home-manager.users.${config.user.name} = {
     gtk = {
       enable = true;
