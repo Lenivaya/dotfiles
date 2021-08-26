@@ -12,45 +12,34 @@ in {
 
     nixpkgs.overlays = [ inputs.nur.overlay ];
 
-    services.unbound = {
-      enable = true;
+    # services.unbound = {
+    #   enable = true;
 
-      settings = {
-        server = {
-          access-control = [ "127.0.0.0/24 allow" ];
+    #   settings = {
+    #     server = {
+    #       access-control = [ "127.0.0.0/24 allow" ];
 
-          interface = [ "0.0.0.0" "::" ];
+    #       interface = [ "0.0.0.0" "::" ];
 
-          so-reuseport = true;
-          tls-cert-bundle = "/etc/ssl/certs/ca-certificates.crt";
-          tls-upstream = true;
+    #       so-reuseport = true;
+    #       tls-cert-bundle = "/etc/ssl/certs/ca-certificates.crt";
+    #       tls-upstream = true;
 
-          include = "${pkgs.nur.repos.ambroisie.unbound-zones-adblock}/hosts";
-        };
-
-        forward-zone = [{
-          name = ".";
-          forward-addr = [
-            "1.1.1.1@853#cloudflare-dns.com"
-            "1.0.0.1@853#cloudflare-dns.com"
-          ];
-        }];
-      };
-    };
-
-    # environment.systemPackages = with pkgs;
-    #   [ nur.repos.ambroisie.unified-hosts-lists ];
-
-    # networking.extraHosts =
-    #   let
-    #     hostsFile = pkgs.fetchFromGitHub {
-    #       owner = "StevenBlack";
-    #       repo = "hosts";
-    #       rev = "c202dbda759bb0ab52c68e9f675ccd2ad4b59c3e";
-    #       sha256 = "etXlrCUOBU2U/T/lHYOzAtIyLW4k1OXA7Q/+WMvPiZg=";
+    #       include = "${pkgs.nur.repos.ambroisie.unbound-zones-adblock}/hosts";
     #     };
-    #   in
-    #   builtins.readFile "${hostsFile}/hosts";
+
+    #     forward-zone = [{
+    #       name = ".";
+    #       forward-addr = [
+    #         "1.1.1.1@853#cloudflare-dns.com"
+    #         "1.0.0.1@853#cloudflare-dns.com"
+    #       ];
+    #     }];
+    #   };
+    # };
+
+    networking.extraHosts =
+      builtins.readFile "${pkgs.nur.repos.ambroisie.unified-hosts-lists}/hosts";
 
   };
 }
