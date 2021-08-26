@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.xmonad;
-in {
+in
+{
 
   options.modules.desktop.xmonad = {
     enable = mkBoolOpt false;

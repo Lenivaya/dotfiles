@@ -5,7 +5,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.hosts;
-in {
+in
+{
   options.modules.hosts.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {

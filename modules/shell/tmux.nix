@@ -12,7 +12,8 @@ let
       categories = "System";
     };
 
-in {
+in
+{
   config = {
     user.packages = with pkgs; [ tmux (tmuxDesktopItem) ];
 

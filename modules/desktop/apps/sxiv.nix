@@ -2,7 +2,8 @@
 
 with lib.my;
 let configDir = config.dotfiles.configDir;
-in {
+in
+{
   config = {
     user.packages = with pkgs; [ sxiv ];
 

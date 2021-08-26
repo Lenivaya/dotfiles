@@ -5,7 +5,8 @@ with lib.my;
 let
   cfg = config.modules.desktop.apps.dunst;
   configDir = config.dotfiles.configDir;
-in {
+in
+{
   options.modules.desktop.apps.dunst.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {

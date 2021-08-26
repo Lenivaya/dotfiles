@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.hardware.fingerprint;
-in {
+in
+{
   options.modules.hardware.fingerprint.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
