@@ -131,8 +131,8 @@
 
   # Dpi
   hardware.video.hidpi.enable = true;
-  services.xserver.dpi = 120;
-  fonts.fontconfig.dpi = 120;
+  # services.xserver.dpi = 120;
+  # fonts.fontconfig.dpi = 120;
 
   services.xserver.libinput.touchpad = { naturalScrolling = true; };
 
