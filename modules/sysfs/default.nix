@@ -11,21 +11,23 @@ with lib;
   };
 
   config = {
-    systemd.tmpfiles.rules = let
-      formatString = x:
-        if isBool x then
-          if x == false then "0" else "1"
-        else
-          builtins.toString x;
+    systemd.tmpfiles.rules =
+      let
+        formatString = x:
+          if isBool x then
+            if x == false then "0" else "1"
+          else
+            builtins.toString x;
 
-      toRule = path: value: "w ${path} - - - - ${formatString value}";
+        toRule = path: value: "w ${path} - - - - ${formatString value}";
 
-      isLeaf = x: !(isAttrs x);
-      cascadeTree = root: prefix:
-        if isLeaf root then
-          toRule prefix root
-        else
-          mapAttrsToList (n: v: cascadeTree v "${prefix}/${n}") root;
-    in flatten (cascadeTree config.boot.kernel.sysfs "");
+        isLeaf = x: !(isAttrs x);
+        cascadeTree = root: prefix:
+          if isLeaf root then
+            toRule prefix root
+          else
+            mapAttrsToList (n: v: cascadeTree v "${prefix}/${n}") root;
+      in
+      flatten (cascadeTree config.boot.kernel.sysfs "");
   };
 }
