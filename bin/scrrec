@@ -87,7 +87,7 @@ read -r W H X Y < <(select-region)
 # recordings, so temporarily disable it.
 picom=
 if systemctl is-enabled --user picom >/dev/null; then
-  systemctl --user stop picom
+  # systemctl --user stop picom
   picom=1
 fi
 cleanup() { [[ $picom ]] && systemctl --user start picom; }
