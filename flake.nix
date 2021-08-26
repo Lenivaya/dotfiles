@@ -16,6 +16,14 @@
     nixos-hardware.url = "github:nixos/nixos-hardware";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     nur.url = "github:nix-community/NUR";
+
+    # User flakes
+    external = {
+      type = "github";
+      owner = "eadwu";
+      repo = "flakes";
+      inputs.nixpkgs.follows = "/nixpkgs";
+    };
   };
 
   outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, ... }:
@@ -29,9 +37,7 @@
           inherit system;
           config.allowUnfree = true; # forgive me Stallman senpai
           # FIXME
-          config.permittedInsecurePackages = [
-            "ffmpeg-3.4.8"
-          ];
+          config.permittedInsecurePackages = [ "ffmpeg-3.4.8" ];
           overlays = extraOverlays ++ (lib.attrValues self.overlays);
         };
       pkgs = mkPkgs nixpkgs [ self.overlay ];
@@ -43,8 +49,7 @@
           lib = self;
         };
       });
-    in
-    {
+    in {
       lib = lib.my;
 
       overlay = final: prev: {
