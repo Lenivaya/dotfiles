@@ -3,8 +3,7 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.browsers.firefox;
-in
-{
+in {
   options.modules.desktop.browsers.firefox.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -109,6 +108,9 @@ in
           "datareporting.healthreport.uploadEnabled" = false;
           "datareporting.healthreport.service.enabled" = false;
           "datareporting.policy.dataSubmissionEnabled" = false;
+          # Disable firefox Accessibility Service
+          # https://www.reddit.com/r/firefox/comments/p8g5zd/why_does_disabling_accessibility_services_improve/
+          "accessibility.force_disabled" = 1;
         };
 
         userChrome = ''
