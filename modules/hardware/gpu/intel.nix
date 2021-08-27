@@ -3,8 +3,7 @@
 with lib;
 with lib.my;
 let cfg = config.modules.hardware.gpu.intel;
-in
-{
+in {
   options.modules.hardware.gpu.intel.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -22,11 +21,12 @@ in
     ];
 
     environment.systemPackages = with pkgs; [ libva-utils ];
-    hardware.opengl.extraPackages = with pkgs; [
-      (vaapiIntel.override { enableHybridCodec = true; })
-      intel-media-driver
-      intel-ocl
-      intel-compute-runtime
-    ];
+    hardware.opengl.extraPackages = with pkgs;
+      lib.mkForce [
+        (vaapiIntel.override { enableHybridCodec = true; })
+        intel-media-driver
+        intel-ocl
+        intel-compute-runtime
+      ];
   };
 }
