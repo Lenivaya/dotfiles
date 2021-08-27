@@ -8,17 +8,12 @@ with lib; {
     firewall.enable = true;
   };
 
-  console.earlySetup = true;
   # hardware related stuff
   hardware.enableRedistributableFirmware = true;
   hardware.opengl = {
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
-    extraPackages = with pkgs; [
-      vaapiVdpau
-      libvdpau-va-gl
-    ];
   };
 
   time.timeZone = "Europe/Kiev";
