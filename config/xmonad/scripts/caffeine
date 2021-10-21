@@ -1,0 +1,8 @@
+#!/bin/sh
+
+isCaffeineRunning=$(pgrep -x "caffeinate" >/dev/null && echo true || echo false)
+
+case $isCaffeineRunning in
+    true) killall -INT caffeinate ;;
+    false) caffeinate ;;
+esac

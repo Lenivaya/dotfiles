@@ -66,7 +66,8 @@ Config
             "#a19782"
           ]
           10,
-        Run ComX "player" [] "" "player" 10
+        Run ComX "player" [] "" "player" 10,
+        Run ComX "caffeinatestatus" [] "" "caffeine" 10
       ],
     sepChar = "%",
     alignSep = "}{",
@@ -76,6 +77,6 @@ Config
       \}\
       \%player%\
       \{\
-      \%kbd%   %default:Master%\
+      \%caffeine%   %kbd%   %default:Master%\
       \ "
   }
