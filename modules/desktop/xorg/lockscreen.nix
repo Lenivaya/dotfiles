@@ -2,9 +2,8 @@
 
 with lib.my;
 let configDir = config.dotfiles.configDir;
-in
-{
-  user.packages = with pkgs; [ betterlockscreen xidlehook ];
+in {
+  user.packages = with pkgs; [ betterlockscreen xidlehook my.caffeinate ];
 
   home.configFile."betterlockscreenrc" = {
     source = "${configDir}/betterlockscreen/betterlockscreenrc";
@@ -15,9 +14,12 @@ in
     description = "General-purpose replacement for xautolock.";
     wantedBy = [ "graphical-session.target" ];
     partOf = [ "graphical-session.target" ];
-    path = with pkgs; [ betterlockscreen ];
+    path = with pkgs; [ betterlockscreen xorg.xrandr gawk ];
 
-    environment = { XIDLEHOOK_SOCK = "%t/xidlehook.socket"; };
+    environment = {
+      PRIMARY_DISPLAY = "$(xrandr | awk '/ primary/{print $1}')";
+      XIDLEHOOK_SOCK = "/tmp/xidlehook.sock";
+    };
 
     serviceConfig = {
       ExecStart = ''
@@ -26,9 +28,9 @@ in
           --not-when-fullscreen \
           --not-when-audio \
           --socket "$XIDLEHOOK_SOCK" \
-          --timer 300 "betterlockscreen -l dim" ""
+          --timer 300 "betterlockscreen -l dim" "" \
       '' + (if config.modules.hardware.profiles.laptop.enable then
-        ''\ --timer 3600 "systemctl suspend" ""''
+        ''--timer 3600 "systemctl suspend" ""''
       else
         "");
       Restart = "always";

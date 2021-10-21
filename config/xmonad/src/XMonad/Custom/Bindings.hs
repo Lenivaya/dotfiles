@@ -153,7 +153,8 @@ keysSystem _ =
     , spawn "$XMONAD_CONFIG_DIR/scripts/xshot-select-clipboard.sh"
     )
   , ("M-t c", spawn "$XMONAD_CONFIG_DIR/scripts/toggle-compositor.sh")
-  , ("M-t l", spawn "zzz")
+  , ("M-t l"  , spawn "zzz")
+  , ("M-t S-l", spawn "$XMONAD_CONFIG_DIR/scripts/caffeine")
   ]
 
 keysMedia :: XConfig Layout -> [(String, X ())]
