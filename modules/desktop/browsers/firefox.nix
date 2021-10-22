@@ -112,6 +112,12 @@ in
           # Disable firefox Accessibility Service
           # https://www.reddit.com/r/firefox/comments/p8g5zd/why_does_disabling_accessibility_services_improve/
           "accessibility.force_disabled" = 1;
+
+          # disable reports
+          "browser.crashReports.unsubmittedCheck.autoSubmit" = false;
+          "browser.crashReports.unsubmittedCheck.autoSubmit2" = false;
+          "browser.crashReports.unsubmittedCheck.enabled" = false;
+          "breakpad.reportURL" = "";
         };
 
         userChrome = ''
