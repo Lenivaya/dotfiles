@@ -25,19 +25,56 @@
 | **term:**    | st                                                                    |
 
 ---
+
 ## Quick start
 
-1. Download the latest build of [NixOS 21.05][nixos].
+1. Acquire NixOS 21.11 or newer:
+
+   ```sh
+   # Download nixos-unstable
+   wget -O nixos.iso https://channels.nixos.org/nixos-unstable/latest-nixos-minimal-x86_64-linux.iso
+
+   # Write it to a flash drive
+   cp nixos.iso /dev/sdX
+   ```
+
 2. Boot into the installer.
-3. Do your partitions and mount your root to `/mnt` 
-4. Install these dotfiles:
-5. `nix-shell -p git nixFlakes`
-6. `git clone https://github.com/lenivaya/dotfiles /mnt/etc/nixos`
-7. Install NixOS: `nixos-install --root /mnt --flake /mnt/etc/nixos#XYZ`, where
-   `XYZ` is [the host you want to install](hosts/).  Use `#generic` for a
-   simple, universal config, or create a sub-directory in `hosts/` for your device.
-8. Reboot!
-9. Change your `root` and `$USER` passwords!
+
+3. Switch to root user: `sudo su -`
+
+4. Do your partitions and mount your root to `/mnt` ([for
+   example](https://nixos.org/manual/nixos/stable/index.html#sec-installation-partitioning)).
+
+5. Install these dotfiles:
+
+   ```sh
+   nix-shell -p git nixFlakes
+
+   # Set HOST to the desired hostname of this system
+   HOST=...
+   # Set USER to your desired username (defaults to hlissner)
+   USER=...
+
+   git clone https://github.com/lenivaya/dotfiles /mnt/etc/nixos
+   cd /mnt/etc/nixos
+
+   # Create a host config in `hosts/` and add it to the repo:
+   mkdir -p hosts/$HOST/
+   nixos-generate-config --root /mnt --dir hosts/$HOST/
+   rm -f hosts/configuration.nix
+   cp hosts/kuro/config.nix hosts/$HOST/config.nix
+   vim config.nix  # configure this for your system; don't use it verbatim!
+   git add hosts/$HOST/
+
+   # Install nixOS
+   USER=$USER nixos-install --root /mnt --impure --flake .#$HOST
+
+   # If you get 'unrecognized option: --impure', replace '--impure' with
+   # `--option pure-eval no`.
+   ```
+
+> :warning: **Don't forget to change your `root` and `$USER` passwords!** They
+> are set to `nixos` by default.
 
 ## Management
 
