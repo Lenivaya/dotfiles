@@ -26,3 +26,12 @@ XF86Audio{LowerVolume,RaiseVolume,Mute,MicMute}
 # media keys
 XF86MonBrightness{Up,Down}
     brightnessdunst {up,down}
+
+XF86Search
+    rofi -show
+
+XF86LaunchA
+    rofi -show window -window-thumbnail
+
+XF86Explorer
+    nautilus
