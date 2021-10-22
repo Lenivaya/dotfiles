@@ -3,15 +3,15 @@
 with lib;
 with lib.my;
 let cfg = config.modules.shell.pass;
-in
-{
+in {
   options.modules.shell.pass.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
     user.packages = with pkgs;
       [
         (pass.withExtensions (exts:
-          [ exts.pass-otp exts.pass-genphrase ]
+          with exts;
+          [ pass-otp pass-genphrase pass-audit pass-import pass-update ]
           ++ (if config.modules.shell.gnupg.enable then
             [ exts.pass-tomb ]
           else
