@@ -29,10 +29,13 @@ in {
           --not-when-audio \
           --socket "$XIDLEHOOK_SOCK" \
           --timer 300 "betterlockscreen -l dim" "" \
-      '' + (if config.modules.hardware.profiles.laptop.enable then
-        ''--timer 3600 "systemctl suspend" ""''
-      else
-        "");
+          ${
+            if config.modules.hardware.profiles.laptop.enable then
+              ''--timer 3600 "systemctl suspend" ""''
+            else
+              ""
+          }
+      '';
       Restart = "always";
     };
   };
