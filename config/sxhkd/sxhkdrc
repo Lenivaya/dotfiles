@@ -35,3 +35,6 @@ XF86LaunchA
 
 XF86Explorer
     nautilus
+
+ctrl + XF86Audio{LowerVolume,RaiseVolume,Mute}
+    playerctl {previous,next,play-pause}
