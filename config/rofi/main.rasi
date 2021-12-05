@@ -42,6 +42,7 @@ listview {
   cycle: false;
   margin: 0 0 -1px 0;
   scrollbar: false;
+  lines: 10;
 }
 
 element {
@@ -53,4 +54,12 @@ element selected {
   background-color: #393b4a;
 }
 
-element-icon { size: 1.65ch ; }
+element-icon {
+  size: 1.65ch;
+  padding: 0.2em;
+}
+
+element-text, element-icon {
+    background-color: inherit;
+    text-color:       inherit;
+}
