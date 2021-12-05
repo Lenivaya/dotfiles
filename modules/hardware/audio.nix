@@ -69,7 +69,7 @@ in
     };
 
     user.packages = with pkgs;
-      [ pulseeffects-pw pulsemixer pamix pulseaudio pavucontrol ]
+      [ easyeffects pulsemixer pamix pulseaudio pavucontrol ]
       ++ [ carla ] # JACK utilities
       ++ [ lsp-plugins dragonfly-reverb rnnoise-plugin ] # Audio plugins
       ++ [ distrho swh_lv2 calf ir.lv2 ];
