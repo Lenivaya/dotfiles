@@ -12,7 +12,6 @@ in
   };
 
   config = mkIf cfg.enable {
-
     services.xserver.windowManager.xmonad = {
       enable = true;
       # haskellPackages = pkgs.unstable.haskellPackages;
@@ -50,5 +49,4 @@ in
     modules.desktop.term.default = lib.mkForce "alacritty";
 
   };
-
 }

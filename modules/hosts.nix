@@ -13,6 +13,9 @@ in
 
     nixpkgs.overlays = [ inputs.nur.overlay ];
 
+    networking.extraHosts =
+      builtins.readFile "${pkgs.nur.repos.ambroisie.unified-hosts-lists}/hosts";
+
     # services.unbound = {
     #   enable = true;
 
@@ -38,9 +41,6 @@ in
     #     }];
     #   };
     # };
-
-    networking.extraHosts =
-      builtins.readFile "${pkgs.nur.repos.ambroisie.unified-hosts-lists}/hosts";
 
   };
 }
