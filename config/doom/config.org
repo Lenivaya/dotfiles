@@ -1824,6 +1824,10 @@ functionality as in LaTeX. Let's try viewing possible output files with this.
                         '((:name "Next to do"
                            :todo "NEXT"
                            :order 1)
+                          (:name "Work"
+                           :tag "work"
+                           :priority "A"
+                           :order 3)
                           (:name "Important"
                            :tag "Important"
                            :priority "A"
@@ -2246,45 +2250,45 @@ I've also added some fun alternatives, just commented out.
 #+end_src
 It's also nice to make use of the Unicode characters for check boxes, and other commands.
 #+begin_src emacs-lisp
-(appendq! +ligatures-extra-symbols
-          `(
-            :list_property "∷"
-            :em_dash       "—"
-            :ellipses      "…"
-            :arrow_right   "→"
-            :arrow_left    "←"
-            :title         "𝙏"
-            :subtitle      "𝙩"
-            :author        "𝘼"
-            :date          "𝘿"
-            :latex_class   "🄲"
-            :attr_latex    "🄛"
-            :attr_html     "🄗"
-            :begin_quote   "❝"
-            :end_quote     "❞"
-            :caption       "☰"
-            :header        "›")
-)
-(set-ligatures! 'org-mode
-  :merge t
-  :list_property "::"
-  :em_dash       "---"
-  :ellipsis      "..."
-  :arrow_right   "->"
-  :arrow_left    "<-"
-  :title         "#+title:"
-  :subtitle      "#+subtitle:"
-  :author        "#+author:"
-  :date          "#+date:"
-  :latex_class   "#+latex_class:"
-  :attr_latex    "#+attr_latex:"
-  :attr_html     "#+attr_html:"
-  :begin_quote   "#+begin_quote"
-  :end_quote     "#+end_quote"
-  :caption       "#+caption:"
-  :header        "#+header:"
-)
-(plist-put +ligatures-extra-symbols :name "⁍")
+;; (appendq! +ligatures-extra-symbols
+;;           `(
+;;             :list_property "∷"
+;;             :em_dash       "—"
+;;             :ellipses      "…"
+;;             :arrow_right   "→"
+;;             :arrow_left    "←"
+;;             :title         "𝙏"
+;;             :subtitle      "𝙩"
+;;             :author        "𝘼"
+;;             :date          "𝘿"
+;;             :latex_class   "🄲"
+;;             :attr_latex    "🄛"
+;;             :attr_html     "🄗"
+;;             :begin_quote   "❝"
+;;             :end_quote     "❞"
+;;             :caption       "☰"
+;;             :header        "›")
+;; )
+;; (set-ligatures! 'org-mode
+;;   :merge t
+;;   :list_property "::"
+;;   :em_dash       "---"
+;;   :ellipsis      "..."
+;;   :arrow_right   "->"
+;;   :arrow_left    "<-"
+;;   :title         "#+title:"
+;;   :subtitle      "#+subtitle:"
+;;   :author        "#+author:"
+;;   :date          "#+date:"
+;;   :latex_class   "#+latex_class:"
+;;   :attr_latex    "#+attr_latex:"
+;;   :attr_html     "#+attr_html:"
+;;   :begin_quote   "#+begin_quote"
+;;   :end_quote     "#+end_quote"
+;;   :caption       "#+caption:"
+;;   :header        "#+header:"
+;; )
+;; (plist-put +ligatures-extra-symbols :name "⁍")
 #+end_src
 
 **** LaTeX Fragments
