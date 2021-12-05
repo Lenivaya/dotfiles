@@ -3,10 +3,10 @@
 
   inputs = {
     # Core dependencies
-    nixpkgs.url = "nixpkgs/nixos-21.05"; # primary nixpkgs
+    nixpkgs.url = "nixpkgs/nixos-21.11"; # primary nixpkgs
     nixpkgs-unstable.url = "nixpkgs/master"; # for packages on the edge
 
-    home-manager.url = "github:rycee/home-manager/release-21.05";
+    home-manager.url = "github:rycee/home-manager/release-21.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     agenix.url = "github:ryantm/agenix";
@@ -14,9 +14,9 @@
 
     # Extras
     nixos-hardware.url = "github:nixos/nixos-hardware";
-    emacs-overlay.url = "github:nix-community/emacs-overlay";
-    nur.url =
-      "github:nix-community/NUR?rev=3c9ab0490e0f0c7aa828367b8e7ca0ded35a5b2a";
+    emacs-overlay.url =
+      "github:nix-community/emacs-overlay?rev=80db8e4e9f25e81662a244a96029f3427fe3d5b9";
+    nur.url = "github:nix-community/NUR";
   };
 
   outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, ... }:
@@ -42,7 +42,8 @@
           lib = self;
         };
       });
-    in {
+    in
+    {
       lib = lib.my;
 
       overlay = final: prev: {
