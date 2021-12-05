@@ -103,7 +103,7 @@
   hardware = {
     nvidia = {
       # nvidiaPersistenced = true;
-      # modesetting.enable = true;
+      modesetting.enable = true;
       prime = {
         offload.enable = true;
         intelBusId = "PCI:0:2:0";
@@ -134,29 +134,11 @@
   services.xserver.libinput.touchpad = { naturalScrolling = true; };
 
   boot.kernelParams = [
-    "acpi_osi=Linux"
-    "acpi_osi='!Windows 2012'"
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
     #      vulnerabilities. Don't copy this blindly! And especially not for
     #      mission critical or server/headless builds exposed to the world.
     "mitigations=off"
   ];
-
-  # services.thinkfan = {
-  #   enable = true;
-  #   levels = [
-  #     [ 0 0 49 ]
-  #     [ 1 42 65 ]
-  #     [ 2 55 68 ]
-  #     [ 3 56 71 ]
-  #     [ 4 57 73 ]
-  #     [ 5 58 75 ]
-  #     [ 7 63 32767 ]
-  #   ];
-  # };
-  # boot.extraModprobeConfig = ''
-  #   options thinkpad_acpi fan_control=1 experimental=1
-  # '';
 
   services.fwupd.enable = true;
 
