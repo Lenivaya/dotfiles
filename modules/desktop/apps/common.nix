@@ -34,7 +34,7 @@
         name = "scratch-calc";
         desktopName = "Calculator";
         icon = "calc";
-        exec = "$TERMINAL --class qalc,qalc -e qalc";
+        exec = "${pkgs.alacritty}/bin/alacritty -e qalc";
         categories = "Development";
       })
       neovim
@@ -49,6 +49,7 @@
       tdesktop
       brightnessctl
     ] ++ (with pkgs.gnome; [
+      gnome-sound-recorder
       adwaita-icon-theme
       sushi
       nautilus
