@@ -200,9 +200,11 @@ doom-quit                    ; DOOM quit-message prompts when you quit Emacs
 hl-todo                      ; highlight TODO/FIXME/NOTE/DEPRECATED/HACK/REVIEW
 hydra                      ; quick documentation for related commands
 indent-guides              ; highlighted indent columns, notoriously slow
-(ligatures
- +pragmata-pro
- +extra)           ; ligatures and symbols to make your code pretty again
+;; (ligatures
+;;  +pragmata-pro
+;;  +iosevka
+;;  +extra
+;; )           ; ligatures and symbols to make your code pretty again
 minimap                    ; show a map of the code on the side
 modeline                     ; snazzy, Atom-inspired modeline, plus API
 nav-flash                    ; blink the current line after jumping
@@ -428,25 +430,25 @@ Prevents some cases of Emacs flickering
 (setq visible-cursor nil
       blink-cursor-mode -1)
 #+end_src
-**** Ligatures
-I really don't like some ligatures so disabling them here.
-#+begin_src emacs-lisp
-(plist-put! +ligatures-extra-symbols
-  :int           nil
-  :name          nil
-  :composition   nil
-  :map           nil
-  :not           nil
-  :and           nil
-  :or            nil
-  :for           nil
-  :return        nil
-  :yield         nil
-  :diff          nil
-  :tuple         nil
-  :pipe          nil
-)
-#+end_src
+# **** Ligatures
+# I really don't like some ligatures so disabling them here.
+# #+begin_src emacs-lisp
+# (plist-put! +ligatures-extra-symbols
+#   :int           nil
+#   :name          nil
+#   :composition   nil
+#   :map           nil
+#   :not           nil
+#   :and           nil
+#   :or            nil
+#   :for           nil
+#   :return        nil
+#   :yield         nil
+#   :diff          nil
+#   :tuple         nil
+#   :pipe          nil
+# )
+# #+end_src
 **** Tree-sitter highlighting
 Since doom-emacs doesn't support tree-sitter yet, I'm enabling it here
 
