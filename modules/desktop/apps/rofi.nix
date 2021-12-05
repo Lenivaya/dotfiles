@@ -16,7 +16,6 @@ in
         package = pkgs.rofi.override {
           plugins = with pkgs; [ rofi-emoji rofi-calc rofi-file-browser ];
         };
-        lines = 10;
         theme = "main";
         extraConfig = {
           modi = "drun";
@@ -42,7 +41,7 @@ in
         name = "Rofi-files";
         desktopName = "Rofi: Filebrowser";
         icon = "system-file-manager";
-        exec = "rofi -show file-browser";
+        exec = "rofi -show file-browser-extended";
       })
       (makeDesktopItem {
         name = "Rofi-emojis";
