@@ -1,2 +1,5 @@
-#!/bin/sh
-paplay "$DOTFILES/config/dunst/Submarine.wav"
+#!/usr/bin/env bash
+
+blacklist=("Spotify")
+
+[[ ! ${blacklist[*]} =~ $DUNST_APP_NAME ]] && paplay "$DOTFILES/config/dunst/Submarine.wav"
