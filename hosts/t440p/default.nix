@@ -143,6 +143,9 @@
   services.fwupd.enable = true;
 
   services.tlp.settings.CPU_MAX_PERF_ON_BAT = lib.mkForce 50;
+
+  services.clight.settings.keyboard.disabled = lib.mkForce true;
+
   # Kernel
   boot.kernelPackages = lib.mkForce pkgs.linuxPackages_lqx;
 }
