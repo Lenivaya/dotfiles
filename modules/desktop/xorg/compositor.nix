@@ -63,9 +63,16 @@
       # nvidia-drivers with GLX backend for some users.
       xrender-sync-fence = true;
 
-      use-damage = true;
-
-      dbe = true;
+      # Other
+      mark-wmwin-focused = false;
+      mark-ovredir-focused = false;
+      use-ewmh-active-win = true;
+      detect-rounded-corners = true;
+      detect-client-opacity = true;
+      sw-opti = false;
+      focus-exclude = [];
+      detect-transient = true;
+      detect-client-leader = true;
     '';
   };
 
