@@ -313,7 +313,7 @@ common-lisp       ; if you've seen one lisp, you've seen them all
 ;;crystal           ; ruby at the speed of c
 ;;csharp            ; unity, .NET, and mono shenanigans
 data              ; config/data formats
-(dart +flutter +lsp)   ; paint ui and not much else
+;; (dart +flutter +lsp)   ; paint ui and not much else
 ;;erlang            ; an elegant language for a more civilized age
 ess                          ; emacs speaks statistics
 elixir             ; erlang done right
