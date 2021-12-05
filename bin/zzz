@@ -5,7 +5,7 @@
 
 function lock_screen {
 	if command -v betterlockscreen >/dev/null; then
-		pgrep "betterlockscreen" || betterlockscreen -l dim >/dev/null
+		pgrep "betterlockscreen" || betterlockscreen -l dim -- --layout-pos="ix-1000:iy+1000" >/dev/null
 	fi
 }
 

@@ -12,4 +12,6 @@ ringwrongcolor=d23c3dff
 verifcolor=ffffffff
 timecolor=ffffffff
 datecolor=ffffffff
-loginbox=00000066
+llayoutcolor=00000000
+oginbox=00000066
+locktext="Type password to unlock..."
