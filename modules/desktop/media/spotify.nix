@@ -10,12 +10,12 @@ in
   config = mkIf cfg.enable {
     nixpkgs.overlays = [ inputs.nur.overlay ];
     user.packages = with pkgs; [
-      # spotify
+      spotify
       spicetify-cli
-      (writeScriptBin "spotify" ''
-        #!${stdenv.shell}
-        exec ${nur.repos.milahu.spotify-adblock-linux}/bin/spotify-adblock-linux
-      '')
+      # (writeScriptBin "spotify" ''
+      #   #!${stdenv.shell}
+      #   exec ${nur.repos.milahu.spotify-adblock-linux}/bin/spotify-adblock-linux
+      # '')
     ];
   };
 
