@@ -1103,15 +1103,13 @@ theme.
   :defer t
   :init
   (setq
-   go-translate-extra-directions '(("en" . "ru") ("ru"  . "en"))
-   go-translate-buffer-follow-p t
-  ;; FIXME https://github.com/lorniu/go-translate/issues/10
-   go-translate-token-current (cons 430675 2721866130)
+   gts-translate-list '(("en" "ru") ("ru" "en"))
+   gts-buffer-follow-p t
    )
   (map!
    (:leader
     (:prefix-map ("o g" . "google")
-     :desc "Open google-translator" "t" #'go-translate)
+     :desc "Open google-translator" "t" #'gts-do-translate)
     ))
   )
 #+end_src
