@@ -83,6 +83,13 @@
     hardware = {
       profiles.laptop.enable = true;
       cpu.intel.enable = true;
+      cpu.undervolt = rec {
+        enable = true;
+        core = (-100); # 80?
+        gpu = (-50);
+        uncore = core;
+        analogio = core;
+      };
       gpu.intel.enable = true;
       gpu.nvidia.enable = true;
       fs = {
