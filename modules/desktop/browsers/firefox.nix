@@ -30,6 +30,7 @@ in
 
       profiles.default = {
         settings = {
+          "browser.uidensity" = 1; # minimal ui
           "devtools.theme" = "dark";
           # Keep window opened when last tab closed
           "browser.tabs.closeWindowWithLastTab" = false;
