@@ -3,8 +3,7 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.browsers.firefox;
-in
-{
+in {
   options.modules.desktop.browsers.firefox.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -26,7 +25,7 @@ in
 
     home.programs.firefox = {
       enable = true;
-      package = pkgs.firefox-bin;
+      # package = pkgs.firefox-bin;
 
       profiles.default = {
         settings = {
