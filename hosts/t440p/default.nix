@@ -1,6 +1,6 @@
 # t440p -- thinkpad t440p
 
-{ pkgs, lib, inputs, ... }: {
+{ pkgs, config, lib, inputs, ... }: {
   imports = [
     ../personal.nix
     ./hardware-configuration.nix
@@ -109,8 +109,8 @@
 
   hardware = {
     nvidia = {
-      # nvidiaPersistenced = true;
-      modesetting.enable = true;
+      package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
+      nvidiaPersistenced = lib.mkForce false;
       prime = {
         offload.enable = true;
         intelBusId = "PCI:0:2:0";
@@ -118,17 +118,15 @@
       };
     };
   };
-  environment.systemPackages =
-    let
-      nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
-        export __NV_PRIME_RENDER_OFFLOAD=1
-        export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-        export __GLX_VENDOR_LIBRARY_NAME=nvidia
-        export __VK_LAYER_NV_optimus=NVIDIA_only
-        exec -a "$0" "$@"
-      '';
-    in
-    [ nvidia-offload ];
+  environment.systemPackages = let
+    nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
+      export __NV_PRIME_RENDER_OFFLOAD=1
+      export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+      export __GLX_VENDOR_LIBRARY_NAME=nvidia
+      export __VK_LAYER_NV_optimus=NVIDIA_only
+      exec -a "$0" "$@"
+    '';
+  in [ nvidia-offload ];
 
   networking.useDHCP = false;
   networking.interfaces.enp0s25.useDHCP = true;
