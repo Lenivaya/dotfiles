@@ -1532,10 +1532,15 @@ Then, to actually read the ebooks we use =nov=.
 #+end_src
 * Language configuration
 ** Haskell
-Prefer brittany formatter.
+Set formatter
 #+begin_src emacs-lisp
-(setq-hook! 'haskell-mode-hook +format-with-lsp nil)
+(setq lsp-haskell-formatting-provider "brittany")
 #+end_src
+
+# Prefer configured formatter.
+# #+begin_src emacs-lisp
+# (setq-hook! 'haskell-mode-hook +format-with-lsp nil)
+# #+end_src
 ** Rust
 Disable lsp formatter
 #+begin_src emacs-lisp
