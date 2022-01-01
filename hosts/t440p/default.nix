@@ -136,7 +136,6 @@
   hardware.video.hidpi.enable = true;
   #   services.xserver.dpi = 180;
 
-  services.xserver.libinput.touchpad = { naturalScrolling = true; };
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
@@ -144,6 +143,10 @@
     #      mission critical or server/headless builds exposed to the world.
     "mitigations=off"
   ];
+  services.xserver.libinput.touchpad = {
+    naturalScrolling = true;
+    accelProfile = "adaptive";
+  };
 
   services.fwupd.enable = true;
 
