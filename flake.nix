@@ -14,8 +14,7 @@
 
     # Extras
     nixos-hardware.url = "github:nixos/nixos-hardware";
-    emacs-overlay.url =
-      "github:nix-community/emacs-overlay?rev=80db8e4e9f25e81662a244a96029f3427fe3d5b9";
+    emacs-overlay.url = "github:nix-community/emacs-overlay";
     nur.url = "github:nix-community/NUR";
   };
 
@@ -42,8 +41,7 @@
           lib = self;
         };
       });
-    in
-    {
+    in {
       lib = lib.my;
 
       overlay = final: prev: {
