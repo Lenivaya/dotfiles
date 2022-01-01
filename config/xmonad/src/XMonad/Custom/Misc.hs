@@ -31,7 +31,7 @@ applications = Applications
   , top               = "htop"
   , reader            = "zathura"
   , editor            = "$EDITOR"
-  , appmenu           = "rofi -show drun"
+  , appmenu           = "rofi -show drun -theme main"
   , clipboardSelector =
-    "rofi -modi 'clipboard:greenclip print' -show clipboard -run-command '{cmd}'"
+    "rofi -theme main -modi 'clipboard:greenclip print' -show clipboard -run-command '{cmd}'"
   }
