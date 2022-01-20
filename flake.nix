@@ -16,9 +16,10 @@
     nixos-hardware.url = "github:nixos/nixos-hardware";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     nur.url = "github:nix-community/NUR";
+    adblock.url = "github:StevenBlack/hosts";
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, ... }:
+  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, adblock, ... }:
     let
       inherit (lib.my) mapModules mapModulesRec mapHosts;
 
@@ -57,7 +58,8 @@
         dotfiles = import ./.;
       } // mapModulesRec ./modules import;
 
-      nixosConfigurations = mapHosts ./hosts { };
+      nixosConfigurations =
+        mapHosts ./hosts { modules = [ adblock.nixosModule { } ]; };
 
       devShell."${system}" = import ./shell.nix { inherit pkgs; };
 
