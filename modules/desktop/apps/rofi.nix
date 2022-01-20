@@ -29,6 +29,8 @@ in {
     };
 
     user.packages = with pkgs; [
+      wmctrl # windows bringing support
+
       (makeDesktopItem {
         name = "Rofi-calc";
         desktopName = "Rofi: Calculator";
