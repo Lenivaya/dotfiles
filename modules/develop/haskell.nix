@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.dev.haskell;
-in {
+in
+{
   options.modules.dev.haskell.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {

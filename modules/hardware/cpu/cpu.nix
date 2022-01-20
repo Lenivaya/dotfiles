@@ -4,7 +4,8 @@ with lib;
 with lib.my;
 
 let cfg = config.modules.hardware.cpu;
-in {
+in
+{
   options.modules.hardware.cpu = {
 
     undervolt = {
