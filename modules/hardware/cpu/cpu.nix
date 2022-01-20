@@ -4,8 +4,7 @@ with lib;
 with lib.my;
 
 let cfg = config.modules.hardware.cpu;
-in
-{
+in {
   options.modules.hardware.cpu = {
 
     undervolt = {
@@ -35,8 +34,13 @@ in
         type = types.int;
         default = 0;
       };
-    };
 
+      temp = mkOption {
+        type = types.int;
+        default = 0;
+      };
+
+    };
   };
 
   config = {
@@ -45,11 +49,12 @@ in
     # Compatibility with intel-undervolt
     services.undervolt = with cfg.undervolt;
       mkIf enable {
-        enable = enable;
         coreOffset = core;
         gpuOffset = gpu;
         uncoreOffset = uncore;
         analogioOffset = analogio;
+        inherit enable;
+        inherit temp;
       };
 
   };
