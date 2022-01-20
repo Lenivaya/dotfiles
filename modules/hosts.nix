@@ -5,16 +5,18 @@
 with lib;
 with lib.my;
 let cfg = config.modules.hosts;
-in
-{
+in {
   options.modules.hosts.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
 
-    nixpkgs.overlays = [ inputs.nur.overlay ];
-
-    networking.extraHosts =
-      builtins.readFile "${pkgs.nur.repos.ambroisie.unified-hosts-lists}/hosts";
+    networking.stevenBlackHosts = {
+      enable = true;
+      blockFakenews = true;
+      blockGambling = true;
+      # blockPorn = true;
+      # blockSocial = true;
+    };
 
     # services.unbound = {
     #   enable = true;
