@@ -5,7 +5,8 @@ with lib.my;
 let
   cfg = config.modules.desktop.media.mpv;
   configDir = config.dotfiles.configDir;
-in {
+in
+{
   options.modules.desktop.media.mpv.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
