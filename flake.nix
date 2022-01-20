@@ -29,8 +29,6 @@
         import pkgs {
           inherit system;
           config.allowUnfree = true; # forgive me Stallman senpai
-          # FIXME
-          config.permittedInsecurePackages = [ "ffmpeg-3.4.8" ];
           overlays = extraOverlays ++ (lib.attrValues self.overlays);
         };
       pkgs = mkPkgs nixpkgs [ self.overlay ];
