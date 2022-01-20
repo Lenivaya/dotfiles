@@ -84,11 +84,12 @@
       profiles.laptop.enable = true;
       cpu.intel.enable = true;
       cpu.undervolt = rec {
-        enable = true;
+        # enable = true;
         core = (-100); # 80?
         gpu = (-50);
         uncore = core;
         analogio = core;
+        temp = 100;
       };
       gpu.intel.enable = true;
       gpu.nvidia.enable = true;
@@ -136,13 +137,6 @@
   hardware.video.hidpi.enable = true;
   #   services.xserver.dpi = 180;
 
-
-  boot.kernelParams = [
-    # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
-    #      vulnerabilities. Don't copy this blindly! And especially not for
-    #      mission critical or server/headless builds exposed to the world.
-    "mitigations=off"
-  ];
   services.xserver.libinput.touchpad = {
     naturalScrolling = true;
     accelProfile = "adaptive";
@@ -155,5 +149,12 @@
   services.clight.settings.keyboard.disabled = lib.mkForce true;
 
   # Kernel
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_lqx;
+  boot.kernelPackages =
+    lib.mkForce pkgs.unstable.linuxKernel.packages.linux_lqx;
+  boot.kernelParams = [
+    # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
+    #      vulnerabilities. Don't copy this blindly! And especially not for
+    #      mission critical or server/headless builds exposed to the world.
+    "mitigations=off"
+  ];
 }
