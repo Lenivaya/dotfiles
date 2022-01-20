@@ -12,6 +12,7 @@ in
       [
         erlang
         elixir
+        elixir_ls
       ];
   };
 
