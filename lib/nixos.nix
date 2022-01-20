@@ -3,10 +3,9 @@
 with lib;
 with lib.my;
 let sys = "x86_64-linux";
-in
-{
+in {
   mkHost = path:
-    attrs@{ system ? sys, ... }:
+    attrs@{ system ? sys, modules ? [ ], ... }:
     nixosSystem {
       inherit system;
       specialArgs = { inherit lib inputs system; };
@@ -16,10 +15,10 @@ in
           networking.hostName =
             mkDefault (removeSuffix ".nix" (baseNameOf path));
         }
-        (filterAttrs (n: v: !elem n [ "system" ]) attrs)
+        (filterAttrs (n: v: !elem n [ "system" "modules" ]) attrs)
         ../. # /default.nix
         (import path)
-      ];
+      ] ++ modules;
     };
 
   mapHosts = dir:
