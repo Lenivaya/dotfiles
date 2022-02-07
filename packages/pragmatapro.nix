@@ -7,7 +7,7 @@ stdenv.mkDerivation rec {
 
   src = requireFile {
     url = "file://path/to/${name}.zip";
-    sha256 = "1c9j3s09md4qpw2i9083qr102nmmfkpjcpis5d71hv22a4ayjh1i";
+    sha256 = "0k2l18lzwqmyhv5g55pd3rwiia8gbkvdngjhbb867ilm89ad2fq9";
   };
 
   # Work around the "unpacker appears to have produced no directories"
