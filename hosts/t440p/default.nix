@@ -84,7 +84,7 @@
       profiles.laptop.enable = true;
       cpu.intel.enable = true;
       cpu.undervolt = rec {
-        # enable = true;
+        enable = true;
         core = (-100); # 80?
         gpu = (-50);
         uncore = core;
