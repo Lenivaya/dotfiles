@@ -4,16 +4,19 @@
 
 with lib;
 with lib.my;
-let cfg = config.modules.hosts;
-in
-{
+let
+  cfg = config.modules.hosts;
+  inherit (inputs) adblock;
+in {
   options.modules.hosts.enable = mkBoolOpt false;
+
+  imports = [ adblock.nixosModule ];
 
   config = mkIf cfg.enable {
 
     networking.stevenBlackHosts = {
       enable = true;
-      blockFakenews = true;
+      # blockFakenews = true;
       blockGambling = true;
       # blockPorn = true;
       # blockSocial = true;

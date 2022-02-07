@@ -6,7 +6,7 @@
     nixpkgs.url = "nixpkgs/nixos-21.11"; # primary nixpkgs
     nixpkgs-unstable.url = "nixpkgs/master"; # for packages on the edge
 
-    home-manager.url = "github:rycee/home-manager/release-21.11";
+    home-manager.url = "github:nix-community/home-manager/release-21.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     agenix.url = "github:ryantm/agenix";
@@ -40,8 +40,7 @@
           lib = self;
         };
       });
-    in
-    {
+    in {
       lib = lib.my;
 
       overlay = final: prev: {
@@ -57,8 +56,7 @@
         dotfiles = import ./.;
       } // mapModulesRec ./modules import;
 
-      nixosConfigurations =
-        mapHosts ./hosts { modules = [ adblock.nixosModule { } ]; };
+      nixosConfigurations = mapHosts ./hosts { };
 
       devShell."${system}" = import ./shell.nix { inherit pkgs; };
 
