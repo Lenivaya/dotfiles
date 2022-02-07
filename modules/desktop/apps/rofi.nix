@@ -5,8 +5,7 @@ with lib.my;
 let
   cfg = config.modules.desktop.apps.rofi;
   configDir = config.dotfiles.configDir;
-in
-{
+in {
   options.modules.desktop.apps.rofi.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -29,27 +28,30 @@ in
       recursive = true;
     };
 
-    user.packages = with pkgs; [
+    user.packages = let
+      rofiCommand = modi:
+        "rofi -theme ${config.home.programs.rofi.theme} -show ${modi}";
+    in with pkgs; [
       wmctrl # windows bringing support
 
       (makeDesktopItem {
         name = "Rofi-calc";
         desktopName = "Rofi: Calculator";
         icon = "calc";
-        exec = "rofi -show calc";
+        exec = rofiCommand "calc";
         categories = "Development";
       })
       (makeDesktopItem {
         name = "Rofi-files";
         desktopName = "Rofi: Filebrowser";
         icon = "system-file-manager";
-        exec = "rofi -show file-browser-extended";
+        exec = rofiCommand "file-browser-extended";
       })
       (makeDesktopItem {
         name = "Rofi-emojis";
         desktopName = "Rofi: emoji";
         icon = "face-smile";
-        exec = "rofi -show emoji";
+        exec = rofiCommand "emoji";
       })
       (makeDesktopItem {
         name = "reboot";
