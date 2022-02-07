@@ -57,10 +57,6 @@ in
       sqlite
       # :lang markdown previews
       python39Packages.grip
-      # :lang latex & :lang org (latex previews)
-      texlab
-      texlive.combined.scheme-full # FULL
-      rubber
       # :term vterm
       libtool
       # wakatime

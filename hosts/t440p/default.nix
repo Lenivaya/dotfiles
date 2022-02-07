@@ -38,6 +38,7 @@
           enable = true;
           pdf.enable = true;
           ebook.enable = true;
+          latex.enable = true;
         };
         spotify.enable = true;
         mpv.enable = true;
