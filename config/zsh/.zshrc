@@ -1,7 +1,7 @@
 if [[ ! -d $HOME/.zinit ]]; then
     print -P "Installing Plugin Manager (zdharma/zinit)…"
     command mkdir -p ~/.zinit && mkdir -p ~/.zinit/completions
-    command git clone https://github.com/zdharma/zinit ~/.zinit/bin && \
+    command git clone https://github.com/zdharma-continuum/zinit ~/.zinit/bin && \
         print -P "%F{33}▓▒░ %F{34}Installation successful.%f" || \
         print -P "%F{160}▓▒░ The clone has failed.%f"
 fi
@@ -44,7 +44,7 @@ zinit wait"0b" lucid light-mode for \
     pick'autopair.zsh' nocompletions \
         hlissner/zsh-autopair \
     atinit"ZINIT[COMPINIT_OPTS]=-C; zicompinit; zicdreplay" \
-        zdharma/fast-syntax-highlighting \
+        zdharma-continuum/fast-syntax-highlighting \
     silent atload"!_zsh_autosuggest_start && bindkey '^ ' autosuggest-accept" \
         zsh-users/zsh-autosuggestions \
     atload"zicompinit; zicdreplay" blockf \
@@ -63,8 +63,8 @@ zinit wait"0c" lucid light-mode for \
         MichaelAquilina/zsh-auto-notify \
         wfxr/forgit \
         soimort/translate-shell \
-        zdharma/zui \
-        zinit-zsh/zinit-console \
+        zdharma-continuum/zui \
+        zdharma-continuum/zinit-console \
         sindresorhus/pretty-time-zsh \
         laggardkernel/zsh-thefuck \
         hermitmaster/zsh-exa-plugin  \
