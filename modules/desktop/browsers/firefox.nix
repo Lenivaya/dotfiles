@@ -32,6 +32,10 @@ in
         settings = {
           "browser.uidensity" = 1; # minimal ui
           "devtools.theme" = "dark";
+          # 'browser.uiCustomization.state'. This tells firefox to sync it between
+          # machines. WARNING: This may not work across OSes. Since I use NixOS on
+          # all the machines I use Firefox on, this is no concern to me.
+          "services.sync.prefs.sync.browser.uiCustomization.state" = true;
           # Keep window opened when last tab closed
           "browser.tabs.closeWindowWithLastTab" = false;
           "browser.tabs.insertAfterCurrent" = true;
