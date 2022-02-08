@@ -5,6 +5,7 @@
     ../personal.nix
     ./hardware-configuration.nix
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t440p
+    ./jack_retask/jack_retask.nix
   ];
 
   modules = {
