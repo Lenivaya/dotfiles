@@ -37,17 +37,19 @@ case $1 in
 		# set the volume on (if it was muted)
 		amixer set Master on >/dev/null
 		# up the volume (+ 5%)
-		amixer set Master 10%+ >/dev/null
+		pamixer -i 10
+		# amixer set Master 10%+ >/dev/null
 		send_notification
 		;;
 	down)
 		amixer set Master on >/dev/null
-		amixer set Master 10%- >/dev/null
+		pamixer -d 10
 		send_notification
 		;;
 	mute)
 		# toggle mute
-		amixer set Master 1+ toggle >/dev/null
+		pamixer -t
+		# amixer set Master 1+ toggle >/dev/null
 		send_notification
 		;;
 	mic_mute)
