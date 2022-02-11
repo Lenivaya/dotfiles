@@ -50,6 +50,7 @@ import           XMonad.Layout.MultiToggle.Instances
 import           XMonad.Layout.Reflect
 import           XMonad.Layout.ResizableTile
 import           XMonad.Layout.SubLayouts
+import           XMonad.Prompt                  ( XPConfig(..) )
 import           XMonad.Prompt.ConfirmPrompt
 import           XMonad.Prompt.Pass
 import           XMonad.Prompt.Shell
@@ -170,12 +171,13 @@ keysMedia _ =
 
 keysWorkspaces :: XConfig Layout -> [(String, X ())]
 keysWorkspaces _ =
-  [ ("M-w S-o", switchProjectPrompt promptTheme)
-    , ("M-w S-s", shiftToProjectPrompt promptTheme)
-    , ("M-w S-n", renameProjectPrompt hotPromptTheme)
-    , ("M-,"    , nextNonEmptyWS)
-    , ("M-."    , prevNonEmptyWS)
-    , ("M-i"    , toggleWS' ["NSP"])
+  [ ("M-w S-o"  , switchProjectPrompt promptTheme)
+    , ("M-w C-S-o", switchProjectPrompt promptTheme { autoComplete = Nothing })
+    , ("M-w S-s"  , shiftToProjectPrompt promptTheme)
+    , ("M-w S-n"  , renameProjectPrompt hotPromptTheme)
+    , ("M-,"      , nextNonEmptyWS)
+    , ("M-."      , prevNonEmptyWS)
+    , ("M-i"      , toggleWS' ["NSP"])
     , ("M-n", workspacePrompt promptTheme $ windows . S.shift)
     ]
     ++ zipKeys "M-"     wsKeys [0 ..] (withNthWorkspace S.greedyView)
