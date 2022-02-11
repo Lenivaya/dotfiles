@@ -163,4 +163,9 @@
     #      mission critical or server/headless builds exposed to the world.
     "mitigations=off"
   ];
+
+  boot.plymouth = {
+    theme = "abstract_ring";
+    themePackages = with pkgs.my; [ plymouth-themes ];
+  };
 }
