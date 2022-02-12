@@ -23,10 +23,10 @@
 
       gamma.long_transition = true;
 
-    #   screen = {
-    #     contrib = 0.2;
-    #     num_samples = 20;
-    #   };
+      #   screen = {
+      #     contrib = 0.2;
+      #     num_samples = 20;
+      #   };
     };
   };
 
