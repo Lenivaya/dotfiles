@@ -3,7 +3,8 @@
 with lib;
 with lib.my;
 let cfg = config.modules.hardware.audio;
-in {
+in
+{
   options.modules.hardware.audio.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -80,12 +81,13 @@ in {
       ++ [ distrho swh_lv2 calf ir.lv2 ];
 
     environment.variables = (with lib;
-      listToAttrs (map (type:
-        nameValuePair "${toUpper type}_PATH" ([
-          "$HOME/.${type}"
-          "$HOME/.nix-profile/lib/${type}"
-          "/run/current-system/sw/lib/${type}"
-        ])) [ "dssi" "ladspa" "lv2" "lxvst" "vst" "vst3" ]));
+      listToAttrs (map
+        (type:
+          nameValuePair "${toUpper type}_PATH" ([
+            "$HOME/.${type}"
+            "$HOME/.nix-profile/lib/${type}"
+            "/run/current-system/sw/lib/${type}"
+          ])) [ "dssi" "ladspa" "lv2" "lxvst" "vst" "vst3" ]));
 
     hardware.bluetooth.disabledPlugins = [ "sap" ];
     hardware.bluetooth.settings = {

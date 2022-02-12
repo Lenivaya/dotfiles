@@ -4,7 +4,8 @@
 { config, lib, pkgs, ... }:
 
 let soundCard = "/sys/class/sound/hwC1D0";
-in {
+in
+{
 
   # hardware.firmware = [ ( pkgs.writeTextDir "/lib/firmware/hda-jack-retask.fw" ( builtins.readFile ./hda-jack-retask.fw ) ) ];
   systemd.services.jack-retask = {

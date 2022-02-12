@@ -1,7 +1,8 @@
 { config, lib, pkgs, ... }: {
 
   user.packages = with pkgs;
-    [
+    let youtube-dl = yt-dlp.override { withAlias = true; };
+    in [
       # some rust apps
       ripgrep # fast grepper
       fd # rust alternative to find
