@@ -1,3 +1,6 @@
+HISTSIZE=100000   # Max events to store in internal history.
+SAVEHIST=100000   # Max events to store in history file.
+
 if [[ ! -d $HOME/.zinit ]]; then
     print -P "Installing Plugin Manager (zdharma/zinit)…"
     command mkdir -p ~/.zinit && mkdir -p ~/.zinit/completions
