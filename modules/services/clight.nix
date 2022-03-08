@@ -22,6 +22,7 @@
       # };
 
       gamma.long_transition = true;
+      gamma.ambient_gamma = true;
 
       #   screen = {
       #     contrib = 0.2;
