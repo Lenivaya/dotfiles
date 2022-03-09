@@ -2,8 +2,7 @@
 
 with lib.my;
 let configDir = config.dotfiles.configDir;
-in
-{
+in {
   user.packages = with pkgs; [ betterlockscreen xidlehook my.caffeinate ];
 
   home.configFile."betterlockscreenrc" = {
@@ -25,9 +24,9 @@ in
     serviceConfig = {
       ExecStart = ''
         ${pkgs.xidlehook}/bin/xidlehook \
-          --detect-sleep \
           --not-when-fullscreen \
           --not-when-audio \
+          --detect-sleep \
           --socket "$XIDLEHOOK_SOCK" \
           --timer 300 "betterlockscreen -l dim" "" \
           ${

@@ -3,10 +3,17 @@
 # If -f, then put computer to sleep.
 # Otherwise, lock screen and turn off monitor.
 
+function betterlockscreen_command {
+	# betterlockscreen -l dim -- --layout-pos="ix-1000:iy+1000" --time-size="25" --verif-text="" >/dev/null
+	betterlockscreen -l dim --off "$1" -- --verif-text="" >/dev/null
+}
+
 function lock_screen {
-	if command -v betterlockscreen >/dev/null; then
-		pgrep "betterlockscreen" || betterlockscreen -l dim -- --layout-pos="ix-1000:iy+1000" >/dev/null
-	fi
+	pgrep "betterlockscreen" || betterlockscreen_command
+}
+
+function lock_screen_sleep {
+	pgrep "betterlockscreen" || betterlockscreen_command 10
 }
 
 if [[ $1 == -h ]]; then
@@ -21,7 +28,7 @@ elif [[ $1 == -f ]]; then
 	systemctl suspend
 else
 	echo "Shutting my eyes..."
-	lock_screen
-	sleep 5
-	xset dpms force off
+	lock_screen_sleep
+	# sleep 5
+	# xset dpms force off
 fi
