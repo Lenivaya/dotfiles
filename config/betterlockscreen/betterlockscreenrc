@@ -15,3 +15,5 @@ datecolor=ffffffff
 llayoutcolor=00000000
 oginbox=00000066
 locktext="Type password to unlock..."
+verif_text=""
+quiet=true
