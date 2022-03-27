@@ -4,7 +4,7 @@
   inputs = {
     # Core dependencies
     nixpkgs.url = "nixpkgs/nixos-21.11"; # primary nixpkgs
-    nixpkgs-unstable.url = "nixpkgs/master"; # for packages on the edge
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable"; # for packages on the edge
 
     home-manager.url = "github:nix-community/home-manager/release-21.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
