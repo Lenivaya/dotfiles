@@ -55,12 +55,12 @@
    # Set USER to your desired username (defaults to hlissner)
    USER=...
 
-   git clone https://github.com/lenivaya/dotfiles /mnt/etc/nixos
-   cd /mnt/etc/nixos
+   git clone https://github.com/lenivaya/dotfiles /etc/dotfiles
+   cd /etc/dotfiles
 
    # Create a host config in `hosts/` and add it to the repo:
    mkdir -p hosts/$HOST
-   nixos-generate-config --root /mnt --dir /etc/nixos/hosts/$HOST
+   nixos-generate-config --root /mnt --dir /etc/dotfiles/hosts/$HOST
    rm -f hosts/$HOST/configuration.nix
    cp hosts/t440p/default.nix hosts/$HOST/default.nix
    vim hosts/$HOST/default.nix  # configure this for your system; don't use it verbatim!
@@ -71,6 +71,10 @@
 
    # If you get 'unrecognized option: --impure', replace '--impure' with
    # `--option pure-eval no`.
+
+
+   # Then move the dotfiles to the mounted drive!
+   mv /etc/dotfiles /mnt/etc/dotfiles
    ```
 
 > :warning: **Don't forget to change your `root` and `$USER` passwords!** They
