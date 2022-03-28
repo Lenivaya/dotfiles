@@ -1266,6 +1266,10 @@ I also think that having =evil-= appear in so many popups is a bit too verbose, 
    ))
 #+end_src
 ** Writeroom
+#+begin_quote
+From the =:ui zen= module.
+#+end_quote
+
 For starters, I think Doom is a bit over-zealous when zooming in
 #+begin_src emacs-lisp
 (setq +zen-text-scale 0.8)
@@ -1275,7 +1279,9 @@ Then, when using Org it would be nice to make a number of other aesthetic
 tweaks. Namely:
 + Use a serifed variable-pitch font
 + Hiding headline leading stars
++ Using fleurons as headline bullets
 + Hiding line numbers
++ Removing outline indentation
 + Centring the text
 + Turning on ~org-pretty-table-mode~
 
@@ -1285,19 +1291,15 @@ tweaks. Namely:
 (after! writeroom-mode
   (defvar-local +zen--original-org-indent-mode-p nil)
   (defvar-local +zen--original-mixed-pitch-mode-p nil)
-  (defvar-local +zen--original-solaire-mode-p nil)
   (defvar-local +zen--original-org-pretty-table-mode-p nil)
   (defun +zen-enable-mixed-pitch-mode-h ()
     "Enable `mixed-pitch-mode' when in `+zen-mixed-pitch-modes'."
     (when (apply #'derived-mode-p +zen-mixed-pitch-modes)
       (if writeroom-mode
           (progn
-            (setq +zen--original-solaire-mode-p solaire-mode)
-            (solaire-mode -1)
             (setq +zen--original-mixed-pitch-mode-p mixed-pitch-mode)
-            (funcall (if +zen-serif-p #'mixed-pitch-serif-mode #'mixed-pitch-mode) 1))
-        (funcall #'mixed-pitch-mode (if +zen--original-mixed-pitch-mode-p 1 -1))
-        (when +zen--original-solaire-mode-p (solaire-mode 1)))))
+            (funcall (if +zen-serif-p #'mixed-pitch-mode) 1))
+        (funcall #'mixed-pitch-mode (if +zen--original-mixed-pitch-mode-p 1 -1)))))
   (pushnew! writeroom--local-variables
             'display-line-numbers
             'visual-fill-column-width
@@ -1309,14 +1311,12 @@ tweaks. Namely:
               "Reformat the current Org buffer appearance for prose."
               (when (eq major-mode 'org-mode)
                 (setq display-line-numbers nil
-                      visual-fill-column-width 60)
-                (when (featurep 'org-superstar)
-                  (setq-local org-superstar-remove-leading-stars t)
-                  (org-superstar-restart))
+                      visual-fill-column-width 60
+                      org-adapt-indentation nil)
                 (setq
                  +zen--original-org-indent-mode-p org-indent-mode
                  +zen--original-org-pretty-table-mode-p (bound-and-true-p org-pretty-table-mode))
-                (org-indent-mode 1)
+                (org-indent-mode -1)
                 (org-pretty-table-mode 1))))
   (add-hook 'writeroom-mode-disable-hook
             (defun +zen-nonprose-org-h ()
@@ -1328,6 +1328,10 @@ tweaks. Namely:
                 ;; (unless +zen--original-org-pretty-table-mode-p (org-pretty-table-mode -1))
                 ))))
 #+end_src
+
+#+attr_html: :class invertible :alt Writeroom applied to an Org file
+[[https://tecosaur.com/lfs/emacs-config/screenshots/writeroom-and-org.png]]
+
 ** Wakatime
 #+begin_src emacs-lisp
 (use-package! wakatime-mode)
