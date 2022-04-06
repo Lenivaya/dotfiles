@@ -3,8 +3,7 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.browsers.firefox;
-in
-{
+in {
   options.modules.desktop.browsers.firefox.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -27,6 +26,7 @@ in
     home.programs.firefox = {
       enable = true;
       # package = pkgs.firefox-bin;
+      package = pkgs.firefox-esr;
 
       profiles.default = {
         settings = {
@@ -42,7 +42,6 @@ in
           "browser.tabs.loadBookmarksInTabs" = true;
           # Enable userContent.css and userChrome.css
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
-          "browser.aboutConfig.showWarning" = false;
           # Hide 'http://' from url
           "browser.urlbar.trimURLs" = true;
           "browser.compactmode.show" = true;
@@ -63,6 +62,7 @@ in
           # Disable Activity Stream
           # https://wiki.mozilla.org/Firefox/Activity_Stream
           "browser.newtabpage.activity-stream.enabled" = false;
+          "browser.newtabpage.activity-stream.telemetry" = false;
           # Disable new tab tile ads & preload
           # http://www.thewindowsclub.com/disable-remove-ad-tiles-from-firefox
           # http://forums.mozillazine.org/viewtopic.php?p=13876331#p13876331
@@ -70,17 +70,59 @@ in
           # https://gecko.readthedocs.org/en/latest/browser/browser/DirectoryLinksProvider.html#browser-newtabpage-directory-source
           # https://gecko.readthedocs.org/en/latest/browser/browser/DirectoryLinksProvider.html#browser-newtabpage-directory-ping
           "browser.newtabpage.enhanced" = false;
+          "browser.newtabpage.introShown" = true;
           "browser.newtab.preload" = false;
           "browser.newtabpage.directory.ping" = "";
           "browser.newtabpage.directory.source" = "data:text/plain,{}";
+
+          # Reduce search engine noise in the urlbar's completion window. The
+          # shortcuts and suggestions will still work, but Firefox won't clutter
+          # its UI with reminders that they exist.
+          "browser.urlbar.suggest.searches" = false;
+          "browser.urlbar.shortcuts.bookmarks" = false;
+          "browser.urlbar.shortcuts.history" = false;
+          "browser.urlbar.shortcuts.tabs" = false;
+          "browser.urlbar.showSearchSuggestionsFirst" = false;
+          "browser.urlbar.speculativeConnect.enabled" = false;
+          # https://bugzilla.mozilla.org/1642623
+          "browser.urlbar.dnsResolveSingleWordsAfterSearch" = 0;
+          # https://blog.mozilla.org/data/2021/09/15/data-and-firefox-suggest/
+          "browser.urlbar.suggest.quicksuggest.nonsponsored" = false;
+          "browser.urlbar.suggest.quicksuggest.sponsored" = false;
           # Disable some not so useful functionality.
+          "browser.disableResetPrompt" =
+            true; # "Looks like you haven't started Firefox in a while."
+          "browser.onboarding.enabled" =
+            false; # "New to Firefox? Let's get started!" tour
+          "browser.aboutConfig.showWarning" =
+            false; # Warning when opening about:config
+          "extensions.pocket.enabled" = false;
+          "extensions.shield-recipe-client.enabled" = false;
+
+          # Security-oriented defaults
+          "security.family_safety.mode" = 0;
+          # https://blog.mozilla.org/security/2016/10/18/phasing-out-sha-1-on-the-public-web/
+          "security.pki.sha1_enforcement_level" = 1;
+          # https://github.com/tlswg/tls13-spec/issues/1001
+          "security.tls.enable_0rtt_data" = false;
+          # Use Mozilla geolocation service instead of Google if given permission
+          "geo.provider.network.url" =
+            "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%";
+          "geo.provider.use_gpsd" = false;
+          # https://support.mozilla.org/en-US/kb/extension-recommendations
+          "browser.newtabpage.activity-stream.asrouter.userprefs.cfr" = false;
+          "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" =
+            false;
+          "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" =
+            false;
           "extensions.htmlaboutaddons.recommendations.enabled" = false;
           "extensions.htmlaboutaddons.discover.enabled" = false;
-          "extensions.pocket.enabled" = false;
-          "app.normandy.enabled" = false;
-          "app.normandy.api_url" = "";
-          "extensions.shield-recipe-client.enabled" = false;
-          "app.shield.optoutstudies.enabled" = false;
+          "extensions.getAddons.showPane" = false; # uses Google Analytics
+          "browser.discovery.enabled" = false;
+          # Reduce File IO / SSD abuse
+          # Otherwise, Firefox bombards the HD with writes. Not so nice for SSDs.
+          # This forces it to write every 30 minutes, rather than 15 seconds.
+          "browser.sessionstore.interval" = "1800000";
           # Disable battery API
           # https://developer.mozilla.org/en-US/docs/Web/API/BatteryManager
           # https://bugzilla.mozilla.org/show_bug.cgi?id=1313580
@@ -102,12 +144,21 @@ in
           # https://wiki.mozilla.org/Telemetry/Experiments
           # https://support.mozilla.org/en-US/questions/1197144
           # https://firefox-source-docs.mozilla.org/toolkit/components/telemetry/telemetry/internals/preferences.html#id1
-          "toolkit.telemetry.enabled" = false;
           "toolkit.telemetry.unified" = false;
+          "toolkit.telemetry.enabled" = false;
+          "toolkit.telemetry.server" = "data:,";
           "toolkit.telemetry.archive.enabled" = false;
+          "toolkit.telemetry.coverage.opt-out" = true;
+          "toolkit.coverage.opt-out" = true;
+          "toolkit.coverage.endpoint.base" = "";
           "experiments.supported" = false;
           "experiments.enabled" = false;
           "experiments.manifest.uri" = "";
+          "browser.ping-centre.telemetry" = false;
+          # https://mozilla.github.io/normandy/
+          "app.normandy.enabled" = false;
+          "app.normandy.api_url" = "";
+          "app.shield.optoutstudies.enabled" = false;
           # Disable health reports (basically more telemetry)
           # https://support.mozilla.org/en-US/kb/firefox-health-report-understand-your-browser-perf
           # https://gecko.readthedocs.org/en/latest/toolkit/components/telemetry/telemetry/preferences.html
@@ -117,11 +168,19 @@ in
           # Disable firefox Accessibility Service
           # https://www.reddit.com/r/firefox/comments/p8g5zd/why_does_disabling_accessibility_services_improve/
           "accessibility.force_disabled" = 1;
+          # Enable ETP for decent security (makes firefox containers and many
+          # common security/privacy add-ons redundant).
+          "browser.contentblocking.category" = "strict";
+          "privacy.donottrackheader.enabled" = true;
+          "privacy.donottrackheader.value" = 1;
+          "privacy.purge_trackers.enabled" = true;
 
           # disable reports
           "browser.crashReports.unsubmittedCheck.autoSubmit" = false;
-          "browser.crashReports.unsubmittedCheck.autoSubmit2" = false;
+          "browser.crashReports.unsubmittedCheck.autoSubmit2" =
+            false; # don't submit backlogged reports
           "browser.crashReports.unsubmittedCheck.enabled" = false;
+          "browser.tabs.crashReporting.sendReport" = false;
           "breakpad.reportURL" = "";
         };
 
