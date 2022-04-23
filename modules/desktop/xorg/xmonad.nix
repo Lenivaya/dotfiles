@@ -14,12 +14,13 @@ in
   config = mkIf cfg.enable {
     services.xserver.windowManager.xmonad = {
       enable = true;
-      # haskellPackages = pkgs.unstable.haskellPackages;
+      haskellPackages = pkgs.unstable.haskellPackages;
       extraPackages = haskellPackages: [
         haskellPackages.xmonad-contrib
         haskellPackages.xmonad-extras
         haskellPackages.xmonad
         haskellPackages.gloss
+        haskellPackages.flow
       ];
       ghcArgs = [ "-O3" ];
     };
@@ -36,6 +37,8 @@ in
       xmobar
       jq # for weather script
       playerctl # current track script
+      pstree # window swallowing
+      xdotool # cliclable workspaces
     ];
     fonts.fonts = with pkgs; [
       siji # some nice icons (awfull on hidpi)
