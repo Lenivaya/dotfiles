@@ -45,7 +45,7 @@ in
       fd
       fzf
       htop
-      tldr
+      tealdeer
       tree
       fasd
       thefuck
