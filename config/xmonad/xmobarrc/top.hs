@@ -25,7 +25,7 @@ Config
     borderWidth = 1,
     iconRoot = ".",
     commands =
-      [ Run StdinReader,
+      [ Run UnsafeStdinReader,
         Run Date "%d.%m.%y / %A / %H:%M" "date" 10,
         -- Run Weather "UUWW" ["-t", "<fn=1>\57550</fn><tempC>°C / <rh>% / <pressure> Pa"] 10000,
         Run ComX "openweathermap" [] "" "weather" 10000
@@ -34,7 +34,7 @@ Config
     alignSep = "}{",
     template =
       " \
-      \%StdinReader%\
+      \%UnsafeStdinReader%\
       \}\
       \\
       \{\

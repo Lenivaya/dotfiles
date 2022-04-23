@@ -1,4 +1,5 @@
 {-# LANGUAGE LambdaCase #-}
+{-# OPTIONS_GHC -Wno-deprecations #-}
 
 module XMonad.Custom.Bindings
   ( keys
@@ -19,6 +20,7 @@ import           XMonad.Actions.CycleWS
 import           XMonad.Actions.DwmPromote
 import           XMonad.Actions.DynamicProjects
 import           XMonad.Actions.DynamicWorkspaces
+import           XMonad.Actions.EasyMotion      ( selectWindow )
 import qualified XMonad.Actions.FlexibleManipulate
                                                as F
 import           XMonad.Actions.FloatSnap
@@ -31,15 +33,12 @@ import           XMonad.Actions.WindowGo
 import           XMonad.Actions.WindowMenu
 import           XMonad.Actions.WithAll
 import           XMonad.Custom.Layout
-import           XMonad.Custom.Layout           ( selectLayoutByName
-                                                , toggleLayout
-                                                )
 import qualified XMonad.Custom.Misc            as C
-import           XMonad.Custom.Projects         ( selectBrowserByName )
 import           XMonad.Custom.Prompt           ( hotPromptTheme
                                                 , promptTheme
                                                 )
 import           XMonad.Custom.Scratchpads
+import           XMonad.Custom.Workspaces       ( selectBrowserByName )
 import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.UrgencyHook
 import           XMonad.Layout.BinarySpacePartition
@@ -59,6 +58,8 @@ import           XMonad.Prompt.Workspace
 import qualified XMonad.StackSet               as S
 import           XMonad.Util.EZConfig
 import           XMonad.Util.NamedScratchpad
+                                         hiding ( namedScratchpadFilterOutWorkspace
+                                                )
 import           XMonad.Util.WorkspaceCompare
 
 modMask :: KeyMask
@@ -223,6 +224,7 @@ keysWindows _ =
     , ("M-;"    , onGroup S.focusUp')
     , ("M-S-'"  , windows S.swapDown)
     , ("M-S-;"  , windows S.swapUp)
+    , ("M-w s", selectWindow def >>= (`whenJust` windows . S.focusWindow))
     ]
     ++ zipKeys' "M-"   directionKeys directions windowGo   True
     ++ zipKeys' "M-S-" directionKeys directions windowSwap True
@@ -264,8 +266,9 @@ keysResize _ =
 
 mouseBindings :: XConfig Layout -> M.Map (KeyMask, Button) (Window -> X ())
 mouseBindings XConfig{} = M.fromList
+  [
     -- mod-button1, flexible linear scale
-  [ ((mod4Mask, button1), \w -> focus w >> F.mouseWindow F.discrete w)
+    ((mod4Mask, button1), \w -> focus w >> F.mouseWindow F.discrete w)
   ,
       -- mod-button2, Raise the window to the top of the stack
     ((mod4Mask, button2), \w -> focus w >> windows S.shiftMaster)
@@ -274,5 +277,17 @@ mouseBindings XConfig{} = M.fromList
     ( (mod4Mask, button3)
     , \w -> focus w >> mouseResizeWindow w >> windows S.shiftMaster
     )
-      -- you may also bind events to the mouse scroll wheel (button4 and button5)
+  ,
+
+  -- you may also bind events to the mouse scroll wheel (button4 and button5)
+    ((mod4Mask, button4), \w -> withFocused minimizeWindow)
+  , ((mod4Mask, button5), \w -> withLastMinimized maximizeWindowAndFocus)
+  ,
+
+  --- Some touchpad things
+   -- Go to next workspace on left scroll
+    ((mod4Mask, 7)      , const nextNonEmptyWS)
+  ,
+   -- Go to previous workspace on right scroll
+    ((mod4Mask, 6)      , const prevNonEmptyWS)
   ]

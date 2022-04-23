@@ -1,4 +1,4 @@
-module XMonad.Custom.Projects
+module XMonad.Custom.Workspaces
   ( projects
   , workspaces
   , selectBrowserByName

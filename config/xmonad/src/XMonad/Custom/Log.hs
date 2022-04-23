@@ -8,12 +8,13 @@ import           Data.List                      ( isInfixOf )
 import           System.IO
 import           XMonad                  hiding ( logHook )
 import           XMonad.Actions.CopyWindow
+import           XMonad.Custom.Scratchpads
 import           XMonad.Custom.Theme
 import           XMonad.Hooks.CurrentWorkspaceOnTop
 import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.EwmhDesktops
 import           XMonad.Hooks.RefocusLast
-import           XMonad.Util.NamedScratchpad
+import           XMonad.Util.ClickableWorkspaces
 import           XMonad.Util.SpawnNamedPipe
 import           XMonad.Util.WorkspaceCompare
 
@@ -70,7 +71,7 @@ safePrintToPipe = maybe (\_ -> return ()) hPutStrLn
 logHook :: X ()
 logHook = do
   currentWorkspaceOnTop
-  ewmhDesktopsLogHook
+  -- ewmhDesktopsLogHook
   refocusLastLogHook
   t <- getNamedPipe "xmobarTop"
   b <- getNamedPipe "xmobarBot"
@@ -86,9 +87,11 @@ logHook = do
   let copiesUrgent ws
         | ws `elem` c = xmobarColor yellow2 "" . wrap "*" "!" $ ws
         | otherwise   = xmobarColor white2 "" . wrap "!" "!" $ ws
-  dynamicLogWithPP $ topBarPP { ppCurrent = copiesCurrent
-                              , ppHidden  = copiesHidden
-                              , ppUrgent  = copiesUrgent
-                              , ppOutput  = safePrintToPipe t
-                              }
+
+  topBar <- clickablePP topBarPP { ppCurrent = copiesCurrent
+                                 , ppHidden  = copiesHidden
+                                 , ppUrgent  = copiesUrgent
+                                 , ppOutput  = safePrintToPipe t
+                                 }
+  dynamicLogWithPP topBar
   dynamicLogWithPP $ botBarPP { ppOutput = safePrintToPipe b }
