@@ -1,1 +1,1 @@
-src/Main.hs
+src/exe/Main.hs
