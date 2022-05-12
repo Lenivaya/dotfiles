@@ -199,6 +199,7 @@ keysSpawnables _ =
   , ("M-o t"       , namedScratchpadAction scratchpads "top")
   , ("M-o v", namedScratchpadAction scratchpads "volume")
   , ("M-o s", namedScratchpadAction scratchpads "soundEffects")
+  , ("M-o d", namedScratchpadAction scratchpads "discord")
   ]
 
 keysWindows :: XConfig Layout -> [(String, X ())]

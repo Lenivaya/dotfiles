@@ -46,6 +46,7 @@ scratchpads =
          (spawnTerminalWith "NSPTop" (C.top C.applications))
          (className =? "NSPTop")
          floatingNSP
+    , NS "discord" "Discord" (className =? "discord") floatingNSP
     ]
 
 
