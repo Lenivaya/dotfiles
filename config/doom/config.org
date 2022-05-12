@@ -680,7 +680,7 @@ Together these should give me a rather good experience reading ebooks.
 **** Screenshots
 This makes it a breeze to take lovely screenshots.
 #+begin_src emacs-lisp
-(package! screenshot :recipe (:host github :repo "tecosaur/screenshot"))
+(package! screenshot :recipe (:host github :repo "tecosaur/screenshot" :build (:not compile)))
 #+end_src
 **** Theme schedule
 #+begin_src emacs-lisp
