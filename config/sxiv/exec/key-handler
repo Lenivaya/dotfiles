@@ -2,6 +2,7 @@
 while read file; do
 	case "$1" in
 	"w") setwall "$file" & ;;
+	"W") feh --bg-fill "$file" & ;;
 	"r")
 		convert -rotate 90 "$file" "$file"
 		;;
