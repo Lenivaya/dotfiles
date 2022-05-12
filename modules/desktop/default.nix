@@ -3,8 +3,7 @@
 with lib;
 with lib.my;
 let configDir = config.dotfiles.configDir;
-in
-{
+in {
   services.xserver = {
     enable = true;
     desktopManager.xterm.enable = lib.mkDefault false;
@@ -29,6 +28,14 @@ in
 
   services.dbus.packages = with pkgs; [ gnome3.dconf ];
   programs.dconf.enable = true;
+
+  xdg = {
+    portal = {
+      enable = true;
+      extraPortals = with pkgs; [ xdg-desktop-portal-gtk xdg-desktop-portal-gnome ];
+      gtkUsePortal = true;
+    };
+  };
 
   services.xserver.displayManager.sessionCommands = ''
     ${pkgs.sxhkd}/bin/sxhkd -c ${configDir}/sxhkd/sxhkdrc &

@@ -10,6 +10,7 @@ in {
     user.packages = with pkgs; [
       mono
       #unity unityhub
+      unityhub
       omnisharp-roslyn
     ];
   };

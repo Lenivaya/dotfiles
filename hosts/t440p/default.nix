@@ -5,6 +5,7 @@
     ../personal.nix
     ./hardware-configuration.nix
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t440p
+    inputs.nixos-hardware.nixosModules.common-pc-laptop-acpi_call
     ./jack_retask/jack_retask.nix
   ];
 
@@ -27,6 +28,8 @@
           enable = true;
           ungoogled = true;
         };
+        qutebrowser.enable = true;
+        # brave.enable = true;
       };
 
       term = {
@@ -75,6 +78,7 @@
       node.enable = true;
       python.enable = true;
       elixir.enable = true;
+      csharp.enable = true;
     };
 
     services = {
@@ -87,11 +91,12 @@
       cpu.intel.enable = true;
       cpu.undervolt = rec {
         enable = true;
-        core = (-100); # 80?
-        gpu = (-50);
+        core = (-90);
+        # gpu = (-50);
+        gpu = (-40);
         uncore = core;
         analogio = core;
-        temp = 100;
+        # temp = 100;
       };
       gpu.intel.enable = true;
       gpu.nvidia.enable = true;
@@ -102,7 +107,7 @@
       audio.enable = true;
       fingerprint.enable = true;
       bluetooth.enable = true;
-      zram.enable = true;
+      # zram.enable = true;
     };
 
     hosts.enable = true;
@@ -121,17 +126,15 @@
       };
     };
   };
-  environment.systemPackages =
-    let
-      nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
-        export __NV_PRIME_RENDER_OFFLOAD=1
-        export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-        export __GLX_VENDOR_LIBRARY_NAME=nvidia
-        export __VK_LAYER_NV_optimus=NVIDIA_only
-        exec -a "$0" "$@"
-      '';
-    in
-    [ nvidia-offload ];
+  environment.systemPackages = let
+    nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
+      export __NV_PRIME_RENDER_OFFLOAD=1
+      export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+      export __GLX_VENDOR_LIBRARY_NAME=nvidia
+      export __VK_LAYER_NV_optimus=NVIDIA_only
+      exec -a "$0" "$@"
+    '';
+  in [ nvidia-offload ];
 
   # HACK Disable nvidia card for
   # the sake of power consumption
@@ -153,6 +156,8 @@
   services.fwupd.enable = true;
 
   services.tlp.settings.CPU_MAX_PERF_ON_BAT = lib.mkForce 50;
+  # services.thermald.enable = lib.mkForce false;
+  # services.throttled.enable = true;
 
   services.clight.settings.keyboard.disabled = lib.mkForce true;
 
@@ -170,4 +175,11 @@
     theme = "abstract_ring";
     themePackages = with pkgs.my; [ plymouth-themes ];
   };
+
+  networking.firewall = {
+    allowedUDPPorts = [ 3000 4000 ];
+    allowedTCPPorts = [ 3000 4000 ];
+  };
+
+  user.packages = with pkgs; [ binance ];
 }

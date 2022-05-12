@@ -47,7 +47,7 @@
       curl
       youtube-dl
       appimage-run
-      tdesktop
+      unstable.tdesktop
       brightnessctl
     ] ++ (with pkgs.gnome; [
       gnome-sound-recorder

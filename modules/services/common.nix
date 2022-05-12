@@ -7,6 +7,7 @@
     upower.enable = true;
     devmon.enable = true;
     gvfs.enable = true;
+    udev.packages = [ pkgs.android-udev-rules ];
     openssh.enable = true;
     earlyoom.enable = true;
 

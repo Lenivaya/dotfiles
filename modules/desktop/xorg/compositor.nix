@@ -46,6 +46,8 @@
 
       shadow-radius = 7;
 
+      use-damage = true;
+
       # Unredirect all windows if a full-screen opaque window is detected, to
       # maximize performance for full-screen windows. Known to cause
       # flickering when redirecting/unredirecting windows.
