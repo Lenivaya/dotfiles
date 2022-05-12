@@ -8,10 +8,11 @@ in
   options.modules.desktop.media.spotify.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    nixpkgs.overlays = [ inputs.nur.overlay ];
+    # nixpkgs.overlays = [ inputs.nur.overlay ];
     user.packages = with pkgs; [
       spotify
       spicetify-cli
+      # unstable.spot
       # (writeScriptBin "spotify" ''
       #   #!${stdenv.shell}
       #   exec ${nur.repos.milahu.spotify-adblock-linux}/bin/spotify-adblock-linux

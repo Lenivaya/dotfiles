@@ -24,9 +24,9 @@ in {
     serviceConfig = {
       ExecStart = ''
         ${pkgs.xidlehook}/bin/xidlehook \
+          --detect-sleep \
           --not-when-fullscreen \
           --not-when-audio \
-          --detect-sleep \
           --socket "$XIDLEHOOK_SOCK" \
           --timer 300 "betterlockscreen -l dim" "" \
           ${

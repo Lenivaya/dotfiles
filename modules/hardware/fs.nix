@@ -19,6 +19,7 @@ in
         udevil.enable = true;
       };
       services.udisks2.enable = true;
+      services.gvfs.enable = true;
 
       # Support for more filesystems, mostly to support external drives
       environment.systemPackages = with pkgs; [

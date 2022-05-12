@@ -9,8 +9,7 @@
 with lib;
 with lib.my;
 let cfg = config.modules.desktop.media.recording;
-in
-{
+in {
   options.modules.desktop.media.recording = {
     enable = mkBoolOpt false;
     audio.enable = mkBoolOpt true;
@@ -19,8 +18,11 @@ in
 
   config = mkIf cfg.enable {
     user.packages = with pkgs;
-      # for recording and remastering audio
-      (if cfg.audio.enable then [ audacity ] else [ ]) ++
+    # for recording and remastering audio
+      (if cfg.audio.enable then
+        with unstable; [ audacity-gtk-3 ardour ]
+      else
+        [ ]) ++
       # for longer term streaming/recording the screen
       (if cfg.video.enable then [ obs-studio handbrake ] else [ ]);
   };
