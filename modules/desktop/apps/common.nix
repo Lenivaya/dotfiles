@@ -49,6 +49,7 @@
       appimage-run
       unstable.tdesktop
       brightnessctl
+      blanket # ambient sounds
     ] ++ (with pkgs.gnome; [
       gnome-sound-recorder
       adwaita-icon-theme
