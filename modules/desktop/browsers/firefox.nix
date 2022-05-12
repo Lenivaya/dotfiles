@@ -1,4 +1,4 @@
-{ config, options, lib, pkgs, home-manager, ... }:
+{ config, options, lib, pkgs, inputs, home-manager, ... }:
 
 with lib;
 with lib.my;
@@ -7,6 +7,8 @@ in {
   options.modules.desktop.browsers.firefox.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
+
+    nixpkgs.overlays = [ inputs.nur.overlay ];
 
     # Desktop entry for private firefox window
     user.packages = with pkgs;
@@ -25,8 +27,35 @@ in {
 
     home.programs.firefox = {
       enable = true;
-      # package = pkgs.firefox-bin;
-      package = pkgs.firefox-esr;
+      package = pkgs.firefox-esr.override {
+        extraNativeMessagingHosts = with pkgs;
+          [
+            # Watch videos using mpv
+            nur.repos.ambroisie.ff2mpv-go
+          ];
+      };
+      # package = pkgs.firefox-esr;
+
+      extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+        sponsorblock
+        ublock-origin
+        privacy-badger
+        decentraleyes
+        clearurls
+        libredirect
+        # terms-of-service-didnt-read
+        buster-captcha-solver
+
+        tree-style-tab
+        tab-session-manager
+
+        ff2mpv
+        h264ify
+
+        refined-github
+        reddit-comment-collapser
+        reddit-enhancement-suite
+      ];
 
       profiles.default = {
         settings = {
@@ -39,6 +68,7 @@ in {
           # Keep window opened when last tab closed
           "browser.tabs.closeWindowWithLastTab" = false;
           "browser.tabs.insertAfterCurrent" = true;
+          "browser.tabs.insertRelatedAfterCurrent" = true;
           "browser.tabs.loadBookmarksInTabs" = true;
           # Enable userContent.css and userChrome.css
           "toolkit.legacyUserProfileCustomizations.stylesheets" = true;
