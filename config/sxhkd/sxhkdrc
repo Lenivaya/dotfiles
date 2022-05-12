@@ -37,4 +37,7 @@ XF86Explorer
     nautilus
 
 ctrl + XF86Audio{LowerVolume,RaiseVolume,Mute}
-    playerctl {previous,next,play-pause}
+    playerctl --player playerctld {previous,next,play-pause}
+
+ctrl + {Delete,End,Escape}
+    dunstctl {close,close-all,history-pop}
