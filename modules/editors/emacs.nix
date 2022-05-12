@@ -13,12 +13,14 @@ let
       exec emacsclient --alternate-editor emacs "$@"
     fi
   '';
-in
-{
+in {
   options.modules.editors.emacs = {
     enable = mkBoolOpt false;
     default = mkBoolOpt false;
-    doom = { enable = mkBoolOpt true; };
+    doom = rec {
+      enable = mkBoolOpt false;
+      repoUrl = mkOpt types.str "https://github.com/hlissner/doom-emacs";
+    };
   };
 
   config = mkIf cfg.enable {
@@ -63,7 +65,10 @@ in
       wakatime
     ];
 
-    env.PATH = [ "$HOME/.emacs.d/bin" ];
+    env.PATH = [
+      # "$HOME/.emacs.d/bin"
+      "$XDG_CONFIG_HOME/emacs/bin"
+    ];
 
     fonts.fonts = [ pkgs.emacs-all-the-icons-fonts ];
 
@@ -78,13 +83,17 @@ in
         ];
     };
 
-    env.EDITOR =
-      mkIf cfg.default (mkOverride 900 "${editorScript}/bin/emacseditor");
+    env = {
+      EDITOR =
+        mkIf cfg.default (mkOverride 900 "${editorScript}/bin/emacseditor");
+      VISUAL =
+        mkIf cfg.default (mkOverride 900 "${editorScript}/bin/emacseditor");
+    };
 
     # init.
-    system.userActivationScripts.doomEmacs = mkIf cfg.doom.enable ''
-      if ! [ -d $HOME/.emacs.d ]; then
-            git clone https://github.com/hlissner/doom-emacs $HOME/.emacs.d
+    system.userActivationScripts.installDoomEmacs = mkIf cfg.doom.enable ''
+      if ! [ -d "$XDG_CONFIG_HOME/emacs" ]; then
+          git clone --depth=1 --single-branch "${cfg.doom.repoUrl}" "$XDG_CONFIG_HOME/emacs"
       fi
       if ! [ -d $HOME/.config/doom ]; then
             ln -s ${configDir}/doom ~/.config/doom
