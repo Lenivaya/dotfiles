@@ -40,6 +40,7 @@ import           XMonad.Layout.OneBig
 import           XMonad.Layout.PerWorkspace
 import           XMonad.Layout.Reflect
 import           XMonad.Layout.ResizableTile
+import           XMonad.Layout.ShowWName
 import           XMonad.Layout.Simplest
 import           XMonad.Layout.Spacing
 import           XMonad.Layout.SubLayouts
@@ -73,6 +74,7 @@ layoutHook =
   fullscreenFloat
     .   smartBorders
     .   boringWindows
+    .   showWName
     $   lessBorders OnlyLayoutFloat
     $   mkToggle (single NBFULL)
     $   refocusLastLayoutHook
