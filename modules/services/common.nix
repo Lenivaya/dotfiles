@@ -3,7 +3,6 @@
     xbanish.enable = true;
 
     geoclue2.enable = true;
-    # thermald.enable = true;
     acpid.enable = true;
     upower.enable = true;
     devmon.enable = true;
