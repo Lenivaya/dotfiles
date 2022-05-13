@@ -72,6 +72,10 @@ in {
       }];
     };
 
+    systemd.user.services.easyeffects = {
+      script = "${pkgs.easyeffects}/bin/easyeffects --gapplication-service";
+    };
+
     user.packages = with pkgs;
       [ unstable.easyeffects pulsemixer pamix pamixer pulseaudio pavucontrol ]
       ++ [ carla ] # JACK utilities
