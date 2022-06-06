@@ -1,5 +1,9 @@
 HISTSIZE=100000   # Max events to store in internal history.
 SAVEHIST=100000   # Max events to store in history file.
+setopt INC_APPEND_HISTORY
+setopt HIST_IGNORE_ALL_DUPS
+setopt HIST_SAVE_NO_DUPS
+setopt HIST_FIND_NO_DUPS
 
 if [[ ! -d $HOME/.zinit ]]; then
     print -P "Installing Plugin Manager (zdharma/zinit)…"
