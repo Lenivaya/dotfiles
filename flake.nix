@@ -3,14 +3,24 @@
 
   inputs = {
     # Core dependencies
-    nixpkgs.url = "nixpkgs/nixos-21.11"; # primary nixpkgs
+    nixpkgs.url = "nixpkgs/nixos-22.05"; # primary nixpkgs
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable"; # for packages on the edge
 
-    home-manager.url = "github:nix-community/home-manager/release-21.11";
+    home-manager.url = "github:nix-community/home-manager/release-22.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Discord
+    discord-overlay = {
+      url = "github:InternetUnexplorer/discord-overlay";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    discocss = {
+      url = "github:mlvzk/discocss/flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Extras
     nixos-hardware.url = "github:nixos/nixos-hardware";
@@ -29,6 +39,7 @@
         import pkgs {
           inherit system;
           config.allowUnfree = true; # forgive me Stallman senpai
+          config.permittedInsecurePackages = [ "electron-13.6.9" ];
           overlays = extraOverlays ++ (lib.attrValues self.overlays);
         };
       pkgs = mkPkgs nixpkgs [ self.overlay ];
@@ -40,8 +51,7 @@
           lib = self;
         };
       });
-    in
-    {
+    in {
       lib = lib.my;
 
       overlay = final: prev: {
