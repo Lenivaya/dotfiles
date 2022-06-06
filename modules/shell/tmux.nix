@@ -9,7 +9,7 @@ let
       name = "tmux";
       desktopName = "Tmux";
       exec = "${config.modules.desktop.term.default} -e tmux";
-      categories = "System";
+      categories = ["System"];
     };
 
 in

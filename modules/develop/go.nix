@@ -16,6 +16,6 @@ in
       goPath = "go";
     };
 
-    user.packages = with pkgs; [ goimports ];
+    user.packages = with pkgs; [ gotools ];
   };
 }

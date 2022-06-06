@@ -19,7 +19,7 @@ in {
           genericName = "Open a private Firefox window";
           icon = "firefox";
           exec = "firefox --private-window";
-          categories = "Network";
+          categories = [ "Network" ];
         })
       ];
 
@@ -27,7 +27,7 @@ in {
 
     home.programs.firefox = {
       enable = true;
-      package = pkgs.firefox-esr.override {
+      package = pkgs.firefox.override {
         extraNativeMessagingHosts = with pkgs;
           [
             # Watch videos using mpv
