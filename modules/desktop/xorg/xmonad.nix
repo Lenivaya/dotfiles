@@ -14,7 +14,7 @@ in
   config = mkIf cfg.enable {
     services.xserver.windowManager.xmonad = {
       enable = true;
-      haskellPackages = pkgs.unstable.haskellPackages;
+      # haskellPackages = pkgs.unstable.haskellPackages;
       extraPackages = haskellPackages: [
         haskellPackages.xmonad-contrib
         haskellPackages.xmonad-extras

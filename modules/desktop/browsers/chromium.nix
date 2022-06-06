@@ -38,7 +38,7 @@ in
           genericName = "Chromium browser";
           icon = "chromium";
           exec = "chromium";
-          categories = "Network";
+          categories = [ "Network" ];
         })
       ];
 

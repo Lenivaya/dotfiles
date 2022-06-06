@@ -20,22 +20,22 @@ in {
       enable = true;
       greeters.gtk.theme = {
         name = "Adwaita-dark";
-        package = pkgs.gnome3.gnome_themes_standard;
+        package = pkgs.gnome3.gnome-themes-extra;
       };
     };
 
   };
 
-  services.dbus.packages = with pkgs; [ gnome3.dconf ];
+  services.dbus.packages = with pkgs; [ dconf ];
   programs.dconf.enable = true;
 
-  xdg = {
-    portal = {
-      enable = true;
-      extraPortals = with pkgs; [ xdg-desktop-portal-gtk xdg-desktop-portal-gnome ];
-      gtkUsePortal = true;
-    };
-  };
+  # xdg = {
+  #   portal = {
+  #     enable = true;
+  #     extraPortals = with pkgs; [ xdg-desktop-portal-gtk xdg-desktop-portal-gnome ];
+  #     gtkUsePortal = true;
+  #   };
+  # };
 
   services.xserver.displayManager.sessionCommands = ''
     ${pkgs.sxhkd}/bin/sxhkd -c ${configDir}/sxhkd/sxhkdrc &

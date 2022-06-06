@@ -42,7 +42,7 @@ in
           desktopName = "Rofi: Calculator";
           icon = "calc";
           exec = rofiCommand "calc";
-          categories = "Development";
+          categories = [ "Development" ];
         })
         (makeDesktopItem {
           name = "Rofi-files";

@@ -36,7 +36,7 @@
         desktopName = "Calculator";
         icon = "calc";
         exec = "${pkgs.alacritty}/bin/alacritty -e qalc";
-        categories = "Development";
+        categories = [ "Development" ];
       })
       neovim
       nnn
@@ -50,6 +50,7 @@
       unstable.tdesktop
       brightnessctl
       blanket # ambient sounds
+      gnome-usage
     ] ++ (with pkgs.gnome; [
       gnome-sound-recorder
       adwaita-icon-theme
@@ -58,7 +59,6 @@
       file-roller
       gnome-autoar
       gnome-system-monitor
-      gnome-usage
       eog
       geary
     ]) ++ (with pkgs.cinnamon; [ nemo ]);

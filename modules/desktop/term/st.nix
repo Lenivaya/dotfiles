@@ -24,7 +24,7 @@ in
         genericName = "Default terminal";
         icon = "utilities-terminal";
         exec = "st";
-        categories = "Development;System;Utility";
+        categories = [ "Development" "System" "Utility" ];
       })
     ];
   };
