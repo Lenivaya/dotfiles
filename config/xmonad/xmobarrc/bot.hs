@@ -35,8 +35,8 @@ Config
             "  ",
             "-o",
             "",
-            "-a",
-            "notify-send -u critical 'Battery running out!!!'",
+            -- "-a",
+            -- "notify-send -u critical 'Battery running out!!!'",
             "-A",
             "5"
           ]
