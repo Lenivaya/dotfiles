@@ -21,7 +21,7 @@ scrolling:
   multiplier: 3
 
 font:
-  size: 8
+  size: 10
 
   normal:
     family: monospace
@@ -89,8 +89,6 @@ bell:
   animation: EaseOutExpo
   duration: 0
   color: "0xffffff"
-
-background_opacity: 1.0
 
 selection:
   semantic_escape_chars: ',│`|:"'' ()[]{}<>'
