@@ -91,6 +91,7 @@
       cpu.intel.enable = true;
       cpu.undervolt = rec {
         enable = true;
+        core = (-80);
         gpu = (-40);
         uncore = core;
         analogio = core;
@@ -178,4 +179,12 @@
   };
 
   user.packages = with pkgs; [ binance ];
+
+  # FIXME pipewire-pulse is broken on 22.05
+  # so using just pulseaudio
+  hardware = {
+    pulseaudio.enable = true;
+    pulseaudio.support32Bit = true;
+  };
+  services.pipewire.enable = lib.mkForce false;
 }
