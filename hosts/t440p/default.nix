@@ -78,7 +78,7 @@
       node.enable = true;
       python.enable = true;
       elixir.enable = true;
-      csharp.enable = true;
+      # csharp.enable = true;
     };
 
     services = {
@@ -91,8 +91,6 @@
       cpu.intel.enable = true;
       cpu.undervolt = rec {
         enable = true;
-        core = (-90);
-        # gpu = (-50);
         gpu = (-40);
         uncore = core;
         analogio = core;
@@ -156,14 +154,12 @@
   services.fwupd.enable = true;
 
   services.tlp.settings.CPU_MAX_PERF_ON_BAT = lib.mkForce 50;
-  # services.thermald.enable = lib.mkForce false;
-  # services.throttled.enable = true;
 
   services.clight.settings.keyboard.disabled = lib.mkForce true;
 
   # Kernel
-  boot.kernelPackages =
-    lib.mkForce pkgs.unstable.linuxKernel.packages.linux_lqx;
+  boot.kernelPackages = lib.mkForce pkgs.linuxKernel.packages.linux_zen;
+  # lib.mkForce pkgs.unstable.linuxKernel.packages.linux_lqx;
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
     #      vulnerabilities. Don't copy this blindly! And especially not for
