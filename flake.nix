@@ -13,20 +13,15 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
     # Discord
-    discord-overlay = {
-      url = "github:InternetUnexplorer/discord-overlay";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    discocss = {
-      url = "github:mlvzk/discocss/flake";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    discord-overlay.url = "github:InternetUnexplorer/discord-overlay";
+    discocss.url = "github:mlvzk/discocss/flake";
 
     # Extras
     nixos-hardware.url = "github:nixos/nixos-hardware";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     nur.url = "github:nix-community/NUR";
     adblock.url = "github:StevenBlack/hosts";
+    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
   };
 
   outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, adblock, ... }:
@@ -69,7 +64,20 @@
 
       nixosConfigurations = mapHosts ./hosts { };
 
-      devShell."${system}" = import ./shell.nix { inherit pkgs; };
+      devShells."${system}".default = import ./shell.nix {
+        inherit pkgs;
+        pre-commit-hook = self.checks.${system}.pre-commit-check;
+      };
+
+      checks.${system}.pre-commit-check =
+        inputs.pre-commit-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            nixpkgs-fmt.enable = true;
+            # nixfmt.enable = true;
+            shellcheck.enable = true;
+          };
+        };
 
       templates = {
         full = {
