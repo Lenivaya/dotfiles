@@ -28,10 +28,10 @@ XF86MonBrightness{Up,Down}
     brightnessdunst {up,down}
 
 XF86Search
-    rofi -show drun -theme main
+    rofi -show drun
 
 XF86LaunchA
-    rofi -show window -window-thumbnail -theme main
+    rofi -show window -window-thumbnail
 
 XF86Explorer
     nautilus

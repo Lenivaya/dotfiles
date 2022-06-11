@@ -5,8 +5,7 @@ with lib.my;
 let
   cfg = config.modules.desktop.apps.rofi;
   configDir = config.dotfiles.configDir;
-in
-{
+in {
   options.modules.desktop.apps.rofi.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -29,58 +28,54 @@ in
       recursive = true;
     };
 
-    user.packages =
-      let
-        rofiCommand = modi:
-          "rofi -theme ${config.home.programs.rofi.theme} -show ${modi}";
-      in
-      with pkgs; [
-        wmctrl # windows bringing support
+    user.packages = let rofiCommand = modi: "rofi -show ${modi}";
+    in with pkgs; [
+      wmctrl # windows bringing support
 
-        (makeDesktopItem {
-          name = "Rofi-calc";
-          desktopName = "Rofi: Calculator";
-          icon = "calc";
-          exec = rofiCommand "calc";
-          categories = [ "Development" ];
-        })
-        (makeDesktopItem {
-          name = "Rofi-files";
-          desktopName = "Rofi: Filebrowser";
-          icon = "system-file-manager";
-          exec = rofiCommand "file-browser-extended";
-        })
-        (makeDesktopItem {
-          name = "Rofi-emojis";
-          desktopName = "Rofi: emoji";
-          icon = "face-smile";
-          exec = rofiCommand "emoji";
-        })
-        (makeDesktopItem {
-          name = "reboot";
-          desktopName = "System: Reboot";
-          icon = "system-reboot";
-          exec = "systemctl reboot";
-        })
-        (makeDesktopItem {
-          name = "shutdown";
-          desktopName = "System: Shut Down";
-          icon = "system-shutdown";
-          exec = "systemctl shutdown";
-        })
-        (makeDesktopItem {
-          name = "sleep";
-          desktopName = "System: Sleep";
-          icon = "system-suspend";
-          exec = "zzz -f";
-        })
-        (makeDesktopItem {
-          name = "lock-display";
-          desktopName = "Lock screen";
-          icon = "system-lock-screen";
-          exec = "zzz";
-        })
-      ];
+      (makeDesktopItem {
+        name = "Rofi-calc";
+        desktopName = "Rofi: Calculator";
+        icon = "calc";
+        exec = rofiCommand "calc";
+        categories = [ "Development" ];
+      })
+      (makeDesktopItem {
+        name = "Rofi-files";
+        desktopName = "Rofi: Filebrowser";
+        icon = "system-file-manager";
+        exec = rofiCommand "file-browser-extended";
+      })
+      (makeDesktopItem {
+        name = "Rofi-emojis";
+        desktopName = "Rofi: emoji";
+        icon = "face-smile";
+        exec = rofiCommand "emoji";
+      })
+      (makeDesktopItem {
+        name = "reboot";
+        desktopName = "System: Reboot";
+        icon = "system-reboot";
+        exec = "systemctl reboot";
+      })
+      (makeDesktopItem {
+        name = "shutdown";
+        desktopName = "System: Shut Down";
+        icon = "system-shutdown";
+        exec = "systemctl shutdown";
+      })
+      (makeDesktopItem {
+        name = "sleep";
+        desktopName = "System: Sleep";
+        icon = "system-suspend";
+        exec = "zzz -f";
+      })
+      (makeDesktopItem {
+        name = "lock-display";
+        desktopName = "Lock screen";
+        icon = "system-lock-screen";
+        exec = "zzz";
+      })
+    ];
   };
 
 }
