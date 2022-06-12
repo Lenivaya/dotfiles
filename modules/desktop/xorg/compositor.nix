@@ -7,6 +7,7 @@
     vSync = true;
     experimentalBackends = true;
 
+    blur = true;
     activeOpacity = "1.0";
     inactiveOpacity = "0.92";
     inactiveDim = "0.3";
@@ -19,7 +20,13 @@
       "0:_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
       "96:_NET_WM_STATE@:32a *= '_NET_WM_STATE_STICKY'"
     ];
-    blurExclude = [ "window_type = 'dock'" "window_type = 'desktop'" ];
+    blurExclude = [
+      "window_type = 'dock'"
+      "window_type = 'desktop'"
+      "class_g = 'slop'"
+      "class_g ?= 'xfce4-screenshooter'"
+      "_GTK_FRAME_EXTENTS@:c"
+    ];
 
     fade = true;
     fadeDelta = 1;
@@ -71,7 +78,6 @@
       use-ewmh-active-win = true;
       detect-rounded-corners = true;
       detect-client-opacity = true;
-      sw-opti = false;
       focus-exclude = [];
       detect-transient = true;
       detect-client-leader = true;
