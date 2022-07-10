@@ -2,8 +2,7 @@
 
 with lib.my;
 let configDir = config.dotfiles.configDir;
-in
-{
+in {
   home-manager.users.${config.user.name} = {
     gtk = {
       enable = true;
@@ -12,7 +11,7 @@ in
         name = "Papirus";
       };
       theme = {
-        package = pkgs.gnome3.gnome-themes-extra;
+        package = pkgs.gnome.gnome-themes-extra;
         name = "Adwaita-dark";
       };
       gtk3 = {
@@ -33,7 +32,7 @@ in
       platformTheme = "gnome";
       style = {
         package = pkgs.adwaita-qt;
-        name = "adwaita";
+        name = "adwaita-dark";
       };
     };
   };
@@ -41,6 +40,7 @@ in
   services.xserver.displayManager.sessionCommands = ''
     # GTK2_RC_FILES must be available to the display manager.
     export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
+    export GTK_THEME=Adwaita:dark
   '';
 
   home.file.".Xresources".source = "${configDir}/xresources/.Xresources";
