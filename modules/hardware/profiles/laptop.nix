@@ -3,9 +3,11 @@
 with lib;
 with lib.my;
 let cfg = config.modules.hardware.profiles.laptop;
-in
-{
-  options.modules.hardware.profiles.laptop.enable = mkBoolOpt false;
+in {
+  options.modules.hardware.profiles.laptop = {
+    enable = mkBoolOpt false;
+    battery = mkOpt types.str "BAT0";
+  };
 
   config = mkIf cfg.enable {
     boot.kernelParams = [
@@ -28,5 +30,23 @@ in
       # Set scheduler for rotating disks
       ACTION=="add|change", KERNEL=="sd[a-z]", ATTR{queue/rotational}=="1", ATTR{queue/scheduler}="bfq"
     '';
+
+    systemd.user.timers.notify-on-low-battery = {
+      timerConfig.OnBootSec = "2m";
+      timerConfig.OnUnitInactiveSec = "2m";
+      timerConfig.Unit = "notify-on-low-battery.service";
+      wantedBy = [ "timers.target" ];
+    };
+
+    systemd.user.services.notify-on-low-battery = with cfg; {
+      serviceConfig.PassEnvironment = "DISPLAY";
+      script = ''
+        export battery_capacity=$(${pkgs.coreutils}/bin/cat /sys/class/power_supply/${battery}/capacity)
+        export battery_status=$(${pkgs.coreutils}/bin/cat /sys/class/power_supply/${battery}/status)
+        if [[ $battery_capacity -le 10 && $battery_status = "Discharging" ]]; then
+          ${pkgs.libnotify}/bin/notify-send --urgency=critical "$battery_capacity%: See you, space cowboy..."
+        fi
+      '';
+    };
   };
 }
