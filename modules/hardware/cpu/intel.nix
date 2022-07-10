@@ -42,7 +42,7 @@ in
 
     environment.systemPackages = with pkgs; [
       pcm
-      config.boot.kernelPackages.intel-speed-select
+      # config.boot.kernelPackages.intel-speed-select
     ];
 
     hardware.cpu.intel.updateMicrocode = true;
