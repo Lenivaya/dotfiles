@@ -41,3 +41,7 @@ ctrl + XF86Audio{LowerVolume,RaiseVolume,Mute}
 
 ctrl + {Delete,End,Escape}
     dunstctl {close,close-all,history-pop}
+
+# Expose windows
+XF86Tools
+    skippy-xd

@@ -51,6 +51,7 @@
       brightnessctl
       blanket # ambient sounds
       gnome-usage
+      skippy-xd # window exposer
     ] ++ (with pkgs.gnome; [
       gnome-sound-recorder
       adwaita-icon-theme
