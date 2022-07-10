@@ -47,7 +47,7 @@
       curl
       youtube-dl
       appimage-run
-      unstable.tdesktop
+      tdesktop
       brightnessctl
       blanket # ambient sounds
       gnome-usage
@@ -61,5 +61,6 @@
       gnome-system-monitor
       eog
       geary
+      xdotool
     ]) ++ (with pkgs.cinnamon; [ nemo ]);
 }
