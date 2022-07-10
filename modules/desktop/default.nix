@@ -36,6 +36,11 @@ in {
   #     gtkUsePortal = true;
   #   };
   # };
+  #
+  home.configFile."sxhkd" = {
+    source = "${configDir}/sxhkd";
+    recursive = true;
+  };
 
   services.xserver.displayManager.sessionCommands = ''
     ${pkgs.sxhkd}/bin/sxhkd -c ${configDir}/sxhkd/sxhkdrc &

@@ -20,7 +20,9 @@ in {
     user.packages = with pkgs;
     # for recording and remastering audio
       (if cfg.audio.enable then
-        with unstable; [ audacity-gtk-3 ardour ]
+        # with unstable;
+        with pkgs;
+        [ audacity-gtk3 ardour ]
       else
         [ ]) ++
       # for longer term streaming/recording the screen
