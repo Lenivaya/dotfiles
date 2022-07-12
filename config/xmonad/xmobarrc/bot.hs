@@ -50,7 +50,7 @@ Config
             ("ua", "<fn=1>\57967</fn>Українська")
           ],
         Run
-          Volume
+          Alsa
           "default"
           "Master"
           [ "-t",
@@ -64,8 +64,8 @@ Config
             "#a19782",
             "--offc",
             "#a19782"
-          ]
-          10,
+          ],
+          -- 10,
         Run ComX "player" [] "" "player" 10,
         Run ComX "caffeinatestatus" [] "" "caffeine" 10
       ],
@@ -77,6 +77,6 @@ Config
       \}\
       \%player%\
       \{\
-      \%caffeine%   %kbd%   %default:Master%\
+      \%caffeine%   %kbd%   %alsa:default:Master%\
       \ "
   }
