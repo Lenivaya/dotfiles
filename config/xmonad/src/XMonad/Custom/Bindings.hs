@@ -61,6 +61,7 @@ import           XMonad.Util.NamedScratchpad
                                          hiding ( namedScratchpadFilterOutWorkspace
                                                 )
 import           XMonad.Util.WorkspaceCompare
+import XMonad.Operations (restart)
 
 modMask :: KeyMask
 modMask = mod4Mask
@@ -133,7 +134,8 @@ rawKeys c = withUpdatePointer $ concatMap ($ c) keymaps
 keysBase :: XConfig Layout -> [(String, X ())]
 keysBase _ =
   [ ("M-q q", confirmPrompt hotPromptTheme "Quit XMonad?" $ io exitSuccess)
-  , ("M-q r", spawn "xmonad --restart")
+  -- , ("M-q r", spawn "xmonad --restart")
+  , ("M-q r", restart "xmonad" True)
   , ("M-x"  , shellPrompt promptTheme)
   , ("M-S-x", spawn (C.appmenu C.applications))
   , ("M-c"  , spawn (C.clipboardSelector C.applications))
