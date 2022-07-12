@@ -15,7 +15,10 @@ jobs:
           nix_path: nixpkgs=channel:nixos-unstable
 
       - name: Install formatter
-        run: "nix-env -iA alejandra -f '<nixpkgs>'"
+        run: "nix-env -iA alejandra statix -f '<nixpkgs>'"
+
+      - name: Lint errors fixing
+        run: statix fix .
 
       - name: Format
         run: alejandra --quiet .
