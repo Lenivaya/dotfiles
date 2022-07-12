@@ -1,7 +1,10 @@
 # laptp1 -- my laptop
-
-{ pkgs, lib, ... }: {
-  imports = [ ../personal.nix ./hardware-configuration.nix ];
+{
+  pkgs,
+  lib,
+  ...
+}: {
+  imports = [../personal.nix ./hardware-configuration.nix];
 
   modules = {
     desktop = {
@@ -87,7 +90,7 @@
 
     hosts.enable = true;
 
-    bootsplash = { enable = true; };
+    bootsplash = {enable = true;};
   };
 
   zramSwap = {
@@ -95,14 +98,13 @@
     memoryPercent = lib.mkForce 50;
   };
 
-
   services.xserver = {
-    videoDrivers = [ "radeon" ];
+    videoDrivers = ["radeon"];
   };
   environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
 
   # Optimize power use
-  environment.systemPackages = [ pkgs.acpi ];
+  environment.systemPackages = [pkgs.acpi];
   powerManagement.powertop.enable = true;
 
   # fancontrol

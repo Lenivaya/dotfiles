@@ -1,6 +1,11 @@
 # t440p -- thinkpad t440p
-
-{ pkgs, config, lib, inputs, ... }: {
+{
+  pkgs,
+  config,
+  lib,
+  inputs,
+  ...
+}: {
   imports = [
     ../personal.nix
     ./hardware-configuration.nix
@@ -46,6 +51,10 @@
         };
         spotify.enable = true;
         mpv.enable = true;
+        recording = {
+          enable = true;
+          audio.enable = true;
+        };
         # ncmpcpp.enable = true;
       };
 
@@ -91,8 +100,8 @@
       cpu.intel.enable = true;
       cpu.undervolt = rec {
         enable = true;
-        core = (-80);
-        gpu = (-40);
+        core = -80;
+        gpu = -40;
         uncore = core;
         analogio = core;
         # temp = 100;
@@ -111,7 +120,7 @@
 
     hosts.enable = true;
 
-    bootsplash = { enable = true; };
+    bootsplash = {enable = true;};
   };
 
   hardware = {
@@ -133,7 +142,7 @@
       export __VK_LAYER_NV_optimus=NVIDIA_only
       exec -a "$0" "$@"
     '';
-  in [ nvidia-offload ];
+  in [nvidia-offload];
 
   # HACK Disable nvidia card for
   # the sake of power consumption
@@ -159,8 +168,8 @@
   services.clight.settings.keyboard.disabled = lib.mkForce true;
 
   # Kernel
-  boot.kernelPackages = lib.mkForce pkgs.linuxKernel.packages.linux_zen;
-  # lib.mkForce pkgs.unstable.linuxKernel.packages.linux_lqx;
+  boot.kernelPackages =
+    lib.mkForce pkgs.unstable.linuxKernel.packages.linux_lqx;
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
     #      vulnerabilities. Don't copy this blindly! And especially not for
@@ -170,21 +179,17 @@
 
   boot.plymouth = {
     theme = "abstract_ring";
-    themePackages = with pkgs.my; [ plymouth-themes ];
+    themePackages = with pkgs.my; [plymouth-themes];
   };
 
   networking.firewall = {
-    allowedUDPPorts = [ 3000 4000 ];
-    allowedTCPPorts = [ 3000 4000 ];
+    allowedUDPPorts = [3000 4000];
+    allowedTCPPorts = [3000 4000];
   };
 
-  user.packages = with pkgs; [ binance ];
-
-  # FIXME pipewire-pulse is broken on 22.05
-  # so using just pulseaudio
-  hardware = {
-    pulseaudio.enable = true;
-    pulseaudio.support32Bit = true;
-  };
-  services.pipewire.enable = lib.mkForce false;
+  user.packages = with pkgs; [
+    binance
+    ffmpeg-full
+    # lightworks pitivi
+  ];
 }

@@ -1,11 +1,14 @@
-{ config, options, lib, pkgs, ... }:
-
-with lib;
-with lib.my;
-let cfg = config.modules.desktop.xmonad;
-in
 {
-
+  config,
+  options,
+  lib,
+  pkgs,
+  ...
+}:
+with lib;
+with lib.my; let
+  cfg = config.modules.desktop.xmonad;
+in {
   options.modules.desktop.xmonad = {
     enable = mkBoolOpt false;
     # withKde = mkBoolOpt false;
@@ -22,7 +25,7 @@ in
         haskellPackages.gloss
         haskellPackages.flow
       ];
-      ghcArgs = [ "-O3" ];
+      ghcArgs = ["-O3"];
     };
 
     services.xserver.displayManager.defaultSession = "none+xmonad";
@@ -46,10 +49,9 @@ in
       weather-icons # for weather script
     ];
 
-    env.PATH = [ "$DOTFILES/config/xmonad/scripts/xmobar" ];
+    env.PATH = ["$DOTFILES/config/xmonad/scripts/xmobar"];
 
     modules.desktop.term.alacritty.enable = true;
     modules.desktop.term.default = lib.mkForce "alacritty";
-
   };
 }

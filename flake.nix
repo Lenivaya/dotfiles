@@ -25,76 +25,82 @@
     pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
   };
 
-  outputs = inputs@{ self, nixpkgs, nixpkgs-unstable, adblock, ... }:
-    let
-      inherit (lib.my) mapModules mapModulesRec mapHosts;
+  outputs = inputs @ {
+    self,
+    nixpkgs,
+    nixpkgs-unstable,
+    adblock,
+    ...
+  }: let
+    inherit (lib.my) mapModules mapModulesRec mapHosts;
 
-      system = "x86_64-linux";
+    system = "x86_64-linux";
 
-      mkPkgs = pkgs: extraOverlays:
-        import pkgs {
-          inherit system;
-          config.allowUnfree = true; # forgive me Stallman senpai
-          config.permittedInsecurePackages = [ "electron-13.6.9" ];
-          overlays = extraOverlays ++ (lib.attrValues self.overlays);
-        };
-      pkgs = mkPkgs nixpkgs [ self.overlay ];
-      pkgs' = mkPkgs nixpkgs-unstable [ ];
-
-      lib = nixpkgs.lib.extend (self: super: {
-        my = import ./lib {
-          inherit pkgs inputs;
-          lib = self;
-        };
-      });
-    in {
-      lib = lib.my;
-
-      overlay = final: prev: {
-        unstable = pkgs';
-        my = self.packages."${system}";
+    mkPkgs = pkgs: extraOverlays:
+      import pkgs {
+        inherit system;
+        config.allowUnfree = true; # forgive me Stallman senpai
+        config.permittedInsecurePackages = ["electron-13.6.9"];
+        overlays = extraOverlays ++ (lib.attrValues self.overlays);
       };
+    pkgs = mkPkgs nixpkgs [self.overlay];
+    pkgs' = mkPkgs nixpkgs-unstable [];
 
-      overlays = mapModules ./overlays import;
+    lib = nixpkgs.lib.extend (self: super: {
+      my = import ./lib {
+        inherit pkgs inputs;
+        lib = self;
+      };
+    });
+  in {
+    lib = lib.my;
 
-      packages."${system}" = mapModules ./packages (p: pkgs.callPackage p { });
+    overlay = final: prev: {
+      unstable = pkgs';
+      my = self.packages."${system}";
+    };
 
-      nixosModules = {
+    overlays = mapModules ./overlays import;
+
+    packages."${system}" = mapModules ./packages (p: pkgs.callPackage p {});
+
+    nixosModules =
+      {
         dotfiles = import ./.;
-      } // mapModulesRec ./modules import;
+      }
+      // mapModulesRec ./modules import;
 
-      nixosConfigurations = mapHosts ./hosts { };
+    nixosConfigurations = mapHosts ./hosts {};
 
-      devShells."${system}".default = import ./shell.nix {
-        inherit pkgs;
-        pre-commit-hook = self.checks.${system}.pre-commit-check;
-      };
+    devShells."${system}".default = import ./shell.nix {
+      inherit pkgs;
+      pre-commit-hook = self.checks.${system}.pre-commit-check;
+    };
 
-      checks.${system}.pre-commit-check =
-        inputs.pre-commit-hooks.lib.${system}.run {
-          src = ./.;
-          hooks = {
-            nixpkgs-fmt.enable = true;
-            # nixfmt.enable = true;
-            shellcheck.enable = true;
-          };
-        };
-
-      templates = {
-        full = {
-          path = ./.;
-          description = "A grossly incandescent nixos config";
-        };
-        minimal = {
-          path = ./templates/minimal;
-          description = "A grossly incandescent and minimal nixos config";
-        };
-      };
-      defaultTemplate = self.templates.minimal;
-
-      defaultApp."${system}" = {
-        type = "app";
-        program = ./bin/hey;
+    checks.${system}.pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
+      src = ./.;
+      hooks = {
+        alejandra.enable = true;
+        # nixfmt.enable = true;
+        shellcheck.enable = true;
       };
     };
+
+    templates = {
+      full = {
+        path = ./.;
+        description = "A grossly incandescent nixos config";
+      };
+      minimal = {
+        path = ./templates/minimal;
+        description = "A grossly incandescent and minimal nixos config";
+      };
+    };
+    defaultTemplate = self.templates.minimal;
+
+    defaultApp."${system}" = {
+      type = "app";
+      program = ./bin/hey;
+    };
+  };
 }

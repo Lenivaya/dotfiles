@@ -1,15 +1,18 @@
-{ options, config, lib, pkgs, ... }:
-
-with lib;
-with lib.my;
-let cfg = config.modules.hardware.gpu.nvidia;
-in
 {
-  options.modules.hardware.gpu.nvidia = { enable = mkBoolOpt false; };
+  options,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib;
+with lib.my; let
+  cfg = config.modules.hardware.gpu.nvidia;
+in {
+  options.modules.hardware.gpu.nvidia = {enable = mkBoolOpt false;};
 
   config = mkIf cfg.enable {
-    boot.kernelModules =
-      [ "nvidia" "nvidia_drm" "nvidia_uvm" "nvidia_modeset" ];
+    boot.kernelModules = ["nvidia" "nvidia_drm" "nvidia_uvm" "nvidia_modeset"];
 
     environment.variables = {
       # Ultra low latency mode
@@ -37,10 +40,10 @@ in
     hardware.nvidia.powerManagement.enable = true;
     hardware.nvidia.powerManagement.finegrained = true;
     hardware.opengl.enable = true;
-    hardware.opengl.extraPackages = with pkgs; [ vaapiVdpau libvdpau-va-gl ];
+    hardware.opengl.extraPackages = with pkgs; [vaapiVdpau libvdpau-va-gl];
 
     services.xserver.useGlamor = true;
-    services.xserver.videoDrivers = [ "nvidia" ];
+    services.xserver.videoDrivers = ["nvidia"];
 
     boot.kernelParams = [
       # If the Spectre V2 mitigation is necessary, some performance may be recovered by setting the

@@ -1,12 +1,15 @@
-{ options, config, lib, pkgs, ... }:
-
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
-with lib.my;
-let
+with lib.my; let
   hwCfg = config.modules.hardware;
   cfg = hwCfg.bluetooth;
-in
-{
+in {
   options.modules.hardware.bluetooth = {
     enable = mkBoolOpt false;
     audio.enable = mkBoolOpt false;
@@ -18,7 +21,7 @@ in
         enable = true;
         package = pkgs.bluezFull;
       };
-      services.dbus.packages = [ pkgs.blueman ];
+      services.dbus.packages = [pkgs.blueman];
     }
 
     (mkIf cfg.audio.enable {
@@ -28,7 +31,7 @@ in
         # support, so it must be selected here.
         package = pkgs.pulseaudioFull;
         # Enable additional codecs
-        extraModules = [ pkgs.pulseaudio-modules-bt ];
+        extraModules = [pkgs.pulseaudio-modules-bt];
       };
 
       hardware.bluetooth.extraConfig = ''

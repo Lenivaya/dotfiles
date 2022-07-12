@@ -1,6 +1,4 @@
-{ ... }:
-
-{
+{...}: {
   services.tlp.enable = true;
   services.tlp.settings = {
     # Set CPU governors

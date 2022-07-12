@@ -1,8 +1,13 @@
-{ config, lib, pkgs, inputs, home-manager, ... }:
-
+{
+  config,
+  lib,
+  pkgs,
+  inputs,
+  home-manager,
+  ...
+}:
 with lib;
-with lib.my;
-let
+with lib.my; let
   cfg = config.modules.editors.emacs;
   configDir = config.dotfiles.configDir;
   editorScript = pkgs.writeScriptBin "emacseditor" ''
@@ -31,7 +36,7 @@ in {
 
       ## Doom dependencies
       git
-      (ripgrep.override { withPCRE2 = true; })
+      (ripgrep.override {withPCRE2 = true;})
 
       ## Optional dependencies
       editorconfig-core-c # per-project style config
@@ -52,7 +57,7 @@ in {
       xorg.xwininfo
       xorg.xprop
       # :checkers spell
-      (aspellWithDicts (ds: with ds; [ en en-computers en-science uk ru ]))
+      (aspellWithDicts (ds: with ds; [en en-computers en-science uk ru]))
       # :checkers grammar
       languagetool
       # :tools lookup
@@ -70,18 +75,17 @@ in {
       "$XDG_CONFIG_HOME/emacs/bin"
     ];
 
-    fonts.fonts = [ pkgs.emacs-all-the-icons-fonts ];
+    fonts.fonts = [pkgs.emacs-all-the-icons-fonts];
 
     home.programs.emacs = {
       enable = true;
       package = pkgs.emacs28NativeComp;
       # package = pkgs.emacsGcc; # 28 + native-comp
       # pkgs.emacsPgtkGcc; # 28 + pgtk + native-comp
-      extraPackages = epkgs:
-        [
-          # :term vterm
-          epkgs.vterm
-        ];
+      extraPackages = epkgs: [
+        # :term vterm
+        epkgs.vterm
+      ];
     };
 
     env = {

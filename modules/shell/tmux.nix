@@ -1,8 +1,12 @@
-{ config, options, pkgs, lib, ... }:
-
+{
+  config,
+  options,
+  pkgs,
+  lib,
+  ...
+}:
 with lib;
-with lib.my;
-let
+with lib.my; let
   configDir = config.dotfiles.configDir;
   tmuxDesktopItem = with pkgs;
     makeDesktopItem {
@@ -11,11 +15,9 @@ let
       exec = "${config.modules.desktop.term.default} -e tmux";
       categories = ["System"];
     };
-
-in
-{
+in {
   config = {
-    user.packages = with pkgs; [ tmux (tmuxDesktopItem) ];
+    user.packages = with pkgs; [tmux tmuxDesktopItem];
 
     env.TMUX_HOME = "$XDG_CONFIG_HOME/tmux";
 
@@ -37,11 +39,11 @@ in
     ## Automatic start
     systemd.user.services.tmux = {
       description = "tmux default session";
-      after = [ "graphical-session-pre.target" ];
-      partOf = [ "graphical-session.target" ];
-      wantedBy = [ "graphical-session.target" ];
+      after = ["graphical-session-pre.target"];
+      partOf = ["graphical-session.target"];
+      wantedBy = ["graphical-session.target"];
 
-      path = with pkgs; [ tmux ripgrep ];
+      path = with pkgs; [tmux ripgrep];
       environment = {
         DISPLAY = "0";
         TMUX_HOME = "/home/${config.user.name}/.config/tmux";
@@ -63,6 +65,5 @@ in
         RestartSec = 2;
       };
     };
-
   };
 }

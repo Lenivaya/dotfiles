@@ -1,6 +1,9 @@
-{ config, lib, pkgs, ... }:
-
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
   services.clight = {
     enable = lib.mkDefault true;
 
@@ -8,7 +11,7 @@
       verbose = true;
 
       backlight = {
-        ac_timeouts = [ 120 300 60 ];
+        ac_timeouts = [120 300 60];
         pause_on_lid_closed = true;
         capture_on_lid_opened = true;
       };
@@ -32,5 +35,5 @@
     };
   };
 
-  systemd.user.services.clight.path = with pkgs; [ gawk ];
+  systemd.user.services.clight.path = with pkgs; [gawk];
 }

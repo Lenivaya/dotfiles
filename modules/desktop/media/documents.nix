@@ -1,14 +1,16 @@
 # modules/desktop/media/docs.nix
-
-{ options, config, lib, pkgs, ... }:
-
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
-with lib.my;
-let
+with lib.my; let
   cfg = config.modules.desktop.media.documents;
   configDir = config.dotfiles.configDir;
-in
-{
+in {
   options.modules.desktop.media.documents = {
     enable = mkBoolOpt false;
     pdf.enable = mkBoolOpt false;
@@ -17,18 +19,17 @@ in
   };
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs;
-      (mkMerge [
-        [ libreoffice-fresh ]
+    user.packages = with pkgs; (mkMerge [
+      [libreoffice-fresh]
 
-        (mkIf cfg.ebook.enable [ calibre foliate ])
-        (mkIf cfg.pdf.enable [ evince zathura ])
-        (mkIf cfg.latex.enable [
-          texlab
-          texlive.combined.scheme-full # FULL
-          rubber
-        ])
-      ]);
+      (mkIf cfg.ebook.enable [calibre foliate])
+      (mkIf cfg.pdf.enable [evince zathura])
+      (mkIf cfg.latex.enable [
+        texlab
+        texlive.combined.scheme-full # FULL
+        rubber
+      ])
+    ]);
 
     home.configFile."zathura" = mkIf cfg.pdf.enable {
       source = "${configDir}/zathura";

@@ -1,8 +1,12 @@
-{ config, pkgs, lib, ... }:
-
+{
+  config,
+  pkgs,
+  lib,
+  ...
+}:
 with lib;
-with lib.my;
-let cfg = config.modules.hardware.profiles.laptop;
+with lib.my; let
+  cfg = config.modules.hardware.profiles.laptop;
 in {
   options.modules.hardware.profiles.laptop = {
     enable = mkBoolOpt false;
@@ -14,7 +18,7 @@ in {
       # https://wiki.archlinux.org/index.php/improving_performance#Changing_I/O_scheduler
       "scsi_mod.use_blk_mq=1"
     ];
-    fileSystems."/".options = [ "noatime" "nodiratime" ];
+    fileSystems."/".options = ["noatime" "nodiratime"];
 
     powerManagement.enable = true;
     services.thermald.enable = true;
@@ -35,7 +39,7 @@ in {
       timerConfig.OnBootSec = "2m";
       timerConfig.OnUnitInactiveSec = "2m";
       timerConfig.Unit = "notify-on-low-battery.service";
-      wantedBy = [ "timers.target" ];
+      wantedBy = ["timers.target"];
     };
 
     systemd.user.services.notify-on-low-battery = with cfg; {

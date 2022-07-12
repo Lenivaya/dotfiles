@@ -1,10 +1,14 @@
-{ config, options, lib, pkgs, ... }:
-
-with lib;
-with lib.my;
-let cfg = config.modules.bootsplash;
-in
 {
+  config,
+  options,
+  lib,
+  pkgs,
+  ...
+}:
+with lib;
+with lib.my; let
+  cfg = config.modules.bootsplash;
+in {
   options.modules.bootsplash = {
     enable = mkBoolOpt false;
   };
@@ -14,5 +18,4 @@ in
       enable = true;
     };
   };
-
 }

@@ -2,20 +2,22 @@
 #
 # Qutebrowser is cute because it's not enough of a browser to be handsome.
 # Still, we can all tell he'll grow up to be one hell of a lady-killer.
-
-{ options, config, lib, pkgs, ... }:
-
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
-with lib.my;
-let
+with lib.my; let
   cfg = config.modules.desktop.browsers.qutebrowser;
   pkg = pkgs.qutebrowser;
   configDir = config.dotfiles.configDir;
-in
-{
+in {
   options.modules.desktop.browsers.qutebrowser = with types; {
     enable = mkBoolOpt false;
-    dicts = mkOpt (listOf str) [ "en-US" "ru-RU" ];
+    dicts = mkOpt (listOf str) ["en-US" "ru-RU"];
   };
 
   config = mkIf cfg.enable {
@@ -27,7 +29,7 @@ in
         genericName = "Open a private Qutebrowser window";
         icon = "qutebrowser";
         exec = "${pkg}/bin/qutebrowser -T -s content.private_browsing true";
-        categories = [ "Network" ];
+        categories = ["Network"];
       })
       # For Brave adblock in qutebrowser, which is significantly better than the
       # built-in host blocking. Works on youtube and crunchyroll ads!
@@ -44,9 +46,10 @@ in
     };
 
     # Install language dictionaries for spellcheck backends
-    system.userActivationScripts.qutebrowserInstallDicts = concatStringsSep ''
-      \
-    ''
+    system.userActivationScripts.qutebrowserInstallDicts =
+      concatStringsSep ''
+        \
+      ''
       (map
         (lang: ''
           if ! find "$XDG_DATA_HOME/qutebrowser/qtwebengine_dictionaries" -type d -maxdepth 1 -name "${lang}*" 2>/dev/null | grep -q .; then
