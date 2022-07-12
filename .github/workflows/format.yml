@@ -15,10 +15,10 @@ jobs:
           nix_path: nixpkgs=channel:nixos-unstable
 
       - name: Install formatter
-        run: "nix-env -iA nixpkgs-fmt -f '<nixpkgs>'"
+        run: "nix-env -iA alejandra -f '<nixpkgs>'"
 
       - name: Format
-        run: nixpkgs-fmt .
+        run: alejandra --quiet .
 
       - name: Commit formatting changes
         uses: stefanzweifel/git-auto-commit-action@v4
