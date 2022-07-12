@@ -9,7 +9,7 @@
 with lib;
 with lib.my; let
   cfg = config.modules.editors.emacs;
-  configDir = config.dotfiles.configDir;
+  inherit (config.dotfiles) configDir;
   editorScript = pkgs.writeScriptBin "emacseditor" ''
     #!${pkgs.runtimeShell}
     if [ -z "$1" ]; then
@@ -43,7 +43,7 @@ in {
       fd # faster projectile indexing
       gnutls # for TLS connectivity
       imagemagick # for image-dired
-      (lib.mkIf (config.programs.gnupg.agent.enable)
+      (lib.mkIf config.programs.gnupg.agent.enable
         pinentry_emacs) # in-emacs gnupg prompts
       zstd # for undo-tree compression
       calibre # for calibredb

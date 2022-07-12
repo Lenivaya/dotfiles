@@ -9,7 +9,7 @@
 with lib;
 with lib.my; let
   cfg = config.modules.desktop.apps.rofi;
-  configDir = config.dotfiles.configDir;
+  inherit (config.dotfiles) configDir;
 in {
   options.modules.desktop.apps.rofi.enable = mkBoolOpt false;
 

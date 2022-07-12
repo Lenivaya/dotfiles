@@ -9,7 +9,7 @@
 with lib;
 with lib.my; let
   cfg = config.modules.desktop.media.mpv;
-  configDir = config.dotfiles.configDir;
+  inherit (config.dotfiles) configDir;
 in {
   options.modules.desktop.media.mpv.enable = mkBoolOpt false;
 

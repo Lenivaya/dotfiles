@@ -7,7 +7,7 @@
 }:
 with lib;
 with lib.my; let
-  configDir = config.dotfiles.configDir;
+  inherit (config.dotfiles) configDir;
   tmuxDesktopItem = with pkgs;
     makeDesktopItem {
       name = "tmux";

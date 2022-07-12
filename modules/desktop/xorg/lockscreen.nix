@@ -5,7 +5,7 @@
   ...
 }:
 with lib.my; let
-  configDir = config.dotfiles.configDir;
+  inherit (config.dotfiles) configDir;
 in {
   user.packages = with pkgs; [betterlockscreen xidlehook my.caffeinate];
 

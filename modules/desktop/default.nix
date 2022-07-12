@@ -8,7 +8,7 @@
 }:
 with lib;
 with lib.my; let
-  configDir = config.dotfiles.configDir;
+  inherit (config.dotfiles) configDir;
 in {
   services.xserver = {
     enable = true;

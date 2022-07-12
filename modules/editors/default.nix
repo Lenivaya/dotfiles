@@ -13,7 +13,7 @@ in {
 
   config =
     mkIf
-    (cfg.default != null && config.modules.editors.emacs.default == false)
+    (cfg.default != null && !config.modules.editors.emacs.default)
     {
       env.EDITOR = cfg.default;
     };
