@@ -10,7 +10,7 @@
       # Nix
       nixfmt
       # nixpkgs-fmt
-      ajejandra
+      alejandra
     ];
   };
 }

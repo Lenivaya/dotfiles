@@ -1531,6 +1531,10 @@ Turn off company for nix
 #+begin_src emacs-lisp
 (setq-hook! 'nix-mode-hook company-idle-delay nil)
 #+end_src
+Use alejandra formatter
+#+begin_src emacs-lisp
+(set-formatter! 'alejandra "alejandra --quiet" :modes '(nix-mode))
+#+end_src
 ** Org
 :PROPERTIES:
 :CUSTOM_ID: org
