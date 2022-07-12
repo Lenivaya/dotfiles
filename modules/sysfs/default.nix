@@ -16,7 +16,7 @@ with lib;
         formatString = x:
           if isBool x
           then
-            if x == false
+            if !x
             then "0"
             else "1"
           else builtins.toString x;

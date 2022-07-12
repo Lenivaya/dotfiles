@@ -6,7 +6,7 @@
   ...
 }:
 with lib.my; let
-  configDir = config.dotfiles.configDir;
+  inherit (config.dotfiles) configDir;
 in {
   home-manager.users.${config.user.name} = {
     gtk = {

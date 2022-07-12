@@ -2,8 +2,7 @@
 with builtins;
 with lib; rec {
   # attrsToList
-  attrsToList = attrs:
-    mapAttrsToList (name: value: {inherit name value;}) attrs;
+  attrsToList = mapAttrsToList (name: value: {inherit name value;});
 
   # mapFilterAttrs ::
   #   (name -> value -> bool)

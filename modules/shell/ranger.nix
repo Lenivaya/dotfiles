@@ -6,7 +6,7 @@
 }:
 with lib;
 with lib.my; let
-  configDir = config.dotfiles.configDir;
+  inherit (config.dotfiles) configDir;
 in {
   config = {
     user.packages = with pkgs; [ranger ueberzug];
