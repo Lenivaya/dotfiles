@@ -14,15 +14,15 @@
 
 ---
 
-|              |                                                                       |
-| ------------ | --------------------------------------------------------------------- |
-| **OS:**      | NixOS                                                                 |
-| **WM:**      | XMonad                                                                |
-| **sh:**      | zsh (with [fastest plugin-manager](https://github.com/zdharma/zinit)) |
-| **font:**    | (Iosevka + IBM Plex) or Pragmata-Pro                                  |
-| **browser:** | google-chrome / Firefox                                               |
-| **editor:**  | Emacs                                                                 |
-| **term:**    | st                                                                    |
+|              |                                                                                 |
+| ------------ | ------------------------------------------------------------------------------- |
+| **OS:**      | NixOS                                                                           |
+| **WM:**      | XMonad                                                                          |
+| **sh:**      | zsh (with [fastest plugin-manager](https://github.com/zdharma-continuum/zinit)) |
+| **font:**    | (Iosevka + IBM Plex) or Pragmata-Pro                                            |
+| **browser:** | google-chrome / Firefox                                                         |
+| **editor:**  | Emacs                                                                           |
+| **term:**    | st                                                                              |
 
 ---
 
