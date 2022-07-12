@@ -1,10 +1,13 @@
-{ config, lib, pkgs, ... }:
-
-with lib;
-with lib.my;
-let cfg = config.modules.hardware.gpu.intel;
-in
 {
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib;
+with lib.my; let
+  cfg = config.modules.hardware.gpu.intel;
+in {
   options.modules.hardware.gpu.intel.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -21,10 +24,10 @@ in
       "i915.enable_guc=-1"
     ];
 
-    environment.systemPackages = with pkgs; [ libva-utils ];
+    environment.systemPackages = with pkgs; [libva-utils];
     hardware.opengl.extraPackages = with pkgs;
       lib.mkForce [
-        (vaapiIntel.override { enableHybridCodec = true; })
+        (vaapiIntel.override {enableHybridCodec = true;})
         intel-media-driver
         intel-ocl
         intel-compute-runtime

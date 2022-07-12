@@ -1,10 +1,14 @@
-{ options, config, lib, pkgs, ... }:
-
-with lib;
-with lib.my;
-let cfg = config.modules.hardware.fingerprint;
-in
 {
+  options,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
+with lib;
+with lib.my; let
+  cfg = config.modules.hardware.fingerprint;
+in {
   options.modules.hardware.fingerprint.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {

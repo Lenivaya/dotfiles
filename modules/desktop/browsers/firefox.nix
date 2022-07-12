@@ -1,38 +1,42 @@
-{ config, options, lib, pkgs, inputs, home-manager, ... }:
-
+{
+  config,
+  options,
+  lib,
+  pkgs,
+  inputs,
+  home-manager,
+  ...
+}:
 with lib;
-with lib.my;
-let cfg = config.modules.desktop.browsers.firefox;
+with lib.my; let
+  cfg = config.modules.desktop.browsers.firefox;
 in {
   options.modules.desktop.browsers.firefox.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-
-    nixpkgs.overlays = [ inputs.nur.overlay ];
+    nixpkgs.overlays = [inputs.nur.overlay];
 
     # Desktop entry for private firefox window
-    user.packages = with pkgs;
-      [
-        (makeDesktopItem {
-          name = "firefox-private";
-          desktopName = "Firefox (Private)";
-          genericName = "Open a private Firefox window";
-          icon = "firefox";
-          exec = "firefox --private-window";
-          categories = [ "Network" ];
-        })
-      ];
+    user.packages = with pkgs; [
+      (makeDesktopItem {
+        name = "firefox-private";
+        desktopName = "Firefox (Private)";
+        genericName = "Open a private Firefox window";
+        icon = "firefox";
+        exec = "firefox --private-window";
+        categories = ["Network"];
+      })
+    ];
 
     env.XDG_DESKTOP_DIR = "$HOME"; # prevent firefox creating ~/Desktop
 
     home.programs.firefox = {
       enable = true;
       package = pkgs.firefox.override {
-        extraNativeMessagingHosts = with pkgs;
-          [
-            # Watch videos using mpv
-            nur.repos.ambroisie.ff2mpv-go
-          ];
+        extraNativeMessagingHosts = with pkgs; [
+          # Watch videos using mpv
+          nur.repos.ambroisie.ff2mpv-go
+        ];
       };
       # package = pkgs.firefox-esr;
 
@@ -51,6 +55,8 @@ in {
 
         ff2mpv
         h264ify
+
+        violentmonkey
 
         refined-github
         reddit-comment-collapser
@@ -82,7 +88,7 @@ in {
           "layout.display-list.retain" = true;
           "layout.display-list.retain.chrome" = true;
           # That shit just fucking eats CPU
-          "media.rdd-process.enabled" = false;
+          # "media.rdd-process.enabled" = false;
 
           # Do not check if Firefox is the default browser
           "browser.shell.checkDefaultBrowser" = false;
@@ -138,8 +144,7 @@ in {
           # https://github.com/tlswg/tls13-spec/issues/1001
           "security.tls.enable_0rtt_data" = false;
           # Use Mozilla geolocation service instead of Google if given permission
-          "geo.provider.network.url" =
-            "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%";
+          "geo.provider.network.url" = "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%";
           "geo.provider.use_gpsd" = false;
           # https://support.mozilla.org/en-US/kb/extension-recommendations
           "browser.newtabpage.activity-stream.asrouter.userprefs.cfr" = false;

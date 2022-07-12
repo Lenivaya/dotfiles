@@ -1,13 +1,13 @@
-{ config, lib, ... }:
-
-with lib;
-with lib.my;
-
-let cfg = config.modules.hardware.cpu;
-in
 {
+  config,
+  lib,
+  ...
+}:
+with lib;
+with lib.my; let
+  cfg = config.modules.hardware.cpu;
+in {
   options.modules.hardware.cpu = {
-
     undervolt = {
       enable = mkBoolOpt false;
       core = mkOption {
@@ -40,7 +40,6 @@ in
         type = types.int;
         default = 0;
       };
-
     };
   };
 
@@ -57,6 +56,5 @@ in
         inherit enable;
         inherit temp;
       };
-
   };
 }

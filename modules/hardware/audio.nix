@@ -1,29 +1,34 @@
-{ options, config, lib, pkgs, ... }:
-
+{
+  options,
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
-with lib.my;
-let cfg = config.modules.hardware.audio;
+with lib.my; let
+  cfg = config.modules.hardware.audio;
 in {
   options.modules.hardware.audio.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
     sound.enable = true;
     security.rtkit.enable = true;
-    user.extraGroups = [ "audio" ];
+    user.extraGroups = ["audio" "pipewire"];
 
     boot.kernelModules =
-      [ "snd_seq" "snd_seq_midi" "snd_rawmidi" ] # ALSA Sequencer kernel modules
-      ++ [ "snd_pcm_oss" "snd_mixer_oss" "snd_seq_oss" ]
-      ++ [ "uinput" ]; # AVRCP protocol support/compatibility for input device
+      ["snd_seq" "snd_seq_midi" "snd_rawmidi"] # ALSA Sequencer kernel modules
+      ++ ["snd_pcm_oss" "snd_mixer_oss" "snd_seq_oss"]
+      ++ ["uinput"]; # AVRCP protocol support/compatibility for input device
 
-    # hardware.pulseaudio.enable = true;
     services.pipewire = {
       enable = true;
-      alsa.enable = true;
-      alsa.support32Bit = true;
+      alsa = {
+        enable = true;
+        support32Bit = true;
+      };
       pulse.enable = true;
-      # FIXME that brokes foliate
-      # jack.enable = true;
+      jack.enable = true;
     };
 
     services.pipewire.config.pipewire = {
@@ -44,53 +49,60 @@ in {
         "bluez5.enable-hw-volume" = true;
 
         # Enabled A2DP codecs
-        "bluez5.codecs" = [ "aac" "sbc_xq" "sbc" ];
+        "bluez5.codecs" = ["aac" "sbc_xq" "sbc"];
 
         # Properties for the A2DP codec configuration
         "bluez5.default.rate" = 96000;
         "bluez5.default.channels" = 2;
       };
 
-      rules = [{
-        matches = [{ "device.name" = "~bluez_card.*"; }];
-        actions.update-props = {
-          # LDAC encoding quality
-          # Available values: auto (Adaptive Bitrate, default)
-          #                   hq   (High Quality, 990/909kbps)
-          #                   sq   (Standard Quality, 660/606kbps)
-          #                   mq   (Mobile use Quality, 330/303kbps)
-          "bluez5.a2dp.ldac.quality" = "hq";
-          # AAC variable bitrate mode
-          # Available values: 0 (cbr, default), 1-5 (quality level)
-          "bluez5.a2dp.aac.bitratemode" = 5;
-          # A2DP <-> HFP profile auto-switching (when device is default output)
-          # Available values: false, role (default), true
-          # 'role' will switch the profile if the recording application
-          # specifies Communication (or "phone" in PA) as the stream role.
-          "bluez5.autoswitch-profile" = "role";
-        };
-      }];
+      rules = [
+        {
+          matches = [{"device.name" = "~bluez_card.*";}];
+          actions.update-props = {
+            # LDAC encoding quality
+            # Available values: auto (Adaptive Bitrate, default)
+            #                   hq   (High Quality, 990/909kbps)
+            #                   sq   (Standard Quality, 660/606kbps)
+            #                   mq   (Mobile use Quality, 330/303kbps)
+            "bluez5.a2dp.ldac.quality" = "hq";
+            # AAC variable bitrate mode
+            # Available values: 0 (cbr, default), 1-5 (quality level)
+            "bluez5.a2dp.aac.bitratemode" = 5;
+            # A2DP <-> HFP profile auto-switching (when device is default output)
+            # Available values: false, role (default), true
+            # 'role' will switch the profile if the recording application
+            # specifies Communication (or "phone" in PA) as the stream role.
+            "bluez5.autoswitch-profile" = "role";
+          };
+        }
+      ];
     };
 
-    systemd.user.services.easyeffects = {
-      script = "${pkgs.easyeffects}/bin/easyeffects --gapplication-service";
-    };
-
+    home.services.easyeffects.enable = true;
     user.packages = with pkgs;
-      [ unstable.easyeffects pulsemixer pamix pamixer pulseaudio pavucontrol ]
-      ++ [ carla ] # JACK utilities
-      ++ [ lsp-plugins dragonfly-reverb rnnoise-plugin ] # Audio plugins
-      ++ [ distrho swh_lv2 calf ir.lv2 ];
+      [
+        easyeffects
+        helvum
+        pulsemixer
+        pamix
+        pamixer
+        pulseaudio
+        pavucontrol
+      ]
+      ++ [carla] # JACK utilities
+      ++ [lsp-plugins dragonfly-reverb rnnoise-plugin] # Audio plugins
+      ++ [distrho swh_lv2 calf ir.lv2];
 
-    environment.variables = (with lib;
+    environment.variables = with lib;
       listToAttrs (map (type:
-        nameValuePair "${toUpper type}_PATH" ([
+        nameValuePair "${toUpper type}_PATH" [
           "$HOME/.${type}"
           "$HOME/.nix-profile/lib/${type}"
           "/run/current-system/sw/lib/${type}"
-        ])) [ "dssi" "ladspa" "lv2" "lxvst" "vst" "vst3" ]));
+        ]) ["dssi" "ladspa" "lv2" "lxvst" "vst" "vst3"]);
 
-    hardware.bluetooth.disabledPlugins = [ "sap" ];
+    hardware.bluetooth.disabledPlugins = ["sap"];
     hardware.bluetooth.settings = {
       General = {
         MultiProfile = "multiple";
@@ -98,7 +110,7 @@ in {
         Privacy = "device";
       };
 
-      GATT = { KeySize = 16; };
+      GATT = {KeySize = 16;};
 
       AVDTP = {
         SessionMode = "ertm";

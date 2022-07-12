@@ -1,20 +1,22 @@
 # Blocking some internet shit here
-
-{ config, options, lib, pkgs, inputs, ... }:
-
+{
+  config,
+  options,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
 with lib;
-with lib.my;
-let
+with lib.my; let
   cfg = config.modules.hosts;
   inherit (inputs) adblock;
-in
-{
+in {
   options.modules.hosts.enable = mkBoolOpt false;
 
-  imports = [ adblock.nixosModule ];
+  imports = [adblock.nixosModule];
 
   config = mkIf cfg.enable {
-
     networking.stevenBlackHosts = {
       enable = true;
       # blockFakenews = true;
@@ -48,6 +50,5 @@ in
     #     }];
     #   };
     # };
-
   };
 }

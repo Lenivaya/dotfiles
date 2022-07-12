@@ -1,12 +1,16 @@
-{ config, options, lib, pkgs, ... }:
-
 {
+  config,
+  options,
+  lib,
+  pkgs,
+  ...
+}: {
   config = {
-    user.packages = with pkgs;
-      [
-        # Nix
-        nixfmt
-        nixpkgs-fmt
-      ];
+    user.packages = with pkgs; [
+      # Nix
+      nixfmt
+      # nixpkgs-fmt
+      ajejandra
+    ];
   };
 }

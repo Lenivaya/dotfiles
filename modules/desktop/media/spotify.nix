@@ -1,10 +1,15 @@
-{ config, options, lib, pkgs, inputs, ... }:
-
-with lib;
-with lib.my;
-let cfg = config.modules.desktop.media.spotify;
-in
 {
+  config,
+  options,
+  lib,
+  pkgs,
+  inputs,
+  ...
+}:
+with lib;
+with lib.my; let
+  cfg = config.modules.desktop.media.spotify;
+in {
   options.modules.desktop.media.spotify.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -19,5 +24,4 @@ in
       # '')
     ];
   };
-
 }

@@ -1,8 +1,13 @@
-{ config, lib, pkgs, ... }: {
-
-  user.packages = with pkgs;
-    let youtube-dl = yt-dlp.override { withAlias = true; };
-    in [
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}: {
+  user.packages = with pkgs; let
+    youtube-dl = yt-dlp.override {withAlias = true;};
+  in
+    [
       # some rust apps
       ripgrep # fast grepper
       fd # rust alternative to find
@@ -36,7 +41,7 @@
         desktopName = "Calculator";
         icon = "calc";
         exec = "${pkgs.alacritty}/bin/alacritty -e qalc";
-        categories = [ "Development" ];
+        categories = ["Development"];
       })
       neovim
       nnn
@@ -52,7 +57,8 @@
       blanket # ambient sounds
       gnome-usage
       skippy-xd # window exposer
-    ] ++ (with pkgs.gnome; [
+    ]
+    ++ (with pkgs.gnome; [
       gnome-sound-recorder
       adwaita-icon-theme
       sushi
@@ -63,5 +69,6 @@
       eog
       geary
       xdotool
-    ]) ++ (with pkgs.cinnamon; [ nemo ]);
+    ])
+    ++ (with pkgs.cinnamon; [nemo]);
 }

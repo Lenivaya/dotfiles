@@ -1,11 +1,14 @@
-{ config, pkgs, lib, inputs, ... }:
-
-with lib;
-with lib.my;
-let cfg = config.modules.hardware.cpu.intel;
-in
 {
-
+  config,
+  pkgs,
+  lib,
+  inputs,
+  ...
+}:
+with lib;
+with lib.my; let
+  cfg = config.modules.hardware.cpu.intel;
+in {
   options.modules.hardware.cpu.intel.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -46,7 +49,7 @@ in
     ];
 
     hardware.cpu.intel.updateMicrocode = true;
-    hardware.opengl.extraPackages = with pkgs; [ intel-ocl ];
+    hardware.opengl.extraPackages = with pkgs; [intel-ocl];
 
     # services.thermald.enable = true;
     # services.throttled.enable = lib.mkDefault true;

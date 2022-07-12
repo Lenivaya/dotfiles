@@ -1,8 +1,13 @@
-{ config, options, lib, pkgs, ... }:
-
+{
+  config,
+  options,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
-with lib.my;
-let cfg = config.modules.dev.csharp;
+with lib.my; let
+  cfg = config.modules.dev.csharp;
 in {
   options.modules.dev.csharp.enable = mkBoolOpt false;
 

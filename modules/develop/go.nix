@@ -1,14 +1,18 @@
-{ config, options, lib, pkgs, home-manager, ... }:
-
-with lib;
-with lib.my;
-let cfg = config.modules.dev.go;
-in
 {
+  config,
+  options,
+  lib,
+  pkgs,
+  home-manager,
+  ...
+}:
+with lib;
+with lib.my; let
+  cfg = config.modules.dev.go;
+in {
   options.modules.dev.go.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-
     home.programs.go = {
       enable = true;
       package = pkgs.go;
@@ -16,6 +20,6 @@ in
       goPath = "go";
     };
 
-    user.packages = with pkgs; [ gotools ];
+    user.packages = with pkgs; [gotools];
   };
 }

@@ -1,8 +1,14 @@
-{ config, options, lib, pkgs, home-manager, ... }:
-
+{
+  config,
+  options,
+  lib,
+  pkgs,
+  home-manager,
+  ...
+}:
 with lib;
-with lib.my;
-let configDir = config.dotfiles.configDir;
+with lib.my; let
+  configDir = config.dotfiles.configDir;
 in {
   services.xserver = {
     enable = true;
@@ -10,7 +16,7 @@ in {
     autoRepeatDelay = 200;
     autoRepeatInterval = 50;
     libinput = {
-      touchpad = { disableWhileTyping = true; };
+      touchpad = {disableWhileTyping = true;};
       enable = true;
     };
     layout = "us, ru, ua";
@@ -23,10 +29,9 @@ in {
         package = pkgs.gnome3.gnome-themes-extra;
       };
     };
-
   };
 
-  services.dbus.packages = with pkgs; [ dconf ];
+  services.dbus.packages = with pkgs; [dconf];
   programs.dconf.enable = true;
 
   # xdg = {
