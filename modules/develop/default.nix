@@ -11,6 +11,7 @@
       nixfmt
       # nixpkgs-fmt
       alejandra
+      statix
     ];
   };
 }
