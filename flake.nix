@@ -81,6 +81,7 @@
       src = ./.;
       hooks = {
         alejandra.enable = true;
+        statix.enable = true;
         # nixfmt.enable = true;
         shellcheck.enable = true;
       };
