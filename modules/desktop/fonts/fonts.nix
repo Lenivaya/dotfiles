@@ -5,9 +5,9 @@
   ...
 }:
 with lib.my; let
-  pragmata = config.modules.desktop.fonts.pragmatapro;
+  inherit (config.modules.desktop.fonts) pragmata;
 in {
-  options.modules.desktop.fonts.pragmatapro.enable = mkBoolOpt false;
+  options.modules.desktop.fonts.pragmata.enable = mkBoolOpt false;
 
   config = {
     fonts = {
