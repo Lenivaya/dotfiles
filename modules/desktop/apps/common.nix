@@ -17,6 +17,7 @@
       scrot # Screenshots
       dua # space usage
       ytfzf # find and watch videos on youtube
+      handlr # better xdg-utils in rust
       binutils
       usbutils
       zip
