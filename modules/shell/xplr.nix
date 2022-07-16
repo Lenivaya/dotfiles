@@ -7,10 +7,20 @@
 with lib;
 with lib.my; let
   inherit (config.dotfiles) configDir;
+  inherit (config.env) TERMINAL;
 in {
   config = {
     user.packages = with pkgs; [
       xplr
+      (makeDesktopItem
+        {
+          name = "xplr";
+          desktopName = "XPLR";
+          icon = "utilities-terminal";
+          exec = "${TERMINAL} -e xplr";
+          categories = ["FileManager" "FileTools" "System"];
+        })
+
       # images preview
       imv
       # Storage usage
@@ -25,7 +35,7 @@ in {
     };
 
     environment.shellAliases = {
-      xcd = "'cd '$(xplr --print-pwd-as-result)'";
+      xcd = "cd '$(xplr --print-pwd-as-result)'";
     };
   };
 }
