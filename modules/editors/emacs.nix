@@ -15,7 +15,7 @@ with lib.my; let
     if [ -z "$1" ]; then
       exec emacsclient --create-frame --alternate-editor emacs
     else
-      exec emacsclient --alternate-editor emacs "$@"
+      exec emacsclient --create-frame --alternate-editor emacs "$@"
     fi
   '';
 in {
