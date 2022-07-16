@@ -3,7 +3,9 @@
   lib,
   pkgs,
   ...
-}: {
+}: let
+  inherit (config.env) TERMINAL;
+in {
   user.packages = with pkgs; let
     youtube-dl = yt-dlp.override {withAlias = true;};
   in
@@ -26,7 +28,7 @@
       android-file-transfer
       feh
       pandoc # Universal Markup converter
-      nitrogen
+      # nitrogen
       ps_mem
       lm_sensors
       # Appearance
@@ -41,7 +43,7 @@
         name = "scratch-calc";
         desktopName = "Calculator";
         icon = "calc";
-        exec = "${pkgs.alacritty}/bin/alacritty -e qalc";
+        exec = "${TERMINAL} -e qalc";
         categories = ["Development"];
       })
       neovim
@@ -52,7 +54,7 @@
       xclip
       curl
       youtube-dl
-      appimage-run
+      # appimage-run
       tdesktop
       brightnessctl
       blanket # ambient sounds
