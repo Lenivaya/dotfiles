@@ -196,4 +196,8 @@
     ffmpeg-full
     # lightworks pitivi
   ];
+
+  # Flatpak
+  services.flatpak.enable = true;
+  xdg.portal.enable = true;
 }
