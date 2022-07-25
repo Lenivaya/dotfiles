@@ -107,7 +107,7 @@
         # temp = 100;
       };
       gpu.intel.enable = true;
-      gpu.nvidia.enable = true;
+      # gpu.nvidia.enable = true;
       fs = {
         ssd.enable = true;
         enable = true;
@@ -123,26 +123,30 @@
     bootsplash = {enable = true;};
   };
 
-  hardware = {
-    nvidia = {
-      package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
-      # nvidiaPersistenced = lib.mkForce false;
-      prime = {
-        offload.enable = true;
-        intelBusId = "PCI:0:2:0";
-        nvidiaBusId = "PCI:2:0:0";
-      };
-    };
-  };
-  environment.systemPackages = let
-    nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
-      export __NV_PRIME_RENDER_OFFLOAD=1
-      export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-      export __GLX_VENDOR_LIBRARY_NAME=nvidia
-      export __VK_LAYER_NV_optimus=NVIDIA_only
-      exec -a "$0" "$@"
-    '';
-  in [nvidia-offload];
+  # hardware = {
+  #   nvidia = {
+  #     package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
+  #     modesetting.enable = true;
+  #     # powerManagement.enable = lib.mkForce false;
+  #     # powerManagement.finegrained = lib.mkForce false;
+  #     # nvidiaPersistenced = lib.mkForce false;
+  #     prime = {
+  #       offload.enable = true;
+  #       # sync.enable = true;
+  #       intelBusId = "PCI:0:2:0";
+  #       nvidiaBusId = "PCI:2:0:0";
+  #     };
+  #   };
+  # };
+  # environment.systemPackages = let
+  #   nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
+  #     export __NV_PRIME_RENDER_OFFLOAD=1
+  #     export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+  #     export __GLX_VENDOR_LIBRARY_NAME=nvidia
+  #     export __VK_LAYER_NV_optimus=NVIDIA_only
+  #     exec -a "$0" "$@"
+  #   '';
+  # in [nvidia-offload];
 
   # HACK Disable nvidia card for
   # the sake of power consumption
