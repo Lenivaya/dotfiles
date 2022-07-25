@@ -35,7 +35,7 @@ in {
     };
 
     environment.shellAliases = {
-      xcd = "cd '$(xplr --print-pwd-as-result)'";
+      xcd = ''cd "$(xplr --print-pwd-as-result)"'';
     };
   };
 }
