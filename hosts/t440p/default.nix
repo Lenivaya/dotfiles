@@ -97,6 +97,7 @@
 
     hardware = {
       profiles.laptop.enable = true;
+      touchpad.enable = true;
       cpu.intel.enable = true;
       cpu.undervolt = rec {
         enable = true;
@@ -159,11 +160,6 @@
   # Dpi
   hardware.video.hidpi.enable = true;
   #   services.xserver.dpi = 180;
-
-  services.xserver.libinput.touchpad = {
-    naturalScrolling = true;
-    accelProfile = "adaptive";
-  };
 
   services.fwupd.enable = true;
 
