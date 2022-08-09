@@ -15,10 +15,6 @@ in {
     desktopManager.xterm.enable = lib.mkDefault false;
     autoRepeatDelay = 200;
     autoRepeatInterval = 50;
-    libinput = {
-      touchpad = {disableWhileTyping = true;};
-      enable = true;
-    };
     layout = "us, ru, ua";
     xkbOptions = "grp:win_space_toggle, caps:ctrl_modifier";
 
