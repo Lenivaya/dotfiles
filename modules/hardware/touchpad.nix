@@ -31,7 +31,14 @@ in {
       description = "Touchpad gestures";
       wantedBy = ["graphical-session.target"];
       partOf = ["graphical-session.target"];
-      path = with pkgs; [xdotool skippy-xd wmctrl];
+      path = with pkgs; [
+        xdotool
+        skippy-xd
+        wmctrl
+        (writeShellScriptBin
+          "toggleFullscreen"
+          "wmctrl -r :ACTIVE: -b toggle,fullscreen")
+      ];
 
       serviceConfig = {
         ExecStart = "${pkgs.libinput-gestures}/bin/libinput-gestures";
