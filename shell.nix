@@ -1,6 +1,6 @@
 {
   pkgs ? import <nixpkgs> {},
-  pre-commit-hook,
+  pre-commit-hook ? "",
 }:
 with pkgs; let
   nixBin = writeShellScriptBin "nix" ''
