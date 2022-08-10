@@ -1,0 +1,11 @@
+#! /usr/bin/env bash
+
+# Wrapper around rofi that always
+# runs it with english kbd layout
+
+previous_layout=$(xkb-switch -p)
+xkb-switch -s us
+
+rofi "$@"
+
+xkb-switch -s "$previous_layout"
