@@ -1,0 +1,5 @@
+#! /usr/bin/env bash
+
+# Wrapper around rofi
+
+rofi_wrapper -show drun -theme drun -no-config
