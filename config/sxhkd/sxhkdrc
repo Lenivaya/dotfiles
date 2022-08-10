@@ -43,5 +43,7 @@ ctrl + {Delete,End,Escape}
     dunstctl {close,close-all,history-pop}
 
 # Expose windows
+# XF86Tools
 XF86Tools
-    skippy-xd
+    keyboard-switch
+#     skippy-xd

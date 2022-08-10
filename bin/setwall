@@ -22,7 +22,7 @@ updatewall() {
 current=$(cat "$cachefile")
 
 case $current in
-$wallname) echo "Seem's like wallpaper already seted" && exit 1 ;;
+	$wallname) echo "Seem's like wallpaper already seted" && exit 1 ;;
 esac
 
 setwall >/dev/null 2>&1
