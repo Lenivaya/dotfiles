@@ -38,6 +38,7 @@ in {
     in
       with pkgs; [
         wmctrl # windows bringing support
+        xkb-switch # Switching of keyboard layouts
 
         (makeDesktopItem {
           name = "Rofi-calc";
@@ -58,6 +59,13 @@ in {
           icon = "face-smile";
           exec = rofiCommand "emoji";
         })
+        (makeDesktopItem {
+          name = "Rofi-keyboard-switcher";
+          desktopName = "Rofi: Keyboard switcher";
+          icon = "preferences-desktop-keyboard";
+          exec = "keyboard-switch";
+        })
+
         (makeDesktopItem {
           name = "reboot";
           desktopName = "System: Reboot";
