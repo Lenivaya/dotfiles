@@ -352,8 +352,6 @@ in {
               margin-bottom: 0px !important;
               opacity: 1 !important;
               overflow: show !important;
-              padding-top: 5px !important;
-              padding-bottom: 5px !important;
             }
 
             #urlbar-container {

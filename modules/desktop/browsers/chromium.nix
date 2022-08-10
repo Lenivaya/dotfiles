@@ -14,7 +14,7 @@ with lib.my; let
     with pkgs;
       writeScriptBin "${p.packageName}" ''
         #!${stdenv.shell}
-        exec ${p}/bin/${p.packageName} ${lib.concatStringsSep " " f}
+        exec ${p}/bin/${p.packageName} ${lib.concatStringsSep " " f} "$@"
       '';
 in {
   options.modules.desktop.browsers.chromium = {

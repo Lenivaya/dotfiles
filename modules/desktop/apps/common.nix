@@ -59,7 +59,7 @@ in {
       brightnessctl
       blanket # ambient sounds
       gnome-usage
-      skippy-xd # window exposer
+      # skippy-xd # window exposer
     ]
     ++ (with pkgs.gnome; [
       gnome-sound-recorder
