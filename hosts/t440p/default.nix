@@ -17,6 +17,7 @@
   modules = {
     desktop = {
       xmonad.enable = true;
+      # gnome.enable = true;
 
       fonts.pragmata.enable = true;
 
@@ -116,7 +117,7 @@
       audio.enable = true;
       fingerprint.enable = true;
       bluetooth.enable = true;
-      # zram.enable = true;
+      zram.enable = true;
     };
 
     hosts.enable = true;
@@ -151,7 +152,7 @@
 
   # HACK Disable nvidia card for
   # the sake of power consumption
-  # hardware.nvidiaOptimus.disable = true;
+  hardware.nvidiaOptimus.disable = true;
 
   networking.useDHCP = false;
   networking.interfaces.enp0s25.useDHCP = true;
@@ -187,6 +188,9 @@
     allowedTCPPorts = [3000 4000];
   };
 
+  # For manual fan control with pwm
+  boot.extraModprobeConfig = "options thinkpad_acpi experimental=1 fan_control=1";
+
   user.packages = with pkgs; [
     binance
     ffmpeg-full
@@ -196,4 +200,11 @@
   # Flatpak
   services.flatpak.enable = true;
   xdg.portal.enable = true;
+
+  # Fix for libGL.so error
+  hardware.opengl = {
+    enable = true;
+    setLdLibraryPath = true;
+    extraPackages = with pkgs; [libGL];
+  };
 }
