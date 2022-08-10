@@ -245,7 +245,9 @@ snippets                     ; my elves. They type so I don't have to
 #+begin_src emacs-lisp
 (dired
  +icons
- +dirvish)               ; making dired pretty [functional]
+ +ranger
+ ;; +dirvish
+ )               ; making dired pretty [functional]
 electric                     ; smarter, keyword-based electric-indent
 (ibuffer +icons)             ; interactive buffer management
 (undo +tree)                 ; persistent, smarter undo for your inevitable mistakes
@@ -375,6 +377,7 @@ solidity          ; do you need a blockchain? No.
 ;;terra             ; Earth and Moon in alignment for performance.
 (web +lsp)              ; the tubes
 yaml
+;; graphql
 ;;vala              ; GObjective-C
 #+end_src
 **** Everything in Emacs
@@ -570,18 +573,6 @@ Variable pitch fontification + colouring
 (package! info-colors :pin "47ee73cc19b1049eef32c9f3e264ea7ef2aaf8a5")
 #+end_src
 
-**** Large files
-The /very large files/ mode loads large files in chunks, allowing one to open
-ridiculously large files.
-#+begin_src emacs-lisp
-(package! vlf :recipe (:host github :repo "m00natic/vlfi" :files ("*.el"))
-  :pin "cc02f2533782d6b9b628cec7e2dcf25b2d05a27c" :disable t)
-#+end_src
-To make VLF available without delaying startup, we'll just load it in quiet moments.
-#+begin_src emacs-lisp :tangle yes
-(use-package! vlf-setup
-  :defer-incrementally vlf-tune vlf-base vlf-write vlf-search vlf-occur vlf-follow vlf-ediff vlf)
-#+end_src
 **** Calibre and ebook reading
 For managing my ebooks, I'll hook into the well-established ebook library
 manager [[https://calibre-ebook.com/][calibre]]. A number of Emacs clients for this exist, but this seems like a
@@ -1261,59 +1252,22 @@ Nested snippets are good, enable that.
 #+begin_src emacs-lisp
 (setq yas-triggers-in-field t)
 #+end_src
-** Marginalia
-#+begin_quote
-Part of the =:completion vertico= module.
-#+end_quote
-
-Marginalia is nice, but the file metadata annotations are a little too plain.
-Specifically, I have these gripes
-+ File attributes would be nicer if coloured
-+ I don't care about the user/group information if the user/group is me
-+ When a file time is recent, a relative age (e.g. =2h ago=) is more useful than
-  the date
-+ An indication of file fatness would be nice
-
-Thanks to the ~marginalia-annotator-registry~, we don't have to advise, we can
-just add a new =file= annotator.
-
-Another small thing is the face used for docstrings. At the moment it's =(italic
-shadow)=, but I don't like that.
+# ** NANO
+# #+begin_src emacs-lisp :tangle packages.el
+# (package! doom-themes :disable t)
+# #+end_src
+# #+begin_src emacs-lisp
+# (setq doom-theme nil)
+# (add-to-list 'load-path "~/code/Projects/nano-doom")
+# (require 'load-nano)
+# #+end_src
+** Fountain
+#+begin_src emacs-lisp :tangle packages.el
+(package! fountain-mode)
+#+end_src
 
 #+begin_src emacs-lisp
-(after! marginalia
-  (setq marginalia-censor-variables nil)
-
-  (defadvice! +marginalia--anotate-local-file-colorful (cand)
-    "Just a more colourful version of `marginalia--anotate-local-file'."
-    :override #'marginalia--annotate-local-file
-    (when-let (attrs (file-attributes (substitute-in-file-name
-                                       (marginalia--full-candidate cand))
-                                      'integer))
-      (marginalia--fields
-       ((marginalia--file-owner attrs)
-        :width 12 :face 'marginalia-file-owner)
-       ((marginalia--file-modes attrs))
-       ((+marginalia-file-size-colorful (file-attribute-size attrs))
-        :width 7)
-       ((+marginalia--time-colorful (file-attribute-modification-time attrs))
-        :width 12))))
-
-  (defun +marginalia--time-colorful (time)
-    (let* ((seconds (float-time (time-subtract (current-time) time)))
-           (color (doom-blend
-                   (face-attribute 'marginalia-date :foreground nil t)
-                   (face-attribute 'marginalia-documentation :foreground nil t)
-                   (/ 1.0 (log (+ 3 (/ (+ 1 seconds) 345600.0)))))))
-      ;; 1 - log(3 + 1/(days + 1)) % grey
-      (propertize (marginalia--time time) 'face (list :foreground color))))
-
-  (defun +marginalia-file-size-colorful (size)
-    (let* ((size-index (/ (log10 (+ 1 size)) 7.0))
-           (color (if (< size-index 10000000) ; 10m
-                      (doom-blend 'orange 'green size-index)
-                    (doom-blend 'red 'orange (- size-index 1)))))
-      (propertize (file-size-human-readable size) 'face (list :foreground color)))))
+(use-package! fountain-mode)
 #+end_src
 * Applications
 ** Ebooks
@@ -1531,6 +1485,7 @@ Turn off company for nix
 #+begin_src emacs-lisp
 (setq-hook! 'nix-mode-hook company-idle-delay nil)
 #+end_src
+
 Use alejandra formatter
 #+begin_src emacs-lisp
 (set-formatter! 'alejandra "alejandra --quiet" :modes '(nix-mode))
