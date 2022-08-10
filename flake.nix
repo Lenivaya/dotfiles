@@ -15,7 +15,35 @@
 
     # Discord
     discord-overlay.url = "github:InternetUnexplorer/discord-overlay";
-    discocss.url = "github:mlvzk/discocss/flake";
+    replugged.url = "github:LunNova/replugged-nix-flake";
+    discord-tweaks = {
+      url = "github:NurMarvin/discord-tweaks";
+      flake = false;
+    };
+    discord-image-tools = {
+      url = "github:powerfart-plugins/image-tools";
+      flake = false;
+    };
+    discord-push-fix = {
+      url = "github:Karamu98/AlwaysPushNotifications";
+      flake = false;
+    };
+    discord-better-status-indicators = {
+      url = "github:griefmodz/better-status-indicators";
+      flake = false;
+    };
+    discord-multitask = {
+      url = "github:powercord-community/multitask";
+      flake = false;
+    };
+    discord-view-raw = {
+      url = "github:Juby210/view-raw";
+      flake = false;
+    };
+    discord-channel-typing = {
+      url = "github:powercord-community/channel-typing";
+      flake = false;
+    };
 
     # Extras
     nixos-hardware.url = "github:nixos/nixos-hardware";
