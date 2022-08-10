@@ -60,6 +60,12 @@ in {
           exec = rofiCommand "emoji";
         })
         (makeDesktopItem {
+          name = "Rofi-windows";
+          desktopName = "Rofi: window switcher";
+          icon = "preferences-desktop-theme"; # Looks good
+          exec = rofiCommand "window -window-thumbnail";
+        })
+        (makeDesktopItem {
           name = "Rofi-keyboard-switcher";
           desktopName = "Rofi: Keyboard switcher";
           icon = "preferences-desktop-keyboard";
