@@ -1,0 +1,12 @@
+#! /usr/bin/env bash
+
+# Switch between keyboard layouts
+
+previous_layout=$(xkb-switch -p)
+xkb-switch -s us
+
+layout=$(xkb-switch -l | rofi -theme minimal -dmenu -i -p "layout")
+case $layout in
+    "") xkb-switch -s "$previous_layout" ;;
+    *) xkb-switch -s "$layout" ;;
+esac
