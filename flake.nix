@@ -50,7 +50,7 @@
     emacs-overlay.url = "github:nix-community/emacs-overlay";
     nur.url = "github:nix-community/NUR";
     adblock.url = "github:StevenBlack/hosts";
-    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
+    # pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
   };
 
   outputs = inputs @ {
@@ -102,18 +102,18 @@
 
     devShells."${system}".default = import ./shell.nix {
       inherit pkgs;
-      pre-commit-hook = self.checks.${system}.pre-commit-check;
+      # pre-commit-hook = self.checks.${system}.pre-commit-check;
     };
 
-    checks.${system}.pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
-      src = ./.;
-      hooks = {
-        alejandra.enable = true;
-        statix.enable = true;
-        # nixfmt.enable = true;
-        shellcheck.enable = true;
-      };
-    };
+    # checks.${system}.pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
+    #   src = ./.;
+    #   hooks = {
+    #     alejandra.enable = true;
+    #     statix.enable = true;
+    #     # nixfmt.enable = true;
+    #     shellcheck.enable = true;
+    #   };
+    # };
 
     templates = {
       full = {
