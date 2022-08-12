@@ -30,6 +30,7 @@ with lib.my; {
 
       programs = mkOpt' attrs {} "user programs";
       services = mkOpt' attrs {} "user services";
+      packages = mkOpt' attrs {} "user packages";
     };
 
     env = mkOption {
@@ -85,6 +86,7 @@ with lib.my; {
       users.${config.user.name} = {
         home = {
           file = mkAliasDefinitions options.home.file;
+          packages = mkAliasDefinitions options.home.packages;
           # Necessary for home-manager to work with flakes, otherwise it will
           # look for a nixpkgs channel.
           inherit (config.system) stateVersion;
