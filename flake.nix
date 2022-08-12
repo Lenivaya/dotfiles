@@ -45,6 +45,9 @@
       flake = false;
     };
 
+    # Spotify
+    spicetify-nix.url = "github:the-argus/spicetify-nix";
+
     # Extras
     nixos-hardware.url = "github:nixos/nixos-hardware";
     emacs-overlay.url = "github:nix-community/emacs-overlay";
