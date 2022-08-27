@@ -38,13 +38,9 @@ in {
   #   };
   # };
   #
-  home.configFile."sxhkd" = {
-    source = "${configDir}/sxhkd";
-    recursive = true;
-  };
+  modules.services.sxhkd.enable = true;
 
   services.xserver.displayManager.sessionCommands = ''
-    ${pkgs.sxhkd}/bin/sxhkd -c ${configDir}/sxhkd/sxhkdrc &
     ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1 &
   '';
 
