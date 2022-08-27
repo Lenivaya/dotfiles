@@ -94,6 +94,7 @@
     services = {
       kdeconnect.enable = true;
       ssh.enable = true;
+      warp.enable = true;
     };
 
     hardware = {
