@@ -40,10 +40,6 @@ in {
   #
   modules.services.sxhkd.enable = true;
 
-  services.xserver.displayManager.sessionCommands = ''
-    ${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1 &
-  '';
-
   # Clean up leftovers, as much as we can
   system.userActivationScripts.cleanupHome = ''
     pushd "${config.user.home}"
