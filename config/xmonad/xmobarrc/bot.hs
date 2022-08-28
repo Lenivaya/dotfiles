@@ -67,7 +67,8 @@ Config
           ],
           -- 10,
         Run ComX "player" [] "" "player" 10,
-        Run ComX "caffeinatestatus" [] "" "caffeine" 10
+        Run ComX "caffeinatestatus" [] "" "caffeine" 10,
+        Run ComX "warpstatus" [] "" "warp" 10
       ],
     sepChar = "%",
     alignSep = "}{",
@@ -77,6 +78,6 @@ Config
       \}\
       \%player%\
       \{\
-      \%caffeine%   %kbd%   %alsa:default:Master%\
+      \%warp% %caffeine%   %kbd%   %alsa:default:Master%\
       \ "
   }

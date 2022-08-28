@@ -1,0 +1,10 @@
+#!/bin/sh
+
+isWarpRunning=$(
+    pgrep -x "warp-svc" >/dev/null && echo true || echo false
+)
+
+case $isWarpRunning in
+    true) echo "<action='warp'><fn=3></fn></action>" ;;
+    false) echo "" ;;
+esac
