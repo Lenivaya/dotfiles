@@ -10,13 +10,18 @@ with lib.my; let
   cfg = config.modules.services.warp;
   warpScript = pkgs.writeScriptBin "warp" ''
     enabled=$(
-        warp-cli status | grep -qc "Connected"
+      warp-cli status | grep -qw "Connected"
+      echo $?
     )
 
-    case $enabled in
-        0) warp-cli disconnect ;;
-        1) warp-cli connect ;;
-    esac
+    if [ $enabled -eq 0 ]; then
+      warp-cli disconnect
+      systemctl stop warp-svc.service
+    else
+      systemctl start warp-svc.service
+      sleep 1
+      warp-cli connect
+    fi
   '';
 in {
   options.modules.services.warp = {
