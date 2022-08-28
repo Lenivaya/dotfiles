@@ -72,6 +72,5 @@ in {
       eog
       geary
       xdotool
-    ])
-    ++ (with pkgs.cinnamon; [nemo]);
+    ]);
 }
