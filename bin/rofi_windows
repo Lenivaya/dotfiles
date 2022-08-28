@@ -1,0 +1,3 @@
+#! /usr/bin/env bash
+
+rofi_wrapper -show window -theme minimal -no-config
