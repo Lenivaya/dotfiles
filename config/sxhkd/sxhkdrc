@@ -31,7 +31,7 @@ XF86Search
     rofi -show drun
 
 XF86LaunchA
-    rofi -show window -window-thumbnail
+    rofi_windows
 
 XF86Explorer
     nautilus
