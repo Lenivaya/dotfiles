@@ -28,22 +28,20 @@ in {
           sha256 = "1a6lqp6md9adxjxj4xpxj0j1b60yv3rpjshs91qx3q7blpsi3z4z";
         };
       });
-      # theme = spicetify-nix.pkgs.themes.Dribbblish;
-      theme = "Ziro";
-      colorScheme = "green-dark";
-      # theme = "Flow";
-      # OR
-      # theme = spicetify-nix.pkgs.themes.catppuccin-mocha;
+      theme = "SpotifyNoPremium";
 
       enabledCustomApps = with spicetify-nix.pkgs.apps; [
-        #   new-releases
         lyrics-plus
         localFiles
         marketplace
       ];
       enabledExtensions = [
+        "powerBar.js"
         "keyboardShortcut.js"
-        "fullAppDisplay.js"
+        "seekSong.js"
+        "goToSong.js"
+
+        "fullAppDisplayMod.js" #"fullAppDisplay.js"
         "shuffle+.js"
         # "hidePodcasts.js"
         "fullAlbumDate.js"
@@ -55,15 +53,5 @@ in {
         "groupSession.js"
       ];
     };
-
-    user.packages = with pkgs; [
-      # spotify
-      # spicetify-cli
-      # unstable.spot
-      # (writeScriptBin "spotify" ''
-      #   #!${stdenv.shell}
-      #   exec ${nur.repos.milahu.spotify-adblock-linux}/bin/spotify-adblock-linux
-      # '')
-    ];
   };
 }
