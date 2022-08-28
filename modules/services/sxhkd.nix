@@ -7,6 +7,7 @@
 }:
 with lib;
 with lib.my; let
+  inherit (config.dotfiles) configDir;
   cfg = config.modules.services.sxhkd;
 in {
   options.modules.services.sxhkd = {
@@ -20,19 +21,14 @@ in {
     };
 
     systemd = {
-      user.services.polkit-gnome-authentication-agent-1 = {
-        description = "Sxhkd hotkeys";
+      user.services.sxhkd = {
+        description = "Sxhkd hotkeys daemon";
         wants = ["graphical-session.target"];
         wantedBy = ["graphical-session.target"];
         after = ["graphical-session.target"];
 
-        serviceConfig = {
-          Type = "simple";
-          ExecStart = "${pkgs.sxhkd}/bin/sxhkd -c ${configDir}/sxhkd/sxhkdrc";
-          Restart = "on-failure";
-          RestartSec = 1;
-          TimeoutStopSec = 10;
-        };
+        path = with pkgs; [sxhkd];
+        script = "sxhkd -c ${configDir}/sxhkd/sxhkdrc";
       };
     };
   };
