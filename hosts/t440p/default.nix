@@ -12,6 +12,7 @@
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t440p
     inputs.nixos-hardware.nixosModules.common-pc-laptop-acpi_call
     ./jack_retask/jack_retask.nix
+    ./phone_cam.nix
   ];
 
   modules = {
