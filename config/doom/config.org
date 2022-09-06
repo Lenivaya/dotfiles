@@ -653,7 +653,9 @@ And some basic config
   :commands aas-mode)
 
 (use-package! laas
-  :hook (LaTeX-mode . laas-mode)
+  :hook ((org-mode . laas-mode)
+         (org-mode . aas-activate-for-major-mode)
+         (LaTeX-mode . laas-mode))
   :config
   (defun laas-tex-fold-maybe ()
     (unless (equal "/" aas-transient-snippet-key)
@@ -1557,6 +1559,13 @@ There also seem to be a few keybindings which use =hjkl=, but miss arrow key equ
       :n "g <left>" #'org-up-element
       :n "g <right>" #'org-down-element)
 #+end_src
+**** Latex snippets
+#+begin_src emacs-lisp
+(add-hook 'org-mode-hook
+          (λ! (yas-minor-mode)
+              (yas-activate-extra-mode 'latex-mode)))
+#+end_src
+
 **** Extra functionality
 ***** Org buffer creation
 Let's also make creating an org buffer just that little bit easier.
