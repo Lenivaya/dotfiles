@@ -2160,8 +2160,10 @@ It's also nice to make use of the Unicode characters for check boxes, and other 
             :begin_quote   "❝"
             :end_quote     "❞"
             :caption       "☰"
-            :header        "›")
-)
+            :header        "›"
+            :bibliography  ""
+            :print_biblio  "")
+          )
 (set-ligatures! 'org-mode
   :merge t
   :list_property "::"
@@ -2180,7 +2182,9 @@ It's also nice to make use of the Unicode characters for check boxes, and other 
   :end_quote     "#+end_quote"
   :caption       "#+caption:"
   :header        "#+header:"
-)
+  :bibliography  "#+bibliography:"
+  :print-biblio  "#+print_bibliography:"
+  )
 (plist-put +ligatures-extra-symbols :name "⁍")
 #+end_src
 
