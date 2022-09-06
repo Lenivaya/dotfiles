@@ -1274,6 +1274,17 @@ Nested snippets are good, enable that.
 #+begin_src emacs-lisp
 (use-package! fountain-mode)
 #+end_src
+** Open-With
+#+begin_src emacs-lisp :tangle packages.el
+(package! crux)
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package! crux
+  :config
+  (global-set-key (kbd "C-c o") #'crux-open-with)
+  )
+#+end_src
 * Applications
 ** Ebooks
 =calibredb= lets us use calibre through Emacs, because who wouldn't want to use
