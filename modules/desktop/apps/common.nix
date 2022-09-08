@@ -32,12 +32,11 @@ in {
       ps_mem
       lm_sensors
       # Appearance
-      qt5ct
+      # qt5ct
       lxappearance
       pywal
       wpgtk
       killall
-      stow
       libqalculate # calculator cli w/ currency conversion
       (makeDesktopItem {
         name = "scratch-calc";
@@ -60,6 +59,8 @@ in {
       blanket # ambient sounds
       gnome-usage
       # skippy-xd # window exposer
+      xdotool
+      comma # quickly run soft without install using nix
     ]
     ++ (with pkgs.gnome; [
       gnome-sound-recorder
@@ -71,6 +72,5 @@ in {
       gnome-system-monitor
       eog
       geary
-      xdotool
     ]);
 }
