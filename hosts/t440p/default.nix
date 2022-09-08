@@ -167,6 +167,12 @@
   services.fwupd.enable = true;
 
   services.tlp.settings.CPU_MAX_PERF_ON_BAT = lib.mkForce 50;
+  services.tlp.settings = {
+    CPU_SCALING_MIN_FREQ_ON_AC = 0;
+    CPU_SCALING_MAX_FREQ_ON_AC = 3400000;
+    CPU_SCALING_MIN_FREQ_ON_BAT = 0;
+    # CPU_SCALING_MAX_FREQ_ON_BAT = 0;
+  };
 
   services.clight.settings.keyboard.disabled = lib.mkForce true;
 
