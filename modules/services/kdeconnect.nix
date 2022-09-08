@@ -23,6 +23,9 @@ in {
       ];
     };
 
-    home.services.kdeconnect.enable = true;
+    home.services.kdeconnect = {
+      enable = true;
+      indicator = true;
+    };
   };
 }
