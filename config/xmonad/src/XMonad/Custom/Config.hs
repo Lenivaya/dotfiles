@@ -7,7 +7,7 @@ module XMonad.Custom.Config
 import           Flow
 import           XMonad
 import           XMonad.Actions.DynamicProjects ( dynamicProjects )
-import           XMonad.Actions.Navigation2D
+import           XMonad.Actions.Navigation2D    ( withNavigation2DConfig )
 import qualified XMonad.Custom.Bindings        as C
 import qualified XMonad.Custom.Event           as C
 import qualified XMonad.Custom.Layout          as C

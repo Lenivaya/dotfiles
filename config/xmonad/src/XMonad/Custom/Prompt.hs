@@ -4,14 +4,19 @@ module XMonad.Custom.Prompt
   , predicateFunction
   , promptTheme
   , hotPromptTheme
+  , gridSelectTheme
   ) where
 
 import           Data.Char
 import           Data.List
 import           Data.Ratio
+import           XMonad
 import qualified XMonad.Custom.Theme           as T
 import           XMonad.Prompt
 import           XMonad.Prompt.FuzzyMatch
+import           XMonad.Actions.GridSelect
+
+
 
 promptTheme, hotPromptTheme :: XPConfig
 promptTheme = def
@@ -38,6 +43,21 @@ hotPromptTheme = promptTheme { bgColor      = T.black2
                              , bgHLight     = T.black1
                              , autoComplete = Nothing
                              }
+
+colorizer :: a -> Bool -> X (String, String)
+colorizer _ isFg = do
+    fBC <- asks (focusedBorderColor . config)
+    nBC <- asks (normalBorderColor . config)
+    return $ if isFg
+                then (fBC, nBC)
+                else (nBC, fBC)
+
+-- gridSelectTheme :: GSConfig a
+gridSelectTheme = (buildDefaultGSConfig colorizer)
+  { gs_font          = T.font
+  -- , gs_cellheight = 30
+  -- , gs_cellwidth  = 100
+  }
 
 listCompFunc :: XPConfig -> [String] -> String -> IO [String]
 listCompFunc c xs s = return (filter (searchPredicate c s) xs)
