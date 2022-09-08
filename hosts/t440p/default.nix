@@ -57,7 +57,6 @@
           enable = true;
           audio.enable = true;
         };
-        # ncmpcpp.enable = true;
       };
 
       # vm = { qemu.enable = true; };
@@ -89,7 +88,7 @@
       node.enable = true;
       python.enable = true;
       elixir.enable = true;
-      # csharp.enable = true;
+      csharp.enable = true;
     };
 
     services = {
@@ -106,6 +105,8 @@
         enable = true;
         core = -80;
         gpu = -40;
+        # core = -100;
+        # gpu = -50;
         uncore = core;
         analogio = core;
         # temp = 100;
@@ -202,6 +203,7 @@
   user.packages = with pkgs; [
     binance
     ffmpeg-full
+    gimp
     # lightworks pitivi
   ];
 
