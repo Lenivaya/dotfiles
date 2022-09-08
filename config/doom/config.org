@@ -415,7 +415,7 @@ Use font aliases defined in fontconfig.
 (setq! doom-font (font-spec :family "monospace" :size 16)
        doom-big-font (font-spec :family "monospace" :size 26)
        doom-variable-pitch-font (font-spec :family "sans" :size 16)
-       doom-unicode-font doom-variable-pitch-font
+       doom-unicode-font (font-spec :family "JuliaMono")
        doom-serif-font doom-variable-pitch-font
        )
 #+end_src
