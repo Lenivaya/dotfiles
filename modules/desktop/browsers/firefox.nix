@@ -81,6 +81,10 @@ in {
           # Hide 'http://' from url
           "browser.urlbar.trimURLs" = true;
           "browser.compactmode.show" = true;
+          # Don't download pdf's just for previews
+          "browser.download.open_pdf_attachments_inline" = true;
+          # Start with blank page
+          "browser.startup.page" = 0;
 
           # Hardware-acceleration
           "layers.acceleration.force-enabled" = true;
