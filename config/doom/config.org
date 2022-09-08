@@ -333,7 +333,9 @@ ess                          ; emacs speaks statistics
 ;;elm               ; care for a cup of TEA?
 emacs-lisp        ; drown in parentheses
 ;;ess               ; emacs speaks statistics
-;;fsharp           ; ML stands for Microsoft's Language
+(fsharp           ; ML stands for Microsoft's Language
+ +lsp
+ )
 (go +lsp)                ; the hipster dialect
 (haskell             ; a language that's lazier than I am
  +lsp
