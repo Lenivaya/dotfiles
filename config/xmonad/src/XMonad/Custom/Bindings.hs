@@ -1,5 +1,6 @@
 {-# LANGUAGE LambdaCase #-}
 {-# OPTIONS_GHC -Wno-deprecations #-}
+{-# OPTIONS_GHC -Wno-name-shadowing #-}
 
 module XMonad.Custom.Bindings
   ( keys
@@ -36,6 +37,7 @@ import           XMonad.Custom.Layout
 import qualified XMonad.Custom.Misc            as C
 import           XMonad.Custom.Prompt           ( hotPromptTheme
                                                 , promptTheme
+                                                , gridSelectTheme
                                                 )
 import           XMonad.Custom.Scratchpads
 import           XMonad.Custom.Workspaces       ( selectBrowserByName )
@@ -65,14 +67,6 @@ import XMonad.Operations (restart)
 
 modMask :: KeyMask
 modMask = mod4Mask
-
-directions :: [Direction2D]
-directions = [D, U, L, R]
-
-arrowKeys, directionKeys, wsKeys :: [String]
-arrowKeys = ["<D>", "<U>", "<L>", "<R>"]
-directionKeys = ["j", "k", "h", "l"]
-wsKeys = map show [1 .. 9 :: Int]
 
 zipKeys :: [a] -> [[a]] -> [t1] -> (t1 -> b) -> [([a], b)]
 zipKeys m ks as f = zipWith (\k d -> (m ++ k, f d)) ks as
@@ -182,10 +176,13 @@ keysWorkspaces _ =
     , ("M-."      , prevNonEmptyWS)
     , ("M-i"      , toggleWS' ["NSP"])
     , ("M-n", workspacePrompt promptTheme $ windows . S.shift)
+    , ("M-w w", gridselectWorkspace gridSelectTheme S.greedyView)
     ]
     ++ zipKeys "M-"     wsKeys [0 ..] (withNthWorkspace S.greedyView)
     ++ zipKeys "M-S-"   wsKeys [0 ..] (withNthWorkspace S.shift)
     ++ zipKeys "M-C-S-" wsKeys [0 ..] (withNthWorkspace copy)
+  where
+    wsKeys = map show [1 .. 9 :: Int]
 
 keysSpawnables :: XConfig Layout -> [(String, X ())]
 keysSpawnables _ =
@@ -229,12 +226,16 @@ keysWindows _ =
     , ("M-S-;"  , windows S.swapUp)
     , ("M-w s", selectWindow def >>= (`whenJust` windows . S.focusWindow))
     ]
-    ++ zipKeys' "M-"   directionKeys directions windowGo   True
-    ++ zipKeys' "M-S-" directionKeys directions windowSwap True
-    ++ zipKeys "M-C-" directionKeys directions (sendMessage . pullGroup)
+    ++ zipKeys' "M-"   vimKeys directions windowGo   True
+    ++ zipKeys' "M-S-" vimKeys directions windowSwap True
+    ++ zipKeys "M-C-" vimKeys directions (sendMessage . pullGroup)
     ++ zipKeys' "M-"   arrowKeys directions screenGo       True
     ++ zipKeys' "M-S-" arrowKeys directions windowToScreen True
     ++ zipKeys' "M-C-" arrowKeys directions screenSwap     True
+    where
+      directions = [D, U, L, R]
+      arrowKeys  = ["<D>", "<U>", "<L>", "<R>"]
+      vimKeys    = ["j", "k", "h", "l"]
 
 keysLayout :: XConfig Layout -> [(String, X ())]
 keysLayout c =
