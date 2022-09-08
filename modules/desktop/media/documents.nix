@@ -27,7 +27,9 @@ in {
       (mkIf cfg.latex.enable [
         texlab
         texlive.combined.scheme-full # FULL
+        tectonic
         rubber
+        python310Packages.pygments # Code highlighting with minted
       ])
     ]);
 
