@@ -358,7 +358,7 @@ lua               ; one-based indices? one-based indices
 nix               ; I hereby declare "nix geht mehr!"
 ;;ocaml             ; an objective camel
 (org              ; organize your plain life in plain text
- +pretty
+ ;; +pretty       ; Disable since I use org-modern
  +pandoc
  +dragndrop       ; file drag & drop support
  +noter                      ; enhanced PDF notetaking
@@ -682,14 +682,6 @@ set up org-capture.
   )
 #+end_src
 **** Visuals
-Org tables aren't the prettiest thing to look at. This package is supposed to
-redraw them in the buffer with box-drawing characters. Sounds like an
-improvement to me! Just need to get it working...
-#+begin_src emacs-lisp
-(package! org-pretty-table-mode
-  :recipe (:host github :repo "Fuco1/org-pretty-table"))
-#+end_src
-
 For automatically toggling LaTeX fragment previews there's this nice package
 #+begin_src emacs-lisp
 (package! org-fragtog :pin)
@@ -1140,36 +1132,6 @@ it, either by command or in a capture template.
   (reverse-im-mode t)
   )
 #+end_src
-** Spray
-It would be nice if Spray's default speed suited me better, and the keybindings
-worked in evil mode. Let's do that and make the display slightly nicer while
-we're at it.
-
-#+begin_src emacs-lisp
-(use-package! spray
-  :commands spray-mode
-  :config
-  (setq spray-wpm 600
-        spray-height 800)
-  (defun spray-mode-hide-cursor ()
-    "Hide or unhide the cursor as is appropriate."
-    (if spray-mode
-        (setq-local spray--last-evil-cursor-state evil-normal-state-cursor
-                    evil-normal-state-cursor '(nil))
-      (setq-local evil-normal-state-cursor spray--last-evil-cursor-state)))
-  (add-hook 'spray-mode-hook #'spray-mode-hide-cursor)
-  (map! :map spray-mode-map
-        "<return>" #'spray-start/stop
-        "f" #'spray-faster
-        "s" #'spray-slower
-        "t" #'spray-time
-        "<right>" #'spray-forward-word
-        "h" #'spray-forward-word
-        "<left>" #'spray-backward-word
-        "l" #'spray-backward-word
-        "q" #'spray-quit))
-#+end_src
-
 ** Which-key
 Let's make this popup a bit faster
 #+begin_src emacs-lisp
@@ -1187,6 +1149,7 @@ I also think that having =evil-= appear in so many popups is a bit too verbose, 
    ))
 #+end_src
 ** Writeroom
+
 #+begin_quote
 From the =:ui zen= module.
 #+end_quote
@@ -1204,50 +1167,55 @@ tweaks. Namely:
 + Hiding line numbers
 + Removing outline indentation
 + Centring the text
-+ Turning on ~org-pretty-table-mode~
 
 #+begin_src emacs-lisp
 (defvar +zen-serif-p t
   "Whether to use a serifed font with `mixed-pitch-mode'.")
+(defvar +zen-org-starhide t
+  "The value `org-modern-hide-stars' is set to.")
+
 (after! writeroom-mode
   (defvar-local +zen--original-org-indent-mode-p nil)
   (defvar-local +zen--original-mixed-pitch-mode-p nil)
-  (defvar-local +zen--original-org-pretty-table-mode-p nil)
   (defun +zen-enable-mixed-pitch-mode-h ()
     "Enable `mixed-pitch-mode' when in `+zen-mixed-pitch-modes'."
     (when (apply #'derived-mode-p +zen-mixed-pitch-modes)
       (if writeroom-mode
           (progn
             (setq +zen--original-mixed-pitch-mode-p mixed-pitch-mode)
-            (funcall (if +zen-serif-p #'mixed-pitch-mode) 1))
+            (funcall (if +zen-serif-p #'mixed-pitch-serif-mode #'mixed-pitch-mode) 1))
         (funcall #'mixed-pitch-mode (if +zen--original-mixed-pitch-mode-p 1 -1)))))
+  (defun +zen-prose-org-h ()
+    "Reformat the current Org buffer appearance for prose."
+    (when (eq major-mode 'org-mode)
+      (setq display-line-numbers nil
+            visual-fill-column-width 60
+            org-adapt-indentation nil)
+      (when (featurep 'org-modern)
+        (setq-local org-modern-star '("🙘" "🙙" "🙚" "🙛")
+                    ;; org-modern-star '("🙐" "🙑" "🙒" "🙓" "🙔" "🙕" "🙖" "🙗")
+                    org-modern-hide-stars +zen-org-starhide)
+        (org-modern-mode -1)
+        (org-modern-mode 1))
+      (setq
+       +zen--original-org-indent-mode-p org-indent-mode)
+      (org-indent-mode -1)))
+  (defun +zen-nonprose-org-h ()
+    "Reverse the effect of `+zen-prose-org'."
+    (when (eq major-mode 'org-mode)
+      (when (bound-and-true-p org-modern-mode)
+        (org-modern-mode -1)
+        (org-modern-mode 1))
+      (when +zen--original-org-indent-mode-p (org-indent-mode 1))))
   (pushnew! writeroom--local-variables
             'display-line-numbers
             'visual-fill-column-width
             'org-adapt-indentation
-            'org-superstar-headline-bullets-list
-            'org-superstar-remove-leading-stars)
-  (add-hook 'writeroom-mode-enable-hook
-            (defun +zen-prose-org-h ()
-              "Reformat the current Org buffer appearance for prose."
-              (when (eq major-mode 'org-mode)
-                (setq display-line-numbers nil
-                      visual-fill-column-width 60
-                      org-adapt-indentation nil)
-                (setq
-                 +zen--original-org-indent-mode-p org-indent-mode
-                 +zen--original-org-pretty-table-mode-p (bound-and-true-p org-pretty-table-mode))
-                (org-indent-mode -1)
-                (org-pretty-table-mode 1))))
-  (add-hook 'writeroom-mode-disable-hook
-            (defun +zen-nonprose-org-h ()
-              "Reverse the effect of `+zen-prose-org'."
-              (when (eq major-mode 'org-mode)
-                (when (featurep 'org-superstar)
-                  (org-superstar-restart))
-                (when +zen--original-org-indent-mode-p (org-indent-mode 1))
-                ;; (unless +zen--original-org-pretty-table-mode-p (org-pretty-table-mode -1))
-                ))))
+            'org-modern-mode
+            'org-modern-star
+            'org-modern-hide-stars)
+  (add-hook 'writeroom-mode-enable-hook #'+zen-prose-org-h)
+  (add-hook 'writeroom-mode-disable-hook #'+zen-nonprose-org-h))
 #+end_src
 
 #+attr_html: :class invertible :alt Writeroom applied to an Org file
@@ -1290,8 +1258,61 @@ Nested snippets are good, enable that.
   (global-set-key (kbd "C-c o") #'crux-open-with)
   )
 #+end_src
+** Spray
+
+Why not flash words on the screen. Why not --- hey, it could be fun.
+#+begin_src emacs-lisp :tangle packages.el
+(package! spray :pin "74d9dcfa2e8b38f96a43de9ab0eb13364300cb46")
+#+end_src
+
+It would be nice if Spray's default speed suited me better, and the keybindings
+worked in evil mode. Let's do that and make the display slightly nicer while
+we're at it.
+
+#+begin_src emacs-lisp
+(use-package! spray
+  :commands spray-mode
+  :config
+  (setq spray-wpm 600
+        spray-height 800)
+  (defun spray-mode-hide-cursor ()
+    "Hide or unhide the cursor as is appropriate."
+    (if spray-mode
+        (setq-local spray--last-evil-cursor-state evil-normal-state-cursor
+                    evil-normal-state-cursor '(nil))
+      (setq-local evil-normal-state-cursor spray--last-evil-cursor-state)))
+  (add-hook 'spray-mode-hook #'spray-mode-hide-cursor)
+  (map! :map spray-mode-map
+        "<return>" #'spray-start/stop
+        "f" #'spray-faster
+        "s" #'spray-slower
+        "t" #'spray-time
+        "<right>" #'spray-forward-word
+        "h" #'spray-forward-word
+        "<left>" #'spray-backward-word
+        "l" #'spray-backward-word
+        "q" #'spray-quit))
+#+end_src
+
 * Applications
 ** Ebooks
+
+[[xkcd:548]]
+
+For managing my ebooks, I'll hook into the well-established ebook library
+manager [[https://calibre-ebook.com/][calibre]]. A number of Emacs clients for this exist, but this seems like a
+good option.
+#+begin_src emacs-lisp :tangle packages.el
+(package! calibredb :pin "2f2cfc38f2d1c705134b692127c3008ac1382482")
+#+end_src
+
+Then for reading them, the only currently viable options seems to be [[https://depp.brause.cc/nov.el/][nov.el]].
+#+begin_src emacs-lisp :tangle packages.el
+(package! nov :pin "8f5b42e9d9f304b422c1a7918b43ee323a7d3532")
+#+end_src
+
+Together these should give me a rather good experience reading ebooks.
+
 =calibredb= lets us use calibre through Emacs, because who wouldn't want to use
 something through Emacs?
 #+begin_src emacs-lisp
@@ -1365,11 +1386,12 @@ something through Emacs?
 
 Then, to actually read the ebooks we use =nov=.
 
+#+attr_html: :class invertible :alt Excerpt of the GNU Emacs manual viewed through nov.el
+[[https://tecosaur.com/lfs/emacs-config/screenshots/nov.png]]
+
 #+begin_src emacs-lisp
 (use-package! nov
   :mode ("\\.epub\\'" . nov-mode)
-  :hook (nov-mode . visual-line-mode)
-  :hook (nov-mode . visual-fill-column-mode)
   :config
   (map! :map nov-mode-map
         :n "RET" #'nov-scroll-up)
@@ -1389,7 +1411,10 @@ Then, to actually read the ebooks we use =nov=.
               (length nov-documents))
       'face 'doom-modeline-info)))
 
+  (advice-add 'nov-render-title :override #'ignore)
+
   (defun +nov-mode-setup ()
+    "Tweak nov-mode to our liking."
     (face-remap-add-relative 'variable-pitch
                              :family "Merriweather"
                              :height 1.4
@@ -1400,37 +1425,54 @@ Then, to actually read the ebooks we use =nov=.
                 shr-use-colors nil)
     (require 'visual-fill-column nil t)
     (setq-local visual-fill-column-center-text t
-                visual-fill-column-width 100
-                nov-text-width 100)
+                visual-fill-column-width 81
+                nov-text-width 80)
+    (visual-fill-column-mode 1)
     (hl-line-mode -1)
-
+    ;; Re-render with new display settings
+    (nov-render-document)
+    ;; Look up words with the dictionary.
     (add-to-list '+lookup-definition-functions #'+lookup/dictionary-definition)
-
-    (setq-local mode-line-format
-                `((:eval
-                   (doom-modeline-segment--workspace-name))
-                  (:eval
-                   (doom-modeline-segment--window-number))
-                  (:eval
-                   (doom-modeline-segment--nov-info))
-                  ,(propertize
-                    " %P "
-                    'face 'doom-modeline-buffer-minor-mode)
-                  ,(propertize
-                    " "
-                    'face (if (doom-modeline--active) 'mode-line 'mode-line-inactive)
-                    'display `((space
-                                :align-to
-                                (- (+ right right-fringe right-margin)
-                                   ,(* (let ((width (doom-modeline--font-width)))
-                                         (or (and (= width 1) 1)
-                                             (/ width (frame-char-width) 1.0)))
-                                       (string-width
-                                        (format-mode-line (cons "" '(:eval (doom-modeline-segment--major-mode))))))))))
-                  (:eval (doom-modeline-segment--major-mode)))))
+    ;; Customise the mode-line to make it more minimal and relevant.
+    (setq-local
+     mode-line-format
+     `((:eval
+        (doom-modeline-segment--workspace-name))
+       (:eval
+        (doom-modeline-segment--window-number))
+       (:eval
+        (doom-modeline-segment--nov-info))
+       ,(propertize
+         " %P "
+         'face 'doom-modeline-buffer-minor-mode)
+       ,(propertize
+         " "
+         'face (if (doom-modeline--active) 'mode-line 'mode-line-inactive)
+         'display `((space
+                     :align-to
+                     (- (+ right right-fringe right-margin)
+                        ,(* (let ((width (doom-modeline--font-width)))
+                              (or (and (= width 1) 1)
+                                  (/ width (frame-char-width) 1.0)))
+                            (string-width
+                             (format-mode-line (cons "" '(:eval (doom-modeline-segment--major-mode))))))))))
+       (:eval (doom-modeline-segment--major-mode)))))
 
   (add-hook 'nov-mode-hook #'+nov-mode-setup))
 #+end_src
+** File types
+*** Systemd
+
+For editing systemd unit files
+#+begin_src emacs-lisp :tangle packages.el
+(package! systemd :pin "b6ae63a236605b1c5e1069f7d3afe06ae32a7bae")
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package! systemd
+  :defer t)
+#+end_src
+
 * Language configuration
 ** Haskell
 Set formatter
@@ -1621,7 +1663,7 @@ with a little filter.
   (unless (org-export-derived-backend-p 'org)
     (replace-regexp-in-string "\u200B" "" text)))
 
-(add-to-list 'org-export-filter-final-output-functions #'+org-export-remove-zero-width-space t)
+(add-to-list 'org-export-filter-plain-text-functions #'+org-export-remove-zero-width-space t)
 #+end_src
 ***** List bullet sequence
 I think it makes sense to have list bullets change with depth
@@ -1946,10 +1988,125 @@ cause issues. Let's make their failure less eventful.
 #+begin_src emacs-lisp
 (defadvice! shut-up-org-problematic-hooks (orig-fn &rest args)
   :around #'org-fancy-priorities-mode
-  :around #'org-superstar-mode
   (ignore-errors (apply orig-fn args)))
 #+end_src
 *** Visuals
+**** Org Modern
+
+Fontifying =org-mode= buffers to be as pretty as possible is of paramount importance,
+and Minad's lovely =org-modern= goes a long way in this regard.
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! org-modern :pin "537e6b75e38bc0eff083c390c257098c9fc9ab49")
+#+end_src
+
+...with a touch of configuration...
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-modern
+  :hook (org-mode . org-modern-mode)
+  :config
+  (setq
+        org-modern-star '("◉" "○" "✸" "✿" "✤" "✜" "◆" "▶")
+        org-modern-table-vertical 1
+        org-modern-table-horizontal 0.2
+        ;; org-modern-list '((43 . "➤")
+        ;;                   (45 . "–")
+        ;;                   (42 . "•"))
+        org-modern-todo-faces
+        '(("TODO" :inverse-video t :inherit org-todo)
+          ("PROJ" :inverse-video t :inherit +org-todo-project)
+          ("STRT" :inverse-video t :inherit +org-todo-active)
+          ("[-]"  :inverse-video t :inherit +org-todo-active)
+          ("HOLD" :inverse-video t :inherit +org-todo-onhold)
+          ("WAIT" :inverse-video t :inherit +org-todo-onhold)
+          ("[?]"  :inverse-video t :inherit +org-todo-onhold)
+          ("KILL" :inverse-video t :inherit +org-todo-cancel)
+          ("NO"   :inverse-video t :inherit +org-todo-cancel))
+        org-modern-footnote
+        (cons nil (cadr org-script-display))
+        org-modern-block-fringe nil
+        org-modern-block-name
+        '((t . t)
+          ("src" "»" "«")
+          ("example" "»–" "–«")
+          ("quote" "❝" "❞")
+          ("export" "⏩" "⏪"))
+        org-modern-progress nil
+        org-modern-priority nil
+        org-modern-horizontal-rule (make-string 36 ?─)
+        org-modern-keyword
+        '((t . t)
+          ("title" . "𝙏")
+          ("subtitle" . "𝙩")
+          ("author" . "𝘼")
+          ("email" . #("" 0 1 (display (raise -0.14))))
+          ("date" . "𝘿")
+          ("property" . "☸")
+          ("options" . "⌥")
+          ("startup" . "⏻")
+          ("macro" . "𝓜")
+          ("bind" . #("" 0 1 (display (raise -0.1))))
+          ("bibliography" . "")
+          ("print_bibliography" . #("" 0 1 (display (raise -0.1))))
+          ("cite_export" . "⮭")
+          ("print_glossary" . #("ᴬᶻ" 0 1 (display (raise -0.1))))
+          ("glossary_sources" . #("" 0 1 (display (raise -0.14))))
+          ("include" . "⇤")
+          ("setupfile" . "⇚")
+          ("html_head" . "🅷")
+          ("html" . "🅗")
+          ("latex_class" . "🄻")
+          ("latex_class_options" . #("🄻" 1 2 (display (raise -0.14))))
+          ("latex_header" . "🅻")
+          ("latex_header_extra" . "🅻⁺")
+          ("latex" . "🅛")
+          ("beamer_theme" . "🄱")
+          ("beamer_color_theme" . #("🄱" 1 2 (display (raise -0.12))))
+          ("beamer_font_theme" . "🄱𝐀")
+          ("beamer_header" . "🅱")
+          ("beamer" . "🅑")
+          ("attr_latex" . "🄛")
+          ("attr_html" . "🄗")
+          ("attr_org" . "⒪")
+          ("call" . #("" 0 1 (display (raise -0.15))))
+          ("name" . "⁍")
+          ("header" . "›")
+          ("caption" . "☰")
+          ("RESULTS" . "🠶")))
+  (custom-set-faces! '(org-modern-statistics :inherit org-checkbox-statistics-todo)))
+#+end_src
+
+Since =org-modern='s tag face supplants Org's tag face, we need to adjust the
+spell-check face ignore list
+
+#+begin_src emacs-lisp
+(after! spell-fu
+  (cl-pushnew 'org-modern-tag (alist-get 'org-mode +spell-excluded-faces-alist)))
+#+end_src
+
+**** Emphasis markers
+
+While ~org-hide-emphasis-markers~ is very nice, it can sometimes make edits which
+occur at the border a bit more fiddley. We can improve this situation without
+sacrificing visual amenities with the =org-appear= package.
+#+begin_src emacs-lisp :tangle packages.el
+(package! org-appear :recipe (:host github :repo "awth13/org-appear")
+  :pin "60ba267c5da336e75e603f8c7ab3f44e6f4e4dac")
+#+end_src
+
+#+begin_src emacs-lisp :tangle yes
+(use-package! org-appear
+  :hook (org-mode . org-appear-mode)
+  :config
+  (setq org-appear-autoemphasis t
+        org-appear-autosubmarkers t
+        org-appear-autolinks nil)
+  ;; for proper first-time setup, `org-appear--set-elements'
+  ;; needs to be run after other hooks have acted.
+  (run-at-time nil nil #'org-appear--set-elements))
+#+end_src
+
 **** Font Display
 Mixed pitch is great. As is ~+org-pretty-mode~, let's use them.
 #+begin_src emacs-lisp
@@ -2021,6 +2178,37 @@ responsive.
 Apparently this causes issues with some people, but I haven't noticed anything
 problematic beyond the expected slight delay in some fontification, so until I
 do I'll use the above.
+
+**** Reduced text indent
+
+Thanks to the various bits and bobs of setup we have here, the non-heading lines
+tend to appear over-indented in ~org-indent-mode~. We can adjust this by modifying
+the generated text prefixes.
+
+There's another issue we can have when using mixed-pitch mode, where the line
+height is set by the indent prefix displayed with the fixed-pitch font. This
+means that on 0-indent lines the line spacing can be different, which doesn't
+look very good. We can also solve this problem by modifying the generated text
+prefixes to but a fixed-pitch zero width space at the start of 0-indent lines
+instead of nothing.
+
+#+begin_src emacs-lisp
+(defadvice! +org-indent--reduced-text-prefixes ()
+  :after #'org-indent--compute-prefixes
+  (setq org-indent--text-line-prefixes
+        (make-vector org-indent--deepest-level nil))
+  (when (> org-indent-indentation-per-level 0)
+    (dotimes (n org-indent--deepest-level)
+      (aset org-indent--text-line-prefixes
+            n
+            (org-add-props
+                (concat (make-string (* n (1- org-indent-indentation-per-level))
+                                     ?\s)
+                        (if (> n 0)
+                             (char-to-string org-indent-boundary-char)
+                          "\u200b"))
+                nil 'face 'org-indent)))))
+#+end_src
 
 **** Fontifying inline src blocks
 Org does lovely things with =#+begin_src= blocks, like using font-lock for
@@ -2169,48 +2357,68 @@ I've also added some fun alternatives, just commented out.
 It's also nice to make use of the Unicode characters for check boxes, and other commands.
 #+begin_src emacs-lisp
 (appendq! +ligatures-extra-symbols
-          `(
-            :list_property "∷"
-            :em_dash       "—"
-            :ellipses      "…"
-            :arrow_right   "→"
-            :arrow_left    "←"
-            :title         "𝙏"
-            :subtitle      "𝙩"
-            :author        "𝘼"
-            :date          "𝘿"
-            :latex_class   "🄲"
-            :attr_latex    "🄛"
-            :attr_html     "🄗"
-            :begin_quote   "❝"
-            :end_quote     "❞"
-            :caption       "☰"
-            :header        "›"
-            :bibliography  ""
-            :print_biblio  "")
+          (list
+           :list_property "∷"
+           :em_dash       "—"
+           :ellipses      "…"
+           :arrow_right   "→"
+           :arrow_left    "←"
+           ;; :title         "𝙏"
+           ;; :subtitle      "𝙩"
+           ;; :author        "𝘼"
+           ;; :date          "𝘿"
+           ;; :latex_class   "🄲"
+           ;; :attr_latex    "🄛"
+           ;; :attr_html     "🄗"
+           ;; :begin_quote   "❝"
+           ;; :end_quote     "❞"
+           ;; :caption       "☰"
+           ;; :header        "›"
+           ;; :bibliography  ""
+           ;; :print_biblio  ""
+           )
           )
-(set-ligatures! 'org-mode
-  :merge t
-  :list_property "::"
-  :em_dash       "---"
-  :ellipsis      "..."
-  :arrow_right   "->"
-  :arrow_left    "<-"
-  :title         "#+title:"
-  :subtitle      "#+subtitle:"
-  :author        "#+author:"
-  :date          "#+date:"
-  :latex_class   "#+latex_class:"
-  :attr_latex    "#+attr_latex:"
-  :attr_html     "#+attr_html:"
-  :begin_quote   "#+begin_quote"
-  :end_quote     "#+end_quote"
-  :caption       "#+caption:"
-  :header        "#+header:"
-  :bibliography  "#+bibliography:"
-  :print-biblio  "#+print_bibliography:"
-  )
-(plist-put +ligatures-extra-symbols :name "⁍")
+
+(defadvice! +org-init-appearance-h--no-ligatures-a ()
+  :after #'+org-init-appearance-h
+  (set-ligatures! 'org-mode nil)
+  (set-ligatures! 'org-mode
+    :list_property "::"
+    :em_dash       "---"
+    :ellipsis      "..."
+    :arrow_right   "->"
+    :arrow_left    "<-"
+    :arrow_lr      "<->"
+    :properties    ":PROPERTIES:"
+    :end           ":END:"
+    :priority_a    "[#A]"
+    :priority_b    "[#B]"
+    :priority_c    "[#C]"
+    :priority_d    "[#D]"
+    :priority_e    "[#E]"))
+
+;; (set-ligatures! 'org-mode
+;;   :merge t
+;;   :list_property "::"
+;;   :em_dash       "---"
+;;   :ellipsis      "..."
+;;   :arrow_right   "->"
+;;   :arrow_left    "<-"
+;;   ;; :title         "#+title:"
+;;   ;; :subtitle      "#+subtitle:"
+;;   ;; :author        "#+author:"
+;;   ;; :date          "#+date:"
+;;   ;; :latex_class   "#+latex_class:"
+;;   ;; :attr_latex    "#+attr_latex:"
+;;   ;; :attr_html     "#+attr_html:"
+;;   ;; :begin_quote   "#+begin_quote"
+;;   ;; :end_quote     "#+end_quote"
+;;   ;; :caption       "#+caption:"
+;;   ;; :header        "#+header:"
+;;   ;; :bibliography  "#+bibliography:"
+;;   ;; :print-biblio  "#+print_bibliography:"
+;;   )
+;; (plist-put +ligatures-extra-symbols :name "⁍")
 #+end_src
 
 **** LaTeX Fragments
@@ -2249,6 +2457,31 @@ let's make it transparent.
 #+end_src
 
 *** Exporting
+**** Exporting Org code
+
+With all our Org config and hooks, exporting an Org code block when using
+a font-lock based method can produce undesirable results. To address this, we
+can tweak ~+org-babel-mode-alist~ when exporting.
+
+#+begin_src emacs-lisp
+(defun +org-mode--fontlock-only-mode ()
+  "Just apply org-mode's font-lock once."
+  (let (org-mode-hook
+        org-hide-leading-stars
+        org-hide-emphasis-markers)
+    (org-set-font-lock-defaults)
+    (font-lock-ensure))
+  (setq-local major-mode #'fundamental-mode))
+
+(defun +org-export-babel-mask-org-config (_backend)
+  "Use `+org-mode--fontlock-only-mode' instead of `org-mode'."
+  (setq-local org-src-lang-modes
+              (append org-src-lang-modes
+                      (list (cons "org" #'+org-mode--fontlock-only)))))
+
+(add-hook 'org-export-before-processing-hook #'+org-export-babel-mask-org-config)
+#+end_src
+
 **** General settings
 #+begin_src emacs-lisp
 (setq org-export-headline-levels 5) ; I like nesting
@@ -2418,6 +2651,98 @@ tempfile, this can provide a caching mechanism.
     (concat "% fetched from " url "\n"
             (org-latex--inline-image link info))))
 #+end_src
+**** Pretty code blocks
+
+We could just use minted for syntax highlighting --- however, we can do better!
+The =engrave-faces= package lets us use Emacs' font-lock for syntax highlighting,
+exporting that as LaTeX commands.
+
+#+begin_src emacs-lisp :noweb-ref none :tangle packages.el
+(package! engrave-faces :recipe (:local-repo "tecosaur/engrave-faces"))
+#+end_src
+
+#+begin_src emacs-lisp :noweb-ref none :tangle yes
+(use-package! engrave-faces-latex
+  :config
+  (setq engrave-faces-preset-styles (engrave-faces-generate-preset))
+  :after ox-latex)
+#+end_src
+
+We'll modify the way listings are generated to make using this as easy as:
+#+begin_src emacs-lisp
+(setq org-latex-listings 'engraved) ; NOTE non-standard value
+#+end_src
+
+Thanks to ~org-latex-conditional-features~ and some copy-paste with the =minted=
+entry in ~org-latex-scr-block~ we can easily add this as a recognised
+~org-latex-listings~ value.
+
+#+begin_src emacs-lisp :noweb no-export
+(defvar-local org-export-has-code-p nil)
+
+(defadvice! org-export-expect-no-code (&rest _)
+  :before #'org-export-as
+  (setq org-export-has-code-p nil))
+
+(defadvice! org-export-register-code (&rest _)
+  :after #'org-latex-src-block
+  :after #'org-latex-inline-src-block-engraved
+  (setq org-export-has-code-p t))
+#+end_src
+
+Whenever this is used, in order for it to actually work (and look a little
+better) we add bit to the preamble:
+
+# One little annoyance with this is the interaction between microtype and =Verbatim=
+# environments. Protrusion is not desirable here. Thankfully, we can patch the
+# =Verbatim= environment to turn off protrusion locally.
+# #+begin_src emacs-lisp
+# (add-to-list 'org-latex-feature-implementations
+#              '(.no-protrusion-in-code :snippet "\\ifcsname Code\\endcsname\n  \\let\\oldcode\\Code\\renewcommand{\\Code}{\\microtypesetup{protrusion=false}\\oldcode}\n\\fi"
+#                                       :when microtype
+#                                       :eager t
+#                                       :order 98.5) t)
+# #+end_src
+
+At some point it would be nice to make the box colours easily customisable. At
+the moment it's fairly easy to change the syntax highlighting colours with
+src_elisp{(setq engrave-faces-preset-styles (engrave-faces-generate-preset))},
+but perhaps a toggle which specifies whether to use the default values, the
+current theme, or any named theme could be a good idea. It should also possible
+to set the box background dynamically to match. The named theme could work by
+looking for a style definition with a certain name in a cache dir, and then
+switching to that theme and producing (and saving) the style definition if it
+doesn't exist.
+
+Now let's have the example block be styled similarly.
+#+begin_src emacs-lisp
+(defadvice! org-latex-example-block-engraved (orig-fn example-block contents info)
+  "Like `org-latex-example-block', but supporting an engraved backend"
+  :around #'org-latex-example-block
+  (let ((output-block (funcall orig-fn example-block contents info)))
+    (if (eq 'engraved (plist-get info :latex-listings))
+        (format "\\begin{Code}[alt]\n%s\n\\end{Code}" output-block)
+      output-block)))
+#+end_src
+
+In addition to the vastly superior visual output, this should also be much
+faster to compile for code-heavy documents (like this config).
+
+Performing a little benchmark with this document, I find that this is indeed the
+case.
+
+| LaTeX syntax highlighting backend | Compile time | Overhead | Overhead ratio |
+|-----------------------------------+--------------+----------+----------------|
+| verbatim                          | 12 s         | 0        |            0.0 |
+| lstlistings                       | 15 s         | 3 s      |            0.2 |
+| Engrave                           | 34 s         | 22 s     |            1.8 |
+| Pygments (Minted)                 | 184 s        | 172 s    |           14.3 |
+#+TBLFM: $3=$2-@2$2::$4=$3 / @2$2;%.1f
+
+Treating the verbatim (no syntax highlighting) result as a baseline; this
+rudimentary test suggest that =engrave-faces= is around eight times faster than
+=pygments=, and takes three times as long as no syntax highlighting (verbatim).
+
 *** Beamer Export
 It's nice to use a different theme by default
 #+begin_src emacs-lisp
@@ -2497,6 +2822,21 @@ good idea.
       org-re-reveal-plugins '(markdown notes math search zoom))
 #+end_src
 ** Plaintext
+*** Ansi colours
+
+It's nice to see ANSI colour codes displayed. However, until Emacs 28 it's not
+possible to do this without modifying the buffer, so let's condition this block
+on that.
+
+#+begin_src emacs-lisp
+(after! text-mode
+  (add-hook! 'text-mode-hook
+    (unless (derived-mode-p 'org-mode)
+      ;; Apply ANSI color codes
+      (with-silent-modifications
+        (ansi-color-apply-on-region (point-min) (point-max) t)))))
+#+end_src
+
 It's nice to see ANSI colour codes displayed
 #+begin_src emacs-lisp
 (after! text-mode
