@@ -25,6 +25,10 @@ in {
         ubuntu_font_family
         corefonts
         merriweather
+        julia-mono # Unicode glyphs
+
+        # May be pretty nice
+        # jetbrains-mono overpass
       ];
 
       fontconfig = {
