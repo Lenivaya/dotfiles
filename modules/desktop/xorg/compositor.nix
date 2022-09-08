@@ -19,6 +19,7 @@
       "100:class_g = 'Inkspace'"
       "100:class_g = 'krita'"
       "100:class_g = 'feh'"
+      "100:class_g    = 'Thunderbird'"
       "0:_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
       "96:_NET_WM_STATE@:32a *= '_NET_WM_STATE_STICKY'"
     ];
@@ -28,16 +29,18 @@
       "class_g = 'slop'"
       "class_g ?= 'xfce4-screenshooter'"
       "_GTK_FRAME_EXTENTS@:c"
+      "_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
     ];
 
     fade = true;
-    fadeDelta = 1;
-    fadeSteps = ["0.01" "0.012"];
+    fadeDelta = 5;
+    fadeSteps = ["0.03" "0.03"];
 
     shadow = true;
-    shadowOffsets = [(-7) (-7)];
-    shadowOpacity = "0.7";
+    shadowOffsets = [(-3) (-3)];
+    shadowOpacity = "0.6";
     shadowExclude = [
+      "class_g ?= 'Notify-osd'"
       "! name~=''"
       "name *= 'picom'"
       "_GTK_FRAME_EXTENTS@:c"
@@ -46,14 +49,26 @@
     noDockShadow = false;
 
     extraOptions = ''
-      blur: {
-        strength = 2;
-        size = 10
-        deviation = 5.0
-        method = "dual_kawase";
-      };
+      # blur: {
+      #   strength = 2;
+      #   size = 10
+      #   deviation = 5.0
+      #   method = "dual_kawase";
+      # };
+      frame-opacity = 1.00
+      inactive-opacity-override = false;
 
-      shadow-radius = 7;
+      shadow-radius = 8;
+
+      wintypes:
+      {
+        normal = { fade = true; shadow = true; }
+        tooltip = { fade = true; shadow = true; opacity = 0.75; focus = true; full-shadow = false; };
+        # dock = { shadow = false; }
+        dnd = { shadow = true; }
+        popup_menu = { opacity = 0.8; }
+        dropdown_menu = { opacity = 0.8; }
+      };
 
       use-damage = true;
 
