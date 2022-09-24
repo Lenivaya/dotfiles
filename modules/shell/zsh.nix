@@ -55,6 +55,7 @@ in {
       thefuck
       navi
       starship
+      zoxide
     ];
 
     home.programs.broot.enable = true;

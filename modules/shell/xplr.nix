@@ -27,6 +27,8 @@ in {
       dua
       # batch rename
       pipe-rename
+      # better cd
+      zoxide
     ];
 
     home.configFile."xplr" = {
