@@ -5,6 +5,9 @@ setopt HIST_IGNORE_ALL_DUPS
 setopt HIST_SAVE_NO_DUPS
 setopt HIST_FIND_NO_DUPS
 
+# I hate that percent char
+PROMPT_EOL_MARK=''
+
 if [[ ! -d $HOME/.zinit ]]; then
     print -P "Installing Plugin Manager (zdharma/zinit)…"
     command mkdir -p ~/.zinit && mkdir -p ~/.zinit/completions

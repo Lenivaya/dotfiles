@@ -27,6 +27,11 @@ in {
         merriweather
         julia-mono # Unicode glyphs
 
+        # lmmath
+        # lmodern
+        cm_unicode
+        # liberation_ttf
+
         # May be pretty nice
         # jetbrains-mono overpass
       ];
