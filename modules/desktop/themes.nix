@@ -7,8 +7,9 @@
 }:
 with lib.my; let
   inherit (config.dotfiles) configDir;
+  inherit (config.user) name;
 in {
-  home-manager.users.${config.user.name} = {
+  home-manager.users.${name} = {
     gtk = {
       enable = true;
       iconTheme = {
@@ -28,6 +29,13 @@ in {
         };
         extraCss = ''
           * { outline: none; }
+
+          button:focus {
+              outline-style: solid;
+              outline-offset: -2px;
+              outline-width: 2px;
+              outline-radius: 2px;
+          }
         '';
       };
     };
