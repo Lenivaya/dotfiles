@@ -250,8 +250,8 @@ snippets                     ; my elves. They type so I don't have to
 #+begin_src emacs-lisp
 (dired
  +icons
- +ranger
- ;; +dirvish
+ ;; +ranger
+ +dirvish
  )               ; making dired pretty [functional]
 electric                     ; smarter, keyword-based electric-indent
 (ibuffer +icons)             ; interactive buffer management
@@ -279,6 +279,7 @@ grammar                      ; tasing grammar mistake every you make
 #+name: doom-tools
 #+begin_src emacs-lisp
 ;; ansible                      ; a crucible for infrastructure as code
+biblio
 ;; (
 debugger                     ; FIXME stepping through code, to help you add bugs
 ;;+lsp)
@@ -324,6 +325,7 @@ common-lisp       ; if you've seen one lisp, you've seen them all
 (csharp
  +lsp
  ;; +unity
+ +tree-sitter
  +dotnet)            ; unity, .NET, and mono shenanigans
 data              ; config/data formats
 ;; (dart +flutter +lsp)   ; paint ui and not much else
@@ -500,6 +502,15 @@ avoid polluting the output.
 
 (advice-add 'org-babel-execute-src-block :around #'doom-shut-up-a)
 #+end_src
+# ** Emacs-ng
+# #+begin_src emacs-lisp
+# (setq ng-straight-bootstrap-at-startup t)
+# #+end_src
+** Performance
+#+begin_src emacs-lisp
+(setq gcmh-high-cons-threshold most-positive-fixnum)
+(setq max-specpdl-size 100000)
+#+end_src
 ** Other Things
 *** Editor interaction
 **** Mouse buttons
@@ -647,6 +658,13 @@ This makes it a breeze to take lovely screenshots.
 #+begin_src emacs-lisp
 (package! wakatime-mode)
 #+end_src
+**** iscroll
+Sometimes it's nice to have smooth scrolling over images
+
+#+begin_src emacs-lisp
+(package! iscroll :recipe (:host github
+                           :repo "casouri/iscroll"))
+#+end_src
 ** Language packages
 *** LaTeX
 For mathematical convenience, WIP
@@ -748,6 +766,19 @@ to make that right again, and this package makes that even easier to do.
 #+begin_src emacs-lisp :tangle yes
 (use-package! org-pandoc-import
   :after org)
+#+end_src
+
+#+begin_src emacs-lisp
+(package! ob-mermaid)
+#+end_src
+
+#+begin_src emacs-lisp
+(package! org-modern :pin "537e6b75e38bc0eff083c390c257098c9fc9ab49")
+#+end_src
+
+#+begin_src emacs-lisp
+(package! org-appear :recipe (:host github :repo "awth13/org-appear")
+  :pin "60ba267c5da336e75e603f8c7ab3f44e6f4e4dac")
 #+end_src
 *** Systemd
 For editing systemd unit files
@@ -1039,7 +1070,9 @@ theme.
    ;; just a tad lower than the default
    imenu-list-size 0.25
    ;; That modeline is plain ugly. Treemacs & neotree don't have a modeline either.
-   imenu-list-mode-line-format nil)
+   imenu-list-mode-line-format nil
+   imenu-list-auto-resize t
+   )
   (map!
    (:leader
     :desc "Toggle imenu-list" "oi" #'imenu-list-smart-toggle)
@@ -1088,7 +1121,7 @@ It's nice to have leetcode in emacs
 #+begin_src emacs-lisp
 (use-package! kdeconnect
   :config
-  (setq kdeconnect-devices "62f011766549feda"))
+  (setq kdeconnect-devices "2580ec370a27fbb7"))
 #+end_src
 ** Keycast
 let's just make sure this is lazy-loaded appropriately.
@@ -1121,15 +1154,24 @@ it, either by command or in a capture template.
 #+end_src
 ** Reverse-im (Keyboard layouts)
 #+begin_src emacs-lisp
+;; Needed for `:after char-fold' to work
+(use-package char-fold
+  :custom
+  (char-fold-symmetric t)
+  (search-default-mode #'char-fold-to-regexp))
+
 (use-package! reverse-im
   :ensure t
   :demand t
+  :after char-fold ; but only after `char-fold' is loaded
   :bind
   ("M-T" . reverse-im-translate-word)
   :custom
-  (reverse-im-char-fold t)
-  (reverse-im-read-char-advice-function #'reverse-im-read-char-exclude)
+  (reverse-im-avy-action-char nil)
   (reverse-im-input-methods '("russian-computer" "ukrainian-computer"))
+  ;; That breaks avy
+  ;; (reverse-im-read-char-advice-function #'reverse-im-read-char-exclude)
+  (reverse-im-char-fold t)
   :config
   (reverse-im-mode t)
   )
@@ -1156,10 +1198,10 @@ I also think that having =evil-= appear in so many popups is a bit too verbose, 
 From the =:ui zen= module.
 #+end_quote
 
-For starters, I think Doom is a bit over-zealous when zooming in
-#+begin_src emacs-lisp
-(setq +zen-text-scale 0.8)
-#+end_src
+# For starters, I think Doom is a bit over-zealous when zooming in
+# #+begin_src emacs-lisp
+# (setq +zen-text-scale 1.2)
+# #+end_src
 
 Then, when using Org it would be nice to make a number of other aesthetic
 tweaks. Namely:
@@ -1177,22 +1219,12 @@ tweaks. Namely:
   "The value `org-modern-hide-stars' is set to.")
 
 (after! writeroom-mode
-  (defvar-local +zen--original-org-indent-mode-p nil)
-  (defvar-local +zen--original-mixed-pitch-mode-p nil)
-  (defun +zen-enable-mixed-pitch-mode-h ()
-    "Enable `mixed-pitch-mode' when in `+zen-mixed-pitch-modes'."
-    (when (apply #'derived-mode-p +zen-mixed-pitch-modes)
-      (if writeroom-mode
-          (progn
-            (setq +zen--original-mixed-pitch-mode-p mixed-pitch-mode)
-            (funcall (if +zen-serif-p #'mixed-pitch-serif-mode #'mixed-pitch-mode) 1))
-        (funcall #'mixed-pitch-mode (if +zen--original-mixed-pitch-mode-p 1 -1)))))
   (defun +zen-prose-org-h ()
     "Reformat the current Org buffer appearance for prose."
     (when (eq major-mode 'org-mode)
       (setq display-line-numbers nil
             visual-fill-column-width 60
-            org-adapt-indentation nil)
+            )
       (when (featurep 'org-modern)
         (setq-local org-modern-star '("🙘" "🙙" "🙚" "🙛")
                     ;; org-modern-star '("🙐" "🙑" "🙒" "🙓" "🙔" "🙕" "🙖" "🙗")
@@ -1201,7 +1233,8 @@ tweaks. Namely:
         (org-modern-mode 1))
       (setq
        +zen--original-org-indent-mode-p org-indent-mode)
-      (org-indent-mode -1)))
+      ;; (org-indent-mode -1)
+      ))
   (defun +zen-nonprose-org-h ()
     "Reverse the effect of `+zen-prose-org'."
     (when (eq major-mode 'org-mode)
@@ -1294,6 +1327,82 @@ we're at it.
         "<left>" #'spray-backward-word
         "l" #'spray-backward-word
         "q" #'spray-quit))
+#+end_src
+** iscroll
+
+Enable image scrolling
+
+#+begin_src emacs-lisp
+(use-package! iscroll
+  :config
+  (add-hook! 'org-mode-hook 'iscroll-mode)
+  )
+#+end_src
+** Git blame
+Visualize code authorship at a glance
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! blamer :recipe (:host github :repo "artawower/blamer.el"))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package! blamer
+  :defer 20
+  :custom
+  (blamer-idle-time 0.3)
+  (blamer-min-offset 70)
+  :custom-face
+  (blamer-face ((t :foreground "#7a88cf"
+                   :background nil
+                   :height 140
+                   :italic t)))
+  :init
+  (map!
+   (:leader
+    :desc "Toggle authorship visualizer" "gT"
+    (lambda () (interactive) (if  blamer-mode (blamer-mode 0) (blamer-mode 1)
+                                  ))))
+  :config
+  (setq blamer-mode 0)
+  ;;(global-blamer-mode 1)
+  )
+#+end_src
+** Hydra
+*** Hydra Posframe
+#+begin_src emacs-lisp :tangle packages.el
+(package! hydra-posframe :recipe (:host github :repo "Ladicle/hydra-posframe"))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package! hydra-posframe
+  :config
+  (when (display-graphic-p)
+    (add-hook! 'after-init-hook 'hydra-posframe-enable)
+    )
+  )
+#+end_src
+** Terminal Here
+
+It's convenient to open terminals for current dir
+#+begin_src emacs-lisp :tangle packages.el
+(package! terminal-here)
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package! terminal-here
+  :custom
+  (terminal-here-linux-terminal-command 'alacritty)
+  :init
+  (map!
+   (:leader
+    :desc "Open folder with terminal" "ft"
+    #'terminal-here-launch
+    )
+   (
+    :leader
+    :desc "Open folder with terminal" "fT"
+    #'terminal-here-project-launch))
+  )
 #+end_src
 
 * Applications
@@ -1560,13 +1669,13 @@ Use alejandra formatter
 :CUSTOM_ID: org
 :header-args:emacs-lisp: :tangle no :noweb-ref org-conf
 :END:
-Finally, because this section is fairly expensive to initialise, we'll wrap it
-in an ~(after! ...)~ block.
 
-#+begin_src emacs-lisp :noweb no-export :tangle yes :noweb-ref nil
+Finally, because this section is fairly expensive to initialise, we'll wrap it
+in an src_elisp{(after! ...)} block.
+
+#+begin_src emacs-lisp :noweb no-export :tangle yes :noweb-prefix no :noweb-ref nil
 (after! org
-  <<org-conf>>
-)
+  <<org-conf>>)
 #+end_src
 
 *** Behavior
@@ -1672,43 +1781,6 @@ I think it makes sense to have list bullets change with depth
 #+begin_src emacs-lisp
 (setq org-list-demote-modify-bullet '(("+" . "-") ("-" . "+") ("*" . "+") ("1." . "a.")))
 #+end_src
-***** Citation
-Occasionally I want to cite something, and =org-ref= is /the/ package for that.
-
-Unfortunately, it ignores the ~file = {...}~ =.bib= keys though. Let's fix that.
-I separate files on =;=, which may just be a Zotero/BetterBibLaTeX thing, but it's
-a good idea in my case at least.
-
-#+begin_src emacs-lisp
-(use-package! org-ref
-  :after org
-  :config
-  (defadvice! org-ref-open-bibtex-pdf-a ()
-    :override #'org-ref-open-bibtex-pdf
-    (save-excursion
-      (bibtex-beginning-of-entry)
-      (let* ((bibtex-expand-strings t)
-             (entry (bibtex-parse-entry t))
-             (key (reftex-get-bib-field "=key=" entry))
-             (pdf (or
-                   (car (-filter (lambda (f) (string-match-p "\\.pdf$" f))
-                                 (split-string (reftex-get-bib-field "file" entry) ";")))
-                   (funcall org-ref-get-pdf-filename-function key))))
-        (if (file-exists-p pdf)
-            (org-open-file pdf)
-          (ding)))))
-  (defadvice! org-ref-open-pdf-at-point-a ()
-    "Open the pdf for bibtex key under point if it exists."
-    :override #'org-ref-open-pdf-at-point
-    (interactive)
-    (let* ((results (org-ref-get-bibtex-key-and-file))
-           (key (car results))
-           (pdf-file (funcall org-ref-get-pdf-filename-function key)))
-      (with-current-buffer (find-file-noselect (cdr results))
-        (save-excursion
-          (bibtex-search-entry (car results))
-          (org-ref-open-bibtex-pdf))))))
-#+end_src
 ***** cdlatex
 It's also nice to be able to use ~cdlatex~.
 #+begin_src emacs-lisp
@@ -1757,6 +1829,127 @@ functionality as in LaTeX. Let's try viewing possible output files with this.
 (defvar org-view-external-file-extensions '("html")
   "File formats that should be opened externally.")
 #+end_src
+***** Citation
+
+#+begin_quote
+Extending the =:tools biblio= module.
+#+end_quote
+
+References in Org are fairly easy now, thanks to =org-cite=. The =:tools biblio=
+module gives a fairly decent basic setup, but it would be nice to take it a bit
+further. This mostly consists of tweaking settings, but there is one extra
+package I'll grab for prettier in-buffer citations.
+
+#+begin_src emacs-lisp :noweb-ref none :tangle packages.el
+(package! org-cite-csl-activate :recipe (:host github :repo "andras-simonyi/org-cite-csl-activate") :pin "4fdb61c0f83b5d6db0d07dfd64d2a177fd46e931")
+#+end_src
+
+In particular, by setting ~org-cite-csl-activate-use-document-style~, we can have
+the in-buffer displayed citations be the same as the exported form. Isn't that lovely!
+
+Unfortunately, there's currently a potential for undesirable buffer
+modifications, so we'll put all the activation code behind a function we can
+call when we want it.
+
+#+begin_src emacs-lisp :noweb-ref none :tangle yes
+(use-package! oc-csl-activate
+  :after oc
+  :config
+  (setq org-cite-csl-activate-use-document-style t)
+  (defun +org-cite-csl-activate/enable ()
+    (interactive)
+    (setq org-cite-activate-processor 'csl-activate)
+    (add-hook! 'org-mode-hook '((lambda () (cursor-sensor-mode 1)) org-cite-csl-activate-render-all))
+    (defadvice! +org-cite-csl-activate-render-all-silent (orig-fn)
+      :around #'org-cite-csl-activate-render-all
+      (with-silent-modifications (funcall orig-fn)))
+    (when (eq major-mode 'org-mode)
+      (with-silent-modifications
+        (save-excursion
+          (goto-char (point-min))
+          (org-cite-activate (point-max)))
+        (org-cite-csl-activate-render-all)))
+    (fmakunbound #'+org-cite-csl-activate/enable)))
+#+end_src
+
+Now that =oc-csl-activate= is set up, let's go ahead and customise some of the
+packages already loaded. For starters, we can make use of the my Zotero files
+with =citar=, and make the symbols a bit prettier.
+
+#+begin_src emacs-lisp :noweb-ref none :tangle yes
+(after! citar
+  (setq citar-bibliography
+        (let ((libfile-search-names '("library.json" "Library.json" "library.bib" "Library.bib"))
+              (libfile-dir "~/Zotero")
+              paths)
+          (dolist (libfile libfile-search-names)
+            (when (and (not paths)
+                       (file-exists-p (expand-file-name libfile libfile-dir)))
+              (setq paths (list (expand-file-name libfile libfile-dir)))))
+          paths))
+  (setq citar-symbols
+        `((file ,(all-the-icons-faicon "file-o" :face 'all-the-icons-green :v-adjust -0.1) . " ")
+          (note ,(all-the-icons-material "speaker_notes" :face 'all-the-icons-blue :v-adjust -0.3) . " ")
+          (link ,(all-the-icons-octicon "link" :face 'all-the-icons-orange :v-adjust 0.01) . " "))))
+#+end_src
+
+We can also make the Zotero CSL styles available to use.
+
+#+begin_src emacs-lisp :noweb-ref none :tangle yes
+(after! oc-csl
+  (setq org-cite-csl-styles-dir "~/Zotero/styles"))
+#+end_src
+
+Since CSL works so nicely everywhere, we might as well use it as the default
+citation export processor for everything.
+
+#+begin_src emacs-lisp :noweb-ref none :tangle yes
+(after! oc
+  (setq org-cite-export-processors '((t csl))))
+#+end_src
+
+Then, for convenience we'll cap things off by putting the citation command under
+Org's localleader.
+
+#+begin_src emacs-lisp :noweb-ref none :tangle yes
+(map! :after org
+      :map org-mode-map
+      :localleader
+      :desc "Insert citation" "@" #'org-cite-insert)
+#+end_src
+
+Lastly, just in case I come across any old citations of mine, I think it would
+be nice to have a function to convert =org-ref= citations to =org-cite= forms.
+
+#+begin_src emacs-lisp :noweb-ref none :tangle yes
+(after! oc
+  (defun org-ref-to-org-cite ()
+    "Attempt to convert org-ref citations to org-cite syntax."
+    (interactive)
+    (let* ((cite-conversions '(("cite" . "//b") ("Cite" . "//bc")
+                               ("nocite" . "/n")
+                               ("citep" . "") ("citep*" . "//f")
+                               ("parencite" . "") ("Parencite" . "//c")
+                               ("citeauthor" . "/a/f") ("citeauthor*" . "/a")
+                               ("citeyear" . "/na/b")
+                               ("Citep" . "//c") ("Citealp" . "//bc")
+                               ("Citeauthor" . "/a/cf") ("Citeauthor*" . "/a/c")
+                               ("autocite" . "") ("Autocite" . "//c")
+                               ("notecite" . "/l/b") ("Notecite" . "/l/bc")
+                               ("pnotecite" . "/l") ("Pnotecite" . "/l/bc")))
+           (cite-regexp (rx (regexp (regexp-opt (mapcar #'car cite-conversions) t))
+                            ":" (group (+ (not (any "\n 	,.)]}")))))))
+      (save-excursion
+        (goto-char (point-min))
+        (while (re-search-forward cite-regexp nil t)
+          (message (format "[cite%s:@%s]"
+                                 (cdr (assoc (match-string 1) cite-conversions))
+                                 (match-string 2)))
+          (replace-match (format "[cite%s:@%s]"
+                                 (cdr (assoc (match-string 1) cite-conversions))
+                                 (match-string 2))))))))
+#+end_src
+
 **** Super agenda
 #+begin_src emacs-lisp
 (use-package! org-super-agenda
@@ -1992,15 +2185,34 @@ cause issues. Let's make their failure less eventful.
   :around #'org-fancy-priorities-mode
   (ignore-errors (apply orig-fn args)))
 #+end_src
+**** Mermaid diagrams
+Diagram can be generated using something like this
+
+#+BEGIN_EXAMPLE
+#+begin_src mermaid :file test.png
+sequenceDiagram
+ A-->B: Works!
+#+end_src
+#+END_EXAMPLE
+
+#+begin_src emacs-lisp
+(use-package! ob-mermaid
+  :config
+  (org-babel-do-load-languages
+   'org-babel-load-languages
+   '((mermaid . t)))
+  ;; (setq ob-mermaid-cli-path (executable-find "mmdc"))
+  )
+#+end_src
 *** Visuals
 **** Org Modern
 
 Fontifying =org-mode= buffers to be as pretty as possible is of paramount importance,
 and Minad's lovely =org-modern= goes a long way in this regard.
 
-#+begin_src emacs-lisp :tangle packages.el
-(package! org-modern :pin "537e6b75e38bc0eff083c390c257098c9fc9ab49")
-#+end_src
+# #+begin_src emacs-lisp :tangle packages.el
+# (package! org-modern :pin "537e6b75e38bc0eff083c390c257098c9fc9ab49")
+# #+end_src
 
 ...with a touch of configuration...
 
@@ -2092,10 +2304,11 @@ spell-check face ignore list
 While ~org-hide-emphasis-markers~ is very nice, it can sometimes make edits which
 occur at the border a bit more fiddley. We can improve this situation without
 sacrificing visual amenities with the =org-appear= package.
-#+begin_src emacs-lisp :tangle packages.el
-(package! org-appear :recipe (:host github :repo "awth13/org-appear")
-  :pin "60ba267c5da336e75e603f8c7ab3f44e6f4e4dac")
-#+end_src
+
+# #+begin_src emacs-lisp :tangle packages.el
+# (package! org-appear :recipe (:host github :repo "awth13/org-appear")
+#   :pin "60ba267c5da336e75e603f8c7ab3f44e6f4e4dac")
+# #+end_src
 
 #+begin_src emacs-lisp :tangle yes
 (use-package! org-appear
@@ -2425,6 +2638,7 @@ It's also nice to make use of the Unicode characters for check boxes, and other 
 
 **** LaTeX Fragments
 ***** Prettier highlighting
+
 First off, we want those fragments to look good.
 #+begin_src emacs-lisp
 (setq org-highlight-latex-and-related '(native script entities))
@@ -2440,6 +2654,7 @@ can avoid advising that entire function by just adding another face with
 Inspecting ~org-do-latex-and-related~ shows that ="latex"= is the language argument
 passed, and so we can override the background as discussed above.
 #+begin_src emacs-lisp
+(require 'org-src)
 (add-to-list 'org-src-block-faces '("latex" (:inherit default :extend t)))
 #+end_src
 
@@ -2456,6 +2671,35 @@ let's make it transparent.
 #+begin_src emacs-lisp
 (setq org-format-latex-options
       (plist-put org-format-latex-options :background "Transparent"))
+#+end_src
+***** Fixes for lualatex
+#+begin_src emacs-lisp
+(setq org-preview-latex-default-process 'dvisvgm)
+(setq org-preview-latex-process-alist
+       '((dvipng :programs
+         ("lualatex" "dvipng")
+         :description "dvi > png" :message "you need to install the programs: latex and dvipng." :image-input-type "dvi" :image-output-type "png" :image-size-adjust
+         (1.0 . 1.0)
+         :latex-compiler
+         ("lualatex -output-format dvi -interaction nonstopmode -output-directory %o %f")
+         :image-converter
+         ("dvipng -fg %F -bg %B -D %D -T tight -o %O %f"))
+       (dvisvgm :programs
+          ("latex" "dvisvgm")
+          :description "dvi > svg" :message "you need to install the programs: latex and dvisvgm." :use-xcolor t :image-input-type "xdv" :image-output-type "svg" :image-size-adjust
+          (1.7 . 1.5)
+          :latex-compiler
+          ("xelatex -no-pdf -interaction nonstopmode -output-directory %o %f")
+          :image-converter
+          ("dvisvgm %f -n -b min -c %S -o %O"))
+       (imagemagick :programs
+              ("latex" "convert")
+              :description "pdf > png" :message "you need to install the programs: latex and imagemagick." :use-xcolor t :image-input-type "pdf" :image-output-type "png" :image-size-adjust
+              (1.0 . 1.0)
+              :latex-compiler
+              ("xelatex -no-pdf -interaction nonstopmode -output-directory %o %f")
+              :image-converter
+              ("convert -density %D -trim -antialias %f -quality 100 %O"))))
 #+end_src
 
 *** Exporting
@@ -2559,6 +2803,13 @@ it should still work.
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
   (add-to-list 'org-latex-classes
                '("memoir" "\\documentclass{memoir}"
+                 ("\\section{%s}" . "\\section*{%s}")
+                 ("\\subsection{%s}" . "\\subsection*{%s}")
+                 ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
+                 ("\\paragraph{%s}" . "\\paragraph*{%s}")
+                 ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
+  (add-to-list 'org-latex-classes
+               '("scrlttr2" "\\documentclass{scrlttr2}"
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
@@ -2859,6 +3110,12 @@ Set rust-analyzer as prefered lsp-server.
 #+begin_src emacs-lisp
 (setq rustic-lsp-server 'rust-analyzer)
 #+end_src
+** CSharp
+#+begin_src emacs-lisp
+(use-package! html-mode
+  :mode "\\.cshtml\\'"
+  )
+#+end_src
 * Functions
 ** Org
 Export pdf asynchronously
@@ -2885,9 +3142,12 @@ config tangling
 (defun config-tangle ()
   (interactive)
   (shell-command
-   (concat "org-tangle " doom-private-dir "config.org" " &")
+   "emacs --batch --eval \"(require 'org)\" --eval '(org-babel-tangle-file \"~/.config/doom/config.org\")'"
+   ;; (concat "org-tangle " doom-private-dir "config.org" " &")
    )
   )
+
+()
 #+end_src
 ** Files
 #+begin_src emacs-lisp
