@@ -48,9 +48,12 @@
     # Spotify
     spicetify-nix.url = "github:the-argus/spicetify-nix";
 
+    # Emacs
+    # emacs-overlay.url = "github:nix-community/emacs-overlay";
+    # emacs-overlay.inputs.nixpkgs.follows = "nixpkgs-unstable";
+
     # Extras
     nixos-hardware.url = "github:nixos/nixos-hardware";
-    emacs-overlay.url = "github:nix-community/emacs-overlay";
     nur.url = "github:nix-community/NUR";
     adblock.url = "github:StevenBlack/hosts";
     # pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
