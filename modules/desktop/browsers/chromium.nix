@@ -9,23 +9,14 @@
 with lib;
 with lib.my; let
   cfg = config.modules.desktop.browsers.chromium;
-
-  wrapWithFlags = p: f:
-    with pkgs;
-      writeScriptBin "${p.packageName}" ''
-        #!${stdenv.shell}
-        exec ${p}/bin/${p.packageName} ${lib.concatStringsSep " " f} "$@"
-      '';
 in {
   options.modules.desktop.browsers.chromium = {
     enable = mkOption {
       type = types.bool;
       default = false;
     };
-    ungoogled = mkOption {
-      type = types.bool;
-      default = false;
-    };
+    ungoogled = mkBoolOpt false;
+    googled = mkBoolOpt false;
     flags = mkOption {
       type = types.listOf types.str;
       default = [];
@@ -33,27 +24,18 @@ in {
   };
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs; [
-      (makeDesktopItem {
-        name = "chromium";
-        desktopName = "Chromium";
-        genericName = "Chromium browser";
-        icon = "chromium";
-        exec = "chromium";
-        categories = ["Network"];
-      })
-    ];
-
     home.programs.chromium = {
       enable = true;
 
-      package = with pkgs; (wrapWithFlags
+      package = with pkgs;
         (
           if cfg.ungoogled
           then ungoogled-chromium
+          else if cfg.googled
+          then google-chrome
           else chromium
         )
-        cfg.flags);
+        .override {commandLineArgs = lib.concatStringsSep " " cfg.flags;};
 
       extensions = [
         "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
@@ -76,7 +58,22 @@ in {
       "--enable-gpu-rasterization"
       "--enable-native-gpu-memory-buffers"
       "--enable-zero-copy"
-      "--enable-features=VaapiVideoDecoder"
+      # "--enable-features=VaapiVideoDecoder"
+      # https://forum.manjaro.org/t/chromium-cant-enable-video-encoding-hardware-acceleration/101760/6
+      "--use-gl=desktop"
+      "--enable-oop-rasterization"
+      "--enable-raw-draw"
+      "--use-vulkan"
+      "--disable-reading-from-canvas"
+      "--disable-sync-preferences"
+      "--enable-accelerated-2d-canvas"
+      "--enable-accelerated-video-decode"
+      "--enable-accelerated-mjpeg-decode"
+      "--enable-features=VaapiVideoEncoder,VaapiVideoDecoder,CanvasOopRasterization"
+      "--enable-gpu-compositing"
+
+      # Fuck this "outdated" shit
+      "--simulate-outdated-no-au='Tue, 31 Dec 2099 23:59:59 GMT'"
     ];
   };
 }
