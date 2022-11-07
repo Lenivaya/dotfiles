@@ -26,7 +26,7 @@ while getopts c:d:f:g:ps opt; do
     s) is_script=1 ;;
   esac
 done
-shift $((OPTIND-1))
+shift $((OPTIND - 1))
 
 ##
 select-region() {
@@ -38,8 +38,8 @@ select-region() {
 }
 
 countdown() {
-  if (( count > 0 )); then
-    for ((i=count;i>0;i--)); do
+  if ((count > 0)); then
+    for ((i = count; i > 0; i--)); do
       if [[ $is_script ]]; then
         notify-send -u critical -t 1000 "Recording in $i"
       else
@@ -71,7 +71,6 @@ recording-start() {
   echo -n "$dest" | xclip -selection clipboard -in
   notify-send "Screencast successful" "Saved to $dest\nAnd copied to your clipboard!"
 }
-
 
 # If a recording session is already active, stop that one.
 if [[ -n "$is_script" && -f "$stopfile" ]]; then

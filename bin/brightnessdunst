@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env ksh
 
 # You can call this script like this:
 # $ ./brightnessControl.sh up
