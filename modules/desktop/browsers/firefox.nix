@@ -95,6 +95,11 @@ in {
           "layers.omtp.enabled" = true;
           "layout.display-list.retain" = true;
           "layout.display-list.retain.chrome" = true;
+          "media.ffmpeg.vaapi.enabled" = true;
+          "media.rdd-vpx.enabled" = true;
+          "media.ffvpx.enabled" = true;
+          "media.navigator.mediadatadecoder_vpx_enabled" = true;
+          "gfx.webrender.all" = true;
           # That shit just fucking eats CPU
           # "media.rdd-process.enabled" = false;
 
@@ -117,7 +122,7 @@ in {
           # https://gecko.readthedocs.org/en/latest/browser/browser/DirectoryLinksProvider.html#browser-newtabpage-directory-ping
           "browser.newtabpage.enhanced" = false;
           "browser.newtabpage.introShown" = true;
-          "browser.newtab.preload" = false;
+          # "browser.newtab.preload" = false;
           "browser.newtabpage.directory.ping" = "";
           "browser.newtabpage.directory.source" = "data:text/plain,{}";
 
