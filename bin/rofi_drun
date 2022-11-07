@@ -1,3 +1,4 @@
-#! /usr/bin/env bash
+#! /usr/bin/env dash
 
-rofi_wrapper -show drun -theme drun -no-config
+# rofi_wrapper -show drun -theme drun -no-config >/dev/null
+rofi_wrapper -show drun >/dev/null

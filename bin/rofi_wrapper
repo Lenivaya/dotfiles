@@ -1,11 +1,11 @@
-#! /usr/bin/env bash
+#! /usr/bin/env dash
 
 # Wrapper around rofi that always
 # runs it with english kbd layout
 
 previous_layout=$(xkb-switch -p)
-xkb-switch -s us
+xkb-switch -s us >/dev/null &
 
-rofi "$@"
+rofi "$@" >/dev/null
 
-xkb-switch -s "$previous_layout"
+xkb-switch -s "$previous_layout" >/dev/null &
