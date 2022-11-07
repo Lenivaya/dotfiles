@@ -99,3 +99,19 @@ key.P = {
     },
   },
 }
+
+-- Zoxide (better cd in rust)
+key["Z"] = {
+    help = "zoxide jump",
+    messages = {
+      {
+        BashExec = [===[
+        PTH=$(zoxide query -i)
+        if [ -d "$PTH" ]; then
+          echo ChangeDirectory: "'"${PTH:?}"'" >> "${XPLR_PIPE_MSG_IN:?}"
+        fi
+        ]===]
+      },
+      "PopMode",
+    }
+  }
