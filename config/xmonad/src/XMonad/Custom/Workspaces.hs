@@ -90,6 +90,7 @@ selectBrowserByName conf = do
   browserNames =
     [ ("Firefox"    , "firefox")
     , ("Chromium"   , "chromium")
+    , ("Google-chrome"   , "google-chrome-stable")
     , ("Brave"      , "brave")
     , ("Qutebrowser", "qutebrowser")
     ]
