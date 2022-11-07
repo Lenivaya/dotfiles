@@ -29,7 +29,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    # nixpkgs.overlays = [ inputs.emacs-overlay.overlay ];
+    nixpkgs.overlays = [inputs.emacs-overlay.overlay];
 
     user.packages = with pkgs; [
       binutils # native-comp needs 'as', provided by this
@@ -68,6 +68,9 @@ in {
       libtool
       # wakatime
       wakatime
+
+      # mermaid diagrams in org-mode
+      nodePackages.mermaid-cli
     ];
 
     env.PATH = [
@@ -79,9 +82,7 @@ in {
 
     home.programs.emacs = {
       enable = true;
-      package = pkgs.emacs28NativeComp;
-      # package = pkgs.emacsGcc; # 28 + native-comp
-      # pkgs.emacsPgtkGcc; # 28 + pgtk + native-comp
+      package = pkgs.unstable.emacs28NativeComp;
       extraPackages = epkgs: [
         # :term vterm
         epkgs.vterm
@@ -103,7 +104,7 @@ in {
       if ! [ -d $HOME/.config/doom ]; then
             ln -s ${configDir}/doom ~/.config/doom
             # ${pkgs.emacs}/bin/emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/.config/doom/config.org")'
-            $HOME/.emacs.d/bin/org-tangle ~/.config/doom/config.org
+            $HOME/.config/emacs/bin/org-tangle ~/.config/doom/config.org
       fi
     '';
   };
