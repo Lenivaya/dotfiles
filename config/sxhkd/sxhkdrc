@@ -28,7 +28,8 @@ XF86MonBrightness{Up,Down}
     brightnessdunst {up,down}
 
 XF86Search
-    rofi -show drun
+    rofi_drun
+    # rofi -show drun
 
 XF86LaunchA
     rofi_windows

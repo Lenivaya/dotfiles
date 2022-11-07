@@ -33,7 +33,7 @@
         firefox.enable = true;
         chromium = {
           enable = true;
-          ungoogled = true;
+          googled = true;
         };
         qutebrowser.enable = true;
         # brave.enable = true;
@@ -59,7 +59,10 @@
         };
       };
 
-      # vm = { qemu.enable = true; };
+      vm = {
+        qemu.enable = true;
+        wine.enable = true;
+      };
     };
 
     shell = {
@@ -120,7 +123,7 @@
       audio.enable = true;
       fingerprint.enable = true;
       bluetooth.enable = true;
-      zram.enable = true;
+      # zram.enable = true;
     };
 
     adblock.enable = true;
@@ -132,12 +135,37 @@
   #   nvidia = {
   #     package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
   #     modesetting.enable = true;
-  #     # powerManagement.enable = lib.mkForce false;
-  #     # powerManagement.finegrained = lib.mkForce false;
+  #     powerManagement.enable = lib.mkForce false;
+  #     powerManagement.finegrained = lib.mkForce false;
+  #     # nvidiaPersistenced = lib.mkForce false;
+  #     prime = {
+  #       sync.enable = true;
+  #       intelBusId = "PCI:0:2:0";
+  #       nvidiaBusId = "PCI:2:0:0";
+  #     };
+  #   };
+  # };
+  # services.xserver.config = lib.mkAfter ''
+  #   Section "OutputClass"
+  #       Identifier "nvidia dpi settings"
+  #       MatchDriver "nvidia-drm"
+  #       Option "UseEdidDpi" "False"
+  #       Option "DPI" "96 x 96"
+  #   EndSection
+  # '';
+
+  # hardware = {
+  #   nvidia = {
+  #     package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
+  #     modesetting.enable = true;
+  #     nvidiaPersistenced = lib.mkForce false;
+  #     powerManagement.enable = lib.mkForce false;
+  #     powerManagement.finegrained = lib.mkForce false;
+  #     # powerManagement.enable = true;
+  #     # powerManagement.finegrained = true;
   #     # nvidiaPersistenced = lib.mkForce false;
   #     prime = {
   #       offload.enable = true;
-  #       # sync.enable = true;
   #       intelBusId = "PCI:0:2:0";
   #       nvidiaBusId = "PCI:2:0:0";
   #     };
@@ -149,7 +177,7 @@
   #     export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
   #     export __GLX_VENDOR_LIBRARY_NAME=nvidia
   #     export __VK_LAYER_NV_optimus=NVIDIA_only
-  #     exec -a "$0" "$@"
+  #     exec "$@"
   #   '';
   # in [nvidia-offload];
 
@@ -175,7 +203,10 @@
     # CPU_SCALING_MAX_FREQ_ON_BAT = 0;
   };
 
-  services.clight.settings.keyboard.disabled = lib.mkForce true;
+  services.clight = {
+    settings.keyboard.disabled = lib.mkForce true;
+    settings.sensor.devname = "video1"; # because video0 is virtual camera
+  };
 
   # Kernel
   boot.kernelPackages =
@@ -210,6 +241,10 @@
   # Flatpak
   services.flatpak.enable = true;
   xdg.portal.enable = true;
+  home.file.".local/share/flatpak/overrides/global".text = ''
+    [Context]
+    filesystems=/run/current-system/sw/share/X11/fonts:ro;/nix/store:ro
+  '';
 
   # Fix for libGL.so error
   hardware.opengl = {
@@ -217,4 +252,12 @@
     setLdLibraryPath = true;
     extraPackages = with pkgs; [libGL];
   };
+
+  nixpkgs.overlays = [
+    (self: super: {
+      google-chrome = pkgs.unstable.google-chrome;
+      firefox = pkgs.unstable.firefox;
+      vscode = pkgs.unstable.vscode;
+    })
+  ];
 }
