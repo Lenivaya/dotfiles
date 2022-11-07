@@ -13,10 +13,10 @@ in {
   options.modules.desktop.apps.discord.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    nixpkgs.overlays = with inputs; [
-      discord-overlay.overlay
-      # discocss.overlay
-    ];
+    # nixpkgs.overlays = with inputs; [
+    #   discord-overlay.overlay
+    #   # discocss.overlay
+    # ];
 
     user.packages = with pkgs; let
       discord =
@@ -24,6 +24,8 @@ in {
         inputs.replugged.lib.makeDiscordPlugged
         {
           inherit pkgs;
+          withOpenAsar = true;
+          extraElectronArgs = "--ignore-gpu-blocklist --disable-features=UseOzonePlatform --enable-features=VaapiVideoDecoder --use-gl=desktop --enable-gpu-rasterization --enable-zero-copy --disable-smooth-scrolling";
           plugins = {
             inherit
               (inputs)
