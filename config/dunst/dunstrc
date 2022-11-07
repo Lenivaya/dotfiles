@@ -2,11 +2,18 @@
     ### Display ###
     monitor = 0
     follow = none
-    geometry = "330x50-10+50"
+
+    # geometry = "330x50-10+50"
+    # width = "330"
+    # height = "60"
+    origin = "top-right"
+    offset = "20x60"
+
+    separator_color = "#c8b38d"
     indicate_hidden = yes
     shrink = no
     transparency = 5
-    notification_height = 0
+    # notification_height = 0
     separator_height = 0
     padding = 15
     horizontal_padding = 15
@@ -51,8 +58,8 @@
     always_run_script = true
     title = Dunst
     class = Dunst
-    startup_notification = false
-    verbosity = mesg
+    # startup_notification = false
+    # verbosity = mesg
     corner_radius = 0
 
     ### mouse
@@ -60,11 +67,16 @@
     mouse_middle_click = close_all
     mouse_right_click = close_current
 
-[shortcuts]
     close = ctrl+space
     close_all = ctrl+shift+space
-    history = ctrl+grave
+    history = ctrl+home
     context = ctrl+shift+period
+
+# [shortcuts]
+#     close = ctrl+space
+#     close_all = ctrl+shift+space
+#     history = ctrl+grave
+#     context = ctrl+shift+period
 
 [play_sound]
     summary = "*"
@@ -87,4 +99,4 @@ timeout = 0
 background = "#161418"
 foreground = "#d2d1d2"
 frame_color = "#d5c4a1"
-separator_color = "#c8b38d"
+# separator_color = "#c8b38d"
