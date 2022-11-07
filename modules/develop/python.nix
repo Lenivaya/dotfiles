@@ -15,13 +15,17 @@ in {
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
       python-language-server
-      python310
-      python310Packages.pip
-      python310Packages.ipython
-      python310Packages.black
-      python310Packages.setuptools
-      python310Packages.pylint
-      python310Packages.poetry
+
+      (python310.withPackages
+        (ps:
+          with ps; [
+            pip
+            ipython
+            black
+            setuptools
+            pylint
+            poetry
+          ]))
     ];
 
     env.IPYTHONDIR = "$XDG_CONFIG_HOME/ipython";
