@@ -184,13 +184,104 @@
 
   {
     "key" = "ctrl+w";
-    "command" = "-workbench.action.closeActiveEditor";
+    "command" = "workbench.action.closeActiveEditor";
   }
 
   {
     "key" = "ctrl+x ctrl+c";
     "command" = "workbench.action.quit";
   }
+
+  {
+    "key" = "ctrl+=";
+    "command" = "workbench.action.zoomIn";
+  }
+
+  {
+    "key" = "ctrl+-";
+    "command" = "workbench.action.zoomOut";
+  }
+
+  {
+    "key" = "ctrl+shift+=";
+    "command" = "workbench.action.zoomReset";
+  }
+
+  # magit + vim
+  {
+    "key" = "g g";
+    "command" = "cursorTop";
+    "when" = "editorTextFocus && editorLangId == 'magit' && vim.mode =~ /^(?!SearchInProgressMode|CommandlineInProgress).*$/";
+  }
+  {
+    "key" = "g r";
+    "command" = "magit.refresh";
+    "when" = "editorTextFocus && editorLangId == 'magit' && vim.mode =~ /^(?!SearchInProgressMode|CommandlineInProgress).*$/";
+  }
+  {
+    "key" = "tab";
+    "command" = "extension.vim_tab";
+    "when" = "editorFocus && vim.active && !inDebugRepl && vim.mode != 'Insert' && editorLangId != 'magit'";
+  }
+  {
+    "key" = "tab";
+    "command" = "-extension.vim_tab";
+    "when" = "editorFocus && vim.active && !inDebugRepl && vim.mode != 'Insert'";
+  }
+  {
+    "key" = "x";
+    "command" = "magit.discard-at-point";
+    "when" = "editorTextFocus && editorLangId == 'magit' && vim.mode =~ /^(?!SearchInProgressMode|CommandlineInProgress).*$/";
+  }
+  {
+    "key" = "k";
+    "command" = "-magit.discard-at-point";
+  }
+  {
+    "key" = "-";
+    "command" = "magit.reverse-at-point";
+    "when" = "editorTextFocus && editorLangId == 'magit' && vim.mode =~ /^(?!SearchInProgressMode|CommandlineInProgress).*$/";
+  }
+  {
+    "key" = "v";
+    "command" = "-magit.reverse-at-point";
+  }
+  {
+    "key" = "shift+-";
+    "command" = "magit.reverting";
+    "when" = "editorTextFocus && editorLangId == 'magit' && vim.mode =~ /^(?!SearchInProgressMode|CommandlineInProgress).*$/";
+  }
+  {
+    "key" = "shift+v";
+    "command" = "-magit.reverting";
+  }
+  {
+    "key" = "shift+o";
+    "command" = "magit.resetting";
+    "when" = "editorTextFocus && editorLangId == 'magit' && vim.mode =~ /^(?!SearchInProgressMode|CommandlineInProgress).*$/";
+  }
+  {
+    "key" = "shift+x";
+    "command" = "-magit.resetting";
+  }
+  {
+    "key" = "x";
+    "command" = "-magit.reset-mixed";
+  }
+  {
+    "key" = "ctrl+u x";
+    "command" = "-magit.reset-hard";
+  }
+
+  # Porting some things from doom-emacs
+  # {
+  #   "key" = "space+g g";
+  #   "command" = "magit.status";
+  # }
+  # {
+  #   "key" = "space+:";
+  #   "command" = "workbench.action.showCommands";
+  # }
 
   # DISABLING
   {
@@ -200,22 +291,12 @@
   }
 
   {
-    "key" = "ctrl+=";
-    "command" = "-workbench.action.zoomIn";
-  }
-
-  {
-    "key" = "ctrl+-";
-    "command" = "-workbench.action.zoomOut";
+    "key" = "ctrl+D";
+    "command" = "-editor.action.copyLinesDownAction";
   }
 
   {
     "key" = "ctrl+shift+g";
     "command" = "-workbench.action.files.openFileFolder";
-  }
-
-  {
-    "key" = "ctrl+shift+=";
-    "command" = "-workbench.action.zoomIn";
   }
 ]

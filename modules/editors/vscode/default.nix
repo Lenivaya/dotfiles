@@ -16,26 +16,60 @@ in {
 
   # Min tomorrow night theme
   config = mkIf cfg.enable {
-    xdg.configFile = {
-      # "Code/User/keybindings.json".text = builtins.toJSON (import ./keybindings.nix);
-      "Code/User/keybindings.json".text = builtins.toJSON (import configDir/vscode/keybindings.nix);
-      "Code/User/settings.json".text = builtins.toJSON (import configDir/vscode/settings.nix {inherit pkgs;});
-      # "Code - Insiders/User/keybindings.json".text = builtins.toJSON (import ./keybindings.nix);
-      # "Code - Insiders/User/settings.json".text = builtins.toJSON (import ./settings.nix {inherit pkgs;});
+    # HACK to make config writable
+    home.activation.boforeCheckLinkTargets = {
+      after = [];
+      before = ["checkLinkTargets"];
+      data = ''
+        userDir=~/.config/Code/User
+        rm -rf $userDir/settings.json
+        rm -rf $userDir/keybindings.json
+      '';
     };
 
+    home.activation.afterWriteBoundary = {
+      after = ["writeBoundary"];
+      before = [];
+      data = ''
+        userDir=~/.config/Code/User
+        rm -rf $userDir/settings.json
+        rm -rf $userDir/keybindings.json
+        cat \
+          ${(pkgs.formats.json {}).generate "blabla"
+          config.home.programs.vscode.userSettings} \
+          > $userDir/settings.json
+        cat \
+          ${(pkgs.formats.json {}).generate "blabla"
+          config.home.programs.vscode.keybindings} \
+          > $userDir/keybindings.json
+      '';
+    };
     home.programs.vscode = {
       enable = true;
+      package = pkgs.unstable.vscode;
+      mutableExtensionsDir = true;
+      userSettings = import "${configDir}/vscode/settings.nix" {
+        inherit pkgs;
+        inherit config;
+      };
+      keybindings = import "${configDir}/vscode/keybindings.nix";
       extensions = with pkgs.vscode-extensions;
         [
           vscodevim.vim
+          bodil.file-browser
+
           editorconfig.editorconfig
           codezombiech.gitignore
+          mikestead.dotenv
           yzhang.markdown-all-in-one
+
           ms-vscode.cpptools
           ms-python.python
+          # matklad.rust-analyzer
 
           dbaeumer.vscode-eslint
+          esbenp.prettier-vscode
+          davidanson.vscode-markdownlint
 
           jnoortheen.nix-ide
           kamadorueda.alejandra
@@ -43,6 +77,13 @@ in {
           timonwong.shellcheck
 
           WakaTime.vscode-wakatime
+          alefragnani.project-manager
+          tomoki1207.pdf
+
+          # kahole.magit
+          vincaslt.highlight-matching-tag
+          vspacecode.whichkey
+          # usernamehw.errorlens
         ]
         ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
           {
@@ -108,18 +149,25 @@ in {
             sha256 = "0wpmfrfpi6wl9v3dknx2qr2m74azpcw8bvhac21v67w6jxnl3jd9";
           }
 
-          {
-            name = "vsc-material-theme";
-            publisher = "Equinusocio";
-            version = "33.5.0";
-            sha256 = "1pr98mx7hji8jlm6ppac693ivbcpybh043w2z8sa3f49v7pksnrf";
-          }
+          # {
+          #   name = "vsc-material-theme";
+          #   publisher = "Equinusocio";
+          #   version = "33.5.0";
+          #   sha256 = "1pr98mx7hji8jlm6ppac693ivbcpybh043w2z8sa3f49v7pksnrf";
+          # }
+
+          # {
+          #   name = "vsc-material-theme-icons";
+          #   publisher = "equinusocio";
+          #   version = "2.3.1";
+          #   sha256 = "1djm4k3hcn4aq63d4mxs2n4ffq5x1qr82q6gxwi5pmabrb0hrb30";
+          # }
 
           {
-            name = "vsc-material-theme-icons";
-            publisher = "equinusocio";
-            version = "2.3.1";
-            sha256 = "1djm4k3hcn4aq63d4mxs2n4ffq5x1qr82q6gxwi5pmabrb0hrb30";
+            name = "min-tomorrow-theme";
+            publisher = "mustafamohamad";
+            version = "1.5.1";
+            sha256 = "sha256-Aoo+Gxdtz1G01lrOKJ+kV6un6HKhI/AlRcKe6CwLQwI=";
           }
 
           {

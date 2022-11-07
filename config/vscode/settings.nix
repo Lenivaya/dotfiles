@@ -1,7 +1,27 @@
-{pkgs, ...}:
+{
+  pkgs,
+  config,
+  ...
+}:
 with pkgs; let
   # JAVA_HOME = "${openjdk}/lib/openjdk";
 in {
+  "vim.easymotion" = true;
+  "vim.incsearch" = true;
+  "vim.useSystemClipboard" = true;
+  "vim.useCtrlKeys" = true;
+  "vim.hlsearch" = true;
+  "vim.leader" = "<space>";
+  "vim.sneak" = true;
+  "vim.camelCaseMotion.enable" = true;
+  "vim.insertModeKeyBindings" = [
+    {
+      "before" = ["j" "j"];
+      "after" = ["<Esc>"];
+    }
+  ];
+
+  "editor.mouseWheelZoom" = true;
   "diffEditor.ignoreTrimWhitespace" = false;
   "editor.cursorBlinking" = "smooth";
   "editor.cursorSmoothCaretAnimation" = true;
@@ -9,6 +29,7 @@ in {
   # "editor.fontLigatures" = "'ss01','ss05','ss08','ss09','ss20'";
   # "editor.fontSize" = 13;
   # "editor.fontWeight" = "normal";
+  "editor.fontLigatures" = true;
   "editor.lineHeight" = 20;
   "editor.lineNumbers" = "relative";
   "editor.multiCursorModifier" = "ctrlCmd";
@@ -43,7 +64,7 @@ in {
     "notificationLink.foreground" = "#616161";
     "editorWidget.border" = "#616161";
   };
-  # "workbench.colorTheme" = "Material Theme Ocean";
+  "workbench.colorTheme" = "Min Tomorrow Dark";
   "workbench.editorAssociations" = [
     {
       "viewType" = "jupyter-notebook";
@@ -92,8 +113,11 @@ in {
   "explorer.incrementalNaming" = "smart";
   "explorer.openEditors.visible" = 8;
   "search.smartCase" = true;
-  "terminal.external.linuxExec" = "st";
+
+  "terminal.external.linuxExec" = config.modules.desktop.term.default;
   "terminal.integrated.rendererType" = "experimentalWebgl";
+  "terminal.integrated.fontSize" = 20;
+
   "scm.defaultViewMode" = "tree";
   "update.mode" = "none";
   "html.format.contentUnformatted" = "pre,code,style,textarea";
@@ -228,4 +252,7 @@ in {
   "todo-tree.tree.showScanModeButton" = false;
   "tslint.packageManager" = "yarn";
   "tslint.validateWithDefaultConfig" = true;
+
+  "pdf-preview.default.scrollMode" = "wrapped";
+  "pdf-preview.default.scale" = "page-fit";
 }
