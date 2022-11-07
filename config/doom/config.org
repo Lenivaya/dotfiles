@@ -183,7 +183,9 @@ literate
 ;;  +icons                      ; ... icons are nice
 ;;  +childframe                 ; ... when your children are better than you
 ;;  +prescient)                 ; ... I know what I want(ed)
-(vertico +icons +childframe)
+(vertico +icons
+         ;; +childframe
+         )
 #+end_src
 
 
