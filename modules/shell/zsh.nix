@@ -49,6 +49,7 @@ in {
       fd
       fzf
       htop
+      btop # htop but prettier
       tealdeer
       tree
       fasd
