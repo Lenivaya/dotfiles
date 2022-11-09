@@ -122,7 +122,7 @@ in {
 
   "terminal.external.linuxExec" = config.modules.desktop.term.default;
   "terminal.integrated.rendererType" = "experimentalWebgl";
-  "terminal.integrated.fontSize" = 20;
+  "terminal.integrated.fontSize" = 22;
 
   "scm.defaultViewMode" = "tree";
   "update.mode" = "none";
