@@ -61,6 +61,7 @@ in {
           editorconfig.editorconfig
           codezombiech.gitignore
           mikestead.dotenv
+          shd101wyy.markdown-preview-enhanced
           yzhang.markdown-all-in-one
 
           ms-vscode.cpptools
