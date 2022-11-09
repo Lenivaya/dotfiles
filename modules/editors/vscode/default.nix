@@ -82,6 +82,7 @@ in {
 
           # kahole.magit
           vincaslt.highlight-matching-tag
+          spywhere.guides
           vspacecode.whichkey
           # usernamehw.errorlens
         ]
