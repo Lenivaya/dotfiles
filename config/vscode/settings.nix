@@ -152,7 +152,7 @@ in {
   "git.showPushSuccessNotification" = true;
   "C_Cpp.clang_format_path" = "${llvmPackages.clang-unwrapped}/bin/clang-format";
   "C_Cpp.clang_format_fallbackStyle" = "LLVM";
-  "C_Cpp.formatting" = "Disabled";
+  # "C_Cpp.formatting" = "Disabled";
   "C_Cpp.intelliSenseEngineFallback" = "Enabled";
   "C_Cpp.workspaceParsingPriority" = "medium";
   "clang.executable" = "${clang}/bin/clang";
