@@ -39,7 +39,7 @@ in {
     "strings" = true;
   };
   "editor.renderIndentGuides" = false;
-  "editor.renderWhitespace" = "boundary";
+  "editor.renderWhitespace" = "none";
   "editor.rulers" = [
     80
     100
