@@ -20,6 +20,12 @@ in {
       "after" = ["<Esc>"];
     }
   ];
+  "vim.normalModeKeyBindingsNonRecursive" = [
+    {
+      "before" = ["<Esc>"];
+      "commands" = [":nohl"];
+    }
+  ];
 
   "editor.mouseWheelZoom" = true;
   "diffEditor.ignoreTrimWhitespace" = false;
