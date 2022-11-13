@@ -41,7 +41,6 @@
     shadowOpacity = "0.6";
     shadowExclude = [
       "class_g ?= 'Notify-osd'"
-      "! name~=''"
       "name *= 'picom'"
       "_GTK_FRAME_EXTENTS@:c"
       "_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
