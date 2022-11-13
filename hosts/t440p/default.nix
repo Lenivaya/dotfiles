@@ -257,7 +257,11 @@
     (self: super: {
       google-chrome = pkgs.unstable.google-chrome;
       firefox = pkgs.unstable.firefox;
+
+      easyeffects = pkgs.unstable.easyeffects;
+
       vscode = pkgs.unstable.vscode;
+      vscode-extensions = pkgs.unstable.vscode-extensions;
     })
   ];
 }
