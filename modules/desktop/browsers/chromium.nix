@@ -64,7 +64,6 @@ in {
       "--enable-oop-rasterization"
       "--enable-raw-draw"
       "--use-vulkan"
-      "--disable-reading-from-canvas"
       "--disable-sync-preferences"
       "--enable-accelerated-2d-canvas"
       "--enable-accelerated-video-decode"
