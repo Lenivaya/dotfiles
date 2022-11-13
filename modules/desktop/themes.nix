@@ -33,7 +33,7 @@ in {
           button:focus {
               outline-style: solid;
               outline-offset: -2px;
-              outline-width: 2px;
+              outline-width: 1px;
               outline-radius: 2px;
           }
         '';
