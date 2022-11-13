@@ -1,4 +1,4 @@
 {config, ...}: {
   programs.ccache.enable = true;
-  nix.sandboxPaths = [config.programs.ccache.cacheDir];
+  nix.settings.extra-sandbox-paths = [config.programs.ccache.cacheDir];
 }
