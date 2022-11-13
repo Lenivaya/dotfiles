@@ -224,8 +224,8 @@
   };
 
   networking.firewall = {
-    allowedUDPPorts = [3000 4000];
-    allowedTCPPorts = [3000 4000];
+    allowedUDPPorts = [3000 4000 8080 8000];
+    allowedTCPPorts = [3000 4000 8080 8000];
   };
 
   # For manual fan control with pwm
