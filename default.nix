@@ -23,7 +23,10 @@ with lib.my; {
 
   # Configure nix and nixpkgs
   environment.variables.NIXPKGS_ALLOW_UNFREE = "1";
-  home-manager.users.${config.user.name}.nixpkgs.config = {allowUnfree = true;};
+  home-manager.users.${config.user.name}.nixpkgs = {
+    config = {allowUnfree = true;};
+    overlays = config.nixpkgs.overlays;
+  };
   nix = let
     filteredInputs = filterAttrs (n: _: n != "self") inputs;
     nixPathInputs = mapAttrsToList (n: v: "${n}=${v}") filteredInputs;
