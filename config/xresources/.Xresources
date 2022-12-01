@@ -46,7 +46,7 @@ Xcursor.theme: Adwaita
 !Fonts
 Xft.antialias: true
 Xft.hinting: true
-Xft.rgba: rgb
 Xft.autohint: false
+Xft.rgba: rgb
 Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault

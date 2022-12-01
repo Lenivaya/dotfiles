@@ -21,13 +21,18 @@ in {
   };
 
   config = mkIf cfg.enable {
+    home.programs.obs-studio = mkIf cfg.video.enable {
+      enable = true;
+      plugins = with pkgs.unstable; [obs-studio-plugins.obs-backgroundremoval];
+    };
+
     user.packages = with pkgs;
     # for recording and remastering audio
       (
         if cfg.audio.enable
         then
           # with unstable;
-          with pkgs; [audacity-gtk3 ardour]
+          with pkgs; [audacity ardour]
         else []
       )
       ++
