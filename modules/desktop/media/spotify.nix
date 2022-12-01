@@ -21,14 +21,15 @@ in {
       spotifyPackage = pkgs.unstable.spotify-unwrapped;
       spicetifyPackage = pkgs.spicetify-cli.overrideAttrs (oa: rec {
         pname = "spicetify-cli";
-        version = "2.9.9";
+        version = "2.14.3";
         src = pkgs.fetchgit {
           url = "https://github.com/spicetify/${pname}";
           rev = "v${version}";
-          sha256 = "1a6lqp6md9adxjxj4xpxj0j1b60yv3rpjshs91qx3q7blpsi3z4z";
+          sha256 = "sha256-7bCl8VfkMhoTBnr+O+oBYQeSV2sRwlP/qUkNkYerZdU=";
         };
       });
-      theme = "SpotifyNoPremium";
+      # theme = "SpotifyNoPremium";
+      theme = "Nord";
 
       enabledCustomApps = with spicetify-nix.pkgs.apps; [
         lyrics-plus
