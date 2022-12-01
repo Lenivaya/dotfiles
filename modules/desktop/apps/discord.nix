@@ -25,19 +25,19 @@ in {
         {
           inherit pkgs;
           withOpenAsar = true;
-          extraElectronArgs = "--ignore-gpu-blocklist --disable-features=UseOzonePlatform --enable-features=VaapiVideoDecoder --use-gl=desktop --enable-gpu-rasterization --enable-zero-copy --disable-smooth-scrolling";
-          plugins = {
-            inherit
-              (inputs)
-              discord-tweaks
-              discord-image-tools
-              discord-push-fix
-              discord-better-status-indicators
-              discord-multitask
-              discord-view-raw
-              discord-channel-typing
-              ;
-          };
+          extraElectronArgs = "--ignore-gpu-blocklist --disable-features=UseOzonePlatform --enable-features=VaapiVideoDecoder --use-gl=desktop --enable-gpu-rasterization --enable-zero-copy"; # --disable-smooth-scrolling";
+          # plugins = {
+          #   inherit
+          #     (inputs)
+          #     discord-tweaks
+          #     discord-image-tools
+          #     discord-push-fix
+          #     discord-better-status-indicators
+          #     discord-multitask
+          #     discord-view-raw
+          #     discord-channel-typing
+          #     ;
+          # };
           # themes = with inputs; [
           #   # discord-tokyonight
           #   # discord-crearts
