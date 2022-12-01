@@ -3,11 +3,11 @@
 
   inputs = {
     # Core dependencies
-    # nixpkgs.url = "nixpkgs/nixos-22.05"; # primary nixpkgs
-    nixpkgs.url = "nixpkgs/nixos-unstable"; # primary nixpkgs
+    # nixpkgs.url = "nixpkgs/nixos-unstable"; # primary nixpkgs
+    nixpkgs.url = "nixpkgs/nixos-22.11"; # primary nixpkgs
     nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable"; # for packages on the edge
 
-    home-manager.url = "github:nix-community/home-manager/release-22.05";
+    home-manager.url = "github:nix-community/home-manager/release-22.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     agenix.url = "github:ryantm/agenix";
@@ -16,41 +16,38 @@
     # Discord
     discord-overlay.url = "github:InternetUnexplorer/discord-overlay";
     replugged.url = "github:LunNova/replugged-nix-flake";
-    discord-tweaks = {
-      url = "github:NurMarvin/discord-tweaks";
-      flake = false;
-    };
-    discord-image-tools = {
-      url = "github:powerfart-plugins/image-tools";
-      flake = false;
-    };
-    discord-push-fix = {
-      url = "github:Karamu98/AlwaysPushNotifications";
-      flake = false;
-    };
-    discord-better-status-indicators = {
-      url = "github:griefmodz/better-status-indicators";
-      flake = false;
-    };
-    discord-multitask = {
-      url = "github:powercord-community/multitask";
-      flake = false;
-    };
-    discord-view-raw = {
-      url = "github:Juby210/view-raw";
-      flake = false;
-    };
-    discord-channel-typing = {
-      url = "github:powercord-community/channel-typing";
-      flake = false;
-    };
+    # discord-tweaks = {
+    #   url = "github:NurMarvin/discord-tweaks";
+    #   flake = false;
+    # };
+    # discord-image-tools = {
+    #   url = "github:powerfart-plugins/image-tools";
+    #   flake = false;
+    # };
+    # discord-push-fix = {
+    #   url = "github:Karamu98/AlwaysPushNotifications";
+    #   flake = false;
+    # };
+    # discord-better-status-indicators = {
+    #   url = "github:griefmodz/better-status-indicators";
+    #   flake = false;
+    # };
+    # discord-multitask = {
+    #   url = "github:powercord-community/multitask";
+    #   flake = false;
+    # };
+    # discord-view-raw = {
+    #   url = "github:Juby210/view-raw";
+    #   flake = false;
+    # };
+    # discord-channel-typing = {
+    #   url = "github:powercord-community/channel-typing";
+    #   flake = false;
+    # };
 
     # Spotify
     spicetify-nix.url = "github:the-argus/spicetify-nix";
-
-    # Emacs
-    # emacs-overlay.url = "github:nix-community/emacs-overlay";
-    # emacs-overlay.inputs.nixpkgs.follows = "nixpkgs-unstable";
+    spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     # Extras
     nixos-hardware.url = "github:nixos/nixos-hardware";
