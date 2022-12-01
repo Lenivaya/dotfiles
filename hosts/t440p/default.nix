@@ -190,7 +190,7 @@
   networking.interfaces.wlp4s0.useDHCP = true;
 
   # Dpi
-  hardware.video.hidpi.enable = true;
+  # hardware.video.hidpi.enable = true;
   #   services.xserver.dpi = 180;
 
   services.fwupd.enable = true;
