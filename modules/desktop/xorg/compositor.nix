@@ -7,13 +7,10 @@
     enable = true;
     backend = "glx";
     vSync = true;
-    experimentalBackends = true;
 
-    blur = true;
-    activeOpacity = "1.0";
-    inactiveOpacity = "0.92";
-    inactiveDim = "0.3";
-    opacityRule = [
+    activeOpacity = 1.0;
+    inactiveOpacity = 0.92;
+    opacityRules = [
       "100:name *= 'i3lock'"
       "100:class_g = 'Gimp'"
       "100:class_g = 'Inkspace'"
@@ -23,50 +20,49 @@
       "0:_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
       "96:_NET_WM_STATE@:32a *= '_NET_WM_STATE_STICKY'"
     ];
-    blurExclude = [
-      "window_type = 'dock'"
-      "window_type = 'desktop'"
-      "class_g = 'slop'"
-      "class_g ?= 'xfce4-screenshooter'"
-      "_GTK_FRAME_EXTENTS@:c"
-      "_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
-    ];
+    # blurExclude = [
+    #   "window_type = 'dock'"
+    #   "window_type = 'desktop'"
+    #   "class_g = 'slop'"
+    #   "class_g ?= 'xfce4-screenshooter'"
+    #   "_GTK_FRAME_EXTENTS@:c"
+    #   "_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
+    # ];
 
     fade = true;
     fadeDelta = 5;
-    fadeSteps = ["0.03" "0.03"];
+    fadeSteps = [0.03 0.03];
 
     shadow = true;
     shadowOffsets = [(-3) (-3)];
-    shadowOpacity = "0.6";
+    shadowOpacity = 0.6;
     shadowExclude = [
       "class_g ?= 'Notify-osd'"
       "name *= 'picom'"
       "_GTK_FRAME_EXTENTS@:c"
       "_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
     ];
-    noDockShadow = false;
 
-    extraOptions = ''
-      # blur: {
-      #   strength = 2;
-      #   size = 10
-      #   deviation = 5.0
-      #   method = "dual_kawase";
-      # };
-      frame-opacity = 1.00
-      inactive-opacity-override = false;
-
+    settings = {
+      inactive-dim = 0.3;
       shadow-radius = 8;
 
-      wintypes:
-      {
-        normal = { fade = true; shadow = true; }
-        tooltip = { fade = true; shadow = true; opacity = 0.75; focus = true; full-shadow = false; };
+      wintypes = {
+        normal = {
+          fade = true;
+          shadow = true;
+        };
+        tooltip = {
+          fade = true;
+          shadow = true;
+          opacity = 0.75;
+          focus = true;
+          full-shadow = false;
+        };
         # dock = { shadow = false; }
-        dnd = { shadow = true; }
-        popup_menu = { opacity = 0.8; }
-        dropdown_menu = { opacity = 0.8; }
+        dnd = {shadow = true;};
+        popup_menu = {opacity = 0.8;};
+        dropdown_menu = {opacity = 0.8;};
       };
 
       use-damage = true;
@@ -97,6 +93,6 @@
       focus-exclude = [];
       detect-transient = true;
       detect-client-leader = true;
-    '';
+    };
   };
 }

@@ -10,6 +10,7 @@ with lib;
 with lib.my; let
   cfg = config.modules.editors.emacs;
   inherit (config.dotfiles) configDir;
+
   editorScript = pkgs.writeScriptBin "emacseditor" ''
     #!${pkgs.runtimeShell}
     if [ -z "$1" ]; then
@@ -80,7 +81,7 @@ in {
 
     home.programs.emacs = {
       enable = true;
-      package = pkgs.unstable.emacs28NativeComp;
+      package = pkgs.emacs;
       extraPackages = epkgs: [
         # :term vterm
         epkgs.vterm
