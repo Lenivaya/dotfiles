@@ -273,6 +273,26 @@
     "command" = "-magit.reset-hard";
   }
 
+  # Toggle sidebar visibillity
+  {
+    "key" = "ctrl+e";
+    "command" = "workbench.view.explorer";
+  }
+  {
+    "key" = "ctrl+e";
+    "command" = "-workbench.view.explorer";
+  }
+  {
+    "key" = "ctrl+e";
+    "command" = "workbench.action.toggleSidebarVisibility";
+    "when" = "explorerViewletVisible";
+  }
+  {
+    "key" = "ctrl+e";
+    "command" = "-workbench.action.toggleSidebarVisibility";
+    "when" = "explorerViewletVisible";
+  }
+
   # Porting some things from doom-emacs
   # {
   #   "key" = "space+g g";

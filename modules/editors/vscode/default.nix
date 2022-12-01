@@ -79,7 +79,7 @@ in {
 
           WakaTime.vscode-wakatime
           alefragnani.project-manager
-          tomoki1207.pdf
+          # tomoki1207.pdf
 
           # kahole.magit
           vincaslt.highlight-matching-tag

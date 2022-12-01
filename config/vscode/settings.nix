@@ -11,7 +11,7 @@ in {
   "vim.useSystemClipboard" = true;
   "vim.useCtrlKeys" = true;
   "vim.hlsearch" = true;
-  "vim.leader" = "<space>";
+  # "vim.leader" = "<space>";
   "vim.sneak" = true;
   "vim.camelCaseMotion.enable" = true;
   "vim.insertModeKeyBindings" = [
@@ -24,6 +24,16 @@ in {
     {
       "before" = ["<Esc>"];
       "commands" = [":nohl"];
+    }
+    {
+      "before" = ["<space>"];
+      "commands" = ["whichkey.show"];
+    }
+  ];
+  "vim.visualModeKeyBindingsNonRecursive" = [
+    {
+      "before" = ["<space>"];
+      "commands" = ["whichkey.show"];
     }
   ];
 
@@ -183,10 +193,10 @@ in {
     "expandWorkspaceToModule" = true;
     "experimentalWorkspaceModule" = true;
   };
-  "haskell.formattingProvider" = "none";
-  "haskell.serverExecutablePath" = "\${workspaceFolder}/hie-wrapper.sh";
-  "latex-workshop.chktex.enabled" = true;
-  "latex-workshop.chktex.path" = "${texlive.combined.scheme-full}/bin/chktex";
+  # "haskell.formattingProvider" = "brittany";
+  # "haskell.serverExecutablePath" = "\${workspaceFolder}/hie-wrapper.sh";
+  "latex-workshop.linting.chktex.enabled" = true;
+  "latex-workshop.linting.chktex.exec.path" = "${texlive.combined.scheme-full}/bin/chktex";
   "latex-workshop.latex.autoClean.run" = "onBuilt";
   "latex-workshop.latex.tools" = [
     {
