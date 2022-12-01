@@ -1,16 +1,21 @@
 Config
-  { font = "xft:monospace:style=Regular:size=12",
+  {
+    font = "monospace Regular 12",
     additionalFonts =
-      [ "xft:Siji:style=Regular",
-        "xft:monospace:style=Bold:size=12",
-        "xft:FontAwesome:style=Regular:size=10:hinting=true"
+      [
+        -- "xft:Siji:style=Regular",
+        -- "xft:monospace:style=Bold:size=12",
+        -- "xft:FontAwesome:style=Regular:size=10:hinting=true"
+        "Siji Regular",
+        "monospace Bold 12",
+        "FontAwesome Regular 10"
       ],
     bgColor = "#0b0806",
     fgColor = "#a19782",
     alpha = 255,
     position = BottomSize C 100 24,
-    textOffset = 20,
-    textOffsets = [20, 20],
+    -- extOffset = 20,
+    -- textOffsets = [20, 20],
     iconOffset = -1,
     lowerOnStart = True,
     hideOnStart = False,
@@ -23,7 +28,7 @@ Config
     borderWidth = 1,
     iconRoot = ".",
     commands =
-        [ Run StdinReader,
+        [
           Run
           Battery
           [ "-t",
@@ -41,20 +46,20 @@ Config
             "5"
           ]
           10,
-        Run Wireless "wlp4s0" ["-t", "<fn=1>\57775</fn><essid> @ <quality>%"] 10,
-        Run DynNetwork ["-t", "<fn=1>\57660</fn><rx> / <fn=1>\57659</fn><tx> kbps"] 10,
+        Run Wireless "wlp4s0" ["-t", "<fn=1>\57775</fn> <essid> @ <quality>%"] 10,
+        Run DynNetwork ["-t", "<fn=1>\57660</fn> <rx> / <fn=1>\57659</fn> <tx> kbps"] 10,
         Run
           Kbd
-          [ ("us", "<fn=1>\57967</fn>English"),
-            ("ru", "<fn=1>\57967</fn>Русский"),
-            ("ua", "<fn=1>\57967</fn>Українська")
+          [ ("us", "<fn=1>\57967</fn> English"),
+            ("ru", "<fn=1>\57967</fn> Русский"),
+            ("ua", "<fn=1>\57967</fn> Українська")
           ],
         Run
           Alsa
           "default"
           "Master"
           [ "-t",
-            "<fn=1><status></fn><volume>%",
+            "<fn=1><status></fn> <volume>%",
             "--",
             "--on",
             "\57427",
@@ -74,7 +79,7 @@ Config
     alignSep = "}{",
     template =
       " \
-      \%battery%   %wlp4s0wi%   %dynnetwork%   %StdinReader%\
+      \%battery%   %wlp4s0wi%   %dynnetwork%\
       \}\
       \%player%\
       \{\
