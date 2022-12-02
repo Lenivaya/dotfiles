@@ -11,8 +11,8 @@ with lib.my; let
   inherit (config.dotfiles) configDir;
 
   cfg = config.modules.desktop.media.mpv;
-  mpvPkg =
-    pkgs.mpv.override
+  mpvPkg = with pkgs;
+    mpv.override
     {
       scripts = with mpvScripts; [
         autoload
