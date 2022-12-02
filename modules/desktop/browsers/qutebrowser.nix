@@ -11,9 +11,10 @@
 }:
 with lib;
 with lib.my; let
+  inherit (config.dotfiles) configDir;
+
   cfg = config.modules.desktop.browsers.qutebrowser;
   pkg = pkgs.qutebrowser;
-  inherit (config.dotfiles) configDir;
 in {
   options.modules.desktop.browsers.qutebrowser = with types; {
     enable = mkBoolOpt false;

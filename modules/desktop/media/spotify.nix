@@ -8,8 +8,9 @@
 }:
 with lib;
 with lib.my; let
-  cfg = config.modules.desktop.media.spotify;
   inherit (inputs) spicetify-nix;
+
+  cfg = config.modules.desktop.media.spotify;
 in {
   options.modules.desktop.media.spotify.enable = mkBoolOpt false;
 
@@ -43,7 +44,7 @@ in {
         "goToSong.js"
 
         "fullAppDisplayMod.js" #"fullAppDisplay.js"
-        "shuffle+.js"
+        # "shuffle+.js"
         # "hidePodcasts.js"
         "fullAlbumDate.js"
         "playlistIcons.js"
