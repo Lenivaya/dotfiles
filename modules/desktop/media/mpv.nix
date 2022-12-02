@@ -8,8 +8,21 @@
 }:
 with lib;
 with lib.my; let
-  cfg = config.modules.desktop.media.mpv;
   inherit (config.dotfiles) configDir;
+
+  cfg = config.modules.desktop.media.mpv;
+  mpvPkg =
+    pkgs.mpv.override
+    {
+      scripts = with mpvScripts; [
+        autoload
+        cutter
+        convert
+        thumbnail
+        sponsorblock
+        youtube-quality
+      ];
+    };
 in {
   options.modules.desktop.media.mpv.enable = mkBoolOpt false;
 
@@ -21,19 +34,7 @@ in {
 
     user.packages = with pkgs; [
       # mpv-with-scripts
-      (
-        mpv.override
-        {
-          scripts = with mpvScripts; [
-            autoload
-            cutter
-            convert
-            thumbnail
-            sponsorblock
-            youtube-quality
-          ];
-        }
-      )
+      mpvPkg
 
       mpvc # CLI controller for mpv
       (mkIf config.services.xserver.enable celluloid) # nice GTK GUI for mpv

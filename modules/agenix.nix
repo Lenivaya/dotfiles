@@ -11,6 +11,7 @@ with builtins;
 with lib;
 with lib.my; let
   inherit (inputs) agenix;
+
   secretsDir = "${config.dotfiles.dir}/hosts/${config.networking.hostName}/secrets";
   secretsFile = "${secretsDir}/secrets.nix";
 in {
