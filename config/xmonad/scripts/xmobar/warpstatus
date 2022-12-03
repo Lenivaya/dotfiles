@@ -1,7 +1,7 @@
 #!/bin/sh
 
 isWarpRunning=$(
-    pgrep -x "warp-svc" >/dev/null && echo true || echo false
+    pgrep -x ".*warp-svc.*" >/dev/null && echo true || echo false
 )
 
 case $isWarpRunning in
