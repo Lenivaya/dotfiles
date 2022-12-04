@@ -1,8 +1,8 @@
 {-# OPTIONS_GHC -Wno-missing-signatures #-}
 
 module XMonad.Custom.Config
-  ( myConfig
-  ) where
+    ( myConfig
+    ) where
 
 import           Flow
 import           Graphics.Gloss.Interface.Environment
@@ -27,30 +27,30 @@ import           XMonad.Hooks.UrgencyHook
 import           XMonad.Layout.IndependentScreens
 
 myConfig = do
-  screens    <- countScreens
-  resolution <- getScreenSize
+    screens    <- countScreens
+    resolution <- getScreenSize
 
-  def { borderWidth        = C.border
-      , workspaces         = C.workspaces
-      , layoutHook         = C.layoutHook
-      , terminal           = C.term C.applications
-      , normalBorderColor  = C.colorN
-      , focusedBorderColor = C.colorF
-      , modMask            = C.modMask
-      , keys               = C.keys
-      , logHook            = C.logHook
-      , startupHook        = C.startupHook
-      , mouseBindings      = C.mouseBindings
-      , manageHook         = C.manageHook
-      , handleEventHook    = C.handleEventHook
-      , focusFollowsMouse  = True
-      , clickJustFocuses   = False
-      }
-    |> dynamicProjects C.projects
-    |> withUrgencyHook (borderUrgencyHook C.red1)
-    |> withNavigation2DConfig C.navigation
-    |> ewmh
-    |> ewmhFullscreen
-    |> docks
-    |> (dynamicSBs . C.barSpawner) resolution
-    |> (return :: a -> IO a)
+    def { borderWidth        = C.border
+        , workspaces         = C.workspaces
+        , layoutHook         = C.layoutHook
+        , terminal           = C.term C.applications
+        , normalBorderColor  = C.colorN
+        , focusedBorderColor = C.colorF
+        , modMask            = C.modMask
+        , keys               = C.keys
+        , logHook            = C.logHook
+        , startupHook        = C.startupHook
+        , mouseBindings      = C.mouseBindings
+        , manageHook         = C.manageHook
+        , handleEventHook    = C.handleEventHook
+        , focusFollowsMouse  = True
+        , clickJustFocuses   = False
+        }
+        |> dynamicProjects C.projects
+        |> withUrgencyHook (borderUrgencyHook C.red1)
+        |> withNavigation2DConfig C.navigation
+        |> ewmh
+        |> ewmhFullscreen
+        |> docks
+        |> (dynamicSBs . C.barSpawner) resolution
+        |> (return :: a -> IO a)

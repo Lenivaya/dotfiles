@@ -1,6 +1,6 @@
 module XMonad.Custom.Event
-  ( handleEventHook
-  ) where
+    ( handleEventHook
+    ) where
 
 import qualified Data.Map.Strict               as M
 import           Data.Monoid
@@ -32,13 +32,12 @@ myPred = refocusingIsActive <||> isFloat
 
 handleEventHook :: Event -> X All
 handleEventHook = mconcat
-  [ swallowEventHook (className =? "Alacritty") (return True)
-  , nspTrackHook scratchpads
+    [ swallowEventHook (className =? "Alacritty") (return True)
+    , nspTrackHook scratchpads
   -- , docksEventHook
-  -- , fullscreenEventHook
-  , Hacks.windowedFullscreenFixEventHook
-  , refocusLastWhen myPred
-  , perWindowKbdLayout
+    , Hacks.windowedFullscreenFixEventHook
+    , refocusLastWhen myPred
+    , perWindowKbdLayout
   -- , restartEventHook
   -- , dynamicTitle manageHook
-  ]
+    ]
