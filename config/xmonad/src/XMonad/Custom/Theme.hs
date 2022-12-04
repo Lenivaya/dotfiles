@@ -1,29 +1,29 @@
 module XMonad.Custom.Theme
-  ( font
-  , black1
-  , black2
-  , red1
-  , red2
-  , green1
-  , green2
-  , yellow1
-  , yellow2
-  , blue1
-  , blue2
-  , magenta1
-  , magenta2
-  , cyan1
-  , cyan2
-  , white1
-  , white2
-  , colorN
-  , colorF
-  , gapBase
-  , gapFull
-  , border
-  , height
-  , tabTheme
-  ) where
+    ( font
+    , black1
+    , black2
+    , red1
+    , red2
+    , green1
+    , green2
+    , yellow1
+    , yellow2
+    , blue1
+    , blue2
+    , magenta1
+    , magenta2
+    , cyan1
+    , cyan2
+    , white1
+    , white2
+    , colorN
+    , colorF
+    , gapBase
+    , gapFull
+    , border
+    , height
+    , tabTheme
+    ) where
 
 import           Data.Char
 import           Data.Function
