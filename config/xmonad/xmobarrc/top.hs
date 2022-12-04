@@ -30,7 +30,9 @@ Config
     borderWidth = 1,
     iconRoot = ".",
     commands =
-      [ Run UnsafeStdinReader,
+      [
+        Run UnsafeXPropertyLog "_XMONAD_LOG_1",
+        -- Run UnsafeXMonadLog,
         Run Date "%d.%m.%y / %A / %H:%M" "date" 10,
         -- Run Weather "UUWW" ["-t", "<fn=1>\57550</fn><tempC>°C / <rh>% / <pressure> Pa"] 10000,
         Run ComX "openweathermap" [] "" "weather" 10000
@@ -39,10 +41,17 @@ Config
     alignSep = "}{",
     template =
       " \
-      \%UnsafeStdinReader%\
+      \%_XMONAD_LOG_1%\
       \}\
       \\
       \{\
       \%weather%   %date%\
       \ "
+      -- " \
+      -- \%UnsafeStdinReader%\
+      -- \}\
+      -- \\
+      -- \{\
+      -- \%weather%   %date%\
+      -- \ "
   }
