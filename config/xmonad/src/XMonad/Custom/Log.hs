@@ -2,6 +2,8 @@
 
 module XMonad.Custom.Log
   ( logHook
+  , topBarPP'
+  , botBarPP
   ) where
 
 import           Data.List                      ( isInfixOf )
@@ -11,15 +13,12 @@ import           XMonad.Actions.CopyWindow
 import           XMonad.Custom.Scratchpads
 import           XMonad.Custom.Theme
 import           XMonad.Hooks.CurrentWorkspaceOnTop
-import           XMonad.Hooks.DynamicLog
 import           XMonad.Hooks.EwmhDesktops
 import           XMonad.Hooks.RefocusLast
+import           XMonad.Hooks.StatusBar.PP
 import           XMonad.Util.ClickableWorkspaces
 import           XMonad.Util.SpawnNamedPipe
 import           XMonad.Util.WorkspaceCompare
-
-xmobarFont :: Int -> String -> String
-xmobarFont f = wrap (concat ["<fn=", show f, ">"]) "</fn>"
 
 -- layoutIcon :: String -> String
 -- layoutIcon l | "BSP" `isInfixOf` l         = " <fn=1>\57654</fn>"
@@ -36,7 +35,10 @@ layoutName l | "BSP" `isInfixOf` l         = "BSP"
              | "Tall" `isInfixOf` l        = "Tall"
              | "ThreeColMid" `isInfixOf` l = "ThreeColMid"
              | "OneBig" `isInfixOf` l      = "OneBig"
+             | "Monocle" `isInfixOf` l     = "Monocle"
+             | "Grid" `isInfixOf` l        = "Grid"
              | otherwise                   = ""
+
 
 topBarPP :: PP
 topBarPP = def
@@ -55,6 +57,26 @@ topBarPP = def
   , ppExtras          = []
   }
 
+topBarPP' :: X PP
+topBarPP' = do
+  c <- wsContainingCopies
+  let copiesCurrent ws
+        | ws `elem` c
+        = xmobarColor yellow2 "" . xmobarFont 2 . wrap "*" "=" $ ws
+        | otherwise
+        = xmobarColor white2 "" . xmobarFont 2 . wrap "=" "=" $ ws
+  let copiesHidden ws
+        | ws `elem` c = xmobarColor yellow1 "" . wrap "*" "-" $ ws
+        | otherwise   = xmobarColor white1 "" . wrap "-" "-" $ ws
+  let copiesUrgent ws
+        | ws `elem` c = xmobarColor yellow2 "" . wrap "*" "!" $ ws
+        | otherwise   = xmobarColor white2 "" . wrap "!" "!" $ ws
+  clickablePP topBarPP { ppCurrent = copiesCurrent
+                       , ppHidden  = copiesHidden
+                       , ppUrgent  = copiesUrgent
+                       }
+
+
 botBarPP :: PP
 botBarPP = topBarPP { ppCurrent         = const ""
                     , ppVisible         = const ""
@@ -70,28 +92,5 @@ safePrintToPipe = maybe (\_ -> return ()) hPutStrLn
 
 logHook :: X ()
 logHook = do
-  currentWorkspaceOnTop
-  -- ewmhDesktopsLogHook
   refocusLastLogHook
-  t <- getNamedPipe "xmobarTop"
-  b <- getNamedPipe "xmobarBot"
-  c <- wsContainingCopies
-  let copiesCurrent ws
-        | ws `elem` c
-        = xmobarColor yellow2 "" . xmobarFont 2 . wrap "*" "=" $ ws
-        | otherwise
-        = xmobarColor white2 "" . xmobarFont 2 . wrap "=" "=" $ ws
-  let copiesHidden ws
-        | ws `elem` c = xmobarColor yellow1 "" . wrap "*" "-" $ ws
-        | otherwise   = xmobarColor white1 "" . wrap "-" "-" $ ws
-  let copiesUrgent ws
-        | ws `elem` c = xmobarColor yellow2 "" . wrap "*" "!" $ ws
-        | otherwise   = xmobarColor white2 "" . wrap "!" "!" $ ws
-
-  topBar <- clickablePP topBarPP { ppCurrent = copiesCurrent
-                                 , ppHidden  = copiesHidden
-                                 , ppUrgent  = copiesUrgent
-                                 , ppOutput  = safePrintToPipe t
-                                 }
-  dynamicLogWithPP topBar
-  dynamicLogWithPP $ botBarPP { ppOutput = safePrintToPipe b }
+  currentWorkspaceOnTop

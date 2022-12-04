@@ -5,6 +5,7 @@ module XMonad.Custom.Config
   ) where
 
 import           Flow
+import           Graphics.Gloss.Interface.Environment
 import           XMonad
 import           XMonad.Actions.DynamicProjects ( dynamicProjects )
 import           XMonad.Actions.Navigation2D    ( withNavigation2DConfig )
@@ -16,15 +17,19 @@ import qualified XMonad.Custom.Manage          as C
 import qualified XMonad.Custom.Misc            as C
 import qualified XMonad.Custom.Navigation      as C
 import qualified XMonad.Custom.Startup         as C
+import qualified XMonad.Custom.Statusbar       as C
 import qualified XMonad.Custom.Theme           as C
 import qualified XMonad.Custom.Workspaces      as C
 import           XMonad.Hooks.EwmhDesktops
 import           XMonad.Hooks.ManageDocks
+import           XMonad.Hooks.StatusBar
 import           XMonad.Hooks.UrgencyHook
 import           XMonad.Layout.IndependentScreens
 
 myConfig = do
-  screens <- countScreens
+  screens    <- countScreens
+  resolution <- getScreenSize
+
   def { borderWidth        = C.border
       , workspaces         = C.workspaces
       , layoutHook         = C.layoutHook
@@ -47,4 +52,5 @@ myConfig = do
     |> ewmh
     |> ewmhFullscreen
     |> docks
+    |> (dynamicSBs . C.barSpawner) resolution
     |> (return :: a -> IO a)
