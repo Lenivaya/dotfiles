@@ -86,10 +86,6 @@ botBarPP = topBarPP { ppCurrent         = const ""
                     , ppTitle           = const ""
                     , ppLayout          = const ""
                     }
-
-safePrintToPipe :: Maybe Handle -> String -> IO ()
-safePrintToPipe = maybe (\_ -> return ()) hPutStrLn
-
 logHook :: X ()
 logHook = do
     refocusLastLogHook
