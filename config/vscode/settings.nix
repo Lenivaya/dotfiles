@@ -271,4 +271,14 @@ in {
 
   "pdf-preview.default.scrollMode" = "wrapped";
   "pdf-preview.default.scale" = "page-fit";
+
+  "[markdown]" = {
+    "editor.defaultFormatter" = "esbenp.prettier-vscode";
+  };
+  "[css]" = {
+    "editor.defaultFormatter" = "esbenp.prettier-vscode";
+  };
+  "[html]" = {
+    "editor.defaultFormatter" = "esbenp.prettier-vscode";
+  };
 }
