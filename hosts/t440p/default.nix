@@ -26,6 +26,8 @@
         rofi.enable = true;
         dunst.enable = true;
         discord.enable = true;
+
+        gnome-circle = true;
       };
 
       browsers = {
