@@ -1,10 +1,10 @@
 {-# LANGUAGE LambdaCase #-}
 
 module XMonad.Custom.Log
-    ( logHook
-    , topBarPP'
-    , botBarPP
-    ) where
+  ( logHook
+  , topBarPP'
+  , botBarPP
+  ) where
 
 import           Data.List                      ( isInfixOf )
 import           System.IO
@@ -42,39 +42,40 @@ layoutName l | "BSP" `isInfixOf` l         = "BSP"
 
 topBarPP :: PP
 topBarPP = def
-    { ppCurrent         = xmobarColor white2 "" . xmobarFont 2 . wrap "=" "="
-    , ppVisible         = xmobarColor white1 "" . wrap "~" "~"
-    , ppHidden          = xmobarColor white1 "" . wrap "-" "-"
-    , ppHiddenNoWindows = xmobarColor white1 "" . wrap "_" "_"
-    , ppUrgent          = xmobarColor red2 "" . wrap "!" "!"
-    , ppSep             = " / "
-    , ppWsSep           = " "
-    , ppTitle           = xmobarColor white1 "" . shorten 80
-    , ppTitleSanitize   = xmobarStrip
-    , ppLayout          = xmobarColor white1 "" . layoutName
-    , ppOrder           = id
-    , ppSort = (namedScratchpadFilterOutWorkspace .) <$> getSortByIndex
-    , ppExtras          = []
-    }
+  { ppCurrent         = xmobarColor white2 "" . xmobarFont 2 . wrap "=" "="
+  , ppVisible         = xmobarColor white1 "" . wrap "~" "~"
+  , ppHidden          = xmobarColor white1 "" . wrap "-" "-"
+  , ppHiddenNoWindows = xmobarColor white1 "" . wrap "_" "_"
+  , ppUrgent          = xmobarColor red2 "" . wrap "!" "!"
+  , ppSep             = " / "
+  , ppWsSep           = " "
+  , ppTitle           = xmobarColor white1 "" . shorten 80
+  , ppTitleSanitize   = xmobarStrip
+  , ppLayout          = xmobarColor white1 "" . layoutName
+  , ppOrder           = id
+  , ppSort            = (namedScratchpadFilterOutWorkspace .) <$> getSortByIndex
+  , ppExtras          = []
+  }
 
 topBarPP' :: X PP
 topBarPP' = do
-    c <- wsContainingCopies
-    let copiesCurrent ws
-            | ws `elem` c
-            = xmobarColor yellow2 "" . xmobarFont 2 . wrap "*" "=" $ ws
-            | otherwise
-            = xmobarColor white2 "" . xmobarFont 2 . wrap "=" "=" $ ws
-    let copiesHidden ws
-            | ws `elem` c = xmobarColor yellow1 "" . wrap "*" "-" $ ws
-            | otherwise   = xmobarColor white1 "" . wrap "-" "-" $ ws
-    let copiesUrgent ws
-            | ws `elem` c = xmobarColor yellow2 "" . wrap "*" "!" $ ws
-            | otherwise   = xmobarColor white2 "" . wrap "!" "!" $ ws
-    clickablePP topBarPP { ppCurrent = copiesCurrent
-                         , ppHidden  = copiesHidden
-                         , ppUrgent  = copiesUrgent
-                         }
+  c <- wsContainingCopies
+  let copiesCurrent ws
+        | ws `elem` c
+        = xmobarColor yellow2 "" . xmobarFont 2 . wrap "*" "=" $ ws
+        | otherwise
+        = xmobarColor white2 "" . xmobarFont 2 . wrap "=" "=" $ ws
+  let copiesHidden ws
+        | ws `elem` c = xmobarColor yellow1 "" . wrap "*" "-" $ ws
+        | otherwise   = xmobarColor white1 "" . wrap "-" "-" $ ws
+  let copiesUrgent ws
+        | ws `elem` c = xmobarColor yellow2 "" . wrap "*" "!" $ ws
+        | otherwise   = xmobarColor white2 "" . wrap "!" "!" $ ws
+
+  clickablePP topBarPP { ppCurrent = copiesCurrent
+                       , ppHidden  = copiesHidden
+                       , ppUrgent  = copiesUrgent
+                       }
 
 
 botBarPP :: PP
@@ -88,5 +89,5 @@ botBarPP = topBarPP { ppCurrent         = const ""
                     }
 logHook :: X ()
 logHook = do
-    refocusLastLogHook
-    currentWorkspaceOnTop
+  refocusLastLogHook
+  currentWorkspaceOnTop

@@ -4,11 +4,11 @@
 {-# OPTIONS_GHC -Wno-missing-signatures #-}
 
 module XMonad.Custom.Layout
-    ( layoutHook
-    , selectLayoutByName
-    , toggleLayout
-    , CustomTransformers(..)
-    ) where
+  ( layoutHook
+  , selectLayoutByName
+  , toggleLayout
+  , CustomTransformers(..)
+  ) where
 
 -- layout prompt
 import           Data.Map                       ( Map )
@@ -59,10 +59,10 @@ applySpacing :: l a -> ModifiedLayout Spacing l a
 applySpacing = spacingRaw False (Border 6 6 6 6) True (Border 6 6 6 6) True
 
 data CustomTransformers = GAPS
-    deriving (Read, Show, Eq, Typeable)
+  deriving (Read, Show, Eq, Typeable)
 
 instance Transformer CustomTransformers Window where
-    transform GAPS x k = k (avoidStruts $ applySpacing x) (const x)
+  transform GAPS x k = k (avoidStruts $ applySpacing x) (const x)
 
 bsp = named "BSP" $ emptyBSP
 
@@ -78,40 +78,40 @@ monocle = renamed [Replace "Monocle"] $ Full
     -- $ subLayout [] (smartBorders Simplest)
 
 grid =
-    renamed [Replace "Grid"]
-        $ limitWindows 9
+  renamed [Replace "Grid"]
+    $ limitWindows 9
     -- $ subLayout [] (smartBorders Simplest)
     -- $ mySpacing 8
-        $ mkToggle (single MIRROR)
-        $ Grid (16 / 10)
+    $ mkToggle (single MIRROR)
+    $ Grid (16 / 10)
 
 layoutHook =
-    fullscreenFloat
-        .   smartBorders
-        .   boringWindows
-        .   showWName
-        $   lessBorders OnlyLayoutFloat
-        $   mkToggle (single NBFULL)
-        $   refocusLastLayoutHook
-        $   avoidStruts
-        $   applySpacing
-        $   mkToggle (single GAPS)
-        $   mkToggle (single REFLECTX)
-        $   mkToggle (single REFLECTY)
-        $   windowNavigation
-        $   hiddenWindows
-        $   addTabs shrinkText T.tabTheme
-        $   subLayout [] (Simplest ||| Accordion)
-        $   onWorkspace "Read" (circle ||| onebig)
-        .   maximize
-        .   minimize
-        $   bsp
-        ||| circle
-        ||| tall
-        ||| threecolmid
-        ||| onebig
-        ||| monocle
-        ||| grid
+  fullscreenFloat
+    .   smartBorders
+    .   boringWindows
+    .   showWName
+    $   lessBorders OnlyLayoutFloat
+    $   mkToggle (single NBFULL)
+    $   refocusLastLayoutHook
+    $   avoidStruts
+    $   applySpacing
+    $   mkToggle (single GAPS)
+    $   mkToggle (single REFLECTX)
+    $   mkToggle (single REFLECTY)
+    $   windowNavigation
+    $   hiddenWindows
+    $   addTabs shrinkText T.tabTheme
+    $   subLayout [] (Simplest ||| Accordion)
+    $   onWorkspace "Read" (circle ||| onebig)
+    .   maximize
+    .   minimize
+    $   bsp
+    ||| circle
+    ||| tall
+    ||| threecolmid
+    ||| onebig
+    ||| monocle
+    ||| grid
 
 --------------------------------------------------------------------------------
 
@@ -119,7 +119,7 @@ layoutHook =
 data LayoutByName = LayoutByName
 
 instance XPrompt LayoutByName where
-    showXPrompt LayoutByName = "Layout: "
+  showXPrompt LayoutByName = "Layout: "
 
 --------------------------------------------------------------------------------
 
@@ -129,22 +129,22 @@ selectLayoutByName conf = mkXPrompt LayoutByName
                                     conf
                                     (aListCompFunc conf layoutNames)
                                     go
-  where
-    go :: String -> X ()
-    go selected = case lookup selected layoutNames of
-        Nothing   -> return ()
-        Just name -> sendMessage (JumpToLayout name)
+ where
+  go :: String -> X ()
+  go selected = case lookup selected layoutNames of
+    Nothing   -> return ()
+    Just name -> sendMessage (JumpToLayout name)
 
-    layoutNames :: [(String, String)]
-    layoutNames =
-        [ ("BSP"        , "BSP")
-        , ("Circle"     , "Circle")
-        , ("OneBig"     , "OneBig")
-        , ("Tall"       , "Tall")
-        , ("ThreeColMid", "ThreeColMid")
-        , ("Monocle"    , "Monocle")
-        , ("Grid"       , "Grid")
-        ]
+  layoutNames :: [(String, String)]
+  layoutNames =
+    [ ("BSP"        , "BSP")
+    , ("Circle"     , "Circle")
+    , ("OneBig"     , "OneBig")
+    , ("Tall"       , "Tall")
+    , ("ThreeColMid", "ThreeColMid")
+    , ("Monocle"    , "Monocle")
+    , ("Grid"       , "Grid")
+    ]
 
 --------------------------------------------------------------------------------
 
@@ -154,31 +154,31 @@ newtype LayoutHistory = LayoutHistory
   deriving (Typeable)
 
 instance ExtensionClass LayoutHistory where
-    initialValue = LayoutHistory Map.empty
+  initialValue = LayoutHistory Map.empty
 
 --------------------------------------------------------------------------------
 
 -- | Toggle between the current layout and the one given as an argument.
 toggleLayout :: String -> X ()
 toggleLayout name = do
-    winset <- XMonad.gets windowset
+  winset <- XMonad.gets windowset
 
-    let ws = Stack.workspace . Stack.current $ winset
-        wn = Stack.tag ws
-        ld = description . Stack.layout $ ws
+  let ws = Stack.workspace . Stack.current $ winset
+      wn = Stack.tag ws
+      ld = description . Stack.layout $ ws
 
-    if name == ld then restoreLayout wn else rememberAndGo wn ld
-  where
+  if name == ld then restoreLayout wn else rememberAndGo wn ld
+ where
     -- Restore the previous workspace.
-    restoreLayout :: String -> X ()
-    restoreLayout ws = do
-        history <- runLayoutHistory <$> XState.get
-        let ld = fromMaybe "Auto" (Map.lookup ws history)
-        sendMessage (JumpToLayout ld)
+  restoreLayout :: String -> X ()
+  restoreLayout ws = do
+    history <- runLayoutHistory <$> XState.get
+    let ld = fromMaybe "Auto" (Map.lookup ws history)
+    sendMessage (JumpToLayout ld)
 
-    -- Remember the current workspace and jump to the requested one.
-    rememberAndGo :: String -> String -> X ()
-    rememberAndGo ws current = do
-        history <- runLayoutHistory <$> XState.get
-        XState.put (LayoutHistory $ Map.insert ws current history)
-        sendMessage (JumpToLayout name)
+  -- Remember the current workspace and jump to the requested one.
+  rememberAndGo :: String -> String -> X ()
+  rememberAndGo ws current = do
+    history <- runLayoutHistory <$> XState.get
+    XState.put (LayoutHistory $ Map.insert ws current history)
+    sendMessage (JumpToLayout name)
