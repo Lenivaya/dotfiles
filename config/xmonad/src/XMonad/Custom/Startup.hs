@@ -1,6 +1,6 @@
 module XMonad.Custom.Startup
-    ( startupHook
-    ) where
+  ( startupHook
+  ) where
 
 import           Control.Monad
 import           Data.Maybe
@@ -13,5 +13,5 @@ startupHook :: X ()
 startupHook = do
   -- spawnXmobar
   -- docksStartupHook
-    spawn "betterlockscreen -w"
-    setWMName "xmonad"
+  spawn "betterlockscreen -w"
+  setWMName "xmonad"
