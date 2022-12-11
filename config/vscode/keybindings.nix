@@ -192,21 +192,6 @@
     "command" = "workbench.action.quit";
   }
 
-  {
-    "key" = "ctrl+=";
-    "command" = "workbench.action.zoomIn";
-  }
-
-  {
-    "key" = "ctrl+-";
-    "command" = "workbench.action.zoomOut";
-  }
-
-  {
-    "key" = "ctrl+shift+=";
-    "command" = "workbench.action.zoomReset";
-  }
-
   # magit + vim
   {
     "key" = "g g";
@@ -293,6 +278,22 @@
     "when" = "explorerViewletVisible";
   }
 
+  # Zoom only current editor
+  {
+    "key" = "ctrl+=";
+    "command" = "editor.action.fontZoomIn";
+  }
+
+  {
+    "key" = "ctrl+-";
+    "command" = "editor.action.fontZoomOut";
+  }
+
+  {
+    "key" = "ctrl+shift+=";
+    "command" = "editor.action.fontZoomReset";
+  }
+
   # Porting some things from doom-emacs
   # {
   #   "key" = "space+g g";
@@ -304,6 +305,21 @@
   # }
 
   # DISABLING
+  {
+    "key" = "ctrl+=";
+    "command" = "-workbench.action.zoomIn";
+  }
+
+  {
+    "key" = "ctrl+-";
+    "command" = "-workbench.action.zoomOut";
+  }
+
+  {
+    "key" = "ctrl+shift+=";
+    "command" = "-workbench.action.zoomReset";
+  }
+
   {
     "key" = "space";
     "command" = "-list.toggleExpand";
