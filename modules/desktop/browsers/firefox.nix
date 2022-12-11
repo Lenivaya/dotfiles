@@ -87,8 +87,14 @@ in {
           # Pdf's
           # Don't download pdf's just for previews
           "browser.download.open_pdf_attachments_inline" = true;
+
           # display two pages at once with the integrated PDF viewer
-          "pdfjs.spreadModeOnLoad" = 1;
+          # also automatically make it one page view using wrapped
+          # scrolling
+          "pdfjs.defaultZoomValue" = "page-fit";
+          "pdfjs.scrollModeOnLoad" = 2; # wrapped scrolling
+          "pdfjs.spreadModeOnLoad" = 0; # no spreads
+          # "pdfjs.spreadModeOnLoad" = 1;
 
           # Hardware-acceleration
           "layers.acceleration.force-enabled" = true;
