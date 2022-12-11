@@ -56,7 +56,6 @@ in {
       # appimage-run
       tdesktop
       brightnessctl
-      blanket # ambient sounds
       gnome-usage
       # skippy-xd # window exposer
       xdotool

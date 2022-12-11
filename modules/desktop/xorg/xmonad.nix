@@ -22,10 +22,16 @@ in {
         haskellPackages.xmonad-contrib
         haskellPackages.xmonad-extras
         haskellPackages.xmonad
+
         haskellPackages.gloss
         haskellPackages.flow
       ];
-      ghcArgs = ["-O3"];
+      ghcArgs = [
+        "-O3"
+
+        # Compile with LLVM backend
+        # "-fllvm -optlo-O3"
+      ];
     };
 
     services.xserver.displayManager.defaultSession = "none+xmonad";

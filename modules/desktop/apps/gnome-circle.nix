@@ -8,8 +8,9 @@
 }:
 with lib;
 with lib.my; let
-  cfg = config.modules.desktop.apps.gnome-circle;
   inherit (config.dotfiles) configDir;
+
+  cfg = config.modules.desktop.apps.gnome-circle;
 in {
   options.modules.desktop.apps.gnome-circle.enable = mkBoolOpt false;
 
