@@ -27,7 +27,7 @@
         dunst.enable = true;
         discord.enable = true;
 
-        gnome-circle = true;
+        gnome-circle.enable = true;
       };
 
       browsers = {
