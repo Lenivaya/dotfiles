@@ -285,73 +285,6 @@ in {
             /* Center align tabs */
             scrollbox[orient="horizontal"]{ -moz-box-pack: center; }
 
-            /* Hide one tab */
-            :root[sizemode="normal"] #nav-bar{ --uc-window-drag-space-width: 20px }
-
-            #titlebar{ -moz-appearance: none !important; }
-            #TabsToolbar{ min-height: 0px !important }
-
-            #tabbrowser-tabs,
-            #tabbrowser-arrowscrollbox{ min-height: 0 !important; }
-
-            :root:not([customizing]) #tabs-newtab-button,
-            :root:not([customizing]) #TabsToolbar-customization-target > .toolbarbutton-1,
-            :root:not([customizing]) #TabsToolbar .titlebar-button{
-              -moz-appearance: none !important;
-              height: 0px;
-              padding-top: 0px !important;
-              padding-bottom: 0px !important;
-              -moz-box-align: stretch;
-              margin: 0 !important;
-            }
-
-            .accessibility-indicator,
-            .private-browsing-indicator{
-              height: unset !important;
-            }
-            .accessibility-indicator > hbox{ padding-block: 0 !important }
-
-            .tabbrowser-tab{
-              height: calc(var(--tab-min-height) + 2 * var(--tab-block-margin,0px));
-            }
-
-            .tabbrowser-tab[first-visible-tab="true"][last-visible-tab="true"]{
-              visibility: collapse !important;
-              /* These seem unnecessary, but they achieve compatibility with hide_tabs_with_one_tab.css */
-              min-height: 0 !important;
-              height: 0;
-            }
-
-            /* Button re-styling */
-            #tabs-newtab-button{ transform: scale(0.8); }
-            #tabs-newtab-button:hover{
-              background-color: var(--toolbarbutton-hover-background);
-              border-radius: var(--tab-border-radius);
-            }
-
-            #tabs-newtab-button > .toolbarbutton-icon{
-              padding: 0 !important;
-              transform: scale(0.5);
-              background-color: transparent !important;
-            }
-            /* Fix window controls not being clickable */
-            :root[tabsintitlebar] #toolbar-menubar[autohide="true"][inactive]{
-              transition: height 0ms steps(1) 80ms;
-            }
-            :where(#nav-bar){
-              border-inline: var(--uc-window-drag-space-width,0) solid var(--toolbar-bgcolor);
-            }
-            @media (-moz-platform: linux){
-              #TabsToolbar .titlebar-buttonbox{
-                -moz-box-align: stretch !important;
-              }
-              #TabsToolbar > .titlebar-buttonbox-container > .titlebar-buttonbox > .titlebar-button{
-                transform: scale(0.8);
-                margin-inline: -3px !important;
-              }
-              #TabsToolbar .titlebar-button > .toolbarbutton-icon{ padding: 0 13px !important }
-            }
-
 
             /*** NAV BAR ***/
             /* Hide urlbar */
@@ -386,6 +319,73 @@ in {
             }
           }
         '';
+
+        # /* Hide one tab */
+        # :root[sizemode="normal"] #nav-bar{ --uc-window-drag-space-width: 20px }
+
+        # #titlebar{ -moz-appearance: none !important; }
+        # #TabsToolbar{ min-height: 0px !important }
+
+        # #tabbrowser-tabs,
+        # #tabbrowser-arrowscrollbox{ min-height: 0 !important; }
+
+        # :root:not([customizing]) #tabs-newtab-button,
+        # :root:not([customizing]) #TabsToolbar-customization-target > .toolbarbutton-1,
+        # :root:not([customizing]) #TabsToolbar .titlebar-button{
+        #   -moz-appearance: none !important;
+        #   height: 0px;
+        #   padding-top: 0px !important;
+        #   padding-bottom: 0px !important;
+        #   -moz-box-align: stretch;
+        #   margin: 0 !important;
+        # }
+
+        # .accessibility-indicator,
+        # .private-browsing-indicator{
+        #   height: unset !important;
+        # }
+        # .accessibility-indicator > hbox{ padding-block: 0 !important }
+
+        # .tabbrowser-tab{
+        #   height: calc(var(--tab-min-height) + 2 * var(--tab-block-margin,0px));
+        # }
+
+        # .tabbrowser-tab[first-visible-tab="true"][last-visible-tab="true"]{
+        #   visibility: collapse !important;
+        #   /* These seem unnecessary, but they achieve compatibility with hide_tabs_with_one_tab.css */
+        #   min-height: 0 !important;
+        #   height: 0;
+        # }
+
+        # /* Button re-styling */
+        # #tabs-newtab-button{ transform: scale(0.8); }
+        # #tabs-newtab-button:hover{
+        #   background-color: var(--toolbarbutton-hover-background);
+        #   border-radius: var(--tab-border-radius);
+        # }
+
+        # #tabs-newtab-button > .toolbarbutton-icon{
+        #   padding: 0 !important;
+        #   transform: scale(0.5);
+        #   background-color: transparent !important;
+        # }
+        # /* Fix window controls not being clickable */
+        # :root[tabsintitlebar] #toolbar-menubar[autohide="true"][inactive]{
+        #   transition: height 0ms steps(1) 80ms;
+        # }
+        # :where(#nav-bar){
+        #   border-inline: var(--uc-window-drag-space-width,0) solid var(--toolbar-bgcolor);
+        # }
+        # @media (-moz-platform: linux){
+        #   #TabsToolbar .titlebar-buttonbox{
+        #     -moz-box-align: stretch !important;
+        #   }
+        #   #TabsToolbar > .titlebar-buttonbox-container > .titlebar-buttonbox > .titlebar-button{
+        #     transform: scale(0.8);
+        #     margin-inline: -3px !important;
+        #   }
+        #   #TabsToolbar .titlebar-button > .toolbarbutton-icon{ padding: 0 13px !important }
+        # }
 
         userContent = ''
           /* scrollbar */
