@@ -18,7 +18,7 @@ with lib.my; let
         autoload
         cutter
         convert
-        thumbnail
+        # thumbnail
         sponsorblock
         youtube-quality
       ];
