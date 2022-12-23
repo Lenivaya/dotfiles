@@ -50,7 +50,7 @@ in {
       fzf
       htop
       btop # htop but prettier
-      tealdeer
+      # tealdeer
       tree
       fasd
       thefuck
@@ -60,6 +60,19 @@ in {
     ];
 
     home.programs.broot.enable = true;
+
+    home.programs.tealdeer = {
+      enable = true;
+      settings = {
+        display = {
+          compact = false;
+          use_pager = true;
+        };
+        updates = {
+          auto_update = true;
+        };
+      };
+    };
 
     home.configFile = {
       # Write it recursively so other modules can write files to it

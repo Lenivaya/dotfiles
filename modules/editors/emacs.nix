@@ -81,7 +81,8 @@ in {
 
     home.programs.emacs = {
       enable = true;
-      package = pkgs.emacs;
+      # package = pkgs.emacs;
+      package = pkgs.emacs-gtk;
       extraPackages = epkgs: [
         # :term vterm
         epkgs.vterm

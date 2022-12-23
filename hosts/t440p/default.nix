@@ -5,7 +5,8 @@
   lib,
   inputs,
   ...
-}: {
+}:
+with lib.my; {
   imports = [
     ../personal.nix
     ./hardware-configuration.nix
@@ -110,10 +111,11 @@
         enable = true;
         core = -80;
         gpu = -40;
+
         # core = -100;
         # gpu = -50;
-        uncore = core;
-        analogio = core;
+        # uncore = core;
+        # analogio = core;
         # temp = 100;
       };
       gpu.intel.enable = true;
@@ -260,10 +262,15 @@
       google-chrome = pkgs.unstable.google-chrome;
       firefox = pkgs.unstable.firefox;
 
-      easyeffects = pkgs.unstable.easyeffects;
+      # Easyeffects + optimized build + fix(?)
+      easyeffects = optimizeForThisHost (pkgs.unstable.easyeffects.override {
+        speexdsp = pkgs.speexdsp.overrideAttrs (
+          old: {configureFlags = [];}
+        );
+      });
 
-      vscode = pkgs.unstable.vscode;
-      vscode-extensions = pkgs.unstable.vscode-extensions;
+      # vscode = pkgs.unstable.vscode;
+      # vscode-extensions = pkgs.unstable.vscode-extensions;
     })
   ];
 }
