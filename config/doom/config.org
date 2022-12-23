@@ -3128,6 +3128,12 @@ Set rust-analyzer as prefered lsp-server.
   :mode "\\.cshtml\\'"
   )
 #+end_src
+** HTML
+#+begin_src emacs-lisp
+(setq-hook! 'web-mode-hook +format-with-lsp nil)
+(setq-hook! 'web-mode-hook +format-with 'prettier)
+#+end_src
+
 * Functions
 ** Org
 Export pdf asynchronously
