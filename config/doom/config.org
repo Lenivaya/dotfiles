@@ -417,11 +417,23 @@ irc                          ; how neckbeards socialize
 Use font aliases defined in fontconfig.
 #+begin_src emacs-lisp
 (setq! doom-font (font-spec :family "monospace" :size 16)
-       doom-big-font (font-spec :family "monospace" :size 26)
+       ;; doom-big-font (font-spec :family "monospace" :size 26)
        doom-variable-pitch-font (font-spec :family "sans" :size 16)
-       doom-unicode-font (font-spec :family "JuliaMono")
+       ;; doom-unicode-font (font-spec :family "JuliaMono")
+       doom-unicode-font doom-variable-pitch-font
+       ;; doom-unicode-font doom-font
        doom-serif-font doom-variable-pitch-font
        )
+
+;; Fix cyryllic fonts
+(dolist (charset '(koi8))
+  (set-fontset-font (frame-parameter nil 'font)
+                    charset (font-spec :family "sans" :height 90)))
+
+(after! unicode-fonts
+  (dolist (unicode-block '("Cyrillic"
+                           "Cyrillic Supplement"))
+    (push "sans" (cadr (assoc unicode-block unicode-fonts-block-font-mapping)))))
 #+end_src
 **** Theme and modeline
 #+begin_src emacs-lisp
