@@ -44,9 +44,9 @@ in {
           > $userDir/keybindings.json
       '';
     };
+
     home.programs.vscode = {
       enable = true;
-      package = pkgs.unstable.vscode;
       mutableExtensionsDir = true;
       userSettings = import "${configDir}/vscode/settings.nix" {
         inherit pkgs;

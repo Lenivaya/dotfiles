@@ -23,7 +23,7 @@ in {
   config = mkIf cfg.enable {
     home.programs.obs-studio = mkIf cfg.video.enable {
       enable = true;
-      plugins = with pkgs.unstable; [obs-studio-plugins.obs-backgroundremoval];
+      plugins = with pkgs; [obs-studio-plugins.obs-backgroundremoval];
     };
 
     user.packages = with pkgs;
