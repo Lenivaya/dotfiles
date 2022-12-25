@@ -650,6 +650,12 @@ This makes it a breeze to take lovely screenshots.
 #+begin_src emacs-lisp
 (package! company-prescient)
 #+end_src
+*****  Fuzzy
+#+begin_src emacs-lisp
+(package! company-fuzzy)
+(package! flx)
+;; (package! flx-rs)
+#+end_src
 *****  Math
 #+begin_src emacs-lisp
 (package! company-math)
@@ -903,6 +909,20 @@ Use prescient sorting
   :after company
   :hook (company-mode . company-prescient-mode))
 #+end_src
+
+# Use fuzzy sorting
+# #+begin_src emacs-lisp
+# (use-package! company-fuzzy
+#   :hook (company-mode . company-fuzzy-mode)
+#   :init
+#   (setq
+#    company-fuzzy-sorting-backend 'flx
+#    ;; company-fuzzy-sorting-backend 'alphabetical
+#    company-fuzzy-prefix-on-top nil
+#    company-fuzzy-history-backends '(company-yasnippet)
+#    company-fuzzy-trigger-symbols '("." "->" "<" "\"" "'" "@"))
+#   )
+# #+end_src
 
 Math support
 #+begin_src emacs-lisp
