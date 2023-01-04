@@ -44,11 +44,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1669854631,
-        "narHash": "sha256-SMC4gqv1S69nvV8FQWUQbnK6s2c6OCIOpY5ztT2GjMs=",
+        "lastModified": 1670641223,
+        "narHash": "sha256-YcOGZCfWbWeeCWOUx77wqFjP7rzeOfaHbJqRyZrrz6k=",
         "owner": "InternetUnexplorer",
         "repo": "discord-overlay",
-        "rev": "5d0349b9b49e3d8821555aa424cfdd7bdb19530d",
+        "rev": "56282bd23fa23327b6b702d57df34a7cd5f6d115",
         "type": "github"
       },
       "original": {
@@ -123,11 +123,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1671007632,
-        "narHash": "sha256-1uxNTBOa0SMypJKOWeUqrz2VfmwQ1hVgWckPdgDNip4=",
+        "lastModified": 1672366314,
+        "narHash": "sha256-F/LEtdZ90LqFzLaGtUmzsJFtarFsPJzxM9rahkb24FM=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "b9a0cd40ede905f554399f3f165895dccfd35f3b",
+        "rev": "726088a96454587d4a640d28ec442126518e449b",
         "type": "github"
       },
       "original": {
@@ -254,11 +254,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1670022043,
-        "narHash": "sha256-Z7TfjM6VYWwIfQ8xO3VSydn/r9HrrC5cnlRh1KfIL3g=",
+        "lastModified": 1671392304,
+        "narHash": "sha256-jImyzK0XA53Kkbp5FVzKvsso73w/xey8oszB5EkJ7RQ=",
         "owner": "the-argus",
         "repo": "spicetify-nix",
-        "rev": "b19aa37870d6d2f1a521566ce37079a01e8a440f",
+        "rev": "3ac36c471624355d062977f32bf1551637fb364a",
         "type": "github"
       },
       "original": {
