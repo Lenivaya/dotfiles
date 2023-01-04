@@ -278,7 +278,7 @@
     "when" = "explorerViewletVisible";
   }
 
-  # Zoom only current editor
+  # Zoom only current editor with default keybindings
   {
     "key" = "ctrl+=";
     "command" = "editor.action.fontZoomIn";
@@ -289,20 +289,28 @@
     "command" = "editor.action.fontZoomOut";
   }
 
+  # And zoom vscode with extra hotkeys
   {
-    "key" = "ctrl+shift+=";
-    "command" = "editor.action.fontZoomReset";
+    "key" = "ctrl+alt+=";
+    "command" = "workbench.action.zoomIn";
   }
 
-  # Porting some things from doom-emacs
-  # {
-  #   "key" = "space+g g";
-  #   "command" = "magit.status";
-  # }
-  # {
-  #   "key" = "space+:";
-  #   "command" = "workbench.action.showCommands";
-  # }
+  {
+    "key" = "ctrl+alt+-";
+    "command" = "workbench.action.zoomOut";
+  }
+
+  # Reset both, editor and workbench font size's
+  {
+    "key" = "ctrl+shift+=";
+    "command" = "extension.multiCommand.execute";
+    "args" = {
+      "sequence" = [
+        "editor.action.fontZoomReset"
+        "workbench.action.zoomReset"
+      ];
+    };
+  }
 
   # DISABLING
   {
