@@ -45,6 +45,9 @@ in {
         "hkgfoiooedgoejojocmhlaklaeopbecg" # picture-in-picture
         "iaiomicjabeggjcfkbimgmglanimpnae" # tab sesssion manager
         "mmcgnaachjapbbchcpjihhgjhpfcnoan" # open new tab after current tab
+        "nacjakoppgmdcpemlfnfegmlhipddanj" # pdf.js with vimium
+        "bgfofngpplpmpijncjegfdgilpgamhdk" # modern scrollbar
+        "opcjanmpjbdbdpnjfjbboacibokblbhl" # mut tab shortcuts
       ];
     };
 
