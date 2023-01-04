@@ -42,6 +42,7 @@
       "_GTK_FRAME_EXTENTS@:c"
       "_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
     ];
+    # noDockShadow = false;
 
     settings = {
       inactive-dim = 0.3;
