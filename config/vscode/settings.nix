@@ -27,13 +27,37 @@ in {
     }
     {
       "before" = ["<space>"];
-      "commands" = ["whichkey.show"];
+      "commands" = ["vspacecode.space"];
+    }
+    {
+      "before" = [
+        ","
+      ];
+      "commands" = [
+        "vspacecode.space"
+        {
+          "command" = "whichkey.triggerKey";
+          "args" = "m";
+        }
+      ];
     }
   ];
   "vim.visualModeKeyBindingsNonRecursive" = [
     {
       "before" = ["<space>"];
-      "commands" = ["whichkey.show"];
+      "commands" = ["vspacecode.show"];
+    }
+    {
+      "before" = [
+        ","
+      ];
+      "commands" = [
+        "vspacecode.space"
+        {
+          "command" = "whichkey.triggerKey";
+          "args" = "m";
+        }
+      ];
     }
   ];
 
