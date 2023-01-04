@@ -104,7 +104,6 @@ in {
     "notificationLink.foreground" = "#616161";
     "editorWidget.border" = "#616161";
   };
-  "workbench.colorTheme" = "Min Tomorrow Dark";
   "workbench.editorAssociations" = [
     {
       "viewType" = "jupyter-notebook";
@@ -295,6 +294,41 @@ in {
 
   "pdf-preview.default.scrollMode" = "wrapped";
   "pdf-preview.default.scale" = "page-fit";
+
+  "workbench.colorTheme" = "Min Tomorrow Dark";
+  # Fix diff colors for "Min Tomorrow Dark" theme
+  "editor.tokenColorCustomizations" = {
+    "textMateRules" = [
+      {
+        "name" = "markup diff";
+        "scope" = "markup.changed.diff";
+        "settings" = {
+          "foreground" = "#f0c674";
+        };
+      }
+      {
+        "name" = "diff";
+        "scope" = "meta.diff.header.from-filemeta.diff.header.to-file,punctuation.definition.from-file.diff,punctuation.definition.to-file.diff";
+        "settings" = {
+          "foreground" = "#81a2be";
+        };
+      }
+      {
+        "name" = "inserted.diff";
+        "scope" = "markup.inserted.diff";
+        "settings" = {
+          "foreground" = "#b5bd68";
+        };
+      }
+      {
+        "name" = "deleted.diff";
+        "scope" = "markup.deleted.diff";
+        "settings" = {
+          "foreground" = "#cc6666";
+        };
+      }
+    ];
+  };
 
   "[markdown]" = {
     "editor.defaultFormatter" = "esbenp.prettier-vscode";
