@@ -84,7 +84,9 @@ in {
           # kahole.magit
           vincaslt.highlight-matching-tag
           spywhere.guides
+
           vspacecode.whichkey
+          vspacecode.vspacecode
           # usernamehw.errorlens
         ]
         ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
@@ -466,6 +468,13 @@ in {
             sha256 = "1sv8vlzmynbz20vmv901nrg12wcmsg5i9pm6mqq32rlgb7rw3p50";
           }
 
+          # TODO FIXME
+          # {
+          #   name = "jacobdufault";
+          #   publisher = "fuzzy-search";
+          #   version = "0.0.3";
+          #   sha256 = "1sv8vlzmynbz20vmv901nrg12wcmsg5i9pm6mqq32rlgb7rw3p50";
+          # }
 
           {
             name = "multi-command";
@@ -503,8 +512,5 @@ in {
           # }
         ];
     };
-    # user.packages = with pkgs; [
-    #   vscode
-    # ];
   };
 }

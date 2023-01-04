@@ -278,6 +278,27 @@
     "when" = "explorerViewletVisible";
   }
 
+  # vspacecode hotkeys
+  {
+    "key" = "space";
+    "command" = "vspacecode.space";
+    "when" = "activeEditorGroupEmpty && focusedView == '' && !whichkeyActive && !inputFocus";
+  }
+  {
+    "key" = "space";
+    "command" = "vspacecode.space";
+    "when" = "sideBarFocus && !inputFocus && !whichkeyActive";
+  }
+  {
+    "key" = "y";
+    "command" = "-magit.show-refs";
+  }
+  {
+    "key" = "y";
+    "command" = "vspacecode.showMagitRefMenu";
+    "when" = "editorTextFocus && editorLangId == 'magit' && vim.mode == 'Normal'";
+  }
+
   # Zoom only current editor with default keybindings
   {
     "key" = "ctrl+=";
