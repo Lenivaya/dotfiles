@@ -466,6 +466,14 @@ in {
             sha256 = "1sv8vlzmynbz20vmv901nrg12wcmsg5i9pm6mqq32rlgb7rw3p50";
           }
 
+
+          {
+            name = "multi-command";
+            publisher = "ryuta46";
+            version = "1.6.0";
+            sha256 = "sha256-AnHN1wvyVrZRlnOgxBK7xKLcL7SlAEKDcw6lEf+2J2E=";
+          }
+
           # {
           #   name = "vscode-java-debug";
           #   publisher = "vscjava";
