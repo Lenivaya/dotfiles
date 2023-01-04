@@ -213,8 +213,11 @@ with lib.my; {
   };
 
   # Kernel
-  boot.kernelPackages =
-    lib.mkForce pkgs.unstable.linuxKernel.packages.linux_lqx;
+  boot.kernelPackages = let
+    kernelPkg = pkgs.unstable.linuxKernel.packages.linux_lqx;
+  in
+    lib.mkForce kernelPkg;
+
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
     #      vulnerabilities. Don't copy this blindly! And especially not for
@@ -263,11 +266,9 @@ with lib.my; {
       firefox = pkgs.unstable.firefox;
 
       # Easyeffects + optimized build + fix(?)
-      easyeffects = optimizeForThisHost (pkgs.unstable.easyeffects.override {
-        speexdsp = pkgs.speexdsp.overrideAttrs (
-          old: {configureFlags = [];}
-        );
-      });
+      easyeffects =
+        optimizeForThisHost
+        pkgs.unstable.easyeffects;
 
       # vscode = pkgs.unstable.vscode;
       # vscode-extensions = pkgs.unstable.vscode-extensions;
