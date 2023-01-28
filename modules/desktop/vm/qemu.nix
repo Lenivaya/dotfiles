@@ -35,6 +35,7 @@ in {
 
     environment.systemPackages = with pkgs; [
       qemu
+      quickemu
       virt-viewer
       virt-manager
       spice-vdagent
