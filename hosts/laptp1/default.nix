@@ -88,7 +88,7 @@
       zram.enable = true;
     };
 
-    hosts.enable = true;
+    adblock.enable = true;
 
     bootsplash = {enable = true;};
   };

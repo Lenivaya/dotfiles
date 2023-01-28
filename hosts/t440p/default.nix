@@ -12,7 +12,7 @@ with lib.my; {
     ./hardware-configuration.nix
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t440p
     inputs.nixos-hardware.nixosModules.common-pc-laptop-acpi_call
-    ./jack_retask/jack_retask.nix
+    # ./jack_retask/jack_retask.nix
     ./phone_cam.nix
   ];
 
@@ -54,6 +54,11 @@ with lib.my; {
           ebook.enable = true;
           latex.enable = true;
         };
+        graphics = {
+          enable = true;
+          raster.enable = true;
+        };
+
         spotify.enable = true;
         mpv.enable = true;
         recording = {
@@ -109,17 +114,19 @@ with lib.my; {
       cpu.intel.enable = true;
       cpu.undervolt = rec {
         enable = true;
-        core = -80;
-        gpu = -40;
+        # Definitely works
+        # core = -80;
+        # gpu = -40;
 
-        # core = -100;
-        # gpu = -50;
-        # uncore = core;
-        # analogio = core;
-        # temp = 100;
+        core = -85;
+        gpu = -50;
+        uncore = core;
+        analogio = core;
+
+        temp = 100;
       };
       gpu.intel.enable = true;
-      # gpu.nvidia.enable = true;
+      gpu.nvidia.enable = true;
       fs = {
         ssd.enable = true;
         enable = true;
@@ -147,6 +154,7 @@ with lib.my; {
   #       intelBusId = "PCI:0:2:0";
   #       nvidiaBusId = "PCI:2:0:0";
   #     };
+
   #   };
   # };
   # services.xserver.config = lib.mkAfter ''
@@ -158,36 +166,36 @@ with lib.my; {
   #   EndSection
   # '';
 
-  # hardware = {
-  #   nvidia = {
-  #     package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
-  #     modesetting.enable = true;
-  #     nvidiaPersistenced = lib.mkForce false;
-  #     powerManagement.enable = lib.mkForce false;
-  #     powerManagement.finegrained = lib.mkForce false;
-  #     # powerManagement.enable = true;
-  #     # powerManagement.finegrained = true;
-  #     # nvidiaPersistenced = lib.mkForce false;
-  #     prime = {
-  #       offload.enable = true;
-  #       intelBusId = "PCI:0:2:0";
-  #       nvidiaBusId = "PCI:2:0:0";
-  #     };
-  #   };
-  # };
-  # environment.systemPackages = let
-  #   nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
-  #     export __NV_PRIME_RENDER_OFFLOAD=1
-  #     export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-  #     export __GLX_VENDOR_LIBRARY_NAME=nvidia
-  #     export __VK_LAYER_NV_optimus=NVIDIA_only
-  #     exec "$@"
-  #   '';
-  # in [nvidia-offload];
+  hardware = {
+    nvidia = {
+      package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
+      modesetting.enable = true;
+      nvidiaPersistenced = lib.mkForce false;
+      powerManagement.enable = lib.mkForce false;
+      powerManagement.finegrained = lib.mkForce false;
+      # powerManagement.enable = true;
+      # powerManagement.finegrained = true;
+      # nvidiaPersistenced = lib.mkForce false;
+      prime = {
+        offload.enable = true;
+        intelBusId = "PCI:0:2:0";
+        nvidiaBusId = "PCI:2:0:0";
+      };
+    };
+  };
+  environment.systemPackages = let
+    nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
+      export __NV_PRIME_RENDER_OFFLOAD=1
+      export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
+      export __GLX_VENDOR_LIBRARY_NAME=nvidia
+      export __VK_LAYER_NV_optimus=NVIDIA_only
+      exec "$@"
+    '';
+  in [nvidia-offload];
 
   # HACK Disable nvidia card for
   # the sake of power consumption
-  hardware.nvidiaOptimus.disable = true;
+  # hardware.nvidiaOptimus.disable = true;
 
   networking.useDHCP = false;
   networking.interfaces.enp0s25.useDHCP = true;
@@ -241,7 +249,6 @@ with lib.my; {
   user.packages = with pkgs; [
     # binance
     ffmpeg-full
-    gimp
     # lightworks pitivi
   ];
 

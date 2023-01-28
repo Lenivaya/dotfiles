@@ -30,7 +30,7 @@ with lib.my; {
 
       programs = mkOpt' attrs {} "user programs";
       services = mkOpt' attrs {} "user services";
-      packages = mkOpt' attrs {} "user packages";
+      packages = mkOpt' (listOf package) [] "user packages";
 
       activation = mkOpt' attrs {} "Activation scripts";
     };

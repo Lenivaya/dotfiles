@@ -25,14 +25,16 @@ in {
         {
           inherit pkgs;
           # withOpenAsar = true;
-          # extraElectronArgs = lib.concatStringsSep " " [
-          #   "--ignore-gpu-blocklist"
-          #   "--disable-features=UseOzonePlatform"
-          #   "--enable-features=VaapiVideoDecoder"
-          #   "--use-gl=desktop"
-          #   "--enable-gpu-rasterization"
-          #   "--enable-zero-copy"
-          # ];
+          extraElectronArgs = lib.concatStringsSep " " [
+            "--ignore-gpu-blocklist"
+            "--disable-features=UseOzonePlatform"
+            "--enable-features=VaapiVideoDecoder"
+            "--use-gl=desktop"
+            "--enable-accelerated-mjpeg-decode"
+            "--enable-accelerated-video"
+            "--enable-gpu-rasterization"
+            "--enable-zero-copy"
+          ];
           # plugins = {
           #   inherit
           #     (inputs)

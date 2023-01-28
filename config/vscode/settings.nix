@@ -6,6 +6,7 @@
 with pkgs; let
   # JAVA_HOME = "${openjdk}/lib/openjdk";
 in {
+  # Vim
   "vim.easymotion" = true;
   "vim.incsearch" = true;
   "vim.useSystemClipboard" = true;
@@ -61,6 +62,7 @@ in {
     }
   ];
 
+  # Editor
   "editor.mouseWheelZoom" = true;
   "diffEditor.ignoreTrimWhitespace" = false;
   "editor.cursorBlinking" = "smooth";
@@ -153,10 +155,12 @@ in {
   "explorer.openEditors.visible" = 8;
   "search.smartCase" = true;
 
+  # Terminal
   "terminal.external.linuxExec" = config.modules.desktop.term.default;
   "terminal.integrated.rendererType" = "experimentalWebgl";
   "terminal.integrated.fontSize" = 22;
 
+  # Language specific
   "scm.defaultViewMode" = "tree";
   "update.mode" = "none";
   "html.format.contentUnformatted" = "pre,code,style,textarea";
@@ -329,6 +333,8 @@ in {
       }
     ];
   };
+
+  "markdown.preview.typographer" = true;
 
   "[markdown]" = {
     "editor.defaultFormatter" = "esbenp.prettier-vscode";
