@@ -426,14 +426,18 @@ Use font aliases defined in fontconfig.
        )
 
 ;; Fix cyryllic fonts
-(dolist (charset '(koi8))
-  (set-fontset-font (frame-parameter nil 'font)
-                    charset (font-spec :family "sans" :height 90)))
+(if (display-graphic-p)
 
-(after! unicode-fonts
-  (dolist (unicode-block '("Cyrillic"
-                           "Cyrillic Supplement"))
-    (push "sans" (cadr (assoc unicode-block unicode-fonts-block-font-mapping)))))
+    (dolist (charset '(koi8))
+      (set-fontset-font (frame-parameter nil 'font)
+                        charset (font-spec :family "sans" :height 90)))
+
+  (after! unicode-fonts
+    (dolist (unicode-block '("Cyrillic"
+                             "Cyrillic Supplement"))
+      (push "sans" (cadr (assoc unicode-block unicode-fonts-block-font-mapping)))))
+
+  )
 #+end_src
 **** Theme and modeline
 #+begin_src emacs-lisp
@@ -1910,7 +1914,7 @@ with =citar=, and make the symbols a bit prettier.
 
 #+begin_src emacs-lisp :noweb-ref none :tangle yes
 (after! citar
-  (setq citar-bibliography
+  (setq org-cite-global-bibliography
         (let ((libfile-search-names '("library.json" "Library.json" "library.bib" "Library.bib"))
               (libfile-dir "~/Zotero")
               paths)
@@ -1918,8 +1922,9 @@ with =citar=, and make the symbols a bit prettier.
             (when (and (not paths)
                        (file-exists-p (expand-file-name libfile libfile-dir)))
               (setq paths (list (expand-file-name libfile libfile-dir)))))
-          paths))
-  (setq citar-symbols
+          paths)
+        citar-bibliography org-cite-global-bibliography
+        citar-symbols
         `((file ,(all-the-icons-faicon "file-o" :face 'all-the-icons-green :v-adjust -0.1) . " ")
           (note ,(all-the-icons-material "speaker_notes" :face 'all-the-icons-blue :v-adjust -0.3) . " ")
           (link ,(all-the-icons-octicon "link" :face 'all-the-icons-orange :v-adjust 0.01) . " "))))
