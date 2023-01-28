@@ -3,6 +3,8 @@
   options,
   lib,
   pkgs,
+  inputs,
+  system,
   ...
 }:
 with lib;
@@ -14,17 +16,20 @@ in {
     # withKde = mkBoolOpt false;
   };
 
+  imports = with inputs;
+    xmonad-contrib.nixosModules
+    ++ [xmonad-contrib.modernise.${system}];
+
   config = mkIf cfg.enable {
     services.xserver.windowManager.xmonad = {
       enable = true;
-      # haskellPackages = pkgs.unstable.haskellPackages;
-      extraPackages = haskellPackages: [
-        haskellPackages.xmonad-contrib
-        haskellPackages.xmonad-extras
-        haskellPackages.xmonad
+      enableContribAndExtras = true;
+      extraPackages = hpkgs: [
+        # hpkgs.xmonad-contrib
+        # hpkgs.xmonad-extras
+        # hpkgs.xmonad
 
-        haskellPackages.gloss
-        haskellPackages.flow
+        hpkgs.flow
       ];
       ghcArgs = [
         "-O3"
@@ -32,6 +37,11 @@ in {
         # Compile with LLVM backend
         # "-fllvm -optlo-O3"
       ];
+      flake = {
+        enable = true;
+        prefix = "unstable";
+        compiler = "ghc924";
+      };
     };
 
     services.xserver.displayManager.defaultSession = "none+xmonad";
@@ -43,11 +53,12 @@ in {
     };
 
     user.packages = with pkgs; [
-      xmobar
+      unstable.xmobar
       jq # for weather script
       playerctl # current track script
       pstree # window swallowing
       xdotool # cliclable workspaces
+      autorandr # to use with rescreen
     ];
     fonts.fonts = with pkgs; [
       siji # some nice icons (awfull on hidpi)
