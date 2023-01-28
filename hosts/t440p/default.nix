@@ -267,6 +267,12 @@ with lib.my; {
     extraPackages = with pkgs; [libGL];
   };
 
+  # home.services.picom.settings = {
+  #   animations = true;
+  #   animation-for-open-window = "zoom"; #open window
+  #   animation-for-transient-window = "none"; #popup windows
+  # };
+
   nixpkgs.overlays = [
     (self: super: {
       google-chrome = pkgs.unstable.google-chrome;
@@ -276,6 +282,29 @@ with lib.my; {
       easyeffects =
         optimizeForThisHost
         pkgs.unstable.easyeffects;
+
+      picom =
+        optimizeForThisHost
+        (pkgs.unstable.picom.overrideAttrs (oa: {
+          src = builtins.fetchGit {
+            # url = "https://github.com/Arian8j2/picom";
+            # ref = "next";
+
+            # url = "https://github.com/dccsillag/picom";
+            # ref = "implement-window-animations";
+
+            # Just latest
+            url = "https://github.com/yshui/picom";
+            ref = "next";
+            rev = "364463feaf89fa0b7ad82f15af6576400b6daec4";
+
+            # url = "https://github.com/FT-Labs/picom.git";
+            # ref = "next";
+          };
+
+          # fix for latest next
+          buildInputs = oa.buildInputs ++ [pkgs.pcre2];
+        }));
 
       # vscode = pkgs.unstable.vscode;
       # vscode-extensions = pkgs.unstable.vscode-extensions;
