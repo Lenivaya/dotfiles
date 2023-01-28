@@ -20,14 +20,6 @@
       "0:_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
       "96:_NET_WM_STATE@:32a *= '_NET_WM_STATE_STICKY'"
     ];
-    # blurExclude = [
-    #   "window_type = 'dock'"
-    #   "window_type = 'desktop'"
-    #   "class_g = 'slop'"
-    #   "class_g ?= 'xfce4-screenshooter'"
-    #   "_GTK_FRAME_EXTENTS@:c"
-    #   "_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
-    # ];
 
     fade = true;
     fadeDelta = 5;

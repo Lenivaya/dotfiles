@@ -42,7 +42,6 @@ in {
     hardware.opengl.enable = true;
     hardware.opengl.extraPackages = with pkgs; [vaapiVdpau libvdpau-va-gl];
 
-    services.xserver.useGlamor = true;
     services.xserver.videoDrivers = ["nvidia"];
 
     boot.kernelParams = [

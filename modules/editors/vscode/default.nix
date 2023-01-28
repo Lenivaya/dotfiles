@@ -66,6 +66,7 @@ in {
 
           ms-vscode.cpptools
           ms-python.python
+          tamasfe.even-better-toml
           # matklad.rust-analyzer
 
           dbaeumer.vscode-eslint

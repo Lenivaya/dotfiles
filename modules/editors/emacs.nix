@@ -90,6 +90,12 @@ in {
         ];
     };
 
+    # services.emacs = {
+    #   install = true;
+    #   enable = true;
+    #   defaultEditor = mkIf cfg.default true;
+    # };
+
     env = {
       EDITOR =
         mkIf cfg.default (mkOverride 900 "${editorScript}/bin/emacseditor");
