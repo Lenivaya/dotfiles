@@ -15,6 +15,7 @@ import           XMonad.Custom.Theme
 import           XMonad.Hooks.CurrentWorkspaceOnTop
 import           XMonad.Hooks.EwmhDesktops
 import           XMonad.Hooks.RefocusLast
+import           XMonad.Hooks.ShowWName
 import           XMonad.Hooks.StatusBar.PP
 import           XMonad.Util.ClickableWorkspaces
 import           XMonad.Util.SpawnNamedPipe
@@ -72,10 +73,13 @@ topBarPP' = do
         | ws `elem` c = xmobarColor yellow2 "" . wrap "*" "!" $ ws
         | otherwise   = xmobarColor white2 "" . wrap "!" "!" $ ws
 
+  let copiesCurrentPP = xmobarColor yellow1 "" . wrap "*" "-"
+
   clickablePP topBarPP { ppCurrent = copiesCurrent
                        , ppHidden  = copiesHidden
                        , ppUrgent  = copiesUrgent
                        }
+    >>= copiesPP copiesCurrentPP
 
 
 botBarPP :: PP
@@ -91,3 +95,4 @@ logHook :: X ()
 logHook = do
   refocusLastLogHook
   currentWorkspaceOnTop
+  showWNameLogHook def

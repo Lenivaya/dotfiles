@@ -17,24 +17,24 @@ import           XMonad.Prompt
 import           XMonad.Prompt.FuzzyMatch
 
 
-
 promptTheme, hotPromptTheme :: XPConfig
 promptTheme = def
-  { font              = T.font
-  , bgColor           = T.black1
-  , fgColor           = T.white1
-  , fgHLight          = T.white2
-  , bgHLight          = T.black2
-  , borderColor       = T.white2
-  , promptBorderWidth = T.border
-  , height            = T.height
-  , position          = CenteredAt { xpCenterY = 3 % 10, xpWidth = 9 % 10 }
-  , maxComplRows      = Just 5
-  , alwaysHighlight   = True
-  , searchPredicate   = fuzzyMatch
-  , sorter            = fuzzySort
-  , promptKeymap      = emacsLikeXPKeymap
-  , autoComplete      = Just 15000
+  { font                 = T.font
+  , bgColor              = T.black1
+  , fgColor              = T.white1
+  , fgHLight             = T.white2
+  , bgHLight             = T.black2
+  , borderColor          = T.white2
+  , promptBorderWidth    = T.border
+  , height               = T.height
+  , position             = CenteredAt { xpCenterY = 3 % 10, xpWidth = 9 % 10 }
+  , maxComplRows         = Just 5
+  , alwaysHighlight      = True
+  , searchPredicate      = fuzzyMatch
+  , sorter               = fuzzySort
+  , complCaseSensitivity = CaseInSensitive
+  , promptKeymap         = emacsLikeXPKeymap
+  , autoComplete         = Just 15000
   }
 
 hotPromptTheme = promptTheme { bgColor      = T.black2

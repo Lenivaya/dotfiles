@@ -28,7 +28,9 @@ import           XMonad.Actions.FloatSnap
 import           XMonad.Actions.GridSelect
 import           XMonad.Actions.MessageFeedback
 import           XMonad.Actions.Minimize
+import           XMonad.Actions.MostRecentlyUsed
 import           XMonad.Actions.Navigation2D
+import           XMonad.Actions.TiledWindowDragging
 import           XMonad.Actions.UpdatePointer
 import           XMonad.Actions.WindowGo
 import           XMonad.Actions.WindowMenu
@@ -40,6 +42,7 @@ import           XMonad.Custom.Prompt           ( gridSelectTheme
                                                 , promptTheme
                                                 )
 import           XMonad.Custom.Scratchpads
+import           XMonad.Custom.Search
 import           XMonad.Custom.Workspaces       ( selectBrowserByName )
 import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.UrgencyHook
@@ -116,6 +119,7 @@ rawKeys c = withUpdatePointer $ concatMap ($ c) keymaps
   keymaps =
     [ keysBase
     , keysPass
+    , keysGo
     , keysSystem
     , keysMedia
     , keysWorkspaces
@@ -129,10 +133,11 @@ keysBase :: XConfig Layout -> [(String, X ())]
 keysBase _ =
   [ ("M-q q", confirmPrompt hotPromptTheme "Quit XMonad?" $ io exitSuccess)
   -- , ("M-q r", spawn "xmonad --restart")
-  , ("M-q r", restart "xmonad" True)
-  , ("M-x"  , shellPrompt promptTheme)
-  , ("M-S-x", spawn (C.appmenu C.applications))
-  , ("M-c"  , spawn (C.clipboardSelector C.applications))
+  , ("M-q r"   , restart "xmonad" True)
+  , ("M-x"     , shellPrompt promptTheme)
+  , ("M-S-x"   , spawn (C.appmenu C.applications))
+  , ("M-c"     , spawn (C.clipboardSelector C.applications))
+  , ("M1-<Tab>", mostRecentlyUsed [xK_Alt_L, xK_Alt_R] xK_Tab)
   ]
 
 keysPass :: XConfig Layout -> [(String, X ())]
@@ -142,6 +147,9 @@ keysPass _ =
   , ("M-p d", passRemovePrompt promptTheme)
   , ("M-p t", passTypePrompt promptTheme)
   ]
+
+keysGo :: XConfig Layout -> [(String, X ())]
+keysGo _ = [("M-g s", mySearch)]
 
 keysSystem :: XConfig Layout -> [(String, X ())]
 keysSystem _ =
@@ -157,11 +165,7 @@ keysSystem _ =
 
 keysMedia :: XConfig Layout -> [(String, X ())]
 keysMedia _ =
-  [ --   ("<XF86AudioMicMute>"    , spawn "pulsemixer --toggle-mute --id 1")
-    -- , ("<XF86AudioMute>"       , spawn "pulsemixer --toggle-mute --id 0")
-    -- , ("<XF86AudioLowerVolume>", spawn "pulsemixer --change-volume -10 --id 0")
-    -- , ("<XF86AudioRaiseVolume>", spawn "pulsemixer --change-volume +10 --id 0")
-    ("<XF86AudioStop>", spawn "mpc stop")
+  [ ("<XF86AudioStop>", spawn "mpc stop")
   , ("<XF86AudioPrev>", spawn "mpc prev")
   , ("<XF86AudioNext>", spawn "mpc next")
   ]
@@ -283,14 +287,17 @@ mouseBindings XConfig{} = M.fromList
   ,
 
   -- you may also bind events to the mouse scroll wheel (button4 and button5)
-    ((mod4Mask, button4), \w -> withFocused minimizeWindow)
+    ((mod4Mask, button4)             , \w -> withFocused minimizeWindow)
   , ((mod4Mask, button5), \w -> withLastMinimized maximizeWindowAndFocus)
+
+  -- Dragging of tiled windows
+  , ((modMask .|. shiftMask, button1), dragWindow)
   ,
 
   --- Some touchpad things
    -- Go to next workspace on left scroll
-    ((mod4Mask, 7)      , const nextNonEmptyWS)
+    ((mod4Mask, 7)                   , const nextNonEmptyWS)
   ,
    -- Go to previous workspace on right scroll
-    ((mod4Mask, 6)      , const prevNonEmptyWS)
+    ((mod4Mask, 6)                   , const prevNonEmptyWS)
   ]

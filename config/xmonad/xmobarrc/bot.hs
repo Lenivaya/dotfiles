@@ -3,9 +3,6 @@ Config
     font = "monospace Regular 12",
     additionalFonts =
       [
-        -- "xft:Siji:style=Regular",
-        -- "xft:monospace:style=Bold:size=12",
-        -- "xft:FontAwesome:style=Regular:size=10:hinting=true"
         "Siji Regular",
         "monospace Bold 12",
         "FontAwesome Regular 10"
@@ -13,9 +10,7 @@ Config
     bgColor = "#0b0806",
     fgColor = "#a19782",
     alpha = 255,
-    position = BottomSize C 100 24,
-    -- extOffset = 20,
-    -- textOffsets = [20, 20],
+    position = BottomHM 30 10 10 0 10,
     iconOffset = -1,
     lowerOnStart = True,
     hideOnStart = False,
