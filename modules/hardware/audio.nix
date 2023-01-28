@@ -140,6 +140,10 @@ in {
         MultiProfile = "multiple";
         FastConnectable = true;
         Privacy = "device";
+
+        Enable = "Control,Gateway,Headset,Media,Sink,Socket,Source";
+        Experimental = true;
+        KernelExperimental = true;
       };
 
       GATT = {KeySize = 16;};

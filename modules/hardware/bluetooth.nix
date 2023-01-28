@@ -22,6 +22,12 @@ in {
         package = pkgs.bluezFull;
       };
       services.dbus.packages = [pkgs.blueman];
+      services.blueman.enable = true;
+
+      environment.systemPackages = with pkgs; [
+        blueberry
+        bluetuith
+      ];
     }
 
     (mkIf cfg.audio.enable {
@@ -32,12 +38,19 @@ in {
         package = pkgs.pulseaudioFull;
         # Enable additional codecs
         extraModules = [pkgs.pulseaudio-modules-bt];
+        # Switch to bluetooth headset on connect
+        extraConfig = " load-module module-switch-on-connect ";
       };
 
-      hardware.bluetooth.extraConfig = ''
-        [General]
-        Enable=Source,Sink,Media,Socket
-      '';
+      # hardware.bluetooth.settings = {
+      #   General = {
+      #     Enable = ["Control" "Gateway" "Headset" "Media" "Sink" "Socket" "Source"];
+      #     Experimental = true;
+      #     KernelExperimental = true;
+      #   };
+      # };
+
+      user.services.mpris-proxy.enable = true;
     })
   ]);
 }
