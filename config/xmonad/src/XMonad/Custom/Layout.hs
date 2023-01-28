@@ -26,18 +26,20 @@ import           XMonad.Layout.Accordion
 import           XMonad.Layout.BinarySpacePartition
 import           XMonad.Layout.BoringWindows
                                          hiding ( Replace )
+import           XMonad.Layout.CenteredIfSingle
 import           XMonad.Layout.Circle
+import           XMonad.Layout.DraggingVisualizer
 import           XMonad.Layout.Fullscreen
 import           XMonad.Layout.GridVariants
 import           XMonad.Layout.Hidden
 import           XMonad.Layout.LayoutCombinators
+import           XMonad.Layout.LayoutHints
 import           XMonad.Layout.LayoutModifier
 import           XMonad.Layout.LimitWindows
 import           XMonad.Layout.Maximize
 import           XMonad.Layout.Minimize
 import           XMonad.Layout.MultiToggle
 import           XMonad.Layout.MultiToggle.Instances
-import           XMonad.Layout.Named
 import           XMonad.Layout.NoBorders
 import           XMonad.Layout.OneBig
 import           XMonad.Layout.PerWorkspace
@@ -64,37 +66,29 @@ data CustomTransformers = GAPS
 instance Transformer CustomTransformers Window where
   transform GAPS x k = k (avoidStruts $ applySpacing x) (const x)
 
-bsp = named "BSP" $ emptyBSP
-
-tall = named "Tall" $ ResizableTall 1 (3 / 100) (1 / 2) []
-
-circle = named "Circle" $ Circle
-
-threecolmid = named "ThreeColMid" $ ThreeColMid 1 (3 / 100) (1 / 2)
-
-onebig = named "OneBig" $ OneBig (3 / 4) (3 / 4)
-
+bsp = renamed [Replace "BSP"] $ emptyBSP
+tall = renamed [Replace "Tall"] $ ResizableTall 1 (3 / 100) (1 / 2) []
+circle = renamed [Replace "Circle"] $ Circle
+threecolmid = renamed [Replace "ThreeColMid"] $ ThreeColMid 1 (3 / 100) (1 / 2)
+onebig = renamed [Replace "OneBig"] $ OneBig (3 / 4) (3 / 4)
 monocle = renamed [Replace "Monocle"] $ Full
-    -- $ subLayout [] (smartBorders Simplest)
-
 grid =
-  renamed [Replace "Grid"]
-    $ limitWindows 9
-    -- $ subLayout [] (smartBorders Simplest)
-    -- $ mySpacing 8
-    $ mkToggle (single MIRROR)
-    $ Grid (16 / 10)
+  renamed [Replace "Grid"] $ limitWindows 9 $ mkToggle (single MIRROR) $ Grid
+    (16 / 10)
 
 layoutHook =
   fullscreenFloat
+  -- fullscreenFull
     .   smartBorders
     .   boringWindows
-    .   showWName
+    .   draggingVisualizer
+    -- .   layoutHintsToCenter
     $   lessBorders OnlyLayoutFloat
     $   mkToggle (single NBFULL)
     $   refocusLastLayoutHook
     $   avoidStruts
     $   applySpacing
+    .   centeredIfSingle 0.95 0.95
     $   mkToggle (single GAPS)
     $   mkToggle (single REFLECTX)
     $   mkToggle (single REFLECTY)

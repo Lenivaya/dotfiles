@@ -27,7 +27,7 @@ composeActions =
   , className =? "xterm" -?> tileBelow
   , className =? "st" -?> tileBelow
   , isDialog -?> doCenterFloat
-  , isFullscreen -?> doFullFloat
+  -- , isFullscreen -?> doFullFloat
   , pure True -?> tileNormal
   , stringProperty "WM_WINDOW_ROLE" =? "pop-up" -?> doCenterFloat
   , stringProperty "WM_WINDOW_ROLE" =? "GtkFileChooserDialog" -?> doCenterFloat

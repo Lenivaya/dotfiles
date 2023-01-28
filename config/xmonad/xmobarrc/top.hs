@@ -3,10 +3,6 @@ Config
     font = "monospace Regular 12",
     additionalFonts =
       [
-        -- "xft:Siji:style=Regular:size=12",
-        -- "xft:monospace:style=Regular:size=12",
-        -- "xft:Weather Icons:style=Regular:size=10:hinting=true",
-        -- "xft:FontAwesome:style=Regular:size=10:hinting=true"
         "Siji Regular 12",
         "monospace Regular 12",
         "Weather Icons Regular 10",
@@ -15,9 +11,7 @@ Config
     bgColor = "#0b0806",
     fgColor = "#a19782",
     alpha = 255,
-    position = TopSize C 100 24,
-    -- textOffset = 20,
-    -- textOffsets = [20, 20],
+    position = TopHM 30 10 10 10 0,
     iconOffset = -1,
     lowerOnStart = True,
     hideOnStart = False,
