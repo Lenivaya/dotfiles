@@ -13,7 +13,24 @@ in {
 
   config = mkIf cfg.enable {
     boot.extraModprobeConfig = "options kvm_intel nested=1";
-    virtualisation.libvirtd.enable = true;
+    virtualisation.libvirtd = {
+      enable = true;
+
+      qemu = {
+        package = pkgs.qemu_kvm;
+        # runAsRoot = false;
+
+        ovmf = {
+          enable = true;
+          packages = [pkgs.OVMFFull.fd];
+        };
+
+        swtpm = {
+          enable = true; # Is this required for Windows 11?
+          package = pkgs.swtpm-tpm2;
+        };
+      };
+    };
     programs.dconf.enable = true;
 
     environment.systemPackages = with pkgs; [
