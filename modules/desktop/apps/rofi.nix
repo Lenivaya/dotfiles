@@ -18,11 +18,21 @@ in {
       rofi = {
         enable = true;
         package = pkgs.rofi.override {
-          plugins = with pkgs; [rofi-emoji rofi-calc rofi-file-browser];
+          plugins = with pkgs; [
+            rofi-emoji
+            rofi-calc
+            rofi-file-browser
+
+            rofi-top
+          ];
         };
+
         theme = "main";
+        cycle = true;
         extraConfig = {
-          modi = "drun";
+          modi = "combi,drun,emoji";
+          combi-modi = "drun,emoji";
+          show = "combi";
           show-icons = true;
         };
       };
@@ -39,6 +49,10 @@ in {
       with pkgs; [
         wmctrl # windows bringing support
         xkb-switch # Switching of keyboard layouts
+
+        rofi-bluetooth
+        rofi-systemd
+        # rofi-power-menu
 
         (makeDesktopItem {
           name = "Rofi-calc";
@@ -70,6 +84,18 @@ in {
           desktopName = "Rofi: Keyboard switcher";
           icon = "preferences-desktop-keyboard";
           exec = "keyboard-switch";
+        })
+        (makeDesktopItem {
+          name = "Rofi-bluetooth";
+          desktopName = "Rofi: bluetooth";
+          icon = "bluetooth";
+          exec = "rofi-bluetooth";
+        })
+        (makeDesktopItem {
+          name = "Rofi-systemd";
+          desktopName = "Rofi: systemd";
+          icon = "systemd";
+          exec = "rofi-systemd";
         })
 
         (makeDesktopItem {
