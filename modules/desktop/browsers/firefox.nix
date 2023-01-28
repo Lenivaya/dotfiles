@@ -45,7 +45,7 @@ in {
         sponsorblock
         ublock-origin
         privacy-badger
-        decentraleyes
+        localcdn # decentraleyes
         clearurls
         libredirect
         # terms-of-service-didnt-read
