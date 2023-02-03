@@ -39,7 +39,9 @@ import           XMonad.Custom.Layout
 import qualified XMonad.Custom.Misc            as C
 import           XMonad.Custom.Prompt           ( gridSelectTheme
                                                 , hotPromptTheme
+                                                , promptNoCompletion
                                                 , promptTheme
+                                                , promptThemeVim
                                                 )
 import           XMonad.Custom.Scratchpads
 import           XMonad.Custom.Search
@@ -143,7 +145,7 @@ keysBase _ =
 keysPass :: XConfig Layout -> [(String, X ())]
 keysPass _ =
   [ ("M-p p", passPrompt promptTheme)
-  , ("M-p g", passGenerateAndCopyPrompt promptTheme)
+  , ("M-p g", passGenerateAndCopyPrompt $ promptNoCompletion promptThemeVim)
   , ("M-p d", passRemovePrompt promptTheme)
   , ("M-p t", passTypePrompt promptTheme)
   ]
@@ -173,7 +175,7 @@ keysMedia _ =
 keysWorkspaces :: XConfig Layout -> [(String, X ())]
 keysWorkspaces _ =
   [ ("M-w S-o"  , switchProjectPrompt promptTheme)
-    , ("M-w C-S-o", switchProjectPrompt promptTheme { autoComplete = Nothing })
+    , ("M-w C-S-o", switchProjectPrompt $ promptNoCompletion promptTheme)
     , ("M-w S-s"  , shiftToProjectPrompt promptTheme)
     , ("M-w S-n"  , renameProjectPrompt hotPromptTheme)
     , ("M-,"      , nextNonEmptyWS)

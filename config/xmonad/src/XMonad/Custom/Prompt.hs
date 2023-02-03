@@ -4,6 +4,8 @@ module XMonad.Custom.Prompt
   , predicateFunction
   , promptTheme
   , hotPromptTheme
+  , promptThemeVim
+  , promptNoCompletion
   , gridSelectTheme
   ) where
 
@@ -17,7 +19,10 @@ import           XMonad.Prompt
 import           XMonad.Prompt.FuzzyMatch
 
 
-promptTheme, hotPromptTheme :: XPConfig
+promptNoCompletion :: XPConfig -> XPConfig
+promptNoCompletion ptheme = ptheme { autoComplete = Nothing }
+
+promptTheme, hotPromptTheme, promptThemeVim :: XPConfig
 promptTheme = def
   { font                 = T.font
   , bgColor              = T.black1
@@ -37,12 +42,14 @@ promptTheme = def
   , autoComplete         = Just 15000
   }
 
-hotPromptTheme = promptTheme { bgColor      = T.black2
-                             , fgColor      = T.white2
-                             , fgHLight     = T.white1
-                             , bgHLight     = T.black1
-                             , autoComplete = Nothing
-                             }
+promptThemeVim = promptTheme { promptKeymap = vimLikeXPKeymap }
+
+hotPromptTheme = promptNoCompletion promptTheme { bgColor      = T.black2
+                                                , fgColor      = T.white2
+                                                , fgHLight     = T.white1
+                                                , bgHLight     = T.black1
+                                                , autoComplete = Nothing
+                                                }
 
 colorizer :: a -> Bool -> X (String, String)
 colorizer _ isFg = do

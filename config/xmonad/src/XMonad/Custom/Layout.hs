@@ -88,7 +88,7 @@ layoutHook =
     $   refocusLastLayoutHook
     $   avoidStruts
     $   applySpacing
-    .   centeredIfSingle 0.95 0.95
+    .   centeredIfSingle 0.97 0.97
     $   mkToggle (single GAPS)
     $   mkToggle (single REFLECTX)
     $   mkToggle (single REFLECTY)

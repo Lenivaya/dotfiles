@@ -47,8 +47,8 @@ myConfig =
       , focusFollowsMouse  = True
       , clickJustFocuses   = False
       }
-    |> withNavigation2DConfig C.navigation
     |> dynamicProjects C.projects
+    |> withNavigation2DConfig C.navigation
     |> withUrgencyHook (borderUrgencyHook C.red1)
     |> addRandrChangeHook C.myRandrChangeHook
     |> configureMRU

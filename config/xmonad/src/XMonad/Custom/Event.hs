@@ -2,7 +2,6 @@ module XMonad.Custom.Event
   ( handleEventHook
   ) where
 
-import qualified Data.Map.Strict               as M
 import           Data.Monoid
 import           XMonad                  hiding ( handleEventHook
                                                 , manageHook
@@ -25,9 +24,9 @@ myPred = refocusingIsActive <||> isFloat
 
 handleEventHook :: Event -> X All
 handleEventHook = mconcat
-  [ swallowEventHook (className =? "Alacritty") (return True)
+  [ Hacks.windowedFullscreenFixEventHook
   , nspTrackHook scratchpads
-  , Hacks.windowedFullscreenFixEventHook
+  , swallowEventHook (className =? "Alacritty") (return True)
   , refocusLastWhen myPred
   , perWindowKbdLayout
   ]
