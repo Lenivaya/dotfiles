@@ -56,8 +56,8 @@
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nur.url = "github:nix-community/NUR";
     adblock.url = "github:StevenBlack/hosts";
-    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
-    pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
+    # pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
+    # pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs @ {
@@ -65,6 +65,7 @@
     nixpkgs,
     nixpkgs-unstable,
     adblock,
+    # pre-commit-hooks,
     ...
   }: let
     inherit (lib.my) mapModules mapModulesRec mapHosts;
@@ -105,20 +106,29 @@
       }
       // mapModulesRec ./modules import;
 
-    nixosConfigurations = mapHosts ./hosts {};
+    nixosConfigurations =
+      mapHosts ./hosts {};
 
     devShells."${system}".default = import ./shell.nix {
       inherit pkgs;
-      # pre-commit-hook = self.checks.${system}.pre-commit-check;
+      # pre-commit-hook = self.checks.${system}.preCommit.shellHook;
     };
 
-    # checks.${system}.pre-commit-check = inputs.pre-commit-hooks.lib.${system}.run {
+    # checks.${system}.preCommit = pre-commit-hooks.lib.${system}.run {
     #   src = ./.;
+    #   # src = self;
     #   hooks = {
     #     alejandra.enable = true;
-    #     statix.enable = true;
-    #     # nixfmt.enable = true;
     #     shellcheck.enable = true;
+    #     shfmt.enable = true;
+    #     statix.enable = true;
+    #     prettier = {
+    #       enable = true;
+    #       types = [];
+    #     };
+    #   };
+    #   settings = {
+    #     prettier.write = true;
     #   };
     # };
 
@@ -132,9 +142,10 @@
         description = "A grossly incandescent and minimal nixos config";
       };
     };
-    defaultTemplate = self.templates.minimal;
+    templates.default = self.templates.minimal;
 
-    defaultApp."${system}" = {
+    # defaultApp."${system}" = {
+    apps."${system}".default = {
       type = "app";
       program = ./bin/hey;
     };

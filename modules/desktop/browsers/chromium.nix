@@ -40,7 +40,7 @@ in {
       extensions = [
         "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
         "pkehgijcmpdhfbdbbnkijodmdjhbjlgp" # privacy badger
-        "ldpochfccmkkmhdbclfhpagapcfdljkj" # decentraleyes
+        # "ldpochfccmkkmhdbclfhpagapcfdljkj" # decentraleyes
         "hfjbmagddngcpeloejdejnfgbamkjaeg" # vimium c
         "hkgfoiooedgoejojocmhlaklaeopbecg" # picture-in-picture
         "iaiomicjabeggjcfkbimgmglanimpnae" # tab sesssion manager
