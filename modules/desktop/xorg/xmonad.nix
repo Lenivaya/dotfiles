@@ -25,10 +25,6 @@ in {
       enable = true;
       enableContribAndExtras = true;
       extraPackages = hpkgs: [
-        # hpkgs.xmonad-contrib
-        # hpkgs.xmonad-extras
-        # hpkgs.xmonad
-
         hpkgs.flow
       ];
       ghcArgs = [

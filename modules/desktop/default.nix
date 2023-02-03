@@ -15,8 +15,8 @@ in {
     desktopManager.xterm.enable = lib.mkDefault false;
     autoRepeatDelay = 200;
     autoRepeatInterval = 50;
-    layout = "us, ru, ua";
-    xkbOptions = "grp:win_space_toggle, caps:ctrl_modifier";
+    layout = comcat ["us" "ru" "ua"];
+    xkbOptions = comcat ["grp:win_space_toggle" "caps:ctrl_modifier"];
 
     displayManager.lightdm = {
       enable = true;

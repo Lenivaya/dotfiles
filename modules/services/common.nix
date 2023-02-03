@@ -15,5 +15,8 @@
     earlyoom.enable = true;
 
     gnome.gnome-keyring.enable = true;
+
+    # https://github.com/NixOS/nixpkgs/issues/135888
+    nscd.enableNsncd = true;
   };
 }

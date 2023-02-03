@@ -296,7 +296,7 @@ with lib.my; {
             # Just latest
             url = "https://github.com/yshui/picom";
             ref = "next";
-            rev = "364463feaf89fa0b7ad82f15af6576400b6daec4";
+            rev = "cee12875625465292bc11bf09dc8ab117cae75f4";
 
             # url = "https://github.com/FT-Labs/picom.git";
             # ref = "next";

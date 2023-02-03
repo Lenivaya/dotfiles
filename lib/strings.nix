@@ -1,3 +1,3 @@
-lib: _: {
+lib: {
   comcat = builtins.concatStringsSep ",";
 }
