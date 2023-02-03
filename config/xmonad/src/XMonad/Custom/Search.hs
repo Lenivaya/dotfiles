@@ -4,7 +4,7 @@ module XMonad.Custom.Search
 
 import           XMonad
 import           XMonad.Actions.Search
-import           XMonad.Custom.Prompt           ( promptTheme )
+import           XMonad.Custom.Prompt
 import           XMonad.Prompt
 
 myEngine = intelligent . namedEngine "multi" $ foldr1
@@ -26,4 +26,4 @@ myEngine = intelligent . namedEngine "multi" $ foldr1
   , prefixAware google
   ]
 
-mySearch = promptSearch promptTheme { autoComplete = Nothing } myEngine
+mySearch = promptSearch (promptNoCompletion promptThemeVim) myEngine
