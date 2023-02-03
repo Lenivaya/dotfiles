@@ -31,14 +31,14 @@
   # "pdfjs.spreadModeOnLoad" = 1;
 
   # Hardware-acceleration
-  # "layers.acceleration.force-enabled" = true;
-  # "layers.omtp.enabled" = true;
-  # "layout.display-list.retain" = true;
-  # "layout.display-list.retain.chrome" = true;
-  # "media.ffmpeg.vaapi.enabled" = true;
-  # "media.rdd-vpx.enabled" = true;
-  # "media.ffvpx.enabled" = true;
-  # "media.navigator.mediadatadecoder_vpx_enabled" = true;
+  "layers.acceleration.force-enabled" = true;
+  "layers.omtp.enabled" = true;
+  "layout.display-list.retain" = true;
+  "layout.display-list.retain.chrome" = true;
+  "media.ffmpeg.vaapi.enabled" = true;
+  "media.rdd-vpx.enabled" = true;
+  "media.ffvpx.enabled" = true;
+  "media.navigator.mediadatadecoder_vpx_enabled" = true;
 
   # Do not check if Firefox is the default browser
   "browser.shell.checkDefaultBrowser" = false;
