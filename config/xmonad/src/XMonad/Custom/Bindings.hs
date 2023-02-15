@@ -37,6 +37,7 @@ import           XMonad.Actions.WindowMenu
 import           XMonad.Actions.WithAll
 import           XMonad.Custom.Layout
 import qualified XMonad.Custom.Misc            as C
+import qualified XMonad.Custom.Misc            as C
 import           XMonad.Custom.Prompt           ( gridSelectTheme
                                                 , hotPromptTheme
                                                 , promptNoCompletion
@@ -191,16 +192,18 @@ keysWorkspaces _ =
 
 keysSpawnables :: XConfig Layout -> [(String, X ())]
 keysSpawnables _ =
-  [ ("M-<Return>"  , spawn (C.term C.applications))
+  [ ("M-<Return>"    , spawn (C.term C.applications))
   , ("M-S-<Return>", spawn (C.term C.applications ++ " -e tmux"))
-  , ("M-o b"       , spawn (C.browser C.applications))
-  , ("M-o S-b"     , selectBrowserByName promptTheme)
-  , ("M-o e"       , raiseEditor)
+  , ("M-C-<Return>"  , spawn (C.termSmallFont C.applications))
+  , ("M-C-S-<Return>", spawn (C.termSmallFont C.applications ++ " -e tmux"))
+  , ("M-o b"         , spawn (C.browser C.applications))
+  , ("M-o S-b"       , selectBrowserByName promptTheme)
+  , ("M-o e"         , raiseEditor)
     -- Edit some text in emacs
   , ("M-o S-e", spawn "emacsclient --eval '(emacs-everywhere)'")
   , ("M-o c", namedScratchpadAction scratchpads "console")
-  , ("M-o m"       , namedScratchpadAction scratchpads "music")
-  , ("M-o t"       , namedScratchpadAction scratchpads "top")
+  , ("M-o m"         , namedScratchpadAction scratchpads "music")
+  , ("M-o t"         , namedScratchpadAction scratchpads "top")
   , ("M-o v", namedScratchpadAction scratchpads "volume")
   , ("M-o s", namedScratchpadAction scratchpads "soundEffects")
   , ("M-o d", namedScratchpadAction scratchpads "discord")

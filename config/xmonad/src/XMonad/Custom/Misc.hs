@@ -12,6 +12,7 @@ data Applications = Applications
   , player            :: !String
   , soundEffects      :: !String
   , term              :: !String
+  , termSmallFont     :: !String
   , top               :: !String
   , reader            :: !String
   , editor            :: !String
@@ -28,6 +29,7 @@ applications = Applications
   , player            = "spotify"
   , soundEffects      = "easyeffects"
   , term              = "$TERMINAL"
+  , termSmallFont     = "$TERMINAL -o font.size=8"
   , top               = "htop"
   , reader            = "zathura"
   , editor            = "$EDITOR"
