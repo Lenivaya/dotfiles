@@ -1,8 +1,7 @@
 #!/bin/sh
 
-if mpc | grep -q '\[playing\]'
-then
-    mpc pause
+if mpc | grep -q '\[playing\]'; then
+	mpc pause
 else
-    mpc play
+	mpc play
 fi
