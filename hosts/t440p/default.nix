@@ -275,8 +275,8 @@ with lib.my; {
 
   nixpkgs.overlays = [
     (self: super: {
-      google-chrome = pkgs.unstable.google-chrome;
-      firefox = pkgs.unstable.firefox;
+      inherit (pkgs.unstable) google-chrome;
+      inherit (pkgs.unstable) firefox;
 
       # Easyeffects + optimized build + fix(?)
       easyeffects =

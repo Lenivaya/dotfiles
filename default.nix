@@ -25,7 +25,7 @@ with lib.my; {
   environment.variables.NIXPKGS_ALLOW_UNFREE = "1";
   home-manager.users.${config.user.name}.nixpkgs = {
     config = {allowUnfree = true;};
-    overlays = config.nixpkgs.overlays;
+    inherit (config.nixpkgs) overlays;
   };
   nix = let
     filteredInputs = filterAttrs (n: _: n != "self") inputs;
