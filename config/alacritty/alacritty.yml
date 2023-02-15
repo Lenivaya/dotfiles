@@ -113,5 +113,5 @@ debug:
   ref_test: false
 
 key_bindings:
-    # Start new instance in current dir with Ctrl+Shift+Enter
+  # Start new instance in current dir with Ctrl+Shift+Enter
   - { key: Return, mods: Control|Shift, action: SpawnNewInstance }
