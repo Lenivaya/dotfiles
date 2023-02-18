@@ -1103,11 +1103,13 @@ theme.
   :defer t
   :init
   (setq
+   imenu-list-position 'right
    ;; just a tad lower than the default
    imenu-list-size 0.25
    ;; That modeline is plain ugly. Treemacs & neotree don't have a modeline either.
    imenu-list-mode-line-format nil
-   imenu-list-auto-resize t
+   ;; imenu-list-auto-resize t
+   imenu-list-auto-resize nil
    )
   (map!
    (:leader
@@ -3202,4 +3204,13 @@ config tangling
      shell-command-switch
      (format "nohup 1>/dev/null 2>/dev/null xdg-open %s"
              (expand-file-name file)))))
+#+end_src
+
+
+* Fixes
+** https://github.com/doomemacs/doomemacs/issues/7078
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! transient :pin "c2bdf7e12c530eb85476d3aef317eb2941ab9440")
+(package! with-editor :pin "391e76a256aeec6b9e4cbd733088f30c677d965b")
 #+end_src
