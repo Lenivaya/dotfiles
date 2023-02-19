@@ -1291,9 +1291,6 @@ tweaks. Namely:
   (add-hook 'writeroom-mode-disable-hook #'+zen-nonprose-org-h))
 #+end_src
 
-#+attr_html: :class invertible :alt Writeroom applied to an Org file
-[[https://tecosaur.com/lfs/emacs-config/screenshots/writeroom-and-org.png]]
-
 ** Wakatime
 #+begin_src emacs-lisp
 (use-package! wakatime-mode)
@@ -1534,9 +1531,6 @@ something through Emacs?
 #+end_src
 
 Then, to actually read the ebooks we use =nov=.
-
-#+attr_html: :class invertible :alt Excerpt of the GNU Emacs manual viewed through nov.el
-[[https://tecosaur.com/lfs/emacs-config/screenshots/nov.png]]
 
 #+begin_src emacs-lisp
 (use-package! nov
