@@ -60,7 +60,6 @@ in {
         violentmonkey
 
         refined-github
-        octotree
         reddit-comment-collapser
         reddit-enhancement-suite
       ];
