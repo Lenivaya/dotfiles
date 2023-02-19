@@ -11,3 +11,4 @@
 }
 # ffmpeg -hide_banner -vcodec mjpeg -framerate 60 -s 640x480 -i /dev/video1 -vcodec rawvideo -vf format=yuv420p,"boxblur=1" -f v4l2 /dev/video0
 # ffmpeg -hide_banner -vcodec mjpeg -framerate 60 -s 2560x1440 -i /dev/video1 -vcodec rawvideo -vf format=yuv420p,"boxblur=1" -f v4l2 /dev/video0
+
