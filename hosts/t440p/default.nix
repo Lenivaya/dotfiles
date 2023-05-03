@@ -106,6 +106,7 @@ with lib.my; {
       kdeconnect.enable = true;
       ssh.enable = true;
       warp.enable = true;
+      keyd.enable = true;
     };
 
     hardware = {
