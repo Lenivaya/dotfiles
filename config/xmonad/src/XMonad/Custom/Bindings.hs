@@ -51,6 +51,7 @@ import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.UrgencyHook
 import           XMonad.Layout.BinarySpacePartition
 import           XMonad.Layout.Hidden
+import qualified XMonad.Layout.Magnifier       as Mag
 import           XMonad.Layout.Maximize
 import           XMonad.Layout.MultiToggle
 import           XMonad.Layout.MultiToggle.Instances
@@ -217,6 +218,7 @@ keysWindows _ =
     , ("M-w g", windowPrompt promptTheme Goto allWindows)
     , ("M-w b", windowPrompt promptTheme Bring allWindows)
     , ("M-w c"  , toggleCopyToAll)
+    , ("M-w o"  , sendMessage Mag.Toggle)
     -- To remove focused copied window from current workspace
     , ("M-w S-c", kill1)
     , ("M-w h"  , withFocused minimizeWindow)

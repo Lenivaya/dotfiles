@@ -36,6 +36,7 @@ import           XMonad.Layout.LayoutCombinators
 import           XMonad.Layout.LayoutHints
 import           XMonad.Layout.LayoutModifier
 import           XMonad.Layout.LimitWindows
+import           XMonad.Layout.Magnifier
 import           XMonad.Layout.Maximize
 import           XMonad.Layout.Minimize
 import           XMonad.Layout.MultiToggle
@@ -82,7 +83,8 @@ layoutHook =
     .   smartBorders
     .   boringWindows
     .   draggingVisualizer
-    -- .   layoutHintsToCenter
+    .   layoutHintsToCenter
+    .   magnifierOff
     $   lessBorders OnlyLayoutFloat
     $   mkToggle (single NBFULL)
     $   refocusLastLayoutHook
