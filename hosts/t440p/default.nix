@@ -107,6 +107,7 @@ with lib.my; {
       ssh.enable = true;
       warp.enable = true;
       keyd.enable = true;
+      espanso.enable = true;
     };
 
     hardware = {
