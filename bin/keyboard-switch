@@ -2,11 +2,22 @@
 
 # Switch between keyboard layouts
 
-previous_layout=$(xkb-switch -p)
-xkb-switch -s us >/dev/null
+set_default_layout() {
+    xkb-switch -s us >/dev/null 2>&1 &
+}
 
-layout=$(xkb-switch -l | rofi -theme minimal -dmenu -i -p "layout")
-case $layout in
-    "") xkb-switch -s "$previous_layout" >/dev/null ;;
-    *) xkb-switch -s "$layout" >/dev/null ;;
-esac
+layout_menu() {
+    xkb-switch -l | rofi -dmenu -i -p "layout"
+}
+
+switch_layout() {
+    local previous_layout="$1"
+    local layout="${2:-$previous_layout}"
+
+    xkb-switch -s "$layout" >/dev/null
+}
+
+previous_layout=$(xkb-switch -p)
+set_default_layout
+selected_layout=$(layout_menu)
+switch_layout "$previous_layout" "$selected_layout"

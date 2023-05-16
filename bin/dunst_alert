@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
 blacklist=("Spotify")
+notification_sound="$DOTFILES/config/dunst/Submarine.wav"
 
-[[ ! ${blacklist[*]} =~ $DUNST_APP_NAME ]] && paplay "$DOTFILES/config/dunst/Submarine.wav"
+# [[ ! ${blacklist[*]} =~ $DUNST_APP_NAME ]] && paplay "$DOTFILES/config/dunst/Submarine.wav"
+[[ ! ${blacklist[*]} =~ $DUNST_APP_NAME ]] && paplay "$notification_sound"
