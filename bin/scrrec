@@ -94,5 +94,3 @@ trap cleanup EXIT
 
 # Let 'er rip
 recording-start "$1" "$X" "$Y" "$W" "$H"
-
-# vim:set ft=sh shiftwidth=2:

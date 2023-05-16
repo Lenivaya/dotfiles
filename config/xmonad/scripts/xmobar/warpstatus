@@ -1,10 +1,14 @@
 #!/bin/sh
 
-isWarpRunning=$(
-    pgrep -x ".*warp-svc.*" >/dev/null && echo true || echo false
-)
+# isWarpRunning=$(
+#     pgrep -x ".*warp-svc.*" >/dev/null && echo true || echo false
+# )
 
-case $isWarpRunning in
-    true) echo "<action='warp'><fn=3></fn></action>" ;;
-    false) echo "" ;;
-esac
+# case $isWarpRunning in
+#     true) echo "<action='warp'><fn=3></fn></action>" ;;
+#     false) echo "" ;;
+# esac
+
+if pgrep -x ".*warp-svc.*" >/dev/null; then
+    echo "<action='warp'><fn=3></fn></action>"
+fi

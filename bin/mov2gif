@@ -32,24 +32,24 @@ trap cleanup EXIT
 fps=30
 while getopts hf:s:t:S: opt; do
 	case $opt in
-	f) fps="$OPTARG" ;;
-	s) start="-ss $OPTARG" ;;
-	S) scale=",scale=$OPTARG:flags=lanczos" ;;
-	t) duration="-t $OPTARG" ;;
-	h)
-		usage
-		exit
-		;;
-	:)
-		echo >&2 "$OPTARG requires an argument"
-		usage
-		exit 1
-		;;
-	*)
-		echo >&2 "Not a valid arg: $opt"
-		usage
-		exit 1
-		;;
+		f) fps="$OPTARG" ;;
+		s) start="-ss $OPTARG" ;;
+		S) scale=",scale=$OPTARG:flags=lanczos" ;;
+		t) duration="-t $OPTARG" ;;
+		h)
+			usage
+			exit
+			;;
+		:)
+			echo >&2 "$OPTARG requires an argument"
+			usage
+			exit 1
+			;;
+		*)
+			echo >&2 "Not a valid arg: $opt"
+			usage
+			exit 1
+			;;
 	esac
 done
 shift $((OPTIND - 1))
