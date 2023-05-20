@@ -7,15 +7,17 @@ import           XMonad                  hiding ( handleEventHook
                                                 , manageHook
                                                 )
 import           XMonad.Custom.Scratchpads
--- import           XMonad.Hooks.DynamicProperty
 import           XMonad.Hooks.EwmhDesktops
 import           XMonad.Hooks.ManageDocks
+import           XMonad.Hooks.OnPropertyChange
 import           XMonad.Hooks.PerWindowKbdLayout
 import           XMonad.Hooks.RefocusLast
 import           XMonad.Hooks.WindowSwallowing
 import qualified XMonad.Util.Hacks             as Hacks
 import           XMonad.Util.Loggers.NamedScratchpad
 
+
+import           XMonad.Actions.ShowText
 import           XMonad.Custom.Manage           ( manageHook )
 import           XMonad.Operations
 
@@ -25,8 +27,10 @@ myPred = refocusingIsActive <||> isFloat
 handleEventHook :: Event -> X All
 handleEventHook = mconcat
   [ Hacks.windowedFullscreenFixEventHook
+  , perWindowKbdLayout
   , nspTrackHook scratchpads
   , swallowEventHook (className =? "Alacritty") (return True)
   , refocusLastWhen myPred
-  , perWindowKbdLayout
+  , onTitleChange manageHook
+  , handleTimerEvent
   ]

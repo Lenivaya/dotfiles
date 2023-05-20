@@ -29,7 +29,6 @@ import           XMonad.Hooks.StatusBar
 import           XMonad.Hooks.UrgencyHook
 import           XMonad.Layout.IndependentScreens
 
-
 myConfig =
   def { borderWidth        = C.border
       , workspaces         = C.workspaces

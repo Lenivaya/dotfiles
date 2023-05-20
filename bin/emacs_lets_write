@@ -1,0 +1,3 @@
+#!/bin/sh
+
+emacsclient -n -e '(progn (select-frame (make-frame)) (find-file "new.org") (+zen/toggle))'

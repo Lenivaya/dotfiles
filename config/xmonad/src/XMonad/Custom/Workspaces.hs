@@ -1,25 +1,32 @@
 module XMonad.Custom.Workspaces
   ( projects
   , workspaces
-  , selectBrowserByName
   ) where
 
 import           Data.Foldable
-
 import           XMonad                  hiding ( workspaces )
 import           XMonad.Actions.DynamicProjects
 import           XMonad.Actions.SpawnOn
 import           XMonad.Actions.WindowGo
+import           XMonad.Custom.ApplicationChooser
+import           XMonad.Custom.KeyboardUtils
 import qualified XMonad.Custom.Misc            as C
--- browser prompt
-import           XMonad.Custom.Prompt           ( aListCompFunc
-                                                , promptTheme
-                                                )
-import           XMonad.Prompt
-import           XMonad.Prompt.Shell
+import           XMonad.Custom.Prompt
 
-(generic, code, template, web, wsread, sys, tmp, wsWRK) =
-  ("GEN", "Code", "Template", "WWW", "Read", "SYS", "TMP", "WRK")
+(generic, code, web, wsread, sys, tmp, wsWRK, template, graphics, sound, vm, write)
+  = ( "GEN"
+    , "Code"
+    , "WWW"
+    , "Read"
+    , "SYS"
+    , "TMP"
+    , "WRK"
+    , "Template"
+    , "GRAPH"
+    , "SOUND"
+    , "VM"
+    , "WRITE"
+    )
 
 workspaces :: [String]
 workspaces = [generic, sys, tmp, wsWRK, wsread, code, web]
@@ -34,21 +41,53 @@ projects =
     { projectName      = template
     , projectDirectory = "~/"
     , projectStartHook = Just $ do
-                           spawnOn wsWRK (C.term C.applications ++ " -e tmux")
-                           spawnOn wsWRK (C.browser C.applications)
+                           spawnOn template
+                                   (C.term C.applications ++ " -e tmux")
+                           spawnOn template (C.browser C.applications)
+    }
+  , Project
+    { projectName      = graphics
+    , projectDirectory = "~/"
+    , projectStartHook = Just $ do
+                           spawnOn graphics "gimp"
+    }
+  , Project
+    { projectName      = sound
+    , projectDirectory = "~/"
+    , projectStartHook = Just $ do
+                           spawnOn sound (C.soundEffects C.applications)
+                           spawnOn sound "pavucontrol"
+    }
+  , Project
+    { projectName      = vm
+    , projectDirectory = "~/"
+    , projectStartHook = Just $ do
+                           spawnOn vm (C.virtualMachinesManger C.applications)
+    }
+  , Project
+    { projectName      = write
+    , projectDirectory = "~/"
+    , projectStartHook = Just $ do
+                           spawnOn write "emacs_lets_write"
     }
   , Project { projectName      = code
             , projectDirectory = "~/"
             , projectStartHook = Just raiseEditor
             }
-  , Project { projectName      = web
-            , projectDirectory = "~/"
-            , projectStartHook = Just $ selectBrowserByName promptTheme
-            }
-  , Project { projectName      = wsread
-            , projectDirectory = "~/"
-            , projectStartHook = Just $ selectReaderByName promptTheme
-            }
+  , Project
+    { projectName      = web
+    , projectDirectory = "~/"
+    , projectStartHook = Just $ wrapKbdLayout $ selectBrowserByNameAndDo
+                           promptTheme
+                           (spawnOn web)
+    }
+  , Project
+    { projectName      = wsread
+    , projectDirectory = "~/"
+    , projectStartHook = Just $ wrapKbdLayout $ selectReaderByNameAndDo
+                           promptTheme
+                           (spawnOn wsread)
+    }
   , Project
     { projectName      = sys
     , projectDirectory = "~/"
@@ -66,57 +105,3 @@ projects =
             }
   ]
 
---------------------------------------------------------------------------------
-
--- | Use @Prompt@ to choose a browser which then will be runned on WWW.
-data BrowserByName = BrowserByName
-
-instance XPrompt BrowserByName where
-  showXPrompt BrowserByName = "Browser: "
-
-selectBrowserByName :: XPConfig -> X ()
-selectBrowserByName conf = do
-  cmds <- io getCommands
-  mkXPrompt
-    BrowserByName
-    conf
-    (aListCompFunc conf $ filter (\(x, y) -> y `elem` cmds) browserNames)
-    go
- where
-  go :: String -> X ()
-  go selected = forM_ (lookup selected browserNames) (spawnOn web)
-
-  browserNames :: [(String, String)]
-  browserNames =
-    [ ("Firefox"      , "firefox")
-    , ("Chromium"     , "chromium")
-    , ("Google-chrome", "google-chrome-stable")
-    , ("Brave"        , "brave")
-    , ("Qutebrowser"  , "qutebrowser")
-    ]
-
-
--- | Use @Prompt@ to choose a reader which then will be runned on Read workspace.
-data ReaderByName = ReaderByName
-
-instance XPrompt ReaderByName where
-  showXPrompt ReaderByName = "Reader: "
-
-selectReaderByName :: XPConfig -> X ()
-selectReaderByName conf = do
-  cmds <- io getCommands
-  mkXPrompt
-    ReaderByName
-    conf
-    (aListCompFunc conf $ filter (\(x, y) -> y `elem` cmds) readerNames)
-    go
- where
-  go :: String -> X ()
-  go selected = forM_ (lookup selected readerNames) (spawnOn wsread)
-  -- case lookup selected readerNames of
-  --   Nothing      -> return ()
-  --   Just reader -> spawnOn wsread reader
-
-  readerNames :: [(String, String)]
-  readerNames =
-    [("Zathura", "zathura"), ("Foliate", "foliate"), ("Evince", "evince")]

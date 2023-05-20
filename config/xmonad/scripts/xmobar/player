@@ -1,11 +1,11 @@
 #!/bin/sh
 
 player_status=$(playerctl --player playerctld status)
+artist=$(playerctl metadata artist)
+title=$(playerctl metadata title)
 
-if [ "$player_status" = "Playing" ]; then
-    echo "$(playerctl metadata artist) - $(playerctl metadata title)"
-elif [ "$player_status" = "Paused" ]; then
-    echo "$(playerctl metadata artist) - $(playerctl metadata title)"
+if [ "$player_status" = "Playing" ] || [ "$player_status" = "Paused" ]; then
+    echo "$artist - $title"
 else
     echo ""
 fi

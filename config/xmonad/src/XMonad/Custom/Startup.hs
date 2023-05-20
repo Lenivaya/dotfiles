@@ -10,5 +10,5 @@ import           XMonad.Util.SpawnOnce
 
 startupHook :: X ()
 startupHook = do
-  spawn "betterlockscreen -w"
   setWMName "xmonad"
+  spawn "betterlockscreen -w"

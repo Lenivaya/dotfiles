@@ -2,13 +2,15 @@ module XMonad.Custom.Search
   ( mySearch
   ) where
 
+import           Data.List
 import           XMonad
 import           XMonad.Actions.Search
+import           XMonad.Actions.ShowText
 import           XMonad.Custom.Prompt
 import           XMonad.Prompt
 
-myEngine = intelligent . namedEngine "multi" $ foldr1
-  (!>)
+myEngines :: [SearchEngine]
+myEngines =
   [ alpha
   , mathworld
   , wikipedia
@@ -26,4 +28,16 @@ myEngine = intelligent . namedEngine "multi" $ foldr1
   , prefixAware google
   ]
 
-mySearch = promptSearch (promptNoCompletion promptThemeVim) myEngine
+engineNames :: [String]
+engineNames = map getName myEngines where getName (SearchEngine name _) = name
+
+myEngine = intelligent . namedEngine "multi" $ foldr1 (!>) myEngines
+
+showAllEngines :: X ()
+showAllEngines = flashText helpPromptConfig 0.5 prompt
+  where prompt = unwords engineNames
+
+mySearch :: X ()
+mySearch =
+  showAllEngines >> promptSearch (promptNoCompletion promptTheme) myEngine
+

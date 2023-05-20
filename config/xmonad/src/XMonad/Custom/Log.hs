@@ -1,15 +1,16 @@
-{-# LANGUAGE LambdaCase #-}
-
 module XMonad.Custom.Log
   ( logHook
   , topBarPP'
   , botBarPP
   ) where
 
-import           Data.List                      ( isInfixOf )
+import           Data.List                      ( find
+                                                , isInfixOf
+                                                )
 import           System.IO
 import           XMonad                  hiding ( logHook )
 import           XMonad.Actions.CopyWindow
+import           XMonad.Custom.Layout           ( layoutNames )
 import           XMonad.Custom.Scratchpads
 import           XMonad.Custom.Theme
 import           XMonad.Hooks.CurrentWorkspaceOnTop
@@ -17,7 +18,11 @@ import           XMonad.Hooks.EwmhDesktops
 import           XMonad.Hooks.RefocusLast
 import           XMonad.Hooks.ShowWName
 import           XMonad.Hooks.StatusBar.PP
+import qualified XMonad.StackSet               as W
 import           XMonad.Util.ClickableWorkspaces
+import           XMonad.Util.NamedScratchpad
+                                         hiding ( namedScratchpadFilterOutWorkspace
+                                                )
 import           XMonad.Util.SpawnNamedPipe
 import           XMonad.Util.WorkspaceCompare
 
@@ -31,15 +36,21 @@ import           XMonad.Util.WorkspaceCompare
 
 
 layoutName :: String -> String
-layoutName l | "BSP" `isInfixOf` l         = "BSP"
-             | "Circle" `isInfixOf` l      = "Circle"
-             | "Tall" `isInfixOf` l        = "Tall"
-             | "ThreeColMid" `isInfixOf` l = "ThreeColMid"
-             | "OneBig" `isInfixOf` l      = "OneBig"
-             | "Monocle" `isInfixOf` l     = "Monocle"
-             | "Grid" `isInfixOf` l        = "Grid"
-             | otherwise                   = ""
+layoutName l = maybe "" id $ find (`isInfixOf` l) layoutNames
 
+windowCount =
+  Just
+    .   xmobarColor white2 ""
+    .   xmobarFont 2
+    .   wrap "[" "]"
+    .   show
+    .   length
+    .   W.integrate'
+    .   W.stack
+    .   W.workspace
+    .   W.current
+    .   windowset
+    <$> get
 
 topBarPP :: PP
 topBarPP = def
@@ -53,10 +64,12 @@ topBarPP = def
   , ppTitle           = xmobarColor white1 "" . shorten 80
   , ppTitleSanitize   = xmobarStrip
   , ppLayout          = xmobarColor white1 "" . layoutName
-  , ppOrder           = id
+  -- , ppOrder           = id
+  , ppOrder           = \[ws, l, t, ex] -> [ws, l, ex, t]
   , ppSort            = (namedScratchpadFilterOutWorkspace .) <$> getSortByIndex
-  , ppExtras          = []
+  , ppExtras          = [windowCount]
   }
+
 
 topBarPP' :: X PP
 topBarPP' = do
@@ -72,6 +85,7 @@ topBarPP' = do
   let copiesUrgent ws
         | ws `elem` c = xmobarColor yellow2 "" . wrap "*" "!" $ ws
         | otherwise   = xmobarColor white2 "" . wrap "!" "!" $ ws
+
 
   let copiesCurrentPP = xmobarColor yellow1 "" . wrap "*" "-"
 
@@ -96,3 +110,4 @@ logHook = do
   refocusLastLogHook
   currentWorkspaceOnTop
   showWNameLogHook def
+  -- nsHideOnFocusLoss scratchpads
