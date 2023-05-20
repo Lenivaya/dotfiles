@@ -36,7 +36,7 @@ in {
       flake = {
         enable = true;
         prefix = "unstable";
-        compiler = "ghc924";
+        # compiler = "ghc924";
       };
     };
 
@@ -55,6 +55,7 @@ in {
       pstree # window swallowing
       xdotool # cliclable workspaces
       autorandr # to use with rescreen
+      xkb-switch # switch kbd layout when needed
     ];
     fonts.fonts = with pkgs; [
       siji # some nice icons (awfull on hidpi)

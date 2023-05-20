@@ -7,6 +7,7 @@ module XMonad.Custom.Prompt
   , promptThemeVim
   , promptNoCompletion
   , gridSelectTheme
+  , helpPromptConfig
   ) where
 
 import           Data.Char
@@ -14,6 +15,7 @@ import           Data.List
 import           Data.Ratio
 import           XMonad
 import           XMonad.Actions.GridSelect
+import           XMonad.Actions.ShowText
 import qualified XMonad.Custom.Theme           as T
 import           XMonad.Prompt
 import           XMonad.Prompt.FuzzyMatch
@@ -32,7 +34,8 @@ promptTheme = def
   , borderColor          = T.white2
   , promptBorderWidth    = T.border
   , height               = T.height
-  , position             = CenteredAt { xpCenterY = 3 % 10, xpWidth = 9 % 10 }
+  -- , position             = CenteredAt { xpCenterY = 3 % 10, xpWidth = 9 % 10 }
+  , position             = CenteredAt { xpCenterY = 3 % 10, xpWidth = 1 % 2 }
   , maxComplRows         = Just 5
   , alwaysHighlight      = True
   , searchPredicate      = fuzzyMatch
@@ -44,11 +47,10 @@ promptTheme = def
 
 promptThemeVim = promptTheme { promptKeymap = vimLikeXPKeymap }
 
-hotPromptTheme = promptNoCompletion promptTheme { bgColor      = T.black2
-                                                , fgColor      = T.white2
-                                                , fgHLight     = T.white1
-                                                , bgHLight     = T.black1
-                                                , autoComplete = Nothing
+hotPromptTheme = promptNoCompletion promptTheme { bgColor  = T.black2
+                                                , fgColor  = T.white2
+                                                , fgHLight = T.white1
+                                                , bgHLight = T.black1
                                                 }
 
 colorizer :: a -> Bool -> X (String, String)
@@ -70,3 +72,6 @@ aListCompFunc c xs = listCompFunc c (map fst xs)
 
 predicateFunction :: String -> String -> Bool
 predicateFunction x y = lc x `isInfixOf` lc y where lc = map toLower
+
+helpPromptConfig :: ShowTextConfig
+helpPromptConfig = def { st_font = "xft:monospace:size=12" }

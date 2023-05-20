@@ -31,22 +31,20 @@ import           XMonad.Actions.Minimize
 import           XMonad.Actions.MostRecentlyUsed
 import           XMonad.Actions.Navigation2D
 import           XMonad.Actions.TiledWindowDragging
+-- import           XMonad.Actions.ToggleFullFloat
 import           XMonad.Actions.UpdatePointer
 import           XMonad.Actions.WindowGo
 import           XMonad.Actions.WindowMenu
 import           XMonad.Actions.WithAll
+import           XMonad.Custom.ApplicationChooser
+import           XMonad.Custom.Calculator
+import           XMonad.Custom.KeyboardUtils
 import           XMonad.Custom.Layout
+import           XMonad.Custom.LayoutChooser
 import qualified XMonad.Custom.Misc            as C
-import qualified XMonad.Custom.Misc            as C
-import           XMonad.Custom.Prompt           ( gridSelectTheme
-                                                , hotPromptTheme
-                                                , promptNoCompletion
-                                                , promptTheme
-                                                , promptThemeVim
-                                                )
+import           XMonad.Custom.Prompt
 import           XMonad.Custom.Scratchpads
 import           XMonad.Custom.Search
-import           XMonad.Custom.Workspaces       ( selectBrowserByName )
 import           XMonad.Hooks.ManageDocks
 import           XMonad.Hooks.UrgencyHook
 import           XMonad.Layout.BinarySpacePartition
@@ -61,12 +59,14 @@ import           XMonad.Layout.SubLayouts
 import           XMonad.Operations              ( restart )
 import           XMonad.Prompt                  ( XPConfig(..) )
 import           XMonad.Prompt.ConfirmPrompt
+import           XMonad.Prompt.Man
 import           XMonad.Prompt.Pass
 import           XMonad.Prompt.Shell
 import           XMonad.Prompt.Window
 import           XMonad.Prompt.Workspace
 import qualified XMonad.StackSet               as S
 import           XMonad.Util.EZConfig
+import           XMonad.Util.NamedActions
 import           XMonad.Util.NamedScratchpad
                                          hiding ( namedScratchpadFilterOutWorkspace
                                                 )
@@ -92,26 +92,24 @@ toggleCopyToAll = wsContainingCopies >>= \case
 getSortByIndexNonSP :: X ([WindowSpace] -> [WindowSpace])
 getSortByIndexNonSP = (. namedScratchpadFilterOutWorkspace) <$> getSortByIndex
 
+
 nextNonEmptyWS, prevNonEmptyWS :: X ()
-nextNonEmptyWS = findWorkspace getSortByIndexNonSP Next HiddenNonEmptyWS 1
-  >>= \t -> windows . S.view $ t
-prevNonEmptyWS = findWorkspace getSortByIndexNonSP Prev HiddenNonEmptyWS 1
-  >>= \t -> windows . S.view $ t
+nextNonEmptyWS =
+  findWorkspace getSortByIndexNonSP Next HiddenNonEmptyWS 1 >>= windows . S.view
+prevNonEmptyWS =
+  findWorkspace getSortByIndexNonSP Prev HiddenNonEmptyWS 1 >>= windows . S.view
 
 toggleFloat :: Window -> X ()
-toggleFloat w = windows
-  (\s -> if M.member w (S.floating s)
-    then S.sink w s
-    else S.float
-      w
-      (S.RationalRect (1 / 2 - 1 / 4) (1 / 2 - 1 / 4) (1 / 2) (1 / 2))
-      s
-  )
+toggleFloat w = windows $ \s -> if M.member w (S.floating s)
+  then S.sink w s
+  else S.float
+    w
+    (S.RationalRect (1 / 2 - 1 / 4) (1 / 2 - 1 / 4) (1 / 2) (1 / 2))
+    s
 
 withUpdatePointer :: [(String, X ())] -> [(String, X ())]
 withUpdatePointer = map addAction
  where
-  addAction :: (String, X ()) -> (String, X ())
   addAction (key, action) = (key, action >> updatePointer (0.98, 0.01) (0, 0))
 
 keys :: XConfig Layout -> M.Map (KeyMask, KeySym) (X ())
@@ -131,29 +129,43 @@ rawKeys c = withUpdatePointer $ concatMap ($ c) keymaps
     , keysWindows
     , keysLayout
     , keysResize
+    , keysSelect
     ]
 
 keysBase :: XConfig Layout -> [(String, X ())]
 keysBase _ =
-  [ ("M-q q", confirmPrompt hotPromptTheme "Quit XMonad?" $ io exitSuccess)
-  -- , ("M-q r", spawn "xmonad --restart")
+  [ ( "M-q q"
+    , wrapKbdLayout $ confirmPrompt hotPromptTheme "Quit XMonad?" $ io
+      exitSuccess
+    )
   , ("M-q r"   , restart "xmonad" True)
-  , ("M-x"     , shellPrompt promptTheme)
+  , ("M-x"     , wrapKbdLayout $ shellPrompt promptTheme)
   , ("M-S-x"   , spawn (C.appmenu C.applications))
   , ("M-c"     , spawn (C.clipboardSelector C.applications))
   , ("M1-<Tab>", mostRecentlyUsed [xK_Alt_L, xK_Alt_R] xK_Tab)
   ]
 
+keysSelect :: XConfig Layout -> [(String, X ())]
+keysSelect _ = [("M-s k", selectKbdLayout $ promptNoCompletion promptTheme)]
+
 keysPass :: XConfig Layout -> [(String, X ())]
 keysPass _ =
-  [ ("M-p p", passPrompt promptTheme)
-  , ("M-p g", passGenerateAndCopyPrompt $ promptNoCompletion promptThemeVim)
-  , ("M-p d", passRemovePrompt promptTheme)
-  , ("M-p t", passTypePrompt promptTheme)
+  [ ("M-p p", wrapKbdLayout $ passPrompt promptTheme)
+  , ( "M-p g"
+    , wrapKbdLayout $ passGenerateAndCopyPrompt $ promptNoCompletion
+      promptThemeVim
+    )
+  , ("M-p d", wrapKbdLayout $ passRemovePrompt promptTheme)
+  , ("M-p t", wrapKbdLayout $ passTypePrompt promptTheme)
   ]
 
 keysGo :: XConfig Layout -> [(String, X ())]
-keysGo _ = [("M-g s", mySearch)]
+keysGo _ =
+  [ ("M-g s", mySearch)
+  , ("M-g m", wrapKbdLayout $ manPrompt $ promptNoCompletion promptTheme)
+  , ("M-g c", wrapKbdLayout $ calcPrompt (promptNoCompletion promptTheme) "")
+  -- , ("M-g c", wrapKbdLayout $ calcPrompt (promptNoCompletion promptTheme))
+  ]
 
 keysSystem :: XConfig Layout -> [(String, X ())]
 keysSystem _ =
@@ -176,13 +188,16 @@ keysMedia _ =
 
 keysWorkspaces :: XConfig Layout -> [(String, X ())]
 keysWorkspaces _ =
-  [ ("M-w S-o"  , switchProjectPrompt promptTheme)
-    , ("M-w C-S-o", switchProjectPrompt $ promptNoCompletion promptTheme)
-    , ("M-w S-s"  , shiftToProjectPrompt promptTheme)
-    , ("M-w S-n"  , renameProjectPrompt hotPromptTheme)
-    , ("M-,"      , nextNonEmptyWS)
-    , ("M-."      , prevNonEmptyWS)
-    , ("M-i"      , toggleWS' ["NSP"])
+  [ ("M-w S-o", wrapKbdLayout $ switchProjectPrompt promptTheme)
+    , ( "M-w C-S-o"
+      , wrapKbdLayout $ switchProjectPrompt $ promptNoCompletion promptTheme
+      )
+    , ("M-w S-s", wrapKbdLayout $ shiftToProjectPrompt promptTheme)
+    , ("M-w S-n", wrapKbdLayout $ renameProjectPrompt hotPromptTheme)
+    , ("M-w <Backspace>", removeWorkspace)
+    , ("M-,"            , nextNonEmptyWS)
+    , ("M-."            , prevNonEmptyWS)
+    , ("M-i"            , toggleWS' ["NSP"])
     , ("M-n", workspacePrompt promptTheme $ windows . S.shift)
     , ("M-w w", gridselectWorkspace gridSelectTheme S.greedyView)
     ]
@@ -198,9 +213,8 @@ keysSpawnables _ =
   , ("M-C-<Return>"  , spawn (C.termSmallFont C.applications))
   , ("M-C-S-<Return>", spawn (C.termSmallFont C.applications ++ " -e tmux"))
   , ("M-o b"         , spawn (C.browser C.applications))
-  , ("M-o S-b"       , selectBrowserByName promptTheme)
+  , ("M-o S-b", wrapKbdLayout $ selectBrowserByNameAndSpawn promptTheme)
   , ("M-o e"         , raiseEditor)
-    -- Edit some text in emacs
   , ("M-o S-e", spawn "emacsclient --eval '(emacs-everywhere)'")
   , ("M-o c", namedScratchpadAction scratchpads "console")
   , ("M-o m"         , namedScratchpadAction scratchpads "music")
@@ -213,10 +227,11 @@ keysSpawnables _ =
 keysWindows :: XConfig Layout -> [(String, X ())]
 keysWindows _ =
   [ ("M-w k"  , kill)
-    , ("M-w S-k", confirmPrompt hotPromptTheme "Kill all" killAll)
-    , ("M-w d"  , windowMenu)
-    , ("M-w g", windowPrompt promptTheme Goto allWindows)
-    , ("M-w b", windowPrompt promptTheme Bring allWindows)
+    , ("M-w S-k", wrapKbdLayout $ confirmPrompt hotPromptTheme "Kill all" killAll)
+    , ("M-w d"  , wrapKbdLayout windowMenu)
+    , ("M-w g", wrapKbdLayout $ windowPrompt promptTheme Goto allWindows)
+    , ("M-w /", wrapKbdLayout $ windowPrompt promptTheme Goto wsWindows)
+    , ("M-w b", wrapKbdLayout $ windowPrompt promptTheme Bring allWindows)
     , ("M-w c"  , toggleCopyToAll)
     , ("M-w o"  , sendMessage Mag.Toggle)
     -- To remove focused copied window from current workspace
@@ -252,7 +267,7 @@ keysLayout c =
   [ ("M-<Tab>"      , sendMessage NextLayout)
   , ("M-C-<Tab>"    , toSubl NextLayout)
   , ("M-S-<Tab>"    , setLayout $ XMonad.layoutHook c)
-  , ("M-<Backspace>", selectLayoutByName promptTheme)
+  , ("M-<Backspace>", wrapKbdLayout $ selectLayoutByName promptTheme)
   , ("M-y"          , withFocused toggleFloat)
   , ("M-S-y"        , sinkAll)
   , ("M-S-,"        , sendMessage $ IncMasterN (-1))
@@ -260,6 +275,7 @@ keysLayout c =
   , ( "M-f"
     , sequence_ [withFocused $ windows . S.sink, sendMessage $ Toggle NBFULL]
     )
+  -- , ("M-f"          , withFocused toggleFullFloat)
   , ("M-S-f", withFocused (sendMessage . maximizeRestore))
     -- FIXME Breaks merged tabbed layout
   , ("M-C-g", sendMessage $ Toggle GAPS)

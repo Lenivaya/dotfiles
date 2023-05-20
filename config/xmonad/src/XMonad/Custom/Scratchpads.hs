@@ -4,6 +4,7 @@ module XMonad.Custom.Scratchpads
   ) where
 
 import           XMonad.Core
+import           XMonad.Custom.ManageHelpers    ( centerFloat )
 import           XMonad.Custom.Misc            as C
 import           XMonad.ManageHook
 import qualified XMonad.StackSet               as S
@@ -12,15 +13,19 @@ import           XMonad.Util.NamedScratchpad
                                                 )
 import           XMonad.Util.WorkspaceCompare
 
+
+
 spawnTerminalWith :: String -> String -> String
-spawnTerminalWith cl cm =
-  term applications ++ " --class " ++ cl ++ "," ++ cl ++ " -e " ++ cm
+spawnTerminalWith className command = unwords $ terminal : options
+ where
+  terminal = term applications
+  options  = ["--class", class', "-e", command]
+  class'   = className ++ "," ++ className
+
 
 floatingNSP :: ManageHook
-floatingNSP = customFloating $ S.RationalRect x y w h
+floatingNSP = centerFloat w h
  where
-  x = (1 - w) / 2
-  y = (1 - h) / 2
   w = 1 / 2
   h = 1 / 2.5
 
@@ -37,15 +42,19 @@ scratchpads =
        floatingNSP
   , NS "soundEffects"
        (C.soundEffects C.applications)
-       (className =? "easyeffects")
-       floatingNSP
-  , NS "music" (C.player C.applications) (className =? "Spotify") nonFloating
+       (appName =? "easyeffects")
+       (centerFloat 0.6 0.6)
+  , NS "music"
+       (C.player C.applications)
+       (className =? "Spotify")
+       doFullCenterFloat
   , NS "top"
        (spawnTerminalWith "NSPTop" (C.top C.applications))
        (className =? "NSPTop")
        floatingNSP
-  , NS "discord" "Discord" (className =? "discord") floatingNSP
+  , NS "discord" "Discord" (className =? "discord") doFullCenterFloat
   ]
+  where doFullCenterFloat = centerFloat 0.7 0.7
 
 
 namedScratchpadFilterOutWorkspace = filterOutWs [scratchpadWorkspaceTag]
