@@ -39,6 +39,7 @@
   "media.rdd-vpx.enabled" = true;
   "media.ffvpx.enabled" = true;
   "media.navigator.mediadatadecoder_vpx_enabled" = true;
+  "gfx.webrender.all" = true;
 
   # Do not check if Firefox is the default browser
   "browser.shell.checkDefaultBrowser" = false;

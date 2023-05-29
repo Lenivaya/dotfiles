@@ -33,7 +33,8 @@ in {
 
     home.programs.firefox = {
       enable = true;
-      package = pkgs.firefox.override {
+      # package = pkgs.firefox-bin.override {
+      package = pkgs.firefox-bin.override {
         extraNativeMessagingHosts = with pkgs; [
           # Watch videos using mpv
           nur.repos.ambroisie.ff2mpv-go

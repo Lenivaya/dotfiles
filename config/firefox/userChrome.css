@@ -7,46 +7,31 @@
   }
 
   /* Replace favicon on tabs with close button on mouse hover */
-  .tabbrowser-tab:not(:hover) .tab-close-button,
-  .tabbrowser-tab:not([pinned]):hover .tab-icon-image {
-    display: none !important;
+  .tabbrowser-tab:not(:hover) .tab-close-button {
+    display: none;
   }
   .tabbrowser-tab:not([pinned]):hover .tab-close-button {
     display: block !important;
   }
-
+  .tabbrowser-tab:not([pinned]):hover .tab-icon-image {
+    display: none !important;
+  }
   .tabbrowser-tab:hover .tab-throbber,
   .tabbrowser-tab:hover .tab-icon-image,
   .tabbrowser-tab:hover .tab-sharing-icon-overlay,
   .tabbrowser-tab:hover .tab-icon-overlay,
   .tabbrowser-tab:hover .tab-label-container,
   .tabbrowser-tab:hover .tab-icon-sound {
-    -moz-box-ordinal-group: 2 !important;
+    order: 2 !important;
   }
-
   .tabbrowser-tab .tab-close-button {
     margin-left: -2px !important;
     margin-right: 4px !important;
   }
 
-  .tab-close-button:hover {
-    fill-opacity: 0 !important;
-  }
-
-  .tabbrowser-tab::after,
-  .tabbrowser-tab::before {
-    border-left: none !important;
-    border-right: none !important;
-  }
-
-  .scrollbutton-up[orient="horizontal"] ~ spacer {
-    border-width: 0px;
-    opacity: 0;
-  }
-
   /* Center align tabs */
   scrollbox[orient="horizontal"] {
-    -moz-box-pack: center;
+    justify-content: center;
   }
 
   /*** NAV BAR ***/
@@ -82,61 +67,84 @@
   }
 }
 
-/* # /\* Hide one tab *\/ */
-/* # :root[sizemode="normal"] #nav-bar{ --uc-window-drag-space-width: 20px } */
-/* # #titlebar{ -moz-appearance: none !important; } */
-/* # #TabsToolbar{ min-height: 0px !important } */
-/* # #tabbrowser-tabs, */
-/* # #tabbrowser-arrowscrollbox{ min-height: 0 !important; } */
-/* # :root:not([customizing]) #tabs-newtab-button, */
-/* # :root:not([customizing]) #TabsToolbar-customization-target > .toolbarbutton-1, */
-/* # :root:not([customizing]) #TabsToolbar .titlebar-button{ */
-/* #   -moz-appearance: none !important; */
-/* #   height: 0px; */
-/* #   padding-top: 0px !important; */
-/* #   padding-bottom: 0px !important; */
-/* #   -moz-box-align: stretch; */
-/* #   margin: 0 !important; */
-/* # } */
-/* # .accessibility-indicator, */
-/* # .private-browsing-indicator{ */
-/* #   height: unset !important; */
-/* # } */
-/* # .accessibility-indicator > hbox{ padding-block: 0 !important } */
-/* # .tabbrowser-tab{ */
-/* #   height: calc(var(--tab-min-height) + 2 * var(--tab-block-margin,0px)); */
-/* # } */
-/* # .tabbrowser-tab[first-visible-tab="true"][last-visible-tab="true"]{ */
-/* #   visibility: collapse !important; */
-/* #   /\* These seem unnecessary, but they achieve compatibility with hide_tabs_with_one_tab.css *\/ */
-/* #   min-height: 0 !important; */
-/* #   height: 0; */
-/* # } */
-/* # /\* Button re-styling *\/ */
-/* # #tabs-newtab-button{ transform: scale(0.8); } */
-/* # #tabs-newtab-button:hover{ */
-/* #   background-color: var(--toolbarbutton-hover-background); */
-/* #   border-radius: var(--tab-border-radius); */
-/* # } */
-/* # #tabs-newtab-button > .toolbarbutton-icon{ */
-/* #   padding: 0 !important; */
-/* #   transform: scale(0.5); */
-/* #   background-color: transparent !important; */
-/* # } */
-/* # /\* Fix window controls not being clickable *\/ */
-/* # :root[tabsintitlebar] #toolbar-menubar[autohide="true"][inactive]{ */
-/* #   transition: height 0ms steps(1) 80ms; */
-/* # } */
-/* # :where(#nav-bar){ */
-/* #   border-inline: var(--uc-window-drag-space-width,0) solid var(--toolbar-bgcolor); */
-/* # } */
-/* # @media (-moz-platform: linux){ */
-/* #   #TabsToolbar .titlebar-buttonbox{ */
-/* #     -moz-box-align: stretch !important; */
-/* #   } */
-/* #   #TabsToolbar > .titlebar-buttonbox-container > .titlebar-buttonbox > .titlebar-button{ */
-/* #     transform: scale(0.8); */
-/* #     margin-inline: -3px !important; */
-/* #   } */
-/* #   #TabsToolbar .titlebar-button > .toolbarbutton-icon{ padding: 0 13px !important } */
-/* # } */
+/* before version 113 */
+/* { */
+/*   :root { */
+/*     --tab-min-height: 32px !important; */
+/*   } */
+
+/*   /\* Replace favicon on tabs with close button on mouse hover *\/ */
+/*   .tabbrowser-tab:not(:hover) .tab-close-button, */
+/*   .tabbrowser-tab:not([pinned]):hover .tab-icon-image { */
+/*     display: none !important; */
+/*   } */
+/*   .tabbrowser-tab:not([pinned]):hover .tab-close-button { */
+/*     display: block !important; */
+/*   } */
+
+/*   .tabbrowser-tab:hover .tab-throbber, */
+/*   .tabbrowser-tab:hover .tab-icon-image, */
+/*   .tabbrowser-tab:hover .tab-sharing-icon-overlay, */
+/*   .tabbrowser-tab:hover .tab-icon-overlay, */
+/*   .tabbrowser-tab:hover .tab-label-container, */
+/*   .tabbrowser-tab:hover .tab-icon-sound { */
+/*     -moz-box-ordinal-group: 2 !important; */
+/*   } */
+
+/*   .tabbrowser-tab .tab-close-button { */
+/*     margin-left: -2px !important; */
+/*     margin-right: 4px !important; */
+/*   } */
+
+/*   .tab-close-button:hover { */
+/*     fill-opacity: 0 !important; */
+/*   } */
+
+/*   .tabbrowser-tab::after, */
+/*   .tabbrowser-tab::before { */
+/*     border-left: none !important; */
+/*     border-right: none !important; */
+/*   } */
+
+/*   .scrollbutton-up[orient="horizontal"] ~ spacer { */
+/*     border-width: 0px; */
+/*     opacity: 0; */
+/*   } */
+
+/*   /\* Center align tabs *\/ */
+/*   scrollbox[orient="horizontal"] { */
+/*     -moz-box-pack: center; */
+/*   } */
+
+/*   /\*** NAV BAR ***\/ */
+/*   /\* Hide urlbar *\/ */
+/*   #nav-bar:not([customizing="true"]) { */
+/*     position: relative !important; */
+/*     z-index: 2 !important; */
+/*     height: 2px !important; */
+/*     min-height: 2px !important; */
+/*     margin-bottom: -2px !important; */
+/*     opacity: 0 !important; */
+/*     border: none !important; */
+/*   } */
+
+/*   /\* ...but unfocus it when we invoke it with ctrl+L *\/ */
+/*   #nav-bar:focus-within { */
+/*     height: auto !important; */
+/*     margin-bottom: 0px !important; */
+/*     opacity: 1 !important; */
+/*     overflow: show !important; */
+/*   } */
+
+/*   #urlbar-container { */
+/*     min-height: 0 !important; */
+/*   } */
+
+/*   #urlbar { */
+/*     top: 0 !important; */
+/*   } */
+
+/*   #urlbar-input-container { */
+/*     height: 28px !important; */
+/*   } */
+/* } */
