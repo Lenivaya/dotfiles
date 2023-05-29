@@ -41,6 +41,7 @@ import           XMonad.Custom.Calculator
 import           XMonad.Custom.KeyboardUtils
 import           XMonad.Custom.Layout
 import           XMonad.Custom.LayoutChooser
+import           XMonad.Custom.Minimize
 import qualified XMonad.Custom.Misc            as C
 import           XMonad.Custom.Prompt
 import           XMonad.Custom.Scratchpads
@@ -226,29 +227,30 @@ keysSpawnables _ =
 
 keysWindows :: XConfig Layout -> [(String, X ())]
 keysWindows _ =
-  [ ("M-w k"  , kill)
+  [ ("M-w k"    , kill)
     , ("M-w S-k", wrapKbdLayout $ confirmPrompt hotPromptTheme "Kill all" killAll)
-    , ("M-w d"  , wrapKbdLayout windowMenu)
+    , ("M-w d"    , wrapKbdLayout windowMenu)
     , ("M-w g", wrapKbdLayout $ windowPrompt promptTheme Goto allWindows)
     , ("M-w /", wrapKbdLayout $ windowPrompt promptTheme Goto wsWindows)
     , ("M-w b", wrapKbdLayout $ windowPrompt promptTheme Bring allWindows)
-    , ("M-w c"  , toggleCopyToAll)
-    , ("M-w o"  , sendMessage Mag.Toggle)
+    , ("M-w c"    , toggleCopyToAll)
+    , ("M-w o"    , sendMessage Mag.Toggle)
     -- To remove focused copied window from current workspace
-    , ("M-w S-c", kill1)
-    , ("M-w h"  , withFocused minimizeWindow)
+    , ("M-w S-c"  , kill1)
+    , ("M-w h"    , withFocused minimizeWindow)
     , ("M-w S-h", withLastMinimized maximizeWindowAndFocus)
+    , ("M-w C-S-h", selectMaximizeWindow)
     , ("M-w r", tryMessageR_ Rotate (Toggle REFLECTX))
-    , ("M-w S-r", sendMessage $ Toggle REFLECTX)
+    , ("M-w S-r"  , sendMessage $ Toggle REFLECTX)
     , ("M-w t", withFocused $ sendMessage . MergeAll)
     , ("M-w S-t", withFocused $ sendMessage . UnMerge)
-    , ("M-w u"  , focusUrgent)
-    , ("M-w m"  , windows S.focusMaster)
-    , ("M-w S-m", dwmpromote)
-    , ("M-'"    , onGroup S.focusDown')
-    , ("M-;"    , onGroup S.focusUp')
-    , ("M-S-'"  , windows S.swapDown)
-    , ("M-S-;"  , windows S.swapUp)
+    , ("M-w u"    , focusUrgent)
+    , ("M-w m"    , windows S.focusMaster)
+    , ("M-w S-m"  , dwmpromote)
+    , ("M-'"      , onGroup S.focusDown')
+    , ("M-;"      , onGroup S.focusUp')
+    , ("M-S-'"    , windows S.swapDown)
+    , ("M-S-;"    , windows S.swapUp)
     , ("M-w s", selectWindow def >>= (`whenJust` windows . S.focusWindow))
     ]
     ++ zipKeys' "M-"   vimKeys directions windowGo   True
