@@ -107,7 +107,8 @@ with lib.my; {
       ssh.enable = true;
       warp.enable = true;
       keyd.enable = true;
-      espanso.enable = true;
+      flatpak.enable = true;
+      # espanso.enable = true;
     };
 
     hardware = {
@@ -254,13 +255,6 @@ with lib.my; {
     # lightworks pitivi
   ];
 
-  # Flatpak
-  services.flatpak.enable = true;
-  xdg.portal.enable = true;
-  home.file.".local/share/flatpak/overrides/global".text = ''
-    [Context]
-    filesystems=/run/current-system/sw/share/X11/fonts:ro;/nix/store:ro
-  '';
 
   # Fix for libGL.so error
   hardware.opengl = {
