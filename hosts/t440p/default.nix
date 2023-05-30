@@ -252,6 +252,9 @@ with lib.my; {
   user.packages = with pkgs; [
     # binance
     ffmpeg-full
+    obsidian
+
+    my.boomer
     # lightworks pitivi
   ];
 
