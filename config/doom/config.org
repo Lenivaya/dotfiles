@@ -22,7 +22,7 @@ for more info).
 ** Personal information
 Basic personal information
 #+begin_src emacs-lisp
-(setq user-full-name "Daniil Osipchuk"
+(setq user-full-name "Danylo Osipchuk"
       user-mail-address "xocada@gmail.com")
 #+end_src
 ** Better defaults
@@ -272,7 +272,7 @@ vterm             ; another terminals in Emacs
 #+begin_src emacs-lisp
 (syntax                       ; tasing you for every semicolon you forget
  +childframe)
-spell                        ; tasing you for misspelling mispelling
+(spell +aspell)                        ; tasing you for misspelling mispelling
 grammar                      ; tasing grammar mistake every you make
 #+end_src
 
@@ -294,7 +294,8 @@ gist                       ; interacting with github gists
  +docsets)                   ; ...or in Dash docsets locally
 (lsp +peek)                          ; Language Server Protocol
 (magit                       ; a git porcelain for Emacs
- +forge)                     ; interface with git forges
+ ;; +forge
+ )                     ; interface with git forges
 make                         ; run make tasks from Emacs
 pass                       ; password manager for nerds
 pdf                          ; pdf enhancements
@@ -1010,10 +1011,13 @@ Configure it a bit
 (after! emacs-everywhere
   ;;   Make it easier to match with xmonad rule
   (setq emacs-everywhere-frame-name-format "emacs-anywhere")
+  ;; (defun emacs-everywhere-set-frame-position ()
+  ;;   )
 
   ;; The modeline is not useful to me in the popup window. It looks much nicer
   ;; to hide it.
   (remove-hook 'emacs-everywhere-init-hooks #'hide-mode-line-mode)
+  (remove-hook! 'emacs-everywhere-init-hooks #'emacs-everywhere-set-frame-position)
   )
 #+end_src
 ** Eros-eval
@@ -1300,15 +1304,6 @@ Nested snippets are good, enable that.
 #+begin_src emacs-lisp
 (setq yas-triggers-in-field t)
 #+end_src
-# ** NANO
-# #+begin_src emacs-lisp :tangle packages.el
-# (package! doom-themes :disable t)
-# #+end_src
-# #+begin_src emacs-lisp
-# (setq doom-theme nil)
-# (add-to-list 'load-path "~/code/Projects/nano-doom")
-# (require 'load-nano)
-# #+end_src
 ** Fountain
 #+begin_src emacs-lisp :tangle packages.el
 (package! fountain-mode)
@@ -1439,7 +1434,53 @@ It's convenient to open terminals for current dir
     #'terminal-here-project-launch))
   )
 #+end_src
+** Spell-fu
 
+More dictionaries
+
+#+begin_src emacs-lisp
+(add-hook
+ 'spell-fu-mode-hook
+ (lambda ()
+   (spell-fu-dictionary-add (spell-fu-get-ispell-dictionary "uk"))
+   (spell-fu-dictionary-add (spell-fu-get-ispell-dictionary "ru"))
+   ))
+#+end_src
+
+# ** Magit forge
+
+# #+begin_src emacs-lisp
+# (setq forge-database-connector 'sqlite3)
+# #+end_src
+
+# ** NANO
+# #+begin_src emacs-lisp :tangle packages.el
+# ;; (package! doom-themes :disable t)
+# (package! doom-nano-modeline
+#   :recipe (:host github :repo "ronisbr/doom-nano-modeline"))
+
+# (package! doom-nano-themes
+#   :recipe (:host github :repo "ronisbr/doom-nano-themes"))
+# #+end_src
+# #+begin_src emacs-lisp
+# ;; (setq doom-theme nil)
+# ;; (add-to-list 'load-path "~/code/Projects/nano-doom")
+# ;; (require 'load-nano)
+
+# ;; (use-package! doom-nano-themes
+#   ;; :after (doom-themes)
+#   ;; :config
+#   ;; ;; (load-theme 'doom-nano-light t)
+#   ;; (setq doom-theme 'doom-nano-dark)
+#   ;; )
+# (after! doom-themes
+#   (load-theme 'doom-nano-light t))
+
+# (use-package! doom-nano-modeline
+#   :config
+#   (doom-nano-modeline-mode 1)
+#   (global-hide-mode-line-mode 1))
+# #+end_src
 * Applications
 ** Ebooks
 
@@ -1620,13 +1661,16 @@ For editing systemd unit files
 ** Haskell
 Set formatter
 #+begin_src emacs-lisp
-(setq lsp-haskell-formatting-provider "brittany")
+;; (setq lsp-haskell-formatting-provider "brittany")
+;; (setq lsp-haskell-formatting-provider "fourmolu")
+(after! lsp-haskell
+  (setq lsp-haskell-formatting-provider "fourmolu"))
 #+end_src
 
-Prefer configured formatter.
-#+begin_src emacs-lisp
-(setq-hook! 'haskell-mode-hook +format-with-lsp nil)
-#+end_src
+# Prefer configured formatter.
+# #+begin_src emacs-lisp
+# ;; (setq-hook! 'haskell-mode-hook +format-with-lsp nil)
+# #+end_src
 ** Rust
 Disable lsp formatter
 #+begin_src emacs-lisp
@@ -1873,7 +1917,7 @@ further. This mostly consists of tweaking settings, but there is one extra
 package I'll grab for prettier in-buffer citations.
 
 #+begin_src emacs-lisp :noweb-ref none :tangle packages.el
-(package! org-cite-csl-activate :recipe (:host github :repo "andras-simonyi/org-cite-csl-activate") :pin "4fdb61c0f83b5d6db0d07dfd64d2a177fd46e931")
+(package! org-cite-csl-activate :recipe (:host github :repo "andras-simonyi/org-cite-csl-activate") :pin "9e68d9204469c674f49a20bdf7ea85da4f4bf720")
 #+end_src
 
 In particular, by setting ~org-cite-csl-activate-use-document-style~, we can have
@@ -1883,11 +1927,13 @@ Unfortunately, there's currently a potential for undesirable buffer
 modifications, so we'll put all the activation code behind a function we can
 call when we want it.
 
-#+begin_src emacs-lisp :noweb-ref none :tangle yes
+#+begin_src emacs-lisp
 (use-package! oc-csl-activate
   :after oc
   :config
-  (setq org-cite-csl-activate-use-document-style t)
+  (setq org-cite-csl-activate-use-document-style t
+        org-cite-csl-activate-use-document-locale t
+    )
   (defun +org-cite-csl-activate/enable ()
     (interactive)
     (setq org-cite-activate-processor 'csl-activate)
@@ -1908,7 +1954,7 @@ Now that =oc-csl-activate= is set up, let's go ahead and customise some of the
 packages already loaded. For starters, we can make use of the my Zotero files
 with =citar=, and make the symbols a bit prettier.
 
-#+begin_src emacs-lisp :noweb-ref none :tangle yes
+#+begin_src emacs-lisp
 (after! citar
   (setq org-cite-global-bibliography
         (let ((libfile-search-names '("library.json" "Library.json" "library.bib" "Library.bib"))
@@ -1928,7 +1974,7 @@ with =citar=, and make the symbols a bit prettier.
 
 We can also make the Zotero CSL styles available to use.
 
-#+begin_src emacs-lisp :noweb-ref none :tangle yes
+#+begin_src emacs-lisp
 (after! oc-csl
   (setq org-cite-csl-styles-dir "~/Zotero/styles"))
 #+end_src
@@ -1936,7 +1982,7 @@ We can also make the Zotero CSL styles available to use.
 Since CSL works so nicely everywhere, we might as well use it as the default
 citation export processor for everything.
 
-#+begin_src emacs-lisp :noweb-ref none :tangle yes
+#+begin_src emacs-lisp
 (after! oc
   (setq org-cite-export-processors '((t csl))))
 #+end_src
@@ -1944,7 +1990,7 @@ citation export processor for everything.
 Then, for convenience we'll cap things off by putting the citation command under
 Org's localleader.
 
-#+begin_src emacs-lisp :noweb-ref none :tangle yes
+#+begin_src emacs-lisp
 (map! :after org
       :map org-mode-map
       :localleader
@@ -1954,7 +2000,7 @@ Org's localleader.
 Lastly, just in case I come across any old citations of mine, I think it would
 be nice to have a function to convert =org-ref= citations to =org-cite= forms.
 
-#+begin_src emacs-lisp :noweb-ref none :tangle yes
+#+begin_src emacs-lisp
 (after! oc
   (defun org-ref-to-org-cite ()
     "Attempt to convert org-ref citations to org-cite syntax."
@@ -1981,6 +2027,10 @@ be nice to have a function to convert =org-ref= citations to =org-cite= forms.
           (replace-match (format "[cite%s:@%s]"
                                  (cdr (assoc (match-string 1) cite-conversions))
                                  (match-string 2))))))))
+#+end_src
+
+#+begin_src emacs-lisp
+(setq org-cite-csl-locales-dir "~/code/cloned/csl-locales")
 #+end_src
 
 **** Super agenda
@@ -3201,10 +3251,3 @@ config tangling
 #+end_src
 
 
-* Fixes
-** https://github.com/doomemacs/doomemacs/issues/7078
-
-#+begin_src emacs-lisp :tangle packages.el
-(package! transient :pin "c2bdf7e12c530eb85476d3aef317eb2941ab9440")
-(package! with-editor :pin "391e76a256aeec6b9e4cbd733088f30c677d965b")
-#+end_src

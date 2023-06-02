@@ -4,7 +4,6 @@
   lib,
   pkgs,
   inputs,
-  home-manager,
   ...
 }:
 with lib;
@@ -33,39 +32,37 @@ in {
 
     home.programs.firefox = {
       enable = true;
-      # package = pkgs.firefox-bin.override {
       package = pkgs.firefox-bin.override {
         extraNativeMessagingHosts = with pkgs; [
           # Watch videos using mpv
           nur.repos.ambroisie.ff2mpv-go
         ];
       };
-      # package = pkgs.firefox-esr;
-
-      extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-        sponsorblock
-        ublock-origin
-        privacy-badger
-        localcdn # decentraleyes
-        clearurls
-        libredirect
-        # terms-of-service-didnt-read
-        buster-captcha-solver
-
-        tree-style-tab
-        tab-session-manager
-
-        ff2mpv
-        h264ify
-
-        violentmonkey
-
-        refined-github
-        reddit-comment-collapser
-        reddit-enhancement-suite
-      ];
 
       profiles.default = with builtins; {
+        extensions = with pkgs.nur.repos.rycee.firefox-addons; [
+          sponsorblock
+          ublock-origin
+          privacy-badger
+          localcdn # decentraleyes
+          clearurls
+          libredirect
+          # terms-of-service-didnt-read
+          buster-captcha-solver
+
+          tree-style-tab
+          tab-session-manager
+
+          ff2mpv
+          h264ify
+
+          violentmonkey
+
+          refined-github
+          reddit-comment-collapser
+          reddit-enhancement-suite
+        ];
+
         settings = import "${configDir}/firefox/preferences.nix";
 
         userChrome = readFile "${configDir}/firefox/userChrome.css";

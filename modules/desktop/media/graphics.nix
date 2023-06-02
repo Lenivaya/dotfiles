@@ -14,7 +14,6 @@
 with lib;
 with lib.my; let
   cfg = config.modules.desktop.media.graphics;
-  inherit (config.dotfiles) configDir;
 in {
   options.modules.desktop.media.graphics = {
     enable = mkBoolOpt false;
@@ -50,7 +49,7 @@ in {
         then [
           krita
           gimp
-          gimpPlugins.resynthesizer # content-aware scaling in gimp
+          # gimpPlugins.resynthesizer # content-aware scaling in gimp
         ]
         else []
       )

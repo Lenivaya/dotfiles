@@ -8,6 +8,18 @@ with lib.my; let
   cfg = config.modules.hardware.cpu;
 in {
   options.modules.hardware.cpu = {
+    tdp = {
+      nominal = mkOption {
+        type = types.int;
+        default = 0;
+      };
+
+      up = mkOption {
+        type = types.int;
+        default = 0;
+      };
+    };
+
     undervolt = {
       enable = mkBoolOpt false;
       core = mkOption {
@@ -56,5 +68,60 @@ in {
         inherit enable;
         inherit temp;
       };
+
+    services.throttled.extraConfig = let
+      mkValueString = v:
+        if builtins.isFloat v
+        then toString v
+        else if v
+        then "True"
+        else if !v
+        then "False"
+        else generators.mkValueStringDefault {} v;
+      mkKeyValue = generators.mkKeyValueDefault {inherit mkValueString;} ":";
+      toConf = generators.toINI {inherit mkKeyValue;};
+
+      settings = {
+        GENERAL = {
+          Enabled = true;
+          Sysfs_Power_Path = "/sys/class/power_supply/AC*/online";
+        };
+
+        BATTERY = {
+          Update_Rate_s = 30;
+          PL1_Tdp_W = cfg.tdp.nominal - 5;
+          PL1_Duration_s = 30;
+          PL2_Tdp_W = cfg.tdp.nominal + 5;
+          PL2_Duration_S = 0.005;
+          Trip_Temp_C = 80;
+          cTDP = 0;
+          Disable_BDPROCHOT = false;
+        };
+
+        AC = {
+          Update_Rate_s = 5;
+          PL1_Tdp_W = cfg.tdp.up - 5;
+          PL1_Duration_s = 45;
+          PL2_Tdp_W = cfg.tdp.up + 5;
+          PL2_Duration_S = 0.007;
+          Trip_Temp_C = 95;
+          HWP_Mode = true;
+          cTDP = 0;
+          Disable_BDPROCHOT = false;
+        };
+
+        # In theory, the undervolting can be more aggressive since the cpu isn't as stressed
+        "UNDERVOLT.BATTERY" = settings."UNDERVOLT.AC";
+
+        "UNDERVOLT.AC" = with cfg.undervolt; {
+          CORE = core;
+          GPU = gpu;
+          CACHE = cache;
+          UNCORE = uncore;
+          ANALOGIO = analogio;
+        };
+      };
+    in
+      toConf settings;
   };
 }

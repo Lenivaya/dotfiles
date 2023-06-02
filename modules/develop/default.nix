@@ -1,10 +1,4 @@
-{
-  config,
-  options,
-  lib,
-  pkgs,
-  ...
-}: {
+_: {
   modules.dev = {
     nix.enable = true;
   };

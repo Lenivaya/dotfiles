@@ -18,9 +18,7 @@ is_mute() {
 }
 
 send_notification() {
-	local icon message
-
-	if is_mute; then
+	if $(is_mute); then
 		icon="audio-volume-muted"
 		message="mute"
 	else

@@ -2,8 +2,6 @@
   config,
   options,
   lib,
-  pkgs,
-  home-manager,
   ...
 }:
 with lib;

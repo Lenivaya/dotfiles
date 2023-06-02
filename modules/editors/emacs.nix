@@ -2,8 +2,6 @@
   config,
   lib,
   pkgs,
-  inputs,
-  home-manager,
   ...
 }:
 with lib;
@@ -55,7 +53,7 @@ in {
       xclip
       xorg.xwininfo
       xorg.xprop
-      # :checkers spell
+      # :checkers (spell +aspell)
       (aspellWithDicts (ds: with ds; [en en-computers en-science uk ru]))
       # :checkers grammar
       languagetool

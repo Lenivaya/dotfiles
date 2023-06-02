@@ -1,6 +1,5 @@
 {
   config,
-  lib,
   pkgs,
   ...
 }: let
@@ -10,7 +9,6 @@ in {
     youtube-dl = yt-dlp.override {withAlias = true;};
   in
     [
-      # some rust apps
       ripgrep # fast grepper
       fd # rust alternative to find
       exa # ls alternative
@@ -18,6 +16,7 @@ in {
       maim
       scrot # Screenshots
       dua # space usage
+      duf # space usage tables
       ytfzf # find and watch videos on youtube
       handlr # better xdg-utils in rust
       binutils
@@ -59,6 +58,8 @@ in {
       gnome-usage
       # skippy-xd # window exposer
       xdotool
+      lnav #     <- log file navigator
+      procs #    <- a "modern" replacement for ps
       comma # quickly run soft without install using nix
     ]
     ++ (with pkgs.gnome; [

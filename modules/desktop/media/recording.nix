@@ -23,7 +23,13 @@ in {
   config = mkIf cfg.enable {
     home.programs.obs-studio = mkIf cfg.video.enable {
       enable = true;
-      plugins = with pkgs; [obs-studio-plugins.obs-backgroundremoval];
+      package = pkgs.unstable.obs-studio;
+      plugins = with pkgs.unstable.obs-studio-plugins; [
+        # obs-backgroundremoval
+        obs-vaapi
+        obs-pipewire-audio-capture
+        droidcam-obs
+      ];
     };
 
     user.packages = with pkgs;
@@ -39,7 +45,8 @@ in {
       # for longer term streaming/recording the screen
       (
         if cfg.video.enable
-        then [obs-studio handbrake]
+        # then [obs-studio handbrake]
+        then [handbrake]
         else []
       );
   };

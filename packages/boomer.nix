@@ -1,41 +1,36 @@
 {
   lib,
-  stdenv,
-  fetchgit,
-  makeWrapper,
-  nim,
-  libX11,
-  libXrandr,
-  libGL,
-}: let
+  pkgs,
+}:
+with pkgs; let
   x11-nim = fetchgit {
     url = "https://github.com/nim-lang/x11";
-    rev = "b7bae7dffa4e3f12370d5a18209359422ae8bedd";
-    sha256 = "1j3kyp0vf2jl20c67gcm759jnfskdf0wc4ajrdbvfxias285c5sb";
+    rev = "2093a4c01360cbb5dd33ab79fd4056e148b53ca1";
+    sha256 = "sha256-2XRyXiBxAc9Zx/w0zRBHRZ240qww0FJvIvOKZ8YH50A=";
   };
 
   opengl-nim = fetchgit {
     url = "https://github.com/nim-lang/opengl";
-    rev = "a6fb649e5bd94d8420d4a11287092a4dc3e922b4";
-    sha256 = "0w62lfrdms2vb24kd4jnypwmqvdk5x9my1dinnqdq82yl4nz6d0s";
+    rev = "640c1ced89e4f80ad15985f7423ab2096c969e89";
+    sha256 = "sha256-3kyxeZHiNlOHJMTQK5lWaMfEktI+cjPbDsUU9KtsyCM=";
   };
 in
-  stdenv.mkDerivation rec {
+  clangStdenv.mkDerivation rec {
     pname = "boomer";
-    version = "cc0f5311193da8361ee782a421d6bc4ad8541cf3";
+    version = "fa6660fe44e0f76825328923d5b1238306081026";
 
     src = fetchgit {
       url = "https://github.com/tsoding/boomer";
       rev = version;
-      sha256 = "sha256-3yg0nuJE0Rrw13VEQ/CjjjPN5G4ytssgiesdXwlHaF8=";
+      sha256 = "sha256-lm1rHa7y7XZ055TBJxg2UXswJeG9q1JfEAWcEvuZVYQ=";
     };
 
-    buildInputs = [nim libX11 libXrandr libGL makeWrapper];
+    buildInputs = [nim xorg.libX11 xorg.libXrandr libGL makeWrapper];
 
     buildPhase = ''
       runHook preBuild
       HOME=$TMPDIR
-      nim -p:${x11-nim}/ -p:${opengl-nim}/src c -d:release src/boomer.nim
+      nim -p:${x11-nim}/ -p:${opengl-nim}/src c -d:release --cc:clang --passL:-flto src/boomer.nim
       runHook postBuild
     '';
 
@@ -45,9 +40,11 @@ in
       runHook postInstall
     '';
 
-    fixupPhase = ''
+    fixupPhase = let
+      libPath = lib.makeLibraryPath [stdenv.cc.cc xorg.libX11 xorg.libXrandr libGL];
+    in ''
       runHook preFixup
-      patchelf --set-rpath ${lib.makeLibraryPath [stdenv.cc.cc libX11 libXrandr libGL]} $out/bin/boomer
+      patchelf --set-rpath ${libPath} $out/bin/boomer
       wrapProgram "$out/bin/boomer" --set LIBGL_ALWAYS_SOFTWARE 1
       runHook postFixup
     '';

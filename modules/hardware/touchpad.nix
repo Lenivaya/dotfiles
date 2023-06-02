@@ -8,7 +8,8 @@
 with lib;
 with lib.my; let
   cfg = config.modules.hardware.touchpad;
-  inherit (config.dotfiles) configDir;
+
+  inherit (config.dotfiles) configDir binDir;
 in {
   options.modules.hardware.touchpad.enable = mkBoolOpt false;
 
@@ -34,10 +35,19 @@ in {
       path = with pkgs; [
         xdotool
         skippy-xd
+
         wmctrl
         (writeShellScriptBin
           "toggleFullscreen"
           "wmctrl -r :ACTIVE: -b toggle,fullscreen")
+
+        bash
+        (writeShellScriptBin
+          "next_ws"
+          "${binDir}/cycle_ws next")
+        (writeShellScriptBin
+          "prev_ws"
+          "${binDir}/cycle_ws prev")
       ];
 
       serviceConfig = {

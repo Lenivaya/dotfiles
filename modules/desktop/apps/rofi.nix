@@ -3,7 +3,6 @@
   options,
   lib,
   pkgs,
-  home-manager,
   ...
 }:
 with lib;
@@ -52,6 +51,7 @@ in {
 
         rofi-bluetooth
         rofi-systemd
+        rofi-pulse-select
         # rofi-power-menu
 
         (makeDesktopItem {
@@ -96,6 +96,19 @@ in {
           desktopName = "Rofi: systemd";
           icon = "systemd";
           exec = "rofi-systemd";
+        })
+
+        (makeDesktopItem {
+          name = "Rofi-audio-output";
+          desktopName = "Rofi: audio select output";
+          icon = "audio";
+          exec = "rofi-pulse-select sink";
+        })
+        (makeDesktopItem {
+          name = "Rofi-audio-input";
+          desktopName = "Rofi: audio select input";
+          icon = "audio";
+          exec = "rofi-pulse-select source";
         })
 
         (makeDesktopItem {

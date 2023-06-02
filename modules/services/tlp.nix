@@ -36,7 +36,7 @@
   environment.systemPackages = [config.boot.kernelPackages.x86_energy_perf_policy];
   nixpkgs.overlays = [
     (
-      final: prev: {
+      _final: prev: {
         tlp = prev.tlp.override {
           inherit (config.boot.kernelPackages) x86_energy_perf_policy;
         };

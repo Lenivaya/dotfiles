@@ -3,7 +3,6 @@
   options,
   lib,
   pkgs,
-  inputs,
   ...
 }:
 with lib;
@@ -33,11 +32,10 @@ in {
     };
 
     user.packages = with pkgs; [
-      # mpv-with-scripts
       mpvPkg
 
-      mpvc # CLI controller for mpv
-      (mkIf config.services.xserver.enable celluloid) # nice GTK GUI for mpv
+      # mpvc # CLI controller for mpv
+      # (mkIf config.services.xserver.enable celluloid) # nice GTK GUI for mpv
     ];
   };
 }

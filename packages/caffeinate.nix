@@ -1,7 +1,5 @@
 {
   stdenv,
-  requireFile,
-  unzip,
   pkgs,
 }:
 with stdenv;

@@ -64,6 +64,11 @@ with pkgs;
       }
     ];
 
+    "vim.autoSwitchInputMethod.enable" = true;
+    "vim.autoSwitchInputMethod.defaultIM" = "us";
+    "vim.autoSwitchInputMethod.obtainIMCmd" = "${pkgs.xkb-switch}/bin/xkb-switch";
+    "vim.autoSwitchInputMethod.switchIMCmd" = "${pkgs.xkb-switch}/bin/xkb-switch -s {im}";
+
     # Editor
     "editor.mouseWheelZoom" = true;
     "diffEditor.ignoreTrimWhitespace" = false;
@@ -182,6 +187,7 @@ with pkgs;
     "typescript.referencesCodeLens.enabled" = true;
     "typescript.tsc.autoDetect" = "watch";
     "extensions.autoUpdate" = false;
+
     "git.autofetch" = true;
     "git.allowForcePush" = true;
     "git.confirmSync" = false;
@@ -189,6 +195,8 @@ with pkgs;
     "git.enableCommitSigning" = true;
     "git.enableSmartCommit" = true;
     "git.showPushSuccessNotification" = true;
+    "explorer.excludeGitIgnore" = true;
+
     "C_Cpp.clang_format_path" = "${llvmPackages.clang-unwrapped}/bin/clang-format";
     "C_Cpp.clang_format_fallbackStyle" = "LLVM";
     # "C_Cpp.formatting" = "Disabled";

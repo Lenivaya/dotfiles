@@ -15,6 +15,12 @@ in {
     home.programs.git = {
       enable = true;
       delta.enable = true;
+
+      aliases = {
+        graph = "log --graph --decorate --oneline";
+        map = "!git graph --all";
+        watch = "!watch -ct 'git -c color.status=always status -s && echo && git map --color'";
+      };
     };
 
     user.packages = with pkgs; [

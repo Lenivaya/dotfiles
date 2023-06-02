@@ -14,17 +14,20 @@ in {
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
-      python-language-server
+      # python-lsp-server
+      poetry
 
-      (python310.withPackages
+      (python311.withPackages
         (ps:
           with ps; [
+            python-lsp-server
+
             pip
             ipython
             black
             setuptools
             pylint
-            poetry
+            # poetry
           ]))
     ];
 

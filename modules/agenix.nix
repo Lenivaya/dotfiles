@@ -4,7 +4,6 @@
   config,
   inputs,
   lib,
-  pkgs,
   ...
 }:
 with builtins;
@@ -16,7 +15,7 @@ with lib.my; let
   secretsFile = "${secretsDir}/secrets.nix";
 in {
   imports = [agenix.nixosModules.age];
-  environment.systemPackages = [agenix.defaultPackage.x86_64-linux];
+  environment.systemPackages = [agenix.packages.x86_64-linux.default];
 
   age = {
     secrets =
