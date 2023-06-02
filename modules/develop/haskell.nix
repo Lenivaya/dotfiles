@@ -13,7 +13,6 @@ in {
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
-      # haskell-language-server
       niv
 
       (haskellPackages.ghcWithHoogle (ps:
@@ -23,8 +22,9 @@ in {
 
           # Linter and formatters
           hlint
-          brittany
+          # brittany
           ormolu
+          fourmolu
 
           hasktags
           haskell-language-server

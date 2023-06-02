@@ -42,6 +42,7 @@ zinit wait lucid light-mode for \
         OMZL::theme-and-appearance.zsh
 
 zinit light-mode for \
+        OMZL::functions.zsh \
         OMZL::key-bindings.zsh \
         OMZL::termsupport.zsh \
         OMZL::history.zsh \
@@ -60,12 +61,16 @@ zinit wait"0b" lucid light-mode for \
     atload"zicompinit; zicdreplay" blockf \
         zsh-users/zsh-completions \
 
+
+# Great but not used now
+# joshskidmore/zsh-fzf-history-search \ -> ellie/atuin
+
 ## In turbo mode
 zinit wait"0c" lucid light-mode for \
         Aloxaf/fzf-tab \
         pick'shell/*.plugin.zsh' \
                 denisidoro/navi \
-        joshskidmore/zsh-fzf-history-search \
+        ellie/atuin \
         zsh-users/zsh-history-substring-search \
         Tarrasch/zsh-bd \
         mafredri/zsh-async \

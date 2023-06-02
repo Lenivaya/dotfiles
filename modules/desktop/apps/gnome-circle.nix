@@ -8,8 +8,6 @@
 }:
 with lib;
 with lib.my; let
-  inherit (config.dotfiles) configDir;
-
   cfg = config.modules.desktop.apps.gnome-circle;
 in {
   options.modules.desktop.apps.gnome-circle.enable = mkBoolOpt false;
@@ -19,7 +17,8 @@ in {
       apostrophe
       blanket # ambient sounds
       wike
-      # gnome-obfuscate # censor private informaton
+      metadata-cleaner
+      gnome-obfuscate
     ];
   };
 }

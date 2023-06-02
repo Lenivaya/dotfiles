@@ -5,6 +5,7 @@ class mkcd(Command):
     """
     Creates a directory with the name <dirname> and enters it.
     """
+
     def execute(self):
         from os.path import join, expanduser, lexists
         from os import makedirs
@@ -14,19 +15,20 @@ class mkcd(Command):
         if not lexists(dirname):
             makedirs(dirname)
 
-            match = re.search('^/|^~[^/]*/', dirname)
+            match = re.search("^/|^~[^/]*/", dirname)
             if match:
                 self.fm.cd(match.group(0))
-                dirname = dirname[match.end(0):]
+                dirname = dirname[match.end(0) :]
 
-            for m in re.finditer('[^/]+', dirname):
+            for m in re.finditer("[^/]+", dirname):
                 s = m.group(0)
-                if s == '..' or (s.startswith('.') and
-                                 not self.fm.settings['show_hidden']):
+                if s == ".." or (
+                    s.startswith(".") and not self.fm.settings["show_hidden"]
+                ):
                     self.fm.cd(s)
                 else:
                     self.fm.thisdir.load_content(schedule=False)
-                    self.fm.execute_console('scout -ae ^{}$'.format(s))
+                    self.fm.execute_console("scout -ae ^{}$".format(s))
         else:
             self.fm.notify("file/directory exists!", bad=True)
 
@@ -35,6 +37,7 @@ class toggle_flat(Command):
     """
     Flattens or unflattens the directory view.
     """
+
     def execute(self):
         if self.fm.thisdir.flat == 0:
             self.fm.thisdir.unload()
@@ -50,6 +53,7 @@ class fzf_select(Command):
     """
     Find a file using fzf.
     """
+
     def execute(self):
         import subprocess
         import os.path
@@ -67,7 +71,7 @@ class fzf_select(Command):
         stdout, stderr = fzf.communicate()
 
         if fzf.returncode == 0:
-            fzf_file = os.path.abspath(stdout.decode('utf-8').rstrip('\n'))
+            fzf_file = os.path.abspath(stdout.decode("utf-8").rstrip("\n"))
             if os.path.isdir(fzf_file):
                 self.fm.cd(fzf_file)
             else:

@@ -1,15 +1,11 @@
 {
   config,
-  options,
   lib,
   pkgs,
-  home-manager,
   ...
 }:
 with lib;
-with lib.my; let
-  inherit (config.dotfiles) configDir;
-in {
+with lib.my; {
   services.xserver = {
     enable = true;
     desktopManager.xterm.enable = lib.mkDefault false;
@@ -37,7 +33,7 @@ in {
   #     gtkUsePortal = true;
   #   };
   # };
-  #
+
   modules.services.sxhkd.enable = true;
 
   # Clean up leftovers, as much as we can

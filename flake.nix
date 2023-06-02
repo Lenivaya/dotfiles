@@ -1,13 +1,12 @@
 {
-  description = "A grossly incandescent nixos config.";
+  description = "Config...";
 
   inputs = {
     # Core dependencies
-    # nixpkgs.url = "nixpkgs/nixos-unstable"; # primary nixpkgs
-    nixpkgs.url = "nixpkgs/nixos-22.11"; # primary nixpkgs
+    nixpkgs.url = "nixpkgs/nixos-23.05"; # primary nixpkgs
     nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable"; # for packages on the edge
 
-    home-manager.url = "github:nix-community/home-manager/release-22.11";
+    home-manager.url = "github:nix-community/home-manager/release-23.05";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     agenix.url = "github:ryantm/agenix";
@@ -16,34 +15,6 @@
     # Discord
     discord-overlay.url = "github:InternetUnexplorer/discord-overlay";
     replugged.url = "github:LunNova/replugged-nix-flake";
-    # discord-tweaks = {
-    #   url = "github:NurMarvin/discord-tweaks";
-    #   flake = false;
-    # };
-    # discord-image-tools = {
-    #   url = "github:powerfart-plugins/image-tools";
-    #   flake = false;
-    # };
-    # discord-push-fix = {
-    #   url = "github:Karamu98/AlwaysPushNotifications";
-    #   flake = false;
-    # };
-    # discord-better-status-indicators = {
-    #   url = "github:griefmodz/better-status-indicators";
-    #   flake = false;
-    # };
-    # discord-multitask = {
-    #   url = "github:powercord-community/multitask";
-    #   flake = false;
-    # };
-    # discord-view-raw = {
-    #   url = "github:Juby210/view-raw";
-    #   flake = false;
-    # };
-    # discord-channel-typing = {
-    #   url = "github:powercord-community/channel-typing";
-    #   flake = false;
-    # };
 
     # Spotify
     spicetify-nix.url = "github:the-argus/spicetify-nix";
@@ -52,10 +23,14 @@
     # XMonad
     xmonad-contrib.url = "github:xmonad/xmonad-contrib";
 
+    # vscode
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+
     # Extras
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nur.url = "github:nix-community/NUR";
     adblock.url = "github:StevenBlack/hosts";
+    # treefmt-nix.url = "github:numtide/treefmt-nix";
     # pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
     # pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
   };
@@ -64,7 +39,6 @@
     self,
     nixpkgs,
     nixpkgs-unstable,
-    adblock,
     # pre-commit-hooks,
     ...
   }: let
@@ -82,7 +56,7 @@
     pkgs = mkPkgs nixpkgs [self.overlay];
     pkgs' = mkPkgs nixpkgs-unstable [];
 
-    lib = nixpkgs.lib.extend (self: super: {
+    lib = nixpkgs.lib.extend (self: _super: {
       my = import ./lib {
         inherit pkgs inputs;
         lib = self;
@@ -91,7 +65,7 @@
   in {
     lib = lib.my;
 
-    overlay = final: prev: {
+    overlay = _final: _prev: {
       unstable = pkgs';
       my = self.packages."${system}";
     };
@@ -131,6 +105,21 @@
     #     prettier.write = true;
     #   };
     # };
+
+    # formatter.${system} =
+    #   treefmt-nix.lib.mkWrapper
+    #   pkgs
+    #   {
+    #     projectRootFile = "flake.nix";
+
+    #     programs.alejandra.enable = true;
+    #     programs.deadnix.enable = true;
+
+    #     programs.shellcheck.enable = true;
+    #     programs.prettier.enable = true;
+    #     programs.black.enable = true;
+    #     programs.mdsh.enable = true;
+    #   };
 
     templates = {
       full = {

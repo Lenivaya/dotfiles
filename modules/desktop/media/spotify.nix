@@ -20,7 +20,7 @@ in {
   config = mkIf cfg.enable {
     programs.spicetify = {
       enable = true;
-      theme = spicePkgs.themes.Default;
+      # theme = spicePkgs.themes.Default;
 
       enabledCustomApps = with spicePkgs.apps; [
         lyrics-plus

@@ -22,6 +22,7 @@ with lib.my; {
       # gnome.enable = true;
 
       fonts.pragmata.enable = true;
+      # fonts.iosevka.enable = true;
 
       apps = {
         rofi.enable = true;
@@ -54,17 +55,18 @@ with lib.my; {
           ebook.enable = true;
           latex.enable = true;
         };
+
         graphics = {
           enable = true;
           raster.enable = true;
         };
-
-        spotify.enable = true;
-        mpv.enable = true;
         recording = {
           enable = true;
           audio.enable = true;
         };
+
+        spotify.enable = true;
+        mpv.enable = true;
       };
 
       vm = {
@@ -108,7 +110,7 @@ with lib.my; {
       warp.enable = true;
       keyd.enable = true;
       flatpak.enable = true;
-      # espanso.enable = true;
+      espanso.enable = true;
     };
 
     hardware = {
@@ -117,16 +119,21 @@ with lib.my; {
       cpu.intel.enable = true;
       cpu.undervolt = rec {
         enable = true;
-        # Definitely works
-        # core = -80;
-        # gpu = -40;
+        # Extreme
+        # core = -100;
+        # gpu = -50;
 
-        core = -85;
-        gpu = -50;
+        # Definitely works
+        core = -80;
+        gpu = -40;
+
+        # # core = -85;
+        # # gpu = -50;
+
         uncore = core;
         analogio = core;
 
-        temp = 100;
+        # temp = 100;
       };
       gpu.intel.enable = true;
       gpu.nvidia.enable = true;
@@ -145,6 +152,11 @@ with lib.my; {
     bootsplash = {enable = true;};
   };
 
+  # Undervolt
+  # services.thermald.enable = lib.mkForce false;
+  # services.throttled.enable = lib.mkDefault true;
+
+  # Enable nvidia gpu
   # hardware = {
   #   nvidia = {
   #     package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
@@ -157,7 +169,6 @@ with lib.my; {
   #       intelBusId = "PCI:0:2:0";
   #       nvidiaBusId = "PCI:2:0:0";
   #     };
-
   #   };
   # };
   # services.xserver.config = lib.mkAfter ''
@@ -213,7 +224,7 @@ with lib.my; {
   services.tlp.settings.CPU_MAX_PERF_ON_BAT = lib.mkForce 50;
   services.tlp.settings = {
     CPU_SCALING_MIN_FREQ_ON_AC = 0;
-    CPU_SCALING_MAX_FREQ_ON_AC = 3400000;
+    CPU_SCALING_MAX_FREQ_ON_AC = 3800000;
     CPU_SCALING_MIN_FREQ_ON_BAT = 0;
     # CPU_SCALING_MAX_FREQ_ON_BAT = 0;
   };
@@ -226,6 +237,8 @@ with lib.my; {
   # Kernel
   boot.kernelPackages = let
     kernelPkg = pkgs.unstable.linuxKernel.packages.linux_lqx;
+    # kernelPkg = pkgs.unstable.linuxKernel.packages.linux_xanmod_latest;
+    # kernelPkg = pkgs.unstable.linuxKernel.packages.linux_xanmod_stable;
   in
     lib.mkForce kernelPkg;
 
@@ -258,13 +271,20 @@ with lib.my; {
     # lightworks pitivi
   ];
 
-
   # Fix for libGL.so error
   hardware.opengl = {
     enable = true;
     setLdLibraryPath = true;
     extraPackages = with pkgs; [libGL];
   };
+
+  # hardware.trackpoint = {
+  #   # enable = true;
+  #   # speed = 255;
+  #   # sensitivity = 191;
+  #   # speed = 180;
+  #   # sensitivity = 220;
+  # };
 
   # home.services.picom.settings = {
   #   animations = true;
@@ -273,14 +293,16 @@ with lib.my; {
   # };
 
   nixpkgs.overlays = [
-    (self: super: {
+    (_self: _super: {
       inherit (pkgs.unstable) google-chrome;
-      inherit (pkgs.unstable) firefox;
+      inherit (pkgs.unstable) firefox firefox-bin;
+      inherit (pkgs.unstable) vscode vscode-extensions;
+      # inherit (pkgs.unstable) yt-dlp mpv;
 
       # Easyeffects + optimized build + fix(?)
-      easyeffects =
-        optimizeForThisHost
-        pkgs.unstable.easyeffects;
+      # easyeffects =
+      #   optimizeForThisHost
+      #   pkgs.unstable.easyeffects;
 
       picom =
         optimizeForThisHost
@@ -295,7 +317,7 @@ with lib.my; {
             # Just latest
             url = "https://github.com/yshui/picom";
             ref = "next";
-            rev = "cee12875625465292bc11bf09dc8ab117cae75f4";
+            rev = "05ef18d78f96a0a970742f1dff40fcf505a0daa6";
 
             # url = "https://github.com/FT-Labs/picom.git";
             # ref = "next";
@@ -304,9 +326,6 @@ with lib.my; {
           # fix for latest next
           buildInputs = oa.buildInputs ++ [pkgs.pcre2];
         }));
-
-      # vscode = pkgs.unstable.vscode;
-      # vscode-extensions = pkgs.unstable.vscode-extensions;
     })
   ];
 }

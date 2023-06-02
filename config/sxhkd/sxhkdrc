@@ -45,6 +45,9 @@ ctrl + {Delete,End,Escape}
 
 # Expose windows
 # XF86Tools
+#     skippy-xd
 XF86Tools
     keyboard-switch
-#     skippy-xd
+
+alt + space
+    keyboard-switch

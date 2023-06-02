@@ -15,9 +15,9 @@ in {
 
     services.openssh = {
       enable = true;
-      forwardX11 = true;
-      permitRootLogin = "no";
-      passwordAuthentication = true;
+      settings.X11Forwarding = true;
+      settings.PermitRootLogin = "no";
+      settings.PasswordAuthentication = true;
       startWhenNeeded = true;
 
       # Allow local LAN to connect with passwords

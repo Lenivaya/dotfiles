@@ -3,7 +3,6 @@
   options,
   lib,
   pkgs,
-  home-manager,
   ...
 }:
 with lib;
@@ -62,8 +61,7 @@ in {
       "--enable-native-gpu-memory-buffers"
       "--enable-zero-copy"
       # "--enable-features=VaapiVideoDecoder"
-      # https://forum.manjaro.org/t/chromium-cant-enable-video-encoding-hardware-acceleration/101760/6
-      "--use-gl=desktop"
+      # # https://forum.manjaro.org/t/chromium-cant-enable-video-encoding-hardware-acceleration/101760/6
       "--enable-oop-rasterization"
       "--enable-raw-draw"
       "--use-vulkan"

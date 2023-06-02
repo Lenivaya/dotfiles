@@ -2,7 +2,6 @@
   stdenv,
   requireFile,
   unzip,
-  pkgs,
 }:
 stdenv.mkDerivation rec {
   name = "PragmataPro${version}";

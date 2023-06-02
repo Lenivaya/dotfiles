@@ -1,4 +1,4 @@
-{pkgs, ...}: {
+_: {
   home.services.picom = {
     enable = true;
     backend = "glx";
@@ -12,7 +12,7 @@
       "100:class_g = 'Inkspace'"
       "100:class_g = 'krita'"
       "100:class_g = 'feh'"
-      "100:class_g    = 'Thunderbird'"
+      "100:class_g = 'Thunderbird'"
       "0:_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
       "96:_NET_WM_STATE@:32a *= '_NET_WM_STATE_STICKY'"
     ];
@@ -25,8 +25,9 @@
     shadowOffsets = [(-3) (-3)];
     shadowOpacity = 0.6;
     shadowExclude = [
-      "class_g ?= 'Notify-osd'"
       "name *= 'picom'"
+      "class_g ?= 'Notify-osd'"
+      "class_g = 'Ulauncher'"
       "_GTK_FRAME_EXTENTS@:c"
       "_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
     ];

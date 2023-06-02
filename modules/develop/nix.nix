@@ -26,6 +26,7 @@ in {
       # nixfmt
       alejandra
       statix
+      deadnix
     ];
   };
 }

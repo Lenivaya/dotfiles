@@ -13,7 +13,7 @@ in {
 
   config = mkIf cfg.enable {
     environment.systemPackages = with pkgs; [
-      (st.overrideAttrs (oldAttrs: {
+      (st.overrideAttrs (_oldAttrs: {
         buildInputs = with pkgs.xorg;
           [libX11 libXft libXcursor] ++ (with pkgs; [harfbuzz]);
         src = fetchgit {

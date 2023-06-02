@@ -11,8 +11,8 @@ layout_menu() {
 }
 
 switch_layout() {
-    local previous_layout="$1"
-    local layout="${2:-$previous_layout}"
+    previous_layout="$1"
+    layout="${2:-$previous_layout}"
 
     xkb-switch -s "$layout" >/dev/null
 }

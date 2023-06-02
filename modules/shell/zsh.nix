@@ -3,7 +3,6 @@
   options,
   pkgs,
   lib,
-  home-manager,
   ...
 }:
 with lib;
@@ -57,6 +56,7 @@ in {
       navi
       starship
       zoxide
+      atuin
     ];
 
     home.programs.broot.enable = true;

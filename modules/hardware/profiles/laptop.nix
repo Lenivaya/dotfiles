@@ -21,7 +21,7 @@ in {
     fileSystems."/".options = ["noatime" "nodiratime"];
 
     powerManagement.enable = true;
-    services.thermald.enable = true;
+    # services.thermald.enable = true;
 
     services.irqbalance.enable = lib.mkDefault true;
     services.udev.extraRules = ''
