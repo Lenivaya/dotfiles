@@ -1,35 +1,10 @@
-module XMonad.Custom.Theme
-  ( font
-  , black1
-  , black2
-  , red1
-  , red2
-  , green1
-  , green2
-  , yellow1
-  , yellow2
-  , blue1
-  , blue2
-  , magenta1
-  , magenta2
-  , cyan1
-  , cyan2
-  , white1
-  , white2
-  , colorN
-  , colorF
-  , gapBase
-  , gapFull
-  , border
-  , height
-  , tabTheme
-  ) where
+module XMonad.Custom.Theme where
 
-import           Data.Char
-import           Data.Function
-import           Data.List
-import           Graphics.X11.Xlib.Types
-import           XMonad.Layout.Decoration
+import Data.Char
+import Data.Function
+import Data.List
+import Graphics.X11.Xlib.Types
+import XMonad.Layout.Decoration
 
 font :: String
 font = "xft:monospace:style=Regular:size=12:antialias=true"
@@ -78,15 +53,17 @@ height = 16 * 2
 border = 2
 
 tabTheme :: Theme
-tabTheme = def { activeColor         = black1
-               , inactiveColor       = black2
-               , urgentColor         = red1
-               , activeBorderColor   = white1
-               , inactiveBorderColor = white2
-               , urgentBorderColor   = red2
-               , activeTextColor     = white1
-               , inactiveTextColor   = white2
-               , urgentTextColor     = red2
-               , fontName            = font
-               , decoHeight          = height
-               }
+tabTheme =
+  def
+    { activeColor = black1
+    , inactiveColor = black2
+    , urgentColor = red1
+    , activeBorderColor = white1
+    , inactiveBorderColor = white2
+    , urgentBorderColor = red2
+    , activeTextColor = white1
+    , inactiveTextColor = white2
+    , urgentTextColor = red2
+    , fontName = font
+    , decoHeight = height
+    }
