@@ -1,18 +1,18 @@
-module XMonad.Custom.Manage
-  ( manageHook
-  ) where
+module XMonad.Custom.Manage (
+  manageHook,
+) where
 
-import           XMonad                  hiding ( manageHook )
-import           XMonad.Actions.SpawnOn
-import           XMonad.Custom.ManageHelpers    ( centerFloat )
-import           XMonad.Custom.Scratchpads
-import           XMonad.Hooks.InsertPosition
-import           XMonad.Hooks.ManageDocks
-import           XMonad.Hooks.ManageHelpers
-import           XMonad.Layout.Fullscreen
-import           XMonad.Layout.NoBorders
-import           XMonad.StackSet               as W
-import           XMonad.Util.NamedScratchpad
+import XMonad hiding (manageHook)
+import XMonad.Actions.SpawnOn
+import XMonad.Custom.ManageHelpers (centerFloat)
+import XMonad.Custom.Scratchpads
+import XMonad.Hooks.InsertPosition
+import XMonad.Hooks.ManageDocks
+import XMonad.Hooks.ManageHelpers
+import XMonad.Layout.Fullscreen
+import XMonad.Layout.NoBorders
+import XMonad.StackSet as W
+import XMonad.Util.NamedScratchpad
 
 composeActions :: [MaybeManageHook]
 composeActions =
@@ -34,18 +34,19 @@ composeActions =
   , isDialog -?> doCenterFloat
   , transience
   ]
- where
-  tileNormal        = insertPosition Above Newer
-  tileBelow         = insertPosition Below Newer
-  tileBelowNoFocus  = insertPosition Below Older
-  doFullCenterFloat = centerFloat 0.7 0.7
-  noBorder          = hasBorder False
+  where
+    tileNormal = insertPosition Above Newer
+    tileBelow = insertPosition Below Newer
+    tileBelowNoFocus = insertPosition Below Older
+    doFullCenterFloat = centerFloat 0.8 0.8
+    noBorder = hasBorder False
 
 manageHook :: ManageHook
-manageHook = composeAll
-  [ manageDocks
-  , fullscreenManageHook
-  , manageSpawn
-  , namedScratchpadManageHook scratchpads
-  , composeOne composeActions
-  ]
+manageHook =
+  composeAll
+    [ manageDocks
+    , fullscreenManageHook
+    , manageSpawn
+    , namedScratchpadManageHook scratchpads
+    , composeOne composeActions
+    ]

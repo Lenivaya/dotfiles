@@ -1,8 +1,8 @@
-module XMonad.Custom.Screens
-  ( myRandrChangeHook
-  ) where
+module XMonad.Custom.Screens (
+  myRandrChangeHook,
+) where
 
-import           XMonad.Core
+import XMonad.Core
 
 myRandrChangeHook :: X ()
 myRandrChangeHook = spawn "autorandr --change"
