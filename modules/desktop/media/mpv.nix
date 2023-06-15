@@ -20,6 +20,8 @@ with lib.my; let
         # thumbnail
         sponsorblock
         youtube-quality
+
+        my.mpv-autosub
       ];
     };
 in {
