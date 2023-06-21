@@ -17,8 +17,8 @@ config.load_autoconfig(False)
 # Use (superior) Brave adblock if available, or fall back to host blocking
 c.content.blocking.method = "auto"
 c.content.blocking.hosts.lists = [
-    'https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts',
-    'https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&mimetype=plaintext'
+    "https://raw.githubusercontent.com/StevenBlack/hosts/master/hosts",
+    "https://pgl.yoyo.org/adservers/serverlist.php?hostformat=hosts&mimetype=plaintext"
     # 'https://www.malwaredomainlist.com/hostslist/hosts.txt',
     # 'http://someonewhocares.org/hosts/hosts',
     # 'http://winhelp2002.mvps.org/hosts.zip',
@@ -32,7 +32,7 @@ c.content.blocking.hosts.lists = [
 #   - multiple-tabs: Show a confirmation if multiple tabs are opened.
 #   - downloads: Show a confirmation if downloads are running
 #   - never: Never show a confirmation.
-c.confirm_quit = ['downloads']
+c.confirm_quit = ["downloads"]
 
 # Maximum time (in minutes) between two history items for them to be
 # considered being from the same browsing session. Items with less time
@@ -47,7 +47,7 @@ c.history_gap_interval = 30
 #   - always: Search case-insensitively.
 #   - never: Search case-sensitively.
 #   - smart: Search case-sensitively if there are capital characters.
-c.search.ignore_case = 'smart'
+c.search.ignore_case = "smart"
 
 # How to open links in an existing instance if a new one is launched.
 # This happens when e.g. opening a link from a terminal. See
@@ -61,7 +61,7 @@ c.search.ignore_case = 'smart'
 #   - tab-bg-silent: Open a new background tab in the existing window without activating the window.
 #   - window: Open in a new window.
 #   - private-window: Open in a new private window.
-c.new_instance_open_target = 'tab'
+c.new_instance_open_target = "tab"
 
 # Which window to choose when opening links as new tabs. When
 # `new_instance_open_target` is set to `window`, this is ignored.
@@ -71,7 +71,7 @@ c.new_instance_open_target = 'tab'
 #   - last-opened: Open new tabs in the last (newest) opened window.
 #   - last-focused: Open new tabs in the most recently focused window.
 #   - last-visible: Open new tabs in the most recently visible window.
-c.new_instance_open_target_window = 'last-focused'
+c.new_instance_open_target_window = "last-focused"
 
 # Additional arguments to pass to Qt, without leading `--`. With
 # QtWebEngine, some Chromium arguments (see
@@ -114,7 +114,7 @@ c.content.autoplay = False
 #   - no-3rdparty: Accept cookies from the same origin only. This is known to break some sites, such as GMail.
 #   - no-unknown-3rdparty: Accept cookies from the same origin only, unless a cookie is already set for the domain. On QtWebEngine, this is the same as no-3rdparty.
 #   - never: Don't accept cookies at all.
-config.set('content.cookies.accept', 'all', 'chrome-devtools://*')
+config.set("content.cookies.accept", "all", "chrome-devtools://*")
 
 # Which cookies to accept. With QtWebEngine, this setting also controls
 # other features with tracking capabilities similar to those of cookies;
@@ -138,7 +138,7 @@ config.set('content.cookies.accept', 'all', 'chrome-devtools://*')
 #   - no-3rdparty: Accept cookies from the same origin only. This is known to break some sites, such as GMail.
 #   - no-unknown-3rdparty: Accept cookies from the same origin only, unless a cookie is already set for the domain. On QtWebEngine, this is the same as no-3rdparty.
 #   - never: Don't accept cookies at all.
-config.set('content.cookies.accept', 'all', 'devtools://*')
+config.set("content.cookies.accept", "all", "devtools://*")
 
 # Store cookies.
 # Type: Bool
@@ -147,7 +147,7 @@ c.content.cookies.store = True
 # Default encoding to use for websites. The encoding must be a string
 # describing an encoding such as _utf-8_, _iso-8859-1_, etc.
 # Type: String
-c.content.default_encoding = 'utf-8'
+c.content.default_encoding = "utf-8"
 
 # Allow websites to share screen content.
 # Type: BoolAsk
@@ -155,7 +155,7 @@ c.content.default_encoding = 'utf-8'
 #   - true
 #   - false
 #   - ask
-config.set('content.desktop_capture', True, 'https://discord.com')
+config.set("content.desktop_capture", True, "https://discord.com")
 
 # Allow websites to share screen content.
 # Type: BoolAsk
@@ -163,7 +163,7 @@ config.set('content.desktop_capture', True, 'https://discord.com')
 #   - true
 #   - false
 #   - ask
-config.set('content.desktop_capture', True, 'https://web.skype.com')
+config.set("content.desktop_capture", True, "https://web.skype.com")
 
 # Allow websites to share screen content.
 # Type: BoolAsk
@@ -171,7 +171,7 @@ config.set('content.desktop_capture', True, 'https://web.skype.com')
 #   - true
 #   - false
 #   - ask
-c.content.desktop_capture = 'ask'
+c.content.desktop_capture = "ask"
 
 # Allow websites to request geolocations.
 # Type: BoolAsk
@@ -184,12 +184,12 @@ c.content.geolocation = False
 # Value to send in the `Accept-Language` header. Note that the value
 # read from JavaScript is always the global value.
 # Type: String
-c.content.headers.accept_language = 'en-US,en'
+c.content.headers.accept_language = "en-US,en"
 
 # Value to send in the `Accept-Language` header. Note that the value
 # read from JavaScript is always the global value.
 # Type: String
-config.set('content.headers.accept_language', '', 'https://matchmaker.krunker.io/*')
+config.set("content.headers.accept_language", "", "https://matchmaker.krunker.io/*")
 
 # Custom headers for qutebrowser HTTP requests.
 # Type: Dict
@@ -215,7 +215,11 @@ c.content.headers.do_not_track = True
 # between 5.12 and 5.14 (inclusive), changing the value exposed to
 # JavaScript requires a restart.
 # Type: FormatString
-config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0', 'https://docs.google.com/*')
+config.set(
+    "content.headers.user_agent",
+    "Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0",
+    "https://docs.google.com/*",
+)
 
 # User agent to send.  The following placeholders are defined:  *
 # `{os_info}`: Something like "X11; Linux x86_64". * `{webkit_version}`:
@@ -231,7 +235,11 @@ config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}; rv:71.0) Gecko
 # between 5.12 and 5.14 (inclusive), changing the value exposed to
 # JavaScript requires a restart.
 # Type: FormatString
-config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0', 'https://drive.google.com/*')
+config.set(
+    "content.headers.user_agent",
+    "Mozilla/5.0 ({os_info}; rv:71.0) Gecko/20100101 Firefox/71.0",
+    "https://drive.google.com/*",
+)
 
 # User agent to send.  The following placeholders are defined:  *
 # `{os_info}`: Something like "X11; Linux x86_64". * `{webkit_version}`:
@@ -247,7 +255,11 @@ config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}; rv:71.0) Gecko
 # between 5.12 and 5.14 (inclusive), changing the value exposed to
 # JavaScript requires a restart.
 # Type: FormatString
-config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}', 'https://web.whatsapp.com/')
+config.set(
+    "content.headers.user_agent",
+    "Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version}",
+    "https://web.whatsapp.com/",
+)
 
 # User agent to send.  The following placeholders are defined:  *
 # `{os_info}`: Something like "X11; Linux x86_64". * `{webkit_version}`:
@@ -263,7 +275,11 @@ config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}) AppleWebKit/{w
 # between 5.12 and 5.14 (inclusive), changing the value exposed to
 # JavaScript requires a restart.
 # Type: FormatString
-config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version} Edg/{upstream_browser_version}', 'https://accounts.google.com/*')
+config.set(
+    "content.headers.user_agent",
+    "Mozilla/5.0 ({os_info}) AppleWebKit/{webkit_version} (KHTML, like Gecko) {upstream_browser_key}/{upstream_browser_version} Safari/{webkit_version} Edg/{upstream_browser_version}",
+    "https://accounts.google.com/*",
+)
 
 # User agent to send.  The following placeholders are defined:  *
 # `{os_info}`: Something like "X11; Linux x86_64". * `{webkit_version}`:
@@ -279,7 +295,11 @@ config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}) AppleWebKit/{w
 # between 5.12 and 5.14 (inclusive), changing the value exposed to
 # JavaScript requires a restart.
 # Type: FormatString
-config.set('content.headers.user_agent', 'Mozilla/5.0 ({os_info}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99 Safari/537.36', 'https://*.slack.com/*')
+config.set(
+    "content.headers.user_agent",
+    "Mozilla/5.0 ({os_info}) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/99 Safari/537.36",
+    "https://*.slack.com/*",
+)
 
 # Enable hyperlink auditing (`<a ping>`).
 # Type: Bool
@@ -287,11 +307,11 @@ c.content.hyperlink_auditing = False
 
 # Load images automatically in web pages.
 # Type: Bool
-config.set('content.images', True, 'chrome-devtools://*')
+config.set("content.images", True, "chrome-devtools://*")
 
 # Load images automatically in web pages.
 # Type: Bool
-config.set('content.images', True, 'devtools://*')
+config.set("content.images", True, "devtools://*")
 
 # Allow JavaScript to read from or write to the clipboard. With
 # QtWebEngine, writing the clipboard as response to a user interaction
@@ -309,23 +329,23 @@ c.content.javascript.enabled = True
 
 # Enable JavaScript.
 # Type: Bool
-config.set('content.javascript.enabled', True, 'file://*')
+config.set("content.javascript.enabled", True, "file://*")
 
 # Enable JavaScript.
 # Type: Bool
-config.set('content.javascript.enabled', True, 'chrome-devtools://*')
+config.set("content.javascript.enabled", True, "chrome-devtools://*")
 
 # Enable JavaScript.
 # Type: Bool
-config.set('content.javascript.enabled', True, 'devtools://*')
+config.set("content.javascript.enabled", True, "devtools://*")
 
 # Enable JavaScript.
 # Type: Bool
-config.set('content.javascript.enabled', True, 'chrome://*/*')
+config.set("content.javascript.enabled", True, "chrome://*/*")
 
 # Enable JavaScript.
 # Type: Bool
-config.set('content.javascript.enabled', True, 'qute://*/*')
+config.set("content.javascript.enabled", True, "qute://*/*")
 
 # Allow locally loaded documents to access remote URLs.
 # Type: Bool
@@ -345,7 +365,7 @@ c.content.local_storage = True
 #   - true
 #   - false
 #   - ask
-config.set('content.media.audio_capture', True, 'https://web.skype.com')
+config.set("content.media.audio_capture", True, "https://web.skype.com")
 
 # Allow websites to record audio and video.
 # Type: BoolAsk
@@ -353,7 +373,7 @@ config.set('content.media.audio_capture', True, 'https://web.skype.com')
 #   - true
 #   - false
 #   - ask
-config.set('content.media.audio_video_capture', True, 'https://discord.com')
+config.set("content.media.audio_video_capture", True, "https://discord.com")
 
 # Allow websites to record audio and video.
 # Type: BoolAsk
@@ -361,7 +381,7 @@ config.set('content.media.audio_video_capture', True, 'https://discord.com')
 #   - true
 #   - false
 #   - ask
-config.set('content.media.audio_video_capture', True, 'https://web.skype.com')
+config.set("content.media.audio_video_capture", True, "https://web.skype.com")
 
 # Allow websites to show notifications.
 # Type: BoolAsk
@@ -369,7 +389,7 @@ config.set('content.media.audio_video_capture', True, 'https://web.skype.com')
 #   - true
 #   - false
 #   - ask
-config.set('content.notifications.enabled', True, 'https://web.skype.com')
+config.set("content.notifications.enabled", True, "https://web.skype.com")
 
 # Allow websites to show notifications.
 # Type: BoolAsk
@@ -377,7 +397,7 @@ config.set('content.notifications.enabled', True, 'https://web.skype.com')
 #   - true
 #   - false
 #   - ask
-config.set('content.notifications.enabled', False, 'https://www.reddit.com')
+config.set("content.notifications.enabled", False, "https://www.reddit.com")
 
 # Allow websites to show notifications.
 # Type: BoolAsk
@@ -385,7 +405,7 @@ config.set('content.notifications.enabled', False, 'https://www.reddit.com')
 #   - true
 #   - false
 #   - ask
-config.set('content.notifications.enabled', True, 'https://web.telegram.org')
+config.set("content.notifications.enabled", True, "https://web.telegram.org")
 
 # Allow websites to show notifications.
 # Type: BoolAsk
@@ -393,7 +413,7 @@ config.set('content.notifications.enabled', True, 'https://web.telegram.org')
 #   - true
 #   - false
 #   - ask
-config.set('content.notifications.enabled', True, 'https://web.whatsapp.com')
+config.set("content.notifications.enabled", True, "https://web.whatsapp.com")
 
 # Enable plugins in Web pages.
 # Type: Bool
@@ -416,7 +436,7 @@ c.content.private_browsing = False
 # Valid values:
 #   - system: Use the system wide proxy.
 #   - none: Don't use any proxy
-c.content.proxy = 'system'
+c.content.proxy = "system"
 
 # List of user stylesheet filenames to use.
 # Type: List of File, or File
@@ -433,7 +453,7 @@ c.completion.cmd_history_max_items = 100
 
 # Height (in pixels or as percentage of the window) of the completion.
 # Type: PercOrInt
-c.completion.height = '35%'
+c.completion.height = "35%"
 
 # When to show the autocompletion window.
 # Type: String
@@ -441,7 +461,7 @@ c.completion.height = '35%'
 #   - always: Whenever a completion is available.
 #   - auto: Whenever a completion is requested.
 #   - never: Never.
-c.completion.show = 'always'
+c.completion.show = "always"
 
 # Shrink the completion to be smaller than the configured size if there
 # are no scrollbars.
@@ -462,7 +482,7 @@ c.completion.scrollbar.padding = 0
 # behavior for allowed substitutions, qutebrowser uses both sqlite and
 # Python to format its timestamps.
 # Type: String
-c.completion.timestamp_format = '%Y-%m-%d'
+c.completion.timestamp_format = "%Y-%m-%d"
 
 # Minimum amount of characters needed to update completions.
 # Type: Int
@@ -471,7 +491,7 @@ c.completion.min_chars = 3
 # Directory to save downloads to. If unset, a sensible OS-specific
 # default is used.
 # Type: Directory
-c.downloads.location.directory = '~/Downloads'
+c.downloads.location.directory = "~/Downloads"
 
 # Prompt the user for the download location. If set to false,
 # `downloads.location.directory` will be used.
@@ -488,7 +508,7 @@ c.downloads.location.remember = True
 #   - path: Show only the download path.
 #   - filename: Show only download filename.
 #   - both: Show download path and filename.
-c.downloads.location.suggestion = 'path'
+c.downloads.location.suggestion = "path"
 
 # Which categories to show (in which order) in the :open completion.
 # Type: FlagList
@@ -498,7 +518,7 @@ c.downloads.location.suggestion = 'path'
 #   - bookmarks
 #   - history
 #   - filesystem
-c.completion.open_categories = ['bookmarks', 'quickmarks', 'history']
+c.completion.open_categories = ["bookmarks", "quickmarks", "history"]
 
 # Duration (in milliseconds) to wait before removing finished downloads.
 # If set to -1, downloads are never removed.
@@ -512,7 +532,7 @@ c.downloads.remove_finished = 0
 # `{line0}`: Same as `{line}`, but starting from index 0. * `{column0}`:
 # Same as `{column}`, but starting from index 0.
 # Type: ShellCommand
-c.editor.command = ['st', '-e', 'vim', '-f', '{}']
+# c.editor.command = ["st", "-e", "vim", "-f", "{}"]
 
 # When a hint can be automatically followed without pressing Enter.
 # Type: String
@@ -521,7 +541,7 @@ c.editor.command = ['st', '-e', 'vim', '-f', '{}']
 #   - unique-match: Auto-follow whenever there is a unique non-empty match in either the hint string (word mode) or filter (number mode).
 #   - full-match: Follow the hint when the user typed the whole hint (letter, word or number mode) or the element's text (only in number mode).
 #   - never: The user will always need to press Enter to follow a hint.
-c.hints.auto_follow = 'unique-match'
+c.hints.auto_follow = "unique-match"
 
 # Duration (in milliseconds) to ignore normal-mode key bindings after a
 # successful auto-follow.
@@ -530,11 +550,11 @@ c.hints.auto_follow_timeout = 0
 
 # CSS border value for hints.
 # Type: String
-c.hints.border = '0px'
+c.hints.border = "0px"
 
 # Padding (in pixels) for hints.
 # Type: Padding
-c.hints.padding = {'bottom': 3, 'left': 3, 'right': 3, 'top': 3}
+c.hints.padding = {"bottom": 3, "left": 3, "right": 3, "top": 3}
 
 # Rounding radius (in pixels) for the edges of hints.
 # Type: Int
@@ -542,11 +562,11 @@ c.hints.radius = 0
 
 # Characters used for hint strings.
 # Type: UniqueCharString
-c.hints.chars = 'hjklasdfgyuiopqwertnmzxcvb'
+c.hints.chars = "hjklasdfgyuiopqwertnmzxcvb"
 
 # Dictionary file to be used by the word hints.
 # Type: File
-c.hints.dictionary = '/dev/null'
+c.hints.dictionary = "/dev/null"
 
 # Minimum number of characters used for hint strings.
 # Type: Int
@@ -558,7 +578,7 @@ c.hints.min_chars = 1
 #   - number: Use numeric hints. (In this mode you can also type letters from the hinted element to filter and reduce the number of elements that are hinted.)
 #   - letter: Use the characters in the `hints.chars` setting.
 #   - word: Use hints words based on the html elements and the extra words.
-c.hints.mode = 'letter'
+c.hints.mode = "letter"
 
 # Scatter hint key chains (like Vimium) or not (like dwb). Ignored for
 # number hints.
@@ -584,7 +604,7 @@ c.prompt.radius = 0
 #   - never: Never show the scrollbar.
 #   - when-searching: Show the scrollbar when searching for text in the webpage. With the QtWebKit backend, this is equal to `never`.
 #   - overlay: Show an overlay scrollbar. On macOS, this is unavailable and equal to `when-searching`; with the QtWebKit backend, this is equal to `never`. Enabling/disabling overlay scrollbars requires a restart.
-c.scrolling.bar = 'never'
+c.scrolling.bar = "never"
 
 # Enable smooth scrolling for web pages. Note smooth scrolling does not
 # work with the `:scroll-px` command.
@@ -639,18 +659,18 @@ c.scrolling.smooth = False
 #   - tr-TR: Turkish (Turkey)
 #   - uk-UA: Ukrainian (Ukraine)
 #   - vi-VN: Vietnamese (Viet Nam)
-c.spellcheck.languages = ['en-US', 'ru-RU']
+c.spellcheck.languages = ["en-US", "ru-RU"]
 
 # Padding (in pixels) for the statusbar.
 # Type: Padding
-c.statusbar.padding = {'bottom': 1, 'left': 6, 'right': 6, 'top': 1}
+c.statusbar.padding = {"bottom": 1, "left": 6, "right": 6, "top": 1}
 
 # Position of the status bar.
 # Type: VerticalPosition
 # Valid values:
 #   - top
 #   - bottom
-c.statusbar.position = 'bottom'
+c.statusbar.position = "bottom"
 
 # Open new tabs (middleclick/ctrl+click) in the background.
 # Type: Bool
@@ -662,7 +682,7 @@ c.tabs.background = True
 #   - right: Close tabs on right-click.
 #   - middle: Close tabs on middle-click.
 #   - none: Don't close tabs using the mouse.
-c.tabs.close_mouse_button = 'middle'
+c.tabs.close_mouse_button = "middle"
 
 # Scaling factor for favicons in the tab bar. The tab size is unchanged,
 # so big favicons also require extra `tabs.padding`.
@@ -677,7 +697,7 @@ c.tabs.favicons.scale = 1.0
 #   - always: Always show favicons.
 #   - never: Always hide favicons.
 #   - pinned: Show favicons only on pinned tabs.
-c.tabs.favicons.show = 'pinned'
+c.tabs.favicons.show = "pinned"
 
 # Switch between tabs using the mouse wheel.
 # Type: Bool
@@ -691,7 +711,7 @@ c.tabs.mousewheel_switching = True
 #   - next: After the current tab.
 #   - first: At the beginning.
 #   - last: At the end.
-c.tabs.new_position.related = 'next'
+c.tabs.new_position.related = "next"
 
 # Position of new tabs which are not opened from another tab. See
 # `tabs.new_position.stacking` for controlling stacking behavior.
@@ -701,11 +721,11 @@ c.tabs.new_position.related = 'next'
 #   - next: After the current tab.
 #   - first: At the beginning.
 #   - last: At the end.
-c.tabs.new_position.unrelated = 'last'
+c.tabs.new_position.unrelated = "last"
 
 # Padding (in pixels) around text for tabs.
 # Type: Padding
-c.tabs.padding = {'bottom': 1, 'left': 6, 'right': 6, 'top': 1}
+c.tabs.padding = {"bottom": 1, "left": 6, "right": 6, "top": 1}
 
 # Position of the tab bar.
 # Type: Position
@@ -714,7 +734,7 @@ c.tabs.padding = {'bottom': 1, 'left': 6, 'right': 6, 'top': 1}
 #   - bottom
 #   - left
 #   - right
-c.tabs.position = 'top'
+c.tabs.position = "top"
 
 # Which tab to select when the focused tab is removed.
 # Type: SelectOnRemove
@@ -722,7 +742,7 @@ c.tabs.position = 'top'
 #   - prev: Select the tab which came before the closed one (left in horizontal, above in vertical).
 #   - next: Select the tab which came after the closed one (right in horizontal, below in vertical).
 #   - last-used: Select the previously selected tab.
-c.tabs.select_on_remove = 'next'
+c.tabs.select_on_remove = "next"
 
 # Alignment of the text inside of tabs.
 # Type: TextAlignment
@@ -730,7 +750,7 @@ c.tabs.select_on_remove = 'next'
 #   - left
 #   - right
 #   - center
-c.tabs.title.alignment = 'left'
+c.tabs.title.alignment = "left"
 
 # Format to use for the tab title. The following placeholders are
 # defined:  * `{perc}`: Percentage as a string like `[10%]`. *
@@ -745,12 +765,12 @@ c.tabs.title.alignment = 'left'
 # web page. * `{protocol}`: Protocol (http/https/...) of the current web
 # page. * `{audio}`: Indicator for audio/mute status.
 # Type: FormatString
-c.tabs.title.format = '{audio}{index} : {current_title}'
+c.tabs.title.format = "{audio}{index} : {current_title}"
 
 # Format to use for the tab title for pinned tabs. The same placeholders
 # like for `tabs.title.format` are defined.
 # Type: FormatString
-c.tabs.title.format_pinned = '{audio}{index}'
+c.tabs.title.format_pinned = "{audio}{index}"
 
 # Minimum width (in pixels) of tabs (-1 for the default minimum size
 # behavior). This setting only applies when tabs are horizontal. This
@@ -773,7 +793,7 @@ c.tabs.indicator.width = 0
 
 # Padding (in pixels) for tab indicators.
 # Type: Padding
-c.tabs.indicator.padding = {'bottom': 3, 'left': 3, 'right': 3, 'top': 3}
+c.tabs.indicator.padding = {"bottom": 3, "left": 3, "right": 3, "top": 3}
 
 # Shrink pinned tabs down to their contents.
 # Type: Bool
@@ -786,7 +806,7 @@ c.tabs.pinned.frozen = False
 # Page to open if :open -t/-b/-w is used without URL. Use `about:blank`
 # for a blank page.
 # Type: FuzzyUrl
-c.url.default_page = 'about:blank'
+c.url.default_page = "about:blank"
 
 # Search engines which can be used via the address bar.  Maps a search
 # engine name (such as `DEFAULT`, or `ddg`) to a URL with a `{}`
@@ -814,11 +834,18 @@ c.url.searchengines = {
 
 # Page(s) to open at the start.
 # Type: List of FuzzyUrl, or FuzzyUrl
-c.url.start_pages = 'about:blank'
+c.url.start_pages = "about:blank"
 
 # URL parameters to strip with `:yank url`.
 # Type: List of String
-c.url.yank_ignored_parameters = ['ref', 'utm_source', 'utm_medium', 'utm_campaign', 'utm_term', 'utm_content']
+c.url.yank_ignored_parameters = [
+    "ref",
+    "utm_source",
+    "utm_medium",
+    "utm_campaign",
+    "utm_term",
+    "utm_content",
+]
 
 # Hide the window decoration.  This setting requires a restart on
 # Wayland.
@@ -828,72 +855,72 @@ c.window.hide_decoration = True
 # Format to use for the window title. The same placeholders like for
 # `tabs.title.format` are defined.
 # Type: FormatString
-c.window.title_format = '{perc}{current_title}{title_sep}qutebrowser'
+c.window.title_format = "{perc}{current_title}{title_sep}qutebrowser"
 
 # Text color of the completion widget. May be a single color to use for
 # all columns or a list of three colors, one for each column.
 # Type: List of QtColor, or QtColor
-c.colors.completion.fg = ['#c5c8c6', '#c5c8c6', '#c5c8c6']
+c.colors.completion.fg = ["#c5c8c6", "#c5c8c6", "#c5c8c6"]
 
 # Background color of the completion widget for odd rows.
 # Type: QssColor
-c.colors.completion.odd.bg = '#161719'
+c.colors.completion.odd.bg = "#161719"
 
 # Background color of the completion widget for even rows.
 # Type: QssColor
-c.colors.completion.even.bg = '#161719'
+c.colors.completion.even.bg = "#161719"
 
 # Foreground color of completion widget category headers.
 # Type: QtColor
-c.colors.completion.category.fg = '#c5c8c6'
+c.colors.completion.category.fg = "#c5c8c6"
 
 # Background color of the completion widget category headers.
 # Type: QssColor
-c.colors.completion.category.bg = '#161719'
+c.colors.completion.category.bg = "#161719"
 
 # Top border color of the completion widget category headers.
 # Type: QssColor
-c.colors.completion.category.border.top = '#161719'
+c.colors.completion.category.border.top = "#161719"
 
 # Bottom border color of the completion widget category headers.
 # Type: QssColor
-c.colors.completion.category.border.bottom = '#161719'
+c.colors.completion.category.border.bottom = "#161719"
 
 # Foreground color of the selected completion item.
 # Type: QtColor
-c.colors.completion.item.selected.fg = '#161719'
+c.colors.completion.item.selected.fg = "#161719"
 
 # Background color of the selected completion item.
 # Type: QssColor
-c.colors.completion.item.selected.bg = '#c5c8c6'
+c.colors.completion.item.selected.bg = "#c5c8c6"
 
 # Top border color of the selected completion item.
 # Type: QssColor
-c.colors.completion.item.selected.border.top = '#161719'
+c.colors.completion.item.selected.border.top = "#161719"
 
 # Bottom border color of the selected completion item.
 # Type: QssColor
-c.colors.completion.item.selected.border.bottom = '#161719'
+c.colors.completion.item.selected.border.bottom = "#161719"
 
 # Foreground color of the matched text in the completion.
 # Type: QtColor
-c.colors.completion.match.fg = '#cc6666'
+c.colors.completion.match.fg = "#cc6666"
 
 # Color of the scrollbar handle in the completion view.
 # Type: QssColor
-c.colors.completion.scrollbar.fg = '#c5c8c6'
+c.colors.completion.scrollbar.fg = "#c5c8c6"
 
 # Color of the scrollbar in the completion view.
 # Type: QssColor
-c.colors.completion.scrollbar.bg = '#161719'
+c.colors.completion.scrollbar.bg = "#161719"
 
 # Background color for the download bar.
 # Type: QssColor
-c.colors.downloads.bar.bg = '#161719'
+c.colors.downloads.bar.bg = "#161719"
 
 # Color gradient start for download backgrounds.
 # Type: QtColor
-c.colors.downloads.start.bg = '#0000aa'
+c.colors.downloads.start.bg = "#0000aa"
 
 # Color gradient interpolation system for download text.
 # Type: ColorSystem
@@ -902,7 +929,7 @@ c.colors.downloads.start.bg = '#0000aa'
 #   - hsv: Interpolate in the HSV color system.
 #   - hsl: Interpolate in the HSL color system.
 #   - none: Don't show a gradient.
-c.colors.downloads.system.fg = 'none'
+c.colors.downloads.system.fg = "none"
 
 # Color gradient interpolation system for download backgrounds.
 # Type: ColorSystem
@@ -911,162 +938,162 @@ c.colors.downloads.system.fg = 'none'
 #   - hsv: Interpolate in the HSV color system.
 #   - hsl: Interpolate in the HSL color system.
 #   - none: Don't show a gradient.
-c.colors.downloads.system.bg = 'none'
+c.colors.downloads.system.bg = "none"
 
 # Foreground color for downloads with errors.
 # Type: QtColor
-c.colors.downloads.error.fg = '#ffffff'
+c.colors.downloads.error.fg = "#ffffff"
 
 # Background color for downloads with errors.
 # Type: QtColor
-c.colors.downloads.error.bg = '#cc6666'
+c.colors.downloads.error.bg = "#cc6666"
 
 # Font color for hints.
 # Type: QssColor
-c.colors.hints.fg = '#c5c8c6'
+c.colors.hints.fg = "#c5c8c6"
 
 # Background color for hints. Note that you can use a `rgba(...)` value
 # for transparency.
 # Type: QssColor
-c.colors.hints.bg = '#161719'
+c.colors.hints.bg = "#161719"
 
 # Font color for the matched part of hints.
 # Type: QtColor
-c.colors.hints.match.fg = '#cc6666'
+c.colors.hints.match.fg = "#cc6666"
 
 # Text color for the keyhint widget.
 # Type: QssColor
-c.colors.keyhint.fg = '#c5c8c6'
+c.colors.keyhint.fg = "#c5c8c6"
 
 # Highlight color for keys to complete the current keychain.
 # Type: QssColor
-c.colors.keyhint.suffix.fg = '#cc6666'
+c.colors.keyhint.suffix.fg = "#cc6666"
 
 # Background color of the keyhint widget.
 # Type: QssColor
-c.colors.keyhint.bg = '#161719'
+c.colors.keyhint.bg = "#161719"
 
 # Foreground color of an error message.
 # Type: QssColor
-c.colors.messages.error.fg = '#ffffff'
+c.colors.messages.error.fg = "#ffffff"
 
 # Background color of an error message.
 # Type: QssColor
-c.colors.messages.error.bg = '#cc6666'
+c.colors.messages.error.bg = "#cc6666"
 
 # Border color of an error message.
 # Type: QssColor
-c.colors.messages.error.border = '#cc6666'
+c.colors.messages.error.border = "#cc6666"
 
 # Foreground color of a warning message.
 # Type: QssColor
-c.colors.messages.warning.fg = '#ffffff'
+c.colors.messages.warning.fg = "#ffffff"
 
 # Background color of a warning message.
 # Type: QssColor
-c.colors.messages.warning.bg = '#f0c674'
+c.colors.messages.warning.bg = "#f0c674"
 
 # Border color of a warning message.
 # Type: QssColor
-c.colors.messages.warning.border = '#f9c674'
+c.colors.messages.warning.border = "#f9c674"
 
 # Foreground color of an info message.
 # Type: QssColor
-c.colors.messages.info.fg = '#c5c8c6'
+c.colors.messages.info.fg = "#c5c8c6"
 
 # Background color of an info message.
 # Type: QssColor
-c.colors.messages.info.bg = '#161719'
+c.colors.messages.info.bg = "#161719"
 
 # Border color of an info message.
 # Type: QssColor
-c.colors.messages.info.border = '#161719'
+c.colors.messages.info.border = "#161719"
 
 # Foreground color for prompts.
 # Type: QssColor
-c.colors.prompts.fg = '#c5c8c6'
+c.colors.prompts.fg = "#c5c8c6"
 
 # Border used around UI elements in prompts.
 # Type: String
-c.colors.prompts.border = '0px'
+c.colors.prompts.border = "0px"
 
 # Background color for prompts.
 # Type: QssColor
-c.colors.prompts.bg = '#161719'
+c.colors.prompts.bg = "#161719"
 
 # Background color for the selected item in filename prompts.
 # Type: QssColor
-c.colors.prompts.selected.bg = '#c5c8c6'
+c.colors.prompts.selected.bg = "#c5c8c6"
 
 # Foreground color of the statusbar.
 # Type: QssColor
-c.colors.statusbar.normal.fg = '#c5c8c6'
+c.colors.statusbar.normal.fg = "#c5c8c6"
 
 # Background color of the statusbar.
 # Type: QssColor
-c.colors.statusbar.normal.bg = '#161719'
+c.colors.statusbar.normal.bg = "#161719"
 
 # Foreground color of the statusbar in insert mode.
 # Type: QssColor
-c.colors.statusbar.insert.fg = '#ffffff'
+c.colors.statusbar.insert.fg = "#ffffff"
 
 # Background color of the statusbar in insert mode.
 # Type: QssColor
-c.colors.statusbar.insert.bg = '#b6bd68'
+c.colors.statusbar.insert.bg = "#b6bd68"
 
 # Foreground color of the statusbar in passthrough mode.
 # Type: QssColor
-c.colors.statusbar.passthrough.fg = '#ffffff'
+c.colors.statusbar.passthrough.fg = "#ffffff"
 
 # Background color of the statusbar in passthrough mode.
 # Type: QssColor
-c.colors.statusbar.passthrough.bg = '#b294bb'
+c.colors.statusbar.passthrough.bg = "#b294bb"
 
 # Foreground color of the statusbar in private browsing mode.
 # Type: QssColor
-c.colors.statusbar.private.fg = '#161719'
+c.colors.statusbar.private.fg = "#161719"
 
 # Foreground color of the statusbar in command mode.
 # Type: QssColor
-c.colors.statusbar.command.fg = '#c5c8c6'
+c.colors.statusbar.command.fg = "#c5c8c6"
 
 # Background color of the statusbar in command mode.
 # Type: QssColor
-c.colors.statusbar.command.bg = '#161719'
+c.colors.statusbar.command.bg = "#161719"
 
 # Default foreground color of the URL in the statusbar.
 # Type: QssColor
-c.colors.statusbar.url.fg = '#ffffff'
+c.colors.statusbar.url.fg = "#ffffff"
 
 # Foreground color of the URL in the statusbar on error.
 # Type: QssColor
-c.colors.statusbar.url.error.fg = '#cc6666'
+c.colors.statusbar.url.error.fg = "#cc6666"
 
 # Foreground color of the URL in the statusbar for hovered links.
 # Type: QssColor
-c.colors.statusbar.url.hover.fg = '#81a2be'
+c.colors.statusbar.url.hover.fg = "#81a2be"
 
 # Foreground color of the URL in the statusbar on successful load
 # (http).
 # Type: QssColor
-c.colors.statusbar.url.success.http.fg = '#b5bd68'
+c.colors.statusbar.url.success.http.fg = "#b5bd68"
 
 # Foreground color of the URL in the statusbar on successful load
 # (https).
 # Type: QssColor
-c.colors.statusbar.url.success.https.fg = '#b5bd68'
+c.colors.statusbar.url.success.https.fg = "#b5bd68"
 
 # Foreground color of the URL in the statusbar when there's a warning.
 # Type: QssColor
-c.colors.statusbar.url.warn.fg = '#f0c674'
+c.colors.statusbar.url.warn.fg = "#f0c674"
 
 # Background color of the tab bar.
 # Type: QssColor
-c.colors.tabs.bar.bg = '#161719'
+c.colors.tabs.bar.bg = "#161719"
 
 # Color for the tab indicator on errors.
 # Type: QtColor
-c.colors.tabs.indicator.error = '#cc6666'
+c.colors.tabs.indicator.error = "#cc6666"
 
 # Color gradient interpolation system for the tab indicator.
 # Type: ColorSystem
@@ -1075,60 +1102,60 @@ c.colors.tabs.indicator.error = '#cc6666'
 #   - hsv: Interpolate in the HSV color system.
 #   - hsl: Interpolate in the HSL color system.
 #   - none: Don't show a gradient.
-c.colors.tabs.indicator.system = 'none'
+c.colors.tabs.indicator.system = "none"
 
 # Foreground color of unselected odd tabs.
 # Type: QtColor
-c.colors.tabs.odd.fg = '#c5c8c6'
+c.colors.tabs.odd.fg = "#c5c8c6"
 
 # Background color of unselected odd tabs.
 # Type: QtColor
-c.colors.tabs.odd.bg = '#161719'
+c.colors.tabs.odd.bg = "#161719"
 
 # Foreground color of unselected even tabs.
 # Type: QtColor
-c.colors.tabs.even.fg = '#c5c8c6'
+c.colors.tabs.even.fg = "#c5c8c6"
 
 # Background color of unselected even tabs.
 # Type: QtColor
-c.colors.tabs.even.bg = '#161719'
+c.colors.tabs.even.bg = "#161719"
 
 # Foreground color of selected odd tabs.
 # Type: QtColor
-c.colors.tabs.selected.odd.fg = '#161719'
+c.colors.tabs.selected.odd.fg = "#161719"
 
 # Background color of selected odd tabs.
 # Type: QtColor
-c.colors.tabs.selected.odd.bg = '#c5c8c6'
+c.colors.tabs.selected.odd.bg = "#c5c8c6"
 
 # Foreground color of selected even tabs.
 # Type: QtColor
-c.colors.tabs.selected.even.fg = '#161719'
+c.colors.tabs.selected.even.fg = "#161719"
 
 # Background color of selected even tabs.
 # Type: QtColor
-c.colors.tabs.selected.even.bg = '#c5c8c6'
+c.colors.tabs.selected.even.bg = "#c5c8c6"
 
 # Foreground color of pinned unselected odd tabs.
 # Type: QtColor
-c.colors.tabs.pinned.odd.fg = '#a19782'
+c.colors.tabs.pinned.odd.fg = "#a19782"
 
 # Background color of pinned unselected odd tabs.
 # Type: QtColor
-c.colors.tabs.pinned.odd.bg = '#2f2b2a'
+c.colors.tabs.pinned.odd.bg = "#2f2b2a"
 
 # Foreground color of pinned unselected even tabs.
 # Type: QtColor
-c.colors.tabs.pinned.even.fg = '#a19782'
+c.colors.tabs.pinned.even.fg = "#a19782"
 
 # Background color of pinned unselected even tabs.
 # Type: QtColor
-c.colors.tabs.pinned.even.bg = '#2f2b2a'
+c.colors.tabs.pinned.even.bg = "#2f2b2a"
 
 # Background color for webpages if unset (or empty to use the theme's
 # color).
 # Type: QtColor
-c.colors.webpage.bg = 'white'
+c.colors.webpage.bg = "white"
 
 # Value to use for `prefers-color-scheme:` for websites. The "light"
 # value is only available with QtWebEngine 5.15.2+. On older versions,
@@ -1140,69 +1167,69 @@ c.colors.webpage.bg = 'white'
 #   - auto: Use the system-wide color scheme setting.
 #   - light: Force a light theme.
 #   - dark: Force a dark theme.
-c.colors.webpage.preferred_color_scheme = 'dark'
+c.colors.webpage.preferred_color_scheme = "dark"
 
 # Default font families to use. Whenever "default_family" is used in a
 # font setting, it's replaced with the fonts listed here. If set to an
 # empty value, a system-specific monospace default is used.
 # Type: List of Font, or Font
-c.fonts.default_family = 'UW Ttyp0'
+c.fonts.default_family = "UW Ttyp0"
 
 # Default font size to use. Whenever "default_size" is used in a font
 # setting, it's replaced with the size listed here. Valid values are
 # either a float value with a "pt" suffix, or an integer value with a
 # "px" suffix.
 # Type: String
-c.fonts.default_size = '14px'
+c.fonts.default_size = "14px"
 
 # Font used in the completion widget.
 # Type: Font
-c.fonts.completion.entry = 'default_size default_family'
+c.fonts.completion.entry = "default_size default_family"
 
 # Font used in the completion categories.
 # Type: Font
-c.fonts.completion.category = 'default_size default_family'
+c.fonts.completion.category = "default_size default_family"
 
 # Font used for the context menu. If set to null, the Qt default is
 # used.
 # Type: Font
-c.fonts.contextmenu = 'default_size default_family'
+c.fonts.contextmenu = "default_size default_family"
 
 # Font used for the debugging console.
 # Type: Font
-c.fonts.debug_console = 'default_size default_family'
+c.fonts.debug_console = "default_size default_family"
 
 # Font used for the downloadbar.
 # Type: Font
-c.fonts.downloads = 'default_size default_family'
+c.fonts.downloads = "default_size default_family"
 
 # Font used for the hints.
 # Type: Font
-c.fonts.hints = 'default_size default_family'
+c.fonts.hints = "default_size default_family"
 
 # Font used in the keyhint widget.
 # Type: Font
-c.fonts.keyhint = 'default_size default_family'
+c.fonts.keyhint = "default_size default_family"
 
 # Font used for error messages.
 # Type: Font
-c.fonts.messages.error = 'default_size default_family'
+c.fonts.messages.error = "default_size default_family"
 
 # Font used for info messages.
 # Type: Font
-c.fonts.messages.info = 'default_size default_family'
+c.fonts.messages.info = "default_size default_family"
 
 # Font used for warning messages.
 # Type: Font
-c.fonts.messages.warning = 'default_size default_family'
+c.fonts.messages.warning = "default_size default_family"
 
 # Font used for prompts.
 # Type: Font
-c.fonts.prompts = 'default_size default_family'
+c.fonts.prompts = "default_size default_family"
 
 # Font used in the statusbar.
 # Type: Font
-c.fonts.statusbar = 'default_size default_family'
+c.fonts.statusbar = "default_size default_family"
 
 # Font family for standard fonts.
 # Type: FontFamily
@@ -1229,4 +1256,8 @@ c.fonts.web.family.cursive = None
 c.fonts.web.family.fantasy = None
 
 # Bindings for normal mode
-config.bind('z', 'hint links spawn --detach mpv {hint-url}')
+config.bind("z", "hint links spawn --detach mpv {hint-url}")
+
+# Default next/prev navigation is wrong
+config.bind("K", "tab-next", mode="normal")
+config.bind("J", "tab-prev", mode="normal")

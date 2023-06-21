@@ -5,24 +5,28 @@
 # setwall ~/Pictures/walls/Thomas_Cole_-_Dream_of_Arcadia_-_Google_Art_Project.jpg
 # setwall ~/Pictures/walls/1593486499392.jpg
 
+set -e
+
 readonly cachefile="$XDG_DATA_HOME/wall"
 wallpaper="${1}"
 wallname="$(basename "$wallpaper")"
 
 setwall() {
-	echo "$wallname" >"$cachefile" &
-	betterlockscreen -u "$wallpaper"
+	feh --bg-fill "$wallpaper" &
 }
 
 updatewall() {
-	betterlockscreen -w &
+	betterlockscreen -u "$wallpaper" && betterlockscreen -w &
+	echo "$wallname" >"$cachefile"
 }
 
-current="$(<"$cachefile")"
-
-if [[ $current == $wallname ]]; then
-	echo "Seems like the wallpaper is already set." && exit 1
+current=$(<"$cachefile")
+if [[ $current == "$wallname" ]]; then
+	echo "Seems like the wallpaper is already set."
+	exit 1
 else
-	setwall >/dev/null 2>&1
-	updatewall >/dev/null 2>&1
+	{
+		setwall
+		updatewall
+	} >/dev/null 2>&1
 fi

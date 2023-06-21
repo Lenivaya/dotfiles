@@ -29,6 +29,7 @@ in {
           })
         (import secretsFile)
       else {};
+
     identityPaths =
       options.age.identityPaths.default
       ++ (filter pathExists [

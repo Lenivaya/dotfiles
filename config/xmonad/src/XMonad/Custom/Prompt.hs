@@ -38,11 +38,12 @@ promptTheme =
       position = CenteredAt {xpCenterY = 3 % 10, xpWidth = 1 % 2}
     , maxComplRows = Just 5
     , alwaysHighlight = True
+    , historyFilter = deleteAllDuplicates
     , searchPredicate = fuzzyMatch
     , sorter = fuzzySort
     , complCaseSensitivity = CaseInSensitive
     , promptKeymap = emacsLikeXPKeymap
-    , autoComplete = Just 15000
+    , autoComplete = (5 `ms`)
     }
 promptThemeVim = promptTheme {promptKeymap = vimLikeXPKeymap}
 hotPromptTheme =
@@ -59,6 +60,12 @@ colorizer _ isFg = do
   fBC <- asks (focusedBorderColor . config)
   nBC <- asks (normalBorderColor . config)
   return $ if isFg then (fBC, nBC) else (nBC, fBC)
+
+{-| Express the given time in milliseconds as a time in microseconds,
+ ready for consumption by @autoComplete@.
+-}
+ms :: Int -> Maybe Int
+ms = Just . (* 10 ^ (4 :: Int))
 
 -- gridSelectTheme :: GSConfig a
 -- , gs_cellheight = 30

@@ -69,7 +69,7 @@ flags="fps=${fps}$scale"
 
 # stats_mode=full favors motion, causing the resulting palette to better
 # accomodate fades and transitions.
-ffmpeg -v warning $start $duration -i "file:$src" -vf "$flags,palettegen=stats_mode=full" -y "$PALETTE"
-ffmpeg -v warning $start $duration -i "file:$src" -i "$PALETTE" -lavfi "$flags [x]; [x][1:v] paletteuse" -y "$dest"
+ffmpeg -v warning "$start" "$duration" -i "file:$src" -vf "$flags,palettegen=stats_mode=full" -y "$PALETTE"
+ffmpeg -v warning "$start" "$duration" -i "file:$src" -i "$PALETTE" -lavfi "$flags [x]; [x][1:v] paletteuse" -y "$dest"
 
 gifsicle -O3 "$dest" -o "$dest"

@@ -6,35 +6,37 @@
 }:
 with lib;
 with lib.my; {
-  services.xserver = {
-    enable = true;
-    desktopManager.xterm.enable = lib.mkDefault false;
-    autoRepeatDelay = 200;
-    autoRepeatInterval = 50;
-    layout = comcat ["us" "ru" "ua"];
-    xkbOptions = comcat ["grp:win_space_toggle" "caps:ctrl_modifier"];
+  services.xserver =
+    enabled
+    // {
+      desktopManager.xterm.enable = mkDefault false;
+      autoRepeatDelay = 200;
+      autoRepeatInterval = 50;
+      layout = comcat ["us" "ru" "ua"];
+      xkbOptions = comcat ["grp:win_space_toggle" "caps:ctrl_modifier"];
 
-    displayManager.lightdm = {
-      enable = true;
-      greeters.gtk.theme = {
-        name = "Adwaita-dark";
-        package = pkgs.gnome3.gnome-themes-extra;
-      };
+      displayManager.lightdm =
+        enabled
+        // {
+          greeters.gtk.theme = {
+            name = "Adwaita-dark";
+            package = pkgs.gnome3.gnome-themes-extra;
+          };
+        };
     };
-  };
 
   services.dbus.packages = with pkgs; [dconf];
-  programs.dconf.enable = true;
+  programs.dconf = enabled;
 
   # xdg = {
   #   portal = {
-  #     enable = true;
+  #     = enabled;
   #     extraPortals = with pkgs; [ xdg-desktop-portal-gtk xdg-desktop-portal-gnome ];
   #     gtkUsePortal = true;
   #   };
   # };
 
-  modules.services.sxhkd.enable = true;
+  modules.services.sxhkd = enabled;
 
   # Clean up leftovers, as much as we can
   system.userActivationScripts.cleanupHome = ''

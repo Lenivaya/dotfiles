@@ -1,9 +1,8 @@
-module XMonad.Custom.Screenshot where
+module XMonad.Custom.Actions.Screen.Screenshot where
 
 import Data.Foldable
 import Text.Read (readMaybe)
 import XMonad
-import XMonad.Custom.Misc
 import XMonad.Custom.Prompt
 import XMonad.Prompt
 
@@ -14,9 +13,9 @@ data ScreenshotOption
   deriving (Enum, Bounded, Read, Show)
 
 screenshot :: ScreenshotOption -> X ()
-screenshot Fullscreen = spawn "xshot.sh"
-screenshot Select = spawn "xshot-select.sh"
-screenshot SelectCopyToClipboard = spawn "xshot-select-clipboard.sh"
+screenshot Fullscreen = spawn "xshot full"
+screenshot Select = spawn "xshot select"
+screenshot SelectCopyToClipboard = spawn "xshot select-clipboard"
 
 data ScreenshotPrompt = ScreenshotPrompt
 
@@ -28,4 +27,4 @@ screenshotPrompt config =
   mkXPrompt ScreenshotPrompt config (listCompFunc config options) go
   where
     options = show <$> [minBound .. maxBound :: ScreenshotOption]
-    go option = forM_ (readMaybe option) screenshot
+    go = mapM_ screenshot . readMaybe

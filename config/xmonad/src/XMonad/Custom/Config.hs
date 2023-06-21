@@ -11,15 +11,15 @@ import XMonad.Actions.MostRecentlyUsed
 import XMonad.Actions.Navigation2D (withNavigation2DConfig)
 import XMonad.Core
 import XMonad.Custom.Bindings qualified as C
-import XMonad.Custom.Event qualified as C
-import XMonad.Custom.Layout qualified as C
-import XMonad.Custom.Log qualified as C
-import XMonad.Custom.Manage qualified as C
+import XMonad.Custom.Hooks.Event qualified as C
+import XMonad.Custom.Hooks.Layout qualified as C
+import XMonad.Custom.Hooks.Log qualified as C
+import XMonad.Custom.Hooks.Screens qualified as C
+import XMonad.Custom.Hooks.Startup qualified as C
+import XMonad.Custom.Hooks.Statusbar qualified as C
+import XMonad.Custom.Manage.ManageHook qualified as C
 import XMonad.Custom.Misc qualified as C
 import XMonad.Custom.Navigation qualified as C
-import XMonad.Custom.Screens qualified as C
-import XMonad.Custom.Startup qualified as C
-import XMonad.Custom.Statusbar qualified as C
 import XMonad.Custom.Theme qualified as C
 import XMonad.Custom.Workspaces qualified as C
 import XMonad.Hooks.EwmhDesktops
@@ -28,6 +28,7 @@ import XMonad.Hooks.Rescreen
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.UrgencyHook
 import XMonad.Layout.IndependentScreens
+import XMonad.Util.Hacks qualified as Hacks
 
 myConfig =
   def
@@ -38,7 +39,7 @@ myConfig =
     , normalBorderColor = C.colorN
     , focusedBorderColor = C.colorF
     , modMask = C.modMask
-    , keys = C.keys
+    , keys = C.myKeys
     , logHook = C.logHook
     , startupHook = C.startupHook
     , mouseBindings = C.mouseBindings
@@ -56,4 +57,5 @@ myConfig =
     |> ewmhFullscreen
     |> docks
     |> dynamicSBs C.barSpawner
+    |> Hacks.javaHack
     |> (return :: a -> IO a)

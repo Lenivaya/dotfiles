@@ -14,7 +14,7 @@ in {
   options.modules.desktop.apps.dunst.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    modules.desktop.apps.rofi.enable = true;
+    modules.desktop.apps.rofi = enabled;
     user.packages = with pkgs; [dunst libnotify];
 
     home.configFile."dunst" = {
@@ -23,7 +23,7 @@ in {
     };
 
     services.xserver.displayManager.sessionCommands = ''
-      ${pkgs.dunst}/bin/dunst &
+      ${getExe pkgs.dunst} &
     '';
   };
 }

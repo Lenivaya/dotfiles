@@ -1,4 +1,4 @@
-module XMonad.Custom.KeyboardUtils where
+module XMonad.Custom.Actions.Keyboard where
 
 import Control.Monad
 import Data.Foldable
@@ -35,7 +35,7 @@ wrapKbdLayout action =
 data KbdLayoutPrompt = KbdLayoutPrompt
 
 instance XPrompt KbdLayoutPrompt where
-  showXPrompt KbdLayoutPrompt = "Keyboard layout: "
+  showXPrompt _ = "Keyboard layout: "
 
 kbdHelpConfig = def {st_font = "xft:monospace:size=20"}
 
@@ -45,8 +45,13 @@ selectKbdLayout conf =
     showAllLayouts layouts >> prompt layouts
   where
     showAllLayouts = flashText kbdHelpConfig 0.5 . unwords
-    prompt layouts =
-      mkXPrompt KbdLayoutPrompt conf (listCompFunc conf layouts) (go layouts)
 
     go layouts selected =
       forM_ (lookup selected $ zip layouts layouts) setKbdLayout
+
+    prompt layouts =
+      mkXPrompt
+        KbdLayoutPrompt
+        conf
+        (listCompFunc conf layouts)
+        (go layouts)

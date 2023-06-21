@@ -20,9 +20,11 @@ in {
     ];
     fileSystems."/".options = ["noatime" "nodiratime"];
 
-    powerManagement.enable = true;
-    # services.thermald.enable = true;
+    powerManagement = enabled;
+    # services.thermald = enabled;
 
+    # https://github.com/Irqbalance/irqbalance/issues/54#issuecomment-319245584
+    # https://unix.stackexchange.com/questions/710603/should-the-irqbalance-daemon-be-used-on-a-modern-desktop-x86-system
     services.irqbalance.enable = lib.mkDefault true;
     services.udev.extraRules = ''
       # Automatically suspend the system at <5%
@@ -47,6 +49,7 @@ in {
       script = ''
         export battery_capacity=$(${pkgs.coreutils}/bin/cat /sys/class/power_supply/${battery}/capacity)
         export battery_status=$(${pkgs.coreutils}/bin/cat /sys/class/power_supply/${battery}/status)
+
         if [[ $battery_capacity -le 10 && $battery_status = "Discharging" ]]; then
           ${pkgs.libnotify}/bin/notify-send --urgency=critical "$battery_capacity%: See you, space cowboy..."
         fi

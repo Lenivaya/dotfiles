@@ -1,4 +1,4 @@
-module XMonad.Custom.Log (
+module XMonad.Custom.Hooks.Log (
   logHook,
   topBarPP',
   botBarPP,
@@ -8,10 +8,13 @@ import Data.List (
   find,
   isInfixOf,
  )
+import Data.Maybe (fromMaybe)
 import System.IO
 import XMonad hiding (logHook)
 import XMonad.Actions.CopyWindow
-import XMonad.Custom.Layout (layoutNames)
+import XMonad.Actions.SwapPromote
+import XMonad.Actions.UpdatePointer
+import XMonad.Custom.Hooks.Layout (layoutNames)
 import XMonad.Custom.Scratchpads
 import XMonad.Custom.Theme
 import XMonad.Hooks.CurrentWorkspaceOnTop
@@ -36,7 +39,7 @@ import XMonad.Util.WorkspaceCompare
 --              | otherwise                   = ""
 
 layoutName :: String -> String
-layoutName l = maybe "" id $ find (`isInfixOf` l) layoutNames
+layoutName l = fromMaybe "" $ find (`isInfixOf` l) layoutNames
 
 windowCount =
   Just
@@ -74,6 +77,7 @@ topBarPP =
 topBarPP' :: X PP
 topBarPP' = do
   c <- wsContainingCopies
+
   let copiesCurrent ws
         | ws `elem` c =
             xmobarColor yellow2 "" . xmobarFont 2 . wrap "*" "=" $ ws
@@ -112,6 +116,9 @@ logHook :: X ()
 logHook = do
   refocusLastLogHook
   currentWorkspaceOnTop
+  masterHistoryHook
+  -- updatePointer (0.98, 0.01) (0, 0)
+  updatePointer (0.5, 0.5) (0, 0)
   showWNameLogHook def
 
 -- nsHideOnFocusLoss scratchpads

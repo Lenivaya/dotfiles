@@ -1,236 +1,183 @@
 # t440p -- thinkpad t440p
 {
   pkgs,
-  config,
   lib,
   inputs,
   ...
 }:
+with lib;
 with lib.my; {
   imports = [
-    ../personal.nix
+    ../common.nix
     ./hardware-configuration.nix
     inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t440p
     inputs.nixos-hardware.nixosModules.common-pc-laptop-acpi_call
-    # ./jack_retask/jack_retask.nix
     ./phone_cam.nix
+    ./gpu.nix
+    # ./jack_retask/jack_retask.nix
   ];
 
   modules = {
     desktop = {
-      xmonad.enable = true;
-      # gnome.enable = true;
+      xmonad = enabled;
 
-      fonts.pragmata.enable = true;
-      # fonts.iosevka.enable = true;
+      fonts.pragmata = enabled;
+      # fonts.pragmasevka = enabled;
 
       apps = {
-        rofi.enable = true;
-        dunst.enable = true;
-        discord.enable = true;
+        rofi = enabled;
+        dunst = enabled;
+        discord = enabled;
 
-        gnome-circle.enable = true;
+        gnome-circle = enabled;
       };
 
       browsers = {
         default = "firefox";
-        firefox.enable = true;
-        chromium = {
-          enable = true;
-          googled = true;
-        };
-        qutebrowser.enable = true;
-        # brave.enable = true;
+
+        firefox = enabled;
+        qutebrowser = enabled;
+        chromium =
+          enabled // {googled = true;};
       };
 
       term = {
-        alacritty.enable = true;
-        default = lib.mkForce "alacritty";
+        alacritty = enabled;
+        default = mkForce "alacritty";
       };
 
       media = {
-        documents = {
-          enable = true;
-          pdf.enable = true;
-          ebook.enable = true;
-          latex.enable = true;
-        };
+        spotify = enabled;
+        mpv = enabled;
 
-        graphics = {
-          enable = true;
-          raster.enable = true;
-        };
-        recording = {
-          enable = true;
-          audio.enable = true;
-        };
+        documents =
+          enabled
+          // {
+            pdf = enabled;
+            ebook = enabled;
+            latex = enabled;
+          };
 
-        spotify.enable = true;
-        mpv.enable = true;
+        graphics =
+          enabled
+          // {
+            raster = enabled;
+          };
+
+        recording =
+          enabled
+          // {
+            audio = enabled;
+          };
       };
 
       vm = {
-        qemu.enable = true;
-        wine.enable = true;
+        qemu = enabled;
+        # wine = enabled;
       };
     };
 
     shell = {
-      gnupg.enable = true;
-      direnv.enable = true;
-      pass.enable = true;
-      git.enable = true;
-      zsh.enable = true;
+      gnupg = enabled;
+      direnv = enabled;
+      pass = enabled;
+      git = enabled;
+      zsh = enabled;
+      weather = enabled;
     };
 
     editors = {
-      emacs = {
-        enable = true;
-        doom.enable = true;
-        default = true;
-      };
-      vscode.enable = true;
+      vscode = enabled;
+      emacs =
+        enabled
+        // {
+          doom = enabled;
+          default = true;
+        };
     };
 
     dev = {
-      shell.enable = true;
-      cc.enable = true;
-      rust.enable = true;
-      go.enable = true;
-      haskell.enable = true;
-      node.enable = true;
-      python.enable = true;
-      elixir.enable = true;
-      csharp.enable = true;
+      shell = enabled;
+      cc = enabled;
+      rust = enabled;
+      go = enabled;
+      haskell = enabled;
+      node = enabled;
+      python = enabled;
+      # elixir = enabled;
+      # csharp = enabled;
+      # php = enabled;
     };
 
     services = {
-      kdeconnect.enable = true;
-      ssh.enable = true;
-      warp.enable = true;
-      keyd.enable = true;
-      flatpak.enable = true;
-      espanso.enable = true;
+      kdeconnect = enabled;
+      ssh = enabled;
+      warp = enabled;
+      keyd = enabled;
+      flatpak = enabled;
+      espanso = enabled;
+      tray =
+        enabled
+        // {
+          trayApps = [
+            "blueman-applet"
+            "nm-applet"
+            "mictray"
+            "kdeconnect-indicator"
+          ];
+        };
     };
 
     hardware = {
-      profiles.laptop.enable = true;
-      touchpad.enable = true;
-      cpu.intel.enable = true;
-      cpu.undervolt = rec {
-        enable = true;
-        # Extreme
-        # core = -100;
-        # gpu = -50;
+      profiles.laptop = enabled;
+      touchpad = enabled;
+      cpu.intel = enabled;
+      cpu.undervolt =
+        enabled
+        // rec {
+          core = -80;
+          gpu = -40;
 
-        # Definitely works
-        core = -80;
-        gpu = -40;
-
-        # # core = -85;
-        # # gpu = -50;
-
-        uncore = core;
-        analogio = core;
-
-        # temp = 100;
-      };
-      gpu.intel.enable = true;
-      gpu.nvidia.enable = true;
-      fs = {
-        ssd.enable = true;
-        enable = true;
-      };
-      audio.enable = true;
-      fingerprint.enable = true;
-      bluetooth.enable = true;
-      # zram.enable = true;
+          uncore = core;
+          analogio = core;
+        };
+      gpu.intel = enabled;
+      gpu.nvidia = enabled;
+      audio = enabled;
+      fingerprint = enabled;
+      bluetooth = enabled;
+      fs =
+        enabled
+        // {
+          ssd = enabled;
+        };
+      # zram = enabled;
     };
 
-    adblock.enable = true;
-
-    bootsplash = {enable = true;};
+    adblock = enabled;
+    bootsplash = enabled;
   };
-
-  # Undervolt
-  # services.thermald.enable = lib.mkForce false;
-  # services.throttled.enable = lib.mkDefault true;
-
-  # Enable nvidia gpu
-  # hardware = {
-  #   nvidia = {
-  #     package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
-  #     modesetting.enable = true;
-  #     powerManagement.enable = lib.mkForce false;
-  #     powerManagement.finegrained = lib.mkForce false;
-  #     # nvidiaPersistenced = lib.mkForce false;
-  #     prime = {
-  #       sync.enable = true;
-  #       intelBusId = "PCI:0:2:0";
-  #       nvidiaBusId = "PCI:2:0:0";
-  #     };
-  #   };
-  # };
-  # services.xserver.config = lib.mkAfter ''
-  #   Section "OutputClass"
-  #       Identifier "nvidia dpi settings"
-  #       MatchDriver "nvidia-drm"
-  #       Option "UseEdidDpi" "False"
-  #       Option "DPI" "96 x 96"
-  #   EndSection
-  # '';
-
-  hardware = {
-    nvidia = {
-      package = config.boot.kernelPackages.nvidiaPackages.legacy_470;
-      modesetting.enable = true;
-      nvidiaPersistenced = lib.mkForce false;
-      powerManagement.enable = lib.mkForce false;
-      powerManagement.finegrained = lib.mkForce false;
-      # powerManagement.enable = true;
-      # powerManagement.finegrained = true;
-      # nvidiaPersistenced = lib.mkForce false;
-      prime = {
-        offload.enable = true;
-        intelBusId = "PCI:0:2:0";
-        nvidiaBusId = "PCI:2:0:0";
-      };
-    };
-  };
-  environment.systemPackages = let
-    nvidia-offload = pkgs.writeShellScriptBin "nvidia-offload" ''
-      export __NV_PRIME_RENDER_OFFLOAD=1
-      export __NV_PRIME_RENDER_OFFLOAD_PROVIDER=NVIDIA-G0
-      export __GLX_VENDOR_LIBRARY_NAME=nvidia
-      export __VK_LAYER_NV_optimus=NVIDIA_only
-      exec "$@"
-    '';
-  in [nvidia-offload];
-
-  # HACK Disable nvidia card for
-  # the sake of power consumption
-  # hardware.nvidiaOptimus.disable = true;
 
   networking.useDHCP = false;
   networking.interfaces.enp0s25.useDHCP = true;
   networking.interfaces.wlp4s0.useDHCP = true;
 
   # Dpi
-  # hardware.video.hidpi.enable = true;
+  # hardware.video.hidpi = enabled;
   #   services.xserver.dpi = 180;
 
-  services.fwupd.enable = true;
+  services.fwupd = enabled;
 
-  services.tlp.settings.CPU_MAX_PERF_ON_BAT = lib.mkForce 50;
+  services.tlp.settings.CPU_MAX_PERF_ON_BAT = mkForce 50;
   services.tlp.settings = {
     CPU_SCALING_MIN_FREQ_ON_AC = 0;
-    CPU_SCALING_MAX_FREQ_ON_AC = 3800000;
+    CPU_SCALING_MAX_FREQ_ON_AC = 4000000;
     CPU_SCALING_MIN_FREQ_ON_BAT = 0;
     # CPU_SCALING_MAX_FREQ_ON_BAT = 0;
   };
 
   services.clight = {
-    settings.keyboard.disabled = lib.mkForce true;
+    settings.keyboard.disabled = true;
     settings.sensor.devname = "video1"; # because video0 is virtual camera
   };
 
@@ -240,7 +187,7 @@ with lib.my; {
     # kernelPkg = pkgs.unstable.linuxKernel.packages.linux_xanmod_latest;
     # kernelPkg = pkgs.unstable.linuxKernel.packages.linux_xanmod_stable;
   in
-    lib.mkForce kernelPkg;
+    mkForce kernelPkg;
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
@@ -262,29 +209,32 @@ with lib.my; {
   # For manual fan control with pwm
   boot.extraModprobeConfig = "options thinkpad_acpi experimental=1 fan_control=1";
 
+  # nixpkgs.config.permittedInsecurePackages = ["electron-13.6.9"];
   user.packages = with pkgs; [
     # binance
+    # lightworks pitivi
+
     ffmpeg-full
     obsidian
 
-    my.boomer
-    # lightworks pitivi
+    jetbrains.phpstorm
   ];
 
   # Fix for libGL.so error
-  hardware.opengl = {
-    enable = true;
-    setLdLibraryPath = true;
-    extraPackages = with pkgs; [libGL];
-  };
+  hardware.opengl =
+    enabled
+    // {
+      setLdLibraryPath = true;
+      extraPackages = with pkgs; [libGL];
+    };
 
-  # hardware.trackpoint = {
-  #   # enable = true;
-  #   # speed = 255;
-  #   # sensitivity = 191;
-  #   # speed = 180;
-  #   # sensitivity = 220;
-  # };
+  services.safeeyes = enabled;
+
+  # services.tp-auto-kbbl =
+  #   enabled
+  #   // {
+  #     device = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
+  #   };
 
   # home.services.picom.settings = {
   #   animations = true;
@@ -293,39 +243,48 @@ with lib.my; {
   # };
 
   nixpkgs.overlays = [
-    (_self: _super: {
+    (_final: _prev: {
       inherit (pkgs.unstable) google-chrome;
+
       inherit (pkgs.unstable) firefox firefox-bin;
       inherit (pkgs.unstable) vscode vscode-extensions;
       # inherit (pkgs.unstable) yt-dlp mpv;
 
+      # emacs = pkgs.emacs29-pgtk;
       # Easyeffects + optimized build + fix(?)
       # easyeffects =
       #   optimizeForThisHost
       #   pkgs.unstable.easyeffects;
 
-      picom =
-        optimizeForThisHost
-        (pkgs.unstable.picom.overrideAttrs (oa: {
-          src = builtins.fetchGit {
-            # url = "https://github.com/Arian8j2/picom";
-            # ref = "next";
+      # picom =
+      #   optimizeForThisHost
+      #   (pkgs.unstable.picom.overrideAttrs (oa: {
+      #     src = pkgs.fetchFromGitHub {
+      #       owner = "yshui";
+      #       repo = "picom";
+      #       rev = "01bb26012c366ec8e17de8c63bfd7356a3ed83a6";
+      #       sha256 = "OwotarbpyWfxLMk/Q9r6CKOuhJnKjwL94bRbQlsuth8=";
+      #     };
 
-            # url = "https://github.com/dccsillag/picom";
-            # ref = "implement-window-animations";
+      #     # src = builtins.fetchGit {
+      #     #   # url = "https://github.com/Arian8j2/picom";
+      #     #   # ref = "next";
 
-            # Just latest
-            url = "https://github.com/yshui/picom";
-            ref = "next";
-            rev = "05ef18d78f96a0a970742f1dff40fcf505a0daa6";
+      #     #   # url = "https://github.com/dccsillag/picom";
+      #     #   # ref = "implement-window-animations";
 
-            # url = "https://github.com/FT-Labs/picom.git";
-            # ref = "next";
-          };
+      #     #   # Just latest
+      #     #   url = "https://github.com/yshui/picom";
+      #     #   ref = "next";
+      #     #   rev = "05ef18d78f96a0a970742f1dff40fcf505a0daa6";
 
-          # fix for latest next
-          buildInputs = oa.buildInputs ++ [pkgs.pcre2];
-        }));
+      #     #   # url = "https://github.com/FT-Labs/picom.git";
+      #     #   # ref = "next";
+      #     # };
+
+      #     # fix for latest next
+      #     buildInputs = oa.buildInputs ++ [pkgs.pcre2];
+      #   }));
     })
   ];
 }

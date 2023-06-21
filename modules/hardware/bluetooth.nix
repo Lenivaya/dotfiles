@@ -17,12 +17,13 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     {
-      hardware.bluetooth = {
-        enable = true;
-        package = pkgs.bluezFull;
-      };
+      hardware.bluetooth =
+        enabled
+        // {
+          package = pkgs.bluezFull;
+        };
       services.dbus.packages = [pkgs.blueman];
-      services.blueman.enable = true;
+      services.blueman = enabled;
 
       environment.systemPackages = with pkgs; [
         blueberry
@@ -50,7 +51,7 @@ in {
       #   };
       # };
 
-      user.services.mpris-proxy.enable = true;
+      user.services.mpris-proxy = enabled;
     })
   ]);
 }

@@ -11,6 +11,6 @@ in {
   options.modules.services.espanso.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    services.espanso.enable = true;
+    services.espanso = enabled;
   };
 }

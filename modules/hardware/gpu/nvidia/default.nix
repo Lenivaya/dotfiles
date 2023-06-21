@@ -32,15 +32,24 @@ in {
       (writeScriptBin "nvidia-settings" ''
         #!${stdenv.shell}
         mkdir -p "$XDG_CONFIG_HOME/nvidia"
-        exec ${config.boot.kernelPackages.nvidia_x11.settings}/bin/nvidia-settings --config="$XDG_CONFIG_HOME/nvidia/settings"
+        exec ${getExe config.boot.kernelPackages.nvidia_x11.settings} --config="$XDG_CONFIG_HOME/nvidia/settings"
       '')
     ];
 
-    hardware.nvidia.nvidiaPersistenced = true;
-    hardware.nvidia.powerManagement.enable = true;
-    hardware.nvidia.powerManagement.finegrained = true;
-    hardware.opengl.enable = true;
-    hardware.opengl.extraPackages = with pkgs; [vaapiVdpau libvdpau-va-gl];
+    hardware.nvidia = {
+      nvidiaPersistenced = true;
+      powerManagement =
+        enabled
+        // {
+          finegrained = true;
+        };
+    };
+
+    hardware.opengl =
+      enabled
+      // {
+        extraPackages = with pkgs; [vaapiVdpau libvdpau-va-gl];
+      };
 
     services.xserver.videoDrivers = ["nvidia"];
 

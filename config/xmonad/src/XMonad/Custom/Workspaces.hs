@@ -1,19 +1,16 @@
-module XMonad.Custom.Workspaces (
-  projects,
-  workspaces,
-) where
+module XMonad.Custom.Workspaces where
 
 import Data.Foldable
 import XMonad hiding (workspaces)
 import XMonad.Actions.DynamicProjects
 import XMonad.Actions.SpawnOn
 import XMonad.Actions.WindowGo
-import XMonad.Custom.ApplicationChooser
-import XMonad.Custom.KeyboardUtils
+import XMonad.Custom.Actions.ApplicationChooser
+import XMonad.Custom.Actions.Keyboard
 import XMonad.Custom.Misc qualified as C
 import XMonad.Custom.Prompt
 
-(generic, code, web, wsread, sys, tmp, wsWRK, template, graphics, sound, vm, write) =
+(generic, code, web, wsread, sys, tmp, wsWRK, template, graphics, sound, vm, write, note) =
   ( "GEN"
   , "Code"
   , "WWW"
@@ -26,6 +23,7 @@ import XMonad.Custom.Prompt
   , "SOUND"
   , "VM"
   , "WRITE"
+  , "NOTE"
   )
 
 workspaces :: [String]
@@ -71,6 +69,13 @@ projects =
       , projectDirectory = "~/"
       , projectStartHook = Just $ do
           spawnOn write "emacs_lets_write"
+      }
+  , Project
+      { projectName = note
+      , projectDirectory = "~/"
+      , projectStartHook = Just $ do
+          spawnOn note (C.browser C.applications)
+          spawnOn note "emacs_lets_note"
       }
   , Project
       { projectName = code

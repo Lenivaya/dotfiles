@@ -1,4 +1,4 @@
-module XMonad.Custom.Calculator where
+module XMonad.Custom.Actions.Calculator where
 
 import Control.Monad
 import Data.Char

@@ -4,7 +4,7 @@
   lib,
   ...
 }: {
-  imports = [../personal.nix ./hardware-configuration.nix];
+  imports = [../common.nix ./hardware-configuration.nix];
 
   modules = {
     desktop = {

@@ -1,3 +1,4 @@
+# https://shyim.me/blog/devenv-compose-developer-environment-for-php-with-nix/
 {
   config,
   options,

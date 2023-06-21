@@ -17,7 +17,7 @@ in {
   config = mkIf cfg.enable {
     environment.variables.GNUPGHOME = "$XDG_CONFIG_HOME/gnupg";
 
-    programs.gnupg.agent.enable = true;
+    programs.gnupg.agent = enabled;
 
     user.packages = [pkgs.tomb];
 
@@ -27,7 +27,7 @@ in {
     home.configFile."gnupg/gpg-agent.conf" = {
       text = ''
         default-cache-ttl ${toString cfg.cacheTTL}
-        pinentry-program ${pkgs.pinentry.gtk2}/bin/pinentry
+        pinentry-program ${getExe pkgs.pinentry-gtk2}
       '';
     };
   };

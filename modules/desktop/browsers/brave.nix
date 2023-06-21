@@ -22,7 +22,7 @@ in {
         desktopName = "Brave Web Browser";
         genericName = "Open a private Brave window";
         icon = "brave";
-        exec = "${brave}/bin/brave --incognito";
+        exec = "${getExe brave} --incognito";
         categories = ["Network"];
       })
     ];

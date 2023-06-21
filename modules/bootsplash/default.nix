@@ -13,8 +13,8 @@ in {
   };
 
   config = mkIf cfg.enable {
-    boot.plymouth = {
-      enable = true;
-    };
+    boot.plymouth =
+      enabled
+      // {};
   };
 }

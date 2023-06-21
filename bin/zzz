@@ -16,19 +16,27 @@ function lock_screen_sleep {
 	pgrep "betterlockscreen" || betterlockscreen_command 10
 }
 
-if [[ $1 == -h ]]; then
-	bin=${0##*/}
+function print_usage {
+	bin=$(basename "$0")
 	echo "Usage: $bin [-f]"
 	echo
 	echo "  $bin       # put display to sleep"
 	echo "  $bin -f    # put computer to sleep"
-elif [[ $1 == -f ]]; then
+}
+
+case $1 in
+-h)
+	print_usage
+	;;
+-f)
 	echo "Going to sleep..."
 	lock_screen
 	systemctl suspend
-else
+	;;
+*)
 	echo "Shutting my eyes..."
 	lock_screen_sleep
 	# sleep 5
 	# xset dpms force off
-fi
+	;;
+esac

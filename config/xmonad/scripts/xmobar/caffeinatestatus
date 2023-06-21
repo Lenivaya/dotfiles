@@ -1,12 +1,5 @@
 #!/bin/sh
 
-# isCaffeineRunning=$(pgrep -x "caffeinate" >/dev/null && echo true || echo false)
-
-# case $isCaffeineRunning in
-#     true) echo "<fn=3></fn>" ;;
-#     false) echo "" ;;
-# esac
-
 if pgrep -x "caffeinate" >/dev/null; then
     echo "<fn=3></fn>"
 fi

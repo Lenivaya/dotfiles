@@ -4,7 +4,7 @@ module XMonad.Custom.Scratchpads (
 ) where
 
 import XMonad.Core
-import XMonad.Custom.ManageHelpers (centerFloat)
+import XMonad.Custom.Manage.ManageHelpers (centerFloat)
 import XMonad.Custom.Misc as C
 import XMonad.ManageHook
 import XMonad.StackSet qualified as S
@@ -53,7 +53,11 @@ scratchpads =
       (spawnTerminalWith "NSPTop" (C.top C.applications))
       (className =? "NSPTop")
       floatingNSP
-  , NS "discord" "Discord" (className =? "discord") doFullCenterFloat
+  , NS
+      "discord"
+      "Discord"
+      (className =? "discord")
+      doFullCenterFloat
   ]
   where
     doFullCenterFloat = centerFloat 0.85 0.85

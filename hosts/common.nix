@@ -8,14 +8,18 @@ with lib; {
   };
 
   # hardware related stuff
+  nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;
+  hardware.enableAllFirmware = true;
   hardware.opengl = {
     enable = true;
     driSupport = true;
     driSupport32Bit = true;
   };
 
-  time.timeZone = "Europe/Kiev";
+  # time.timeZone = "Europe/Kiev";
+  services.automatic-timezoned.enable = true;
+
   i18n.defaultLocale = mkDefault "en_US.UTF-8";
   location.provider = "geoclue2";
 }

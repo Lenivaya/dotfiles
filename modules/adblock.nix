@@ -17,12 +17,13 @@ in {
   imports = [adblock.nixosModule];
 
   config = mkIf cfg.enable {
-    networking.stevenBlackHosts = {
-      enable = true;
-      # blockFakenews = true;
-      blockGambling = true;
-      # blockPorn = true;
-      # blockSocial = true;
-    };
+    networking.stevenBlackHosts =
+      enabled
+      // {
+        # blockFakenews = true;
+        blockGambling = true;
+        # blockPorn = true;
+        # blockSocial = true;
+      };
   };
 }

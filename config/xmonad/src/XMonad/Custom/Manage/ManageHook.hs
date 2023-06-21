@@ -1,10 +1,10 @@
-module XMonad.Custom.Manage (
+module XMonad.Custom.Manage.ManageHook (
   manageHook,
 ) where
 
 import XMonad hiding (manageHook)
 import XMonad.Actions.SpawnOn
-import XMonad.Custom.ManageHelpers (centerFloat)
+import XMonad.Custom.Manage.ManageHelpers
 import XMonad.Custom.Scratchpads
 import XMonad.Hooks.InsertPosition
 import XMonad.Hooks.ManageDocks
@@ -29,8 +29,10 @@ composeActions =
   , className =? "explorer.exe" -?> doFullFloat
   , className =? "qemu-system-x86" -?> doCenterFloat
   , className =? "qemu-system-x86_64" -?> doCenterFloat
-  , stringProperty "WM_WINDOW_ROLE" =? "pop-up" -?> doCenterFloat
-  , stringProperty "WM_WINDOW_ROLE" =? "GtkFileChooserDialog" -?> doCenterFloat
+  , className =? "Safeeyes" -?> doFullFloat
+  , isRole =? "GtkFileChooserDialog" -?> doCenterFloat
+  , isRole =? "pop-up" -?> doCenterFloat
+  , isRole =? "About" -?> doCenterFloat
   , isDialog -?> doCenterFloat
   , transience
   ]

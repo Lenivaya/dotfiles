@@ -15,6 +15,6 @@ in {
     user.packages = [pkgs.direnv];
     modules.shell.zsh.rcInit = ''eval "$(direnv hook zsh)"'';
 
-    services.lorri.enable = true;
+    services.lorri = enabled;
   };
 }

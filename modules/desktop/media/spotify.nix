@@ -18,30 +18,31 @@ in {
   imports = [spicetify-nix.homeManagerModule];
 
   config = mkIf cfg.enable {
-    programs.spicetify = {
-      enable = true;
-      # theme = spicePkgs.themes.Default;
+    programs.spicetify =
+      enabled
+      // {
+        # theme = spicePkgs.themes.Default;
 
-      enabledCustomApps = with spicePkgs.apps; [
-        lyrics-plus
-        localFiles
-        marketplace
-      ];
-      enabledExtensions = with spicePkgs.extensions; [
-        powerBar
-        keyboardShortcut
-        seekSong
-        goToSong
+        enabledCustomApps = with spicePkgs.apps; [
+          lyrics-plus
+          localFiles
+          marketplace
+        ];
+        enabledExtensions = with spicePkgs.extensions; [
+          powerBar
+          keyboardShortcut
+          seekSong
+          goToSong
 
-        fullAppDisplayMod
-        fullAlbumDate
-        playlistIcons
-        wikify
-        adblock
-        # charliesAdblock
+          fullAppDisplayMod
+          fullAlbumDate
+          playlistIcons
+          wikify
+          adblock
+          # charliesAdblock
 
-        groupSession
-      ];
-    };
+          groupSession
+        ];
+      };
   };
 }

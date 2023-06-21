@@ -1,3 +1,4 @@
+# https://github.com/doums/apekey ?
 {
   config,
   options,
@@ -11,34 +12,28 @@ with lib;
 with lib.my; let
   cfg = config.modules.desktop.xmonad;
 in {
-  options.modules.desktop.xmonad = {
-    enable = mkBoolOpt false;
-    # withKde = mkBoolOpt false;
-  };
+  options.modules.desktop.xmonad.enable = mkBoolOpt false;
 
   imports = with inputs;
     xmonad-contrib.nixosModules
     ++ [xmonad-contrib.modernise.${system}];
 
   config = mkIf cfg.enable {
-    services.xserver.windowManager.xmonad = {
-      enable = true;
-      enableContribAndExtras = true;
-      extraPackages = hpkgs: [
-        hpkgs.flow
-      ];
-      ghcArgs = [
-        "-O3"
-
-        # Compile with LLVM backend
-        # "-fllvm -optlo-O3"
-      ];
-      flake = {
-        enable = true;
-        prefix = "unstable";
-        # compiler = "ghc924";
+    services.xserver.windowManager.xmonad =
+      enabled
+      // {
+        enableContribAndExtras = true;
+        extraPackages = hpkgs:
+          with hpkgs; [
+            flow
+          ];
+        ghcArgs = [
+          "-O3"
+          # Compile with LLVM backend
+          # "-fllvm -optlo-O3"
+        ];
+        flake = enabled;
       };
-    };
 
     services.xserver.displayManager.defaultSession = "none+xmonad";
 
@@ -49,13 +44,15 @@ in {
     };
 
     user.packages = with pkgs; [
-      unstable.xmobar
+      xmobar
+      trayer # tray
       jq # for weather script
       playerctl # current track script
       pstree # window swallowing
       xdotool # cliclable workspaces
       autorandr # to use with rescreen
       xkb-switch # switch kbd layout when needed
+      my.boomer # zooming the screen
     ];
     fonts.fonts = with pkgs; [
       siji # some nice icons (awfull on hidpi)
@@ -65,7 +62,7 @@ in {
 
     env.PATH = ["$DOTFILES/config/xmonad/scripts/xmobar"];
 
-    modules.desktop.term.alacritty.enable = true;
-    modules.desktop.term.default = lib.mkForce "alacritty";
+    modules.desktop.term.alacritty = enabled;
+    modules.desktop.term.default = mkForce "alacritty";
   };
 }

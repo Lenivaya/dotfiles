@@ -1,4 +1,4 @@
-[![NixOS 22.05](https://img.shields.io/badge/NixOS-v22.05-blue.svg?style=flat-square&logo=NixOS&logoColor=white)](https://nixos.org)
+[![NixOS 23.05](https://img.shields.io/badge/NixOS-v23.05-blue.svg?style=flat-square&logo=NixOS&logoColor=white)](https://nixos.org)
 [![Tests](https://github.com/Lenivaya/dotfiles/actions/workflows/tests.yml/badge.svg)](https://github.com/Lenivaya/dotfiles/actions/workflows/tests.yml)
 
 <h1 align="center">dotfiles</h1>
@@ -28,7 +28,7 @@
 
 ## Quick start
 
-1. Acquire NixOS 22.05 or newer:
+1. Acquire NixOS 23.05 or newer:
 
    ```sh
    # Download nixos-unstable

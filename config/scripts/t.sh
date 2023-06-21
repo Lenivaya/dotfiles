@@ -15,24 +15,24 @@ REC=$(slop -t 0 -b $M -c 1,1,1,1 -f "%w %h %x %y" --nokeyboard) || exit 1
 
 IFS=' ' read -r W H X Y <<<"$REC"
 
-aX=$(($X - $M)) && aY=$(($Y - $M))
-aW=$(($W + ($M * 2))) && aH=$(($H + ($M * 2)))
+aX=$((X - M)) && aY=$((Y - M))
+aW=$((W + (M * 2))) && aH=$((H + (M * 2)))
 
 if [ "$W" -gt "1" ]; then
-	# Calculate width and height to block/font size
-	let W=$(($W / 8))
-	let H=$(($H / 18))
+  # Calculate width and height to block/font size
+  let W=$((W / 8))
+  let H=$((H / 18))
 
-	st -n "float" -g $W"x"$H"+"$X"+"$Y &
+  st -n "float" -g $W"x"$H"+"$X"+"$Y &
 
-	for i in {0..49}; do # timeout
-		if ps -p $! >/dev/null; then
-			sleep .1
+  for i in {0..49}; do # timeout
+    if ps -p $! >/dev/null; then
+      sleep .1
 
-			wmctrl -r :ACTIVE: -e 0,$aX,$aY,$aW,$aH
-			break
-		fi
-	done
+      wmctrl -r :ACTIVE: -e 0,$aX,$aY,$aW,$aH
+      break
+    fi
+  done
 fi
 
 exit 0

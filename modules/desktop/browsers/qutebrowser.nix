@@ -29,7 +29,7 @@ in {
         desktopName = "Qutebrowser (Private)";
         genericName = "Open a private Qutebrowser window";
         icon = "qutebrowser";
-        exec = "${pkg}/bin/qutebrowser -T -s content.private_browsing true";
+        exec = "${getExe pkg} -T -s content.private_browsing true";
         categories = ["Network"];
       })
       # For Brave adblock in qutebrowser, which is significantly better than the
@@ -54,7 +54,7 @@ in {
       (map
         (lang: ''
           if ! find "$XDG_DATA_HOME/qutebrowser/qtwebengine_dictionaries" -type d -maxdepth 1 -name "${lang}*" 2>/dev/null | grep -q .; then
-            ${pkgs.python3}/bin/python ${pkg}/share/qutebrowser/scripts/dictcli.py install ${lang}
+            ${getExe pkgs.python3} ${pkg}/share/qutebrowser/scripts/dictcli.py install ${lang}
           fi
         '')
         cfg.dicts);

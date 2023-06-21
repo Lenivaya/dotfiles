@@ -28,5 +28,10 @@ in {
       statix
       deadnix
     ];
+
+    environment.shellAliases = {
+      nixdev = "nix develop -c $SHELL";
+      nixdevenv = "nix develop --impure -c $SHELL";
+    };
   };
 }

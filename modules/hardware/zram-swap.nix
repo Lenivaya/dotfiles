@@ -4,21 +4,18 @@
   lib,
   ...
 }:
-with lib; let
+with lib;
+with lib.my; let
   cfg = config.modules.hardware.zram;
 in {
-  options.modules.hardware.zram = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
-  };
+  options.modules.hardware.zram.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    zramSwap = {
-      enable = true;
-      algorithm = "zstd";
-      memoryPercent = 25;
-    };
+    zramSwap =
+      enabled
+      // {
+        algorithm = "zstd";
+        memoryPercent = 25;
+      };
   };
 }

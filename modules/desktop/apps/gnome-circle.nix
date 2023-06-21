@@ -19,6 +19,8 @@ in {
       wike
       metadata-cleaner
       gnome-obfuscate
+      czkawka
+      # pdfarranger
     ];
   };
 }
