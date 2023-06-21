@@ -1,6 +1,11 @@
 # GUI for polkit
-{pkgs, ...}: {
-  security.polkit.enable = true;
+{
+  pkgs,
+  lib,
+  ...
+}:
+with lib.my; {
+  security.polkit = enabled;
   systemd = {
     user.services.polkit-gnome-authentication-agent-1 = {
       description = "polkit-gnome-authentication-agent-1";

@@ -1,4 +1,4 @@
-module XMonad.Custom.Minimize where
+module XMonad.Custom.Actions.Minimize where
 
 import Control.Monad
 import Data.Foldable
@@ -32,7 +32,7 @@ selectMaximizeWindowGrid = withMinimized $ \minimizedWindows ->
 data MaximizeWindowPrompt = MaximizeWindowPrompt
 
 instance XPrompt MaximizeWindowPrompt where
-  showXPrompt MaximizeWindowPrompt = "Restore window: "
+  showXPrompt _ = "Restore window: "
 
 selectMaximizeWindowPrompt :: XPConfig -> X ()
 selectMaximizeWindowPrompt conf = withMinimized $ \minimizedWindows ->

@@ -12,12 +12,13 @@ in {
   options.modules.dev.go.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    home.programs.go = {
-      enable = true;
-      package = pkgs.go;
-      goBin = "go/bin";
-      goPath = "go";
-    };
+    home.programs.go =
+      enabled
+      // {
+        package = pkgs.go;
+        goBin = ".go/bin";
+        goPath = ".go";
+      };
 
     user.packages = with pkgs; [gotools];
   };

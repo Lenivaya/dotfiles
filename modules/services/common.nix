@@ -1,16 +1,21 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}:
+with lib.my; {
   services = {
-    xbanish.enable = true;
+    xbanish = enabled;
 
-    geoclue2.enable = true;
-    acpid.enable = true;
-    upower.enable = true;
-    devmon.enable = true;
+    geoclue2 = enabled;
+    acpid = enabled;
+    upower = enabled;
+    devmon = enabled;
     udev.packages = [pkgs.android-udev-rules];
-    openssh.enable = true;
-    earlyoom.enable = true;
+    openssh = enabled;
+    earlyoom = enabled;
 
-    gnome.gnome-keyring.enable = true;
+    gnome.gnome-keyring = enabled;
 
     # https://github.com/NixOS/nixpkgs/issues/135888
     nscd.enableNsncd = true;

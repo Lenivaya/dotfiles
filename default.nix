@@ -9,9 +9,11 @@
 with lib;
 with lib.my; {
   imports =
-    # I use home-manager to deploy files to $HOME; little else
     [
+      # I use home-manager to deploy files to $HOME; little else
       inputs.home-manager.nixosModules.home-manager
+      # Nix helper
+      inputs.nh.nixosModules.default
     ]
     # All my personal modules
     ++ (mapModulesRec' (toString ./modules) import);
@@ -47,12 +49,26 @@ with lib.my; {
 
         "https://nixpkgs-unfree.cachix.org/"
         "https://cuda-maintainers.cachix.org"
+
+        # Binary Cache for Haskell.nix
+        "https://cache.iog.io"
+        "https://cache.zw3rk.com"
+
+        # nh
+        "https://viperml.cachix.org/"
       ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
 
         "nixpkgs-unfree.cachix.org-1:hqvoInulhbV4nJ9yJOEr+4wxhDV4xq2d1DK7S6Nj6rs="
         "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+
+        # Binary Cache for Haskell.nix
+        "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+        "loony-tools:pr9m4BkM/5/eSTZlkQyRt57Jz7OMBxNSUiMC4FkcNfk="
+
+        # nh
+        "viperml.cachix.org-1:qZhKBMTfmcLL+OG6fj/hzsMEedgKvZVFRRAhq7j8Vh8="
       ];
       auto-optimise-store = true;
     };
@@ -64,7 +80,7 @@ with lib.my; {
     };
   };
   system.configurationRevision = with inputs; mkIf (self ? rev) self.rev;
-  system.stateVersion = "22.05";
+  system.stateVersion = "23.05";
 
   ## Some reasonable, global defaults
   # This is here to appease 'nix flake check' for generic hosts with no
@@ -74,7 +90,7 @@ with lib.my; {
   # Use the latest kernel
   boot.kernelPackages = pkgs.linuxPackages_latest;
 
-  boot.initrd.compressor = "${lib.getBin pkgs.zstd}/bin/zstd";
+  boot.initrd.compressor = getExe pkgs.zstd;
   boot.loader = {
     efi.canTouchEfiVariables = mkDefault true;
     systemd-boot.configurationLimit = 10;
@@ -98,4 +114,16 @@ with lib.my; {
     dash
     ksh
   ];
+
+  # env.FLAKE = config.dotfiles.dir;
+  nh =
+    enabled
+    // {
+      clean =
+        enabled
+        // {
+          dates = "weekly";
+          extraArgs = "--keep-since 1w --keep 3";
+        };
+    };
 }

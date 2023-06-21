@@ -14,9 +14,12 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.xserver.enable = true;
-    services.xserver.displayManager.gdm.enable = mkForce true;
-    services.xserver.desktopManager.gnome.enable = true;
+    services.xserver =
+      enabled
+      // {
+        displayManager.gdm.enable = mkForce true;
+        desktopManager.gnome = enabled;
+      };
 
     environment.systemPackages = with pkgs;
       [gnome.gnome-tweaks]

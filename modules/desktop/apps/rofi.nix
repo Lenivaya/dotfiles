@@ -7,25 +7,26 @@
 }:
 with lib;
 with lib.my; let
-  cfg = config.modules.desktop.apps.rofi;
   inherit (config.dotfiles) configDir;
+
+  cfg = config.modules.desktop.apps.rofi;
+  pkg = pkgs.rofi.override {
+    plugins = with pkgs; [
+      rofi-emoji
+      rofi-calc
+      rofi-file-browser
+
+      rofi-top
+    ];
+  };
 in {
   options.modules.desktop.apps.rofi.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    home.programs = {
-      rofi = {
-        enable = true;
-        package = pkgs.rofi.override {
-          plugins = with pkgs; [
-            rofi-emoji
-            rofi-calc
-            rofi-file-browser
-
-            rofi-top
-          ];
-        };
-
+    home.programs.rofi =
+      enabled
+      // {
+        package = pkg;
         theme = "main";
         cycle = true;
         extraConfig = {
@@ -35,7 +36,6 @@ in {
           show-icons = true;
         };
       };
-    };
 
     home.configFile."rofi" = {
       source = "${configDir}/rofi";

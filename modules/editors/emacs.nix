@@ -40,7 +40,8 @@ in {
       fd # faster projectile indexing
       gnutls # for TLS connectivity
       imagemagick # for image-dired
-      (lib.mkIf config.programs.gnupg.agent.enable
+      (mkIf
+        config.programs.gnupg.agent.enable
         pinentry_emacs) # in-emacs gnupg prompts
       zstd # for undo-tree compression
       calibre # for calibredb
@@ -68,37 +69,45 @@ in {
 
       # mermaid diagrams in org-mode
       nodePackages.mermaid-cli
+      # gnuplot in org mode
+      gnuplot
+
+      # :org roam
+      graphviz
     ];
 
-    env.PATH = [
-      # "$HOME/.emacs.d/bin"
-      "$XDG_CONFIG_HOME/emacs/bin"
+    fonts.fonts = with pkgs; [
+      emacs-all-the-icons-fonts
+      # alegreya
     ];
 
-    fonts.fonts = [pkgs.emacs-all-the-icons-fonts];
-
-    home.programs.emacs = {
-      enable = true;
-      # package = pkgs.emacs;
-      package = pkgs.emacs-gtk;
-      extraPackages = epkgs:
-        with epkgs; [
-          # :term vterm
-          vterm
-        ];
-    };
+    home.programs.emacs =
+      enabled
+      // {
+        package = pkgs.emacs-gtk;
+        extraPackages = epkgs:
+          with epkgs; [
+            vterm
+          ];
+      };
 
     # services.emacs = {
     #   install = true;
-    #   enable = true;
+    #   = enabled;
     #   defaultEditor = mkIf cfg.default true;
     # };
 
-    env = {
+    env = let
+      editor = getExe editorScript;
+    in {
       EDITOR =
-        mkIf cfg.default (mkOverride 900 "${editorScript}/bin/emacseditor");
+        mkIf cfg.default (mkOverride 900 editor);
       VISUAL =
-        mkIf cfg.default (mkOverride 900 "${editorScript}/bin/emacseditor");
+        mkIf cfg.default (mkOverride 900 editor);
+
+      PATH = [
+        "$XDG_CONFIG_HOME/emacs/bin"
+      ];
     };
 
     # init.
@@ -108,7 +117,7 @@ in {
       fi
       if ! [ -d $HOME/.config/doom ]; then
             ln -s ${configDir}/doom ~/.config/doom
-            # ${pkgs.emacs}/bin/emacs --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/.config/doom/config.org")'
+            # ${getExe pkgs.emacs} --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/.config/doom/config.org")'
             $HOME/.config/emacs/bin/org-tangle ~/.config/doom/config.org
       fi
     '';

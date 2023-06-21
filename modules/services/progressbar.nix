@@ -1,6 +1,6 @@
 # Service to have simple command that will spawn
-# graphic progessbars for volume, brightness etc.
-# So "progressbar 80" will spawn 80% bar
+# graphic progessbars for volume, brightness, etc.
+# So "progressbar 80" will spawn 80% filled bar
 {
   options,
   config,
@@ -10,7 +10,6 @@
 }:
 with lib;
 with lib.my; let
-  inherit (config.dotfiles) configDir;
   cfg = config.modules.services.progressbar;
 
   progressPipe = "/tmp/progressbarPipe";
@@ -36,7 +35,10 @@ in {
         description = "X progress bar using xob";
         wants = ["graphical-session.target"];
         wantedBy = ["graphical-session.target"];
-        after = ["graphical-session.target"];
+        after = [
+          "graphical-session.target"
+          "display-manager.service"
+        ];
 
         path = with pkgs; [xob];
         script = ''

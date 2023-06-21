@@ -1,4 +1,4 @@
-#!/usr/bin/env ksh
+#!/usr/bin/env bash
 #
 # You can call this script like this:
 # $ ./volumedunst.sh up

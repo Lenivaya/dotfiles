@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/usr/bin/env bash
 
 get_icon() {
     case $1 in
@@ -54,8 +54,8 @@ else
     location=$(curl -sf https://location.services.mozilla.com/v1/geolocate?key=geoclue)
 
     if [ -n "$location" ]; then
-        location_lat="$(echo "$location" | jq '.location.lat')"
-        location_lon="$(echo "$location" | jq '.location.lng')"
+        location_lat=$(jq -r '.location.lat' <<<"$location")
+        location_lon=$(jq -r '.location.lng' <<<"$location")
 
         current=$(curl -sf "$API/weather?appid=$KEY&lat=$location_lat&lon=$location_lon&units=$UNITS")
         forecast=$(curl -sf "$API/forecast?appid=$KEY&lat=$location_lat&lon=$location_lon&units=$UNITS&cnt=1")
@@ -63,11 +63,11 @@ else
 fi
 
 if [ -n "$current" ] && [ -n "$forecast" ]; then
-    current_temp=$(echo "$current" | jq ".main.temp" | cut -d "." -f 1)
-    current_icon=$(echo "$current" | jq -r ".weather[0].icon")
+    current_temp=$(jq -r '.main.temp' <<<"$current" | cut -d "." -f 1)
+    current_icon=$(jq -r '.weather[0].icon' <<<"$current")
 
-    forecast_temp=$(echo "$forecast" | jq ".list[].main.temp" | cut -d "." -f 1)
-    forecast_icon=$(echo "$forecast" | jq -r ".list[].weather[0].icon")
+    forecast_temp=$(jq -r '.list[].main.temp' <<<"$forecast" | cut -d "." -f 1)
+    forecast_icon=$(jq -r '.list[].weather[0].icon' <<<"$forecast")
 
     if [ "$current_temp" -gt "$forecast_temp" ]; then
         trend="<fn=3></fn>"

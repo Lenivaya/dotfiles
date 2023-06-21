@@ -13,19 +13,20 @@ in {
   config = mkIf cfg.enable {
     programs.ssh.startAgent = true;
 
-    services.openssh = {
-      enable = true;
-      settings.X11Forwarding = true;
-      settings.PermitRootLogin = "no";
-      settings.PasswordAuthentication = true;
-      startWhenNeeded = true;
+    services.openssh =
+      enabled
+      // {
+        settings.X11Forwarding = true;
+        settings.PermitRootLogin = "no";
+        settings.PasswordAuthentication = true;
+        startWhenNeeded = true;
 
-      # Allow local LAN to connect with passwords
-      extraConfig = ''
-        Match address 192.168.0.0/24
-        PasswordAuthentication yes
-      '';
-    };
+        # Allow local LAN to connect with passwords
+        extraConfig = ''
+          Match address 192.168.0.0/24
+          PasswordAuthentication yes
+        '';
+      };
 
     user.openssh.authorizedKeys.keys =
       if config.user.name == "leniviy"

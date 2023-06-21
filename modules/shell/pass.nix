@@ -15,7 +15,13 @@ in {
     user.packages = with pkgs; [
       (pass.withExtensions (exts:
         with exts;
-          [pass-otp pass-genphrase pass-audit pass-import pass-update]
+          [
+            pass-otp
+            pass-genphrase
+            pass-audit
+            pass-import
+            pass-update
+          ]
           ++ (
             if config.modules.shell.gnupg.enable
             then [exts.pass-tomb]

@@ -13,4 +13,7 @@ in rec {
       type = types.bool;
       example = true;
     };
+
+  enabled = {enable = true;};
+  disabled = {enable = false;};
 }

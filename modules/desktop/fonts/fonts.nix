@@ -1,6 +1,11 @@
-{pkgs, ...}: {
+{
+  pkgs,
+  lib,
+  ...
+}:
+with lib.my; {
   fonts = {
-    fontDir.enable = true;
+    fontDir = enabled;
     enableDefaultFonts = true;
     enableGhostscriptFonts = true;
 
@@ -23,18 +28,16 @@
       # jetbrains-mono overpass
     ];
 
-    fontconfig = {
-      enable = true;
-      hinting = {
-        autohint = false;
-        enable = true;
+    fontconfig =
+      enabled
+      // {
+        hinting = enabled // {autohint = false;};
+        subpixel.lcdfilter = "default";
+        defaultFonts = {
+          monospace = ["Iosevka"];
+          sansSerif = ["IBM Plex Sans"];
+          serif = ["IBM Plex Serif"];
+        };
       };
-      subpixel.lcdfilter = "default";
-      defaultFonts = {
-        monospace = ["Iosevka"];
-        sansSerif = ["IBM Plex Sans"];
-        serif = ["IBM Plex Serif"];
-      };
-    };
   };
 }

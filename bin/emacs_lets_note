@@ -1,0 +1,9 @@
+#!/bin/sh
+
+emacsclient -n -e '
+(progn
+  (select-frame (make-frame))
+  (+workspace/new-named "notes")
+  (org-roam-node-random)
+  (org-roam-ui-open)
+)'

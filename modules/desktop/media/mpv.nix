@@ -8,22 +8,7 @@
 with lib;
 with lib.my; let
   inherit (config.dotfiles) configDir;
-
   cfg = config.modules.desktop.media.mpv;
-  mpvPkg = with pkgs;
-    mpv.override
-    {
-      scripts = with mpvScripts; [
-        autoload
-        cutter
-        convert
-        # thumbnail
-        sponsorblock
-        youtube-quality
-
-        my.mpv-autosub
-      ];
-    };
 in {
   options.modules.desktop.media.mpv.enable = mkBoolOpt false;
 
@@ -33,11 +18,26 @@ in {
       recursive = true;
     };
 
-    user.packages = with pkgs; [
-      mpvPkg
+    user.packages = with pkgs; let
+      mpvPkg =
+        mpv.override
+        {
+          scripts = with mpvScripts; [
+            autoload
+            cutter
+            convert
+            # thumbnail
 
-      # mpvc # CLI controller for mpv
-      # (mkIf config.services.xserver.enable celluloid) # nice GTK GUI for mpv
+            sponsorblock
+            youtube-quality
+            webtorrent-mpv-hook
+
+            my.mpv-autosub
+          ];
+        };
+    in [
+      mpvPkg
+      ytfzf # find and watch videos on youtube
     ];
   };
 }

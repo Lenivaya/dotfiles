@@ -17,12 +17,15 @@ in {
       scrot # Screenshots
       dua # space usage
       duf # space usage tables
-      ytfzf # find and watch videos on youtube
       handlr # better xdg-utils in rust
       binutils
       usbutils
+
       zip
+      unzip
       unrar
+      ouch
+
       ncdu # space usage
       android-file-transfer
       feh

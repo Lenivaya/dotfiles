@@ -12,18 +12,15 @@ jobs:
     steps:
       - uses: actions/checkout@v3
 
-      - uses: cachix/install-nix-action@v19
+      - uses: cachix/install-nix-action@v22
         with:
-          nix_path: nixpkgs=channel:nixos-unstable
-
-      - name: Install formatter
-        run: "nix-env -iA alejandra statix -f '<nixpkgs>'"
-
-      - name: Lint errors fixing
-        run: statix fix .
+          github_access_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Format
-        run: alejandra --quiet .
+        run: nix fmt
+
+      - name: Lint errors fixing
+        run: nix run nixpkgs#statix fix .
 
       - name: Commit formatting changes
         uses: stefanzweifel/git-auto-commit-action@v4

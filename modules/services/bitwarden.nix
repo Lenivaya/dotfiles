@@ -13,10 +13,11 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.bitwarden_rs = {
-      enable = true;
-      backupDir = "/run/backups/bitwarden_rs";
-    };
+    services.bitwarden_rs =
+      enabled
+      // {
+        backupDir = "/run/backups/bitwarden_rs";
+      };
 
     user.extraGroups = ["bitwarden_rs"];
 

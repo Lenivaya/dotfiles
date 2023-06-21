@@ -4,6 +4,7 @@
   lib,
   ...
 }:
+with lib;
 with lib.my; let
   inherit (config.dotfiles) configDir;
 in {
@@ -27,7 +28,7 @@ in {
 
     serviceConfig = {
       ExecStart = ''
-        ${pkgs.xidlehook}/bin/xidlehook \
+        ${getExe pkgs.xidlehook} \
           --detect-sleep \
           --not-when-fullscreen \
           --not-when-audio \

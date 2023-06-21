@@ -14,14 +14,15 @@ in {
   options.modules.hardware.touchpad.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    services.xserver.libinput = {
-      enable = true;
-      touchpad = {
-        disableWhileTyping = true;
-        naturalScrolling = true;
-        accelProfile = "adaptive";
+    services.xserver.libinput =
+      enabled
+      // {
+        touchpad = {
+          disableWhileTyping = true;
+          naturalScrolling = true;
+          accelProfile = "adaptive";
+        };
       };
-    };
 
     home.configFile."libinput-gestures.conf" = {
       source = "${configDir}/libinput-gestures/libinput-gestures.conf";
@@ -51,7 +52,7 @@ in {
       ];
 
       serviceConfig = {
-        ExecStart = "${pkgs.libinput-gestures}/bin/libinput-gestures";
+        ExecStart = getExe pkgs.libinput-gestures;
         Restart = "always";
       };
     };

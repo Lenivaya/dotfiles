@@ -8,47 +8,43 @@
 with lib;
 with lib.my; let
   cfg = config.modules.desktop.browsers.chromium;
+  pkg = with pkgs; (
+    if cfg.ungoogled
+    then ungoogled-chromium
+    else if cfg.googled
+    then google-chrome
+    else chromium
+  );
 in {
-  options.modules.desktop.browsers.chromium = {
-    enable = mkOption {
-      type = types.bool;
-      default = false;
-    };
+  options.modules.desktop.browsers.chromium = with types; {
+    enable = mkBoolOpt false;
     ungoogled = mkBoolOpt false;
     googled = mkBoolOpt false;
-    flags = mkOption {
-      type = types.listOf types.str;
-      default = [];
-    };
+    flags = mkOpt (listOf str) [];
   };
 
   config = mkIf cfg.enable {
-    home.programs.chromium = {
-      enable = true;
+    home.programs.chromium =
+      enabled
+      // {
+        package = let
+          cliArgs = concatStringsSep " " cfg.flags;
+        in
+          pkg.override {commandLineArgs = cliArgs;};
 
-      package = with pkgs;
-        (
-          if cfg.ungoogled
-          then ungoogled-chromium
-          else if cfg.googled
-          then google-chrome
-          else chromium
-        )
-        .override {commandLineArgs = lib.concatStringsSep " " cfg.flags;};
-
-      extensions = [
-        "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
-        "pkehgijcmpdhfbdbbnkijodmdjhbjlgp" # privacy badger
-        # "njdfdhgcmkocbgbhcioffdbicglldapd" # localcdn
-        "hfjbmagddngcpeloejdejnfgbamkjaeg" # vimium c
-        "hkgfoiooedgoejojocmhlaklaeopbecg" # picture-in-picture
-        "iaiomicjabeggjcfkbimgmglanimpnae" # tab sesssion manager
-        "mmcgnaachjapbbchcpjihhgjhpfcnoan" # open new tab after current tab
-        "nacjakoppgmdcpemlfnfegmlhipddanj" # pdf.js with vimium
-        "bgfofngpplpmpijncjegfdgilpgamhdk" # modern scrollbar
-        "opcjanmpjbdbdpnjfjbboacibokblbhl" # mut tab shortcuts
-      ];
-    };
+        extensions = [
+          "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
+          "pkehgijcmpdhfbdbbnkijodmdjhbjlgp" # privacy badger
+          # "njdfdhgcmkocbgbhcioffdbicglldapd" # localcdn
+          "hfjbmagddngcpeloejdejnfgbamkjaeg" # vimium c
+          "hkgfoiooedgoejojocmhlaklaeopbecg" # picture-in-picture
+          "iaiomicjabeggjcfkbimgmglanimpnae" # tab sesssion manager
+          "mmcgnaachjapbbchcpjihhgjhpfcnoan" # open new tab after current tab
+          "nacjakoppgmdcpemlfnfegmlhipddanj" # pdf.js with vimium
+          "bgfofngpplpmpijncjegfdgilpgamhdk" # modern scrollbar
+          "opcjanmpjbdbdpnjfjbboacibokblbhl" # mut tab shortcuts
+        ];
+      };
 
     modules.desktop.browsers.chromium.flags = [
       # Dark theme

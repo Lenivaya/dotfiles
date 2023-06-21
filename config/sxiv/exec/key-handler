@@ -1,5 +1,5 @@
 #!/usr/bin/env sh
-while read file; do
+while read -r file; do
 	case "$1" in
 		"w") setwall "$file" & ;;
 		"W") feh --bg-fill "$file" & ;;

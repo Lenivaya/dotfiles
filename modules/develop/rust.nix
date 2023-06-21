@@ -12,10 +12,14 @@ in {
   options.modules.dev.rust.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs; [rustup rustfmt rust-analyzer cargo-edit];
+    user.packages = with pkgs; [
+      rustup
+      rustfmt
+      rust-analyzer
+      cargo-edit
+    ];
 
     env.RUSTUP_HOME = "$XDG_DATA_HOME/.rustup";
-    env.CARGO_HOME = "$XDG_DATA_HOME/.cargo";
     env.PATH = ["$CARGO_HOME/bin"];
   };
 }

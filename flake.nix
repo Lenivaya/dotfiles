@@ -1,6 +1,8 @@
 {
   description = "Config...";
 
+  # https://github.com/nix-community/haumea ?
+
   inputs = {
     # Core dependencies
     nixpkgs.url = "nixpkgs/nixos-23.05"; # primary nixpkgs
@@ -12,10 +14,6 @@
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Discord
-    discord-overlay.url = "github:InternetUnexplorer/discord-overlay";
-    replugged.url = "github:LunNova/replugged-nix-flake";
-
     # Spotify
     spicetify-nix.url = "github:the-argus/spicetify-nix";
     spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
@@ -25,21 +23,27 @@
 
     # vscode
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
+    nix-vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Nix cli helper
+    nh.url = "github:viperML/nh";
+    nh.inputs.nixpkgs.follows = "nixpkgs";
+
+    # Formatting
+    treefmt-nix.url = "github:numtide/treefmt-nix";
+    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
 
     # Extras
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nur.url = "github:nix-community/NUR";
     adblock.url = "github:StevenBlack/hosts";
-    # treefmt-nix.url = "github:numtide/treefmt-nix";
-    # pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
-    # pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs @ {
     self,
     nixpkgs,
     nixpkgs-unstable,
-    # pre-commit-hooks,
+    treefmt-nix,
     ...
   }: let
     inherit (lib.my) mapModules mapModulesRec mapHosts;
@@ -50,7 +54,6 @@
       import pkgs {
         inherit system;
         config.allowUnfree = true; # forgive me Stallman senpai
-        config.permittedInsecurePackages = ["electron-13.6.9"];
         overlays = extraOverlays ++ (lib.attrValues self.overlays);
       };
     pkgs = mkPkgs nixpkgs [self.overlay];
@@ -70,56 +73,44 @@
       my = self.packages."${system}";
     };
 
-    overlays = mapModules ./overlays import;
+    overlays =
+      mapModules ./overlays import;
 
-    packages."${system}" = mapModules ./packages (p: pkgs.callPackage p {});
+    packages."${system}" =
+      mapModules ./packages (p: pkgs.callPackage p {});
 
     nixosModules =
-      {
-        dotfiles = import ./.;
-      }
-      // mapModulesRec ./modules import;
+      {dotfiles = import ./.;} // mapModulesRec ./modules import;
 
     nixosConfigurations =
       mapHosts ./hosts {};
 
     devShells."${system}".default = import ./shell.nix {
       inherit pkgs;
-      # pre-commit-hook = self.checks.${system}.preCommit.shellHook;
     };
 
-    # checks.${system}.preCommit = pre-commit-hooks.lib.${system}.run {
-    #   src = ./.;
-    #   # src = self;
-    #   hooks = {
-    #     alejandra.enable = true;
-    #     shellcheck.enable = true;
-    #     shfmt.enable = true;
-    #     statix.enable = true;
-    #     prettier = {
-    #       enable = true;
-    #       types = [];
-    #     };
-    #   };
-    #   settings = {
-    #     prettier.write = true;
-    #   };
-    # };
+    apps."${system}".default = {
+      type = "app";
+      program = ./bin/hey;
+    };
 
-    # formatter.${system} =
-    #   treefmt-nix.lib.mkWrapper
-    #   pkgs
-    #   {
-    #     projectRootFile = "flake.nix";
+    formatter.${system} =
+      treefmt-nix.lib.mkWrapper
+      pkgs
+      {
+        projectRootFile = "flake.nix";
 
-    #     programs.alejandra.enable = true;
-    #     programs.deadnix.enable = true;
-
-    #     programs.shellcheck.enable = true;
-    #     programs.prettier.enable = true;
-    #     programs.black.enable = true;
-    #     programs.mdsh.enable = true;
-    #   };
+        programs = {
+          alejandra.enable = true;
+          deadnix.enable = true;
+          shfmt.enable = true;
+          black.enable = true;
+          rufo.enable = true;
+          mdsh.enable = true;
+          yamlfmt.enable = true;
+          prettier.enable = true;
+        };
+      };
 
     templates = {
       full = {
@@ -132,11 +123,5 @@
       };
     };
     templates.default = self.templates.minimal;
-
-    # defaultApp."${system}" = {
-    apps."${system}".default = {
-      type = "app";
-      program = ./bin/hey;
-    };
   };
 }

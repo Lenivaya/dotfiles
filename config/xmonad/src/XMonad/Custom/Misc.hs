@@ -19,6 +19,7 @@ data Applications = Applications
   , appmenu :: !String
   , clipboardSelector :: !String
   , virtualMachinesManger :: !String
+  , screenZoomer :: !String
   }
   deriving (Eq, Show)
 
@@ -39,4 +40,5 @@ applications =
     , clipboardSelector =
         "rofi -modi 'clipboard:greenclip print' -show clipboard -run-command '{cmd}'"
     , virtualMachinesManger = "virt-manager"
+    , screenZoomer = "boomer"
     }

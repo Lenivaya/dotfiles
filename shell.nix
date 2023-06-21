@@ -1,7 +1,4 @@
-{
-  pkgs ? import <nixpkgs> {},
-  pre-commit-hook ? "",
-}:
+{pkgs ? import <nixpkgs> {}}:
 with pkgs; let
   nixBin = writeShellScriptBin "nix" ''
     ${nixFlakes}/bin/nix --option experimental-features "nix-command flakes" "$@"
@@ -12,6 +9,5 @@ in
     shellHook = ''
       export DOTFILES="$(pwd)"
       export PATH="$DOTFILES/bin:${nixBin}/bin:$PATH"
-      ${pre-commit-hook}
     '';
   }

@@ -11,8 +11,8 @@ in {
   options.modules.services.flatpak.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    services.flatpak.enable = true;
-    xdg.portal.enable = true;
+    services.flatpak = enabled;
+    xdg.portal = enabled;
     home.file.".local/share/flatpak/overrides/global".text = ''
       [Context]
       filesystems=/run/current-system/sw/share/X11/fonts:ro;/nix/store:ro

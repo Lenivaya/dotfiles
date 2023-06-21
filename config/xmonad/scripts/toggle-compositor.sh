@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 if ! systemctl --user is-active --quiet picom; then
-	systemctl --user start picom &
+  systemctl --user start picom &
 else
-	systemctl --user stop picom &
+  systemctl --user stop picom &
 fi

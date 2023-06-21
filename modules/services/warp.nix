@@ -9,24 +9,17 @@ with lib;
 with lib.my; let
   cfg = config.modules.services.warp;
   warpScript = pkgs.writeScriptBin "warp" ''
-    enabled=$(
-      warp-cli status | grep -qw "Connected"
-      echo $?
-    )
-
-    if [ $enabled -eq 0 ]; then
-      warp-cli disconnect
-      systemctl stop warp-svc.service
+    if warp-cli status | grep -qw "Connected"; then
+        warp-cli disconnect
+        systemctl stop warp-svc.service
     else
-      systemctl start warp-svc.service
-      sleep 1
-      warp-cli connect
+        systemctl start warp-svc.service
+        sleep 1
+        warp-cli connect
     fi
   '';
 in {
-  options.modules.services.warp = {
-    enable = mkBoolOpt false;
-  };
+  options.modules.services.warp.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
     systemd.services.warp-svc = {

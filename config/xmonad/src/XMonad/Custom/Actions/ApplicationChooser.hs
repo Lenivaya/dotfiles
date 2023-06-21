@@ -1,4 +1,4 @@
-module XMonad.Custom.ApplicationChooser where
+module XMonad.Custom.Actions.ApplicationChooser where
 
 import Data.List
 import Data.Maybe
@@ -7,7 +7,6 @@ import XMonad.Custom.Prompt
 import XMonad.Prompt
 import XMonad.Prompt.Shell
 
--- | Use @Prompt@ to choose an application which will be launched.
 data Application = Application
   { applicationCategory :: String
   , applicationName :: String
@@ -20,7 +19,7 @@ instance XPrompt AppByName where
   showXPrompt (AppByName apps) = prompt
     where
       prompt = mconcat ["Application (", categories, "): "]
-      categories = intercalate ", " $ nub $ map applicationCategory apps
+      categories = intercalate ", " . nub $ map applicationCategory apps
 
 myApps :: [Application]
 myApps = mconcat [myBrowsers, myReaders, mySoundUtils]
@@ -52,12 +51,13 @@ selectAppByNameAndDo' conf (AppByName apps) action = do
     layoutCompFunc = aListCompFunc conf
 
     validApps = filter ((`elem` cmds) . applicationCommand) apps
-    appNames = map applicationName validApps
-    appCommands = map applicationCommand validApps
+    appNames = applicationName <$> validApps
+    appCommands = applicationCommand <$> validApps
     appNames' = zip appNames appCommands
 
     lookupApp cmd =
-      applicationCommand <$> find (\app -> cmd == applicationName app) validApps
+      applicationCommand
+        <$> find (\app -> cmd == applicationName app) validApps
 
   mkXPrompt
     (AppByName apps)

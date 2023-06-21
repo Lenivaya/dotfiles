@@ -31,14 +31,16 @@ in {
   config = mkIf cfg.enable {
     users.defaultUserShell = pkgs.zsh;
 
-    programs.zsh = {
-      enable = true;
+    programs.zsh =
+      enabled
+      // {
+        # Slow
+        enableGlobalCompInit = false;
+        promptInit = "";
+        setOptions = [];
+      };
 
-      # Slow
-      enableGlobalCompInit = false;
-      promptInit = "";
-      setOptions = [];
-    };
+    programs.command-not-found.enable = false;
 
     # Some nice shell things
     user.packages = with pkgs; [
@@ -49,7 +51,6 @@ in {
       fzf
       htop
       btop # htop but prettier
-      # tealdeer
       tree
       fasd
       thefuck
@@ -57,22 +58,25 @@ in {
       starship
       zoxide
       atuin
+
+      nix-your-shell # use zsh in nix shells
     ];
 
-    home.programs.broot.enable = true;
+    home.programs.broot = enabled;
 
-    home.programs.tealdeer = {
-      enable = true;
-      settings = {
-        display = {
-          compact = false;
-          use_pager = true;
-        };
-        updates = {
-          auto_update = true;
+    home.programs.tealdeer =
+      enabled
+      // {
+        settings = {
+          display = {
+            compact = false;
+            use_pager = true;
+          };
+          updates = {
+            auto_update = true;
+          };
         };
       };
-    };
 
     home.configFile = {
       # Write it recursively so other modules can write files to it

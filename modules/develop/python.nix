@@ -14,8 +14,8 @@ in {
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
-      # python-lsp-server
       poetry
+      ruff # lint
 
       (python311.withPackages
         (ps:
@@ -25,9 +25,13 @@ in {
             pip
             ipython
             black
+            isort
             setuptools
+
             pylint
-            # poetry
+            pyflakes
+
+            python-lsp-ruff
           ]))
     ];
 

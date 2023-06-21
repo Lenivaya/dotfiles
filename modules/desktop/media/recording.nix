@@ -21,16 +21,20 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.programs.obs-studio = mkIf cfg.video.enable {
-      enable = true;
-      package = pkgs.unstable.obs-studio;
-      plugins = with pkgs.unstable.obs-studio-plugins; [
-        # obs-backgroundremoval
-        obs-vaapi
-        obs-pipewire-audio-capture
-        droidcam-obs
-      ];
-    };
+    home.programs.obs-studio =
+      mkIf cfg.video.enable
+      enabled
+      // {
+        package = pkgs.obs-studio;
+        plugins = with pkgs.obs-studio-plugins; [
+          # obs-backgroundremoval
+          obs-vaapi
+          obs-pipewire-audio-capture
+          droidcam-obs
+          obs-multi-rtmp
+          looking-glass-obs
+        ];
+      };
 
     user.packages = with pkgs;
     # for recording and remastering audio

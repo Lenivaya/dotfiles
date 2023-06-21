@@ -1,105 +1,106 @@
 {
+  lib,
   pkgs,
   config,
   ...
 }:
+with lib;
 with pkgs;
 # let
 #   # JAVA_HOME = "${openjdk}/lib/openjdk";
 # in
   {
-    # Vim
-    "vim.easymotion" = true;
-    "vim.incsearch" = true;
-    "vim.useSystemClipboard" = true;
-    "vim.useCtrlKeys" = true;
-    "vim.hlsearch" = true;
-    # "vim.leader" = "<space>";
-    "vim.sneak" = true;
-    "vim.camelCaseMotion.enable" = true;
-    "vim.insertModeKeyBindings" = [
-      {
-        "before" = ["j" "j"];
-        "after" = ["<Esc>"];
-      }
-    ];
-    "vim.normalModeKeyBindingsNonRecursive" = [
-      {
-        "before" = ["<Esc>"];
-        "commands" = [":nohl"];
-      }
-      {
-        "before" = ["<space>"];
-        "commands" = ["vspacecode.space"];
-      }
-      {
-        "before" = [
-          ","
-        ];
-        "commands" = [
-          "vspacecode.space"
-          {
-            "command" = "whichkey.triggerKey";
-            "args" = "m";
-          }
-        ];
-      }
-    ];
-    "vim.visualModeKeyBindingsNonRecursive" = [
-      {
-        "before" = ["<space>"];
-        "commands" = ["vspacecode.show"];
-      }
-      {
-        "before" = [
-          ","
-        ];
-        "commands" = [
-          "vspacecode.space"
-          {
-            "command" = "whichkey.triggerKey";
-            "args" = "m";
-          }
-        ];
-      }
-    ];
+    vim = {
+      easymotion = true;
+      incsearch = true;
+      useSystemClipboard = true;
+      useCtrlKeys = true;
+      hlsearch = true;
+      sneak = true;
+      camelCaseMotion.enable = true;
 
-    "vim.autoSwitchInputMethod.enable" = true;
-    "vim.autoSwitchInputMethod.defaultIM" = "us";
-    "vim.autoSwitchInputMethod.obtainIMCmd" = "${pkgs.xkb-switch}/bin/xkb-switch";
-    "vim.autoSwitchInputMethod.switchIMCmd" = "${pkgs.xkb-switch}/bin/xkb-switch -s {im}";
+      insertModeKeyBindings = [
+        {
+          before = ["j" "j"];
+          after = ["<Esc>"];
+        }
+      ];
+      normalModeKeyBindingsNonRecursive = [
+        {
+          before = ["<Esc>"];
+          commands = [":nohl"];
+        }
+        {
+          before = ["<space>"];
+          commands = ["vspacecode.space"];
+        }
+        {
+          before = [","];
+          commands = [
+            "vspacecode.space"
+            {
+              command = "whichkey.triggerKey";
+              args = "m";
+            }
+          ];
+        }
+      ];
+      visualModeKeyBindingsNonRecursive = [
+        {
+          before = ["<space>"];
+          commands = ["vspacecode.show"];
+        }
+        {
+          before = [","];
+          commands = [
+            "vspacecode.space"
+            {
+              command = "whichkey.triggerKey";
+              args = "m";
+            }
+          ];
+        }
+      ];
+
+      autoSwitchInputMethod = let
+        switcher = getExe xkb-switch;
+      in {
+        enable = true;
+        defaultIM = "us";
+        obtainIMCmd = switcher;
+        switchIMCmd = "${switcher} -s {im}";
+      };
+    };
 
     # Editor
-    "editor.mouseWheelZoom" = true;
-    "diffEditor.ignoreTrimWhitespace" = false;
-    "editor.cursorBlinking" = "smooth";
-    "editor.cursorSmoothCaretAnimation" = true;
-    # "editor.fontFamily" = "'Anonymous Pro', 'Recursive Mono Linear Static', 'Rec Mono Linear', 'IBM Plex Mono'";
-    # "editor.fontLigatures" = "'ss01','ss05','ss08','ss09','ss20'";
-    # "editor.fontSize" = 13;
-    # "editor.fontWeight" = "normal";
-    "editor.fontLigatures" = true;
-    "editor.lineHeight" = 20;
-    "editor.lineNumbers" = "relative";
-    "editor.multiCursorModifier" = "ctrlCmd";
-    "editor.quickSuggestions" = {
-      "other" = true;
-      "comments" = true;
-      "strings" = true;
+    editor.mouseWheelZoom = true;
+    editor.cursorBlinking = "smooth";
+    editor.cursorSmoothCaretAnimation = true;
+    editor.fontLigatures = true;
+    editor.lineHeight = 20;
+    editor.lineNumbers = "relative";
+    editor.multiCursorModifier = "ctrlCmd";
+    editor.quickSuggestions = {
+      other = true;
+      comments = true;
+      strings = true;
     };
-    "editor.renderIndentGuides" = false;
-    "editor.renderWhitespace" = "none";
-    "editor.rulers" = [
+    editor.renderIndentGuides = false;
+    editor.renderWhitespace = "none";
+    editor.rulers = [
       80
       100
     ];
-    "editor.smoothScrolling" = true;
-    "editor.snippetSuggestions" = "top";
-    "editor.suggest.localityBonus" = true;
-    "editor.tabSize" = 2;
-    "editor.wordWrap" = "off";
-    "editor.minimap.showSlider" = "always";
-    "workbench.colorCustomizations" = {
+    editor.smoothScrolling = true;
+    editor.snippetSuggestions = "top";
+    editor.suggest.localityBonus = true;
+    editor.tabSize = 2;
+    editor.wordWrap = "off";
+    editor.minimap.showSlider = "always";
+    editor.inlayHints.enabled = "offUnlessPressed";
+    diffEditor.ignoreTrimWhitespace = false;
+
+    workbench.colorCustomizations = {
       "activityBarBadge.background" = "#616161";
       "list.activeSelectionForeground" = "#616161";
       "list.inactiveSelectionForeground" = "#616161";
@@ -113,20 +114,20 @@ with pkgs;
       "notificationLink.foreground" = "#616161";
       "editorWidget.border" = "#616161";
     };
-    "workbench.editorAssociations" = [
+    workbench.editorAssociations = [
       {
-        "viewType" = "jupyter-notebook";
-        "filenamePattern" = "*.ipynb";
+        viewType = "jupyter-notebook";
+        filenamePattern = "*.ipynb";
       }
     ];
-    "workbench.list.smoothScrolling" = true;
-    "workbench.iconTheme" = "vs-seti";
-    "workbench.sideBar.location" = "right";
-    "workbench.tree.expandMode" = "singleClick";
-    "breadcrumbs.enabled" = true;
-    "window.menuBarVisibility" = "toggle";
-    "window.titleBarStyle" = "native";
-    "files.associations" = {
+    workbench.list.smoothScrolling = true;
+    workbench.iconTheme = "vs-seti";
+    workbench.sideBar.location = "right";
+    workbench.tree.expandMode = "singleClick";
+    breadcrumbs.enabled = true;
+    window.menuBarVisibility = "toggle";
+    window.titleBarStyle = "native";
+    files.associations = {
       "bspwmrc" = "shellscript";
       "sxhkdrc" = "shellscript";
       "*.pug" = "jade";
@@ -135,8 +136,8 @@ with pkgs;
       "*.xmobarrc" = "haskell";
       ".Xresources" = "shellscript";
     };
-    "files.enableTrash" = false;
-    "files.exclude" = {
+    files.enableTrash = false;
+    files.exclude = {
       "**/.git" = false;
       "**/.svn" = true;
       "**/.hg" = true;
@@ -144,9 +145,9 @@ with pkgs;
       "**/.DS_Store" = false;
       "**/*.olean" = true;
     };
-    "files.insertFinalNewline" = true;
-    "files.trimTrailingWhitespace" = true;
-    "files.watcherExclude" = {
+    files.insertFinalNewline = true;
+    files.trimTrailingWhitespace = true;
+    files.watcherExclude = {
       "**/.git/objects/**" = true;
       "**/.git/subtree-cache/**" = true;
       "**/node_modules/**" = true;
@@ -155,87 +156,95 @@ with pkgs;
       "**/.mypy_cache/**" = true;
       "**/bazel-*/**" = true;
     };
-    "explorer.confirmDragAndDrop" = false;
-    "explorer.decorations.badges" = false;
-    "explorer.decorations.colors" = true;
-    "explorer.incrementalNaming" = "smart";
-    "explorer.openEditors.visible" = 8;
-    "search.smartCase" = true;
+    explorer.confirmDragAndDrop = false;
+    explorer.decorations.badges = false;
+    explorer.decorations.colors = true;
+    explorer.incrementalNaming = "smart";
+    explorer.openEditors.visible = 8;
+    search.smartCase = true;
 
     # Terminal
-    "terminal.external.linuxExec" = config.modules.desktop.term.default;
-    "terminal.integrated.rendererType" = "experimentalWebgl";
-    "terminal.integrated.fontSize" = 22;
+    terminal.external.linuxExec = config.modules.desktop.term.default;
+    terminal.integrated.rendererType = "experimentalWebgl";
+    terminal.integrated.fontSize = 22;
 
     # Language specific
-    "scm.defaultViewMode" = "tree";
-    "update.mode" = "none";
-    "html.format.contentUnformatted" = "pre,code,style,textarea";
-    "html.format.extraLiners" = "";
-    "html.format.wrapLineLength" = 0;
-    "php.validate.run" = "onType";
-    "javascript.format.insertSpaceAfterConstructor" = true;
-    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces" = true;
-    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets" = true;
-    "javascript.format.insertSpaceBeforeFunctionParenthesis" = true;
-    "javascript.referencesCodeLens.enabled" = true;
-    "typescript.format.insertSpaceAfterConstructor" = true;
-    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces" = true;
-    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets" = true;
-    "typescript.format.insertSpaceBeforeFunctionParenthesis" = true;
-    "typescript.implementationsCodeLens.enabled" = true;
-    "typescript.referencesCodeLens.enabled" = true;
-    "typescript.tsc.autoDetect" = "watch";
-    "extensions.autoUpdate" = false;
+    scm.defaultViewMode = "tree";
+    update.mode = "none";
+    html.format.contentUnformatted = "pre,code,style,textarea";
+    html.format.extraLiners = "";
+    html.format.wrapLineLength = 0;
+    php.validate.run = "onType";
+    javascript.format.insertSpaceAfterConstructor = true;
+    javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces = true;
+    javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets = true;
+    javascript.format.insertSpaceBeforeFunctionParenthesis = true;
+    javascript.referencesCodeLens.enabled = true;
+    typescript.format.insertSpaceAfterConstructor = true;
+    typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces = true;
+    typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets = true;
+    typescript.format.insertSpaceBeforeFunctionParenthesis = true;
+    typescript.implementationsCodeLens.enabled = true;
+    typescript.referencesCodeLens.enabled = true;
+    typescript.tsc.autoDetect = "watch";
+    extensions.autoUpdate = false;
 
-    "git.autofetch" = true;
-    "git.allowForcePush" = true;
-    "git.confirmSync" = false;
-    "git.detectSubmodules" = false;
-    "git.enableCommitSigning" = true;
-    "git.enableSmartCommit" = true;
-    "git.showPushSuccessNotification" = true;
-    "explorer.excludeGitIgnore" = true;
-
-    "C_Cpp.clang_format_path" = "${llvmPackages.clang-unwrapped}/bin/clang-format";
-    "C_Cpp.clang_format_fallbackStyle" = "LLVM";
-    # "C_Cpp.formatting" = "Disabled";
-    "C_Cpp.intelliSenseEngineFallback" = "Enabled";
-    "C_Cpp.workspaceParsingPriority" = "medium";
-    "clang.executable" = "${clang}/bin/clang";
-    "cmake.cmakePath" = "${cmake}/bin/cmake";
-    "emmet.includeLanguages" = {
-      "jinja-html" = "html";
+    git = {
+      autofetch = true;
+      allowForcePush = true;
+      confirmSync = false;
+      detectSubmodules = false;
+      enableCommitSigning = true;
+      enableSmartCommit = true;
+      showPushSuccessNotification = true;
     };
-    "eslint.nodePath" = "${nodePackages.eslint}/lib/node_modules";
-    "eslint.packageManager" = "yarn";
-    "eslint.validate" = [
+    explorer.excludeGitIgnore = true;
+
+    C_Cpp.clang_format_path = "${llvmPackages.clang-unwrapped}/bin/clang-format";
+    C_Cpp.clang_format_fallbackStyle = "LLVM";
+    # C_Cpp.formatting =  "Disabled";
+    C_Cpp.intelliSenseEngineFallback = "Enabled";
+    C_Cpp.workspaceParsingPriority = "medium";
+    clang.executable = getExe clang;
+    cmake.cmakePath = getExe cmake;
+    emmet.includeLanguages = {
+      jinja-html = "html";
+    };
+    eslint.nodePath = "${nodePackages.eslint}/lib/node_modules";
+    eslint.packageManager = "yarn";
+    eslint.validate = [
       "html"
       "javascript"
       "javascriptreact"
     ];
-    "gitlens.codeLens.scopes" = [
+    gitlens.codeLens.scopes = [
       "document"
       "containers"
       "blocks"
     ];
-    # "java.home" = JAVA_HOME;
-    "java.implementationsCodeLens.enabled" = true;
-    "java.referencesCodeLens.enabled" = true;
-    "java.saveActions.organizeImports" = true;
-    "jupyter.disableJupyterAutoStart" = true;
-    "jupyter.searchForJupyter" = false;
-    "jupyter.useNotebookEditor" = false;
-    "gopls" = {
-      "expandWorkspaceToModule" = true;
-      "experimentalWorkspaceModule" = true;
+    # java.home =  JAVA_HOME;
+    java.implementationsCodeLens.enabled = true;
+    java.referencesCodeLens.enabled = true;
+    java.saveActions.organizeImports = true;
+    jupyter.disableJupyterAutoStart = true;
+    jupyter.searchForJupyter = false;
+    jupyter.useNotebookEditor = false;
+    gopls = {
+      expandWorkspaceToModule = true;
+      experimentalWorkspaceModule = true;
     };
-    # "haskell.formattingProvider" = "brittany";
-    # "haskell.serverExecutablePath" = "\${workspaceFolder}/hie-wrapper.sh";
-    "latex-workshop.linting.chktex.enabled" = true;
-    "latex-workshop.linting.chktex.exec.path" = "${texlive.combined.scheme-full}/bin/chktex";
-    "latex-workshop.latex.autoClean.run" = "onBuilt";
-    "latex-workshop.latex.tools" = [
+
+    # haskell.formattingProvider =  "brittany";
+    # haskell.serverExecutablePath =  "\${workspaceFolder}/hie-wrapper.sh";
+    haskell = {
+      formattingProvider = "fourmolu";
+      # serverExecutablePath = "${pkgs.haskell-language-server}/bin/haskell-language-server";
+    };
+
+    latex-workshop.linting.chktex.enabled = true;
+    latex-workshop.linting.chktex.exec.path = "${texlive.combined.scheme-full}/bin/chktex";
+    latex-workshop.latex.autoClean.run = "onBuilt";
+    latex-workshop.latex.tools = [
       {
         "name" = "latexmk";
         "command" = "latexmk";
@@ -251,7 +260,6 @@ with pkgs;
           "%DOC%"
         ];
       }
-
       {
         "name" = "pdflatex";
         "command" = "pdflatex";
@@ -262,7 +270,6 @@ with pkgs;
           "%DOC%"
         ];
       }
-
       {
         "name" = "bibtex";
         "command" = "bibtex";
@@ -271,47 +278,61 @@ with pkgs;
         ];
       }
     ];
-    "latex-workshop.latexindent.path" = "${texlive.combined.scheme-full}/bin/latexindent";
-    "latex-workshop.synctex.path" = "${texlive.combined.scheme-full}/bin/synctex";
-    "latex-workshop.texdoc.path" = "${texlive.combined.scheme-full}/bin/texdoc";
-    "latex-workshop.view.pdf.viewer" = "tab";
-    "materialTheme.accent" = "Graphite";
-    "npm.packageManager" = "yarn";
-    "path-intellisense.showHiddenFiles" = true;
-    "python.analysis.completeFunctionParens" = true;
-    "python.autoComplete.addBrackets" = true;
-    "python.autoUpdateLanguageServer" = false;
-    "python.defaultInterpreterPath" = "${python3Packages.python}/bin/python3";
-    "python.formatting.provider" = "yapf";
-    "python.formatting.yapfPath" = "${python3Packages.yapf}/bin/yapf";
-    "python.languageServer" = "Pylance";
-    "python.linting.flake8Enabled" = true;
-    "python.linting.flake8Path" = "${python3Packages.flake8}/bin/flake8";
-    "python.linting.mypyEnabled" = true;
-    "python.linting.mypyPath" = "${python3Packages.mypy}/bin/mypy";
-    "python.linting.pycodestyleEnabled" = true;
-    "python.linting.pycodestylePath" = "${python3Packages.pycodestyle}/bin/pycodestyle";
-    "python.linting.pydocstyleEnabled" = false;
-    "python.linting.pydocstylePath" = "${python3Packages.pydocstyle}/bin/pydocstyle";
-    "python.linting.pylamaEnabled" = true;
-    "python.linting.pylamaPath" = "${python3Packages.pylama}/bin/pylama";
-    "python.linting.pylintPath" = "${python3Packages.pylint}/bin/pylint";
-    "python.testing.unittestEnabled" = true;
-    "maven.executable.path" = "${maven}/bin/mvn";
-    "maven.terminal.useJavaHome" = true;
-    "rust-analyzer.server.path" = "${rust-analyzer}/bin/rust-analyzer";
-    "sqlite.sqlite3" = "${sqlite}/bin/sqlite3";
-    "todo-tree.general.tags" = ["BUG" "HACK" "FIXME" "TODO" "XXX" "[ ]" "[x]"];
-    "todo-tree.tree.showScanModeButton" = false;
-    "tslint.packageManager" = "yarn";
-    "tslint.validateWithDefaultConfig" = true;
+    latex-workshop.latexindent.path = "${texlive.combined.scheme-full}/bin/latexindent";
+    latex-workshop.synctex.path = "${texlive.combined.scheme-full}/bin/synctex";
+    latex-workshop.texdoc.path = "${texlive.combined.scheme-full}/bin/texdoc";
+    latex-workshop.view.pdf.viewer = "tab";
 
-    "pdf-preview.default.scrollMode" = "wrapped";
-    "pdf-preview.default.scale" = "page-fit";
+    materialTheme.accent = "Graphite";
+    npm.packageManager = "yarn";
+    path-intellisense.showHiddenFiles = true;
 
-    "workbench.colorTheme" = "Min Tomorrow Dark";
+    python = with python3Packages; {
+      experiments.optOutFrom = ["All"];
+      analysis.completeFunctionParens = true;
+      autoComplete.addBrackets = true;
+      autoUpdateLanguageServer = false;
+      defaultInterpreterPath = getExe python3;
+      formatting.provider = "yapf";
+      formatting.yapfPath = getExe yapf;
+      languageServer = "Pylance";
+      linting = {
+        flake8Enabled = true;
+        flake8Path = getExe flake8;
+        mypyEnabled = true;
+        banditPath = getExe bandit;
+        mypyPath = getExe mypy;
+        pycodestyleEnabled = true;
+        pycodestylePath = getExe pycodestyle;
+        pydocstyleEnabled = false;
+        pydocstylePath = getExe pydocstyle;
+        pylamaEnabled = true;
+        pylamaPath = getExe pylama;
+        pylintPath = getExe pylint;
+      };
+      testing.unittestEnabled = true;
+    };
+
+    nix = {
+      enableLanguageServer = true;
+      serverPath = getExe rnix-lsp;
+    };
+
+    maven.executable.path = "${maven}/bin/mvn";
+    maven.terminal.useJavaHome = true;
+    rust-analyzer.server.path = getExe rust-analyzer;
+    sqlite.sqlite3 = getExe sqlite;
+    todo-tree.general.tags = ["BUG" "HACK" "FIXME" "TODO" "XXX" "[ ]" "[x]"];
+    todo-tree.tree.showScanModeButton = false;
+    tslint.packageManager = "yarn";
+    tslint.validateWithDefaultConfig = true;
+
+    pdf-preview.default.scrollMode = "wrapped";
+    pdf-preview.default.scale = "page-fit";
+
+    workbench.colorTheme = "Min Tomorrow Dark";
     # Fix diff colors for "Min Tomorrow Dark" theme
-    "editor.tokenColorCustomizations" = {
+    editor.tokenColorCustomizations = {
       "textMateRules" = [
         {
           "name" = "markup diff";
@@ -344,7 +365,7 @@ with pkgs;
       ];
     };
 
-    "markdown.preview.typographer" = true;
+    markdown.preview.typographer = true;
 
     "[markdown]" = {
       "editor.defaultFormatter" = "esbenp.prettier-vscode";

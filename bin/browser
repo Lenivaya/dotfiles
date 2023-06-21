@@ -1,0 +1,3 @@
+#!/bin/sh
+
+"$BROWSER" --new-window "$1"

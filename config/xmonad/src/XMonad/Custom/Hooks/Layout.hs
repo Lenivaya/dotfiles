@@ -1,23 +1,25 @@
-module XMonad.Custom.Layout (
+module XMonad.Custom.Hooks.Layout (
   layoutHook,
   layoutNames,
+  defaultLayout,
   CustomTransformers (..),
   toggleZen,
   toggleStatusBar,
   toggleGaps,
 ) where
 
+import Data.Ratio ((%))
 import XMonad hiding (layoutHook)
 import XMonad.Custom.Theme (tabTheme)
+import XMonad.Custom.Workspaces
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.RefocusLast
 import XMonad.Layout.Accordion
 import XMonad.Layout.BinarySpacePartition
-import XMonad.Layout.BoringWindows hiding (
-  Replace,
- )
+import XMonad.Layout.BoringWindows hiding (Replace)
 import XMonad.Layout.CenteredIfSingle
 import XMonad.Layout.Circle
+import XMonad.Layout.Cross
 import XMonad.Layout.DraggingVisualizer
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.GridVariants
@@ -33,16 +35,19 @@ import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
 import XMonad.Layout.NoBorders
 import XMonad.Layout.OneBig
+import XMonad.Layout.PerScreen
 import XMonad.Layout.PerWorkspace
 import XMonad.Layout.Reflect
 import XMonad.Layout.Renamed
 import XMonad.Layout.ResizableTile
+import XMonad.Layout.Roledex
 import XMonad.Layout.ShowWName
 import XMonad.Layout.Simplest
 import XMonad.Layout.Spacing
 import XMonad.Layout.SubLayouts
 import XMonad.Layout.Tabbed
 import XMonad.Layout.ThreeColumns
+import XMonad.Layout.TwoPane
 import XMonad.Layout.WindowNavigation
 
 data CustomTransformers = GAPS
@@ -54,26 +59,82 @@ instance Transformer CustomTransformers Window where
 applySpacing :: l a -> ModifiedLayout Spacing l a
 applySpacing = spacingRaw False (Border 6 6 6 6) True (Border 6 6 6 6) True
 
-layoutNames :: [String]
-layoutNames =
-  ["BSP", "Circle", "Tall", "ThreeColMid", "OneBig", "Monocle", "Grid"]
+setName :: String -> l a -> ModifiedLayout Rename l a
+setName n = renamed [Replace n]
 
-bsp = renamed [Replace "BSP"] emptyBSP
-tall = renamed [Replace "Tall"] $ ResizableTall 1 (3 / 100) (1 / 2) []
-circle = renamed [Replace "Circle"] Circle
-threecolmid = renamed [Replace "ThreeColMid"] $ ThreeColMid 1 (3 / 100) (1 / 2)
-onebig = renamed [Replace "OneBig"] $ OneBig (3 / 4) (3 / 4)
-monocle = renamed [Replace "Monocle"] Full
-grid = renamed [Replace "Grid"] $ limitWindows 9 $ Grid (16 / 10)
+rTall :: Int -> Rational -> Rational -> ResizableTall l
+rTall m r c = ResizableTall m r c []
+
+bsp = setName "BSP" emptyBSP
+tall = setName "Tall" $ rTall 1 (3 % 100) (1 % 2)
+circle = setName "Circle" $ magnifiercz' 2 Circle
+twoPane = TwoPane (3 % 100) (1 % 2)
+onebig = setName "OneBig" $ OneBig (3 / 4) (3 / 4)
+monocle = setName "Monocle" Full
+grid = setName "Grid" $ limitWindows 9 $ Grid (16 / 10)
+cross = setName "Cross" simpleCross
+roledex = Roledex
+
+hacking =
+  setName "Hacking"
+    . limitWindows 3
+    . magnify 1.3 (NoMaster 3) True
+    $ rTall 1 (3 % 100) (13 % 25)
+
+-- threecolmid = setName "ThreeColMid" $ ThreeColMid 1 (3 / 100) (1 / 2)
+-- threecol = setName "ThreeCol" $ ThreeCol 1 (3 / 100) (1 / 2)
+threeColMid =
+  setName "ThreeColMid"
+    . reflectHoriz
+    . magnify 1.2 (NoMaster 4) True
+    $ ThreeColMid 1 (3 % 100) (11 % 30)
+
+flex =
+  setName "Flex" $
+    ifWider smallMonResWidth wideLayout standardLayout
+  where
+    smallMonResWidth = 1920
+    wideLayout =
+      ThreeColMid 1 (1 / 20) (1 / 2)
+        ||| emptyBSP
+    standardLayout =
+      rTall 1 (1 / 20) (2 / 3)
+        ||| rTall 1 (1 / 20) (1 / 2)
+
+(|||!) (joined, layouts) newLayout =
+  (joined ||| newLayout, layouts <> [Layout newLayout])
+
+layoutsStart layout = (layout, [Layout layout])
+
+layoutsInfo =
+  layoutsStart flex
+    |||! bsp
+    |||! hacking
+    |||! tall
+    |||! twoPane
+    |||! threeColMid
+    |||! circle
+    -- \|||! threecolmid
+    -- \|||! threecol
+    |||! onebig
+    |||! monocle
+    |||! grid
+    |||! cross
+    |||! roledex
+
+layouts = fst layoutsInfo
+layoutNames = description <$> snd layoutsInfo
+defaultLayout = head layoutNames
 
 layoutHook =
   fullscreenFloat
-    . fullscreenFull
+    -- . fullscreenFull
     . smartBorders
     . boringWindows
     . draggingVisualizer
     . layoutHintsToCenter
-    . magnifierOff
+    -- . magnifierOff
+    . magnifierczOff' 1.3
     . lessBorders OnlyLayoutFloat
     . mkToggle (single NBFULL)
     . refocusLastLayoutHook
@@ -87,13 +148,10 @@ layoutHook =
     . hiddenWindows
     . addTabs shrinkText tabTheme
     . subLayout [] (Simplest ||| Accordion)
-    . onWorkspace "Read" (circle ||| onebig)
+    . onWorkspace wsread (circle ||| flex ||| onebig)
     . maximize
     . minimize
     $ layouts
-  where
-    layouts =
-      bsp ||| circle ||| tall ||| threecolmid ||| onebig ||| monocle ||| grid
 
 toggleGaps = sendMessage $ Toggle GAPS
 toggleStatusBar = sendMessage ToggleStruts
