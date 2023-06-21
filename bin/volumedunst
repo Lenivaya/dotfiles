@@ -1,13 +1,9 @@
 #!/usr/bin/env ksh
-
+#
 # You can call this script like this:
 # $ ./volumedunst.sh up
 # $ ./volumedunst.sh down
 # $ ./volumedunst.sh mute
-
-# Script modified from these wonderful people:
-# https://github.com/dastorm/volume-notification-dunst/blob/master/volume.sh
-# https://gist.github.com/sebastiencs/5d7227f388d93374cebdf72e783fbd6a
 
 get_volume() {
 	pamixer --get-volume
@@ -18,17 +14,17 @@ is_mute() {
 }
 
 send_notification() {
+	volume=$(get_volume)
+
 	if $(is_mute); then
 		icon="audio-volume-muted"
 		message="mute"
+		progressbar "$volume!"
+		dunstify -t 1000 -i "$icon" -r 5555 -u normal "$message"
 	else
-		volume=$(get_volume)
-		bar=$(printf '─%.0s' $(seq -s ' ' 1 $((volume / (6 / 2.7)))))
-		icon="audio-volume-medium-symbolic"
-		message="$bar"
+		progressbar "$volume"
+		dunstify -t 1 ""
 	fi
-
-	dunstify -i "$icon" -r 5555 -u normal "$message"
 }
 
 case $1 in
@@ -43,6 +39,6 @@ case $1 in
 		;;
 	mic_mute)
 		pamixer --default-source -t
-		dunstify -r 2593 -u normal "micro mute"
+		dunstify -t 1000 -r 2593 -u normal "micro mute"
 		;;
 esac

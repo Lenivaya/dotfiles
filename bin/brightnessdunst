@@ -1,25 +1,21 @@
 #!/usr/bin/env ksh
 #
 # You can call this script like this:
-# $ ./brightnessControl.sh up
-# $ ./brightnessControl.sh down
+# $ ./brightnessdunst.sh up
+# $ ./brightnessdunst.sh down
 
-# Script inspired by these wonderful people:
-# https://github.com/dastorm/volume-notification-dunst/blob/master/volume.sh
-# https://gist.github.com/sebastiencs/5d7227f388d93374cebdf72e783fbd6a
-
-ICON="preferences-system-brightness-lock"
+# ICON="preferences-system-brightness-lock"
 NOTIFICATION_ID="5555"
 INCREMENT="10%"
 
 get_brightness() {
-  brightnessctl get
+  awk -v current="$(brightnessctl get)" -v max="$(brightnessctl max)" 'BEGIN { printf "%.0f\n", (current / max) * 100 }'
 }
 
 send_notification() {
-  local brightness="$1"
-  local bar=$(seq -s "─" 0 $((brightness / 105)) | sed 's/[0-9]//g')
-  dunstify -i "$ICON" -r "$NOTIFICATION_ID" -u normal "$bar"
+  brightness="$1"
+  progressbar "$brightness"
+  dunstify -r "$NOTIFICATION_ID" -u normal -t 1 ""
 }
 
 increase_brightness() {
