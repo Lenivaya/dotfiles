@@ -39,7 +39,6 @@ in {
         promptInit = "";
         setOptions = [];
       };
-
     programs.command-not-found.enable = false;
 
     # Some nice shell things

@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 
 is_workspace_non_empty() {
-	workspace=$1
-	window_count=$(xdotool search --desktop "$workspace" '' 2>/dev/null | wc -l)
-	[ "$window_count" -gt 0 ]
+  workspace=$1
+  window_count=$(xdotool search --desktop "$workspace" '' 2>/dev/null | wc -l)
+  [ "$window_count" -gt 0 ]
 }
 
 # Get the current workspace and total workspaces
@@ -12,16 +12,16 @@ total_workspaces=$(xdotool get_num_desktops)
 
 # Define the direction based on the input argument
 case "$1" in
-next)
-	increment=1
-	;;
-prev)
-	increment=-1
-	;;
-*)
-	echo "Invalid argument. Please specify either 'next' or 'prev'."
-	exit 1
-	;;
+  next)
+    increment=1
+    ;;
+  prev)
+    increment=-1
+    ;;
+  *)
+    echo "Invalid argument. Please specify either 'next' or 'prev'."
+    exit 1
+    ;;
 esac
 
 # Calculate the target workspace
@@ -29,8 +29,8 @@ target_workspace=$(((current_workspace + increment + total_workspaces) % total_w
 
 # Loop until we find a non-empty workspace or we reach the starting point again
 while ! is_workspace_non_empty "$target_workspace" && [ "$target_workspace" -ne "$current_workspace" ]; do
-	# Move to the next or previous workspace
-	target_workspace=$(((target_workspace + increment + total_workspaces) % total_workspaces))
+  # Move to the next or previous workspace
+  target_workspace=$(((target_workspace + increment + total_workspaces) % total_workspaces))
 done
 
 # Switch to the non-empty workspace

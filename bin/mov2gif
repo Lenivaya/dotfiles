@@ -14,7 +14,7 @@ set -e
 PALETTE="/tmp/palette.png"
 
 usage() {
-	cat <<EOL
+  cat <<EOL
 Usage: ${0##*/} [-fsSth] SOURCE_FILE [destfile]
 
     -f [FPS]       set frames per second
@@ -31,36 +31,36 @@ trap cleanup EXIT
 #
 fps=30
 while getopts hf:s:t:S: opt; do
-	case $opt in
-		f) fps="$OPTARG" ;;
-		s) start="-ss $OPTARG" ;;
-		S) scale=",scale=$OPTARG:flags=lanczos" ;;
-		t) duration="-t $OPTARG" ;;
-		h)
-			usage
-			exit
-			;;
-		:)
-			echo >&2 "$OPTARG requires an argument"
-			usage
-			exit 1
-			;;
-		*)
-			echo >&2 "Not a valid arg: $opt"
-			usage
-			exit 1
-			;;
-	esac
+  case $opt in
+    f) fps="$OPTARG" ;;
+    s) start="-ss $OPTARG" ;;
+    S) scale=",scale=$OPTARG:flags=lanczos" ;;
+    t) duration="-t $OPTARG" ;;
+    h)
+      usage
+      exit
+      ;;
+    :)
+      echo >&2 "$OPTARG requires an argument"
+      usage
+      exit 1
+      ;;
+    *)
+      echo >&2 "Not a valid arg: $opt"
+      usage
+      exit 1
+      ;;
+  esac
 done
 shift $((OPTIND - 1))
 
 #
 if (($# == 0)); then
-	echo >&2 "No movie file specified"
-	exit
+  echo >&2 "No movie file specified"
+  exit
 elif [[ ! -f $1 ]]; then
-	echo >&2 "$1 does not exist"
-	exit
+  echo >&2 "$1 does not exist"
+  exit
 fi
 
 src="$1"

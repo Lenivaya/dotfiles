@@ -4,39 +4,39 @@
 # Otherwise, lock screen and turn off monitor.
 
 function betterlockscreen_command {
-	# betterlockscreen -l dim -- --layout-pos="ix-1000:iy+1000" --time-size="25" --verif-text="" >/dev/null
-	betterlockscreen -l dim --off "$1" -- --verif-text="" >/dev/null
+  # betterlockscreen -l dim -- --layout-pos="ix-1000:iy+1000" --time-size="25" --verif-text="" >/dev/null
+  betterlockscreen -l dim --off "$1" -- --verif-text="" >/dev/null
 }
 
 function lock_screen {
-	pgrep "betterlockscreen" || betterlockscreen_command
+  pgrep "betterlockscreen" || betterlockscreen_command
 }
 
 function lock_screen_sleep {
-	pgrep "betterlockscreen" || betterlockscreen_command 10
+  pgrep "betterlockscreen" || betterlockscreen_command 10
 }
 
 function print_usage {
-	bin=$(basename "$0")
-	echo "Usage: $bin [-f]"
-	echo
-	echo "  $bin       # put display to sleep"
-	echo "  $bin -f    # put computer to sleep"
+  bin=$(basename "$0")
+  echo "Usage: $bin [-f]"
+  echo
+  echo "  $bin       # put display to sleep"
+  echo "  $bin -f    # put computer to sleep"
 }
 
 case $1 in
--h)
-	print_usage
-	;;
--f)
-	echo "Going to sleep..."
-	lock_screen
-	systemctl suspend
-	;;
-*)
-	echo "Shutting my eyes..."
-	lock_screen_sleep
-	# sleep 5
-	# xset dpms force off
-	;;
+  -h)
+    print_usage
+    ;;
+  -f)
+    echo "Going to sleep..."
+    lock_screen
+    systemctl suspend
+    ;;
+  *)
+    echo "Shutting my eyes..."
+    lock_screen_sleep
+    # sleep 5
+    # xset dpms force off
+    ;;
 esac
