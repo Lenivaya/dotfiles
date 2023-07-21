@@ -15,8 +15,5 @@ jobs:
         with:
           github_access_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Print nixpkgs version
-        run: nix-instantiate --eval -E '(import <nixpkgs> {}).lib.version'
-
       - name: Check | Evaluate nix exressions
         run: nix flake check
