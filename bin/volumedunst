@@ -6,39 +6,39 @@
 # $ ./volumedunst.sh mute
 
 get_volume() {
-	pamixer --get-volume
+  pamixer --get-volume
 }
 
 is_mute() {
-	pamixer --get-mute
+  pamixer --get-mute
 }
 
 send_notification() {
-	volume=$(get_volume)
+  volume=$(get_volume)
 
-	if $(is_mute); then
-		icon="audio-volume-muted"
-		message="mute"
-		progressbar "$volume!"
-		dunstify -t 1000 -i "$icon" -r 5555 -u normal "$message"
-	else
-		progressbar "$volume"
-		dunstify -t 1 ""
-	fi
+  if $(is_mute); then
+    icon="audio-volume-muted"
+    message="mute"
+    progressbar "$volume!"
+    dunstify -t 1000 -i "$icon" -r 5555 -u normal "$message"
+  else
+    progressbar "$volume"
+    dunstify -t 1 ""
+  fi
 }
 
 case $1 in
-	up | down)
-		pamixer -u
-		[[ "$1" = "up" ]] && pamixer -i 10 || pamixer -d 10
-		send_notification
-		;;
-	mute)
-		pamixer -t
-		send_notification
-		;;
-	mic_mute)
-		pamixer --default-source -t
-		dunstify -t 1000 -r 2593 -u normal "micro mute"
-		;;
+  up | down)
+    pamixer -u
+    [[ "$1" = "up" ]] && pamixer -i 10 || pamixer -d 10
+    send_notification
+    ;;
+  mute)
+    pamixer -t
+    send_notification
+    ;;
+  mic_mute)
+    pamixer --default-source -t
+    dunstify -t 1000 -r 2593 -u normal "micro mute"
+    ;;
 esac

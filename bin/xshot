@@ -5,29 +5,29 @@ timestamp="$(date +%Y-%m-%d_%H-%M-%S)"
 pic="$screenshot_dir/$timestamp.png"
 
 capture_full_screenshot() {
-	maim --format=png --hidecursor "$pic" &
+  maim --format=png --hidecursor "$pic" &
 }
 
 capture_select_screenshot() {
-	maim --format=png --hidecursor --select "$pic" &
+  maim --format=png --hidecursor --select "$pic" &
 }
 
 capture_select_to_clipboard() {
-	maim --format=png -s --hidecursor | xclip -selection clipboard -t image/png
+  maim --format=png -s --hidecursor | xclip -selection clipboard -t image/png
 }
 
 case "$1" in
-"full")
-	capture_full_screenshot
-	;;
-"select")
-	capture_select_screenshot
-	;;
-"select-clipboard")
-	capture_select_to_clipboard
-	;;
-*)
-	echo "Usage: xshot [full|select|select-clipboard]"
-	exit 1
-	;;
+  "full")
+    capture_full_screenshot
+    ;;
+  "select")
+    capture_select_screenshot
+    ;;
+  "select-clipboard")
+    capture_select_to_clipboard
+    ;;
+  *)
+    echo "Usage: xshot [full|select|select-clipboard]"
+    exit 1
+    ;;
 esac

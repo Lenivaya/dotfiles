@@ -9,35 +9,35 @@ NOTIFICATION_ID="5555"
 INCREMENT="10%"
 
 get_brightness() {
-	awk -v current="$(brightnessctl get)" -v max="$(brightnessctl max)" 'BEGIN { printf "%.0f\n", (current / max) * 100 }'
+  awk -v current="$(brightnessctl get)" -v max="$(brightnessctl max)" 'BEGIN { printf "%.0f\n", (current / max) * 100 }'
 }
 
 send_notification() {
-	brightness="$1"
-	progressbar "$brightness"
-	dunstify -r "$NOTIFICATION_ID" -u normal -t 1 ""
+  brightness="$1"
+  progressbar "$brightness"
+  dunstify -r "$NOTIFICATION_ID" -u normal -t 1 ""
 }
 
 increase_brightness() {
-	brightnessctl set "+$INCREMENT"
+  brightnessctl set "+$INCREMENT"
 }
 
 decrease_brightness() {
-	brightnessctl set "$INCREMENT-"
+  brightnessctl set "$INCREMENT-"
 }
 
 # Main
 case $1 in
-	up)
-		increase_brightness
-		;;
-	down)
-		decrease_brightness
-		;;
-	*)
-		echo "Invalid argument. Usage: $0 [up|down]"
-		exit 1
-		;;
+  up)
+    increase_brightness
+    ;;
+  down)
+    decrease_brightness
+    ;;
+  *)
+    echo "Invalid argument. Usage: $0 [up|down]"
+    exit 1
+    ;;
 esac
 
 send_notification "$(get_brightness)"

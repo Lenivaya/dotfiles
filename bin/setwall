@@ -12,21 +12,21 @@ wallpaper="${1}"
 wallname="$(basename "$wallpaper")"
 
 setwall() {
-	feh --bg-fill "$wallpaper" &
+  feh --bg-fill "$wallpaper" &
 }
 
 updatewall() {
-	betterlockscreen -u "$wallpaper" && betterlockscreen -w &
-	echo "$wallname" >"$cachefile"
+  betterlockscreen -u "$wallpaper" && betterlockscreen -w &
+  echo "$wallname" >"$cachefile"
 }
 
 current=$(<"$cachefile")
 if [[ $current == "$wallname" ]]; then
-	echo "Seems like the wallpaper is already set."
-	exit 1
+  echo "Seems like the wallpaper is already set."
+  exit 1
 else
-	{
-		setwall
-		updatewall
-	} >/dev/null 2>&1
+  {
+    setwall
+    updatewall
+  } >/dev/null 2>&1
 fi

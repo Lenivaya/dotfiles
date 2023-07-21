@@ -3,18 +3,18 @@
 # Switch between keyboard layouts
 
 set_default_layout() {
-	xkb-switch -s us >/dev/null 2>&1 &
+  xkb-switch -s us >/dev/null 2>&1 &
 }
 
 layout_menu() {
-	xkb-switch -l | rofi -dmenu -i -p "layout"
+  xkb-switch -l | rofi -dmenu -i -p "layout"
 }
 
 switch_layout() {
-	previous_layout="$1"
-	layout="${2:-$previous_layout}"
+  previous_layout="$1"
+  layout="${2:-$previous_layout}"
 
-	xkb-switch -s "$layout" >/dev/null
+  xkb-switch -s "$layout" >/dev/null
 }
 
 previous_layout=$(xkb-switch -p)
