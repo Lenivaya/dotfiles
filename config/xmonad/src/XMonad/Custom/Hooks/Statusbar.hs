@@ -22,35 +22,6 @@ barSpawner :: ScreenId -> IO StatusBarConfig
 barSpawner 0 = pure $ xmobarTop <> xmobarBot <> traySB -- two bars and tray on the main screen
 barSpawner _ = mempty -- nothing on the rest of the screens
 
--- traySB :: StatusBarConfig
--- traySB =
---   statusBarGeneric
---     "systemctl --user restart tray.service"
---     mempty
-
--- traySB :: StatusBarConfig
--- traySB =
---   statusBarGeneric
---     ( unwords
---         [ "trayer"
---         , "-l"
---         , "--SetDockType true --SetPartialStrut false"
---         , "--edge bottom"
---         , "--align right"
---         , "--widthtype request"
---         , "--expand true"
---         , "--monitor primary"
---         , "--tint 0x0B0806"
---         , "--transparent true"
---         , "--alpha 10"
---         , "--height 26"
---         , "--distancefrom bottom,right --distance -22,27"
---         , "--iconspacing 5"
---         , "--padding 1"
---         ]
---     )
---     mempty
-
 traySB :: StatusBarConfig
 traySB =
   statusBarGeneric
@@ -68,3 +39,9 @@ traySB =
         ]
     )
     mempty
+
+-- traySB :: StatusBarConfig
+-- traySB =
+--   statusBarGeneric
+--     "systemctl --user restart tray.service"
+--     mempty

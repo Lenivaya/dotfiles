@@ -34,7 +34,7 @@ in {
 
         extensions = [
           "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
-          "pkehgijcmpdhfbdbbnkijodmdjhbjlgp" # privacy badger
+          # "pkehgijcmpdhfbdbbnkijodmdjhbjlgp" # privacy badger
           # "njdfdhgcmkocbgbhcioffdbicglldapd" # localcdn
           "hfjbmagddngcpeloejdejnfgbamkjaeg" # vimium c
           "hkgfoiooedgoejojocmhlaklaeopbecg" # picture-in-picture

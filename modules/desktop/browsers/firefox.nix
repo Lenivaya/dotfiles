@@ -1,3 +1,4 @@
+# https://github.com/SpitFire-666/Firefox-Stuff
 {
   config,
   options,
@@ -16,6 +17,8 @@ in {
   config = mkIf cfg.enable {
     nixpkgs.overlays = [inputs.nur.overlay];
 
+    env.XDG_DESKTOP_DIR = "$HOME"; # prevent firefox creating ~/Desktop
+
     user.packages = with pkgs; [
       profile-cleaner
 
@@ -29,15 +32,12 @@ in {
       })
     ];
 
-    env.XDG_DESKTOP_DIR = "$HOME"; # prevent firefox creating ~/Desktop
-
     home.programs.firefox =
       enabled
       // {
-        package = pkgs.firefox-bin.override {
+        package = pkgs.firefox.override {
           extraNativeMessagingHosts = with pkgs; [
-            # Watch videos using mpv
-            nur.repos.ambroisie.ff2mpv-go
+            my.ff2mpv-rust
           ];
         };
 
@@ -47,7 +47,6 @@ in {
 
             sponsorblock
             ublock-origin
-            privacy-badger
             localcdn # decentraleyes
             clearurls
             libredirect

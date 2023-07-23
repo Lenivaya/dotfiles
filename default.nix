@@ -4,6 +4,7 @@
   lib,
   pkgs,
   home-manager,
+  system,
   ...
 }:
 with lib;
@@ -95,6 +96,7 @@ with lib.my; {
     efi.canTouchEfiVariables = mkDefault true;
     systemd-boot.configurationLimit = 10;
     systemd-boot.enable = mkDefault true;
+    systemd-boot.graceful = mkDefault true;
   };
 
   # Just the bear necessities...

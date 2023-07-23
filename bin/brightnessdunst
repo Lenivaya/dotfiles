@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env dash
 #
 # You can call this script like this:
 # $ ./brightnessdunst.sh up
@@ -6,7 +6,7 @@
 
 # ICON="preferences-system-brightness-lock"
 NOTIFICATION_ID="5555"
-INCREMENT="10%"
+INCREMENT="5%"
 
 get_brightness() {
   awk -v current="$(brightnessctl get)" -v max="$(brightnessctl max)" 'BEGIN { printf "%.0f\n", (current / max) * 100 }'
@@ -34,8 +34,11 @@ case $1 in
   down)
     decrease_brightness
     ;;
+  toggle-auto)
+    auto_brightness_toggle
+    ;;
   *)
-    echo "Invalid argument. Usage: $0 [up|down]"
+    echo "Invalid argument. Usage: $0 [up|down|toggle-auto]"
     exit 1
     ;;
 esac

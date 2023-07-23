@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if ! systemctl --user is-active --quiet clight; then
+  systemctl --user start clight &
+else
+  systemctl --user stop clight &
+fi

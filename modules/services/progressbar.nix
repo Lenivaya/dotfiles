@@ -17,13 +17,13 @@ with lib.my; let
     name = "progressbar";
     text = ''
       if [[ $1 =~ ^[+-]?[0-9]+(\.[0-9]+)?!?$ ]]; then
-        echo "$1" > "${progressPipe}"
+        echo "$1" >> "${progressPipe}"
       fi
     '';
   };
 in {
   options.modules.services.progressbar = {
-    enable = mkBoolOpt true;
+    enable = mkBoolOpt false;
     styles = mkOpt types.lines "";
   };
 

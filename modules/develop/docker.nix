@@ -4,14 +4,14 @@
   config,
   ...
 }:
+with lib;
 with lib.my; {
   virtualisation.docker =
     enabled
     // {
       enableOnBoot = false;
       enableNvidia =
-        builtins.any
-        (v: v == "nvidia")
+        any (v: v == "nvidia")
         config.services.xserver.videoDrivers;
     };
 

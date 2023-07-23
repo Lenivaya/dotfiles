@@ -30,6 +30,7 @@ composeActions =
   , className =? "qemu-system-x86" -?> doCenterFloat
   , className =? "qemu-system-x86_64" -?> doCenterFloat
   , className =? "Safeeyes" -?> doFullFloat
+  , className =? "Avizo-service" -?> noBorder <+> doCenterFloat -- <+> doIgnore
   , isRole =? "GtkFileChooserDialog" -?> doCenterFloat
   , isRole =? "pop-up" -?> doCenterFloat
   , isRole =? "About" -?> doCenterFloat

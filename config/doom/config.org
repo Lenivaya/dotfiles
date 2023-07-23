@@ -4,7 +4,7 @@
 #+property: header-args:elisp :exports code
 #+property: header-args :tangle no :results silent :eval no-export
 #+options: coverpage:yes
-#+startup: fold
+#+startup: overview
 
 #+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
 # #+setupfile: https://b-coimbra.github.io/org-scribbler-theme/scribbler.setup
@@ -177,6 +177,7 @@ the bindings and smartparens behaviour (the flags aren't documented, but they ex
 literate
 (default +bindings +smartparens)
 #+end_src
+
 **** Interface
 #+name: doom-completion
 #+begin_src emacs-lisp
@@ -276,6 +277,7 @@ vterm             ; another terminals in Emacs
 #+name: doom-checkers
 #+begin_src emacs-lisp
 (syntax                       ; tasing you for every semicolon you forget
+ +flymake
  +childframe)
 (spell +aspell)                        ; tasing you for misspelling mispelling
 grammar                      ; tasing grammar mistake every you make
@@ -436,28 +438,35 @@ irc                          ; how neckbeards socialize
 **** Font Face
 Use font aliases defined in fontconfig.
 #+begin_src emacs-lisp
-(setq! doom-font (font-spec :family "monospace" :size 16)
-       ;; doom-big-font (font-spec :family "monospace" :size 26)
-       doom-variable-pitch-font (font-spec :family "sans" :size 16)
-       ;; doom-unicode-font (font-spec :family "JuliaMono")
-       doom-unicode-font doom-variable-pitch-font
-       ;; doom-unicode-font doom-font
-       doom-serif-font doom-variable-pitch-font
-       )
+;; (setq! doom-font (font-spec :family "monospace" :size 16)
+;;        ;; doom-big-font (font-spec :family "monospace" :size 26)
+;;        doom-variable-pitch-font (font-spec :family "sans" :size 16)
+;;        ;; doom-unicode-font (font-spec :family "JuliaMono")
+;;        doom-unicode-font doom-variable-pitch-font
+;;        ;; doom-unicode-font doom-font
+;;        doom-serif-font doom-variable-pitch-font
+;;        )
+
+(setq doom-font (font-spec :family "monospace" :size 16)
+      doom-big-font (font-spec :family "monospace" :size 26)
+      doom-variable-pitch-font (font-spec :family "sans" :size 16)
+      ;; doom-unicode-font (font-spec :family "JuliaMono")
+      doom-unicode-font doom-variable-pitch-font
+      doom-serif-font doom-variable-pitch-font)
 
 ;; Fix cyryllic fonts
-(if (display-graphic-p)
+;; (if (display-graphic-p)
 
-    (dolist (charset '(koi8))
-      (set-fontset-font (frame-parameter nil 'font)
-                        charset (font-spec :family "sans" :height 90)))
+;;     (dolist (charset '(koi8))
+;;       (set-fontset-font (frame-parameter nil 'font)
+;;                         charset (font-spec :family "sans" :height 90)))
 
-  (after! unicode-fonts
-    (dolist (unicode-block '("Cyrillic"
-                             "Cyrillic Supplement"))
-      (push "sans" (cadr (assoc unicode-block unicode-fonts-block-font-mapping)))))
+;;   (after! unicode-fonts
+;;     (dolist (unicode-block '("Cyrillic"
+;;                              "Cyrillic Supplement"))
+;;       (push "sans" (cadr (assoc unicode-block unicode-fonts-block-font-mapping)))))
 
-  )
+;;   )
 #+end_src
 **** Theme and modeline
 #+begin_src emacs-lisp
@@ -768,7 +777,7 @@ set up org-capture.
 **** Visuals
 For automatically toggling LaTeX fragment previews there's this nice package
 #+begin_src emacs-lisp
-(package! org-fragtog :pin)
+(package! org-fragtog)
 #+end_src
 
 Then for pretty markers
@@ -1680,40 +1689,15 @@ More dictionaries
    ))
 #+end_src
 
-# ** Magit forge
+** Xresources-themes
 
-# #+begin_src emacs-lisp
-# (setq forge-database-connector 'sqlite3)
-# #+end_src
+#+begin_src emacs-lisp :tangle packages.el
+(package! xresources-theme)
+#+end_src
+#+begin_src emacs-lisp
+(use-package! xresources-theme)
+#+end_src
 
-# ** NANO
-# #+begin_src emacs-lisp :tangle packages.el
-# ;; (package! doom-themes :disable t)
-# (package! doom-nano-modeline
-#   :recipe (:host github :repo "ronisbr/doom-nano-modeline"))
-
-# (package! doom-nano-themes
-#   :recipe (:host github :repo "ronisbr/doom-nano-themes"))
-# #+end_src
-# #+begin_src emacs-lisp
-# ;; (setq doom-theme nil)
-# ;; (add-to-list 'load-path "~/code/Projects/nano-doom")
-# ;; (require 'load-nano)
-
-# ;; (use-package! doom-nano-themes
-#   ;; :after (doom-themes)
-#   ;; :config
-#   ;; ;; (load-theme 'doom-nano-light t)
-#   ;; (setq doom-theme 'doom-nano-dark)
-#   ;; )
-# (after! doom-themes
-#   (load-theme 'doom-nano-light t))
-
-# (use-package! doom-nano-modeline
-#   :config
-#   (doom-nano-modeline-mode 1)
-#   (global-hide-mode-line-mode 1))
-# #+end_src
 * Applications
 ** Ebooks
 

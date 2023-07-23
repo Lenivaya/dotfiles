@@ -8,17 +8,16 @@ with lib;
 with lib.my; let
   inherit (config.dotfiles) configDir;
 in {
-  config = {
-    user.packages = with pkgs; [
-      ranger
+  user.packages = with pkgs; [
+    ranger
 
-      ueberzugpp
-      poppler_utils
-    ];
+    ueberzugpp
+    poppler_utils
+    zoxide
+  ];
 
-    home.configFile."ranger" = {
-      source = "${configDir}/ranger";
-      recursive = true;
-    };
+  home.configFile."ranger" = {
+    source = "${configDir}/ranger";
+    recursive = true;
   };
 }
