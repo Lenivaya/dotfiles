@@ -1,37 +1,37 @@
 #!/usr/bin/env bash
 
 get_icon() {
-    case $1 in
-        # Icons for weather-icons
-        01d) icon="" ;;
-        01n) icon="" ;;
-        02d) icon="" ;;
-        02n) icon="" ;;
-        03*) icon="" ;;
-        04*) icon="" ;;
-        09d) icon="" ;;
-        09n) icon="" ;;
-        10d) icon="" ;;
-        10n) icon="" ;;
-        11d) icon="" ;;
-        11n) icon="" ;;
-        13d) icon="" ;;
-        13n) icon="" ;;
-        50d) icon="" ;;
-        50n) icon="" ;;
-        *) icon="" ;;
-    esac
+  case $1 in
+    # Icons for weather-icons
+    01d) icon="" ;;
+    01n) icon="" ;;
+    02d) icon="" ;;
+    02n) icon="" ;;
+    03*) icon="" ;;
+    04*) icon="" ;;
+    09d) icon="" ;;
+    09n) icon="" ;;
+    10d) icon="" ;;
+    10n) icon="" ;;
+    11d) icon="" ;;
+    11n) icon="" ;;
+    13d) icon="" ;;
+    13n) icon="" ;;
+    50d) icon="" ;;
+    50n) icon="" ;;
+    *) icon="" ;;
+  esac
 
-    echo $icon
+  echo $icon
 }
 
 get_duration() {
-    osname=$(uname -s)
+  osname=$(uname -s)
 
-    case $osname in
-        *BSD) date -r "$1" -u +%H:%M ;;
-        *) date --date="@$1" -u +%H:%M ;;
-    esac
+  case $osname in
+    *BSD) date -r "$1" -u +%H:%M ;;
+    *) date --date="@$1" -u +%H:%M ;;
+  esac
 }
 
 ## Openweathermap api_key
@@ -42,40 +42,40 @@ SYMBOL="°"
 API="https://api.openweathermap.org/data/2.5"
 
 if [ -n "$CITY" ]; then
-    if [ "$CITY" -eq "$CITY" ] 2>/dev/null; then
-        CITY_PARAM="id=$CITY"
-    else
-        CITY_PARAM="q=$CITY"
-    fi
+  if [ "$CITY" -eq "$CITY" ] 2>/dev/null; then
+    CITY_PARAM="id=$CITY"
+  else
+    CITY_PARAM="q=$CITY"
+  fi
 
-    current=$(curl -sf "$API/weather?appid=$KEY&$CITY_PARAM&units=$UNITS")
-    forecast=$(curl -sf "$API/forecast?appid=$KEY&$CITY_PARAM&units=$UNITS&cnt=1")
+  current=$(curl -sf "$API/weather?appid=$KEY&$CITY_PARAM&units=$UNITS")
+  forecast=$(curl -sf "$API/forecast?appid=$KEY&$CITY_PARAM&units=$UNITS&cnt=1")
 else
-    location=$(curl -sf https://location.services.mozilla.com/v1/geolocate?key=geoclue)
+  location=$(curl -sf https://location.services.mozilla.com/v1/geolocate?key=geoclue)
 
-    if [ -n "$location" ]; then
-        location_lat=$(jq -r '.location.lat' <<<"$location")
-        location_lon=$(jq -r '.location.lng' <<<"$location")
+  if [ -n "$location" ]; then
+    location_lat=$(jq -r '.location.lat' <<<"$location")
+    location_lon=$(jq -r '.location.lng' <<<"$location")
 
-        current=$(curl -sf "$API/weather?appid=$KEY&lat=$location_lat&lon=$location_lon&units=$UNITS")
-        forecast=$(curl -sf "$API/forecast?appid=$KEY&lat=$location_lat&lon=$location_lon&units=$UNITS&cnt=1")
-    fi
+    current=$(curl -sf "$API/weather?appid=$KEY&lat=$location_lat&lon=$location_lon&units=$UNITS")
+    forecast=$(curl -sf "$API/forecast?appid=$KEY&lat=$location_lat&lon=$location_lon&units=$UNITS&cnt=1")
+  fi
 fi
 
 if [ -n "$current" ] && [ -n "$forecast" ]; then
-    current_temp=$(jq -r '.main.temp' <<<"$current" | cut -d "." -f 1)
-    current_icon=$(jq -r '.weather[0].icon' <<<"$current")
+  current_temp=$(jq -r '.main.temp' <<<"$current" | cut -d "." -f 1)
+  current_icon=$(jq -r '.weather[0].icon' <<<"$current")
 
-    forecast_temp=$(jq -r '.list[].main.temp' <<<"$forecast" | cut -d "." -f 1)
-    forecast_icon=$(jq -r '.list[].weather[0].icon' <<<"$forecast")
+  forecast_temp=$(jq -r '.list[].main.temp' <<<"$forecast" | cut -d "." -f 1)
+  forecast_icon=$(jq -r '.list[].weather[0].icon' <<<"$forecast")
 
-    if [ "$current_temp" -gt "$forecast_temp" ]; then
-        trend="<fn=3></fn>"
-    elif [ "$forecast_temp" -gt "$current_temp" ]; then
-        trend="<fn=3></fn>"
-    else
-        trend="<fn=3></fn>"
-    fi
+  if [ "$current_temp" -gt "$forecast_temp" ]; then
+    trend="<fn=3></fn>"
+  elif [ "$forecast_temp" -gt "$current_temp" ]; then
+    trend="<fn=3></fn>"
+  else
+    trend="<fn=3></fn>"
+  fi
 
-    echo "<fn=3>$(get_icon "$current_icon")</fn> / $current_temp$SYMBOL  $trend  <fn=3>$(get_icon "$forecast_icon")</fn> / $forecast_temp$SYMBOL"
+  echo "<fn=3>$(get_icon "$current_icon")</fn> / $current_temp$SYMBOL  $trend  <fn=3>$(get_icon "$forecast_icon")</fn> / $forecast_temp$SYMBOL"
 fi

@@ -1,8 +1,10 @@
 # t440p -- thinkpad t440p
+# https://github.com/CRAG666/dotfiles/tree/main/thinkpad
 {
   pkgs,
   lib,
   inputs,
+  config,
   ...
 }:
 with lib;
@@ -137,12 +139,11 @@ with lib.my; {
         // rec {
           core = -80;
           gpu = -40;
-
           uncore = core;
           analogio = core;
         };
       gpu.intel = enabled;
-      gpu.nvidia = enabled;
+      # gpu.nvidia = enabled;
       audio = enabled;
       fingerprint = enabled;
       bluetooth = enabled;
@@ -158,15 +159,11 @@ with lib.my; {
     bootsplash = enabled;
   };
 
-  networking.useDHCP = false;
-  networking.interfaces.enp0s25.useDHCP = true;
-  networking.interfaces.wlp4s0.useDHCP = true;
-
-  # Dpi
-  # hardware.video.hidpi = enabled;
-  #   services.xserver.dpi = 180;
-
   services.fwupd = enabled;
+
+  modules.services.zcfan = enabled;
+  services.thermald = mkForce disabled;
+  # services.throttled = mkForce enabled;
 
   services.tlp.settings.CPU_MAX_PERF_ON_BAT = mkForce 50;
   services.tlp.settings = {
@@ -210,15 +207,17 @@ with lib.my; {
   boot.extraModprobeConfig = "options thinkpad_acpi experimental=1 fan_control=1";
 
   # nixpkgs.config.permittedInsecurePackages = ["electron-13.6.9"];
-  user.packages = with pkgs; [
-    # binance
-    # lightworks pitivi
-
-    ffmpeg-full
-    obsidian
-
-    jetbrains.phpstorm
-  ];
+  user.packages = with pkgs;
+    [
+      # binance
+      # lightworks pitivi
+      ffmpeg-full
+      obsidian
+      # my.ff2mpv-rust
+    ]
+    ++ (with pkgs.jetbrains; [
+      # phpstorm
+    ]);
 
   # Fix for libGL.so error
   hardware.opengl =
@@ -228,6 +227,16 @@ with lib.my; {
       extraPackages = with pkgs; [libGL];
     };
 
+  services.syncthing =
+    enabled
+    // {
+      user = config.user.name;
+      dataDir = "${config.user.home}/Sync";
+
+      overrideDevices = true;
+      overrideFolders = true;
+    };
+
   services.safeeyes = enabled;
 
   # services.tp-auto-kbbl =
@@ -235,12 +244,7 @@ with lib.my; {
   #   // {
   #     device = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
   #   };
-
-  # home.services.picom.settings = {
-  #   animations = true;
-  #   animation-for-open-window = "zoom"; #open window
-  #   animation-for-transient-window = "none"; #popup windows
-  # };
+  #
 
   nixpkgs.overlays = [
     (_final: _prev: {
@@ -248,43 +252,6 @@ with lib.my; {
 
       inherit (pkgs.unstable) firefox firefox-bin;
       inherit (pkgs.unstable) vscode vscode-extensions;
-      # inherit (pkgs.unstable) yt-dlp mpv;
-
-      # emacs = pkgs.emacs29-pgtk;
-      # Easyeffects + optimized build + fix(?)
-      # easyeffects =
-      #   optimizeForThisHost
-      #   pkgs.unstable.easyeffects;
-
-      # picom =
-      #   optimizeForThisHost
-      #   (pkgs.unstable.picom.overrideAttrs (oa: {
-      #     src = pkgs.fetchFromGitHub {
-      #       owner = "yshui";
-      #       repo = "picom";
-      #       rev = "01bb26012c366ec8e17de8c63bfd7356a3ed83a6";
-      #       sha256 = "OwotarbpyWfxLMk/Q9r6CKOuhJnKjwL94bRbQlsuth8=";
-      #     };
-
-      #     # src = builtins.fetchGit {
-      #     #   # url = "https://github.com/Arian8j2/picom";
-      #     #   # ref = "next";
-
-      #     #   # url = "https://github.com/dccsillag/picom";
-      #     #   # ref = "implement-window-animations";
-
-      #     #   # Just latest
-      #     #   url = "https://github.com/yshui/picom";
-      #     #   ref = "next";
-      #     #   rev = "05ef18d78f96a0a970742f1dff40fcf505a0daa6";
-
-      #     #   # url = "https://github.com/FT-Labs/picom.git";
-      #     #   # ref = "next";
-      #     # };
-
-      #     # fix for latest next
-      #     buildInputs = oa.buildInputs ++ [pkgs.pcre2];
-      #   }));
     })
   ];
 }

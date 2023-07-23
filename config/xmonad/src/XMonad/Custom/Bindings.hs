@@ -172,7 +172,7 @@ keysPass =
 keysGo :: Keybindings
 keysGo =
   [ -- ("M-g s", mySearch)
-    ("M-g s", selectAndSearchPrompt $ promptNoCompletion promptTheme)
+    ("M-g s", wrapKbdLayout . selectAndSearchPrompt $ promptNoCompletion promptTheme)
   , ("M-g m", wrapKbdLayout . manPrompt $ promptNoCompletion promptTheme)
   , ("M-g c", wrapKbdLayout $ calcPrompt (promptNoCompletion promptTheme) "")
   ]

@@ -76,7 +76,6 @@ module Hey
        *args], sudo: sudo
   end
 
-  #
   defcmd :repl do
     desc "Open a nix-repl with nixpkgs and dotfiles preloaded"
     lambda do |args|

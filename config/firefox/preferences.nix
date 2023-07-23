@@ -36,8 +36,10 @@
   "layout.display-list.retain" = true;
   "layout.display-list.retain.chrome" = true;
   "media.ffmpeg.vaapi.enabled" = true;
-  "media.rdd-vpx.enabled" = true;
-  "media.ffvpx.enabled" = true;
+  # "media.rdd-vpx.enabled" = true;
+  "media.rdd-vpx.enabled" = false; # https://bugzilla.mozilla.org/show_bug.cgi?id=1673184
+  # "media.ffvpx.enabled" = true;
+  "media.ffvpx.enabled" = false; # https://www.opennet.ru/opennews/art.shtml?num=53086
   "media.navigator.mediadatadecoder_vpx_enabled" = true;
   "gfx.webrender.all" = true;
 

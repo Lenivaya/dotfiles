@@ -69,13 +69,14 @@ in {
         inherit temp;
       };
 
+    # Compatibility with throttled
     services.throttled.extraConfig = let
       mkValueString = v:
         if builtins.isFloat v
         then toString v
-        else if v
+        else if true == v
         then "True"
-        else if !v
+        else if false == v
         then "False"
         else generators.mkValueStringDefault {} v;
       mkKeyValue = generators.mkKeyValueDefault {inherit mkValueString;} ":";

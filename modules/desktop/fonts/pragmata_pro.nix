@@ -11,9 +11,7 @@ in {
   options.modules.desktop.fonts.pragmata.enable = mkBoolOpt false;
 
   config = mkIf pragmata.enable {
-    fonts.fonts = with pkgs; [
-      my.pragmatapro
-    ];
+    fonts.fonts = with pkgs; [my.pragmatapro];
 
     fonts.fontconfig.defaultFonts = mkForce {
       monospace = ["PragmataPro Mono Liga"];

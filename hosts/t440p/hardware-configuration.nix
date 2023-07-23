@@ -24,7 +24,7 @@
   };
 
   fileSystems."/boot" = {
-    device = "/dev/disk/by-uuid/4E3B-71EF";
+    device = "/dev/disk/by-uuid/2F3C-C998";
     fsType = "vfat";
   };
 
@@ -34,5 +34,9 @@
     options = ["rw" "uid=1000"];
   };
 
-  swapDevices = [{device = "/dev/disk/by-uuid/0c3fe70b-2f22-4161-b5fa-87ba058a7b86";}];
+  swapDevices = [{device = "/dev/disk/by-uuid/ed6d7da6-13ae-4025-95d4-2aba14752b3e";}];
+
+  networking.useDHCP = false;
+  networking.interfaces.enp0s25.useDHCP = true;
+  networking.interfaces.wlp4s0.useDHCP = true;
 }

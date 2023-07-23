@@ -79,6 +79,11 @@ in {
     fonts.fonts = with pkgs; [
       emacs-all-the-icons-fonts
       # alegreya
+
+      # overpass
+      # jetbrains-mono
+      # ibm-plex
+      # julia-mono
     ];
 
     home.programs.emacs =
@@ -91,11 +96,12 @@ in {
           ];
       };
 
-    # services.emacs = {
-    #   install = true;
-    #   = enabled;
-    #   defaultEditor = mkIf cfg.default true;
-    # };
+    # services.emacs =
+    #   enabled
+    #   // {
+    #     install = true;
+    #     defaultEditor = cfg.default;
+    #   };
 
     env = let
       editor = getExe editorScript;
