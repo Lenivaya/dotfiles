@@ -85,22 +85,20 @@ projects =
   , Project
       { projectName = web
       , projectDirectory = "~/"
-      , projectStartHook =
-          Just $
-            wrapKbdLayout $
-              selectBrowserByNameAndDo
-                promptTheme
-                (spawnOn web)
+      , projectStartHook = Just $ do
+          wrapKbdLayout $
+            selectBrowserByNameAndDo
+              promptTheme
+              (spawnOn web)
       }
   , Project
       { projectName = wsread
       , projectDirectory = "~/"
-      , projectStartHook =
-          Just $
-            wrapKbdLayout $
-              selectReaderByNameAndDo
-                promptTheme
-                (spawnOn wsread)
+      , projectStartHook = Just $ do
+          wrapKbdLayout $
+            selectReaderByNameAndDo
+              promptTheme
+              (spawnOn wsread)
       }
   , Project
       { projectName = sys

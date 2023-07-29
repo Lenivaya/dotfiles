@@ -24,7 +24,7 @@ in {
       wantedBy = ["graphical-session.target"];
       after = ["graphical-session.target"];
 
-      path = with pkgs; [sxhkd];
+      path = with pkgs; [sxhkd skippy-xd];
       script = "sxhkd -c ${configDir}/sxhkd/sxhkdrc";
     };
   };

@@ -1,7 +1,7 @@
 [global]
     ### Display ###
     monitor = 0
-    follow = none
+    # follow = none
 
     # geometry = "330x50-10+50"
     # width = "330"

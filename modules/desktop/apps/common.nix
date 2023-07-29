@@ -59,7 +59,6 @@ in {
       tdesktop
       brightnessctl
       gnome-usage
-      # skippy-xd # window exposer
       xdotool
       lnav #     <- log file navigator
       procs #    <- a "modern" replacement for ps
