@@ -52,7 +52,7 @@
 
    # Set HOST to the desired hostname of this system
    HOST=...
-   # Set USER to your desired username (defaults to hlissner)
+   # Set USER to your desired username (defaults to leniviy)
    USER=...
 
    git clone https://github.com/lenivaya/dotfiles /etc/dotfiles

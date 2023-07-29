@@ -10,9 +10,7 @@ with lib.my; let
   inherit (config.dotfiles) configDir;
   cfg = config.modules.services.avizo;
 in {
-  options.modules.services.avizo = {
-    enable = mkBoolOpt true;
-  };
+  options.modules.services.avizo.enable = mkBoolOpt true;
 
   config = mkIf cfg.enable {
     home.configFile."avizo" = {
@@ -29,6 +27,7 @@ in {
       after = [
         "graphical-session.target"
         "display-manager.service"
+        "skippy-xd.service"
       ];
 
       path = with pkgs; [avizo];

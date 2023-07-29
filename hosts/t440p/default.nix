@@ -162,7 +162,7 @@ with lib.my; {
   services.fwupd = enabled;
 
   modules.services.zcfan = enabled;
-  services.thermald = mkForce disabled;
+  # services.thermald = mkForce disabled;
   # services.throttled = mkForce enabled;
 
   services.tlp.settings.CPU_MAX_PERF_ON_BAT = mkForce 50;
@@ -213,7 +213,6 @@ with lib.my; {
       # lightworks pitivi
       ffmpeg-full
       obsidian
-      # my.ff2mpv-rust
     ]
     ++ (with pkgs.jetbrains; [
       # phpstorm

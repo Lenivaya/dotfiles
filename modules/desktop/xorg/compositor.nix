@@ -62,6 +62,7 @@ with lib.my; {
           "class_g = 'xob'"
           "class_g = 'trayer'"
           "class_g *?= 'safeeyes'"
+          "class_g *?= 'skippy'"
         ];
 
         use-damage = true;

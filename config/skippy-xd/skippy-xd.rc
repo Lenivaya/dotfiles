@@ -37,48 +37,56 @@
 #   window with EWMH method), or "destroy" (forcefully destroy the window).
 #
 
-[general]
-distance = 50
-useNetWMFullscreen = true
-ignoreSkipTaskbar = true
-updateFreq = 10.0
-lazyTrans = true
-pipePath = /tmp/skippy-xd-fifo
-movePointerOnStart = true
-movePointerOnSelect = true
-movePointerOnRaise = true
-switchDesktopOnActivate = true
-useNameWindowPixmap = true
-forceNameWindowPixmap = true
-includeFrame = true
-allowUpscale = true
-showAllDesktops = false
-showUnmapped = true
-preferredIconSize = 48
-clientDisplayModes = thumbnail icon filled none
-iconFillSpec = orig mid mid #00FFFF
-fillSpec = orig mid mid #FFFFFF
-background =
+# [general]
+# distance = 50
+# useNetWMFullscreen = true
+# ignoreSkipTaskbar = true
+# # updateFreq = 10.0
+# # lazyTrans = true
+# pipePath = /tmp/skippy-xd-fifo
+# movePointerOnStart = true
+# movePointerOnSelect = true
+# movePointerOnRaise = true
+# switchDesktopOnActivate = true
+# useNameWindowPixmap = true
+# forceNameWindowPixmap = true
+# includeFrame = true
+# allowUpscale = true
+# showAllDesktops = false
+# showUnmapped = true
+# preferredIconSize = 48
+# clientDisplayModes = thumbnail icon filled none
+# iconFillSpec = orig mid mid #00FFFF
+# fillSpec = orig mid mid #FFFFFF
+# # background =
+# animationDuration = 0
+# exposeLayout = boxy
+# exposeLayout = xd
+# switchShowAllDesktops = true
+# # cornerRadius = 20
 
-[xinerama]
-showAll = true
+# [xinerama]
+# showAll = true
 
-[normal]
-tint = black
-tintOpacity = 0
-opacity = 200
+# [normal]
+# tint = black
+# tintOpacity = 0
+# opacity = 250
 
 [highlight]
+# tint = black
 tint = #202024
-tintOpacity = 150
+tintOpacity = 0
 opacity = 255
 
 [tooltip]
 show = true
-followsMouse = true
-offsetX = 20
-offsetY = 20
-align = left
+offsetX = 0
+offsetY = 5
+# followsMouse = true
+# offsetX = 20
+# offsetY = 20
+# align = left
 border = #ffffff
 background = #404040
 opacity = 128
@@ -86,7 +94,7 @@ text = #ffffff
 textShadow = black
 font = monospace:fixed-12:weight=bold
 
-[bindings]
-miwMouse1 = focus
-miwMouse2 = close-ewmh
-miwMouse3 = iconify
+# [bindings]
+# miwMouse1 = focus
+# miwMouse2 = close-ewmh
+# miwMouse3 = iconify
