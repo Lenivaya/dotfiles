@@ -74,9 +74,9 @@ in {
       mkValueString = v:
         if builtins.isFloat v
         then toString v
-        else if true == v
+        else if v
         then "True"
-        else if false == v
+        else if !v
         then "False"
         else generators.mkValueStringDefault {} v;
       mkKeyValue = generators.mkKeyValueDefault {inherit mkValueString;} ":";
