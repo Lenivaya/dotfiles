@@ -74,6 +74,9 @@ in {
 
       # :org roam
       graphviz
+
+      # nice prose linting
+      vale
     ];
 
     fonts.fonts = with pkgs; [
