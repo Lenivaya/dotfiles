@@ -1,0 +1,40 @@
+From bf13d23c00bbf4142b651561b6c64d556d69404a Mon Sep 17 00:00:00 2001
+From: Lenivaya <xocada@gmail.com>
+Date: Sun, 30 Jul 2023 11:42:50 +0300
+Subject: [PATCH] fixes for positions and misc things
+
+---
+ src/avizo_service.vala | 10 ++++++++++
+ 1 file changed, 10 insertions(+)
+
+diff --git a/src/avizo_service.vala b/src/avizo_service.vala
+index daefad6..a1c4a4f 100644
+--- a/src/avizo_service.vala
++++ b/src/avizo_service.vala
+@@ -98,6 +98,15 @@ public class AvizoWindow : Gtk.Window
+ 	[GtkChild]
+ 	private unowned Gtk.Image image;
+ 
++    construct {
++        decorated = false;
++        resizable = false;
++        type = Gtk.WindowType.POPUP;
++        type_hint = Gdk.WindowTypeHint.NOTIFICATION;
++        gravity = Gdk.Gravity.CENTER;
++        set_keep_above(true);
++    }
++
+ 	public AvizoWindow()
+ 	{
+ 		var screen = get_screen();
+@@ -376,6 +385,7 @@ public class AvizoService : GLib.Object
+ 			window.move(x, margin);
+ 			window.set_type_hint(Gdk.WindowTypeHint.NOTIFICATION);
+ 			window.set_accept_focus(false);
++            window.set_decorated(false);
+ 		}
+ 
+ 		window.show_animated();
+-- 
+2.40.1
+

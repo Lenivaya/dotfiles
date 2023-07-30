@@ -1,5 +1,5 @@
 _final: prev: {
-  avizo = prev.avizo.overrideAttrs (_oa: {
+  avizo = prev.avizo.overrideAttrs (oa: {
     src = prev.fetchFromGitHub {
       owner = "misterdanb";
       repo = "avizo";
@@ -7,9 +7,9 @@ _final: prev: {
       hash = "sha256-fW4y6Ml63XS0uVF6dBDOL9uKkoHE3L3ylwiHs6immrk=";
     };
 
-    # Making it centered on X11
-    prePatch = ''
-      sed -i '340i window.set_gravity(Gdk.Gravity.CENTER);' src/avizo_service.vala
-    '';
+    # Making it centered on X11 and fixing some bugs
+    patches =
+      (oa.patches or [])
+      ++ [./0001-fixes-for-positions-and-misc-things.patch];
   });
 }
