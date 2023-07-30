@@ -1698,6 +1698,48 @@ More dictionaries
 (use-package! xresources-theme)
 #+end_src
 
+** Vale prose linting
+
+Let's use vale instead of builtin grammar module from doom-emacs.
+
+#+begin_src emacs-lisp :tangle packages.el
+;; (package! writegood-mode :disable t)
+(disable-packages! writegood-mode)
+(package! flymake-vale :recipe (:host github :repo "tpeacock19/flymake-vale"))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package! flymake-vale
+  ;; :after projectile
+  :init
+  (remove-hook 'text-mode-hook #'spell-fu-mode)
+  :config
+  (setq flymake-vale-program-args
+        (list (concat "--config=" (expand-file-name "~/.config/vale/vale.ini"))))
+
+  ;; (defun load-vale-config ()
+  ;;   (
+  ;;    let ((vale-global-config-path (expand-file-name ".config/vale/vale.ini"))
+  ;;         (vale-local-config-path (concat (projectile-acquire-root) ".vale.ini"))
+  ;;         )
+
+  ;;    (when
+  ;;        (and
+  ;;         (file-exists-p vale-global-config-path)
+  ;;         (not (file-exists-p vale-local-config-path))
+  ;;         )
+  ;;      (setq flymake-vale-program-args (list (concat "--config=" vale-global-config-path ) )))
+
+  ;;    ))
+
+  (add-hook!
+    (text-mode org-mode markdown-mode latex-mode message-mode)
+    :append #'flymake-vale-load
+    ;; #'load-vale-config
+    )
+  )
+#+end_src
+
 * Applications
 ** Ebooks
 
