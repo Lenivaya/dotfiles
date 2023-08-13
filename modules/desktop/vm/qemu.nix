@@ -20,14 +20,8 @@ in {
           package = pkgs.qemu_kvm;
           # runAsRoot = false;
 
-          ovmf =
-            enabled
-            // {packages = [pkgs.OVMFFull.fd];};
-
-          # Is this required for Windows 11?
-          swtpm =
-            enabled
-            // {package = pkgs.swtpm-tpm2;};
+          ovmf = enabled // {packages = [pkgs.OVMFFull.fd];};
+          swtpm = enabled // {package = pkgs.swtpm;};
         };
       };
     programs.dconf = enabled;

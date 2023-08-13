@@ -12,12 +12,12 @@ in {
   options.modules.desktop.apps.discord.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    # Consider armcord client
     user.packages = with pkgs; let
-      pkg = discord.override {
+      discord' = discord.override {
         withOpenASAR = true;
         withVencord = true;
+        nss = pkgs.nss_latest;
       };
-    in [pkg];
+    in [discord'];
   };
 }

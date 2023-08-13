@@ -1,0 +1,56 @@
+#!/usr/bin/env bash
+
+get_user_choice() {
+  local prompt="$1"
+  shift
+  local options=("$@")
+
+  printf "%s\n" "${options[@]}" | dmenu -p "$prompt" -l 10
+}
+
+service_choose() {
+  local service_list
+
+  if [ "$service_type" == "user" ]; then
+    service_list=$(systemctl --user list-unit-files --type=service --no-pager --no-legend | awk '{print $1}')
+  else
+    service_list=$(systemctl list-unit-files --type=service --no-pager --no-legend | awk '{print $1}')
+  fi
+
+  get_user_choice "Select a service:" "${service_list[@]}"
+}
+
+perform_systemctl_action() {
+  service_type=$(get_user_choice "Select service type:" "user" "system")
+  selected_service=$(service_choose)
+  action=$(get_user_choice "Select an action:" "start" "stop" "restart" "disable")
+
+  systemctl_command="systemctl"
+  [ "$service_type" == "user" ] && systemctl_command+=" --user"
+
+  $systemctl_command "$action" "$selected_service"
+  notify-send "service $selected_service $action"ed
+}
+
+perform_journalctl_action() {
+  service_type=$(get_user_choice "Select service type:" "user" "system")
+  selected_service=$(service_choose)
+
+  action="journalctl"
+  [ "$service_type" == "user" ] && action+=" --user"
+
+  # shellcheck disable=SC2086
+  "$TERM" -e $action -u $selected_service -f
+}
+
+main() {
+  tool=$(get_user_choice "Select a systemd tool:" "systemctl" "journalctl")
+
+  case "$tool" in
+  "systemctl") perform_systemctl_action ;;
+  "journalctl") perform_journalctl_action ;;
+  *) echo "Invalid choice." ;;
+  esac
+}
+
+main

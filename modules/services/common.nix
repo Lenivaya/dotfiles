@@ -13,11 +13,13 @@ with lib.my; {
     devmon = enabled;
     udev.packages = [pkgs.android-udev-rules];
     openssh = enabled;
-    earlyoom = enabled;
+    # earlyoom = enabled;
 
     gnome.gnome-keyring = enabled;
 
     # https://github.com/NixOS/nixpkgs/issues/135888
     nscd.enableNsncd = true;
+
+    dbus.implementation = "broker";
   };
 }

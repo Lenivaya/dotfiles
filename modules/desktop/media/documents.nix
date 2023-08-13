@@ -20,7 +20,10 @@ in {
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; (mkMerge [
-      [libreoffice-fresh]
+      [
+        libreoffice-fresh
+        pandoc # Universal Markup converter
+      ]
 
       (mkIf cfg.ebook.enable [calibre foliate])
       (mkIf cfg.pdf.enable [evince zathura])

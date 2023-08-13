@@ -22,8 +22,7 @@ in {
 
   config = mkIf cfg.enable {
     home.programs.obs-studio =
-      mkIf cfg.video.enable
-      enabled
+      mkIf cfg.video.enable enabled
       // {
         package = pkgs.obs-studio;
         plugins = with pkgs.obs-studio-plugins; [

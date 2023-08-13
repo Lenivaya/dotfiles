@@ -17,7 +17,6 @@ with lib; {
     driSupport32Bit = true;
   };
 
-  # time.timeZone = "Europe/Kiev";
   services.automatic-timezoned.enable = true;
 
   i18n.defaultLocale = mkDefault "en_US.UTF-8";

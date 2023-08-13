@@ -1,0 +1,10 @@
+#!/usr/bin/env bash
+
+if [ $# -lt 1 ]; then
+  echo "Usage: dmenu-list <item1> [<item2> ...]"
+  exit 1
+fi
+
+result=$(printf "%s\n" "$@")
+
+echo -e "$result"

@@ -31,14 +31,8 @@ in {
     {
       environment.systemPackages = with pkgs; [progressScript];
 
-      systemd.user.services.progressbar = {
+      systemd.user.services.progressbar = mkGraphicalService {
         description = "X progress bar using xob";
-        wants = ["graphical-session.target"];
-        wantedBy = ["graphical-session.target"];
-        after = [
-          "graphical-session.target"
-          "display-manager.service"
-        ];
 
         path = with pkgs; [xob];
         script = ''

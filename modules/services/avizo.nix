@@ -20,15 +20,8 @@ in {
 
     environment.systemPackages = with pkgs; [avizo];
 
-    systemd.user.services.avizo = {
+    systemd.user.services.avizo = mkGraphicalService {
       description = "Notification daemon for volume and brightness";
-      wants = ["graphical-session.target"];
-      wantedBy = ["graphical-session.target"];
-      after = [
-        "graphical-session.target"
-        "display-manager.service"
-        "skippy-xd.service"
-      ];
 
       path = with pkgs; [avizo];
       script = "avizo-service";

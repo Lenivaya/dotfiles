@@ -19,8 +19,8 @@ jobs:
       - name: Format
         run: nix fmt
 
-      - name: Lint errors fixing
-        run: nix run nixpkgs#statix fix .
+      # - name: Lint errors fixing
+      #   run: nix run nixpkgs#statix fix .
 
       - name: Commit formatting changes
         uses: stefanzweifel/git-auto-commit-action@v4

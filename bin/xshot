@@ -16,18 +16,27 @@ capture_select_to_clipboard() {
   maim --format=png -s --hidecursor | xclip -selection clipboard -t image/png
 }
 
+select_with_dmenu() {
+  xshot "$(
+    dmenu-list full select select-clipbaord | dmenu -p "screenshot" -l 3
+  )"
+}
+
 case "$1" in
-  "full")
-    capture_full_screenshot
-    ;;
-  "select")
-    capture_select_screenshot
-    ;;
-  "select-clipboard")
-    capture_select_to_clipboard
-    ;;
-  *)
-    echo "Usage: xshot [full|select|select-clipboard]"
-    exit 1
-    ;;
+"full")
+  capture_full_screenshot
+  ;;
+"select")
+  capture_select_screenshot
+  ;;
+"select-clipboard")
+  capture_select_to_clipboard
+  ;;
+"dmenu")
+  select_with_dmenu
+  ;;
+*)
+  echo "Usage: xshot [full|select|select-clipboard|dmenu]"
+  exit 1
+  ;;
 esac

@@ -3,26 +3,29 @@
   pkgs,
 }:
 with pkgs; let
-  x11-nim = fetchgit {
-    url = "https://github.com/nim-lang/x11";
-    rev = "2093a4c01360cbb5dd33ab79fd4056e148b53ca1";
-    sha256 = "sha256-2XRyXiBxAc9Zx/w0zRBHRZ240qww0FJvIvOKZ8YH50A=";
+  x11-nim = fetchFromGitHub {
+    owner = "nim-lang";
+    repo = "x11";
+    rev = "10f1c2f42759839f5e25f32c52e9f01103b64f59";
+    hash = "sha256-P8wtdwB3QDHQjgI8h1cumuLIIowSSoI4wQbNWX3P57c=";
   };
 
-  opengl-nim = fetchgit {
-    url = "https://github.com/nim-lang/opengl";
-    rev = "640c1ced89e4f80ad15985f7423ab2096c969e89";
-    sha256 = "sha256-3kyxeZHiNlOHJMTQK5lWaMfEktI+cjPbDsUU9KtsyCM=";
+  opengl-nim = fetchFromGitHub {
+    owner = "nim-lang";
+    repo = "opengl";
+    rev = "84bd93b2440b9a8144d7430d23d6c0496737975d";
+    hash = "sha256-OHdoPJsmCFdyKV7FGd/r+6nh6NRF7TPhuAx7o/VpiDg=";
   };
 in
   clangStdenv.mkDerivation rec {
     pname = "boomer";
-    version = "fa6660fe44e0f76825328923d5b1238306081026";
+    name = "boomer";
 
-    src = fetchgit {
-      url = "https://github.com/tsoding/boomer";
-      rev = version;
-      sha256 = "sha256-lm1rHa7y7XZ055TBJxg2UXswJeG9q1JfEAWcEvuZVYQ=";
+    src = fetchFromGitHub {
+      owner = "tsoding";
+      repo = "boomer";
+      rev = "fa6660fe44e0f76825328923d5b1238306081026";
+      hash = "sha256-lm1rHa7y7XZ055TBJxg2UXswJeG9q1JfEAWcEvuZVYQ=";
     };
 
     buildInputs = [nim xorg.libX11 xorg.libXrandr libGL makeWrapper];
@@ -41,7 +44,8 @@ in
     '';
 
     fixupPhase = let
-      libPath = lib.makeLibraryPath [stdenv.cc.cc xorg.libX11 xorg.libXrandr libGL];
+      libPath =
+        lib.makeLibraryPath [stdenv.cc.cc xorg.libX11 xorg.libXrandr libGL];
     in ''
       runHook preFixup
       patchelf --set-rpath ${libPath} $out/bin/boomer

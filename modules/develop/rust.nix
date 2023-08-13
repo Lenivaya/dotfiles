@@ -13,13 +13,21 @@ in {
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
-      rustup
+      rustc
+      cargo
+      # rustup
+
+      clippy
       rustfmt
+
       rust-analyzer
       cargo-edit
     ];
 
-    env.RUSTUP_HOME = "$XDG_DATA_HOME/.rustup";
-    env.PATH = ["$CARGO_HOME/bin"];
+    env = rec {
+      CARGO_HOME = "$XDG_DATA_HOME/cargo";
+      RUSTUP_HOME = "$XDG_DATA_HOME/.rustup";
+      PATH = ["$CARGO_HOME/bin"];
+    };
   };
 }

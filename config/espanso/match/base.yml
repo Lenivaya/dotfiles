@@ -1,0 +1,28 @@
+# Plugins
+# - math-symbols
+# - greek-letters-improved
+# - lorem
+# - logic-symbols
+# - quotes
+# - wtc
+# - get-ip
+
+matches:
+  - trigger: ":em"
+    replace: —
+
+  - trigger: ":date"
+    replace: "{{mydate}}"
+    vars:
+      - name: mydate
+        type: date
+        params:
+          format: "%d.%m.%Y"
+
+  - trigger: ":now"
+    replace: "It's {{mytime}}"
+    vars:
+      - name: mytime
+        type: date
+        params:
+          format: "%H:%M"

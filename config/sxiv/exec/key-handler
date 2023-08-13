@@ -1,27 +1,28 @@
 #!/usr/bin/env sh
 while read -r file; do
-	case "$1" in
-		"w") setwall "$file" & ;;
-		"W") feh --bg-fill "$file" & ;;
-		"r")
-			convert -rotate 90 "$file" "$file"
-			;;
-		"R")
-			convert -rotate -90 "$file" "$file"
-			;;
-		"f")
-			convert -flop "$file" "$file"
-			;;
-		"y")
-			echo "$file" | xclip -selection clipboard &&
-				notify-send "$file copied to clipboard" &
-			;;
-		"Y")
-			readlink -f "$file" | xclip -selection clipboard &&
-				notify-send "$(readlink -f "$file") copied to clipboard" &
-			;;
-		"d")
-			[ "$(printf "No\\nYes" | rofi -dmenu -i -p "Really delete $file?")" = "Yes" ] && rm "$file" && notify-send "$file deleted."
-			;;
-	esac
+  case "$1" in
+  "w") setwall "$file" & ;;
+  "W") feh --bg-fill "$file" & ;;
+  "r")
+    convert -rotate 90 "$file" "$file"
+    ;;
+  "R")
+    convert -rotate -90 "$file" "$file"
+    ;;
+  "f")
+    convert -flop "$file" "$file"
+    ;;
+  "y")
+    echo "$file" | xclip -selection clipboard &&
+      notify-send "$file copied to clipboard" &
+    ;;
+  "Y")
+    readlink -f "$file" | xclip -selection clipboard &&
+      notify-send "$(readlink -f "$file") copied to clipboard" &
+    ;;
+  "d")
+    # [ "$(printf 'No\nYes' | dmenu -p "Really delete $file?")" = "Yes" ] && rm "$file" && notify-send "$file deleted."
+    [ "$(dmenu-list No Yes | dmenu -p "Really delete")" = "Yes" ] && rm "$file" && notify-send "$file deleted."
+    ;;
+  esac
 done

@@ -11,10 +11,9 @@ with lib;
 with lib.my; {
   imports =
     [
-      # I use home-manager to deploy files to $HOME; little else
       inputs.home-manager.nixosModules.home-manager
-      # Nix helper
       inputs.nh.nixosModules.default
+      inputs.programsdb.nixosModules.programs-sqlite
     ]
     # All my personal modules
     ++ (mapModulesRec' (toString ./modules) import);
@@ -44,31 +43,36 @@ with lib.my; {
         "dotfiles=${config.dotfiles.dir}"
       ];
     settings = {
+      experimental-features = spaceConcat [
+        "flakes"
+        "nix-command"
+        "repl-flake"
+      ];
+
+      warn-dirty = false;
+
       substituters = [
         "https://aseipp-nix-cache.global.ssl.fastly.net"
         "https://nix-community.cachix.org"
-
         "https://nixpkgs-unfree.cachix.org/"
         "https://cuda-maintainers.cachix.org"
-
         # Binary Cache for Haskell.nix
         "https://cache.iog.io"
         "https://cache.zw3rk.com"
+        "https://nixpkgs-unfree.cachix.org" # unfree-package cache
+        "https://numtide.cachix.org" # another unfree package cache
 
         # nh
         "https://viperml.cachix.org/"
       ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
-
         "nixpkgs-unfree.cachix.org-1:hqvoInulhbV4nJ9yJOEr+4wxhDV4xq2d1DK7S6Nj6rs="
         "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
-
-        # Binary Cache for Haskell.nix
         "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
         "loony-tools:pr9m4BkM/5/eSTZlkQyRt57Jz7OMBxNSUiMC4FkcNfk="
-
-        # nh
+        "nixpkgs-unfree.cachix.org-1:hqvoInulhbV4nJ9yJOEr+4wxhDV4xq2d1DK7S6Nj6rs="
+        "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
         "viperml.cachix.org-1:qZhKBMTfmcLL+OG6fj/hzsMEedgKvZVFRRAhq7j8Vh8="
       ];
       auto-optimise-store = true;
@@ -89,7 +93,7 @@ with lib.my; {
   fileSystems."/".device = mkDefault "/dev/disk/by-label/nixos";
 
   # Use the latest kernel
-  boot.kernelPackages = pkgs.linuxPackages_latest;
+  boot.kernelPackages = mkDefault pkgs.linuxPackages_latest;
 
   boot.initrd.compressor = getExe pkgs.zstd;
   boot.loader = {
@@ -98,6 +102,9 @@ with lib.my; {
     systemd-boot.enable = mkDefault true;
     systemd-boot.graceful = mkDefault true;
   };
+
+  # enable the unified cgroup hierarchy (cgroupsv2)
+  systemd.enableUnifiedCgroupHierarchy = true;
 
   # Just the bear necessities...
   environment.systemPackages = with pkgs; [

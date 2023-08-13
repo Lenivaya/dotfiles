@@ -34,6 +34,9 @@
       INPUTRC = "$XDG_CONFIG_HOME/readline/inputrc";
       LESSHISTFILE = "$XDG_CACHE_HOME/lesshst";
       WGETRC = "$XDG_CONFIG_HOME/wgetrc";
+      ANDROID_HOME = "$XDG_DATA_HOME/android";
+      GRIPHOME = "$XDG_CONFIG_HOME/grip";
+      PARALLEL_HOME = "$XDG_CONFIG_HOME/parallel";
     };
   };
 }

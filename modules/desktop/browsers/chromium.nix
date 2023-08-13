@@ -20,33 +20,7 @@ in {
     enable = mkBoolOpt false;
     ungoogled = mkBoolOpt false;
     googled = mkBoolOpt false;
-    flags = mkOpt (listOf str) [];
-  };
-
-  config = mkIf cfg.enable {
-    home.programs.chromium =
-      enabled
-      // {
-        package = let
-          cliArgs = concatStringsSep " " cfg.flags;
-        in
-          pkg.override {commandLineArgs = cliArgs;};
-
-        extensions = [
-          "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
-          # "pkehgijcmpdhfbdbbnkijodmdjhbjlgp" # privacy badger
-          # "njdfdhgcmkocbgbhcioffdbicglldapd" # localcdn
-          "hfjbmagddngcpeloejdejnfgbamkjaeg" # vimium c
-          "hkgfoiooedgoejojocmhlaklaeopbecg" # picture-in-picture
-          "iaiomicjabeggjcfkbimgmglanimpnae" # tab sesssion manager
-          "mmcgnaachjapbbchcpjihhgjhpfcnoan" # open new tab after current tab
-          "nacjakoppgmdcpemlfnfegmlhipddanj" # pdf.js with vimium
-          "bgfofngpplpmpijncjegfdgilpgamhdk" # modern scrollbar
-          "opcjanmpjbdbdpnjfjbboacibokblbhl" # mut tab shortcuts
-        ];
-      };
-
-    modules.desktop.browsers.chromium.flags = [
+    flags = mkOpt (listOf str) [
       # Dark theme
       "--force-dark-mode"
       # "--enable-features=WebUIDarkMode"
@@ -71,5 +45,28 @@ in {
       # Fuck this "outdated" shit
       "--simulate-outdated-no-au='Tue, 31 Dec 2099 23:59:59 GMT'"
     ];
+  };
+
+  config = mkIf cfg.enable {
+    home.programs.chromium =
+      enabled
+      // {
+        package = let
+          commandLineArgs = spaceConcat cfg.flags;
+        in
+          pkg.override {inherit commandLineArgs;};
+
+        extensions = [
+          "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
+          # "njdfdhgcmkocbgbhcioffdbicglldapd" # localcdn
+          "hfjbmagddngcpeloejdejnfgbamkjaeg" # vimium c
+          "hkgfoiooedgoejojocmhlaklaeopbecg" # picture-in-picture
+          "iaiomicjabeggjcfkbimgmglanimpnae" # tab session manager
+          "mmcgnaachjapbbchcpjihhgjhpfcnoan" # open new tab after current tab
+          "nacjakoppgmdcpemlfnfegmlhipddanj" # pdf.js with vimium
+          "bgfofngpplpmpijncjegfdgilpgamhdk" # modern scrollbar
+          "opcjanmpjbdbdpnjfjbboacibokblbhl" # mut tab shortcuts
+        ];
+      };
   };
 }

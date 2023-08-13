@@ -7,19 +7,18 @@
 with lib;
 with lib.my; let
   inherit (config.dotfiles) configDir;
-  inherit (config.env) TERMINAL;
+  inherit (config.env) TERM;
 in {
   config = {
     user.packages = with pkgs; [
       xplr
-      (makeDesktopItem
-        {
-          name = "xplr";
-          desktopName = "XPLR";
-          icon = "utilities-terminal";
-          exec = "${TERMINAL} -e xplr";
-          categories = ["FileManager" "FileTools" "System"];
-        })
+      (makeDesktopItem {
+        name = "xplr";
+        desktopName = "XPLR";
+        icon = "utilities-terminal";
+        exec = "${TERM} -e xplr";
+        categories = ["FileManager" "FileTools" "System"];
+      })
 
       # images preview
       imv

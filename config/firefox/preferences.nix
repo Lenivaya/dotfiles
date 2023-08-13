@@ -37,9 +37,11 @@
   "layout.display-list.retain.chrome" = true;
   "media.ffmpeg.vaapi.enabled" = true;
   # "media.rdd-vpx.enabled" = true;
-  "media.rdd-vpx.enabled" = false; # https://bugzilla.mozilla.org/show_bug.cgi?id=1673184
+  "media.rdd-vpx.enabled" =
+    false; # https://bugzilla.mozilla.org/show_bug.cgi?id=1673184
   # "media.ffvpx.enabled" = true;
-  "media.ffvpx.enabled" = false; # https://www.opennet.ru/opennews/art.shtml?num=53086
+  "media.ffvpx.enabled" =
+    false; # https://www.opennet.ru/opennews/art.shtml?num=53086
   "media.navigator.mediadatadecoder_vpx_enabled" = true;
   "gfx.webrender.all" = true;
 
@@ -90,8 +92,7 @@
     true; # "Looks like you haven't started Firefox in a while."
   "browser.onboarding.enabled" =
     false; # "New to Firefox? Let's get started!" tour
-  "browser.aboutConfig.showWarning" =
-    false; # Warning when opening about:config
+  "browser.aboutConfig.showWarning" = false; # Warning when opening about:config
   "extensions.pocket.enabled" = false;
   "extensions.shield-recipe-client.enabled" = false;
 
@@ -106,10 +107,8 @@
   "geo.provider.use_gpsd" = false;
   # https://support.mozilla.org/en-US/kb/extension-recommendations
   "browser.newtabpage.activity-stream.asrouter.userprefs.cfr" = false;
-  "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" =
-    false;
-  "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" =
-    false;
+  "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.addons" = false;
+  "browser.newtabpage.activity-stream.asrouter.userprefs.cfr.features" = false;
   "extensions.htmlaboutaddons.recommendations.enabled" = false;
   "extensions.htmlaboutaddons.discover.enabled" = false;
   "extensions.getAddons.showPane" = false; # uses Google Analytics

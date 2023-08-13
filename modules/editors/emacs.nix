@@ -40,11 +40,9 @@ in {
       fd # faster projectile indexing
       gnutls # for TLS connectivity
       imagemagick # for image-dired
-      (mkIf
-        config.programs.gnupg.agent.enable
+      (mkIf config.programs.gnupg.agent.enable
         pinentry_emacs) # in-emacs gnupg prompts
       zstd # for undo-tree compression
-      calibre # for calibredb
       python39Packages.pylatexenc # LaTeX parser
       # my.my_cookies # leetcode cookie retriever
 
@@ -54,14 +52,34 @@ in {
       xclip
       xorg.xwininfo
       xorg.xprop
-      # :checkers (spell +aspell)
-      (aspellWithDicts (ds: with ds; [en en-computers en-science uk ru]))
+
+      # :checkers (spell +enchant)
+      enchant
+      (aspellWithDicts (ds:
+        with ds; [
+          en
+          en-computers
+          en-science
+          uk
+          ru
+        ]))
+      (hunspellWithDicts (
+        with hunspellDicts; [
+          en_US-large
+          en_GB-large
+          uk_UA
+          ru_RU
+        ]
+      ))
+
       # :checkers grammar
       languagetool
       # :tools lookup
       sqlite
       # :lang markdown previews
       python39Packages.grip
+      # :lang resc
+      jq
       # :term vterm
       libtool
       # wakatime
@@ -81,54 +99,33 @@ in {
 
     fonts.fonts = with pkgs; [
       emacs-all-the-icons-fonts
-      # alegreya
-
-      # overpass
-      # jetbrains-mono
-      # ibm-plex
-      # julia-mono
     ];
 
     home.programs.emacs =
       enabled
       // {
-        package = pkgs.emacs-gtk;
-        extraPackages = epkgs:
-          with epkgs; [
-            vterm
-          ];
+        package = pkgs.emacs29-gtk3;
+        extraPackages = epkgs: with epkgs; [vterm];
       };
 
-    # services.emacs =
-    #   enabled
-    #   // {
-    #     install = true;
-    #     defaultEditor = cfg.default;
-    #   };
+    modules.editors.default = mkIf cfg.default (getExe editorScript);
 
-    env = let
-      editor = getExe editorScript;
-    in {
-      EDITOR =
-        mkIf cfg.default (mkOverride 900 editor);
-      VISUAL =
-        mkIf cfg.default (mkOverride 900 editor);
+    env.PATH = ["$XDG_CONFIG_HOME/emacs/bin"];
 
-      PATH = [
-        "$XDG_CONFIG_HOME/emacs/bin"
-      ];
-    };
-
-    # init.
-    system.userActivationScripts.installDoomEmacs = mkIf cfg.doom.enable ''
-      if ! [ -d "$XDG_CONFIG_HOME/emacs" ]; then
-          git clone --depth=1 --single-branch "${cfg.doom.repoUrl}" "$XDG_CONFIG_HOME/emacs"
-      fi
-      if ! [ -d $HOME/.config/doom ]; then
-            ln -s ${configDir}/doom ~/.config/doom
-            # ${getExe pkgs.emacs} --batch --eval "(require 'org)" --eval '(org-babel-tangle-file "~/.config/doom/config.org")'
-            $HOME/.config/emacs/bin/org-tangle ~/.config/doom/config.org
-      fi
-    '';
+    system.userActivationScripts =
+      mkIf cfg.doom.enable
+      {
+        installDoomEmacs = ''
+          if ! [ -d ~/.config/emacs ]; then
+              git clone --depth=1 --single-branch "${cfg.doom.repoUrl}" "$XDG_CONFIG_HOME/emacs"
+          fi
+        '';
+        linkAndTangleDoomConfig = ''
+          if ! [ -d $HOME/.config/doom ]; then
+              ln -s ${configDir}/doom ~/.config/doom
+              ~/.config/emacs/bin/org-tangle ~/.config/doom/config.org
+          fi
+        '';
+      };
   };
 }

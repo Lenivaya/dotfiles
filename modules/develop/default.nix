@@ -1,5 +1,1 @@
-_: {
-  modules.dev = {
-    nix.enable = true;
-  };
-}
+_: {modules.dev = {nix.enable = true;};}

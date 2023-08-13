@@ -15,6 +15,8 @@ with lib.my; {
         "100:class_g = 'krita'"
         "100:class_g = 'feh'"
         "100:class_g = 'Thunderbird'"
+        "100:class_g = 'mpv'"
+        "100:_NET_WM_STATE@:32a *= '_NET_WM_STATE_FULLSCREEN'"
         "0:_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
         "96:_NET_WM_STATE@:32a *= '_NET_WM_STATE_STICKY'"
       ];
@@ -34,7 +36,6 @@ with lib.my; {
         "_GTK_FRAME_EXTENTS@:c"
         "_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
       ];
-      # noDockShadow = false;
 
       settings = {
         inactive-dim = 0.3;
@@ -42,17 +43,21 @@ with lib.my; {
 
         wintypes = {
           normal = {
-            fade = false;
             shadow = true;
           };
           tooltip = {
-            fade = true;
             shadow = true;
             opacity = 0.75;
             focus = true;
             full-shadow = false;
           };
-          # dock = { shadow = false; }
+          dock = {
+            opacity = 1.0;
+            fade = false;
+          };
+          notification = {
+            opacity = 1.0;
+          };
           dnd = {shadow = true;};
           popup_menu = {opacity = 1.0;};
           dropdown_menu = {opacity = 1.0;};
@@ -63,6 +68,7 @@ with lib.my; {
           "class_g = 'trayer'"
           "class_g *?= 'safeeyes'"
           "class_g *?= 'skippy'"
+          "class_g ?= 'Steam'"
         ];
 
         use-damage = true;
@@ -92,6 +98,8 @@ with lib.my; {
         detect-client-opacity = true;
         detect-transient = true;
         detect-client-leader = true;
+
+        log-level = "error";
       };
     };
 }

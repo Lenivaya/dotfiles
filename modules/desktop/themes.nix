@@ -52,12 +52,23 @@ in {
     qt =
       enabled
       // {
-        platformTheme = "gnome";
+        # TODO add after home-manager update
+        # platformTheme = "kde";
         style = {
-          package = pkgs.adwaita-qt;
-          name = "adwaita-dark";
+          name = "breeze";
         };
       };
+
+    # https://pagure.io/fedora-workstation/issue/351
+    # qt =
+    #   enabled
+    #   // {
+    #     platformTheme = "gnome";
+    #     style = {
+    #       package = pkgs.adwaita-qt;
+    #       name = "adwaita-dark";
+    #     };
+    #   };
   };
 
   services.xserver.displayManager.sessionCommands = ''
