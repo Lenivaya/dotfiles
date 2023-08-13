@@ -13,7 +13,7 @@ in {
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; let
-      pkg = pass.withExtensions (
+      pass' = pass.withExtensions (
         exts:
           with exts;
             [
@@ -23,13 +23,9 @@ in {
               pass-import
               pass-update
             ]
-            ++ (
-              if config.modules.shell.gnupg.enable
-              then [exts.pass-tomb]
-              else []
-            )
+            ++ optional config.modules.shell.gnupg.enable exts.pass-tomb
       );
-    in [pkg];
+    in [pass'];
 
     env.PASSWORD_STORE_DIR = "$HOME/.secrets/password-store";
   };

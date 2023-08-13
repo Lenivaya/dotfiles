@@ -42,7 +42,7 @@
 # useNetWMFullscreen = true
 # ignoreSkipTaskbar = true
 # # updateFreq = 10.0
-# lazyTrans = false
+# # lazyTrans = true
 # pipePath = /tmp/skippy-xd-fifo
 # movePointerOnStart = true
 # movePointerOnSelect = true
@@ -74,28 +74,27 @@
 # opacity = 250
 
 [highlight]
-tint = black
+# tint = black
 tint = #202024
 tintOpacity = 0
 opacity = 255
 
 [tooltip]
-show = true
-offsetX = 0
-offsetY = 5
-# followsMouse = true
-# offsetX = 20
-# offsetY = 20
-# align = left
-border = #ffffff
-background = #404040
-opacity = 128
-text = #ffffff
-textShadow = black
-font = monospace:fixed-12:weight=bold
+show = false
+# offsetX = 0
+# offsetY = 5
+# # followsMouse = true
+# # offsetX = 20
+# # offsetY = 20
+# # align = left
+# border = #ffffff
+# background = #404040
+# opacity = 128
+# text = #ffffff
+# textShadow = black
+# font = monospace:fixed-12:weight=bold
 
 # [bindings]
 # miwMouse1 = focus
 # miwMouse2 = close-ewmh
 # miwMouse3 = iconify
-

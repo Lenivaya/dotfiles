@@ -1,24 +1,38 @@
 {
-  options,
   config,
+  options,
   lib,
   pkgs,
   ...
 }:
 with lib;
 with lib.my; let
+  inherit (config) modules;
   cfg = config.modules.desktop.apps.dmenu;
 in {
   options.modules.desktop.apps.dmenu.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    environment.systemPackages = with pkgs; [
-      (dmenu.overrideAttrs (_oldAttr: {
-        src = fetchgit {
-          url = "https://github.com/LukeSmithxyz/dmenu";
-          sha256 = "qwOcJqYGMftFwayfYA3XM0xaOo6ALV4gu1HpFRapbFg=";
-        };
-      }))
-    ];
+    user.packages = with pkgs;
+      [
+        emojipick
+
+        (writeShellScriptBin "dmenu-drun"
+          "${getExe j4-dmenu-desktop} --dmenu='dmenu --no-generic -g 2 -l 10'")
+        (writeShellScriptBin "dmenu-network"
+          "${getExe networkmanager_dmenu} -l 10")
+        (writeShellScriptBin "dmenu-bluetooth"
+          "${getExe my.dmenu-bluetooth} -p 'bluetooth' -g 2 -l 5")
+        (writeShellScriptBin "dmenu-translate"
+          "${getExe my.dmenu-translate} -p 'trans:' -l 10")
+        (writeShellScriptBin "dmenu-audio"
+          "${getExe my.dmenu-pipewire} -- -p 'sinks:' -l 10")
+        # (writeShellScriptBin "dmenu_udiskie"
+        #   "${getExe my.udiskie-dmenu} -p 'devices' -l 10")
+      ]
+      ++ optional modules.services.greenclip.enable (
+        writeShellScriptBin "dmenu-greenclip"
+        "greenclip print | grep . | dmenu -l 10 -g 3 -l 5 -p clipboard | xargs -r -d'\n' -I '{}' greenclip print '{}'"
+      );
   };
 }

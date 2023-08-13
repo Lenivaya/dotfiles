@@ -87,10 +87,7 @@ with pkgs;
     };
     editor.renderIndentGuides = false;
     editor.renderWhitespace = "none";
-    editor.rulers = [
-      80
-      100
-    ];
+    editor.rulers = [80 100];
     editor.smoothScrolling = true;
     editor.snippetSuggestions = "top";
     editor.suggest.localityBonus = true;
@@ -176,13 +173,17 @@ with pkgs;
     html.format.wrapLineLength = 0;
     php.validate.run = "onType";
     javascript.format.insertSpaceAfterConstructor = true;
-    javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces = true;
-    javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets = true;
+    javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces =
+      true;
+    javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets =
+      true;
     javascript.format.insertSpaceBeforeFunctionParenthesis = true;
     javascript.referencesCodeLens.enabled = true;
     typescript.format.insertSpaceAfterConstructor = true;
-    typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces = true;
-    typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets = true;
+    typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces =
+      true;
+    typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets =
+      true;
     typescript.format.insertSpaceBeforeFunctionParenthesis = true;
     typescript.implementationsCodeLens.enabled = true;
     typescript.referencesCodeLens.enabled = true;
@@ -207,21 +208,11 @@ with pkgs;
     C_Cpp.workspaceParsingPriority = "medium";
     clang.executable = getExe clang;
     cmake.cmakePath = getExe cmake;
-    emmet.includeLanguages = {
-      jinja-html = "html";
-    };
+    emmet.includeLanguages = {jinja-html = "html";};
     eslint.nodePath = "${nodePackages.eslint}/lib/node_modules";
     eslint.packageManager = "yarn";
-    eslint.validate = [
-      "html"
-      "javascript"
-      "javascriptreact"
-    ];
-    gitlens.codeLens.scopes = [
-      "document"
-      "containers"
-      "blocks"
-    ];
+    eslint.validate = ["html" "javascript" "javascriptreact"];
+    gitlens.codeLens.scopes = ["document" "containers" "blocks"];
     # java.home =  JAVA_HOME;
     java.implementationsCodeLens.enabled = true;
     java.referencesCodeLens.enabled = true;
@@ -263,19 +254,12 @@ with pkgs;
       {
         "name" = "pdflatex";
         "command" = "pdflatex";
-        "args" = [
-          "-synctex=1"
-          "-interaction=nonstopmode"
-          "-file-line-error"
-          "%DOC%"
-        ];
+        "args" = ["-synctex=1" "-interaction=nonstopmode" "-file-line-error" "%DOC%"];
       }
       {
         "name" = "bibtex";
         "command" = "bibtex";
-        "args" = [
-          "%DOCFILE%"
-        ];
+        "args" = ["%DOCFILE%"];
       }
     ];
     latex-workshop.latexindent.path = "${texlive.combined.scheme-full}/bin/latexindent";
@@ -337,43 +321,29 @@ with pkgs;
         {
           "name" = "markup diff";
           "scope" = "markup.changed.diff";
-          "settings" = {
-            "foreground" = "#f0c674";
-          };
+          "settings" = {"foreground" = "#f0c674";};
         }
         {
           "name" = "diff";
           "scope" = "meta.diff.header.from-filemeta.diff.header.to-file,punctuation.definition.from-file.diff,punctuation.definition.to-file.diff";
-          "settings" = {
-            "foreground" = "#81a2be";
-          };
+          "settings" = {"foreground" = "#81a2be";};
         }
         {
           "name" = "inserted.diff";
           "scope" = "markup.inserted.diff";
-          "settings" = {
-            "foreground" = "#b5bd68";
-          };
+          "settings" = {"foreground" = "#b5bd68";};
         }
         {
           "name" = "deleted.diff";
           "scope" = "markup.deleted.diff";
-          "settings" = {
-            "foreground" = "#cc6666";
-          };
+          "settings" = {"foreground" = "#cc6666";};
         }
       ];
     };
 
     markdown.preview.typographer = true;
 
-    "[markdown]" = {
-      "editor.defaultFormatter" = "esbenp.prettier-vscode";
-    };
-    "[css]" = {
-      "editor.defaultFormatter" = "esbenp.prettier-vscode";
-    };
-    "[html]" = {
-      "editor.defaultFormatter" = "esbenp.prettier-vscode";
-    };
+    "[markdown]" = {"editor.defaultFormatter" = "esbenp.prettier-vscode";};
+    "[css]" = {"editor.defaultFormatter" = "esbenp.prettier-vscode";};
+    "[html]" = {"editor.defaultFormatter" = "esbenp.prettier-vscode";};
   }

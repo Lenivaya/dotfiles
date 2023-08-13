@@ -21,10 +21,6 @@ in {
       ];
     };
 
-    home.services.kdeconnect =
-      enabled
-      // {
-        indicator = true;
-      };
+    home.services.kdeconnect = enabled // {indicator = true;};
   };
 }

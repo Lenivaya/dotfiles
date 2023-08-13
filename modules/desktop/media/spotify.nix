@@ -37,7 +37,7 @@ in {
           fullAppDisplayMod
           fullAlbumDate
           playlistIcons
-          wikify
+          # wikify
           adblock
           # charliesAdblock
 

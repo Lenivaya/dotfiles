@@ -1,12 +1,13 @@
-env:
-  TERM: xterm-256color
-  # WINIT_X11_SCALE_FACTOR: "1.66"
-  # WINIT_X11_SCALE_FACTOR: "1"
+---
+# env:
+#
+# WINIT_X11_SCALE_FACTOR: "1.66"
+# WINIT_X11_SCALE_FACTOR: "1"
 
 window:
-  dimensions:
-    columns: 80
-    lines: 24
+  # dimensions:
+  #   columns: 80
+  #   lines: 24
 
   padding:
     x: 20
@@ -37,15 +38,9 @@ font:
     family: monospace
     style: Italic
 
-  offset:
-    x: 0
-    y: 0
-
-  glyph_offset:
-    x: 0
-    y: 0
-
 draw_bold_text_with_bright_colors: true
+
+custom_cursor_colors: true
 
 colors:
   primary:
@@ -86,19 +81,17 @@ colors:
     - { index: 21, color: "0xe0e0e0" }
 
 bell:
-  animation: EaseOutExpo
   duration: 0
-  color: "0xffffff"
 
 selection:
   semantic_escape_chars: ',│`|:"'' ()[]{}<>'
-  save_to_clipboard: false
+  save_to_clipboard: true
 
 dynamic_title: true
 
 cursor:
   style: Beam
-  unfocused_hollow: true
+  unfocused_hollow: false
 
 live_config_reload: true
 
@@ -107,7 +100,7 @@ working_directory: None
 debug:
   render_timer: false
   persistent_logging: false
-  log_level: Warn
+  log_level: Off
   print_events: false
   ref_test: false
 

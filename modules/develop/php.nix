@@ -19,8 +19,6 @@ in {
         # phpfactor
         nodePackages.intelephense
       ]
-      ++ (with php.packages; [
-        composer
-      ]);
+      ++ (with php.packages; [composer]);
   };
 }

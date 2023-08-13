@@ -3,7 +3,10 @@
   lib,
   ...
 }:
-with lib.my; {
+with lib.my; let
+  inherit (config.boot.kernelPackages) x86_energy_perf_policy;
+  enableRDW = config.networking.networkmanager.enable;
+in {
   services.tlp =
     enabled
     // {
@@ -41,14 +44,12 @@ with lib.my; {
       };
     };
 
-  environment.systemPackages = [config.boot.kernelPackages.x86_energy_perf_policy];
+  environment.systemPackages = [x86_energy_perf_policy];
   nixpkgs.overlays = [
-    (
-      _final: prev: {
-        tlp = prev.tlp.override {
-          inherit (config.boot.kernelPackages) x86_energy_perf_policy;
-        };
-      }
-    )
+    (_final: prev: {
+      tlp = prev.tlp.override {
+        inherit x86_energy_perf_policy enableRDW;
+      };
+    })
   ];
 }

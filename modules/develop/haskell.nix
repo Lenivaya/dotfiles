@@ -34,5 +34,11 @@ in {
           haskell-language-server
         ]))
     ];
+
+    env = {
+      CABAL_CONFIG = "$XDG_CONFIG_HOME/cabal/config";
+      CABAL_DIR = "$XDG_DATA_HOME/cabal";
+      STACK_ROOT = "$XDG_DATA_HOME/stack";
+    };
   };
 }

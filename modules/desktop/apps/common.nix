@@ -3,21 +3,17 @@
   pkgs,
   ...
 }: let
-  inherit (config.env) TERMINAL;
+  inherit (config.env) TERM;
 in {
-  user.packages = with pkgs; let
-    youtube-dl = yt-dlp.override {withAlias = true;};
-  in
+  user.packages = with pkgs;
     [
       ripgrep # fast grepper
       fd # rust alternative to find
       exa # ls alternative
-      tokei # code statistic
+      # tokei # code statistic
       maim
       scrot # Screenshots
-      dua # space usage
-      duf # space usage tables
-      handlr # better xdg-utils in rust
+      # handlr # better xdg-utils in rust
       binutils
       usbutils
 
@@ -26,42 +22,40 @@ in {
       unrar
       ouch
 
-      ncdu # space usage
+      dua # space usage
+      duf # space usage tables
       android-file-transfer
-      feh
-      pandoc # Universal Markup converter
-      # nitrogen
+
       ps_mem
       lm_sensors
+      killall
+      xorg.xkill
+
       # Appearance
       # qt5ct
+      feh
       lxappearance
-      pywal
-      wpgtk
-      killall
+
       libqalculate # calculator cli w/ currency conversion
       (makeDesktopItem {
         name = "scratch-calc";
         desktopName = "Calculator";
         icon = "calc";
-        exec = "${TERMINAL} -e qalc";
+        exec = "${TERM} -e qalc";
         categories = ["Development"];
       })
+
       neovim
-      nnn
       jgmenu
-      pfetch
-      xorg.xkill
       xclip
       curl
       youtube-dl
-      # appimage-run
       tdesktop
       brightnessctl
       gnome-usage
       xdotool
-      lnav #     <- log file navigator
-      procs #    <- a "modern" replacement for ps
+      lnav # <- log file navigator
+      procs # <- a "modern" replacement for ps
       comma # quickly run soft without install using nix
     ]
     ++ (with pkgs.gnome; [

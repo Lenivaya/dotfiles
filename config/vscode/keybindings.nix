@@ -258,7 +258,7 @@
     "command" = "-magit.reset-hard";
   }
 
-  # Toggle sidebar visibillity
+  # Toggle sidebar visibility
   {
     "key" = "ctrl+e";
     "command" = "workbench.view.explorer";
@@ -326,10 +326,7 @@
     "key" = "ctrl+shift+=";
     "command" = "extension.multiCommand.execute";
     "args" = {
-      "sequence" = [
-        "editor.action.fontZoomReset"
-        "workbench.action.zoomReset"
-      ];
+      "sequence" = ["editor.action.fontZoomReset" "workbench.action.zoomReset"];
     };
   }
 

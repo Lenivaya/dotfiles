@@ -9,15 +9,20 @@
 }:
 with lib;
 with lib.my; {
-  imports = [
-    ../common.nix
-    ./hardware-configuration.nix
-    inputs.nixos-hardware.nixosModules.lenovo-thinkpad-t440p
-    inputs.nixos-hardware.nixosModules.common-pc-laptop-acpi_call
-    ./phone_cam.nix
-    ./gpu.nix
-    # ./jack_retask/jack_retask.nix
-  ];
+  imports =
+    [
+      ../common.nix
+      ./hardware-configuration.nix
+      ./phone_cam.nix
+      ./gpu.nix
+      # ./jack_retask/jack_retask.nix
+    ]
+    ++ (with inputs.nixos-hardware.nixosModules; [
+      lenovo-thinkpad-t440p
+      common-pc-laptop-acpi_call
+      # common-pc-laptop-ssd
+      # common-pc-laptop-hdd
+    ]);
 
   modules = {
     desktop = {
@@ -28,6 +33,7 @@ with lib.my; {
 
       apps = {
         rofi = enabled;
+        dmenu = enabled;
         dunst = enabled;
         discord = enabled;
 
@@ -38,9 +44,9 @@ with lib.my; {
         default = "firefox";
 
         firefox = enabled;
-        qutebrowser = enabled;
-        chromium =
-          enabled // {googled = true;};
+        chromium = enabled // {googled = true;};
+        tor = enabled;
+        # qutebrowser = enabled;
       };
 
       term = {
@@ -63,14 +69,11 @@ with lib.my; {
         graphics =
           enabled
           // {
+            tools = enabled;
             raster = enabled;
           };
 
-        recording =
-          enabled
-          // {
-            audio = enabled;
-          };
+        recording = enabled // {audio = enabled;};
       };
 
       vm = {
@@ -112,12 +115,18 @@ with lib.my; {
     };
 
     services = {
+      greenclip = enabled;
       kdeconnect = enabled;
       ssh = enabled;
       warp = enabled;
       keyd = enabled;
       flatpak = enabled;
       espanso = enabled;
+      random-wallpaper =
+        enabled
+        // {
+          howOften = "*-*-* 05:00:00"; # daily 5AM
+        };
       tray =
         enabled
         // {
@@ -125,33 +134,32 @@ with lib.my; {
             "blueman-applet"
             "nm-applet"
             "mictray"
-            "kdeconnect-indicator"
           ];
         };
     };
 
     hardware = {
       profiles.laptop = enabled;
-      touchpad = enabled;
-      cpu.intel = enabled;
-      cpu.undervolt =
+      cpu.intel =
         enabled
-        // rec {
-          core = -80;
-          gpu = -40;
-          uncore = core;
-          analogio = core;
+        // {
+          undervolt =
+            enabled
+            // rec {
+              core = -80;
+              gpu = -40;
+              uncore = core;
+              analogio = core;
+              temp = 100;
+            };
         };
       gpu.intel = enabled;
       # gpu.nvidia = enabled;
       audio = enabled;
       fingerprint = enabled;
+      touchpad = enabled;
       bluetooth = enabled;
-      fs =
-        enabled
-        // {
-          ssd = enabled;
-        };
+      fs = enabled // {ssd = enabled;};
       # zram = enabled;
     };
 
@@ -159,18 +167,16 @@ with lib.my; {
     bootsplash = enabled;
   };
 
-  services.fwupd = enabled;
+  environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
 
-  modules.services.zcfan = enabled;
-  # services.thermald = mkForce disabled;
-  # services.throttled = mkForce enabled;
+  services.fwupd = enabled;
 
   services.tlp.settings.CPU_MAX_PERF_ON_BAT = mkForce 50;
   services.tlp.settings = {
-    CPU_SCALING_MIN_FREQ_ON_AC = 0;
-    CPU_SCALING_MAX_FREQ_ON_AC = 4000000;
-    CPU_SCALING_MIN_FREQ_ON_BAT = 0;
-    # CPU_SCALING_MAX_FREQ_ON_BAT = 0;
+    # work at maximum on AC
+    # CPU_SCALING_GOVERNOR_ON_AC = mkForce "performance";
+    CPU_ENERGY_PERF_POLICY_ON_AC = mkForce "performance";
+    CPU_SCALING_MAX_FREQ_ON_AC = MHz 4000;
   };
 
   services.clight = {
@@ -178,19 +184,20 @@ with lib.my; {
     settings.sensor.devname = "video1"; # because video0 is virtual camera
   };
 
-  # Kernel
   boot.kernelPackages = let
-    kernelPkg = pkgs.unstable.linuxKernel.packages.linux_lqx;
-    # kernelPkg = pkgs.unstable.linuxKernel.packages.linux_xanmod_latest;
-    # kernelPkg = pkgs.unstable.linuxKernel.packages.linux_xanmod_stable;
+    kernel' = pkgs.unstable.linuxPackages_lqx;
   in
-    mkForce kernelPkg;
+    mkForce kernel';
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
     #      vulnerabilities. Don't copy this blindly! And especially not for
     #      mission critical or server/headless builds exposed to the world.
     "mitigations=off"
+
+    # https://wiki.archlinux.org/title/improving_performance#Watchdogs
+    "nowatchdog"
+    "kernel.nmi_watchdog=0"
   ];
 
   boot.plymouth = {
@@ -209,7 +216,6 @@ with lib.my; {
   # nixpkgs.config.permittedInsecurePackages = ["electron-13.6.9"];
   user.packages = with pkgs;
     [
-      # binance
       # lightworks pitivi
       ffmpeg-full
       obsidian
@@ -217,6 +223,32 @@ with lib.my; {
     ++ (with pkgs.jetbrains; [
       # phpstorm
     ]);
+
+  hardware.trackpoint = {
+    enable = true;
+    speed = 500;
+    sensitivity = 250;
+  };
+
+  powerManagement = let
+    modprobe = "${pkgs.kmod}/bin/modprobe";
+  in
+    enabled
+    // {
+      # This fixes an issue with not being able to suspend or wake up from
+      # suspend due to a kernel bug[1] which is still not fixed.
+      #
+      # I guess this can also be fixed differently[2], which does look a lot nicer
+      # but I just can't bother.
+      #
+      # [1]: https://bbs.archlinux.org/viewtopic.php?id=270964
+      # [1]: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/522998
+      # [1]: https://bugs.launchpad.net/ubuntu/+source/pm-utils/+bug/562484/comments/3
+      # [1]: https://gist.github.com/ioggstream/8f380d398aef989ac455b93b92d42048
+      # [2]: https://linrunner.de/tlp/settings/runtimepm.html
+      powerDownCommands = "${modprobe} -r xhci_pci";
+      powerUpCommands = "${modprobe} xhci_pci";
+    };
 
   # Fix for libGL.so error
   hardware.opengl =
@@ -238,19 +270,24 @@ with lib.my; {
 
   services.safeeyes = enabled;
 
+  services.smartd = enabled;
+
   # services.tp-auto-kbbl =
   #   enabled
   #   // {
   #     device = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
   #   };
-  #
+
+  environment.shellAliases = {
+    shutUpAndGetOutOfMySight = "sudo modprobe -r uvcvideo && volumectl -m toggle-mute";
+    freemem = "sync && echo 3 | sudo tee /proc/sys/vm/drop_caches";
+  };
 
   nixpkgs.overlays = [
     (_final: _prev: {
       inherit (pkgs.unstable) google-chrome;
-
       inherit (pkgs.unstable) firefox firefox-bin;
-      inherit (pkgs.unstable) vscode vscode-extensions;
+      # inherit (pkgs.unstable) vscode vscode-extensions;
     })
   ];
 }

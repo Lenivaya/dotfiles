@@ -212,7 +212,7 @@ indent-guides              ; highlighted indent columns, notoriously slow
  +pragmata-pro
  +iosevka
  +extra
-)           ; ligatures and symbols to make your code pretty again
+ )           ; ligatures and symbols to make your code pretty again
 minimap                    ; show a map of the code on the side
 modeline                     ; snazzy, Atom-inspired modeline, plus API
 nav-flash                    ; blink the current line after jumping
@@ -279,7 +279,8 @@ vterm             ; another terminals in Emacs
 (syntax                       ; tasing you for every semicolon you forget
  +flymake
  +childframe)
-(spell +aspell)                        ; tasing you for misspelling mispelling
+(spell
+ +enchant)                        ; tasing you for misspelling mispelling
 grammar                      ; tasing grammar mistake every you make
 #+end_src
 
@@ -393,11 +394,13 @@ lua               ; one-based indices? one-based indices
 ;;purescript        ; javascript, but functional
 (python
  +lsp
+ +pyright
+ +poetry
  +tree-sitter
  )           ; beautiful is better than ugly
 ;;qt                ; the 'cutest' gui framework ever
 ;;racket            ; a DSL for DSLs
-;;rest              ; Emacs as a REST client
+(rest +jq)              ; Emacs as a REST client
 ;;ruby              ; 1.step {|i| p "Ruby is #{i.even? ? 'love' : 'life'}"}
 (rust
  +lsp
@@ -524,7 +527,7 @@ Smooth scrolling in emacs
 (use-package! good-scroll
   :config
   (good-scroll-mode)
-)
+  )
 #+end_src
 
 **** Prettier page breaks
@@ -574,10 +577,12 @@ avoid polluting the output.
 # (setq ng-straight-bootstrap-at-startup t)
 # #+end_src
 ** Performance
+
 #+begin_src emacs-lisp
 (setq gcmh-high-cons-threshold most-positive-fixnum)
 (setq max-specpdl-size 100000)
 #+end_src
+
 ** Other Things
 *** Editor interaction
 **** Mouse buttons
@@ -661,20 +666,6 @@ Variable pitch fontification + colouring
 (package! info-colors :pin "47ee73cc19b1049eef32c9f3e264ea7ef2aaf8a5")
 #+end_src
 
-**** Calibre and ebook reading
-For managing my ebooks, I'll hook into the well-established ebook library
-manager [[https://calibre-ebook.com/][calibre]]. A number of Emacs clients for this exist, but this seems like a
-good option.
-#+begin_src emacs-lisp
-(package! calibredb)
-#+end_src
-
-Then for reading them, the only currently viable options seems to be [[https://depp.brause.cc/nov.el/][nov.el]].
-#+begin_src emacs-lisp
-(package! nov)
-#+end_src
-
-Together these should give me a rather good experience reading ebooks.
 **** Screenshots
 This makes it a breeze to take lovely screenshots.
 #+begin_src emacs-lisp
@@ -707,8 +698,8 @@ This makes it a breeze to take lovely screenshots.
 #+end_src
 *****  Fuzzy
 #+begin_src emacs-lisp
-(package! company-fuzzy)
-(package! flx)
+;; (package! company-fuzzy)
+;; (package! flx)
 ;; (package! flx-rs)
 #+end_src
 *****  Math
@@ -819,11 +810,6 @@ Now and then citations need to happen
 (package! org-ref)
 #+end_src
 
-# Came across this and ... it's cool
-# #+begin_src emacs-lisp
-# (package! org-graph-view :recipe (:host github :repo "alphapapa/org-graph-view"))
-# #+end_src
-
 I *need* this in my life. It take a URL to a recipe from a common site, and
 inserts an org-ified version at point. Isn't that just great.
 #+begin_src emacs-lisp
@@ -860,6 +846,7 @@ It's nice to have UI for org-roam
 (package! websocket)
 #+end_src
 
+
 #+begin_src emacs-lisp
 (package! org-transclusion)
 #+end_src
@@ -870,11 +857,6 @@ Let's have media notes in org-mode
 (package! org-media-note :recipe (:host github :repo "yuchen-lea/org-media-note"))
 #+end_src
 
-*** Systemd
-For editing systemd unit files
-#+begin_src emacs-lisp
-(package! systemd :pin "b6ae63a236605b1c5e1069f7d3afe06ae32a7bae")
-#+end_src
 *** Graphviz
 Graphviz is a nice method of visualising simple graphs, based on plaintext
 =.dot= / =.gv= files.
@@ -934,29 +916,6 @@ I want avy to jump though windows and auto-jump when theres 1 candidate
   (circadian-setup)
 )
 #+end_src
-# ** Modus themes
-# #+begin_src emacs-lisp :tangle packages.el
-# (package! modus-themes)
-# #+end_src
-
-# #+begin_src emacs-lisp
-# (use-package modus-themes
-#   :config
-#   (setq modus-themes-slanted-constructs t
-#         modus-themes-bold-constructs t
-#         modus-themes-subtle-line-numbers t
-#         modus-themes-paren-match 'intense-bold
-#         modus-themes-prompts 'subtle-accented
-#         modus-themes-completions nil
-#         modus-themes-region 'accent-no-extend
-#         modus-themes-syntax 'alt-syntax-yellow-comments
-#         modus-themes-scale-headings t
-#         modus-themes-headings '((t . rainbow))
-#         modus-themes-mode-line 'borderless
-#         modus-themes-org-blocks 'grayscale
-#         )
-#   )
-# #+end_src
 ** Company
 Some settings
 #+begin_src emacs-lisp
@@ -1076,11 +1035,9 @@ icon. Then we'll redefine two functions used to generate the modeline.
 Configure it a bit
 #+begin_src emacs-lisp
 (after! emacs-everywhere
-  ;;   Make it easier to match with xmonad rule
+  ;; Make it easier to match with xmonad rule
   (setq emacs-everywhere-frame-name-format "emacs-anywhere")
 
-  ;; The modeline is not useful to me in the popup window. It looks much nicer
-  ;; to hide it.
   (remove-hook 'emacs-everywhere-init-hooks #'hide-mode-line-mode)
   (remove-hook! 'emacs-everywhere-init-hooks #'emacs-everywhere-set-frame-position)
   )
@@ -1111,9 +1068,11 @@ contributes a typing delay. I'm not sure it's much, but it is an extra
 ~pre-command-hook~ that I don't benefit from, so...
 It seems that there's a dedicated package for this, so instead of just disabling
 the mode on startup, let's prevent installation of the package.
+
 #+begin_src emacs-lisp :tangle packages.el
 (package! evil-escape :disable t)
 #+end_src
+
 ** Gif-screencast
 We can lazy load this using the start/stop commands.
 
@@ -1158,6 +1117,7 @@ theme.
   (setq
    gts-translate-list '(("en" "ru") ("ru" "en"))
    gts-buffer-follow-p t
+   go-translate-buffer-line-wrap-p t
    )
   (map!
    (:leader
@@ -1166,10 +1126,20 @@ theme.
     ))
   )
 #+end_src
+** Systemd
+
+For editing systemd unit files
+#+begin_src emacs-lisp :tangle packages.el
+(package! systemd :pin "b6ae63a236605b1c5e1069f7d3afe06ae32a7bae")
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package! systemd
+  :defer t)
+#+end_src
 ** Imenu
 #+begin_src emacs-lisp
 (use-package! imenu-list
-  :defer t
   :init
   (setq
    imenu-list-position 'right
@@ -1180,9 +1150,11 @@ theme.
    ;; imenu-list-auto-resize t
    imenu-list-auto-resize nil
    )
+  :config
   (map!
    (:leader
-    :desc "Toggle imenu-list" "oi" #'imenu-list-smart-toggle)
+    :desc "Toggle imenu-list" "oi" #'imenu-list-smart-toggle
+    )
    :map imenu-list-major-mode-map
    :g "r"   #'imenu-list-refresh
    :g [tab] #'hs-toggle-hiding
@@ -1194,23 +1166,8 @@ theme.
   :commands (info-colors-fontify-node))
 
 (add-hook 'Info-selection-hook 'info-colors-fontify-node)
-
 (add-hook 'Info-mode-hook #'mixed-pitch-mode)
 #+end_src
-# ** Ivy
-# I prefer search matching to be ordered; it's more precise
-# #+begin_src emacs-lisp
-# (after! ivy
-#   (add-to-list 'ivy-re-builders-alist '(counsel-projectile-find-file . ivy--regex-plus))
-#   (setq +ivy-buffer-preview t))
-# #+end_src
-
-# While in an ivy mini-buffer =C-o= shows a list of all possible actions one may take.
-# By default this is ~#'ivy-read-action-by-key~ however a better interface to this
-# is using Hydra.
-# #+begin_src emacs-lisp
-# (setq ivy-read-action-function #'ivy-hydra-read-action)
-# #+end_src
 ** Leetcode
 It's nice to have leetcode in emacs
 #+begin_src emacs-lisp :tangle packages.el
@@ -1286,7 +1243,7 @@ it, either by command or in a capture template.
 ** Which-key
 Let's make this popup a bit faster
 #+begin_src emacs-lisp
-(setq which-key-idle-delay 0.5) ;; I need the help, I really do
+(setq which-key-idle-delay 0.3) ;; I need the help, I really do
 #+end_src
 
 I also think that having =evil-= appear in so many popups is a bit too verbose, let's change that, and do a few other similar tweaks while we're at it.
@@ -1305,10 +1262,10 @@ I also think that having =evil-= appear in so many popups is a bit too verbose, 
 From the =:ui zen= module.
 #+end_quote
 
-# For starters, I think Doom is a bit over-zealous when zooming in
-# #+begin_src emacs-lisp
-# (setq +zen-text-scale 1.2)
-# #+end_src
+For starters, I think Doom is a bit over-zealous when zooming in
+#+begin_src emacs-lisp
+(setq +zen-text-scale 1.2)
+#+end_src
 
 Then, when using Org it would be nice to make a number of other aesthetic
 tweaks. Namely:
@@ -1373,7 +1330,6 @@ Nested snippets are good, enable that.
 #+begin_src emacs-lisp :tangle packages.el
 (package! fountain-mode)
 #+end_src
-
 #+begin_src emacs-lisp
 (use-package! fountain-mode)
 #+end_src
@@ -1381,9 +1337,9 @@ Nested snippets are good, enable that.
 #+begin_src emacs-lisp :tangle packages.el
 (package! crux)
 #+end_src
-
 #+begin_src emacs-lisp
 (use-package! crux
+  :commands crux-open-with
   :config
   (global-set-key (kbd "C-c o") #'crux-open-with)
   )
@@ -1435,7 +1391,6 @@ Enable image scrolling
 #+end_src
 ** Git blame
 Visualize code authorship at a glance
-
 #+begin_src emacs-lisp :tangle packages.el
 (package! blamer :recipe (:host github :repo "artawower/blamer.el"))
 #+end_src
@@ -1455,11 +1410,13 @@ Visualize code authorship at a glance
   (map!
    (:leader
     :desc "Toggle authorship visualizer" "gT"
-    (lambda () (interactive) (if  blamer-mode (blamer-mode 0) (blamer-mode 1)
-                                  ))))
+    (lambda ()
+      (interactive)
+      (if blamer-mode (blamer-mode 0) (blamer-mode 1))
+      )
+    ))
   :config
   (setq blamer-mode 0)
-  ;;(global-blamer-mode 1)
   )
 #+end_src
 ** Hydra
@@ -1661,6 +1618,7 @@ It's convenient to open terminals for current dir
 (use-package! terminal-here
   :custom
   (terminal-here-linux-terminal-command 'alacritty)
+  (terminal-here-mac-terminal-command 'alacritty)
   :init
   (map!
    (:leader
@@ -1686,16 +1644,8 @@ More dictionaries
    (spell-fu-dictionary-add (spell-fu-get-ispell-dictionary "ru"))
    (spell-fu-dictionary-add (spell-fu-get-ispell-dictionary "en-computers"))
    (spell-fu-dictionary-add (spell-fu-get-ispell-dictionary "en-science"))
+   (spell-fu-dictionary-add (spell-fu-get-ispell-dictionary "en-science"))
    ))
-#+end_src
-
-** Xresources-themes
-
-#+begin_src emacs-lisp :tangle packages.el
-(package! xresources-theme)
-#+end_src
-#+begin_src emacs-lisp
-(use-package! xresources-theme)
 #+end_src
 
 ** Vale prose linting
@@ -1740,179 +1690,28 @@ Let's use vale instead of builtin grammar module from doom-emacs.
   )
 #+end_src
 
+** Just makefiles
+#+begin_src emacs-lisp :tangle packages.el
+(package! just-mode)
+(package! justl)
+#+end_src
+#+begin_src emacs-lisp
+(use-package! just-mode)
+(use-package! justl
+  :init
+  (setq justl-executable (executable-find "just"))
+  )
+#+end_src
+** What-the-commit
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! what-the-commit)
+#+end_src
+#+begin_src emacs-lisp
+(use-package! what-the-commit)
+#+end_src
+
 * Applications
-** Ebooks
-
-For managing my ebooks, I'll hook into the well-established ebook library
-manager [[https://calibre-ebook.com/][calibre]]. A number of Emacs clients for this exist, but this seems like a
-good option.
-#+begin_src emacs-lisp :tangle packages.el
-(package! calibredb :pin "2f2cfc38f2d1c705134b692127c3008ac1382482")
-#+end_src
-
-Then for reading them, the only currently viable options seems to be [[https://depp.brause.cc/nov.el/][nov.el]].
-#+begin_src emacs-lisp :tangle packages.el
-(package! nov :pin "8f5b42e9d9f304b422c1a7918b43ee323a7d3532")
-#+end_src
-
-Together these should give me a rather good experience reading ebooks.
-
-=calibredb= lets us use calibre through Emacs, because who wouldn't want to use
-something through Emacs?
-#+begin_src emacs-lisp
-(use-package! calibredb
-  :commands calibredb
-  :config
-  (setq calibredb-root-dir "~/Documents/books"
-        calibredb-db-dir (expand-file-name "metadata.db" calibredb-root-dir))
-  (map! :map calibredb-show-mode-map
-        :ne "?" #'calibredb-entry-dispatch
-        :ne "o" #'calibredb-find-file
-        :ne "O" #'calibredb-find-file-other-frame
-        :ne "V" #'calibredb-open-file-with-default-tool
-        :ne "s" #'calibredb-set-metadata-dispatch
-        :ne "e" #'calibredb-export-dispatch
-        :ne "q" #'calibredb-entry-quit
-        :ne "." #'calibredb-open-dired
-        :ne [tab] #'calibredb-toggle-view-at-point
-        :ne "M-t" #'calibredb-set-metadata--tags
-        :ne "M-a" #'calibredb-set-metadata--author_sort
-        :ne "M-A" #'calibredb-set-metadata--authors
-        :ne "M-T" #'calibredb-set-metadata--title
-        :ne "M-c" #'calibredb-set-metadata--comments)
-  (map! :map calibredb-search-mode-map
-        :ne [mouse-3] #'calibredb-search-mouse
-        :ne "RET" #'calibredb-find-file
-        :ne "?" #'calibredb-dispatch
-        :ne "a" #'calibredb-add
-        :ne "A" #'calibredb-add-dir
-        :ne "c" #'calibredb-clone
-        :ne "d" #'calibredb-remove
-        :ne "D" #'calibredb-remove-marked-items
-        :ne "j" #'calibredb-next-entry
-        :ne "k" #'calibredb-previous-entry
-        :ne "l" #'calibredb-virtual-library-list
-        :ne "L" #'calibredb-library-list
-        :ne "n" #'calibredb-virtual-library-next
-        :ne "N" #'calibredb-library-next
-        :ne "p" #'calibredb-virtual-library-previous
-        :ne "P" #'calibredb-library-previous
-        :ne "s" #'calibredb-set-metadata-dispatch
-        :ne "S" #'calibredb-switch-library
-        :ne "o" #'calibredb-find-file
-        :ne "O" #'calibredb-find-file-other-frame
-        :ne "v" #'calibredb-view
-        :ne "V" #'calibredb-open-file-with-default-tool
-        :ne "." #'calibredb-open-dired
-        :ne "b" #'calibredb-catalog-bib-dispatch
-        :ne "e" #'calibredb-export-dispatch
-        :ne "r" #'calibredb-search-refresh-and-clear-filter
-        :ne "R" #'calibredb-search-clear-filter
-        :ne "q" #'calibredb-search-quit
-        :ne "m" #'calibredb-mark-and-forward
-        :ne "f" #'calibredb-toggle-favorite-at-point
-        :ne "x" #'calibredb-toggle-archive-at-point
-        :ne "h" #'calibredb-toggle-highlight-at-point
-        :ne "u" #'calibredb-unmark-and-forward
-        :ne "i" #'calibredb-edit-annotation
-        :ne "DEL" #'calibredb-unmark-and-backward
-        :ne [backtab] #'calibredb-toggle-view
-        :ne [tab] #'calibredb-toggle-view-at-point
-        :ne "M-n" #'calibredb-show-next-entry
-        :ne "M-p" #'calibredb-show-previous-entry
-        :ne "/" #'calibredb-search-live-filter
-        :ne "M-t" #'calibredb-set-metadata--tags
-        :ne "M-a" #'calibredb-set-metadata--author_sort
-        :ne "M-A" #'calibredb-set-metadata--authors
-        :ne "M-T" #'calibredb-set-metadata--title
-        :ne "M-c" #'calibredb-set-metadata--comments))
-#+end_src
-
-Then, to actually read the ebooks we use =nov=.
-
-#+begin_src emacs-lisp
-(use-package! nov
-  :mode ("\\.epub\\'" . nov-mode)
-  :config
-  (map! :map nov-mode-map
-        :n "RET" #'nov-scroll-up)
-
-  (defun doom-modeline-segment--nov-info ()
-    (concat
-     " "
-     (propertize
-      (cdr (assoc 'creator nov-metadata))
-      'face 'doom-modeline-project-parent-dir)
-     " "
-     (cdr (assoc 'title nov-metadata))
-     " "
-     (propertize
-      (format "%d/%d"
-              (1+ nov-documents-index)
-              (length nov-documents))
-      'face 'doom-modeline-info)))
-
-  (advice-add 'nov-render-title :override #'ignore)
-
-  (defun +nov-mode-setup ()
-    "Tweak nov-mode to our liking."
-    (face-remap-add-relative 'variable-pitch
-                             :family "Merriweather"
-                             :height 1.4
-                             :width 'semi-expanded)
-    (face-remap-add-relative 'default :height 1.3)
-    (setq-local line-spacing 0.2
-                next-screen-context-lines 4
-                shr-use-colors nil)
-    (require 'visual-fill-column nil t)
-    (setq-local visual-fill-column-center-text t
-                visual-fill-column-width 81
-                nov-text-width 80)
-    (visual-fill-column-mode 1)
-    (hl-line-mode -1)
-    ;; Re-render with new display settings
-    (nov-render-document)
-    ;; Look up words with the dictionary.
-    (add-to-list '+lookup-definition-functions #'+lookup/dictionary-definition)
-    ;; Customise the mode-line to make it more minimal and relevant.
-    (setq-local
-     mode-line-format
-     `((:eval
-        (doom-modeline-segment--workspace-name))
-       (:eval
-        (doom-modeline-segment--window-number))
-       (:eval
-        (doom-modeline-segment--nov-info))
-       ,(propertize
-         " %P "
-         'face 'doom-modeline-buffer-minor-mode)
-       ,(propertize
-         " "
-         'face (if (doom-modeline--active) 'mode-line 'mode-line-inactive)
-         'display `((space
-                     :align-to
-                     (- (+ right right-fringe right-margin)
-                        ,(* (let ((width (doom-modeline--font-width)))
-                              (or (and (= width 1) 1)
-                                  (/ width (frame-char-width) 1.0)))
-                            (string-width
-                             (format-mode-line (cons "" '(:eval (doom-modeline-segment--major-mode))))))))))
-       (:eval (doom-modeline-segment--major-mode)))))
-
-  (add-hook 'nov-mode-hook #'+nov-mode-setup))
-#+end_src
-** File types
-*** Systemd
-
-For editing systemd unit files
-#+begin_src emacs-lisp :tangle packages.el
-(package! systemd :pin "b6ae63a236605b1c5e1069f7d3afe06ae32a7bae")
-#+end_src
-
-#+begin_src emacs-lisp
-(use-package! systemd
-  :defer t)
-#+end_src
 ** Obsidian
 
 It's nice to have some integration with obsidian in emacs
@@ -2034,7 +1833,7 @@ Some simple settings
 #+begin_src emacs-lisp
 (setq org-directory "~/org/"
       org-archive-location (concat org-directory ".archive/%s::")
-      org-roam-directory (concat org-directory "notes/")
+      org-roam-directory (concat org-directory "notes/roam")
       org-journal-encrypt-journal t
       org-journal-file-format "%Y%m%d.org"
       )
@@ -2561,7 +2360,9 @@ sequenceDiagram
   ;; (setq ob-mermaid-cli-path (executable-find "mmdc"))
   )
 #+end_src
+
 **** Org-roam
+
 Add ui for org-roam
 
 #+begin_src emacs-lisp
@@ -2570,12 +2371,26 @@ Add ui for org-roam
 
 (use-package! org-roam-ui
   :after org-roam
+  :init
+  (map!
+   (:leader
+    (:prefix-map ("n r u" . "roam ui")
+     :desc "Open roam ui" "o" #'org-roam-ui-open
+     :desc "Zoom to current note" "z" #'org-roam-ui-node-zoom
+     :desc "Open local view" "l" #'org-roam-ui-node-local
+     )
+    )
+   )
   :config
   (setq org-roam-ui-sync-theme t
         org-roam-ui-follow t
         org-roam-ui-update-on-save t
-        org-roam-ui-open-on-start t))
+        ;; prefer opening it with  `org-roam-ui-open`
+        org-roam-ui-open-on-start nil )
+  )
 #+end_src
+
+
 **** Org-transclusion
 #+begin_src emacs-lisp
 (use-package! org-transclusion
@@ -3548,27 +3363,4 @@ config tangling
   )
 
 ()
-#+end_src
-** Files
-#+begin_src emacs-lisp
-(defun open-file-external (file)
-  (interactive "f")
-  (let ((process-connection-type nil))
-    (start-process
-     "" nil shell-file-name
-     shell-command-switch
-     (format "nohup 1>/dev/null 2>/dev/null xdg-open %s"
-             (expand-file-name file)))))
-
-;; (defun get-current-file-location ()
-;;   "Return the current file location."
-;;   (interactive)
-;;   (when buffer-file-name
-;;     (file-truename buffer-file-name)))
-
-(defun copy-file-location-to-clipboard ()
-  "Copy the current file location to the clipboard."
-  (interactive)
-  (kill-new (buffer-file-name))
-  (message "File location copied to clipboard: %s" (buffer-file-name)))
 #+end_src

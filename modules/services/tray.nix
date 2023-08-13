@@ -25,13 +25,19 @@ in {
   };
 
   config = mkIf (cfg.enable && config.services.xserver.enable) {
-    systemd.user.services.trayer = {
+    # fake a tray to let apps start
+    # https://github.com/nix-community/home-manager/issues/2064
+    # systemd.user.targets.tray = {
+    #   Unit = {
+    #     Description = "Home Manager System Tray";
+    #     Requires = ["graphical-session-pre.target"];
+    #   };
+    # };
+
+    systemd.user.services.trayer = mkGraphicalService {
       enable = cfg.trayer;
 
       description = "X tray for WM's";
-      wants = ["graphical-session.target" "trayApps.service"];
-      wantedBy = ["graphical-session.target"];
-      after = ["graphical-session.target" "trayApps.service"];
 
       serviceConfig = {
         Type = "forking";
@@ -40,7 +46,7 @@ in {
 
       path = with pkgs; [trayer];
       script = let
-        trayerCommand = concatStringsSep " " [
+        trayerCommand = spaceConcat [
           "trayer"
           "-l"
           "--edge top --align center"
@@ -55,15 +61,9 @@ in {
         spawnCommand trayerCommand;
     };
 
-    systemd.user.services.trayApps = {
+    systemd.user.services.trayApps = mkGraphicalService {
       description = "tray apps";
-      wants = ["graphical-session.target" "tray.service"];
-      wantedBy = ["graphical-session.target"];
-      after = [
-        "graphical-session.target"
-        "tray.service"
-        "display-manager.service"
-      ];
+      after = ["tray.service"];
 
       serviceConfig = {
         Type = "forking";
@@ -80,7 +80,7 @@ in {
         kdeconnect
       ];
       script = let
-        trayElements = concatStringsSep " " (map spawnCommand cfg.trayApps);
+        trayElements = spaceConcat (map spawnCommand cfg.trayApps);
       in
         trayElements;
     };

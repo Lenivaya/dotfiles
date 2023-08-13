@@ -20,19 +20,26 @@ in {
     ++ [xmonad-contrib.modernise.${system}];
 
   config = mkIf cfg.enable {
+    modules = {
+      desktop = {
+        lockscreen = enabled;
+        term = {
+          alacritty = enabled;
+          default = mkForce "alacritty";
+        };
+
+        apps = {
+          dunst = enabled;
+          rofi = enabled;
+        };
+      };
+    };
+
     services.xserver.windowManager.xmonad =
       enabled
       // {
         enableContribAndExtras = true;
-        extraPackages = hpkgs:
-          with hpkgs; [
-            flow
-          ];
-        ghcArgs = [
-          "-O3"
-          # Compile with LLVM backend
-          # "-fllvm -optlo-O3"
-        ];
+        extraPackages = hpkgs: with hpkgs; [flow];
         flake = enabled;
       };
 
@@ -62,8 +69,5 @@ in {
     ];
 
     env.PATH = ["$DOTFILES/config/xmonad/scripts/xmobar"];
-
-    modules.desktop.term.alacritty = enabled;
-    modules.desktop.term.default = mkForce "alacritty";
   };
 }

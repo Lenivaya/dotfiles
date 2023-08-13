@@ -19,25 +19,27 @@ in {
     };
 
     user.packages = with pkgs; let
-      mpvPkg =
-        mpv.override
-        {
-          scripts = with mpvScripts; [
-            autoload
-            cutter
-            convert
-            # thumbnail
+      mpv' = mpv.override {
+        scripts = with mpvScripts; [
+          mpris
 
-            sponsorblock
-            youtube-quality
-            webtorrent-mpv-hook
+          autoload
+          cutter
+          convert
+          # thumbnail
 
-            my.mpv-autosub
-          ];
-        };
+          sponsorblock
+          youtube-quality
+          webtorrent-mpv-hook
+
+          my.mpv-autosub
+        ];
+      };
     in [
-      mpvPkg
+      mpv'
       ytfzf # find and watch videos on youtube
+      # youtube-tui
+      # ytmdl
     ];
   };
 }

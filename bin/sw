@@ -18,13 +18,13 @@ app="$1"
 tid=$(xdo id)
 
 hidecurrent() {
-	echo "$tid+$app" >>"$file" &
-	xdo hide
+  echo "$tid+$app" >>"$file" &
+  xdo hide
 }
 
 showlast() {
-	sid=$(rg "$app" "$file" | awk -F "+" 'END{print $1}')
-	xdo show -r "$sid"
+  sid=$(rg "$app" "$file" | awk -F "+" 'END{print $1}')
+  xdo show -r "$sid"
 }
 
 hidecurrent &

@@ -10,8 +10,6 @@ export LANG=en_US.UTF-8
 
 # export QT_QPA_PLATFORMTHEME="qt5ct"
 export PF_INFO="ascii title os kernel uptime pkgs shell wm"
-export NNN_PLUG='o:fzy-open;p:mocplay;d:ndiff;m:nmount;n:notes;v:viuimg;t:thumb'
-export NNN_USE_EDITOR=1
 
 export FZF_DEFAULT_OPTS="--height=50% --layout=reverse --info=inline --border --margin=1 --padding=1"
 

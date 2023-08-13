@@ -1,6 +1,7 @@
 !! st
 st.termname: xterm-256color
-st.borderpx:          20
+st.borderpx: 40
+st.font: monosapce:size=14
 st.alpha: 1
 
 *.foreground:           #a19782
@@ -50,3 +51,9 @@ Xft.autohint: false
 Xft.rgba: rgb
 Xft.hintstyle: hintslight
 Xft.lcdfilter: lcddefault
+
+!dmenu
+dmenu.background: #0b0806
+dmenu.foreground: #a19782
+dmenu.selbackground: #a19782
+dmenu.selforeground: #2f2b2a

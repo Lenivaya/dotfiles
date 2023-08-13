@@ -1,3 +1,1 @@
-_: {
-  home.programs.aria2.enable = true;
-}
+_: {home.programs.aria2.enable = true;}

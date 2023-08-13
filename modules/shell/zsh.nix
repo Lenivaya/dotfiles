@@ -39,7 +39,6 @@ in {
         promptInit = "";
         setOptions = [];
       };
-    programs.command-not-found.enable = false;
 
     # Some nice shell things
     user.packages = with pkgs; [
@@ -71,9 +70,7 @@ in {
             compact = false;
             use_pager = true;
           };
-          updates = {
-            auto_update = true;
-          };
+          updates = {auto_update = true;};
         };
       };
 

@@ -1,4 +1,4 @@
-#! /usr/bin/env bash
+#!/usr/bin/env bash
 # Sets the image as a wallpaper for desktop and lock screen
 
 # Example usage
@@ -16,7 +16,7 @@ setwall() {
 }
 
 updatewall() {
-  betterlockscreen -u "$wallpaper" && betterlockscreen -w &
+  betterlockscreen -u "$wallpaper" &
   echo "$wallname" >"$cachefile"
 }
 

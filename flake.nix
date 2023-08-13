@@ -29,14 +29,17 @@
     nh.url = "github:viperML/nh";
     nh.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Formatting
+    # Formatting and pre-commit hooks
     treefmt-nix.url = "github:numtide/treefmt-nix";
     treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
+    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
+    pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
 
     # Extras
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nur.url = "github:nix-community/NUR";
-    adblock.url = "github:StevenBlack/hosts";
+    programsdb.url = "github:wamserma/flake-programs-sqlite";
+    programsdb.inputs.nixpkgs.follows = "nixpkgs";
   };
 
   outputs = inputs @ {
@@ -44,6 +47,7 @@
     nixpkgs,
     nixpkgs-unstable,
     treefmt-nix,
+    pre-commit-hooks,
     ...
   }: let
     inherit (lib.my) mapModules mapModulesRec mapHosts;
@@ -85,9 +89,33 @@
     nixosConfigurations =
       mapHosts ./hosts {};
 
-    devShells."${system}".default = import ./shell.nix {
-      inherit pkgs;
-    };
+    devShells."${system}".default = let
+      preCommitHook =
+        (pre-commit-hooks.lib.${system}.run {
+          src = ./.;
+          hooks = {
+            editorconfig-checker.enable = true;
+            black.enable = true;
+            prettier.enable = true;
+            shellcheck.enable = true;
+            shfmt.enable = true;
+            # yamllint.enable = true;
+            actionlint.enable = true;
+            alejandra.enable = true;
+            deadnix.enable = true;
+            # statix.enable = true;
+            # convco.enable = true;
+            # fourmolu.enable = true;
+            typos = {
+              enable = true;
+              types = ["text"];
+            };
+          };
+          settings.deadnix.edit = true;
+        })
+        .shellHook;
+    in
+      import ./shell.nix {inherit pkgs preCommitHook;};
 
     apps."${system}".default = {
       type = "app";

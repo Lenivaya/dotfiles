@@ -7,40 +7,52 @@
 with lib;
 with lib.my; let
   inherit (config.dotfiles) configDir;
+  inherit (config) modules;
+
+  cfg = config.modules.desktop.lockscreen;
+  socket = "/tmp/xidlehook.sock";
 in {
-  user.packages = with pkgs; [betterlockscreen xidlehook my.caffeinate];
+  options.modules.desktop.lockscreen.enable = mkBoolOpt false;
 
-  home.configFile."betterlockscreenrc" = {
-    source = "${configDir}/betterlockscreen/betterlockscreenrc";
-    recursive = true;
-  };
+  config = mkIf cfg.enable {
+    user.packages = with pkgs; [betterlockscreen xidlehook my.caffeinate];
 
-  systemd.user.services.xidlehook = {
-    description = "General-purpose replacement for xautolock.";
-    wantedBy = ["graphical-session.target"];
-    partOf = ["graphical-session.target"];
-    path = with pkgs; [betterlockscreen xorg.xrandr gawk];
-
-    environment = {
-      PRIMARY_DISPLAY = "$(xrandr | awk '/ primary/{print $1}')";
-      XIDLEHOOK_SOCK = "/tmp/xidlehook.sock";
+    home.configFile."betterlockscreenrc" = {
+      source = "${configDir}/betterlockscreen/betterlockscreenrc";
+      recursive = true;
     };
 
-    serviceConfig = {
-      ExecStart = ''
-        ${getExe pkgs.xidlehook} \
-          --detect-sleep \
-          --not-when-fullscreen \
-          --not-when-audio \
-          --socket "$XIDLEHOOK_SOCK" \
-          --timer 300 "betterlockscreen -l dim" "" \
-          ${
-          if config.modules.hardware.profiles.laptop.enable
-          then ''--timer 3600 "systemctl suspend" ""''
-          else ""
-        }
-      '';
-      Restart = "always";
+    # home.services.xidlehook =
+    #   enabled
+    #   // {
+    #     detect-sleep = true;
+    #     not-when-audio = true;
+    #     not-when-fullscreen = true;
+    #   };
+
+    systemd.user.services.xidlehook = mkGraphicalService {
+      description = "General-purpose replacement for xautolock.";
+
+      environment = {
+        PRIMARY_DISPLAY = "$(xrandr | awk '/ primary/{print $1}')";
+        XIDLEHOOK_SOCK = socket;
+      };
+
+      path = with pkgs; [betterlockscreen xorg.xrandr gawk];
+      script = let
+        execCommand = spaceConcat (
+          [
+            (getExe pkgs.xidlehook)
+            "--detect-sleep"
+            "--not-when-fullscreen"
+            "--not-when-audio"
+            "--socket ${socket}"
+            "--timer 300 'betterlockscreen -l dim' ''"
+          ]
+          ++ optional modules.hardware.profiles.laptop.enable ''--timer 3600 "systemctl suspend" ""''
+        );
+      in
+        execCommand;
     };
   };
 }

@@ -98,9 +98,7 @@
     memoryPercent = lib.mkForce 50;
   };
 
-  services.xserver = {
-    videoDrivers = ["radeon"];
-  };
+  services.xserver = {videoDrivers = ["radeon"];};
   environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
 
   # Optimize power use

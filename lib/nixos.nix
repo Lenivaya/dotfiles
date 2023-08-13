@@ -30,6 +30,5 @@ in {
         ++ modules;
     };
 
-  mapHosts = dir: attrs:
-    mapModules dir (hostPath: mkHost hostPath attrs);
+  mapHosts = dir: attrs: mapModules dir (hostPath: mkHost hostPath attrs);
 }

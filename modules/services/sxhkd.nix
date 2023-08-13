@@ -13,19 +13,29 @@ in {
   options.modules.services.sxhkd.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    home.configFile."sxhkd" = {
-      source = "${configDir}/sxhkd";
-      recursive = true;
-    };
+    user.packages = with pkgs; [sxhkd];
+    services.xserver.displayManager.sessionCommands = ''
+      ${getExe pkgs.sxhkd} -c ${configDir}/sxhkd/sxhkdrc &
+    '';
 
-    systemd.user.services.sxhkd = {
-      description = "Sxhkd hotkeys daemon";
-      wants = ["graphical-session.target"];
-      wantedBy = ["graphical-session.target"];
-      after = ["graphical-session.target"];
+    # FIXME sxhkd in systemd service is luggish
+    # home.configFile."sxhkd" = {
+    #   source = "${configDir}/sxhkd";
+    #   recursive = true;
+    # };
 
-      path = with pkgs; [sxhkd skippy-xd];
-      script = "sxhkd -c ${configDir}/sxhkd/sxhkdrc";
-    };
+    # systemd.user.services.sxhkd = mkGraphicalService {
+    #   description = "Sxhkd hotkeys daemon";
+
+    #   # Not using dash here will lead to noticeable latency[1]
+    #   # (at least it is really noticeable for me)
+    #   # [1]: https://github.com/baskerville/sxhkd/issues/279
+    #   # environment.SXHKD_SHELL = "dash";
+
+    #   # environment.PATH = config.env.PATH;
+
+    #   path = with pkgs; [sxhkd skippy-xd];
+    #   script = "sxhkd";
+    # };
   };
 }

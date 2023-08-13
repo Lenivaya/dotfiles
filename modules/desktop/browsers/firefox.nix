@@ -10,7 +10,41 @@
 with lib;
 with lib.my; let
   inherit (config.dotfiles) configDir;
+  inherit (config) modules;
+
   cfg = config.modules.desktop.browsers.firefox;
+  firefoxExtensions = pkgs.nur.repos.rycee.firefox-addons;
+
+  userChrome = readFile "${configDir}/firefox/userChrome.css";
+  userContent = readFile "${configDir}/firefox/userContent.css";
+  settings = import "${configDir}/firefox/preferences.nix";
+  extensions = with firefoxExtensions;
+    [
+      vimium-c
+
+      sponsorblock
+      ublock-origin
+      localcdn
+      clearurls
+      libredirect
+      terms-of-service-didnt-read
+      buster-captcha-solver
+      # bypass-paywalls-clean
+
+      tree-style-tab
+      tst-tab-search
+      tab-session-manager
+
+      h264ify
+
+      violentmonkey
+
+      refined-github
+      reddit-comment-collapser
+      reddit-enhancement-suite
+    ]
+    ++ optional modules.desktop.media.mpv.enable ff2mpv
+    ++ optional modules.shell.pass.enable passff;
 in {
   options.modules.desktop.browsers.firefox.enable = mkBoolOpt false;
 
@@ -32,43 +66,31 @@ in {
       })
     ];
 
+    # Smooth scrolling
+    environment.sessionVariables.MOZ_USE_XINPUT2 = "1";
+
     home.programs.firefox =
       enabled
       // {
-        package = pkgs.firefox.override {
-          extraNativeMessagingHosts = with pkgs; [
-            my.ff2mpv-rust
-          ];
-        };
+        package = with pkgs; let
+          firefox' = firefox.override {
+            extraPolicies = {
+              DisableTelemetry = true;
+              DisablePocket = true;
+              DontCheckDefaultBrowser = true;
+              CaptivePortal = false;
+            };
+            extraNativeMessagingHosts = with pkgs;
+              []
+              ++ optional modules.desktop.media.mpv.enable my.ff2mpv-rust
+              ++ optional modules.shell.pass.enable passff-host;
+          };
+        in
+          firefox';
 
-        profiles.default = with builtins; {
-          extensions = with pkgs.nur.repos.rycee.firefox-addons; [
-            vimium-c
-
-            sponsorblock
-            ublock-origin
-            localcdn # decentraleyes
-            clearurls
-            libredirect
-            # terms-of-service-didnt-read
-            buster-captcha-solver
-
-            tree-style-tab
-            tab-session-manager
-
-            ff2mpv
-            h264ify
-
-            violentmonkey
-
-            refined-github
-            reddit-comment-collapser
-            reddit-enhancement-suite
-          ];
-
-          settings = import "${configDir}/firefox/preferences.nix";
-          userChrome = readFile "${configDir}/firefox/userChrome.css";
-          userContent = readFile "${configDir}/firefox/userContent.css";
+        profiles.default = {
+          id = 0;
+          inherit settings extensions userChrome userContent;
         };
       };
   };

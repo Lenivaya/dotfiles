@@ -9,18 +9,19 @@ with lib.my; {
   services.xserver =
     enabled
     // {
-      desktopManager.xterm.enable = mkDefault false;
       autoRepeatDelay = 200;
-      autoRepeatInterval = 50;
+      autoRepeatInterval = 25;
       layout = comcat ["us" "ru" "ua"];
       xkbOptions = comcat ["grp:win_space_toggle" "caps:ctrl_modifier"];
+
+      exportConfiguration = true;
 
       displayManager.lightdm =
         enabled
         // {
           greeters.gtk.theme = {
             name = "Adwaita-dark";
-            package = pkgs.gnome3.gnome-themes-extra;
+            package = pkgs.gnome.gnome-themes-extra;
           };
         };
     };
@@ -45,4 +46,8 @@ with lib.my; {
     [ -s .xsession-errors ] || rm -f .xsession-errors*
     popd
   '';
+
+  environment.shellAliases = {
+    restartx = "systemctl restart display-manager.service";
+  };
 }

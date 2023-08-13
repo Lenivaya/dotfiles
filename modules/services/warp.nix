@@ -9,7 +9,7 @@ with lib;
 with lib.my; let
   cfg = config.modules.services.warp;
   warpScript = pkgs.writeScriptBin "warp" ''
-    if warp-cli status | grep -qw "Connected"; then
+    if systemctl is-active --quiet warp-svc; then
         warp-cli disconnect
         systemctl stop warp-svc.service
     else
@@ -21,20 +21,17 @@ with lib.my; let
 in {
   options.modules.services.warp.enable = mkBoolOpt false;
 
-  config = mkIf cfg.enable {
-    systemd.services.warp-svc = {
-      description = "Cloudfare warp daemon";
-      after = ["graphical-session-pre.target"];
-      partOf = ["graphical-session.target"];
-      wantedBy = ["graphical-session.target"];
+  config = mkIf cfg.enable (
+    {
+      systemd.services.warp-svc = mkGraphicalService {
+        description = "Cloudfare warp daemon";
 
-      path = with pkgs; [cloudflare-warp];
-      script = "warp-svc";
-    };
+        path = with pkgs; [cloudflare-warp];
+        script = "warp-svc";
+      };
 
-    user.packages = with pkgs; [
-      cloudflare-warp
-      warpScript
-    ];
-  };
+      user.packages = with pkgs; [cloudflare-warp warpScript];
+    }
+    // disableService "warp-svc"
+  );
 }

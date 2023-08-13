@@ -14,10 +14,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-XngchR06HP2iExKJVe+XKBDgsv98AEYWOkl1a/Hktgs=";
   };
 
-  makeFlags = [
-    "DESTDIR=${placeholder "out"}"
-    "PREFIX="
-  ];
+  makeFlags = ["DESTDIR=${placeholder "out"}" "PREFIX="];
 
   postInstall = ''
     mkdir $out/bin

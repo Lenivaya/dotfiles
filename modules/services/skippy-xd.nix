@@ -20,14 +20,8 @@ in {
 
     environment.systemPackages = with pkgs; [skippy-xd];
 
-    systemd.user.services.skippy-xd = {
+    systemd.user.services.skippy-xd = mkGraphicalService {
       description = "Windows and workspaces selector";
-      wants = ["graphical-session.target"];
-      wantedBy = ["graphical-session.target"];
-      after = [
-        "graphical-session.target"
-        "display-manager.service"
-      ];
 
       path = with pkgs; [skippy-xd];
       script = "skippy-xd --start-daemon";

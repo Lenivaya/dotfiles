@@ -34,12 +34,16 @@ in {
         rm -rf $userDir/settings.json
         rm -rf $userDir/keybindings.json
         cat \
-          ${(pkgs.formats.json {}).generate "blabla"
-          config.home.programs.vscode.userSettings} \
+          ${
+          (pkgs.formats.json {}).generate "blabla"
+          config.home.programs.vscode.userSettings
+        } \
           > $userDir/settings.json
         cat \
-          ${(pkgs.formats.json {}).generate "blabla"
-          config.home.programs.vscode.keybindings} \
+          ${
+          (pkgs.formats.json {}).generate "blabla"
+          config.home.programs.vscode.keybindings
+        } \
           > $userDir/keybindings.json
       '';
     };
@@ -49,12 +53,10 @@ in {
     home.programs.vscode =
       enabled
       // {
-        userSettings = import "${configDir}/vscode/settings.nix" {
-          inherit lib;
-          inherit pkgs;
-          inherit config;
-        };
         keybindings = import "${configDir}/vscode/keybindings.nix";
+        userSettings = import "${configDir}/vscode/settings.nix" {
+          inherit lib pkgs config;
+        };
 
         mutableExtensionsDir = true;
         extensions = with pkgs.vscode-extensions;
