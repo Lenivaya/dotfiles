@@ -26,5 +26,6 @@ with lib.my; {
     lazydocker
     oxker
     docker-slim
+    # ctop
   ];
 }

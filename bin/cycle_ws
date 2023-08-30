@@ -29,8 +29,7 @@ target_workspace=$(((current_workspace + increment + total_workspaces) % total_w
 
 # Loop until we find a non-empty workspace or we reach the starting point again
 while
-  ! is_workspace_non_empty "$target_workspace"
-  \  && [ "$target_workspace" -ne "$current_workspace" ]
+  ! is_workspace_non_empty "$target_workspace" && [ "$target_workspace" -ne "$current_workspace" ]
 do
   # Move to the next or previous workspace
   target_workspace=$(((target_workspace + increment + total_workspaces) % total_workspaces))

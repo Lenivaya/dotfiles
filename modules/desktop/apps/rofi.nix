@@ -26,6 +26,7 @@ in {
         ];
         theme = "main";
         cycle = true;
+        terminal = modules.desktop.term.default;
         extraConfig = {
           modi = comcat [
             "combi"
@@ -46,6 +47,7 @@ in {
 
     user.packages = let
       rofiCommand = modi: "rofi -show ${modi}";
+      withTheme = theme: command: "${command} -theme ${theme}";
     in
       with pkgs;
         [
@@ -100,6 +102,18 @@ in {
             icon = "systemd";
             exec = "rofi-systemd";
           })
+          (makeDesktopItem {
+            name = "Rofi-top";
+            desktopName = "Rofi: top | htop";
+            icon = "systemd";
+            exec = withTheme "minimal" (rofiCommand "top");
+          })
+          # (makeDesktopItem {
+          #   name = "Rofi-pass";
+          #   desktopName = "Rofi: pass | password manger";
+          #   icon = "password";
+          #   exec = getExe rofi-pass;
+          # })
 
           (makeDesktopItem {
             name = "Rofi-audio-output";

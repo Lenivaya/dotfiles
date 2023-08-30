@@ -1,0 +1,19 @@
+-- import XMonad
+-- import XMonad.Actions.ShowText
+
+-- myCommands :: [(String, X ())]
+-- myCommands =
+--   [ ("decrease-master-size", sendMessage Shrink)
+--   , ("increase-master-size", sendMessage Expand)
+--   , ("decrease-master-count", sendMessage $ IncMasterN (-1))
+--   , ("increase-master-count", sendMessage $ IncMasterN (1))
+--   , ("focus-prev", windows W.focusUp)
+--   , ("focus-next", windows W.focusDown)
+--   , ("focus-master", windows W.focusMaster)
+--   , ("swap-with-prev", windows W.swapUp)
+--   , ("swap-with-next", windows W.swapDown)
+--   , ("swap-with-master", windows W.swapMaster)
+--   , ("kill-window", kill)
+--   , ("quit", io exitSuccess)
+--   , ("restart", restart "xmonad" True)
+--   ]

@@ -14,6 +14,19 @@ with lib; rec {
         else "";
     in {NIX_CFLAGS_COMPILE = "${oldflags} ${newflags}";});
 
+  withClang = pkg:
+    pkgs.lib.overrideDerivation pkg (_oa: {
+      stdenv = pkgs.clangStdenv;
+    });
+
+  withFastGCC = pkg:
+    pkgs.lib.overrideDerivation pkg (_oa: {
+      stdenv = pkgs.fastStdenv;
+    });
+
+  withThinLTO = pkg:
+    optimizeWithFlags pkg ["-flto=thin"];
+
   optimizeForThisHost = pkg:
     optimizeWithFlags pkg ["-O3" "-march=native" "-fPIC"];
 

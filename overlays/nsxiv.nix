@@ -1,4 +1,5 @@
-_final: prev: {
+_final: prev: rec {
+  sxiv = nsxiv;
   nsxiv = prev.nsxiv.overrideAttrs (_oa: let
     version = "31";
     rev = "v${version}";

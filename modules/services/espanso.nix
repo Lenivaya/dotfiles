@@ -17,6 +17,7 @@ in {
 
     services.espanso = enabled;
     systemd.user.services.espanso.path = with pkgs; [curl coreutils]; # FIXME still doesn't work
+    systemd.user.services.espanso.serviceConfig.PassEnvironment = "PATH";
 
     # I want it to be editable
     system.userActivationScripts.linkEspansoConfig =

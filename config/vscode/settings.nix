@@ -95,6 +95,12 @@ with pkgs;
     editor.wordWrap = "off";
     editor.minimap.showSlider = "always";
     editor.inlayHints.enabled = "offUnlessPressed";
+    "editor.quickSuggestions" = {
+      comments = "on";
+      strings = "on";
+    };
+    "editor.wordBasedSuggestions" = true;
+    "editor.wordBasedSuggestionsMode" = "allDocuments";
     diffEditor.ignoreTrimWhitespace = false;
 
     workbench.colorCustomizations = {
@@ -277,8 +283,8 @@ with pkgs;
       autoComplete.addBrackets = true;
       autoUpdateLanguageServer = false;
       defaultInterpreterPath = getExe python3;
-      formatting.provider = "yapf";
-      formatting.yapfPath = getExe yapf;
+      # formatting.provider = "yapf";
+      # formatting.yapfPath = getExe yapf;
       languageServer = "Pylance";
       linting = {
         flake8Enabled = true;

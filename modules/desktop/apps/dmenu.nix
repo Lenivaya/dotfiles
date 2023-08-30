@@ -18,7 +18,7 @@ in {
         emojipick
 
         (writeShellScriptBin "dmenu-drun"
-          "${getExe j4-dmenu-desktop} --dmenu='dmenu --no-generic -g 2 -l 10'")
+          "${getExe j4-dmenu-desktop} --no-generic --dmenu='dmenu -g 2 -l 10'")
         (writeShellScriptBin "dmenu-network"
           "${getExe networkmanager_dmenu} -l 10")
         (writeShellScriptBin "dmenu-bluetooth"

@@ -55,7 +55,6 @@ myConfig =
     |> configureMRU
     |> ewmh
     |> ewmhFullscreen
-    |> setEwmhActivateHook C.activateHook
     |> docks
     |> dynamicSBs C.barSpawner
     |> Hacks.javaHack

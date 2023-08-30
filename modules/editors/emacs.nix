@@ -104,6 +104,7 @@ in {
     home.programs.emacs =
       enabled
       // {
+        # package = pkgs.emacs-gtk;
         package = pkgs.emacs29-gtk3;
         extraPackages = epkgs: with epkgs; [vterm];
       };

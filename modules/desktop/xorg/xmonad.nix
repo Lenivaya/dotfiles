@@ -52,6 +52,7 @@ in {
     };
 
     user.packages = with pkgs; [
+      xmonadctl
       xmobar
       trayer # tray
       jq # for weather script
@@ -61,6 +62,7 @@ in {
       autorandr # to use with rescreen
       xkb-switch # switch kbd layout when needed
       my.boomer # zooming the screen
+      xkbmon # showing keyboard layout when changed
     ];
     fonts.fonts = with pkgs; [
       siji # some nice icons (awfull on hidpi)

@@ -1,6 +1,5 @@
 module XMonad.Custom.Manage.ManageHook (
   manageHook,
-  activateHook,
 ) where
 
 import XMonad hiding (manageHook)
@@ -15,16 +14,6 @@ import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
 import XMonad.StackSet as W
 import XMonad.Util.NamedScratchpad
-
-activateHook :: ManageHook
-activateHook =
-  mconcat
-    [ isDialog --> doAskUrgent
-    , className =? "mpv" --> doAskUrgent
-    , className =? "help" --> doAskUrgent
-    , className =? "Zathura" --> doAskUrgent
-    , className =? "Emacs" --> doAskUrgent
-    ]
 
 composeActions :: [MaybeManageHook]
 composeActions =

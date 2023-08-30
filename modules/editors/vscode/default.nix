@@ -59,8 +59,7 @@ in {
         };
 
         mutableExtensionsDir = true;
-        extensions = with pkgs.vscode-extensions;
-        with pkgs.vscode-marketplace; [
+        extensions = with pkgs.vscode-marketplace; [
           bodil.file-browser
 
           editorconfig.editorconfig
@@ -78,7 +77,7 @@ in {
 
           timonwong.shellcheck
 
-          WakaTime.vscode-wakatime
+          wakatime.vscode-wakatime
           alefragnani.project-manager
           # tomoki1207.pdf
 
@@ -88,6 +87,7 @@ in {
           vscodevim.vim
           vspacecode.whichkey
           vspacecode.vspacecode
+          jacobdufault.fuzzy-search
           ms-vscode.vs-keybindings
 
           aaron-bond.better-comments
@@ -131,7 +131,6 @@ in {
           kdarkhan.mips
           mgmcdermott.vscode-language-babel
           ms-python.python
-          ms-python.vscode-pylance
           ms-toolsai.jupyter
           reditorsupport.r
           rust-lang.rust-analyzer

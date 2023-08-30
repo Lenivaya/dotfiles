@@ -21,11 +21,6 @@ stdenv.mkDerivation rec {
 
   nativeBuildInputs = [makeWrapper];
 
-  # prePatch = ''
-  #   substituteInPlace ./udiskie-dmenu \
-  #     --replace 'DMENU_BLUETOOTH_LAUNCHER -i' DMENU_BLUETOOTH_LAUNCHER
-  # '';
-
   installPhase = ''
     runHook preInstall
 
