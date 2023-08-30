@@ -151,8 +151,8 @@ keysBase =
   , ("M-q r", restart "xmonad" True)
   , ("M-x", wrapKbdLayout $ shellPrompt $ promptNoCompletion promptTheme)
   , ("M-S-x", spawn $ C.appmenu C.applications)
-  -- , ("M-c", spawn $ C.clipboardSelector C.applications)
-  , ("M1-<Tab>", mostRecentlyUsed [xK_Alt_L, xK_Alt_R] xK_Tab)
+  , -- , ("M-c", spawn $ C.clipboardSelector C.applications)
+    ("M1-<Tab>", mostRecentlyUsed [xK_Alt_L, xK_Alt_R] xK_Tab)
   ]
 
 keysSelect :: Keybindings
@@ -165,8 +165,9 @@ keysPass :: Keybindings
 keysPass =
   [ ("M-p p", wrapKbdLayout $ passPrompt promptTheme)
   , ("M-p g", wrapKbdLayout . passGenerateAndCopyPrompt $ promptNoCompletion promptThemeVim)
-  , ("M-p d", wrapKbdLayout $ passRemovePrompt promptTheme)
+  , ("M-p d", wrapKbdLayout $ passRemovePrompt $ promptNoCompletion promptTheme)
   , ("M-p t", wrapKbdLayout $ passTypePrompt promptTheme)
+  , ("M-p e", wrapKbdLayout $ passEditPrompt promptTheme)
   ]
 
 keysGo :: Keybindings
@@ -175,6 +176,7 @@ keysGo =
     ("M-g s", wrapKbdLayout . selectAndSearchPrompt $ promptNoCompletion promptTheme)
   , ("M-g m", wrapKbdLayout . manPrompt $ promptNoCompletion promptTheme)
   , ("M-g c", wrapKbdLayout $ calcPrompt (promptNoCompletion promptTheme) "")
+  , ("M-g t", wrapKbdLayout $ spawn "dmenu-tmux")
   ]
 
 keysDo :: Keybindings
@@ -222,6 +224,7 @@ keysSpawnables =
   , ("M-o b", spawn $ C.browser C.applications)
   , ("M-o S-b", wrapKbdLayout $ selectBrowserByNameAndSpawn promptTheme)
   , ("M-o e", raiseEditor)
+  , ("M-o r", spawn $ C.termSmallFont C.applications ++ " -e ranger")
   , ("M-o S-e", spawn "doom +everywhere")
   , ("M-o c", namedScratchpadAction scratchpads "console")
   , ("M-o m", namedScratchpadAction scratchpads "music")

@@ -104,8 +104,8 @@ projects =
       { projectName = sys
       , projectDirectory = "~/"
       , projectStartHook = Just $ do
-          spawnOn sys (C.termSmallFont C.applications)
-          spawnOn sys (C.termSmallFont C.applications)
+          spawnOn sys (C.term C.applications)
+          spawnOn sys (C.term C.applications)
       }
   , Project
       { projectName = tmp

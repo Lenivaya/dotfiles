@@ -28,7 +28,6 @@ in {
         (makeDesktopItem {
           name = "tor-browser";
           desktopName = "Start tor browser";
-          genericName = "Start tor browser enabling tor daemon";
           icon = "tor-browser";
           exec = getExe tor-browser';
           categories = ["Network" "WebBrowser" "Security"];

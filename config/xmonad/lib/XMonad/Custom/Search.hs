@@ -15,6 +15,7 @@ reddit = searchEngine "reddit" "https://www.reddit.com/search/?q="
 nixpkgs = searchEngine "nixpkgs" "https://search.nixos.org/packages?&query="
 nixopts = searchEngine "nixopts" "https://search.nixos.org/options?&query="
 searx = searchEngine "searx" "https://searx.work/?q="
+nixpkgsissues = searchEngine "nixpkgsissues" "https://github.com/NixOS/nixpkgs/issues?q="
 
 myEngines :: [SearchEngine]
 myEngines =
@@ -36,6 +37,7 @@ myEngines =
   , youtube
   , reddit
   , nixpkgs
+  , nixpkgsissues
   , nixopts
   , searx
   , duckduckgo

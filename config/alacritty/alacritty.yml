@@ -24,7 +24,8 @@ scrolling:
   multiplier: 3
 
 font:
-  size: 10
+  # size: 10
+  size: 8
 
   normal:
     family: monospace

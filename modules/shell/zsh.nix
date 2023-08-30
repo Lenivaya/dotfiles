@@ -40,39 +40,9 @@ in {
         setOptions = [];
       };
 
-    # Some nice shell things
     user.packages = with pkgs; [
       zsh
-      bat
-      exa
-      fd
-      fzf
-      htop
-      btop # htop but prettier
-      tree
-      fasd
-      thefuck
-      navi
-      starship
-      zoxide
-      atuin
-
-      nix-your-shell # use zsh in nix shells
     ];
-
-    home.programs.broot = enabled;
-
-    home.programs.tealdeer =
-      enabled
-      // {
-        settings = {
-          display = {
-            compact = false;
-            use_pager = true;
-          };
-          updates = {auto_update = true;};
-        };
-      };
 
     home.configFile = {
       # Write it recursively so other modules can write files to it
@@ -105,21 +75,6 @@ in {
           cfg.envFiles}
         ${cfg.envInit}
       '';
-    };
-
-    home.configFile."starship.toml" = {
-      source = "${configDir}/starship/starship.toml";
-      recursive = true;
-    };
-
-    home.configFile."htop" = {
-      source = "${configDir}/htop";
-      recursive = true;
-    };
-
-    home.configFile."bat" = {
-      source = "${configDir}/bat";
-      recursive = true;
     };
 
     env = {

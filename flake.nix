@@ -27,7 +27,7 @@
 
     # Nix cli helper
     nh.url = "github:viperML/nh";
-    nh.inputs.nixpkgs.follows = "nixpkgs";
+    # nh.inputs.nixpkgs.follows = "nixpkgs";
 
     # Formatting and pre-commit hooks
     treefmt-nix.url = "github:numtide/treefmt-nix";

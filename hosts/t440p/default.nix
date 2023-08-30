@@ -16,6 +16,8 @@ with lib.my; {
       ./phone_cam.nix
       ./gpu.nix
       # ./jack_retask/jack_retask.nix
+      #
+      ./postgresql.nix
     ]
     ++ (with inputs.nixos-hardware.nixosModules; [
       lenovo-thinkpad-t440p
@@ -83,11 +85,12 @@ with lib.my; {
     };
 
     shell = {
+      zsh = enabled;
+      tmux = enabled;
       gnupg = enabled;
       direnv = enabled;
       pass = enabled;
       git = enabled;
-      zsh = enabled;
       weather = enabled;
     };
 
@@ -109,8 +112,13 @@ with lib.my; {
       haskell = enabled;
       node = enabled;
       python = enabled;
+      dotnet =
+        enabled
+        // {
+          dotnetPkg = pkgs.dotnet-sdk_7;
+          dotnetAspNetPkg = pkgs.dotnet-aspnetcore_7;
+        };
       # elixir = enabled;
-      # csharp = enabled;
       # php = enabled;
     };
 
@@ -122,11 +130,11 @@ with lib.my; {
       keyd = enabled;
       flatpak = enabled;
       espanso = enabled;
-      random-wallpaper =
-        enabled
-        // {
-          howOften = "*-*-* 05:00:00"; # daily 5AM
-        };
+      # random-wallpaper =
+      #   enabled
+      #   // {
+      #     howOften = "*-*-* 05:00:00"; # daily 5AM
+      #   };
       tray =
         enabled
         // {
@@ -150,7 +158,6 @@ with lib.my; {
               gpu = -40;
               uncore = core;
               analogio = core;
-              temp = 100;
             };
         };
       gpu.intel = enabled;
@@ -185,7 +192,9 @@ with lib.my; {
   };
 
   boot.kernelPackages = let
-    kernel' = pkgs.unstable.linuxPackages_lqx;
+    # kernel' = pkgs.unstable.linuxPackages_lqx;
+    # kernel' = pkgs.unstable.linuxPackages_zen;
+    kernel' = pkgs.unstable.linuxPackages_xanmod_latest;
   in
     mkForce kernel';
 
@@ -206,8 +215,8 @@ with lib.my; {
   };
 
   networking.firewall = {
-    allowedUDPPorts = [3000 4000 8080 8000];
-    allowedTCPPorts = [3000 4000 8080 8000];
+    allowedUDPPorts = [3000 4000 8080 8000 1433];
+    allowedTCPPorts = [3000 4000 8080 8000 1433];
   };
 
   # For manual fan control with pwm
@@ -219,9 +228,13 @@ with lib.my; {
       # lightworks pitivi
       ffmpeg-full
       obsidian
+      sqlfluff
     ]
-    ++ (with pkgs.jetbrains; [
+    ++ (with pkgs.unstable.jetbrains; [
       # phpstorm
+      webstorm
+      rider
+      pycharm-professional
     ]);
 
   hardware.trackpoint = {
@@ -279,15 +292,33 @@ with lib.my; {
   #   };
 
   environment.shellAliases = {
-    shutUpAndGetOutOfMySight = "sudo modprobe -r uvcvideo && volumectl -m toggle-mute";
+    shutUpAndGetOutOfMySight = "sudo modprobe -r uvcvideo && volumectl -m mute";
     freemem = "sync && echo 3 | sudo tee /proc/sys/vm/drop_caches";
   };
 
-  nixpkgs.overlays = [
-    (_final: _prev: {
+  nixpkgs.overlays = let
+    optimize = pkg: optimizeForThisHost (withThinLTO (withClang pkg));
+  in [
+    (_final: prev: {
       inherit (pkgs.unstable) google-chrome;
       inherit (pkgs.unstable) firefox firefox-bin;
-      # inherit (pkgs.unstable) vscode vscode-extensions;
+      inherit (pkgs.unstable) vscode vscode-extensions;
+
+      picom = optimize pkgs.unstable.picom-next;
+      sxhkd = optimize prev.sxhkd;
+      skippy-xd = optimize prev.skippy-xd;
+      dmenu = optimize prev.dmenu;
+      nsxiv = optimize prev.nsxiv;
+      trayer = optimize prev.trayer;
+
+      # TODO FIXME BUG
+      # Broken after https://github.com/NixOS/nixpkgs/pull/256413
+      linux_lqx_fixed = pkgs.linuxPackagesFor (pkgs.unstable.linuxKernel.kernels.linux_lqx.override {
+        structuredExtraConfig = with lib.kernel; {
+          DEFAULT_TCP_CONG = freeform "bbr2";
+        };
+        ignoreConfigErrors = true;
+      });
     })
   ];
 }

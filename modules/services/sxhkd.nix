@@ -13,17 +13,17 @@ in {
   options.modules.services.sxhkd.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
+    home.configFile."sxhkd" = {
+      source = "${configDir}/sxhkd";
+      recursive = true;
+    };
+
     user.packages = with pkgs; [sxhkd];
     services.xserver.displayManager.sessionCommands = ''
-      ${getExe pkgs.sxhkd} -c ${configDir}/sxhkd/sxhkdrc &
+      ${getExe pkgs.sxhkd} &
     '';
 
     # FIXME sxhkd in systemd service is luggish
-    # home.configFile."sxhkd" = {
-    #   source = "${configDir}/sxhkd";
-    #   recursive = true;
-    # };
-
     # systemd.user.services.sxhkd = mkGraphicalService {
     #   description = "Sxhkd hotkeys daemon";
 

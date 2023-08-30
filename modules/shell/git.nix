@@ -36,6 +36,7 @@ in {
       gitAndTools.git-open
       # gitAndTools.diff-so-fancy
       (mkIf config.modules.shell.gnupg.enable gitAndTools.git-crypt)
+      # git-extras
       git-ignore
     ];
   };

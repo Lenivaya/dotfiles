@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+if ! systemctl --user is-active --quiet easyeffects; then
+  systemctl --user start easyeffects &
+else
+  systemctl --user stop easyeffects &
+fi

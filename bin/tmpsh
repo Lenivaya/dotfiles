@@ -9,4 +9,5 @@ mkdir -p "$dir"
 trap 'rm -rf -- "${dir:-?}"' EXIT INT TERM HUP
 
 cd "$dir"
+echo "$dir" | xclip -selection clipboard
 (${SHELL:-/bin/sh})

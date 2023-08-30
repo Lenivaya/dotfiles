@@ -54,8 +54,13 @@ in {
       // {
         # TODO add after home-manager update
         # platformTheme = "kde";
+        # style = {
+        #   name = "breeze";
+        # };
+        platformTheme = "gnome";
         style = {
-          name = "breeze";
+          package = pkgs.adwaita-qt;
+          name = "adwaita-dark";
         };
       };
 

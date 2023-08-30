@@ -15,26 +15,30 @@ in {
     # Fixes needed to support latest keyd version (TODO push this to nixpkgs?)
     nixpkgs.overlays = [
       (_final: prev: {
-        keyd = optimizeForThisHost (prev.keyd.overrideAttrs (_oa: {
-          src = prev.fetchFromGitHub {
-            owner = "rvaiya";
-            repo = "keyd";
-            rev = "2338f11b1ddd81eaddd957de720a3b4279222da0";
-            hash = "sha256-IR0Murvc9aCSuGh01sZEWHyYmmFADtmopGMgt6ydSxU=";
-          };
+        keyd = withThinLTO (withClang (
+          optimizeForThisHost (prev.keyd.overrideAttrs (_oa: {
+            src = prev.fetchFromGitHub {
+              owner = "rvaiya";
+              repo = "keyd";
+              rev = "2338f11b1ddd81eaddd957de720a3b4279222da0";
+              hash = "sha256-IR0Murvc9aCSuGh01sZEWHyYmmFADtmopGMgt6ydSxU=";
+            };
 
-          makeFlags = [
-            "DESTDIR=${placeholder "out"}"
-            "PREFIX="
-            "SOCKET_PATH=/run/keyd/keyd.sock"
-          ];
-        }));
+            makeFlags = [
+              "DESTDIR=${placeholder "out"}"
+              "PREFIX="
+              "SOCKET_PATH=/run/keyd/keyd.sock"
+            ];
+          }))
+        ));
       })
     ];
-    # systemd.services.keyd.environment.KEYD_DEBUG = mkForce "2";
-    systemd.services.keyd.serviceConfig.Nice = mkForce (-20);
-    systemd.services.keyd.serviceConfig.SystemCallFilter =
-      mkForce ["~@resources" "@system-service" "~@privileged" "setpriority"];
+    systemd.services.keyd.serviceConfig = {
+      PrivateUsers = mkForce false;
+      CapabilityBoundingSet = mkForce ["CAP_SYS_NICE"];
+      SystemCallFilter =
+        mkForce ["nice" "@system-service" "~@privileged" "setpriority"];
+    };
 
     services.keyd =
       enabled
@@ -43,18 +47,19 @@ in {
           main = {
             # Better escape
             "j+k" = "esc";
+
             control = "layer(modified_escape)";
             capslock = "layer(modified_escape)";
 
             # nav layer
-            leftalt = "layer(customaltnav)";
+            leftalt = "layer(nav)";
           };
 
           # Ctrl + [ will always trigger escape for all
           # language layouts
           "modified_escape:C" = {"[" = "esc";};
 
-          "customaltnav:A" = {
+          "nav:A" = {
             h = "left";
             j = "down";
             k = "up";
@@ -62,7 +67,7 @@ in {
           };
 
           # that is broken by nixos module (TODO)
-          # "customaltnav+shift" = {
+          # "nav+shift" = {
           #   j = "pagedown";
           #   k = "pageup";
           # };

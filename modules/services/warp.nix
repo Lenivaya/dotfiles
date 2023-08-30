@@ -21,17 +21,14 @@ with lib.my; let
 in {
   options.modules.services.warp.enable = mkBoolOpt false;
 
-  config = mkIf cfg.enable (
-    {
-      systemd.services.warp-svc = mkGraphicalService {
-        description = "Cloudfare warp daemon";
+  config = mkIf cfg.enable {
+    systemd.services.warp-svc = mkGraphicalService {
+      description = "Cloudfare warp daemon";
 
-        path = with pkgs; [cloudflare-warp];
-        script = "warp-svc";
-      };
+      path = with pkgs; [cloudflare-warp];
+      script = "warp-svc";
+    };
 
-      user.packages = with pkgs; [cloudflare-warp warpScript];
-    }
-    // disableService "warp-svc"
-  );
+    user.packages = with pkgs; [cloudflare-warp warpScript];
+  };
 }

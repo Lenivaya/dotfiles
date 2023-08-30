@@ -7,16 +7,24 @@
 with lib;
 with lib.my; let
   inherit (config.dotfiles) configDir;
-  tmuxDesktopItem = with pkgs;
-    makeDesktopItem {
-      name = "tmux";
-      desktopName = "Tmux";
-      exec = "${config.modules.desktop.term.default} -e tmux";
-      categories = ["System"];
-    };
+  cfg = config.modules.shell.tmux;
 in {
-  config = {
-    user.packages = with pkgs; [tmux tmuxDesktopItem];
+  options.modules.shell.tmux.enable = mkBoolOpt false;
+
+  config = mkIf cfg.enable {
+    modules.shell = {
+      fzf = enabled;
+    };
+
+    user.packages = with pkgs; [
+      tmux
+      (makeDesktopItem {
+        name = "tmux";
+        desktopName = "Tmux";
+        exec = "${config.modules.desktop.term.default} -e tmux";
+        categories = ["System"];
+      })
+    ];
 
     env.TMUX_HOME = "$XDG_CONFIG_HOME/tmux";
 
@@ -25,46 +33,24 @@ in {
         source = "${configDir}/tmux";
         recursive = true;
       };
-      "tmux/plugins".text = ''
-        run-shell ${pkgs.tmuxPlugins.prefix-highlight}/share/tmux-plugins/prefix-highlight/prefix_highlight.tmux
-        run-shell ${pkgs.tmuxPlugins.copycat}/share/tmux-plugins/copycat/copycat.tmux
-        run-shell ${pkgs.tmuxPlugins.yank}/share/tmux-plugins/yank/yank.tmux
-        run-shell ${pkgs.tmuxPlugins.sensible}/share/tmux-plugins/sensible/sensible.tmux
-        run-shell ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/resurrect.tmux
-        run-shell ${pkgs.tmuxPlugins.continuum}/share/tmux-plugins/continuum/continuum.tmux
-        run-shell ${pkgs.tmuxPlugins.tmux-thumbs}/share/tmux-plugins/tmux-thumbs/tmux-thumbs.tmux
-        run-shell ${pkgs.tmuxPlugins.jump}/share/tmux-plugins/jump/tmux-jump.tmux
-      '';
-    };
-
-    ## Automatic start
-    systemd.user.services.tmux = {
-      description = "tmux default session";
-      after = ["graphical-session-pre.target"];
-      partOf = ["graphical-session.target"];
-      wantedBy = ["graphical-session.target"];
-
-      path = with pkgs; [tmux ripgrep];
-      environment = {
-        DISPLAY = "0";
-        TMUX_HOME = "/home/${config.user.name}/.config/tmux";
-      };
-
-      script = ''
-        tmux new-session -d -s "main" -n "main"
-      '';
-      preStop = ''
-        tmux list-sessions | rg -q "main" && tmux kill-session -t main
-        ${pkgs.tmuxPlugins.resurrect}/share/tmux-plugins/resurrect/scripts/save.sh
-        tmux kill-server
-      '';
-
-      serviceConfig = {
-        Type = "forking";
-        KillMode = "none";
-        Restart = "on-failure";
-        RestartSec = 2;
-      };
+      "tmux/plugins".text = let
+        plugins = with pkgs.tmuxPlugins; [
+          prefix-highlight
+          yank
+          sensible
+          resurrect
+          continuum
+          tmux-thumbs
+          jump
+          fpp
+          extrakto
+          tmux-fzf
+          fzf-tmux-url
+          fuzzback
+        ];
+        loadPlugin = p: "run-shell ${p.rtp}";
+      in
+        concatLines (map loadPlugin plugins);
     };
   };
 }
