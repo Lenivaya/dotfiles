@@ -280,7 +280,8 @@ vterm             ; another terminals in Emacs
  +flymake
  +childframe)
 (spell
- +enchant)                        ; tasing you for misspelling mispelling
+ ;; +enchant
+ )                        ; tasing you for misspelling mispelling
 grammar                      ; tasing grammar mistake every you make
 #+end_src
 
@@ -1711,6 +1712,15 @@ Let's use vale instead of builtin grammar module from doom-emacs.
 (use-package! what-the-commit)
 #+end_src
 
+** GC-buffers
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! gc-buffers :recipe (:type git :repo "https://codeberg.org/akib/emacs-gc-buffers.git"))
+#+end_src
+#+begin_src emacs-lisp
+(use-package! gc-buffers)
+#+end_src
+
 * Applications
 ** Obsidian
 
@@ -1811,7 +1821,18 @@ Turn off company for nix
 
 Use alejandra formatter
 #+begin_src emacs-lisp
-(set-formatter! 'alejandra "alejandra --quiet" :modes '(nix-mode))
+;; (set-formatter! 'alejandra "alejandra --quiet" :modes '(nix-mode)) ;; doesn't work for some reason
+
+(after! apheleia
+
+  (push '(alejandra . ("alejandra" "--quiet" "-"))
+        apheleia-formatters)
+  (setf (alist-get 'nix-mode apheleia-mode-alist)
+        '(alejandra))
+
+  )
+;; (setq-hook! nix-mode-hook +format-with 'alejandra)
+;; (setq-hook! 'nix-mode-hook +format-with nil)
 #+end_src
 ** Org
 :PROPERTIES:
@@ -3363,4 +3384,9 @@ config tangling
   )
 
 ()
+#+end_src
+* Fixes
+# void-variable flymake-allowed-file-name-masks
+#+begin_src emacs-lisp
+(setq flymake-allowed-file-name-masks '())
 #+end_src

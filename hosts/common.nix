@@ -8,7 +8,7 @@ with lib; {
   };
 
   # hardware related stuff
-  nixpkgs.config.allowUnfree = true;
+  # nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;
   hardware.enableAllFirmware = true;
   hardware.opengl = {

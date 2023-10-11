@@ -21,7 +21,6 @@ import XMonad.Layout.BinarySpacePartition
 import XMonad.Layout.BoringWindows hiding (Replace)
 import XMonad.Layout.CenteredIfSingle
 import XMonad.Layout.Circle
-import XMonad.Layout.Cross
 import XMonad.Layout.DraggingVisualizer
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.GridVariants
@@ -74,7 +73,6 @@ twoPane = TwoPane (3 % 100) (1 % 2)
 onebig = setName "OneBig" $ OneBig (3 / 4) (3 / 4)
 monocle = setName "Monocle" Full
 grid = setName "Grid" $ limitWindows 9 $ Grid (16 / 10)
-cross = setName "Cross" simpleCross
 roledex = Roledex
 
 hacking =
@@ -87,7 +85,6 @@ hacking =
 -- threecol = setName "ThreeCol" $ ThreeCol 1 (3 / 100) (1 / 2)
 threeColMid =
   setName "ThreeColMid"
-    . reflectHoriz
     . magnify 1.2 (NoMaster 4) True
     $ ThreeColMid 1 (3 % 100) (11 % 30)
 
@@ -121,7 +118,6 @@ layoutsInfo =
     |||! onebig
     |||! monocle
     |||! grid
-    |||! cross
     |||! roledex
 
 layouts = fst layoutsInfo

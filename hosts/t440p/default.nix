@@ -48,7 +48,7 @@ with lib.my; {
         firefox = enabled;
         chromium = enabled // {googled = true;};
         tor = enabled;
-        # qutebrowser = enabled;
+        qutebrowser = enabled;
       };
 
       term = {
@@ -101,6 +101,16 @@ with lib.my; {
         // {
           doom = enabled;
           default = true;
+        };
+      jetbrains =
+        enabled
+        // {
+          packages = with pkgs.unstable.jetbrains; [
+            webstorm
+            rider
+            pycharm-professional
+            datagrip
+          ];
         };
     };
 
@@ -192,9 +202,7 @@ with lib.my; {
   };
 
   boot.kernelPackages = let
-    # kernel' = pkgs.unstable.linuxPackages_lqx;
-    # kernel' = pkgs.unstable.linuxPackages_zen;
-    kernel' = pkgs.unstable.linuxPackages_xanmod_latest;
+    kernel' = pkgs.unstable.linuxPackages_lqx;
   in
     mkForce kernel';
 
@@ -207,6 +215,10 @@ with lib.my; {
     # https://wiki.archlinux.org/title/improving_performance#Watchdogs
     "nowatchdog"
     "kernel.nmi_watchdog=0"
+
+    # # fuck
+    # "fsck.mode=force"
+    # "fsck.repair=yes"
   ];
 
   boot.plymouth = {
@@ -223,19 +235,20 @@ with lib.my; {
   boot.extraModprobeConfig = "options thinkpad_acpi experimental=1 fan_control=1";
 
   # nixpkgs.config.permittedInsecurePackages = ["electron-13.6.9"];
-  user.packages = with pkgs;
-    [
-      # lightworks pitivi
-      ffmpeg-full
-      obsidian
-      sqlfluff
-    ]
-    ++ (with pkgs.unstable.jetbrains; [
-      # phpstorm
-      webstorm
-      rider
-      pycharm-professional
-    ]);
+  user.packages = with pkgs; [
+    # lightworks pitivi
+    ffmpeg-full
+    obsidian
+    sqlfluff
+    kdenlive
+  ];
+  # ++ (with pkgs.unstable.jetbrains; [
+  #   # phpstorm
+  #   webstorm
+  #   rider
+  #   pycharm-professional
+  #   datagrip
+  # ]);
 
   hardware.trackpoint = {
     enable = true;
@@ -285,6 +298,25 @@ with lib.my; {
 
   services.smartd = enabled;
 
+  home.services.picom.settings = {
+    corner-radius = 0;
+    animation-stiffness = 100;
+    animation-window-mass = 0.8;
+    animation-dampening = 10;
+    # animation-clamping = true;
+
+    animation-open-exclude = [
+      "class_g *= 'slop'"
+      "name *= 'slop'"
+      "class_g *= 'skippy-xd'"
+    ];
+    animation-unmap-exclude = [
+      "class_g *= 'slop'"
+      "name *= 'slop'"
+      "class_g *= 'skippy-xd'"
+    ];
+  };
+
   # services.tp-auto-kbbl =
   #   enabled
   #   // {
@@ -304,21 +336,17 @@ with lib.my; {
       inherit (pkgs.unstable) firefox firefox-bin;
       inherit (pkgs.unstable) vscode vscode-extensions;
 
-      picom = optimize pkgs.unstable.picom-next;
+      inherit (pkgs.unstable) virt-viewer;
+
+      # picom = optimize pkgs.unstable.picom-next;
+      # picom = optimize pkgs.unstable.picom-allusive;
+
       sxhkd = optimize prev.sxhkd;
       skippy-xd = optimize prev.skippy-xd;
       dmenu = optimize prev.dmenu;
       nsxiv = optimize prev.nsxiv;
       trayer = optimize prev.trayer;
-
-      # TODO FIXME BUG
-      # Broken after https://github.com/NixOS/nixpkgs/pull/256413
-      linux_lqx_fixed = pkgs.linuxPackagesFor (pkgs.unstable.linuxKernel.kernels.linux_lqx.override {
-        structuredExtraConfig = with lib.kernel; {
-          DEFAULT_TCP_CONG = freeform "bbr2";
-        };
-        ignoreConfigErrors = true;
-      });
+      st = optimize prev.st;
     })
   ];
 }

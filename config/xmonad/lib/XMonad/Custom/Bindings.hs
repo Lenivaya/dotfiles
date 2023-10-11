@@ -24,6 +24,7 @@ import XMonad.Actions.EasyMotion (selectWindow)
 import XMonad.Actions.FlexibleManipulate qualified as Flex
 import XMonad.Actions.FloatSnap
 import XMonad.Actions.GridSelect
+import XMonad.Actions.GroupNavigation
 import XMonad.Actions.MessageFeedback
 import XMonad.Actions.Minimize
 import XMonad.Actions.MostRecentlyUsed
@@ -203,6 +204,7 @@ keysWorkspaces =
   , ("M-w S-s", wrapKbdLayout $ shiftToProjectPrompt promptTheme)
   , ("M-w S-n", wrapKbdLayout $ renameProjectPrompt hotPromptTheme)
   , ("M-w <Backspace>", removeWorkspace)
+  , ("M-w S-<Backspace>", confirmPrompt hotPromptTheme "Kill workspace?" $ killAll >> removeWorkspace)
   , ("M-,", nextNonEmptyWS)
   , ("M-.", prevNonEmptyWS)
   , ("M-i", toggleWS' ["NSP"])
@@ -245,26 +247,25 @@ keysWindows =
   , ("M-w b", wrapKbdLayout $ windowPrompt promptTheme Bring allWindows)
   , ("M-w c", toggleCopyToAll)
   , ("M-w o", sendMessage Mag.Toggle)
-  , -- To remove focused copied window from current workspace
-    ("M-w S-c", kill1)
+  , ("M-w S-c", kill1) -- To remove focused copied window from current workspace
   , ("M-w h", withFocused minimizeWindow)
+  , ("M-w M1-h", withOthers minimizeWindow)
   , ("M-w S-h", withLastMinimized maximizeWindowAndFocus)
-  , -- , ("M-w C-S-h", selectMaximizeWindowGrid)
-    ("M-w C-S-h", wrapKbdLayout $ selectMaximizeWindowPrompt $ promptNoCompletion promptTheme)
-  , ("M-w r", tryMessageR_ Rotate (Toggle REFLECTX))
-  , -- , ("M-w S-r", sendMessage $ Toggle REFLECTX)
-    ("M-w t", withFocused $ sendMessage . MergeAll)
+  , ("M-w C-S-h", wrapKbdLayout $ selectMaximizeWindowPrompt $ promptNoCompletion promptTheme) -- , ("M-w C-S-h", selectMaximizeWindowGrid)
+  , ("M-w r", sendMessage $ Toggle REFLECTX) -- ("M-w r", tryMessageR_ Rotate (Toggle REFLECTX))
+  , ("M-w t", withFocused $ sendMessage . MergeAll)
   , ("M-w S-t", withFocused $ sendMessage . UnMerge)
   , ("M-w u", focusUrgent)
   , ("M-w m", windows S.focusMaster)
-  , -- , ("M-w S-m", dwmpromote)
-    ("M-w S-m", whenX (swapHybrid True) dwmpromote)
+  , ("M-w S-m", whenX (swapHybrid True) dwmpromote) -- , ("M-w S-m", dwmpromote)
   , ("M-'", onGroup S.focusDown')
   , ("M-;", onGroup S.focusUp')
   , ("M-S-'", windows S.swapDown)
   , ("M-S-;", windows S.swapUp)
   , ("M-w <Space>", selectWindow def >>= (`whenJust` windows . S.focusWindow))
   , ("M-w S-<Space>", selectWindow def >>= (`whenJust` windows . (S.shiftMaster .) . S.focusWindow))
+  , ("M-/", windows S.focusDown)
+  , ("M-S-/", windows S.focusUp)
   ]
     ++ zipKeys' "M-" vimKeys directions windowGo True
     ++ zipKeys' "M-S-" vimKeys directions windowSwap True

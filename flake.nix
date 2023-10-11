@@ -5,10 +5,12 @@
 
   inputs = {
     # Core dependencies
-    nixpkgs.url = "nixpkgs/nixos-23.05"; # primary nixpkgs
-    nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable"; # for packages on the edge
+    # nixpkgs.url = "nixpkgs/nixos-23.05"; # primary nixpkgs
+    nixpkgs.url = "nixpkgs/nixos-unstable"; # primary nixpkgs
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable"; # for packages on the edge
 
-    home-manager.url = "github:nix-community/home-manager/release-23.05";
+    # home-manager.url = "github:nix-community/home-manager/release-23.05";
+    home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
     agenix.url = "github:ryantm/agenix";
@@ -20,6 +22,7 @@
 
     # XMonad
     xmonad-contrib.url = "github:xmonad/xmonad-contrib";
+    xmonad-contrib.inputs.nixpkgs.follows = "nixpkgs";
 
     # vscode
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
@@ -40,6 +43,14 @@
     nur.url = "github:nix-community/NUR";
     programsdb.url = "github:wamserma/flake-programs-sqlite";
     programsdb.inputs.nixpkgs.follows = "nixpkgs";
+    nix-index-db = {
+      url = "github:nix-community/nix-index-database";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    jetbrains = {
+      url = "github:liff/jetbrains-flake";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {

@@ -4,4 +4,4 @@ wallpaper_dir=~/Pictures/walls
 wallpapers=("$wallpaper_dir"/*(N.om))
 
 selected_wallpaper=$(sxiv -t "${wallpapers[@]}")
-setwall "$selected_wallpaper"
+setwall "$selected_wallpaper" &

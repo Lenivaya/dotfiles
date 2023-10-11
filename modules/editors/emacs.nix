@@ -41,7 +41,7 @@ in {
       gnutls # for TLS connectivity
       imagemagick # for image-dired
       (mkIf config.programs.gnupg.agent.enable
-        pinentry_emacs) # in-emacs gnupg prompts
+        pinentry-emacs) # in-emacs gnupg prompts
       zstd # for undo-tree compression
       python39Packages.pylatexenc # LaTeX parser
       # my.my_cookies # leetcode cookie retriever
@@ -97,7 +97,7 @@ in {
       vale
     ];
 
-    fonts.fonts = with pkgs; [
+    fonts.packages = with pkgs; [
       emacs-all-the-icons-fonts
     ];
 
