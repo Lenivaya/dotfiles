@@ -56,7 +56,6 @@ in {
       xdotool
       lnav # <- log file navigator
       procs # <- a "modern" replacement for ps
-      comma # quickly run soft without install using nix
     ]
     ++ (with pkgs.gnome; [
       gnome-sound-recorder

@@ -6,10 +6,10 @@
 with lib.my; {
   fonts = {
     fontDir = enabled;
-    enableDefaultFonts = true;
+    enableDefaultPackages = true;
     enableGhostscriptFonts = true;
 
-    fonts = with pkgs; [
+    packages = with pkgs; [
       iosevka-bin
       ibm-plex
       noto-fonts
@@ -31,8 +31,17 @@ with lib.my; {
     fontconfig =
       enabled
       // {
-        hinting = enabled // {autohint = false;};
-        subpixel.lcdfilter = "default";
+        antialias = true;
+        hinting =
+          enabled
+          // {
+            autohint = false;
+            style = "slight";
+          };
+        subpixel = {
+          lcdfilter = "default";
+          rgba = "rgb";
+        };
         defaultFonts = {
           monospace = ["Iosevka"];
           sansSerif = ["IBM Plex Sans"];

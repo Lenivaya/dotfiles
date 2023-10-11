@@ -44,6 +44,10 @@ with pkgs;
             }
           ];
         }
+        {
+          "before" = ["g" "r"];
+          "commands" = ["editor.action.rename"];
+        }
       ];
       visualModeKeyBindingsNonRecursive = [
         {
@@ -127,6 +131,7 @@ with pkgs;
     workbench.iconTheme = "vs-seti";
     workbench.sideBar.location = "right";
     workbench.tree.expandMode = "singleClick";
+    workbench.startupEditor = "None";
     breadcrumbs.enabled = true;
     window.menuBarVisibility = "toggle";
     window.titleBarStyle = "native";
@@ -164,6 +169,7 @@ with pkgs;
     explorer.decorations.colors = true;
     explorer.incrementalNaming = "smart";
     explorer.openEditors.visible = 8;
+    "explorer.autoReveal" = false;
     search.smartCase = true;
 
     # Terminal
@@ -348,6 +354,8 @@ with pkgs;
     };
 
     markdown.preview.typographer = true;
+
+    "codesnap.showLineNumbers" = false;
 
     "[markdown]" = {"editor.defaultFormatter" = "esbenp.prettier-vscode";};
     "[css]" = {"editor.defaultFormatter" = "esbenp.prettier-vscode";};

@@ -38,6 +38,8 @@ in {
           show = "combi";
           show-icons = true;
         };
+
+        pass.enable = config.modules.shell.pass.enable;
       };
 
     home.configFile."rofi" = {
@@ -47,6 +49,8 @@ in {
 
     user.packages = let
       rofiCommand = modi: "rofi -show ${modi}";
+      rofiDmenu = "rofi -dmenu -i";
+      rofiPrompt = prompt: command: "${command} -p \"${prompt}\" -case-sensitive";
       withTheme = theme: command: "${command} -theme ${theme}";
     in
       with pkgs;
@@ -57,8 +61,18 @@ in {
           rofi-bluetooth
           rofi-systemd
           rofi-pulse-select
+          my.rofi-code
           # rofi-power-menu
 
+          (makeDesktopItem {
+            name = "Rofi-code";
+            desktopName = "Rofi: code | vscode | vscode projects";
+            categories = ["Development"];
+            exec = let
+              pkg = getExe my.rofi-code;
+              rofiCommand' = rofiPrompt "vscode:" (withTheme "minimal" rofiDmenu);
+            in "${pkg} --rofi \"${rofiCommand'}\"";
+          })
           (makeDesktopItem {
             name = "Rofi-calc";
             desktopName = "Rofi: Calculator";
@@ -98,7 +112,7 @@ in {
           })
           (makeDesktopItem {
             name = "Rofi-systemd";
-            desktopName = "Rofi: systemd";
+            desktopName = "Rofi: systemd | systemctl | journalctl | units";
             icon = "systemd";
             exec = "rofi-systemd";
           })
@@ -108,12 +122,12 @@ in {
             icon = "systemd";
             exec = withTheme "minimal" (rofiCommand "top");
           })
-          # (makeDesktopItem {
-          #   name = "Rofi-pass";
-          #   desktopName = "Rofi: pass | password manger";
-          #   icon = "password";
-          #   exec = getExe rofi-pass;
-          # })
+          (makeDesktopItem {
+            name = "Rofi-pass";
+            desktopName = "Rofi: pass | password manger";
+            icon = "password";
+            exec = "rofi-pass";
+          })
 
           (makeDesktopItem {
             name = "Rofi-audio-output";

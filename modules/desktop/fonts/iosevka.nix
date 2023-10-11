@@ -11,7 +11,7 @@ in {
   options.modules.desktop.fonts.iosevka.enable = mkBoolOpt false;
 
   config = mkIf iosevka.enable {
-    fonts.fonts = with pkgs; [
+    fonts.packages = with pkgs; [
       iosevka-bin
       (iosevka-bin.override {variant = "aile";})
       (iosevka-bin.override {variant = "etoile";})

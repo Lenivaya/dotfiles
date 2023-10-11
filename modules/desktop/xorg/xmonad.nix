@@ -6,7 +6,6 @@
   lib,
   pkgs,
   inputs,
-  system,
   ...
 }:
 with lib;
@@ -16,8 +15,8 @@ in {
   options.modules.desktop.xmonad.enable = mkBoolOpt false;
 
   imports = with inputs;
-    xmonad-contrib.nixosModules
-    ++ [xmonad-contrib.modernise.${system}];
+    xmonad-contrib.nixosModules;
+  # ++ [xmonad-contrib.modernise.${system}];
 
   config = mkIf cfg.enable {
     modules = {
@@ -64,7 +63,7 @@ in {
       my.boomer # zooming the screen
       xkbmon # showing keyboard layout when changed
     ];
-    fonts.fonts = with pkgs; [
+    fonts.packages = with pkgs; [
       siji # some nice icons (awfull on hidpi)
       font-awesome # even more nice icons
       weather-icons # for weather script

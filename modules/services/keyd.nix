@@ -43,7 +43,8 @@ in {
     services.keyd =
       enabled
       // {
-        settings = {
+        # settings = {
+        keyboards.default.settings = {
           main = {
             # Better escape
             "j+k" = "esc";

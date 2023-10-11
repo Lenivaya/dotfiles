@@ -7,7 +7,7 @@ with lib.my; {
       vSync = true;
 
       activeOpacity = 1.0;
-      inactiveOpacity = 0.92;
+      inactiveOpacity = 0.95;
       opacityRules = [
         "100:name *= 'i3lock'"
         "100:class_g = 'Gimp'"
@@ -16,6 +16,7 @@ with lib.my; {
         "100:class_g = 'feh'"
         "100:class_g = 'Thunderbird'"
         "100:class_g = 'mpv'"
+        "100:class_g = 'slop'"
         "100:_NET_WM_STATE@:32a *= '_NET_WM_STATE_FULLSCREEN'"
         "0:_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
         "96:_NET_WM_STATE@:32a *= '_NET_WM_STATE_STICKY'"
@@ -30,6 +31,7 @@ with lib.my; {
       shadowOpacity = 0.6;
       shadowExclude = [
         "name *= 'picom'"
+        "class_g = 'slop'"
         "class_g = 'trayer'"
         "class_g ?= 'Notify-osd'"
         "class_g = 'Ulauncher'"
@@ -67,8 +69,9 @@ with lib.my; {
           "class_g = 'xob'"
           "class_g = 'trayer'"
           "class_g *?= 'safeeyes'"
-          "class_g *?= 'skippy'"
+          "class_g *= 'skippy-xd'"
           "class_g ?= 'Steam'"
+          "class_g = 'slop'"
         ];
 
         use-damage = true;

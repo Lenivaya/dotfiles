@@ -16,7 +16,8 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     {
-      hardware.bluetooth = enabled // {package = pkgs.bluezFull;};
+      # hardware.bluetooth = enabled // {package = pkgs.bluezFull;};
+      hardware.bluetooth = enabled // {package = pkgs.bluez;};
       services.dbus.packages = [pkgs.blueman];
       services.blueman = enabled;
 

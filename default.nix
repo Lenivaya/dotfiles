@@ -116,7 +116,7 @@ with lib.my; {
     gnumake
     unzip
 
-    # I wan't some scripts to execute with
+    # I want some scripts to execute with
     # better speed than I have with bash
     # https://unix.stackexchange.com/questions/148035/is-dash-or-some-other-shell-faster-than-bash
     # https://unix.stackexchange.com/questions/397656/what-is-the-fastest-way-to-run-a-script

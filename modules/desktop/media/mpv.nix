@@ -29,7 +29,7 @@ in {
           # thumbnail
 
           sponsorblock
-          youtube-quality
+          quality-menu
           webtorrent-mpv-hook
 
           my.mpv-autosub

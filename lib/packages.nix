@@ -24,11 +24,16 @@ with lib; rec {
       stdenv = pkgs.fastStdenv;
     });
 
+  withNativeOptimizations = pkg:
+    pkgs.lib.overrideDerivation pkg (oa: {
+      stdenv = pkgs.impureUseNativeOptimizations oa.stdenv;
+    });
+
   withThinLTO = pkg:
     optimizeWithFlags pkg ["-flto=thin"];
 
   optimizeForThisHost = pkg:
-    optimizeWithFlags pkg ["-O3" "-march=native" "-fPIC"];
+    withNativeOptimizations (optimizeWithFlags pkg ["-O3" "-march=native" "-fPIC"]);
 
   withDebuggingCompiled = pkg: optimizeWithFlags pkg ["-DDEBUG"];
 }
