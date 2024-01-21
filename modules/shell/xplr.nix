@@ -8,8 +8,12 @@ with lib;
 with lib.my; let
   inherit (config.dotfiles) configDir;
   inherit (config.env) TERM;
+
+  cfg = config.modules.shell.xplr;
 in {
-  config = {
+  options.modules.shell.xplr.enable = mkBoolOpt false;
+
+  config = mkIf cfg.enable {
     user.packages = with pkgs; [
       xplr
       (makeDesktopItem {

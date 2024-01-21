@@ -11,6 +11,11 @@ in {
   options.modules.hardware.gpu.intel.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
+    # # enable the i915 kernel module
+    # boot.initrd.kernelModules = ["i915"];
+    # # better performance than the actual Intel driver
+    # services.xserver.videoDrivers = ["modesetting"];
+
     boot.kernelParams = [
       # Enable power-saving display C-states
       "i915.enable_dc=1"
@@ -32,12 +37,20 @@ in {
 
     environment.systemPackages = with pkgs; [libva-utils];
 
-    hardware.opengl.extraPackages = with pkgs;
-      lib.mkForce [
-        (vaapiIntel.override {enableHybridCodec = true;})
+    hardware.opengl = {
+      extraPackages = with pkgs;
+        lib.mkForce [
+          (vaapiIntel.override {enableHybridCodec = true;})
+          intel-media-driver
+          intel-ocl
+          intel-compute-runtime
+        ];
+
+      extraPackages32 = with pkgs.pkgsi686Linux; [
+        # intel-compute-runtime # FIXME does not build due to unsupported system
         intel-media-driver
-        intel-ocl
-        intel-compute-runtime
+        vaapiIntel
       ];
+    };
   };
 }

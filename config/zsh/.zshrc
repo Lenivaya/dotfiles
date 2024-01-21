@@ -60,6 +60,8 @@ zinit wait"0b" lucid light-mode for \
         zsh-users/zsh-autosuggestions \
     atload"zicompinit; zicdreplay" blockf \
         zsh-users/zsh-completions \
+    # mv'_eza -> _eza' \
+    #     "https://github.com/eza-community/eza/blob/main/completions/zsh/_eza" \
 
 
 # Great but not used now
@@ -82,7 +84,6 @@ zinit wait"0c" lucid light-mode for \
         zdharma-continuum/zinit-console \
         sindresorhus/pretty-time-zsh \
         laggardkernel/zsh-thefuck \
-        hermitmaster/zsh-exa-plugin  \
         changyuheng/fz \
         rupa/z \
         chisui/zsh-nix-shell \
@@ -104,7 +105,9 @@ zinit wait"0c" lucid light-mode for \
         srijanshetty/zsh-pandoc-completion \
         thetic/extract \
         atinit='ZSH_BASH_COMPLETIONS_FALLBACK_LAZYLOAD_DISABLE=true' \
-            3v1n0/zsh-bash-completions-fallback
+            3v1n0/zsh-bash-completions-fallback \
+        lenivaya/zsh-eza-plugin  \
+        # hermitmaster/zsh-exa-plugin  \
 
 source $XDG_CONFIG_HOME/zsh/br
 

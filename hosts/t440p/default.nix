@@ -4,7 +4,7 @@
   pkgs,
   lib,
   inputs,
-  config,
+  system,
   ...
 }:
 with lib;
@@ -15,9 +15,8 @@ with lib.my; {
       ./hardware-configuration.nix
       ./phone_cam.nix
       ./gpu.nix
-      # ./jack_retask/jack_retask.nix
-      #
       ./postgresql.nix
+      # ./jack_retask/jack_retask.nix
     ]
     ++ (with inputs.nixos-hardware.nixosModules; [
       lenovo-thinkpad-t440p
@@ -29,9 +28,9 @@ with lib.my; {
   modules = {
     desktop = {
       xmonad = enabled;
+      isPureWM = true;
 
       fonts.pragmata = enabled;
-      # fonts.pragmasevka = enabled;
 
       apps = {
         rofi = enabled;
@@ -43,12 +42,10 @@ with lib.my; {
       };
 
       browsers = {
-        default = "firefox";
+        default = "google-chrome-stable";
 
-        firefox = enabled;
         chromium = enabled // {googled = true;};
         tor = enabled;
-        qutebrowser = enabled;
       };
 
       term = {
@@ -75,7 +72,12 @@ with lib.my; {
             raster = enabled;
           };
 
-        recording = enabled // {audio = enabled;};
+        recording =
+          enabled
+          // {
+            # audio = enabled;
+            video = enabled;
+          };
       };
 
       vm = {
@@ -105,18 +107,18 @@ with lib.my; {
       jetbrains =
         enabled
         // {
-          packages = with pkgs.unstable.jetbrains; [
+          packages = with pkgs.nur.repos.tehplague.jetbrains; [
             webstorm
             rider
             pycharm-professional
-            datagrip
           ];
         };
     };
 
     dev = {
       shell = enabled;
-      cc = enabled;
+      # cc = enabled;
+      # elixir = enabled;
       rust = enabled;
       go = enabled;
       haskell = enabled;
@@ -125,11 +127,30 @@ with lib.my; {
       dotnet =
         enabled
         // {
-          dotnetPkg = pkgs.dotnet-sdk_7;
-          dotnetAspNetPkg = pkgs.dotnet-aspnetcore_7;
+          dotnetPkgsSdks = let
+            eol_dotnet =
+              (
+                import inputs.nixpkgs_eol_dotnet {
+                  inherit system;
+                }
+              )
+              .dotnetCorePackages
+              .sdk_3_1;
+          in
+            with pkgs.dotnetCorePackages;
+              [
+                sdk_8_0
+                sdk_6_0
+              ]
+              ++ [
+                eol_dotnet
+              ];
         };
-      # elixir = enabled;
-      # php = enabled;
+      php =
+        enabled
+        // {
+          package = pkgs.php83;
+        };
     };
 
     services = {
@@ -139,7 +160,7 @@ with lib.my; {
       warp = enabled;
       keyd = enabled;
       flatpak = enabled;
-      espanso = enabled;
+      # espanso = enabled;
       # random-wallpaper =
       #   enabled
       #   // {
@@ -149,6 +170,7 @@ with lib.my; {
         enabled
         // {
           trayApps = [
+            "cbatticon"
             "blueman-applet"
             "nm-applet"
             "mictray"
@@ -161,18 +183,20 @@ with lib.my; {
       cpu.intel =
         enabled
         // {
-          undervolt =
-            enabled
-            // rec {
-              core = -80;
-              gpu = -40;
-              uncore = core;
-              analogio = core;
-            };
+          # undervolt =
+          #   enabled
+          #   // rec {
+          #     core = -80;
+          #     gpu = -40;
+          #     uncore = core;
+          #     analogio = core;
+          #   };
         };
-      gpu.intel = enabled;
-      # gpu.nvidia = enabled;
-      audio = enabled;
+      gpu = {
+        intel = enabled;
+        # nvidia = enabled;
+      };
+      audio = enabled // {effects = true;};
       fingerprint = enabled;
       touchpad = enabled;
       bluetooth = enabled;
@@ -183,10 +207,6 @@ with lib.my; {
     adblock = enabled;
     bootsplash = enabled;
   };
-
-  environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
-
-  services.fwupd = enabled;
 
   services.tlp.settings.CPU_MAX_PERF_ON_BAT = mkForce 50;
   services.tlp.settings = {
@@ -202,7 +222,7 @@ with lib.my; {
   };
 
   boot.kernelPackages = let
-    kernel' = pkgs.unstable.linuxPackages_lqx;
+    kernel' = pkgs.linuxPackages_zen;
   in
     mkForce kernel';
 
@@ -215,15 +235,13 @@ with lib.my; {
     # https://wiki.archlinux.org/title/improving_performance#Watchdogs
     "nowatchdog"
     "kernel.nmi_watchdog=0"
-
-    # # fuck
-    # "fsck.mode=force"
-    # "fsck.repair=yes"
   ];
 
-  boot.plymouth = {
+  boot.plymouth = rec {
     theme = "abstract_ring";
-    themePackages = with pkgs.my; [plymouth-themes];
+    themePackages = with pkgs; let
+      theme' = adi1090x-plymouth-themes.override {selected_themes = [theme];};
+    in [theme'];
   };
 
   networking.firewall = {
@@ -234,21 +252,12 @@ with lib.my; {
   # For manual fan control with pwm
   boot.extraModprobeConfig = "options thinkpad_acpi experimental=1 fan_control=1";
 
-  # nixpkgs.config.permittedInsecurePackages = ["electron-13.6.9"];
   user.packages = with pkgs; [
     # lightworks pitivi
     ffmpeg-full
-    obsidian
     sqlfluff
     kdenlive
   ];
-  # ++ (with pkgs.unstable.jetbrains; [
-  #   # phpstorm
-  #   webstorm
-  #   rider
-  #   pycharm-professional
-  #   datagrip
-  # ]);
 
   hardware.trackpoint = {
     enable = true;
@@ -284,38 +293,65 @@ with lib.my; {
       extraPackages = with pkgs; [libGL];
     };
 
-  services.syncthing =
-    enabled
-    // {
-      user = config.user.name;
-      dataDir = "${config.user.home}/Sync";
+  # services.syncthing =
+  #   enabled
+  #   // {
+  #     user = config.user.name;
+  #     dataDir = "${config.user.home}/Sync";
 
-      overrideDevices = true;
-      overrideFolders = true;
-    };
+  #     overrideDevices = true;
+  #     overrideFolders = true;
+  #   };
 
   services.safeeyes = enabled;
 
   services.smartd = enabled;
 
-  home.services.picom.settings = {
-    corner-radius = 0;
-    animation-stiffness = 100;
-    animation-window-mass = 0.8;
-    animation-dampening = 10;
-    # animation-clamping = true;
+  # modules.services.zcfan = enabled;
+  # services.thermald = mkForce disabled;
+  # services.throttled = mkForce enabled;
 
-    animation-open-exclude = [
-      "class_g *= 'slop'"
-      "name *= 'slop'"
-      "class_g *= 'skippy-xd'"
-    ];
-    animation-unmap-exclude = [
-      "class_g *= 'slop'"
-      "name *= 'slop'"
-      "class_g *= 'skippy-xd'"
-    ];
-  };
+  # home.services.picom.vSync = mkForce false;
+  # home.services.picom.backend = mkForce "xrender";
+  # home.services.picom.settings = let
+  #   animationExclude = [
+  #     "class_g *= 'xmobar'"
+  #     "class_g *= 'xmonad'"
+  #     "class_g *= 'xmonad-prompt'"
+  #     "name *= 'xmobar'"
+  #     "name *= 'xmonad'"
+  #     "name *= 'xmonad-prompt'"
+  #     "class_g *= 'slop'"
+  #     "name *= 'slop'"
+  #     "class_g *= 'skippy-xd'"
+  #     "class_g *= 'skippy-xd'"
+  #     "class_g *= 'safeeyes'"
+  #   ];
+  # in {
+  #   corner-radius = 0;
+
+  #   animations = false;
+  #   # animation-stiffness = 100;
+  #   # animation-window-mass = 0.8;
+  #   # animation-dampening = 10;
+  #   # animation-clamping = true;
+
+  #   animation-open-exclude = animationExclude;
+  #   animation-unmap-exclude = animationExclude;
+
+  #   inactive-exclude = [
+  #     "window_type = 'dock'"
+  #     "window_type = 'desktop'"
+  #     "window_type = 'menu'"
+  #     "window_type = 'popup_menu'"
+  #     "window_type = 'dropdown_menu'"
+  #     "window_type = 'toolbar'"
+  #     "window_type = 'notification'"
+  #     "class_g *= 'avizo-service'"
+  #     "class_g *= 'slop'"
+  #     "name *= 'slop'"
+  #   ];
+  # };
 
   # services.tp-auto-kbbl =
   #   enabled
@@ -329,24 +365,38 @@ with lib.my; {
   };
 
   nixpkgs.overlays = let
-    optimize = pkg: optimizeForThisHost (withThinLTO (withClang pkg));
-  in [
-    (_final: prev: {
-      inherit (pkgs.unstable) google-chrome;
-      inherit (pkgs.unstable) firefox firefox-bin;
-      inherit (pkgs.unstable) vscode vscode-extensions;
+    optimize = pkg: optimizeForThisHost (withClang pkg);
+  in
+    [inputs.nur.overlay]
+    ++ [inputs.picom.overlay.${system}]
+    ++ [
+      (_final: prev: {
+        inherit
+          (pkgs.unstable)
+          firefox
+          firefox-bin
+          vscode
+          vscode-extensions
+          telegram-desktop
+          ;
 
-      inherit (pkgs.unstable) virt-viewer;
+        # dotnetCorePackages =
+        #   prev.dotnetCorePackages
+        #   // {
+        #     sdk_3_1_EOL = prev.dotnetCorePackages.sdk_6_0.overrideAttrs (oa: {
+        #       eol = false;
+        #       src = oldAttrs.overrideAttrs (oldSrcAttrs: {
+        #         sha256 = "https://download.visualstudio.microsoft.com/download/pr/e89c4f00-5cbb-4810-897d-f5300165ee60/027ace0fdcfb834ae0a13469f0b1a4c8/dotnet-sdk-3.1.426-linux-x64.tar.gz";
+        #         url = "https://download.visualstudio.microsoft.com/download/pr/e89c4f00-5cbb-4810-897d-f5300165ee60/027ace0fdcfb834ae0a13469f0b1a4c8/dotnet-sdk-3.1.426-linux-x64.tar.gz";
+        #       });
+        #     });
+        #   };
 
-      # picom = optimize pkgs.unstable.picom-next;
-      # picom = optimize pkgs.unstable.picom-allusive;
-
-      sxhkd = optimize prev.sxhkd;
-      skippy-xd = optimize prev.skippy-xd;
-      dmenu = optimize prev.dmenu;
-      nsxiv = optimize prev.nsxiv;
-      trayer = optimize prev.trayer;
-      st = optimize prev.st;
-    })
-  ];
+        skippy-xd = optimize prev.skippy-xd;
+        dmenu = optimize prev.dmenu;
+        nsxiv = optimize prev.nsxiv;
+        trayer = optimize prev.trayer;
+        st = optimize prev.st;
+      })
+    ];
 }

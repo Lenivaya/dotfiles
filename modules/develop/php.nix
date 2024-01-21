@@ -10,15 +10,25 @@ with lib;
 with lib.my; let
   cfg = config.modules.dev.php;
 in {
-  options.modules.dev.php.enable = mkBoolOpt false;
+  options.modules.dev.php = with types; {
+    enable = mkBoolOpt false;
+    package = mkOpt package pkgs.php;
+  };
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs;
+    user.packages = with pkgs; let
+      php' = cfg.package;
+    in
       [
-        php
-        # phpfactor
+        php'
+        phpactor
         nodePackages.intelephense
       ]
-      ++ (with php.packages; [composer]);
+      ++ (with php'.packages; [
+        composer
+        php-cs-fixer
+        psalm
+        phpstan
+      ]);
   };
 }

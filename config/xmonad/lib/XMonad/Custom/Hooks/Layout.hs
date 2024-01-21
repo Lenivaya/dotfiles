@@ -12,6 +12,7 @@ module XMonad.Custom.Hooks.Layout (
 
 import Data.Ratio ((%))
 import XMonad hiding (layoutHook)
+-- import XMonad.Actions.MouseResize
 import XMonad.Custom.Theme (tabTheme)
 import XMonad.Custom.Workspaces
 import XMonad.Hooks.ManageDocks
@@ -20,7 +21,7 @@ import XMonad.Layout.Accordion
 import XMonad.Layout.BinarySpacePartition
 import XMonad.Layout.BoringWindows hiding (Replace)
 import XMonad.Layout.CenteredIfSingle
-import XMonad.Layout.Circle
+import XMonad.Layout.CircleEx
 import XMonad.Layout.DraggingVisualizer
 import XMonad.Layout.Fullscreen
 import XMonad.Layout.GridVariants
@@ -49,6 +50,7 @@ import XMonad.Layout.SubLayouts
 import XMonad.Layout.Tabbed
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.TwoPane
+-- import XMonad.Layout.WindowArranger
 import XMonad.Layout.WindowNavigation
 
 data CustomTransformers = GAPS
@@ -68,7 +70,7 @@ rTall m r c = ResizableTall m r c []
 
 bsp = setName "BSP" emptyBSP
 tall = setName "Tall" $ rTall 1 (3 % 100) (1 % 2)
-circle = setName "Circle" $ magnifiercz' 2 Circle
+circleLayout = setName "Circle" $ magnifiercz' 2 circle
 twoPane = TwoPane (3 % 100) (1 % 2)
 onebig = setName "OneBig" $ OneBig (3 / 4) (3 / 4)
 monocle = setName "Monocle" Full
@@ -89,8 +91,8 @@ threeColMid =
     $ ThreeColMid 1 (3 % 100) (11 % 30)
 
 flex =
-  setName "Flex" $
-    ifWider smallMonResWidth wideLayout standardLayout
+  setName "Flex"
+    $ ifWider smallMonResWidth wideLayout standardLayout
   where
     smallMonResWidth = 1920
     wideLayout =
@@ -112,7 +114,7 @@ layoutsInfo =
     |||! tall
     |||! twoPane
     |||! threeColMid
-    |||! circle
+    |||! circleLayout
     -- \|||! threecolmid
     -- \|||! threecol
     |||! onebig
@@ -130,6 +132,8 @@ layoutHook =
     . smartBorders
     . boringWindows
     . draggingVisualizer
+    -- . mouseResize
+    -- . windowArrange
     . layoutHintsToCenter
     -- . magnifierOff
     . magnifierczOff' 1.3

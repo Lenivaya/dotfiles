@@ -40,8 +40,11 @@ in {
       fd # faster projectile indexing
       gnutls # for TLS connectivity
       imagemagick # for image-dired
-      (mkIf config.programs.gnupg.agent.enable
-        pinentry-emacs) # in-emacs gnupg prompts
+      (
+        mkIf
+        config.programs.gnupg.agent.enable
+        pinentry-emacs
+      ) # in-emacs gnupg prompts
       zstd # for undo-tree compression
       python39Packages.pylatexenc # LaTeX parser
       # my.my_cookies # leetcode cookie retriever
@@ -104,8 +107,10 @@ in {
     home.programs.emacs =
       enabled
       // {
-        # package = pkgs.emacs-gtk;
-        package = pkgs.emacs29-gtk3;
+        package =
+          if config.modules.desktop.isWayland
+          then pkgs.emacs29-pgtk
+          else pkgs.emacs29-gtk3;
         extraPackages = epkgs: with epkgs; [vterm];
       };
 

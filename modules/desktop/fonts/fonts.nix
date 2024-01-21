@@ -23,9 +23,6 @@ with lib.my; {
       # lmodern
       cm_unicode
       # liberation_ttf
-
-      # May be pretty nice
-      # jetbrains-mono overpass
     ];
 
     fontconfig =

@@ -44,6 +44,7 @@ in {
           MultiProfile = "multiple";
           FastConnectable = true;
           Privacy = "device";
+          JustWorksRepairing = "always";
 
           Experimental = true;
           KernelExperimental = true;

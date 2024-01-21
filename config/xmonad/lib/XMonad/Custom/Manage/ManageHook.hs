@@ -6,6 +6,7 @@ import XMonad hiding (manageHook)
 import XMonad.Actions.SpawnOn
 import XMonad.Custom.Manage.ManageHelpers
 import XMonad.Custom.Scratchpads
+import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.InsertPosition
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
@@ -24,6 +25,7 @@ composeActions =
   , appName =? "ulauncher" -?> noBorder
   , className =? "mpv" -?> tileNormal
   , className =? "Pinentry" -?> doCenterFloat
+  , className =? "pinentry-gtk-2" -?> doCenterFloat
   , className =? "Steam" <&&> not <$> title =? "Steam" -?> doCenterFloat
   , className =? "Xmessage" -?> doCenterFloat
   , className =? "Zenity" -?> doCenterFloat
@@ -36,6 +38,7 @@ composeActions =
   , isRole =? "pop-up" -?> doCenterFloat
   , isRole =? "About" -?> doCenterFloat
   , isDialog -?> doCenterFloat
+  , stringProperty "WM_WINDOW_ROLE" =? "browser" -?> ewmhDesktopsManageHook
   , transience
   ]
   where
@@ -51,6 +54,6 @@ manageHook =
     [ manageDocks
     , fullscreenManageHook
     , manageSpawn
-    , namedScratchpadManageHook scratchpads
     , composeOne composeActions
+    , namedScratchpadManageHook scratchpads
     ]

@@ -1,4 +1,4 @@
-#!/usr/bin/env dash
+#!/usr/bin/env bash
 #
 # You can call this script like this:
 # $ ./brightnessdunst.sh up
@@ -28,19 +28,19 @@ decrease_brightness() {
 
 # Main
 case $1 in
-  up)
-    increase_brightness
-    ;;
-  down)
-    decrease_brightness
-    ;;
-  toggle-auto)
-    auto_brightness_toggle
-    ;;
-  *)
-    echo "Invalid argument. Usage: $0 [up|down|toggle-auto]"
-    exit 1
-    ;;
+up)
+  increase_brightness
+  ;;
+down)
+  decrease_brightness
+  ;;
+toggle-auto)
+  auto_brightness_toggle
+  ;;
+*)
+  echo "Invalid argument. Usage: $0 [up|down|toggle-auto]"
+  exit 1
+  ;;
 esac
 
 send_notification "$(get_brightness)"

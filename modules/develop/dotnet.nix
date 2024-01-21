@@ -8,23 +8,30 @@
 with lib;
 with lib.my; let
   cfg = config.modules.dev.dotnet;
+  sdk' = pkgs.dotnetCorePackages.combinePackages cfg.dotnetPkgsSdks;
 in {
   options.modules.dev.dotnet = with types; {
     enable = mkBoolOpt false;
-    dotnetPkg = mkOpt package pkgs.dotnet-sdk;
-    dotnetAspNetPkg = mkOpt package pkgs.dotnet-aspnetcore;
+    dotnetPkgsSdks = mkOpt (listOf package) [
+      pkgs.dotnet-sdk
+      # dotnetCorePackages.sdk_7_0 this is to be setted
+    ];
+    otherPkgs = mkOpt (listOf package) [];
   };
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs; [
-      cfg.dotnetPkg
-      cfg.dotnetAspNetPkg
-      msbuild
-      omnisharp-roslyn
-    ];
+    user.packages = with pkgs;
+      [
+        sdk'
+        msbuild
+        omnisharp-roslyn
+        csharpier
+      ]
+      ++ cfg.dotnetPkgsSdks
+      ++ cfg.otherPkgs;
 
     env = {
-      DOTNET_ROOT = "${cfg.dotnetPkg}";
+      # DOTNET_ROOT = "${sdkPath}";
       DOTNET_CLI_HOME = "$XDG_DATA_HOME"; # dotnet cli appends the path with .dotnet :(
       NUGET_PACKAGES = "$XDG_DATA_HOME/NuGet/packages";
       NUGET_HTTP_CACHE_PATH = "$XDG_DATA_HOME/NuGet/v3-cache";

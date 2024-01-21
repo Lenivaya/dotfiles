@@ -170,6 +170,11 @@ in {
         ++ optional modules.services.greenclip.enable (
           writeShellScriptBin "rofi-greenclip"
           "rofi -modi 'clipboard:greenclip print' -show clipboard -run-command '{cmd}'"
+        )
+        ++ optional modules.desktop.browsers.chromium.enable
+        (
+          writeShellScriptBin "rofi-chrome"
+          "rofi -modi 'Chrome Profile':${getExe' my.rofi-chrome-profile-launcher "rofi-chrome-profile-launcher"} -show 'Chrome Profile'"
         );
   };
 }

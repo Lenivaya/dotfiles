@@ -44,6 +44,9 @@
     false; # https://www.opennet.ru/opennews/art.shtml?num=53086
   "media.navigator.mediadatadecoder_vpx_enabled" = true;
   "gfx.webrender.all" = true;
+  "gfx.webrender.compositor.force-enabled" = true;
+  "gfx.x11-egl.force-enabled" = true;
+  "media.hardware-video-decoding.force-enabled" = true;
 
   # Do not check if Firefox is the default browser
   "browser.shell.checkDefaultBrowser" = false;

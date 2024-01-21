@@ -9,18 +9,15 @@
   modules = {
     desktop = {
       xmonad.enable = true;
-
-      fonts.pragmata.enable = true;
+      isPureWM = true;
 
       apps = {
         rofi.enable = true;
         dunst.enable = true;
-        discord.enable = true;
       };
 
       browsers = {
-        default = "firefox";
-        firefox.enable = true;
+        default = "google-chrome-stable";
         chromium = {
           enable = true;
           ungoogled = true;
@@ -29,7 +26,6 @@
 
       term = {
         st.enable = true;
-        alacritty.enable = true;
         default = "st";
       };
 
@@ -39,12 +35,8 @@
           pdf.enable = true;
           ebook.enable = true;
         };
-        spotify.enable = true;
         mpv.enable = true;
-        ncmpcpp.enable = true;
       };
-
-      vm.qemu.enable = true;
     };
 
     shell = {
@@ -61,18 +53,17 @@
         doom.enable = true;
         default = true;
       };
-      vscode.enable = true;
     };
 
     dev = {
       shell.enable = true;
       cc.enable = true;
-      rust.enable = true;
-      go.enable = true;
-      haskell.enable = true;
-      node.enable = true;
-      python.enable = true;
-      elixir.enable = true;
+      # rust.enable = true;
+      # go.enable = true;
+      # haskell.enable = true;
+      # node.enable = true;
+      # python.enable = true;
+      # elixir.enable = true;
     };
 
     services = {
@@ -81,6 +72,7 @@
     };
 
     hardware = {
+      profiles.laptop = enabled;
       cpu.intel.enable = true;
       fs.enable = true;
       audio.enable = true;
@@ -100,10 +92,6 @@
 
   services.xserver = {videoDrivers = ["radeon"];};
   environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
-
-  # Optimize power use
-  environment.systemPackages = [pkgs.acpi];
-  powerManagement.powertop.enable = true;
 
   # fancontrol
   # hardware.fancontrol = {

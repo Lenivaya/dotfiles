@@ -32,7 +32,7 @@ in {
           quality-menu
           webtorrent-mpv-hook
 
-          my.mpv-autosub
+          # my.mpv-autosub
         ];
       };
     in [

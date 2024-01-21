@@ -31,13 +31,13 @@ swallower prog = swallowEventHook (className =? prog) (pure True)
 handleEventHook :: Event -> X All
 handleEventHook =
   mconcat
-    [ Hacks.windowedFullscreenFixEventHook
-    , perWindowKbdLayout
-    , nspTrackHook scratchpads
-    , mconcat $ swallower <$> ["Alacritty", "St"]
-    , refocusLastWhen myRefocusPred
-    , onTitleChange manageHook
+    [ perWindowKbdLayout
     , handleTimerEvent
+    , Hacks.windowedFullscreenFixEventHook
+    , refocusLastWhen myRefocusPred
+    , mconcat $ swallower <$> ["Alacritty", "St"]
+    , nspTrackHook scratchpads
+    -- , onTitleChange manageHook
     , Hacks.trayerPaddingXmobarEventHook
     , Hacks.trayerAboveXmobarEventHook
     , serverModeEventHookF

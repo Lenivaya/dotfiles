@@ -5,24 +5,33 @@
   home-manager,
   ...
 }:
+with lib;
 with lib.my; let
   inherit (config.dotfiles) configDir;
   inherit (config.user) name;
 in {
+  xdg.portal.config.common.default = "*";
+
   home-manager.users.${name} = {
     gtk = let
-      gtkSettings = {
-        gtk-cursor-theme-size = 0;
-        gtk-application-prefer-dark-theme = true;
+      gtkSettings = mkMerge [
+        {
+          gtk-hint-font-metrics = 1;
+          gtk-xft-antialias = 1;
+          gtk-xft-hinting = 1;
+          gtk-xft-hintstyle = "hintslight";
+          gtk-xft-rgba = "rgb";
+          gtk-application-prefer-dark-theme = true;
+        }
 
-        # Remove min-max-close buttons
-        gtk-decoration-layout = "";
-        # gtk-decoration-layout = "appmenu:none";
+        (mkIf config.modules.desktop.isPureWM {
+          gtk-cursor-theme-size = 0;
 
-        gtk-hint-font-metrics = true;
-        gtk-xft-antialias = true;
-        gtk-xft-hinting = true;
-      };
+          # Remove min-max-close buttons
+          gtk-decoration-layout = "";
+          # gtk-decoration-layout = "appmenu:none";
+        })
+      ];
     in
       enabled
       // {
@@ -38,19 +47,24 @@ in {
           package = pkgs.gnome.gnome-themes-extra;
           name = "Adwaita";
         };
-        gtk3 = {
-          extraConfig = gtkSettings;
-          extraCss = ''
-            * { outline: none; }
+        gtk3 = mkMerge [
+          {
+            extraConfig = gtkSettings;
+          }
 
-            button:focus {
-                outline-style: solid;
-                outline-offset: -2px;
-                outline-width: 1px;
-                outline-radius: 2px;
-            }
-          '';
-        };
+          (mkIf config.modules.desktop.isPureWM {
+            extraCss = ''
+              * { outline: none; }
+
+              button:focus {
+                  outline-style: solid;
+                  outline-offset: -2px;
+                  outline-width: 1px;
+                  -gtk-outline-radius: 2px;
+              }
+            '';
+          })
+        ];
         gtk4 = {
           extraConfig = gtkSettings;
         };
@@ -65,10 +79,6 @@ in {
     qt =
       enabled
       // {
-        # platformTheme = "kde";
-        # style = {
-        #   name = "breeze";
-        # };
         # https://pagure.io/fedora-workstation/issue/351
         platformTheme = "gnome";
         style = {
@@ -81,7 +91,7 @@ in {
   services.xserver.displayManager.sessionCommands = ''
     # GTK2_RC_FILES must be available to the display manager.
     export GTK2_RC_FILES="$XDG_CONFIG_HOME/gtk-2.0/gtkrc"
-    export GTK_THEME=Adwaita:dark
+    export GTK_THEME=Adwaita-dark
   '';
 
   home.file.".Xresources".source = "${configDir}/xresources/.Xresources";

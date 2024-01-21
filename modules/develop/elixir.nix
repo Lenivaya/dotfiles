@@ -11,6 +11,7 @@ with lib.my; let
 in {
   options.modules.dev.elixir.enable = mkBoolOpt false;
 
-  config =
-    mkIf cfg.enable {user.packages = with pkgs; [erlang elixir elixir_ls];};
+  config = mkIf cfg.enable {
+    user.packages = with pkgs; [erlang elixir elixir_ls];
+  };
 }

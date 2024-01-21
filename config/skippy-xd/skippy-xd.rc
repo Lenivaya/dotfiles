@@ -72,7 +72,7 @@
 # tint = black
 # tintOpacity = 0
 # opacity = 250
-
+#
 [highlight]
 # tint = black
 tint = #202024

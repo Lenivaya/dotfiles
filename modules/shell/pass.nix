@@ -22,6 +22,8 @@ in {
               pass-audit
               pass-import
               pass-update
+              pass-file
+              pass-checkup
             ]
             ++ optional config.modules.shell.gnupg.enable exts.pass-tomb
       );

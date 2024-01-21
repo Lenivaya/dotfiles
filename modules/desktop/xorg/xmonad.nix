@@ -30,6 +30,7 @@ in {
         apps = {
           dunst = enabled;
           rofi = enabled;
+          dmenu = enabled;
         };
       };
     };

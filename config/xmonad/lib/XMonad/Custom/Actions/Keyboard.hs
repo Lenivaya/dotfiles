@@ -29,8 +29,10 @@ wrapKbdLayout
   -> X ()
   -- ^ An XMonad action with modified keyboard layout
 wrapKbdLayout action =
-  getCurrentLayout >>= \currentLayout ->
-    switchToDefault >> action >> setKbdLayout currentLayout
+  getCurrentLayout >>= \layoutBeforeAction ->
+    switchToDefault >> action >> setKbdLayout layoutBeforeAction
+
+withDefaultKbdLayout action = switchToDefault >> action
 
 data KbdLayoutPrompt = KbdLayoutPrompt
 

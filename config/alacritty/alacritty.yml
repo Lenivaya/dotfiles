@@ -1,8 +1,7 @@
 ---
-# env:
-#
-# WINIT_X11_SCALE_FACTOR: "1.66"
-# WINIT_X11_SCALE_FACTOR: "1"
+env:
+  # WINIT_X11_SCALE_FACTOR: "1.66"
+  WINIT_X11_SCALE_FACTOR: "1.0"
 
 window:
   # dimensions:
@@ -10,8 +9,8 @@ window:
   #   lines: 24
 
   padding:
-    x: 20
-    y: 20
+    x: 30
+    y: 30
 
   dynamic_padding: true
 
@@ -24,8 +23,7 @@ scrolling:
   multiplier: 3
 
 font:
-  # size: 10
-  size: 8
+  size: 14
 
   normal:
     family: monospace

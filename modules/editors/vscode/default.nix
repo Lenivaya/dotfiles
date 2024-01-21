@@ -10,6 +10,7 @@ with lib;
 with lib.my; let
   cfg = config.modules.editors.vscode;
   inherit (config.dotfiles) configDir;
+  inherit (config) modules;
 in {
   options.modules.editors.vscode = with types; {
     enable = mkBoolOpt false;
@@ -59,95 +60,108 @@ in {
         };
 
         mutableExtensionsDir = true;
-        extensions = with pkgs.vscode-marketplace; [
-          bodil.file-browser
+        extensions = with pkgs.vscode-marketplace;
+          [
+            bodil.file-browser
 
-          editorconfig.editorconfig
-          mikestead.dotenv
-          shd101wyy.markdown-preview-enhanced
-          yzhang.markdown-all-in-one
+            editorconfig.editorconfig
+            mikestead.dotenv
 
-          dbaeumer.vscode-eslint
-          esbenp.prettier-vscode
-          davidanson.vscode-markdownlint
+            dbaeumer.vscode-eslint
+            esbenp.prettier-vscode
+            davidanson.vscode-markdownlint
 
-          jnoortheen.nix-ide
-          kamadorueda.alejandra
-          arrterian.nix-env-selector
+            timonwong.shellcheck
 
-          timonwong.shellcheck
+            wakatime.vscode-wakatime
+            alefragnani.project-manager
+            # tomoki1207.pdf
 
-          wakatime.vscode-wakatime
-          alefragnani.project-manager
-          # tomoki1207.pdf
+            vincaslt.highlight-matching-tag
+            spywhere.guides
 
-          vincaslt.highlight-matching-tag
-          spywhere.guides
+            vscodevim.vim
+            vspacecode.whichkey
+            vspacecode.vspacecode
+            jacobdufault.fuzzy-search
+            ms-vscode.vs-keybindings
 
-          vscodevim.vim
-          vspacecode.whichkey
-          vspacecode.vspacecode
-          jacobdufault.fuzzy-search
-          ms-vscode.vs-keybindings
+            aaron-bond.better-comments
+            alefragnani.bookmarks
+            christian-kohler.path-intellisense
+            formulahendry.auto-rename-tag
+            gruntfuggly.todo-tree
+            mkxml.vscode-filesize
+            ms-azuretools.vscode-docker
+            ms-vscode-remote.remote-containers
+            ms-vscode-remote.remote-ssh
+            ms-vsliveshare.vsliveshare
+            nhoizey.gremlins
+            peterschmalfeldt.explorer-exclude
+            quicktype.quicktype
+            stylelint.vscode-stylelint
+            usernamehw.errorlens
 
-          aaron-bond.better-comments
-          alefragnani.bookmarks
-          christian-kohler.path-intellisense
-          formulahendry.auto-rename-tag
-          gruntfuggly.todo-tree
-          mkxml.vscode-filesize
-          ms-azuretools.vscode-docker
-          ms-vscode-remote.remote-containers
-          ms-vscode-remote.remote-ssh
-          ms-vsliveshare.vsliveshare
-          nhoizey.gremlins
-          peterschmalfeldt.explorer-exclude
-          quicktype.quicktype
-          stylelint.vscode-stylelint
-          usernamehw.errorlens
+            # :git
+            codezombiech.gitignore
+            donjayamanne.githistory
+            eamodio.gitlens
+            github.vscode-pull-request-github
+            mhutchie.git-graph
+            kahole.magit
 
-          # :git
-          codezombiech.gitignore
-          donjayamanne.githistory
-          eamodio.gitlens
-          github.vscode-pull-request-github
-          mhutchie.git-graph
-          kahole.magit
+            # :lang
+            shd101wyy.markdown-preview-enhanced
+            yzhang.markdown-all-in-one
+            castwide.solargraph
+            cschlosser.doxdocgen
+            ms-vscode.hexeditor
+            reditorsupport.r
+            tamasfe.even-better-toml
+            vscode-org-mode.org-mode
+            skellock.just
 
-          # :lang
-          alexcvzz.vscode-sqlite
-          bazelbuild.vscode-bazel
-          castwide.solargraph
-          cschlosser.doxdocgen
-          golang.go
-          haskell.haskell
-          justusadam.language-haskell
-          ms-vscode.cpptools
-          jeff-hykin.better-cpp-syntax
-          mitaki28.vscode-clang
-          ms-vscode.cmake-tools
-          twxs.cmake
-          ms-vscode.hexeditor
-          kdarkhan.mips
-          mgmcdermott.vscode-language-babel
-          ms-python.python
-          ms-toolsai.jupyter
-          reditorsupport.r
-          rust-lang.rust-analyzer
-          samuelcolvin.jinjahtml
-          scala-lang.scala
-          slevesque.shader
-          tamasfe.even-better-toml
-          vscode-org-mode.org-mode
+            mustafamohamad.min-tomorrow-theme
 
-          # :latex
-          james-yu.latex-workshop
-          efoerster.texlab
-
-          mustafamohamad.min-tomorrow-theme
-
-          ryuta46.multi-command
-        ];
+            ryuta46.multi-command
+          ]
+          ++ optionals modules.desktop.media.documents.latex.enable [
+            james-yu.latex-workshop
+            efoerster.texlab
+          ]
+          ++ optionals modules.dev.nix.enable [
+            jnoortheen.nix-ide
+            kamadorueda.alejandra
+            arrterian.nix-env-selector
+          ]
+          ++ optionals modules.dev.go.enable [
+            rust-lang.rust-analyzer
+          ]
+          ++ optionals modules.dev.rust.enable [
+            golang.go
+          ]
+          ++ optionals modules.dev.node.enable [
+            mgmcdermott.vscode-language-babel
+          ]
+          ++ optionals modules.dev.haskell.enable [
+            haskell.haskell
+            justusadam.language-haskell
+          ]
+          ++ optionals modules.dev.cc.enable [
+            bazelbuild.vscode-bazel
+            ms-vscode.cpptools
+            jeff-hykin.better-cpp-syntax
+            mitaki28.vscode-clang
+            ms-vscode.cmake-tools
+            twxs.cmake
+          ]
+          ++ optionals modules.dev.python.enable [
+            ms-python.python
+            ms-toolsai.jupyter
+          ]
+          ++ optionals modules.dev.dotnet.enable [
+            (ms-dotnettools.csdevkit.overrideAttrs (_super: _a: {sourceRoot = ".";}))
+          ];
       };
   };
 }

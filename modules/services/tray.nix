@@ -78,6 +78,7 @@ in {
         mictray
         udiskie
         kdeconnect
+        cbatticon
       ];
       script = let
         trayElements = spaceConcat (map spawnCommand cfg.trayApps);

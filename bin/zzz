@@ -25,18 +25,18 @@ function print_usage {
 }
 
 case $1 in
-  -h)
-    print_usage
-    ;;
-  -f)
-    echo "Going to sleep..."
-    lock_screen
-    systemctl suspend
-    ;;
-  *)
-    echo "Shutting my eyes..."
-    lock_screen_sleep
-    # sleep 5
-    # xset dpms force off
-    ;;
+-h)
+  print_usage
+  ;;
+-f)
+  echo "Going to sleep..."
+  lock_screen
+  systemctl suspend
+  ;;
+*)
+  echo "Shutting my eyes..."
+  lock_screen_sleep &
+  sleep 5
+  xset dpms force off
+  ;;
 esac

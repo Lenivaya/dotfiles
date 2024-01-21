@@ -6,26 +6,26 @@ with pkgs; let
   x11-nim = fetchFromGitHub {
     owner = "nim-lang";
     repo = "x11";
-    rev = "10f1c2f42759839f5e25f32c52e9f01103b64f59";
-    hash = "sha256-P8wtdwB3QDHQjgI8h1cumuLIIowSSoI4wQbNWX3P57c=";
+    rev = "29aca5e519ebf5d833f63a6a2769e62ec7bfb83a";
+    hash = "sha256-jBNsv8meDvF2ySKewbA+rF2XS+gqydZUl1xhEevD15o=";
   };
 
   opengl-nim = fetchFromGitHub {
     owner = "nim-lang";
     repo = "opengl";
-    rev = "84bd93b2440b9a8144d7430d23d6c0496737975d";
-    hash = "sha256-OHdoPJsmCFdyKV7FGd/r+6nh6NRF7TPhuAx7o/VpiDg=";
+    rev = "8e2e098f82dc5eefd874488c37b5830233cd18f4";
+    hash = "sha256-v3bMDobYQZqX0anBFIUfZx5q5/vxTHO6PDtKQlf5mgU=";
   };
 in
-  clangStdenv.mkDerivation rec {
+  stdenv.mkDerivation rec {
     pname = "boomer";
     name = "boomer";
 
     src = fetchFromGitHub {
       owner = "tsoding";
       repo = "boomer";
-      rev = "fa6660fe44e0f76825328923d5b1238306081026";
-      hash = "sha256-lm1rHa7y7XZ055TBJxg2UXswJeG9q1JfEAWcEvuZVYQ=";
+      rev = "3fa84110f2e440ffbd4c462e8cdc241f0b7008be";
+      hash = "sha256-If7Qne0xL2rXOu9/17JV6MFFqFXnKUMoP4INptwx6B8=";
     };
 
     buildInputs = [nim xorg.libX11 xorg.libXrandr libGL makeWrapper];
@@ -33,7 +33,7 @@ in
     buildPhase = ''
       runHook preBuild
       HOME=$TMPDIR
-      nim -p:${x11-nim}/ -p:${opengl-nim}/src c -d:release --cc:clang --passL:-flto src/boomer.nim
+      nim -p:${x11-nim}/ -p:${opengl-nim}/src c -d:release src/boomer.nim
       runHook postBuild
     '';
 
