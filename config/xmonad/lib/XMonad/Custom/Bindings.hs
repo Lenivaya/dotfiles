@@ -165,7 +165,10 @@ keysSelect =
 keysPass :: Keybindings
 keysPass =
   [ ("M-p p", wrapKbdLayout $ passPrompt promptTheme)
-  , ("M-p g", wrapKbdLayout . passGenerateAndCopyPrompt $ promptNoCompletion promptThemeVim)
+  ,
+    ( "M-p g"
+    , wrapKbdLayout . passGenerateAndCopyPrompt $ promptNoCompletion promptThemeVim
+    )
   , ("M-p d", wrapKbdLayout $ passRemovePrompt $ promptNoCompletion promptTheme)
   , ("M-p t", wrapKbdLayout $ passTypePrompt promptTheme)
   , ("M-p e", wrapKbdLayout $ passEditPrompt promptTheme)
@@ -174,7 +177,10 @@ keysPass =
 keysGo :: Keybindings
 keysGo =
   [ -- ("M-g s", mySearch)
-    ("M-g s", wrapKbdLayout . selectAndSearchPrompt $ promptNoCompletion promptTheme)
+
+    ( "M-g s"
+    , wrapKbdLayout . selectAndSearchPrompt $ promptNoCompletion promptTheme
+    )
   , ("M-g m", wrapKbdLayout . manPrompt $ promptNoCompletion promptTheme)
   , ("M-g c", wrapKbdLayout $ calcPrompt (promptNoCompletion promptTheme) "")
   , ("M-g t", wrapKbdLayout $ spawn "dmenu-tmux")
@@ -185,6 +191,7 @@ keysDo =
   [ ("M-d s s", wrapKbdLayout . screenshotPrompt $ promptNoCompletion promptTheme)
   , ("M-d s r", wrapKbdLayout . screencastPrompt $ promptNoCompletion promptTheme)
   , ("M-d s z", spawn $ C.screenZoomer C.applications)
+  , ("M-d w c", workspacePrompt promptTheme $ windows . copy)
   ]
 
 keysSystem :: Keybindings
@@ -199,12 +206,18 @@ keysSystem =
 
 keysWorkspaces :: Keybindings
 keysWorkspaces =
-  [ ("M-w S-o", wrapKbdLayout $ switchProjectPrompt promptTheme)
-  , ("M-w C-S-o", wrapKbdLayout . switchProjectPrompt $ promptNoCompletion promptTheme)
+  [ ("M-w S-o", withDefaultKbdLayout $ switchProjectPrompt promptTheme)
+  ,
+    ( "M-w C-S-o"
+    , withDefaultKbdLayout . switchProjectPrompt $ promptNoCompletion promptTheme
+    )
   , ("M-w S-s", wrapKbdLayout $ shiftToProjectPrompt promptTheme)
   , ("M-w S-n", wrapKbdLayout $ renameProjectPrompt hotPromptTheme)
   , ("M-w <Backspace>", removeWorkspace)
-  , ("M-w S-<Backspace>", confirmPrompt hotPromptTheme "Kill workspace?" $ killAll >> removeWorkspace)
+  ,
+    ( "M-w S-<Backspace>"
+    , confirmPrompt hotPromptTheme "Kill workspace?" $ killAll >> removeWorkspace
+    )
   , ("M-,", nextNonEmptyWS)
   , ("M-.", prevNonEmptyWS)
   , ("M-i", toggleWS' ["NSP"])
@@ -226,7 +239,7 @@ keysSpawnables =
   , ("M-o b", spawn $ C.browser C.applications)
   , ("M-o S-b", wrapKbdLayout $ selectBrowserByNameAndSpawn promptTheme)
   , ("M-o e", raiseEditor)
-  , ("M-o r", spawn $ C.termSmallFont C.applications ++ " -e ranger")
+  , ("M-o r", spawn $ C.term C.applications ++ " -e ranger")
   , ("M-o S-e", spawn "doom +everywhere")
   , ("M-o c", namedScratchpadAction scratchpads "console")
   , ("M-o m", namedScratchpadAction scratchpads "music")
@@ -240,18 +253,26 @@ keysWindows :: Keybindings
 keysWindows =
   [ ("M-w k", kill)
   , ("M-w S-k", wrapKbdLayout $ confirmPrompt hotPromptTheme "Kill all" killAll)
-  , ("M-w C-S-k", wrapKbdLayout $ confirmPrompt hotPromptTheme "Kill others" $ withOthers killWindow)
+  ,
+    ( "M-w C-S-k"
+    , wrapKbdLayout
+        $ confirmPrompt hotPromptTheme "Kill others"
+        $ withOthers killWindow
+    )
   , ("M-w d", wrapKbdLayout windowMenu)
-  , ("M-w g", wrapKbdLayout $ windowPrompt promptTheme Goto allWindows)
-  , ("M-w /", wrapKbdLayout $ windowPrompt promptTheme Goto wsWindows)
-  , ("M-w b", wrapKbdLayout $ windowPrompt promptTheme Bring allWindows)
+  , ("M-w g", withDefaultKbdLayout $ windowPrompt promptTheme Goto allWindows)
+  , ("M-w /", withDefaultKbdLayout $ windowPrompt promptTheme Goto wsWindows)
+  , ("M-w b", withDefaultKbdLayout $ windowPrompt promptTheme Bring allWindows)
   , ("M-w c", toggleCopyToAll)
   , ("M-w o", sendMessage Mag.Toggle)
   , ("M-w S-c", kill1) -- To remove focused copied window from current workspace
   , ("M-w h", withFocused minimizeWindow)
   , ("M-w M1-h", withOthers minimizeWindow)
   , ("M-w S-h", withLastMinimized maximizeWindowAndFocus)
-  , ("M-w C-S-h", wrapKbdLayout $ selectMaximizeWindowPrompt $ promptNoCompletion promptTheme) -- , ("M-w C-S-h", selectMaximizeWindowGrid)
+  ,
+    ( "M-w C-S-h"
+    , wrapKbdLayout $ selectMaximizeWindowPrompt $ promptNoCompletion promptTheme -- , ("M-w C-S-h", selectMaximizeWindowGrid)
+    )
   , ("M-w r", sendMessage $ Toggle REFLECTX) -- ("M-w r", tryMessageR_ Rotate (Toggle REFLECTX))
   , ("M-w t", withFocused $ sendMessage . MergeAll)
   , ("M-w S-t", withFocused $ sendMessage . UnMerge)
@@ -263,7 +284,10 @@ keysWindows =
   , ("M-S-'", windows S.swapDown)
   , ("M-S-;", windows S.swapUp)
   , ("M-w <Space>", selectWindow def >>= (`whenJust` windows . S.focusWindow))
-  , ("M-w S-<Space>", selectWindow def >>= (`whenJust` windows . (S.shiftMaster .) . S.focusWindow))
+  ,
+    ( "M-w S-<Space>"
+    , selectWindow def >>= (`whenJust` windows . (S.shiftMaster .) . S.focusWindow)
+    )
   , ("M-/", windows S.focusDown)
   , ("M-S-/", windows S.focusUp)
   ]
@@ -299,7 +323,10 @@ keysLayout c =
   , ("M-S-y", sinkAll)
   , ("M-S-,", sendMessage $ IncMasterN (-1))
   , ("M-S-.", sendMessage $ IncMasterN 1)
-  , ("M-f", sequence_ [withFocused $ windows . S.sink, sendMessage $ Toggle NBFULL])
+  ,
+    ( "M-f"
+    , sequence_ [withFocused $ windows . S.sink, sendMessage $ Toggle NBFULL]
+    )
   , -- , ("M-f"          , withFocused toggleFullFloat)
     ("M-S-f", withFocused $ sendMessage . maximizeRestore)
   , ("M-t g", toggleGaps)
@@ -315,7 +342,10 @@ mouseBindings config =
     , -- mod-button2, Raise the window to the top of the stack
       ((mod4Mask, button2), \w -> focus w >> windows S.shiftMaster)
     , -- mod-button3, Set the window to floating mode and resize by dragging
-      ((mod4Mask, button3), \w -> focus w >> mouseResizeWindow w >> windows S.shiftMaster)
+
+      ( (mod4Mask, button3)
+      , \w -> focus w >> mouseResizeWindow w >> windows S.shiftMaster
+      )
     , -- you may also bind events to the mouse scroll wheel (button4 and button5)
       ((mod4Mask, button4), \w -> withFocused minimizeWindow)
     , ((mod4Mask, button5), \w -> withLastMinimized maximizeWindowAndFocus)

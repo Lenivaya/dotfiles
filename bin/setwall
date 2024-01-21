@@ -17,10 +17,10 @@ setwall() {
 
 updatewall() {
   betterlockscreen -u "$wallpaper" &
-  echo "$wallname" >"$cachefile"
+  echo "$wallname" >>"$cachefile"
 }
 
-current=$(<"$cachefile")
+[ -f "$cachefile" ] && current=$(<"$cachefile") || current=""
 if [[ $current == "$wallname" ]]; then
   echo "Seems like the wallpaper is already set."
   exit 1

@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  inputs,
   ...
 }:
 with lib;
@@ -14,7 +13,6 @@ in {
   };
 
   config = mkIf cfg.enable {
-    nixpkgs.overlays = [inputs.jetbrains.overlays.default];
     user.packages = cfg.packages;
   };
 }

@@ -18,7 +18,6 @@ in {
       // {
         qemu = {
           package = pkgs.qemu_kvm;
-          # runAsRoot = false;
 
           ovmf = enabled // {packages = [pkgs.OVMFFull.fd];};
           swtpm = enabled // {package = pkgs.swtpm;};

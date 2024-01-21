@@ -25,7 +25,7 @@ in {
         pop-shell
         gesture-improvements
         gsconnect
-        overview-navigation
+        vertical-workspaces #overview-navigation
         space-bar
         vim-alt-tab
         # useless-gaps

@@ -1,4 +1,4 @@
-#! /usr/bin/env dash
+#! /usr/bin/env bash
 
 # Wrapper around rofi that always
 # runs it with english kbd layout

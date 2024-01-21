@@ -25,9 +25,10 @@ with lib.my; let
       sponsorblock
       ublock-origin
       localcdn
-      clearurls
+      # clearurls
       libredirect
       terms-of-service-didnt-read
+      istilldontcareaboutcookies # i-dont-care-about-cookies
       buster-captcha-solver
       # bypass-paywalls-clean
 
@@ -35,13 +36,15 @@ with lib.my; let
       tst-tab-search
       tab-session-manager
 
-      h264ify
-
+      multi-account-containers
       violentmonkey
+
+      darkreader
 
       refined-github
       reddit-comment-collapser
       reddit-enhancement-suite
+      enhancer-for-youtube
     ]
     ++ optional modules.desktop.media.mpv.enable ff2mpv
     ++ optional modules.shell.pass.enable passff;
@@ -75,6 +78,8 @@ in {
         package = with pkgs; let
           firefox' = firefox.override {
             extraPolicies = {
+              DisableAppUpdate = true;
+              DisableFirefoxStudies = true;
               DisableTelemetry = true;
               DisablePocket = true;
               DontCheckDefaultBrowser = true;

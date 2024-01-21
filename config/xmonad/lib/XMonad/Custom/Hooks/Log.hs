@@ -65,7 +65,7 @@ topBarPP =
     , ppUrgent = xmobarColor red2 "" . wrap "!" "!"
     , ppSep = " / "
     , ppWsSep = " "
-    , ppTitle = xmobarColor white1 "" . shorten 80
+    , ppTitle = xmobarColor white1 "" . shorten 60
     , ppTitleSanitize = xmobarStrip
     , ppLayout = xmobarColor white1 "" . layoutName
     , -- , ppOrder           = id
@@ -117,7 +117,6 @@ logHook = do
   refocusLastLogHook
   currentWorkspaceOnTop
   masterHistoryHook
-  -- updatePointer (0.98, 0.01) (0, 0)
   updatePointer (0.5, 0.5) (0, 0)
   showWNameLogHook def
 

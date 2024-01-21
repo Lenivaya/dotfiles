@@ -13,11 +13,14 @@ in {
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; let
-      discord' = discord.override {
-        withOpenASAR = true;
-        withVencord = true;
-        nss = pkgs.nss_latest;
-      };
-    in [discord'];
+      # discord' = discord.override {
+      #   withOpenASAR = true;
+      #   withVencord = true;
+      #   nss = pkgs.nss_latest;
+      # };
+      discord' = vesktop;
+    in [
+      discord'
+    ];
   };
 }

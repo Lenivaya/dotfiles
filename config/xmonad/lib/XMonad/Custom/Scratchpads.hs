@@ -55,8 +55,10 @@ scratchpads =
       floatingNSP
   , NS
       "discord"
-      "Discord"
-      (className =? "discord")
+      -- "Discord"
+      "vencorddesktop"
+      -- (className =? "discord")
+      (className =? "VencordDesktop")
       doFullCenterFloat
   ]
   where

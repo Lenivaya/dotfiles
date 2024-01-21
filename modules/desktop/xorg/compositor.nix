@@ -17,6 +17,7 @@ with lib.my; {
         "100:class_g = 'Thunderbird'"
         "100:class_g = 'mpv'"
         "100:class_g = 'slop'"
+        "100:class_g = 'skippy-xd'"
         "100:_NET_WM_STATE@:32a *= '_NET_WM_STATE_FULLSCREEN'"
         "0:_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
         "96:_NET_WM_STATE@:32a *= '_NET_WM_STATE_STICKY'"
@@ -68,10 +69,15 @@ with lib.my; {
         focus-exclude = [
           "class_g = 'xob'"
           "class_g = 'trayer'"
-          "class_g *?= 'safeeyes'"
-          "class_g *= 'skippy-xd'"
+          "class_g *= 'safeeyes'"
+          # "class_g *= 'skippy-xd'"
           "class_g ?= 'Steam'"
           "class_g = 'slop'"
+        ];
+
+        fade-exclude = [
+          "class_g = 'slop'"
+          "class_g *= 'skippy-xd'"
         ];
 
         use-damage = true;
@@ -79,7 +85,7 @@ with lib.my; {
         # Unredirect all windows if a full-screen opaque window is detected, to
         # maximize performance for full-screen windows. Known to cause
         # flickering when redirecting/unredirecting windows.
-        unredir-if-possible = true;
+        # unredir-if-possible = true;
 
         # GLX backend: Avoid using stencil buffer, useful if you don't have a
         # stencil buffer. Might cause incorrect opacity when rendering

@@ -9,8 +9,6 @@ in {
     [
       ripgrep # fast grepper
       fd # rust alternative to find
-      exa # ls alternative
-      # tokei # code statistic
       maim
       scrot # Screenshots
       # handlr # better xdg-utils in rust
@@ -50,7 +48,7 @@ in {
       xclip
       curl
       youtube-dl
-      tdesktop
+      telegram-desktop
       brightnessctl
       gnome-usage
       xdotool
@@ -58,14 +56,9 @@ in {
       procs # <- a "modern" replacement for ps
     ]
     ++ (with pkgs.gnome; [
-      gnome-sound-recorder
-      adwaita-icon-theme
-      sushi
-      nautilus
-      file-roller
+      # gnome-sound-recorder
       gnome-autoar
       gnome-system-monitor
       eog
-      geary
     ]);
 }

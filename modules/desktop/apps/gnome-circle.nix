@@ -14,9 +14,8 @@ in {
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
-      apostrophe
       blanket # ambient sounds
-      wike
+      # wike
       metadata-cleaner
       gnome-obfuscate
       czkawka

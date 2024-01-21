@@ -5,52 +5,66 @@
 
   inputs = {
     # Core dependencies
-    # nixpkgs.url = "nixpkgs/nixos-23.05"; # primary nixpkgs
     nixpkgs.url = "nixpkgs/nixos-unstable"; # primary nixpkgs
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable"; # for packages on the edge
 
-    # home-manager.url = "github:nix-community/home-manager/release-23.05";
-    home-manager.url = "github:nix-community/home-manager";
-    home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
     # Spotify
-    spicetify-nix.url = "github:the-argus/spicetify-nix";
-    spicetify-nix.inputs.nixpkgs.follows = "nixpkgs";
+    spicetify-nix = {
+      url = "github:the-argus/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # XMonad
-    xmonad-contrib.url = "github:xmonad/xmonad-contrib";
-    xmonad-contrib.inputs.nixpkgs.follows = "nixpkgs";
+    xmonad-contrib = {
+      url = "github:xmonad/xmonad-contrib";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # vscode
-    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
-    nix-vscode-extensions.inputs.nixpkgs.follows = "nixpkgs";
+    nix-vscode-extensions = {
+      url = "github:nix-community/nix-vscode-extensions";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Nix cli helper
     nh.url = "github:viperML/nh";
-    # nh.inputs.nixpkgs.follows = "nixpkgs";
 
     # Formatting and pre-commit hooks
-    treefmt-nix.url = "github:numtide/treefmt-nix";
-    treefmt-nix.inputs.nixpkgs.follows = "nixpkgs";
-    pre-commit-hooks.url = "github:cachix/pre-commit-hooks.nix";
-    pre-commit-hooks.inputs.nixpkgs.follows = "nixpkgs";
+    treefmt-nix = {
+      url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    pre-commit-hooks = {
+      url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Extras
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nur.url = "github:nix-community/NUR";
-    programsdb.url = "github:wamserma/flake-programs-sqlite";
-    programsdb.inputs.nixpkgs.follows = "nixpkgs";
+    programsdb = {
+      url = "github:wamserma/flake-programs-sqlite";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     nix-index-db = {
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    jetbrains = {
-      url = "github:liff/jetbrains-flake";
+    picom = {
+      url = "github:yshui/picom";
+      # url = "github:ft-labs/picom";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    nixpkgs_eol_dotnet.url = "github:NixOS/nixpkgs/64c27498901f104a11df646278c4e5c9f4d642db";
   };
 
   outputs = inputs @ {
@@ -69,6 +83,7 @@
       import pkgs {
         inherit system;
         config.allowUnfree = true; # forgive me Stallman senpai
+        config.nvidia.acceptLicense = true;
         overlays = extraOverlays ++ (lib.attrValues self.overlays);
       };
     pkgs = mkPkgs nixpkgs [self.overlay];

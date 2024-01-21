@@ -9,9 +9,7 @@ with lib;
 with lib.my; let
   cfg = config.modules.services.greenclip;
 in {
-  options.modules.services.greenclip = {
-    enable = mkBoolOpt false;
-  };
+  options.modules.services.greenclip.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
     services.greenclip = enabled;

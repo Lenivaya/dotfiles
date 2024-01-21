@@ -21,7 +21,7 @@ in {
     programs.spicetify =
       enabled
       // {
-        # theme = spicePkgs.themes.Default;
+        theme = spicePkgs.themes.text;
 
         enabledCustomApps = with spicePkgs.apps; [
           lyrics-plus

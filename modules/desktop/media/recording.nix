@@ -16,8 +16,8 @@ with lib.my; let
 in {
   options.modules.desktop.media.recording = {
     enable = mkBoolOpt false;
-    audio.enable = mkBoolOpt true;
-    video.enable = mkBoolOpt true;
+    audio.enable = mkBoolOpt false;
+    video.enable = mkBoolOpt false;
   };
 
   config = mkIf cfg.enable {
@@ -26,7 +26,7 @@ in {
       // {
         package = pkgs.obs-studio;
         plugins = with pkgs.obs-studio-plugins; [
-          # obs-backgroundremoval
+          obs-backgroundremoval
           obs-vaapi
           obs-pipewire-audio-capture
           droidcam-obs
@@ -39,9 +39,7 @@ in {
     # for recording and remastering audio
       (
         if cfg.audio.enable
-        then
-          # with unstable;
-          with pkgs; [audacity ardour]
+        then with pkgs; [audacity ardour]
         else []
       )
       ++

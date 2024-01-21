@@ -317,7 +317,7 @@ config.set("content.images", True, "devtools://*")
 # QtWebEngine, writing the clipboard as response to a user interaction
 # is always allowed.
 # Type: Bool
-c.content.javascript.can_access_clipboard = False
+# c.content.javascript.can_access_clipboard = False
 
 # Allow JavaScript to open new tabs without user interaction.
 # Type: Bool

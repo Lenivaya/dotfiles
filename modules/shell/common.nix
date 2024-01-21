@@ -31,8 +31,8 @@ in {
   # Some nice shell things
   user.packages = with pkgs; [
     bat
-    exa
     fd
+    fselect
     htop
     btop # htop but prettier
     tree
@@ -42,9 +42,17 @@ in {
     zoxide
     atuin
     sysz
+    # carapace
 
     nix-your-shell # use configured shell in nix shells
   ];
+
+  home.programs.eza =
+    enabled
+    // {
+      enableAliases = true;
+      icons = true;
+    };
 
   home.programs.broot = enabled;
 

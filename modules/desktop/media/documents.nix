@@ -25,7 +25,10 @@ in {
         pandoc # Universal Markup converter
       ]
 
-      (mkIf cfg.ebook.enable [calibre foliate])
+      (mkIf cfg.ebook.enable [
+        # calibre
+        foliate
+      ])
       (mkIf cfg.pdf.enable [evince zathura])
       (mkIf cfg.latex.enable [
         texlab

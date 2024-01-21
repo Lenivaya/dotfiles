@@ -17,7 +17,7 @@ in {
   config = mkIf cfg.enable {
     user.packages = with pkgs; [betterlockscreen xidlehook my.caffeinate];
 
-    home.configFile."betterlockscreenrc" = {
+    home.configFile."betterlockscreen/betterlockscreenrc" = {
       source = "${configDir}/betterlockscreen/betterlockscreenrc";
       recursive = true;
     };
