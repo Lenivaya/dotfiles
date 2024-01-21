@@ -48,7 +48,7 @@ This package replaces the listed keywords with listed quotes while typing.
 | `:"[`      | 『        | left white corner bracket                                    |
 | `:"]`      | 』        | right white corner bracket                                   |
 | ` :`` `    | 〝        | reversed double prime quotation mark                         |
-| `` :`, ``  | 〞        | double prime quotation mark                                  |
+| ``:`,``    | 〞        | double prime quotation mark                                  |
 | `` :`_` `` | 〟        | low double prime quotation mark                              |
 | `:'^[`     | ﹁        | presentation form for vertical left corner bracket           |
 | `:'^]`     | ﹂        | presentation form for vertical right corner bracke           |
