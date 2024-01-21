@@ -25,7 +25,6 @@ matches:
             - "Curabitur est gravida et libero vitae dictum."
             - "Quisque ut dolor gravida, placerat libero vel, euismod."
             - "Ullamco laboris nisi ut aliquid ex ea commodi consequat."
-
   # Paragraph
   - trigger: "#lorem"
     replace: "{{output}}"
@@ -49,7 +48,6 @@ matches:
             - "Cum sociis natoque penatibus et magnis dis parturient. Curabitur blandit tempus ardua ridiculus sed magna. Salutantibus vitae elit libero, a pharetra augue."
             - "Petierunt uti sibi concilium totius Galliae in diem certam indicere. Morbi fringilla convallis sapien, id pulvinar odio volutpat. A communi observantia non est recedendum."
             - "Phasellus laoreet lorem vel dolor tempus vehicula. Idque Caesaris facere voluntate liceret: sese habere. Ab illo tempore, ab est sed immemorabili. Mercedem aut nummos unde unde extricat, amaras. Praeterea iter est quasdam res quas ex communi."
-
   # Multiples sentences
   - trigger: ">2lorem"
     replace: "{{one}} {{two}}"
@@ -84,7 +82,6 @@ matches:
         type: match
         params:
           trigger: ">2lorem"
-
   # Multiples paragraphs
   - trigger: "#2lorem"
     replace: "{{one}}\n{{two}}"

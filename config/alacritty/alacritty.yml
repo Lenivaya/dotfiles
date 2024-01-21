@@ -1,55 +1,39 @@
----
 env:
   # WINIT_X11_SCALE_FACTOR: "1.66"
   WINIT_X11_SCALE_FACTOR: "1.0"
-
 window:
   # dimensions:
   #   columns: 80
   #   lines: 24
-
   padding:
     x: 30
     y: 30
-
   dynamic_padding: true
-
   decorations: none
-
   startup_mode: Windowed
-
 scrolling:
   history: 10000
   multiplier: 3
-
 font:
   size: 14
-
   normal:
     family: monospace
     style: Regular
-
   bold:
     family: monospace
     style: Bold
-
   italic:
     family: monospace
     style: Italic
-
 draw_bold_text_with_bright_colors: true
-
 custom_cursor_colors: true
-
 colors:
   primary:
     background: "0x0b0806"
     foreground: "0xa19782"
-
   cursor:
     text: "0x1d2021"
     cursor: "0x844d2c"
-
   normal:
     black: "0x0b0806"
     red: "0x844d2c"
@@ -59,7 +43,6 @@ colors:
     magenta: "0x6b4444"
     cyan: "0x59664c"
     white: "0xa19782"
-
   # Bright colors
   bright:
     black: "0x2f2b2a"
@@ -70,7 +53,6 @@ colors:
     magenta: "0x755c47"
     cyan: "0x718062"
     white: "0xc1ab83"
-
   indexed_colors:
     - { index: 16, color: "0xde935f" }
     - { index: 17, color: "0xa3685a" }
@@ -78,31 +60,23 @@ colors:
     - { index: 19, color: "0x373b41" }
     - { index: 20, color: "0xb4b7b4" }
     - { index: 21, color: "0xe0e0e0" }
-
 bell:
   duration: 0
-
 selection:
   semantic_escape_chars: ',│`|:"'' ()[]{}<>'
   save_to_clipboard: true
-
 dynamic_title: true
-
 cursor:
   style: Beam
   unfocused_hollow: false
-
 live_config_reload: true
-
 working_directory: None
-
 debug:
   render_timer: false
   persistent_logging: false
   log_level: Off
   print_events: false
   ref_test: false
-
 key_bindings:
   # Start new instance in current dir with Ctrl+Shift+Enter
   - { key: Return, mods: Control|Shift, action: SpawnNewInstance }

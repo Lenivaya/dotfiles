@@ -10,7 +10,6 @@
 matches:
   - trigger: ":em"
     replace: —
-
   - trigger: ":date"
     replace: "{{mydate}}"
     vars:
@@ -18,7 +17,6 @@ matches:
         type: date
         params:
           format: "%d.%m.%Y"
-
   - trigger: ":now"
     replace: "It's {{mytime}}"
     vars:
