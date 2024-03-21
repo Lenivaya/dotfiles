@@ -2,6 +2,7 @@
   lib,
   stdenvNoCC,
   fetchzip,
+  ...
 }:
 stdenvNoCC.mkDerivation rec {
   pname = "pragmasevka";

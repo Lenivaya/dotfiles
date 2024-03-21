@@ -17,12 +17,12 @@ in {
       [
         emojipick
 
-        (writeShellScriptBin "dmenu-drun"
-          "${getExe j4-dmenu-desktop} --no-generic --dmenu='dmenu -g 2 -l 10'")
+        # (writeShellScriptBin "dmenu-drun"
+        #   "${getExe j4-dmenu-desktop} --no-generic --dmenu='dmenu -g 2 -l 10'")
         (writeShellScriptBin "dmenu-network"
           "${getExe networkmanager_dmenu} -l 10")
         (writeShellScriptBin "dmenu-bluetooth"
-          "${getExe my.dmenu-bluetooth} -p 'bluetooth' -g 2 -l 5")
+          "${getExe dmenu-bluetooth} -p 'bluetooth' -g 2 -l 5")
         (writeShellScriptBin "dmenu-translate"
           "${getExe my.dmenu-translate} -p 'trans:' -l 10")
         (writeShellScriptBin "dmenu-audio"

@@ -1,0 +1,110 @@
+live_config_reload = true
+working_directory = "None"
+
+[bell]
+duration = 0
+
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[[colors.indexed_colors]]
+color = "0xde935f"
+index = 16
+
+[[colors.indexed_colors]]
+color = "0xa3685a"
+index = 17
+
+[[colors.indexed_colors]]
+color = "0x282a2e"
+index = 18
+
+[[colors.indexed_colors]]
+color = "0x373b41"
+index = 19
+
+[[colors.indexed_colors]]
+color = "0xb4b7b4"
+index = 20
+
+[[colors.indexed_colors]]
+color = "0xe0e0e0"
+index = 21
+
+[colors.bright]
+black = "0x2f2b2a"
+blue = "0x526274"
+cyan = "0x718062"
+green = "0x897f5a"
+magenta = "0x755c47"
+red = "0xa64848"
+white = "0xc1ab83"
+yellow = "0xc8b38d"
+
+[colors.cursor]
+cursor = "0x844d2c"
+text = "0x1d2021"
+
+[colors.normal]
+black = "0x0b0806"
+blue = "0x41434f"
+cyan = "0x59664c"
+green = "0x57553a"
+magenta = "0x6b4444"
+red = "0x844d2c"
+white = "0xa19782"
+yellow = "0xa17c38"
+
+[colors.primary]
+background = "0x0b0806"
+foreground = "0xa19782"
+
+[cursor]
+style = "Beam"
+unfocused_hollow = false
+
+[debug]
+log_level = "Off"
+persistent_logging = false
+print_events = false
+render_timer = false
+
+[env]
+WINIT_X11_SCALE_FACTOR = "1.0"
+
+[font]
+size = 14
+
+[font.bold]
+family = "monospace"
+style = "Bold"
+
+[font.italic]
+family = "monospace"
+style = "Italic"
+
+[font.normal]
+family = "monospace"
+style = "Regular"
+
+[[keyboard.bindings]]
+action = "SpawnNewInstance"
+key = "Return"
+mods = "Control|Shift"
+
+[scrolling]
+history = 10000
+multiplier = 3
+
+[selection]
+save_to_clipboard = true
+semantic_escape_chars = ",│`|:\"' ()[]{}<>"
+
+[window]
+decorations = "none"
+dynamic_padding = true
+startup_mode = "Windowed"
+
+[window.padding]
+x = 30
+y = 30

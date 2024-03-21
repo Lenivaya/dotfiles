@@ -1,5 +1,6 @@
 # t440p -- thinkpad t440p
 # https://github.com/CRAG666/dotfiles/tree/main/thinkpad
+#
 {
   pkgs,
   lib,
@@ -15,7 +16,8 @@ with lib.my; {
       ./hardware-configuration.nix
       ./phone_cam.nix
       ./gpu.nix
-      ./postgresql.nix
+      # ./postgresql.nix
+      ./mongodb.nix
       # ./jack_retask/jack_retask.nix
     ]
     ++ (with inputs.nixos-hardware.nixosModules; [
@@ -45,6 +47,7 @@ with lib.my; {
         default = "google-chrome-stable";
 
         chromium = enabled // {googled = true;};
+        qutebrowser = enabled;
         tor = enabled;
       };
 
@@ -82,6 +85,7 @@ with lib.my; {
 
       vm = {
         qemu = enabled;
+        # virtualbox = enabled;
         # wine = enabled;
       };
     };
@@ -107,10 +111,13 @@ with lib.my; {
       jetbrains =
         enabled
         // {
-          packages = with pkgs.nur.repos.tehplague.jetbrains; [
+          # packages = with pkgs.nur.repos.tehplague.jetbrains; [
+          packages = with pkgs.jetbrains; [
             webstorm
             rider
             pycharm-professional
+            phpstorm
+            # rust-rover
           ];
         };
     };
@@ -128,12 +135,8 @@ with lib.my; {
         enabled
         // {
           dotnetPkgsSdks = let
-            eol_dotnet =
-              (
-                import inputs.nixpkgs_eol_dotnet {
-                  inherit system;
-                }
-              )
+            eol_dotnet_3_1 =
+              (import inputs.nixpkgs_eol_dotnet {inherit system;})
               .dotnetCorePackages
               .sdk_3_1;
           in
@@ -142,9 +145,7 @@ with lib.my; {
                 sdk_8_0
                 sdk_6_0
               ]
-              ++ [
-                eol_dotnet
-              ];
+              ++ [eol_dotnet_3_1];
         };
       php =
         enabled
@@ -154,7 +155,8 @@ with lib.my; {
     };
 
     services = {
-      greenclip = enabled;
+      # greenclip = enabled;
+      clipcat = enabled;
       kdeconnect = enabled;
       ssh = enabled;
       warp = enabled;
@@ -222,7 +224,7 @@ with lib.my; {
   };
 
   boot.kernelPackages = let
-    kernel' = pkgs.linuxPackages_zen;
+    kernel' = pkgs.unstable.linuxPackages_xanmod;
   in
     mkForce kernel';
 
@@ -245,8 +247,8 @@ with lib.my; {
   };
 
   networking.firewall = {
-    allowedUDPPorts = [3000 4000 8080 8000 1433];
-    allowedTCPPorts = [3000 4000 8080 8000 1433];
+    allowedUDPPorts = [3000 4000 8080 8000 1433 4321 4322];
+    allowedTCPPorts = [3000 4000 8080 8000 1433 4321 4322];
   };
 
   # For manual fan control with pwm
@@ -257,6 +259,13 @@ with lib.my; {
     ffmpeg-full
     sqlfluff
     kdenlive
+
+    ciscoPacketTracer8
+    unstable.geogebra6
+
+    warp-terminal
+    postman
+    my.gitbutler
   ];
 
   hardware.trackpoint = {
@@ -303,7 +312,7 @@ with lib.my; {
   #     overrideFolders = true;
   #   };
 
-  services.safeeyes = enabled;
+  # services.safeeyes = enabled;
 
   services.smartd = enabled;
 
@@ -311,8 +320,8 @@ with lib.my; {
   # services.thermald = mkForce disabled;
   # services.throttled = mkForce enabled;
 
-  # home.services.picom.vSync = mkForce false;
-  # home.services.picom.backend = mkForce "xrender";
+  home.services.picom.vSync = mkForce false;
+  home.services.picom.backend = mkForce "xrender";
   # home.services.picom.settings = let
   #   animationExclude = [
   #     "class_g *= 'xmobar'"
@@ -364,6 +373,11 @@ with lib.my; {
     freemem = "sync && echo 3 | sudo tee /proc/sys/vm/drop_caches";
   };
 
+  # Dirty hack to have hosts modifiable (will be discarded on config change) [1]
+  #
+  # [1]: https://discourse.nixos.org/t/a-fast-way-for-modifying-etc-hosts-using-networking-extrahosts/4190/3
+  environment.etc.hosts.mode = "0644";
+
   nixpkgs.overlays = let
     optimize = pkg: optimizeForThisHost (withClang pkg);
   in
@@ -375,23 +389,17 @@ with lib.my; {
           (pkgs.unstable)
           firefox
           firefox-bin
+          google-chrome
           vscode
           vscode-extensions
+          jetbrains
           telegram-desktop
+          easyeffects
+          warp-terminal
+          postman
           ;
 
-        # dotnetCorePackages =
-        #   prev.dotnetCorePackages
-        #   // {
-        #     sdk_3_1_EOL = prev.dotnetCorePackages.sdk_6_0.overrideAttrs (oa: {
-        #       eol = false;
-        #       src = oldAttrs.overrideAttrs (oldSrcAttrs: {
-        #         sha256 = "https://download.visualstudio.microsoft.com/download/pr/e89c4f00-5cbb-4810-897d-f5300165ee60/027ace0fdcfb834ae0a13469f0b1a4c8/dotnet-sdk-3.1.426-linux-x64.tar.gz";
-        #         url = "https://download.visualstudio.microsoft.com/download/pr/e89c4f00-5cbb-4810-897d-f5300165ee60/027ace0fdcfb834ae0a13469f0b1a4c8/dotnet-sdk-3.1.426-linux-x64.tar.gz";
-        #       });
-        #     });
-        #   };
-
+        picom = optimize prev.picom;
         skippy-xd = optimize prev.skippy-xd;
         dmenu = optimize prev.dmenu;
         nsxiv = optimize prev.nsxiv;

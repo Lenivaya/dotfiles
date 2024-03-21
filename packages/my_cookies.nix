@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  ...
 }:
 with pkgs.python3Packages;
   buildPythonPackage rec {

@@ -13,9 +13,12 @@ in {
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
+      clang
+      llvmPackages.bintools
+
       rustc
       cargo
-      # rustup
+      rustup
 
       clippy
       rustfmt

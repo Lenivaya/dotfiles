@@ -8,6 +8,7 @@
   jq,
   pipewire,
   wireplumber,
+  ...
 }:
 stdenv.mkDerivation rec {
   pname = "dmenu-pipewire";

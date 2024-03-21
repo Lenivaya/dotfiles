@@ -1,6 +1,7 @@
 {
   lib,
   pkgs,
+  ...
 }:
 with pkgs; let
   x11-nim = fetchFromGitHub {

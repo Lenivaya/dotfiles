@@ -5,6 +5,7 @@
   makeWrapper,
   python3,
   bash,
+  ...
 }:
 stdenv.mkDerivation rec {
   pname = "rofi-chrome-profile-launcher";

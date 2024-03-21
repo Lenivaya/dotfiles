@@ -44,40 +44,40 @@ with lib.my; {
         inactive-dim = 0.3;
         shadow-radius = 8;
 
-        wintypes = {
-          normal = {
-            shadow = true;
-          };
-          tooltip = {
-            shadow = true;
-            opacity = 0.75;
-            focus = true;
-            full-shadow = false;
-          };
-          dock = {
-            opacity = 1.0;
-            fade = false;
-          };
-          notification = {
-            opacity = 1.0;
-          };
-          dnd = {shadow = true;};
-          popup_menu = {opacity = 1.0;};
-          dropdown_menu = {opacity = 1.0;};
-        };
+        # wintypes = {
+        #   normal = {
+        #     shadow = true;
+        #   };
+        #   tooltip = {
+        #     shadow = true;
+        #     opacity = 0.75;
+        #     focus = true;
+        #     full-shadow = false;
+        #   };
+        #   dock = {
+        #     opacity = 1.0;
+        #     fade = false;
+        #   };
+        #   notification = {
+        #     opacity = 1.0;
+        #   };
+        #   dnd = {shadow = true;};
+        #   popup_menu = {opacity = 1.0;};
+        #   dropdown_menu = {opacity = 1.0;};
+        # };
 
         focus-exclude = [
           "class_g = 'xob'"
           "class_g = 'trayer'"
           "class_g *= 'safeeyes'"
-          # "class_g *= 'skippy-xd'"
+          "class_g *= 'skippy-xd'"
           "class_g ?= 'Steam'"
           "class_g = 'slop'"
         ];
 
         fade-exclude = [
           "class_g = 'slop'"
-          "class_g *= 'skippy-xd'"
+          # "class_g *= 'skippy-xd'"
         ];
 
         use-damage = true;

@@ -2,6 +2,7 @@
   fetchFromGitHub,
   python3Packages,
   stdenvNoCC,
+  ...
 }:
 stdenvNoCC.mkDerivation rec {
   pname = "mpv-autosub";

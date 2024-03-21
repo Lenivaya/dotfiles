@@ -27,6 +27,7 @@ in {
       ++ (with php'.packages; [
         composer
         php-cs-fixer
+        phpcbf
         psalm
         phpstan
       ]);

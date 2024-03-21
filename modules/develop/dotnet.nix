@@ -14,7 +14,7 @@ in {
     enable = mkBoolOpt false;
     dotnetPkgsSdks = mkOpt (listOf package) [
       pkgs.dotnet-sdk
-      # dotnetCorePackages.sdk_7_0 this is to be setted
+      # dotnetCorePackages.sdk_8_0 this is to be setted
     ];
     otherPkgs = mkOpt (listOf package) [];
   };
@@ -31,7 +31,7 @@ in {
       ++ cfg.otherPkgs;
 
     env = {
-      # DOTNET_ROOT = "${sdkPath}";
+      DOTNET_ROOT = "${sdk'}";
       DOTNET_CLI_HOME = "$XDG_DATA_HOME"; # dotnet cli appends the path with .dotnet :(
       NUGET_PACKAGES = "$XDG_DATA_HOME/NuGet/packages";
       NUGET_HTTP_CACHE_PATH = "$XDG_DATA_HOME/NuGet/v3-cache";

@@ -2,6 +2,7 @@
   lib,
   buildGoModule,
   fetchFromGitHub,
+  ...
 }:
 buildGoModule rec {
   pname = "rofi-code";
