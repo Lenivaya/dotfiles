@@ -151,7 +151,12 @@ in {
         [easyeffects helvum pulsemixer pamix pamixer pulseaudio pavucontrol]
         ++ [carla] # JACK utilities
         ++ [lsp-plugins dragonfly-reverb rnnoise-plugin] # Audio plugins
-        ++ [distrho swh_lv2 calf ir.lv2];
+        ++ [
+          distrho
+          swh_lv2
+          calf
+          # ir.lv2
+        ];
 
       environment.variables = with lib;
         listToAttrs (map (type:

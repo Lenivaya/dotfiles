@@ -3,6 +3,7 @@
   stdenv,
   fetchurl,
   p7zip,
+  ...
 }:
 stdenv.mkDerivation rec {
   pname = "apple-fonts";

@@ -17,7 +17,7 @@ super + KP_Home
   alacritty -e tmux
 
 super + c
-    rofi-greenclip
+   clipcat-selector
 
 # XF86Audio{LowerVolume,RaiseVolume,Mute,MicMute}
 #     volumedunst {down,up,mute,mic_mute}

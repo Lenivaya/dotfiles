@@ -189,6 +189,11 @@ literate
 ;;  +icons                      ; ... icons are nice
 ;;  +childframe                 ; ... when your children are better than you
 ;;  +prescient)                 ; ... I know what I want(ed)
+(corfu
+ +icons
+ +orderless
+ +dabbrev
+ )
 (vertico +icons
          ;; +childframe
          )
@@ -292,7 +297,7 @@ biblio
 debugger                     ; FIXME stepping through code, to help you add bugs
 ;;+lsp)
 direnv                     ; be direct about your environment
-docker                     ; port everything to containers
+(docker +lsp)                     ; port everything to containers
 editorconfig               ; let someone else argue about tabs vs spaces
 ;;ein                        ; tame Jupyter notebooks with emacs
 (eval +overlay)              ; run code, run (also, repls)
@@ -414,8 +419,8 @@ solidity          ; do you need a blockchain? No.
 ;;terra             ; Earth and Moon in alignment for performance.
 (web +lsp +tree-sitter)              ; the tubes
 (yaml +lsp +tree-sitter)
-(graphql
- +lsp)
+;; (graphql
+;;  +lsp)
 ;;vala              ; GObjective-C
 #+end_src
 **** Everything in Emacs
@@ -772,6 +777,11 @@ For automatically toggling LaTeX fragment previews there's this nice package
 (package! org-fragtog)
 #+end_src
 
+Also it seems there's some even better package for latex previews, which even work asynchronously
+#+begin_src emacs-lisp
+(package! xenops)
+#+end_src
+
 Then for pretty markers
 #+begin_src emacs-lisp
 (package! org-appear :recipe (:host github :repo "awth13/org-appear"))
@@ -862,8 +872,9 @@ Let's have media notes in org-mode
 Graphviz is a nice method of visualising simple graphs, based on plaintext
 =.dot= / =.gv= files.
 #+begin_src emacs-lisp
-(package! graphviz-dot-mode :pin "3642a0a5f41a80c8ecef7c6143d514200b80e194")
+(package! graphviz-dot-mode :pin "8ff793b13707cb511875f56e167ff7f980a31136")
 #+end_src
+
 *** Authinfo
 #+begin_src emacs-lisp
 (package! authinfo-color-mode
@@ -1859,7 +1870,7 @@ Some simple settings
       org-journal-file-format "%Y%m%d.org"
       )
 (add-hook! org-mode :append
-           #'org-fragtog-mode
+           ;; #'org-fragtog-mode
            #'variable-pitch-mode
            )
 #+end_src
@@ -2437,6 +2448,114 @@ Let's have media notes in org-mode
   (setq org-media-note-use-refcite-first t)
   )
 #+end_src
+**** Flycheck with org-lint
+
+Org may be simple, but that doesn't mean there's no such thing as malformed Org.
+Thankfully, malformed Org is a much less annoying affair than malformed zipped
+XML (looks at DOCX/ODT...), particularly because there's a rather helpful little
+tool called ~org-lint~ bundled with Org that can tell you about your mistakes.
+
+[[xkcd:2109]]
+
+Flycheck doesn't currently support Org, and there's aren't any packages to do so
+☹. However, in an issue on ~org-lint~ there is [[https://github.com/flycheck/flycheck/issues/1757#issuecomment-759546940][some code]] which apparently works.
+Surely this is what the clipboard was invented for? With that said, let's
+regurgitate the code, cross our fingers, and hope it works.
+
+#+begin_src emacs-lisp
+(after! (:and org-mode flycheck-mode)
+  (defconst flycheck-org-lint-form
+    (flycheck-prepare-emacs-lisp-form
+     (require 'org)
+     (require 'org-lint)
+     (require 'org-attach)
+     (let ((source (car command-line-args-left))
+           (process-default-directory default-directory))
+       (with-temp-buffer
+         (insert-file-contents source 'visit)
+         (setq buffer-file-name source)
+         (setq default-directory process-default-directory)
+         (delay-mode-hooks (org-mode))
+         (setq delayed-mode-hooks nil)
+         (dolist (err (org-lint))
+           (let ((inf (cl-second err)))
+             (princ (elt inf 0))
+             (princ ": ")
+             (princ (elt inf 2))
+             (terpri)))))))
+
+  (defconst flycheck-org-lint-variables
+    '(org-directory
+      org-id-locations
+      org-id-locations-file
+      org-attach-id-dir
+      org-attach-use-inheritance
+      org-attach-id-to-path-function-list
+      org-link-parameters)
+    "Variables inherited by the org-lint subprocess.")
+
+  (defun flycheck-org-lint-variables-form ()
+    (require 'org-attach)  ; Needed to make variables available
+    `(progn
+       ,@(seq-map (lambda (opt) `(setq-default ,opt ',(symbol-value opt)))
+                  (seq-filter #'boundp flycheck-org-lint-variables))))
+
+  (eval ; To preveant eager macro expansion form loading flycheck early.
+   '(flycheck-define-checker org-lint
+      "Org buffer checker using `org-lint'."
+      :command ("emacs" (eval flycheck-emacs-args)
+                "--eval" (eval (concat "(add-to-list 'load-path \""
+                                       (file-name-directory (locate-library "org"))
+                                       "\")"))
+                "--eval" (eval (flycheck-sexp-to-string
+                                (flycheck-org-lint-variables-form)))
+                "--eval" (eval (flycheck-sexp-to-string
+                                (flycheck-org-lint-customisations-form)))
+                "--eval" (eval flycheck-org-lint-form)
+                "--" source)
+      :error-patterns
+      ((error line-start line ": " (message) line-end))
+      :modes org-mode))
+  )
+
+#+end_src
+
+Turns out it almost works. Running =M-x flycheck-verify-setup= after running that
+snippet produces the following:
+#+begin_example
+The following syntax checkers are not registered:
+  - org-lint
+Try adding these syntax checkers to `flycheck-checkers'.
+#+end_example
+
+Well that's very nice and helpful. We'll just do that 🙂.
+#+begin_src emacs-lisp
+(after! (:and org-mode flycheck-mode)
+  (add-to-list 'flycheck-checkers 'org-lint)
+  )
+#+end_src
+
+It was missing custom link types, but that's easily fixed just by adding
+~org-link-parameters~ to ~flycheck-org-lint-variables~.
+
+One remaining little annoyance is that it reports extra =#+options= that I've
+added to Org as errors. So we need to tell ~org-lint~ about them without having it
+load my whole config. Code duplication isn't great, but at least this isn't
+much.
+
+#+name: org-syntax-modifications
+#+begin_src emacs-lisp :tangle no
+(after! (:and org-mode flycheck-mode)
+  (defun flycheck-org-lint-customisations-form ()
+    `(progn
+       (require 'ox)
+       (cl-pushnew '(:latex-cover-page nil "coverpage" nil)
+                   (org-export-backend-options (org-export-get-backend 'latex)))
+       (cl-pushnew '(:latex-font-set nil "fontset" nil)
+                   (org-export-backend-options (org-export-get-backend 'latex)))))
+  )
+#+end_src
+
 *** Visuals
 **** Org Modern
 
@@ -2892,15 +3011,25 @@ passed, and so we can override the background as discussed above.
 What's better than syntax-highlighted LaTeX is /rendered/ LaTeX though, and we can
 have this be performed automatically with =org-fragtog=.
 #+begin_src emacs-lisp
-(use-package! org-fragtog
-  :hook (org-mode . org-fragtog-mode))
+;; (use-package! org-fragtog
+;;   :hook (org-mode . org-fragtog-mode))
+
+;; (add-hook 'org-mode-hook #'org-latex-preview-auto-mode)
 #+end_src
+
+#+begin_src emacs-lisp
+;; (add-hook 'latex-mode-hook #'xenops-mode)
+;; (add-hook 'LaTeX-mode-hook #'xenops-mode)
+;; (add-hook 'org-mode-hook   #'xenops-mode)
+#+end_src
+
 ***** Prettier rendering
 Since we can, instead of making the background colour match the =default= face,
 let's make it transparent.
 #+begin_src emacs-lisp
-(setq org-format-latex-options
-      (plist-put org-format-latex-options :background "Transparent"))
+(plist-put org-format-latex-options :background "Transparent")
+;; Calibrated based on the TeX font and org-buffer font.
+(plist-put org-format-latex-options :zoom 0.93)
 #+end_src
 ***** Fixes for lualatex
 #+begin_src emacs-lisp
@@ -2930,6 +3059,15 @@ let's make it transparent.
               ("xelatex -no-pdf -interaction nonstopmode -output-directory %o %f")
               :image-converter
               ("convert -density %D -trim -antialias %f -quality 100 %O"))))
+
+;; xenops
+;; (setq
+;;  xenops-math-latex-process org-preview-latex-default-process
+;;  xenops-math-latex-process-alist org-preview-latex-process-alist
+;;  xenops-math-image-scale-factor 2
+;;  )
+;; (setq org-src-block-faces
+;;         '(("latex" (:background "unspecified"))))
 #+end_src
 
 *** Exporting

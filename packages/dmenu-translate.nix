@@ -6,6 +6,7 @@
   dmenu,
   translate-shell,
   libnotify,
+  ...
 }:
 stdenv.mkDerivation rec {
   pname = "dmenu-translate";

@@ -8,12 +8,14 @@ import XMonad.Prompt
 
 data ScreenshotOption
   = Fullscreen
+  | FullscreenClipboard
   | Select
   | SelectCopyToClipboard
   deriving (Enum, Bounded, Read, Show)
 
 screenshot :: ScreenshotOption -> X ()
 screenshot Fullscreen = spawn "xshot full"
+screenshot FullscreenClipboard = spawn "xshot full-clipboard"
 screenshot Select = spawn "xshot select"
 screenshot SelectCopyToClipboard = spawn "xshot select-clipboard"
 

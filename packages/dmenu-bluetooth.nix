@@ -5,6 +5,7 @@
   bluez,
   dmenu,
   makeWrapper,
+  ...
 }:
 stdenv.mkDerivation rec {
   pname = "dmenu-bluetooth";

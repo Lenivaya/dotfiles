@@ -7,6 +7,7 @@
   udiskie,
   udisks,
   dmenu,
+  ...
 }:
 stdenv.mkDerivation rec {
   pname = "udiskie-dmenu";

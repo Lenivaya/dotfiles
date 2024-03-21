@@ -84,13 +84,13 @@ read -r W H X Y < <(select-region)
 
 # picom with blur and/or transparencies cause unbearable flickering in
 # recordings, so temporarily disable it.
-picom=
-if systemctl is-enabled --user picom >/dev/null; then
-  # systemctl --user stop picom
-  picom=1
-fi
-cleanup() { [[ $picom ]] && systemctl --user start picom; }
-trap cleanup EXIT
+# picom=
+# if systemctl is-enabled --user picom >/dev/null; then
+#   # systemctl --user stop picom
+#   picom=1
+# fi
+# cleanup() { [[ $picom ]] && systemctl --user start picom; }
+# trap cleanup EXIT
 
 # Let 'er rip
 recording-start "$1" "$X" "$Y" "$W" "$H"

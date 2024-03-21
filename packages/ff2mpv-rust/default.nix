@@ -2,6 +2,7 @@
   lib,
   rustPlatform,
   fetchFromGitHub,
+  ...
 }:
 rustPlatform.buildRustPackage rec {
   pname = "ff2mpv-rust";

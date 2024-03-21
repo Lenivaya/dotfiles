@@ -60,10 +60,13 @@
     };
     picom = {
       url = "github:yshui/picom";
-      # url = "github:ft-labs/picom";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # gitbutler = {
+    #   url = "tarball+https://app.gitbutler.com/downloads/release/linux/x86_64/gz";
+    #   flake = false;
+    # };
     nixpkgs_eol_dotnet.url = "github:NixOS/nixpkgs/64c27498901f104a11df646278c4e5c9f4d642db";
   };
 
@@ -73,6 +76,7 @@
     nixpkgs-unstable,
     treefmt-nix,
     pre-commit-hooks,
+    home-manager,
     ...
   }: let
     inherit (lib.my) mapModules mapModulesRec mapHosts;
@@ -89,12 +93,16 @@
     pkgs = mkPkgs nixpkgs [self.overlay];
     pkgs' = mkPkgs nixpkgs-unstable [];
 
-    lib = nixpkgs.lib.extend (self: _super: {
-      my = import ./lib {
-        inherit pkgs inputs;
-        lib = self;
-      };
-    });
+    lib =
+      nixpkgs.lib.extend
+      (self: _super:
+        {
+          my = import ./lib {
+            inherit pkgs inputs;
+            lib = self;
+          };
+        }
+        // home-manager.lib);
   in {
     lib = lib.my;
 
@@ -107,7 +115,7 @@
       mapModules ./overlays import;
 
     packages."${system}" =
-      mapModules ./packages (p: pkgs.callPackage p {});
+      mapModules ./packages (p: pkgs.callPackage p {inherit inputs;});
 
     nixosModules =
       {dotfiles = import ./.;} // mapModulesRec ./modules import;
