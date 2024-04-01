@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-# clipcat-menu --rofi-menu-length 18 --rofi-extra-arguments='-theme,minimal'
+clipcat-menu -f rofi --rofi-menu-length 18 --rofi-extra-arguments='-theme,minimal,-i'
 # clipcat-menu --rofi-menu-length 18
-clipcat-menu -f dmenu --dmenu-extra-arguments='-fn,"monospace 12"'
+# clipcat-menu -f dmenu --dmenu-extra-arguments='-fn,"monospace 12"'
 # clipcat-menu -f dmenu

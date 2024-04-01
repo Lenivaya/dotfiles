@@ -1,7 +1,7 @@
 indentation: 2
 column-limit: 79
 function-arrows: leading
-comma-style: leading
+comma-style: trailing
 import-export-style: diff-friendly
 indent-wheres: true
 record-brace-space: true

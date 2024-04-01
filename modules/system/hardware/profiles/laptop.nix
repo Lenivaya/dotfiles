@@ -16,6 +16,9 @@ in {
   config = mkIf cfg.enable {
     modules = {
       hardware = {touchpad = enabled;};
+      services = {
+        tlp = enabled;
+      };
     };
 
     boot.kernelParams = [
@@ -27,9 +30,14 @@ in {
     powerManagement = enabled // {powertop = enabled;};
     # services.thermald = enabled;
 
-    # https://github.com/Irqbalance/irqbalance/issues/54#issuecomment-319245584
-    # https://unix.stackexchange.com/questions/710603/should-the-irqbalance-daemon-be-used-on-a-modern-desktop-x86-system
-    services.irqbalance.enable = lib.mkDefault true;
+    # # https://github.com/Irqbalance/irqbalance/issues/54#issuecomment-319245584
+    # # https://unix.stackexchange.com/questions/710603/should-the-irqbalance-daemon-be-used-on-a-modern-desktop-x86-system
+    #
+    # Though there might be argument against it[1]:
+    #
+    # [1]: https://github.com/NixOS/nixpkgs/issues/299477#issuecomment-2023125360
+    # services.irqbalance.enable = lib.mkDefault true;
+
     services.udev.extraRules = ''
       # Automatically suspend the system at <5%
       SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", ATTR{capacity}=="[0-5]", RUN+="${pkgs.systemd}/bin/systemctl suspend"

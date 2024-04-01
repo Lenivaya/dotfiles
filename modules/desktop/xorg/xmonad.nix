@@ -20,8 +20,13 @@ in {
 
   config = mkIf cfg.enable {
     modules = {
+      services = {
+        avizo = enabled;
+        skippy-xd = enabled;
+      };
       desktop = {
         lockscreen = enabled;
+        compositor = enabled;
         term = {
           alacritty = enabled;
           default = mkForce "alacritty";
@@ -65,7 +70,7 @@ in {
       xkbmon # showing keyboard layout when changed
     ];
     fonts.packages = with pkgs; [
-      siji # some nice icons (awfull on hidpi)
+      siji # some nice icon
       font-awesome # even more nice icons
       weather-icons # for weather script
     ];

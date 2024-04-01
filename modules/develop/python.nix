@@ -19,9 +19,9 @@ in {
 
       nodePackages.pyright
 
-      (python311.withPackages (ps:
+      (python312.withPackages (ps:
         with ps; [
-          python-lsp-server
+          # python-lsp-server
 
           pip
           ipython
@@ -32,7 +32,7 @@ in {
           pylint
           pyflakes
 
-          python-lsp-ruff
+          # python-lsp-ruff
         ]))
     ];
 

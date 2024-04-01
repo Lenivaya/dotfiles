@@ -27,12 +27,12 @@
 # https://github.com/PHSix/nix-config/blob/42c96b5e45cdb9aefb2a055ea2826259aad5faeb/pkgs/git-butler.nix
 stdenv.mkDerivation rec {
   pname = "git-butler";
-  version = "0.10.25";
+  version = "0.10.28";
 
   src = fetchurl {
     # url = "https://releases.gitbutler.com/releases/release/${version}-713/linux/x86_64/git-butler_${version}_amd64.deb";
-    url = "https://releases.gitbutler.com/releases/release/0.10.25-734/linux/x86_64/git-butler_0.10.25_amd64.deb";
-    sha256 = "sha256-cZEa6wWioPNU0gy5KWow0hFItacquCHAWMt7OpxY/D8=";
+    url = "https://releases.gitbutler.com/releases/release/0.10.28-764/linux/x86_64/git-butler_0.10.28_amd64.deb";
+    sha256 = "sha256-J2qLrYnfeEgdu5CC+bsWfu1HUpT6M3wCZ62FpduDIbo=";
   };
 
   nativeBuildInputs = with pkgs; [

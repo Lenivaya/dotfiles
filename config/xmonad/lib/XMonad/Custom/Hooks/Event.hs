@@ -28,25 +28,30 @@ import XMonad.Util.Loggers.NamedScratchpad
 myRefocusPred = refocusingIsActive <||> isFloat
 swallower prog = swallowEventHook (className =? prog) (pure True)
 
+serverEventHooks =
+  [serverModeEventHookF "XMONAD_SHOW_TEXT" flash']
+  where
+    flash' =
+      flashText
+        def
+          { st_font = "xft:monospace:size=25"
+          }
+        0.5
+        . wrap "  " "  "
+
 handleEventHook :: Event -> X All
 handleEventHook =
-  mconcat
-    [ perWindowKbdLayout
-    , handleTimerEvent
-    , Hacks.windowedFullscreenFixEventHook
-    , refocusLastWhen myRefocusPred
-    , mconcat $ swallower <$> ["Alacritty", "St"]
-    , nspTrackHook scratchpads
-    -- , onTitleChange manageHook
-    , Hacks.trayerPaddingXmobarEventHook
-    , Hacks.trayerAboveXmobarEventHook
-    , serverModeEventHookF
-        "XMONAD_SHOW_TEXT"
-        ( flashText
-            def
-              { st_font = "xft:monospace:size=25"
-              }
-            0.5
-            . wrap "  " "  "
-        )
-    ]
+  mconcat hooks
+  where
+    hooks =
+      [ perWindowKbdLayout,
+        handleTimerEvent,
+        refocusLastWhen myRefocusPred,
+        mconcat $ swallower <$> ["Alacritty", "St"],
+        nspTrackHook scratchpads,
+        -- Hacks.windowedFullscreenFixEventHook,
+        Hacks.trayerPaddingXmobarEventHook,
+        Hacks.trayerAboveXmobarEventHook
+        -- , onTitleChange manageHook
+      ]
+        ++ serverEventHooks

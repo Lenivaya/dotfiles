@@ -10,6 +10,11 @@ with lib.my; {
   options = with types; {
     user = mkOpt attrs {};
 
+    this = {
+      isHeadful = mkBoolOpt false;
+      isHeadless = mkBoolOpt false;
+    };
+
     dotfiles = let
       t = either str path;
     in {

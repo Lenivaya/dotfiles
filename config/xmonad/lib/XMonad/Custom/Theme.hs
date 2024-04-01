@@ -54,16 +54,16 @@ border = 2
 
 tabTheme :: Theme
 tabTheme =
-  def
-    { activeColor = black1
-    , inactiveColor = black2
-    , urgentColor = red1
-    , activeBorderColor = white1
-    , inactiveBorderColor = white2
-    , urgentBorderColor = red2
-    , activeTextColor = white1
-    , inactiveTextColor = white2
-    , urgentTextColor = red2
-    , fontName = font
-    , decoHeight = height
-    }
+    def
+        { activeColor = black1,
+          inactiveColor = black2,
+          urgentColor = red1,
+          activeBorderColor = white1,
+          inactiveBorderColor = white2,
+          urgentBorderColor = red2,
+          activeTextColor = white1,
+          inactiveTextColor = white2,
+          urgentTextColor = red2,
+          fontName = font,
+          decoHeight = height
+        }

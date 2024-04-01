@@ -1,15 +1,13 @@
 daemonize = true
-pid_file = "/run/user/1000/clipcatd.pid"
 max_history = 50
 synchronize_selection_with_clipboard = true
-history_file_path = "/home/leniviy/.cache/clipcat/clipcatd-history"
 snippets = []
 
 [log]
 emit_journald = true
 emit_stdout = false
 emit_stderr = false
-level = "INFO"
+level = "error"
 
 [watcher]
 enable_clipboard = true
@@ -27,7 +25,6 @@ enable_http = true
 enable_local_socket = true
 host = "127.0.0.1"
 port = 45045
-local_socket = "/run/user/1000/clipcat/grpc.sock"
 
 [dbus]
 enable = true

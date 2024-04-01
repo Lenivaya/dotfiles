@@ -20,7 +20,8 @@ in {
     programs.gnupg.agent =
       enabled
       // {
-        pinentryFlavor = "gnome3";
+        # pinentryFlavor = "gnome3";
+        pinentryPackage = pkgs.pinentry-gnome3;
       };
 
     user.packages = with pkgs; [tomb gnome.seahorse];
@@ -31,9 +32,9 @@ in {
     home.configFile."gnupg/gpg-agent.conf" = {
       text = ''
         default-cache-ttl ${toString cfg.cacheTTL}
-        # pinentry-program ${getExe pkgs.pinentry-gtk2}
-        # pinentry-program ${getExe pkgs.pinentry-gnome}
       '';
+      # pinentry-program ${getExe pkgs.pinentry-gtk2}
+      # pinentry-program ${getExe pkgs.pinentry-gnome3}
     };
   };
 }

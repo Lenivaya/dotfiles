@@ -10,7 +10,7 @@ with lib.my; let
   inherit (config.dotfiles) configDir;
   cfg = config.modules.services.avizo;
 in {
-  options.modules.services.avizo.enable = mkBoolOpt true;
+  options.modules.services.avizo.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
     home.configFile."avizo" = {
