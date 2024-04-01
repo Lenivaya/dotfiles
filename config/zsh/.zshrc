@@ -111,6 +111,7 @@ zinit wait"0c" lucid light-mode for \
 
 source $XDG_CONFIG_HOME/zsh/br
 
+unalias -m zi
 eval "$(zoxide init zsh)"
 eval "$(starship init zsh)"
 nix-your-shell zsh | source /dev/stdin

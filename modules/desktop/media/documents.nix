@@ -32,9 +32,13 @@ in {
       (mkIf cfg.pdf.enable [evince zathura])
       (mkIf cfg.latex.enable [
         texlab
+
         texlive.combined.scheme-full # FULL
+        # (texliveMinimal.withPackages (ps: with ps; [dvisvgm]))
         tectonic
-        rubber
+        watchexec
+
+        # rubber
         python310Packages.pygments # Code highlighting with minted
       ])
     ]);

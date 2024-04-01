@@ -11,11 +11,6 @@ in {
   options.modules.hardware.gpu.intel.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    # # enable the i915 kernel module
-    # boot.initrd.kernelModules = ["i915"];
-    # # better performance than the actual Intel driver
-    # services.xserver.videoDrivers = ["modesetting"];
-
     boot.kernelParams = [
       # Enable power-saving display C-states
       "i915.enable_dc=1"
@@ -35,14 +30,21 @@ in {
       "i915.modeset=1"
     ];
 
-    environment.systemPackages = with pkgs; [libva-utils];
+    environment.systemPackages = with pkgs; [
+      intel-gpu-tools
+      libva-utils
+    ];
+    # environment.sessionVariables.MESA_LOADER_DRIVER_OVERRIDE = lib.mkDefault "iris";
+    # environment.sessionVariables.VDPAU_DRIVER = lib.mkDefault "va_gl";
 
     hardware.opengl = {
       extraPackages = with pkgs;
         lib.mkForce [
-          (vaapiIntel.override {enableHybridCodec = true;})
+          # (vaapiIntel.override {enableHybridCodec = true;})
+          (intel-vaapi-driver.override {enableHybridCodec = true;})
           intel-media-driver
           intel-ocl
+          libvdpau-va-gl
           intel-compute-runtime
         ];
 

@@ -1,115 +1,97 @@
-# laptp1 -- my laptop
+# laptp1 -- old laptop used as a server
+#
+# nixos-rebuild \
+#     --flake "$DOTFILES"/.#laptp1 \
+#     --show-trace --use-remote-sudo \
+#     --impure --fast --no-build-nix \
+#     --target-host leniviy@192.168.0.99 \
+#     switch
+#
 {
   pkgs,
   lib,
   ...
-}: {
-  imports = [../common.nix ./hardware-configuration.nix];
+}:
+with lib;
+with my; {
+  imports = [
+    ../common.nix
+    ./hardware-configuration.nix
+    ./adguard-home.nix
+    ./radarr.nix
+    ./books.nix
+    ./prowlarr.nix
+    ./jellyfin.nix
+    ./torrents.nix
+    ./nginx.nix
+    ./homepage/dashboard.nix
+  ];
+
+  this.isHeadless = true;
 
   modules = {
-    desktop = {
-      xmonad.enable = true;
-      isPureWM = true;
-
-      apps = {
-        rofi.enable = true;
-        dunst.enable = true;
-      };
-
-      browsers = {
-        default = "google-chrome-stable";
-        chromium = {
-          enable = true;
-          ungoogled = true;
-        };
-      };
-
-      term = {
-        st.enable = true;
-        default = "st";
-      };
-
-      media = {
-        documents = {
-          enable = true;
-          pdf.enable = true;
-          ebook.enable = true;
-        };
-        mpv.enable = true;
-      };
-    };
-
     shell = {
-      gnupg.enable = true;
-      direnv.enable = true;
-      pass.enable = true;
-      git.enable = true;
-      zsh.enable = true;
-    };
-
-    editors = {
-      emacs = {
-        enable = true;
-        doom.enable = true;
-        default = true;
-      };
-    };
-
-    dev = {
-      shell.enable = true;
-      cc.enable = true;
-      # rust.enable = true;
-      # go.enable = true;
-      # haskell.enable = true;
-      # node.enable = true;
-      # python.enable = true;
-      # elixir.enable = true;
+      gnupg = enabled;
+      tmux = enabled;
+      git = enabled;
+      zsh = enabled;
     };
 
     services = {
-      kdeconnect.enable = true;
-      ssh.enable = true;
+      ssh = enabled;
     };
 
     hardware = {
-      profiles.laptop = enabled;
-      cpu.intel.enable = true;
-      fs.enable = true;
-      audio.enable = true;
-      bluetooth.enable = true;
-      zram.enable = true;
+      cpu.intel = enabled;
+      fs = enabled;
+      # zram = enabled;
     };
-
-    adblock.enable = true;
-
-    bootsplash = {enable = true;};
   };
 
-  zramSwap = {
-    algorithm = lib.mkForce "lz4";
-    memoryPercent = lib.mkForce 50;
-  };
-
-  services.xserver = {videoDrivers = ["radeon"];};
-  environment.sessionVariables.LIBVA_DRIVER_NAME = "iHD";
-
-  # fancontrol
-  # hardware.fancontrol = {
-  #   enable = true;
-  #   config = ''
-  #     INTERVAL=10
-  #     DEVPATH=hwmon3=devices/platform/coretemp.0 hwmon4=devices/platform/asus-nb-wmi
-  #     DEVNAME=hwmon3=coretemp hwmon4=asus
-  #     FCTEMPS=hwmon4/pwm1=hwmon3/temp1_input
-  #     FCFANS= hwmon4/pwm1=hwmon4/pwm1
-  #     MINTEMP=hwmon4/pwm1=20
-  #     MAXTEMP=hwmon4/pwm1=70
-  #     MINSTART=hwmon4/pwm1=150
-  #     MINSTOP=hwmon4/pwm1=0
-  #     MAXPWM=hwmon4/pwm1=160
-  #   '';
+  # zramSwap = {
+  #   algorithm = mkForce "lz4";
+  #   memoryPercent = mkForce 50;
   # };
 
-  # Kernel
-  boot.kernelPackages = lib.mkForce pkgs.linuxPackages_lqx;
+  users.groups.media = {};
+  user.extraGroups = ["media"];
+
+  # jellyfin and video things
+  services.xserver = {videoDrivers = ["radeon"];};
+
+  services.logind.lidSwitchExternalPower = "ignore";
+  networking.networkmanager.wifi.macAddress = mkForce "permanent";
+  services.irqbalance = enabled;
+  powerManagement.cpuFreqGovernor = mkForce "performance";
+
+  # Disabling some things that use memory
+  # but are completely unrequired
+  nix.settings.auto-optimise-store = mkForce false;
+  nix.gc.automatic = mkForce false;
+  services.thermald = mkForce disabled;
+  services.automatic-timezoned = mkForce disabled;
+  location.provider = mkForce "manual";
+  security.polkit = mkForce disabled;
+  hardware.bluetooth = disabled;
+  sound = disabled;
+
+  # Kernel (lts)
+  boot.kernelPackages = mkForce pkgs.linuxPackages;
+
+  boot.kernelParams = [
+    # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
+    #      vulnerabilities. Don't copy this blindly! And especially not for
+    #      mission critical or server/headless builds exposed to the world.
+    "mitigations=off"
+
+    # https://wiki.archlinux.org/title/improving_performance#Watchdogs
+    "nowatchdog"
+    "kernel.nmi_watchdog=0"
+  ];
+
+  environment.shellAliases = {
+    freemem = "sync && echo 3 | sudo tee /proc/sys/vm/drop_caches";
+    stopMedia = "sudo systemctl stop radarr readarr prowlarr calibre-server calibre-web jellyfin";
+    startMedia = "sudo systemctl restart radarr readarr prowlarr calibre-server calibre-web jellyfin";
+  };
 }

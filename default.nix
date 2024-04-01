@@ -12,7 +12,6 @@ with lib.my; {
   imports =
     [
       inputs.home-manager.nixosModules.home-manager
-      inputs.nh.nixosModules.default
       inputs.programsdb.nixosModules.programs-sqlite
     ]
     # All my personal modules
@@ -95,7 +94,7 @@ with lib.my; {
   # Use the latest kernel
   boot.kernelPackages = mkDefault pkgs.linuxPackages_latest;
 
-  boot.initrd.compressor = getExe pkgs.zstd;
+  boot.initrd.compressor = getExe' pkgs.zstd "zstd";
   boot.loader = {
     efi.canTouchEfiVariables = mkDefault true;
     systemd-boot.configurationLimit = 10;
@@ -123,16 +122,4 @@ with lib.my; {
     # dash
     # ksh
   ];
-
-  # env.FLAKE = config.dotfiles.dir;
-  nh =
-    enabled
-    // {
-      clean =
-        enabled
-        // {
-          dates = "weekly";
-          extraArgs = "--keep-since 1w --keep 3";
-        };
-    };
 }

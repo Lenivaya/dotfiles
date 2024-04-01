@@ -5,13 +5,16 @@
   ...
 }:
 with lib;
-with lib.my; {
+with lib.my; let
+  cfg = config.modules.desktop;
+in {
   options.modules.desktop = {
+    enable = mkBoolOpt false;
     isWayland = mkBoolOpt false;
     isPureWM = mkBoolOpt false;
   };
 
-  config = {
+  config = mkIf cfg.enable {
     services.xserver =
       enabled
       // {

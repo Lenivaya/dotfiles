@@ -47,7 +47,9 @@ in {
       (
         if cfg.video.enable
         # then [obs-studio handbrake]
-        then [handbrake]
+        then [
+          # handbrake
+        ]
         else []
       );
   };

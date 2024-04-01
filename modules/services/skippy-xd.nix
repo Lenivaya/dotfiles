@@ -10,7 +10,7 @@ with lib.my; let
   inherit (config.dotfiles) configDir;
   cfg = config.modules.services.skippy-xd;
 in {
-  options.modules.services.skippy-xd.enable = mkBoolOpt true;
+  options.modules.services.skippy-xd.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
     home.configFile."skippy-xd" = {

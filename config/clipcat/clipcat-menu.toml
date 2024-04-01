@@ -1,0 +1,3 @@
+[rofi]
+menu_prompt = "clip:"
+extra_arguments = ["-i"]

@@ -61,7 +61,7 @@ in {
                 "OverlayScrollbar"
                 "TabHoverCardImages"
                 "Vulkan"
-                "RawDraw"
+                # "RawDraw"
                 "VaapiVideoEncoder"
                 "VaapiVideoDecoder"
                 "CanvasOopRasterization"

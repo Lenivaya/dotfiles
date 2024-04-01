@@ -19,7 +19,7 @@ in {
             [
               pass-otp
               pass-genphrase
-              pass-audit
+              # pass-audit
               pass-import
               pass-update
               pass-file

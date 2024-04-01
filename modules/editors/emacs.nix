@@ -83,7 +83,7 @@ in {
       # :tools lookup
       sqlite
       # :lang markdown previews
-      python39Packages.grip
+      python311Packages.grip
       # :lang resc
       jq
       # :term vterm

@@ -19,11 +19,9 @@ in {
     {
       # Auto-mount
       programs = {
-        gnome-disks = enabled;
         udevil = enabled;
       };
       services.udisks2 = enabled;
-      services.gvfs = enabled;
 
       # Support for more filesystems, mostly to support external drives
       environment.systemPackages = with pkgs; [
@@ -33,6 +31,13 @@ in {
         hfsprogs # MacOS drives
       ];
     }
+
+    (mkIf (config.modules.desktop.enable) {
+      programs = {
+        gnome-disks = enabled;
+      };
+      services.gvfs = enabled;
+    })
 
     (mkIf (!cfg.zfs.enable && cfg.ssd.enable) {services.fstrim = mkDefault enabled;})
 

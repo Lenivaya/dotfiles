@@ -58,20 +58,20 @@ windowCount =
 topBarPP :: PP
 topBarPP =
   def
-    { ppCurrent = xmobarColor white2 "" . xmobarFont 2 . wrap "=" "="
-    , ppVisible = xmobarColor white1 "" . wrap "~" "~"
-    , ppHidden = xmobarColor white1 "" . wrap "-" "-"
-    , ppHiddenNoWindows = xmobarColor white1 "" . wrap "_" "_"
-    , ppUrgent = xmobarColor red2 "" . wrap "!" "!"
-    , ppSep = " / "
-    , ppWsSep = " "
-    , ppTitle = xmobarColor white1 "" . shorten 60
-    , ppTitleSanitize = xmobarStrip
-    , ppLayout = xmobarColor white1 "" . layoutName
-    , -- , ppOrder           = id
-      ppOrder = \[ws, l, t, ex] -> [ws, l, ex, t]
-    , ppSort = (namedScratchpadFilterOutWorkspace .) <$> getSortByIndex
-    , ppExtras = [windowCount]
+    { ppCurrent = xmobarColor white2 "" . xmobarFont 2 . wrap "=" "=",
+      ppVisible = xmobarColor white1 "" . wrap "~" "~",
+      ppHidden = xmobarColor white1 "" . wrap "-" "-",
+      ppHiddenNoWindows = xmobarColor white1 "" . wrap "_" "_",
+      ppUrgent = xmobarColor red2 "" . wrap "!" "!",
+      ppSep = " / ",
+      ppWsSep = " ",
+      ppTitle = xmobarColor white1 "" . shorten 60,
+      ppTitleSanitize = xmobarStrip,
+      ppLayout = xmobarColor white1 "" . layoutName,
+      -- , ppOrder           = id
+      ppOrder = \[ws, l, t, ex] -> [ws, l, ex, t],
+      ppSort = (namedScratchpadFilterOutWorkspace .) <$> getSortByIndex,
+      ppExtras = [windowCount]
     }
 
 topBarPP' :: X PP
@@ -94,22 +94,22 @@ topBarPP' = do
 
   clickablePP
     topBarPP
-      { ppCurrent = copiesCurrent
-      , ppHidden = copiesHidden
-      , ppUrgent = copiesUrgent
+      { ppCurrent = copiesCurrent,
+        ppHidden = copiesHidden,
+        ppUrgent = copiesUrgent
       }
     >>= copiesPP copiesCurrentPP
 
 botBarPP :: PP
 botBarPP =
   topBarPP
-    { ppCurrent = const ""
-    , ppVisible = const ""
-    , ppHidden = const ""
-    , ppHiddenNoWindows = const ""
-    , ppUrgent = const ""
-    , ppTitle = const ""
-    , ppLayout = const ""
+    { ppCurrent = const "",
+      ppVisible = const "",
+      ppHidden = const "",
+      ppHiddenNoWindows = const "",
+      ppUrgent = const "",
+      ppTitle = const "",
+      ppLayout = const ""
     }
 
 logHook :: X ()

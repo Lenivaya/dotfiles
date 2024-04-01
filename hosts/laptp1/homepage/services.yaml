@@ -1,0 +1,43 @@
+# https://gethomepage.dev/latest/configs/services/
+
+- Media:
+    - Radarr:
+        description: Movie manager
+        href: http://127.0.0.1/radarr
+        icon: radarr.png
+        siteMonitor: http://127.0.0.1/radarr
+    - Readarr:
+        description: Books manager
+        href: http://127.0.0.1/readarr
+        icon: readarr.png
+        siteMonitor: http://127.0.0.1/readarr
+    - Prowlarr:
+        href: http://127.0.0.1/prowlarr
+        icon: prowlarr.png
+        description: Indexes Manager
+        siteMonitor: http://127.0.0.1/prowlarr
+    - Calibre:
+        href: http://127.0.0.1/calibre-web
+        icon: calibre.png
+        description: Calibre web interface
+        siteMonitor: http://127.0.0.1/calibre-web
+    - Jellyfin:
+        description: Media server
+        href: http://127.0.0.1/jellyfin
+        icon: jellyfin.png
+        siteMonitor: http://127.0.0.1/jellyfin
+
+- Network:
+    - Adguard:
+        href: http://127.0.0.1/aghome
+        icon: adguard-home.png
+        siteMonitor: http://127.0.0.1/aghome
+        description: DNS Server and Ad Blocker
+        widget:
+            type: adguard
+            url: http://127.0.0.1/aghome
+    - qBittorrent:
+        href: http://127.0.0.1/qbt
+        icon: qbittorrent.png
+        siteMonitor: http://127.0.0.1/qbt
+        description: Torrents

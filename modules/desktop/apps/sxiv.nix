@@ -8,7 +8,7 @@ with lib;
 with lib.my; let
   inherit (config.dotfiles) configDir;
 in {
-  config = {
+  config = mkIf config.modules.desktop.enable {
     user.packages = with pkgs; [nsxiv dmenu];
     # environment.shellAliases.sxiv = "nsxiv";
 

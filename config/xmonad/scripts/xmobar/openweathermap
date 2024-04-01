@@ -35,7 +35,7 @@ get_duration() {
 }
 
 ## Openweathermap api_key
-KEY=""
+KEY="230aaf8464bc193c0b4915d136e813a3"
 UNITS="metric"
 SYMBOL="°"
 

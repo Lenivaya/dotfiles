@@ -1,6 +1,8 @@
 # t440p -- thinkpad t440p
 # https://github.com/CRAG666/dotfiles/tree/main/thinkpad
 #
+# https://www.reddit.com/r/linuxquestions/comments/zjdwpn/linux_slow_after_some_days_of_uptime/
+#
 {
   pkgs,
   lib,
@@ -27,68 +29,72 @@ with lib.my; {
       # common-pc-laptop-hdd
     ]);
 
+  this.isHeadful = true;
+
   modules = {
-    desktop = {
-      xmonad = enabled;
-      isPureWM = true;
+    desktop =
+      enabled
+      // {
+        xmonad = enabled;
+        isPureWM = true;
 
-      fonts.pragmata = enabled;
+        fonts.pragmata = enabled;
 
-      apps = {
-        rofi = enabled;
-        dmenu = enabled;
-        dunst = enabled;
-        discord = enabled;
+        apps = {
+          rofi = enabled;
+          dmenu = enabled;
+          dunst = enabled;
+          discord = enabled;
 
-        gnome-circle = enabled;
+          gnome-circle = enabled;
+        };
+
+        browsers = {
+          default = "google-chrome-stable";
+
+          chromium = enabled // {googled = true;};
+          qutebrowser = enabled;
+          tor = enabled;
+        };
+
+        term = {
+          alacritty = enabled;
+          default = mkForce "alacritty";
+        };
+
+        media = {
+          spotify = enabled;
+          mpv = enabled;
+
+          documents =
+            enabled
+            // {
+              pdf = enabled;
+              ebook = enabled;
+              latex = enabled;
+            };
+
+          graphics =
+            enabled
+            // {
+              tools = enabled;
+              raster = enabled;
+            };
+
+          recording =
+            enabled
+            // {
+              # audio = enabled;
+              video = enabled;
+            };
+        };
+
+        vm = {
+          qemu = enabled;
+          # virtualbox = enabled;
+          # wine = enabled;
+        };
       };
-
-      browsers = {
-        default = "google-chrome-stable";
-
-        chromium = enabled // {googled = true;};
-        qutebrowser = enabled;
-        tor = enabled;
-      };
-
-      term = {
-        alacritty = enabled;
-        default = mkForce "alacritty";
-      };
-
-      media = {
-        spotify = enabled;
-        mpv = enabled;
-
-        documents =
-          enabled
-          // {
-            pdf = enabled;
-            ebook = enabled;
-            latex = enabled;
-          };
-
-        graphics =
-          enabled
-          // {
-            tools = enabled;
-            raster = enabled;
-          };
-
-        recording =
-          enabled
-          // {
-            # audio = enabled;
-            video = enabled;
-          };
-      };
-
-      vm = {
-        qemu = enabled;
-        # virtualbox = enabled;
-        # wine = enabled;
-      };
-    };
 
     shell = {
       zsh = enabled;
@@ -98,6 +104,7 @@ with lib.my; {
       pass = enabled;
       git = enabled;
       weather = enabled;
+      yazi = enabled;
     };
 
     editors = {
@@ -123,6 +130,8 @@ with lib.my; {
     };
 
     dev = {
+      docker = enabled;
+      nix = enabled;
       shell = enabled;
       # cc = enabled;
       # elixir = enabled;
@@ -180,6 +189,10 @@ with lib.my; {
         };
     };
 
+    programs = {
+      nix-helper = enabled;
+    };
+
     hardware = {
       profiles.laptop = enabled;
       cpu.intel =
@@ -214,7 +227,7 @@ with lib.my; {
   services.tlp.settings = {
     # work at maximum on AC
     # CPU_SCALING_GOVERNOR_ON_AC = mkForce "performance";
-    CPU_ENERGY_PERF_POLICY_ON_AC = mkForce "performance";
+    # CPU_ENERGY_PERF_POLICY_ON_AC = mkForce "performance";
     CPU_SCALING_MAX_FREQ_ON_AC = MHz 4000;
   };
 
@@ -224,7 +237,7 @@ with lib.my; {
   };
 
   boot.kernelPackages = let
-    kernel' = pkgs.unstable.linuxPackages_xanmod;
+    kernel' = pkgs.unstable.linuxPackages_zen;
   in
     mkForce kernel';
 
@@ -258,14 +271,16 @@ with lib.my; {
     # lightworks pitivi
     ffmpeg-full
     sqlfluff
-    kdenlive
+    # kdenlive
 
     ciscoPacketTracer8
     unstable.geogebra6
 
-    warp-terminal
+    # warp-terminal
     postman
     my.gitbutler
+
+    telegram-desktop
   ];
 
   hardware.trackpoint = {
@@ -274,25 +289,25 @@ with lib.my; {
     sensitivity = 250;
   };
 
-  powerManagement = let
-    modprobe = "${pkgs.kmod}/bin/modprobe";
-  in
-    enabled
-    // {
-      # This fixes an issue with not being able to suspend or wake up from
-      # suspend due to a kernel bug[1] which is still not fixed.
-      #
-      # I guess this can also be fixed differently[2], which does look a lot nicer
-      # but I just can't bother.
-      #
-      # [1]: https://bbs.archlinux.org/viewtopic.php?id=270964
-      # [1]: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/522998
-      # [1]: https://bugs.launchpad.net/ubuntu/+source/pm-utils/+bug/562484/comments/3
-      # [1]: https://gist.github.com/ioggstream/8f380d398aef989ac455b93b92d42048
-      # [2]: https://linrunner.de/tlp/settings/runtimepm.html
-      powerDownCommands = "${modprobe} -r xhci_pci";
-      powerUpCommands = "${modprobe} xhci_pci";
-    };
+  # powerManagement = let
+  #   modprobe = "${pkgs.kmod}/bin/modprobe";
+  # in
+  #   enabled
+  #   // {
+  #     # This fixes an issue with not being able to suspend or wake up from
+  #     # suspend due to a kernel bug[1] which is still not fixed.
+  #     #
+  #     # I guess this can also be fixed differently[2], which does look a lot nicer
+  #     # but I just can't bother.
+  #     #
+  #     # [1]: https://bbs.archlinux.org/viewtopic.php?id=270964
+  #     # [1]: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/522998
+  #     # [1]: https://bugs.launchpad.net/ubuntu/+source/pm-utils/+bug/562484/comments/3
+  #     # [1]: https://gist.github.com/ioggstream/8f380d398aef989ac455b93b92d42048
+  #     # [2]: https://linrunner.de/tlp/settings/runtimepm.html
+  #     powerDownCommands = "${modprobe} -r xhci_pci";
+  #     powerUpCommands = "${modprobe} xhci_pci";
+  #   };
 
   # Fix for libGL.so error
   hardware.opengl =
@@ -373,7 +388,8 @@ with lib.my; {
     freemem = "sync && echo 3 | sudo tee /proc/sys/vm/drop_caches";
   };
 
-  # Dirty hack to have hosts modifiable (will be discarded on config change) [1]
+  # Dirty hack to have hosts file modifiable
+  # (will be discarded on config change or reboot) [1]
   #
   # [1]: https://discourse.nixos.org/t/a-fast-way-for-modifying-etc-hosts-using-networking-extrahosts/4190/3
   environment.etc.hosts.mode = "0644";
