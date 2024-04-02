@@ -152,7 +152,8 @@ flash' = flashText def 0.5
 keysBase :: Keybindings
 keysBase =
   [ ("M-q q", confirmPrompt hotPromptTheme "Quit XMonad?" $ io exitSuccess),
-    ("M-q r", restart "xmonad" True),
+    -- ("M-q r", spawn "xmonad --recompile" >> restart "xmonad" True),
+    ("M-q r", spawn "xmonad --recompile && xmonad --restart"),
     ("M-x", wrapKbdLayout $ shellPrompt $ promptNoCompletion promptTheme),
     ("M-S-x", spawn $ C.appmenu C.applications),
     -- , ("M-c", spawn $ C.clipboardSelector C.applications)
@@ -202,8 +203,8 @@ keysSystem =
     ("S-<Print>", screenshot Select),
     ("C-S-<Print>", screenshot SelectCopyToClipboard),
     ("M-t c", spawn "$XMONAD_CONFIG_DIR/scripts/toggle-compositor.sh"),
-    ("M-t l", flash' "💤" >> spawn "zzz"),
-    ("M-t S-l", flash' "☕" >> spawn "$XMONAD_CONFIG_DIR/scripts/caffeine")
+    ("M-t l", spawn "zzz"),
+    ("M-t S-l", spawn "$XMONAD_CONFIG_DIR/scripts/caffeine")
   ]
 
 keysWorkspaces :: Keybindings
@@ -218,9 +219,9 @@ keysWorkspaces =
     ( "M-w S-<Backspace>",
       confirmPrompt hotPromptTheme "Kill workspace?" $ killAll >> removeWorkspace
     ),
-    ("M-,", flash' "->" >> nextNonEmptyWS),
-    ("M-.", flash' "<-" >> prevNonEmptyWS),
-    ("M-i", flash' "↻" >> toggleWS' ["NSP"]),
+    ("M-,", nextNonEmptyWS),
+    ("M-.", prevNonEmptyWS),
+    ("M-i", toggleWS' ["NSP"]),
     ("M-n", workspacePrompt promptTheme $ windows . S.shift),
     ("M-w w", gridselectWorkspace gridSelectTheme S.greedyView)
   ]
@@ -327,7 +328,7 @@ keysLayout c =
     ("M-S-f", withFocused $ sendMessage . maximizeRestore),
     ("M-t g", toggleGaps),
     ("M-t s", toggleStatusBar),
-    ("M-t z", flash' "🌿" >> toggleZen)
+    ("M-t z", flash' "<~ ZEN ~>" >> toggleZen)
   ]
 
 mouseBindings :: XConfig Layout -> Mousebindings

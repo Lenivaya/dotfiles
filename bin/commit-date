@@ -1,0 +1,4 @@
+#!/usr/bin/env bash
+
+current_date=$(date +'%m-%d-%Y')
+git commit -m "$current_date" "$@"

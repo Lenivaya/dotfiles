@@ -23,10 +23,10 @@ in {
         dns = {
           enable_dnssec = true;
           upstream_dns = [
-            "https://dns.quad9.net/dns-query"
-            "https://dns.nextdns.io"
-            "https://dns.google/dns-query"
+            "quic://dns.nextdns.io"
             "https://dns.cloudflare.com/dns-query"
+            "https://dns.quad9.net/dns-query"
+            "https://dns.google/dns-query"
           ];
           bootstrap_dns = [
             "1.1.1.1"
