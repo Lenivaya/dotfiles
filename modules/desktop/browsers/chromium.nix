@@ -82,7 +82,6 @@ in {
 
         extensions = [
           "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
-          # "njdfdhgcmkocbgbhcioffdbicglldapd" # localcdn
           "hfjbmagddngcpeloejdejnfgbamkjaeg" # vimium c
           "hkgfoiooedgoejojocmhlaklaeopbecg" # picture-in-picture
           "iaiomicjabeggjcfkbimgmglanimpnae" # tab session manager
@@ -91,7 +90,7 @@ in {
           "nacjakoppgmdcpemlfnfegmlhipddanj" # pdf.js with vimium
           "bgfofngpplpmpijncjegfdgilpgamhdk" # modern scrollbar
           "opcjanmpjbdbdpnjfjbboacibokblbhl" # mut tab shortcuts
-          "njdfdhgcmkocbgbhcioffdbicglldapd" # localcdn
+          # "njdfdhgcmkocbgbhcioffdbicglldapd" # localcdn
           "mnjggcdmjocbbbhaepdhchncahnbgone" # sponsorblock
 
           "hjdoplcnndgiblooccencgcggcoihigg" # didn't read, terms of service

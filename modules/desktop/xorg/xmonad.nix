@@ -10,6 +10,7 @@
 }:
 with lib;
 with lib.my; let
+  inherit (config.dotfiles) configDir;
   cfg = config.modules.desktop.xmonad;
 in {
   options.modules.desktop.xmonad.enable = mkBoolOpt false;
@@ -74,6 +75,12 @@ in {
       font-awesome # even more nice icons
       weather-icons # for weather script
     ];
+
+    systemd.user.services.xmonad-xkbmon = mkGraphicalService {
+      description = "XMonad keyboard monitor";
+      path = with pkgs; [xkbmon xmonadctl];
+      script = readFile "${configDir}/xmonad/scripts/keyboard-listener";
+    };
 
     env.PATH = ["$DOTFILES/config/xmonad/scripts/xmobar"];
   };

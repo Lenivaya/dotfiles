@@ -1,8 +1,5 @@
 # t440p -- thinkpad t440p
 # https://github.com/CRAG666/dotfiles/tree/main/thinkpad
-#
-# https://www.reddit.com/r/linuxquestions/comments/zjdwpn/linux_slow_after_some_days_of_uptime/
-#
 {
   pkgs,
   lib,
@@ -227,7 +224,7 @@ with lib.my; {
   services.tlp.settings = {
     # work at maximum on AC
     # CPU_SCALING_GOVERNOR_ON_AC = mkForce "performance";
-    # CPU_ENERGY_PERF_POLICY_ON_AC = mkForce "performance";
+    CPU_ENERGY_PERF_POLICY_ON_AC = mkForce "performance";
     CPU_SCALING_MAX_FREQ_ON_AC = MHz 4000;
   };
 
@@ -268,10 +265,12 @@ with lib.my; {
   boot.extraModprobeConfig = "options thinkpad_acpi experimental=1 fan_control=1";
 
   user.packages = with pkgs; [
-    # lightworks pitivi
+    khal
+    telegram-desktop
     ffmpeg-full
     sqlfluff
     # kdenlive
+    # lightworks pitivi
 
     ciscoPacketTracer8
     unstable.geogebra6
@@ -279,8 +278,6 @@ with lib.my; {
     # warp-terminal
     postman
     my.gitbutler
-
-    telegram-desktop
   ];
 
   hardware.trackpoint = {
@@ -413,6 +410,7 @@ with lib.my; {
           easyeffects
           warp-terminal
           postman
+          csharpier
           ;
 
         picom = optimize prev.picom;

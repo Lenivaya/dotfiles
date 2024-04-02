@@ -12,4 +12,3 @@ startupHook :: X ()
 startupHook = do
   setWMName "XMonad"
   spawn "betterlockscreen -w"
-  spawn "$XMONAD_CONFIG_DIR/scripts/keyboard-listener &"

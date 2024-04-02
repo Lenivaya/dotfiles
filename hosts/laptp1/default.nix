@@ -17,14 +17,7 @@ with my; {
   imports = [
     ../common.nix
     ./hardware-configuration.nix
-    ./adguard-home.nix
-    ./radarr.nix
-    ./books.nix
-    ./prowlarr.nix
-    ./jellyfin.nix
-    ./torrents.nix
-    ./nginx.nix
-    ./homepage/dashboard.nix
+    ./modules/default.nix
   ];
 
   this.isHeadless = true;

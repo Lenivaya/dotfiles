@@ -3,10 +3,10 @@
 current_layout=""
 previous_layout=""
 
-while read -r event; do
-  if [[ $event != "$previous_layout" ]]; then
-    current_layout="$event"
-    xmonadctl -a XMONAD_SHOW_TEXT "${current_layout^^}"
-    previous_layout="$event"
+xkbmon -u | while read -s -r layout; do
+  if [[ $layout != "$previous_layout" ]]; then
+    current_layout="$layout"
+    xmonadctl -a XMONAD_SHOW_TEXT "$current_layout"
+    previous_layout="$layout"
   fi
-done < <(xkbmon)
+done
