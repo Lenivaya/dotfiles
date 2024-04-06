@@ -2,24 +2,24 @@
 
 get_icon() {
   case $1 in
-    # Icons for weather-icons
-    01d) icon="" ;;
-    01n) icon="" ;;
-    02d) icon="" ;;
-    02n) icon="" ;;
-    03*) icon="" ;;
-    04*) icon="" ;;
-    09d) icon="" ;;
-    09n) icon="" ;;
-    10d) icon="" ;;
-    10n) icon="" ;;
-    11d) icon="" ;;
-    11n) icon="" ;;
-    13d) icon="" ;;
-    13n) icon="" ;;
-    50d) icon="" ;;
-    50n) icon="" ;;
-    *) icon="" ;;
+  # Icons for weather-icons
+  01d) icon="" ;;
+  01n) icon="" ;;
+  02d) icon="" ;;
+  02n) icon="" ;;
+  03*) icon="" ;;
+  04*) icon="" ;;
+  09d) icon="" ;;
+  09n) icon="" ;;
+  10d) icon="" ;;
+  10n) icon="" ;;
+  11d) icon="" ;;
+  11n) icon="" ;;
+  13d) icon="" ;;
+  13n) icon="" ;;
+  50d) icon="" ;;
+  50n) icon="" ;;
+  *) icon="" ;;
   esac
 
   echo $icon
@@ -29,13 +29,13 @@ get_duration() {
   osname=$(uname -s)
 
   case $osname in
-    *BSD) date -r "$1" -u +%H:%M ;;
-    *) date --date="@$1" -u +%H:%M ;;
+  *BSD) date -r "$1" -u +%H:%M ;;
+  *) date --date="@$1" -u +%H:%M ;;
   esac
 }
 
 ## Openweathermap api_key
-KEY="230aaf8464bc193c0b4915d136e813a3"
+KEY=""
 UNITS="metric"
 SYMBOL="°"
 
