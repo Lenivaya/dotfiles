@@ -8,7 +8,6 @@ matches:
         type: shell
         params:
           cmd: "curl ifconfig.me"
-
   - trigger: ":winip"
     replace: "{{output}}"
     vars:
