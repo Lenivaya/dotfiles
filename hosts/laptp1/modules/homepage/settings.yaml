@@ -1,11 +1,9 @@
----
 # For configuration options and examples, please see:
 # https://gethomepage.dev/latest/configs/settings
 
 # providers:
 #   openweathermap: openweathermapapikey
 #   weatherapi: weatherapiapikey
-
 headerStyle: clean
 statusStyle: "dot"
 hideVersion: true

@@ -26,7 +26,6 @@
         href: http://127.0.0.1/jellyfin
         icon: jellyfin.png
         siteMonitor: http://127.0.0.1/jellyfin
-
 - Network:
     - Adguard:
         href: http://127.0.0.1/aghome
@@ -34,8 +33,8 @@
         siteMonitor: http://127.0.0.1/aghome
         description: DNS Server and Ad Blocker
         widget:
-            type: adguard
-            url: http://127.0.0.1/aghome
+          type: adguard
+          url: http://127.0.0.1/aghome
     - qBittorrent:
         href: http://127.0.0.1/qbt
         icon: qbittorrent.png
