@@ -12,6 +12,7 @@ module XMonad.Custom.Hooks.Layout (
 
 import Data.Ratio ((%))
 import XMonad hiding (layoutHook)
+
 -- import XMonad.Actions.MouseResize
 import XMonad.Custom.Theme (tabTheme)
 import XMonad.Custom.Workspaces
@@ -50,6 +51,7 @@ import XMonad.Layout.SubLayouts
 import XMonad.Layout.Tabbed
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.TwoPane
+
 -- import XMonad.Layout.WindowArranger
 import XMonad.Layout.WindowNavigation
 
@@ -91,8 +93,8 @@ threeColMid =
     $ ThreeColMid 1 (3 % 100) (11 % 30)
 
 flex =
-  setName "Flex"
-    $ ifWider smallMonResWidth wideLayout standardLayout
+  setName "Flex" $
+    ifWider smallMonResWidth wideLayout standardLayout
   where
     smallMonResWidth = 1920
     wideLayout =
@@ -150,7 +152,7 @@ layoutHook =
     . hiddenWindows
     . addTabs shrinkText tabTheme
     . subLayout [] (Simplest ||| Accordion)
-    . onWorkspace wsread (circle ||| flex ||| onebig)
+    -- . onWorkspace wsread (circle ||| flex ||| onebig)
     . maximize
     . minimize
     $ layouts

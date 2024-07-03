@@ -457,7 +457,7 @@ in {
       concatStringsSep ''
         \
       '' (map (lang: ''
-          if ! find "$XDG_DATA_HOME/qutebrowser/qtwebengine_dictionaries" -type d -maxdepth 1 -name "${lang}*" 2>/dev/null | grep -q .; then
+          if ! find "$XDG_DATA_HOME/qutebrowser/qtwebengine_dictionaries" -name "${lang}*" 2>/dev/null | grep -q .; then
             ${
             getExe pkgs.python3
           } ${pkg}/share/qutebrowser/scripts/dictcli.py install ${lang}

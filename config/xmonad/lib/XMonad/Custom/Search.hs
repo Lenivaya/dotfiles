@@ -19,31 +19,31 @@ nixpkgsissues = searchEngine "nixpkgsissues" "https://github.com/NixOS/nixpkgs/i
 
 myEngines :: [SearchEngine]
 myEngines =
-  [ alpha
-  , mathworld
-  , wikipedia
-  , wiktionary
-  , cratesIo
-  , flora
-  , imdb
-  , hackage
-  , hoogle
-  , noogle
-  , dictionary
-  , thesaurus
-  , vocabulary
-  , rosettacode
-  , github
-  , youtube
-  , reddit
-  , nixpkgs
-  , nixpkgsissues
-  , nixopts
-  , searx
-  , duckduckgo
-  , images
-  , maps
-  , prefixAware google
+  [ alpha,
+    mathworld,
+    wikipedia,
+    wiktionary,
+    cratesIo,
+    flora,
+    imdb,
+    hackage,
+    hoogle,
+    noogle,
+    dictionary,
+    thesaurus,
+    vocabulary,
+    rosettacode,
+    github,
+    youtube,
+    reddit,
+    nixpkgs,
+    nixpkgsissues,
+    nixopts,
+    searx,
+    duckduckgo,
+    images,
+    maps,
+    prefixAware google
   ]
 
 engineNames :: [String]

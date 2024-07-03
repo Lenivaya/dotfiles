@@ -6,7 +6,7 @@
 #+options: coverpage:yes
 #+startup: overview
 
-#+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
+# #+SETUPFILE: https://fniessen.github.io/org-html-themes/org/theme-readtheorg.setup
 # #+setupfile: https://b-coimbra.github.io/org-scribbler-theme/scribbler.setup
 
 #+begin_quote
@@ -66,7 +66,7 @@ By default changes made via a customisation interface are added to =init.el=.
 I prefer the idea of using a separate file for this. We just need to change a
 setting, and load it if it exists.
 #+begin_src emacs-lisp
-(setq-default custom-file (expand-file-name ".custom.el" doom-private-dir))
+(setq-default custom-file (expand-file-name ".custom.el" doom-user-dir))
 (when (file-exists-p custom-file)
   (load custom-file))
 #+end_src
@@ -181,8 +181,8 @@ literate
 **** Interface
 #+name: doom-completion
 #+begin_src emacs-lisp
-(company                     ; the ultimate code completion backend
- +childframe)                ; ... when your children are better than you
+;; (company                     ; the ultimate code completion backend
+;;  +childframe)                ; ... when your children are better than you
 ;;helm                       ; the *other* search engine for love and life
 ;;ido                        ; the other *other* search engine...
 ;; (ivy                         ; a search engine for love and life
@@ -218,8 +218,10 @@ indent-guides              ; highlighted indent columns, notoriously slow
  +iosevka
  +extra
  )           ; ligatures and symbols to make your code pretty again
-minimap                    ; show a map of the code on the side
-modeline                     ; snazzy, Atom-inspired modeline, plus API
+;; minimap                    ; show a map of the code on the side
+(modeline
+ +light
+ )                     ; snazzy, Atom-inspired modeline, plus API
 nav-flash                    ; blink the current line after jumping
 ;;neotree                    ; a project drawer, like NERDTree for vim
 ophints                      ; highlight the region an operation acts on
@@ -419,8 +421,8 @@ solidity          ; do you need a blockchain? No.
 ;;terra             ; Earth and Moon in alignment for performance.
 (web +lsp +tree-sitter)              ; the tubes
 (yaml +lsp +tree-sitter)
-;; (graphql
-;;  +lsp)
+(graphql
+ +lsp)
 ;;vala              ; GObjective-C
 #+end_src
 **** Everything in Emacs
@@ -429,7 +431,7 @@ I couldn't resist the Email and Feed modules.
 
 #+name: doom-email
 #+begin_src emacs-lisp
-(mu4e +org +gmail)
+;; (mu4e +org +gmail)
 ;;notmuch
 ;;(wanderlust +gmail)
 #+end_src
@@ -438,8 +440,8 @@ I couldn't resist the Email and Feed modules.
 #+begin_src emacs-lisp
 calendar
 everywhere                   ; *leave* Emacs!? You must be joking.
-irc                          ; how neckbeards socialize
-(rss +org)                   ; emacs as an RSS reader
+;; irc                          ; how neckbeards socialize
+;; (rss +org)                   ; emacs as an RSS reader
 ;;twitter                    ; twitter client https://twitter.com/vnought
 #+end_src
 
@@ -525,16 +527,20 @@ I really don't like some ligatures so disabling them here.
 )
 #+end_src
 **** Scrolling
-Smooth scrolling in emacs
-#+begin_src emacs-lisp :tangle packages.el
-(package! good-scroll)
-#+end_src
-#+begin_src emacs-lisp
-(use-package! good-scroll
-  :config
-  (good-scroll-mode)
-  )
-#+end_src
+
+# [1]
+# [1]: https://github.com/io12/good-scroll.el/issues/31
+
+# Smooth scrolling in emacs
+# #+begin_src emacs-lisp :tangle packages.el
+# (package! good-scroll)
+# #+end_src
+# #+begin_src emacs-lisp
+# (use-package! good-scroll
+#   :config
+#   (good-scroll-mode)
+#   )
+# #+end_src
 
 **** Prettier page breaks
 
@@ -599,7 +605,7 @@ avoid polluting the output.
 *** Splash screen
 Splash image
 #+begin_src emacs-lisp
-(setq fancy-splash-image (concat doom-private-dir "splash.png"))
+(setq fancy-splash-image (concat doom-user-dir "splash.png"))
 #+end_src
 
 Hide modeline and cursor
@@ -661,9 +667,10 @@ In a similar manner, [[https://gitlab.com/ambrevar/emacs-gif-screencast][gif-scr
 **** CalcTeX
 This is a nice extension to ~calc~
 #+begin_src emacs-lisp
-(package! calctex :recipe (:host github :repo "johnbcoughlin/calctex"
-                           :files ("*.el" "calctex/*.el" "calctex-contrib/*.el" "org-calctex/*.el"))
-)
+(package! calctex
+  :recipe (:host github :repo "johnbcoughlin/calctex"
+           :files ("*.el" "calctex/*.el" "calctex-contrib/*.el" "org-calctex/*.el"))
+  )
 #+end_src
 **** Info colors
 This makes manual pages nicer to look at :)
@@ -678,9 +685,11 @@ This makes it a breeze to take lovely screenshots.
 (package! screenshot :recipe (:host github :repo "tecosaur/screenshot" :build (:not compile)))
 #+end_src
 **** Theme schedule
-#+begin_src emacs-lisp
-(package! circadian)
-#+end_src
+
+# #+begin_src emacs-lisp
+# (package! circadian)
+# #+end_src
+
 **** Non-default keyboard layouts support
 #+begin_src emacs-lisp
 (package! reverse-im)
@@ -696,21 +705,6 @@ This makes it a breeze to take lovely screenshots.
 **** Deadgrep
 #+begin_src emacs-lisp
 (package! deadgrep)
-#+end_src
-**** Company
-*****  Prescient
-#+begin_src emacs-lisp
-(package! company-prescient)
-#+end_src
-*****  Fuzzy
-#+begin_src emacs-lisp
-;; (package! company-fuzzy)
-;; (package! flx)
-;; (package! flx-rs)
-#+end_src
-*****  Math
-#+begin_src emacs-lisp
-(package! company-math)
 #+end_src
 **** Top in emacs
 #+begin_src emacs-lisp
@@ -903,7 +897,7 @@ have the following.
   :hook
   (abbrev-mode . tec/set-text-mode-abbrev-table)
   :config
-  (setq abbrev-file-name (expand-file-name "abbrev.el" doom-private-dir))
+  (setq abbrev-file-name (expand-file-name "abbrev.el" doom-user-dir))
   (setq save-abbrevs 'silently))
 #+end_src
 ** Avy
@@ -920,66 +914,16 @@ I want avy to jump though windows and auto-jump when theres 1 candidate
 (add-hook 'calc-mode-hook #'calctex-mode)
 #+end_src
 ** Circadian (Theme schedule)
-#+begin_src emacs-lisp
-(use-package! circadian
-  :config
-  (setq circadian-themes '(("8:00" . doom-tomorrow-night)
-                           ("20:30" . doom-tomorrow-night)))
-  (circadian-setup)
-)
-#+end_src
-** Company
-Some settings
-#+begin_src emacs-lisp
-(after! company
-  (setq
-   company-show-numbers t
-   company-minimum-prefix-length 2
-   )
-  )
-#+end_src
 
-Now, the improvements from ~precedent~ are mostly from remembering history, so
-let's improve that memory.
-#+begin_src emacs-lisp
-(setq-default history-length 1000)
-(setq-default prescient-history-length 1000)
-#+end_src
-
-Use prescient sorting
-#+begin_src emacs-lisp
-(use-package company-prescient
-  :after company
-  :hook (company-mode . company-prescient-mode))
-#+end_src
-
-# Use fuzzy sorting
 # #+begin_src emacs-lisp
-# (use-package! company-fuzzy
-#   :hook (company-mode . company-fuzzy-mode)
-#   :init
-#   (setq
-#    company-fuzzy-sorting-backend 'flx
-#    ;; company-fuzzy-sorting-backend 'alphabetical
-#    company-fuzzy-prefix-on-top nil
-#    company-fuzzy-history-backends '(company-yasnippet)
-#    company-fuzzy-trigger-symbols '("." "->" "<" "\"" "'" "@"))
-#   )
+# (use-package! circadian
+#   :config
+#   (setq circadian-themes '(("8:00" . doom-tomorrow-night)
+#                            ("20:30" . doom-tomorrow-night)))
+#   (circadian-setup)
+# )
 # #+end_src
 
-Math support
-#+begin_src emacs-lisp
-(use-package! company-math
-  :after (:any org-mode TeX-mode)
-  :config
-  (set-company-backend! 'org-mode 'company-math-symbols-latex)
-  (set-company-backend! 'TeX-mode 'company-math-symbols-latex)
-  (set-company-backend! 'org-mode 'company-latex-commands)
-  (set-company-backend! 'TeX-mode 'company-latex-commands)
-  (setq company-tooltip-align-annotations t)
-  (setq company-math-allow-latex-symbols-in-faces t))
-#+end_src
-*** ESS
 ** Deadgrep
 #+begin_src emacs-lisp
 (use-package! deadgrep
@@ -1123,20 +1067,18 @@ theme.
 #+end_src
 ** Google-translate
 #+begin_src emacs-lisp
-(use-package! go-translate
-  :defer t
-  :init
-  (setq
-   gts-translate-list '(("en" "ru") ("ru" "en"))
-   gts-buffer-follow-p t
-   go-translate-buffer-line-wrap-p t
-   )
-  (map!
-   (:leader
-    (:prefix-map ("o g" . "google")
-     :desc "Open google-translator" "t" #'gts-do-translate)
-    ))
-  )
+;; (use-package! go-translate
+;;   :init
+;;   (setq
+;;    gt-langs '(en ua ru)
+;;    gt-default-translator (gt-translator :engines (gt-google-engine))
+;;    )
+;;   (map!
+;;    (:leader
+;;     (:prefix-map ("o g" . "google")
+;;      :desc "Open google-translator" "t" #'gt-do-translate)
+;;     ))
+;;   )
 #+end_src
 ** Systemd
 
@@ -1415,7 +1357,7 @@ Visualize code authorship at a glance
   (blamer-min-offset 70)
   :custom-face
   (blamer-face ((t :foreground "#7a88cf"
-                   :background nil
+                   :background unspecified
                    :height 140
                    :italic t)))
   :init
@@ -1428,7 +1370,8 @@ Visualize code authorship at a glance
       )
     ))
   :config
-  (setq blamer-mode 0)
+  (blamer-mode 0)
+  (global-blamer-mode 0)
   )
 #+end_src
 ** Hydra
@@ -1662,45 +1605,45 @@ More dictionaries
 
 ** Vale prose linting
 
-Let's use vale instead of builtin grammar module from doom-emacs.
+# Let's use vale instead of builtin grammar module from doom-emacs.
 
-#+begin_src emacs-lisp :tangle packages.el
-;; (package! writegood-mode :disable t)
-(disable-packages! writegood-mode)
-(package! flymake-vale :recipe (:host github :repo "tpeacock19/flymake-vale"))
-#+end_src
+# #+begin_src emacs-lisp :tangle packages.el
+# ;; (package! writegood-mode :disable t)
+# (disable-packages! writegood-mode)
+# (package! flymake-vale :recipe (:host github :repo "tpeacock19/flymake-vale"))
+# #+end_src
 
-#+begin_src emacs-lisp
-(use-package! flymake-vale
-  ;; :after projectile
-  :init
-  (remove-hook 'text-mode-hook #'spell-fu-mode)
-  :config
-  (setq flymake-vale-program-args
-        (list (concat "--config=" (expand-file-name "~/.config/vale/vale.ini"))))
+# #+begin_src emacs-lisp
+# (use-package! flymake-vale
+#   ;; :after projectile
+#   :init
+#   (remove-hook 'text-mode-hook #'spell-fu-mode)
+#   :config
+#   (setq flymake-vale-program-args
+#         (list (concat "--config=" (expand-file-name "~/.config/vale/vale.ini"))))
 
-  ;; (defun load-vale-config ()
-  ;;   (
-  ;;    let ((vale-global-config-path (expand-file-name ".config/vale/vale.ini"))
-  ;;         (vale-local-config-path (concat (projectile-acquire-root) ".vale.ini"))
-  ;;         )
+#   ;; (defun load-vale-config ()
+#   ;;   (
+#   ;;    let ((vale-global-config-path (expand-file-name ".config/vale/vale.ini"))
+#   ;;         (vale-local-config-path (concat (projectile-acquire-root) ".vale.ini"))
+#   ;;         )
 
-  ;;    (when
-  ;;        (and
-  ;;         (file-exists-p vale-global-config-path)
-  ;;         (not (file-exists-p vale-local-config-path))
-  ;;         )
-  ;;      (setq flymake-vale-program-args (list (concat "--config=" vale-global-config-path ) )))
+#   ;;    (when
+#   ;;        (and
+#   ;;         (file-exists-p vale-global-config-path)
+#   ;;         (not (file-exists-p vale-local-config-path))
+#   ;;         )
+#   ;;      (setq flymake-vale-program-args (list (concat "--config=" vale-global-config-path ) )))
 
-  ;;    ))
+#   ;;    ))
 
-  (add-hook!
-    (text-mode org-mode markdown-mode latex-mode message-mode)
-    :append #'flymake-vale-load
-    ;; #'load-vale-config
-    )
-  )
-#+end_src
+#   (add-hook!
+#     (text-mode org-mode markdown-mode latex-mode message-mode)
+#     :append #'flymake-vale-load
+#     ;; #'load-vale-config
+#     )
+#   )
+# #+end_src
 
 ** Just makefiles
 #+begin_src emacs-lisp :tangle packages.el
@@ -1730,6 +1673,39 @@ Let's use vale instead of builtin grammar module from doom-emacs.
 #+end_src
 #+begin_src emacs-lisp
 (use-package! gc-buffers)
+#+end_src
+** Copilot
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! copilot
+  :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
+#+end_src
+#+begin_src emacs-lisp
+(use-package! copilot
+  ;; :hook (prog-mode . copilot-mode)
+  :init
+  (map!
+   (:leader
+    (:prefix-map ("t a" . "Ai related")
+     :desc "Toggle copilot" "c" #'copilot-mode
+     )
+    )
+   )
+  :bind (:map copilot-completion-map
+              ("<tab>" . 'copilot-accept-completion)
+              ("TAB" . 'copilot-accept-completion)
+              ("C-TAB" . 'copilot-accept-completion-by-word)
+              ("C-<tab>" . 'copilot-accept-completion-by-word))
+  )
+#+end_src
+
+
+** Treemacs
+
+#+begin_src emacs-lisp
+(setq treemacs-width 40)
+(setq treemacs--width-is-locked nil)
+(setq treemacs-width-is-initially-locked nil)
 #+end_src
 
 * Applications
@@ -2448,114 +2424,6 @@ Let's have media notes in org-mode
   (setq org-media-note-use-refcite-first t)
   )
 #+end_src
-**** Flycheck with org-lint
-
-Org may be simple, but that doesn't mean there's no such thing as malformed Org.
-Thankfully, malformed Org is a much less annoying affair than malformed zipped
-XML (looks at DOCX/ODT...), particularly because there's a rather helpful little
-tool called ~org-lint~ bundled with Org that can tell you about your mistakes.
-
-[[xkcd:2109]]
-
-Flycheck doesn't currently support Org, and there's aren't any packages to do so
-☹. However, in an issue on ~org-lint~ there is [[https://github.com/flycheck/flycheck/issues/1757#issuecomment-759546940][some code]] which apparently works.
-Surely this is what the clipboard was invented for? With that said, let's
-regurgitate the code, cross our fingers, and hope it works.
-
-#+begin_src emacs-lisp
-(after! (:and org-mode flycheck-mode)
-  (defconst flycheck-org-lint-form
-    (flycheck-prepare-emacs-lisp-form
-     (require 'org)
-     (require 'org-lint)
-     (require 'org-attach)
-     (let ((source (car command-line-args-left))
-           (process-default-directory default-directory))
-       (with-temp-buffer
-         (insert-file-contents source 'visit)
-         (setq buffer-file-name source)
-         (setq default-directory process-default-directory)
-         (delay-mode-hooks (org-mode))
-         (setq delayed-mode-hooks nil)
-         (dolist (err (org-lint))
-           (let ((inf (cl-second err)))
-             (princ (elt inf 0))
-             (princ ": ")
-             (princ (elt inf 2))
-             (terpri)))))))
-
-  (defconst flycheck-org-lint-variables
-    '(org-directory
-      org-id-locations
-      org-id-locations-file
-      org-attach-id-dir
-      org-attach-use-inheritance
-      org-attach-id-to-path-function-list
-      org-link-parameters)
-    "Variables inherited by the org-lint subprocess.")
-
-  (defun flycheck-org-lint-variables-form ()
-    (require 'org-attach)  ; Needed to make variables available
-    `(progn
-       ,@(seq-map (lambda (opt) `(setq-default ,opt ',(symbol-value opt)))
-                  (seq-filter #'boundp flycheck-org-lint-variables))))
-
-  (eval ; To preveant eager macro expansion form loading flycheck early.
-   '(flycheck-define-checker org-lint
-      "Org buffer checker using `org-lint'."
-      :command ("emacs" (eval flycheck-emacs-args)
-                "--eval" (eval (concat "(add-to-list 'load-path \""
-                                       (file-name-directory (locate-library "org"))
-                                       "\")"))
-                "--eval" (eval (flycheck-sexp-to-string
-                                (flycheck-org-lint-variables-form)))
-                "--eval" (eval (flycheck-sexp-to-string
-                                (flycheck-org-lint-customisations-form)))
-                "--eval" (eval flycheck-org-lint-form)
-                "--" source)
-      :error-patterns
-      ((error line-start line ": " (message) line-end))
-      :modes org-mode))
-  )
-
-#+end_src
-
-Turns out it almost works. Running =M-x flycheck-verify-setup= after running that
-snippet produces the following:
-#+begin_example
-The following syntax checkers are not registered:
-  - org-lint
-Try adding these syntax checkers to `flycheck-checkers'.
-#+end_example
-
-Well that's very nice and helpful. We'll just do that 🙂.
-#+begin_src emacs-lisp
-(after! (:and org-mode flycheck-mode)
-  (add-to-list 'flycheck-checkers 'org-lint)
-  )
-#+end_src
-
-It was missing custom link types, but that's easily fixed just by adding
-~org-link-parameters~ to ~flycheck-org-lint-variables~.
-
-One remaining little annoyance is that it reports extra =#+options= that I've
-added to Org as errors. So we need to tell ~org-lint~ about them without having it
-load my whole config. Code duplication isn't great, but at least this isn't
-much.
-
-#+name: org-syntax-modifications
-#+begin_src emacs-lisp :tangle no
-(after! (:and org-mode flycheck-mode)
-  (defun flycheck-org-lint-customisations-form ()
-    `(progn
-       (require 'ox)
-       (cl-pushnew '(:latex-cover-page nil "coverpage" nil)
-                   (org-export-backend-options (org-export-get-backend 'latex)))
-       (cl-pushnew '(:latex-font-set nil "fontset" nil)
-                   (org-export-backend-options (org-export-get-backend 'latex)))))
-  )
-#+end_src
-
 *** Visuals
 **** Org Modern
 
@@ -3159,6 +3027,7 @@ the final documents.
                  ("\\subparagraph{%s}" . "\\subparagraph*{%s}")))
   (add-to-list 'org-latex-classes
                '("memoir" "\\documentclass{memoir}"
+                 ("\\chapter{%s}" . "\\chapter*{%s}")
                  ("\\section{%s}" . "\\section*{%s}")
                  ("\\subsection{%s}" . "\\subsection*{%s}")
                  ("\\subsubsection{%s}" . "\\subsubsection*{%s}")
@@ -3544,7 +3413,7 @@ config tangling
   (interactive)
   (shell-command
    "emacs --batch --eval \"(require 'org)\" --eval '(org-babel-tangle-file \"~/.config/doom/config.org\")'"
-   ;; (concat "org-tangle " doom-private-dir "config.org" " &")
+   ;; (concat "org-tangle " doom-user-dir "config.org" " &")
    )
   )
 

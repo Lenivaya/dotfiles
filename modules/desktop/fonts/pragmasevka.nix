@@ -12,7 +12,6 @@ in {
   options.modules.desktop.fonts.pragmasevka.enable = mkBoolOpt false;
 
   config = mkIf pragmasevka.enable {
-    # fonts.fonts = with pkgs; [my.pragmasevka];
     fonts.packages = with pkgs; [my.pragmasevka];
 
     fonts.fontconfig.defaultFonts = mkForce {

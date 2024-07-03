@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+if last_id=$(clipcatctl list | grep -oE "^[a-f0-9]{16}" | head -n 1); then
+  clipcatctl promote "$last_id"
+fi

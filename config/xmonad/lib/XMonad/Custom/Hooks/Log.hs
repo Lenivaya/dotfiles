@@ -29,6 +29,9 @@ import XMonad.Util.NamedScratchpad hiding (
  )
 import XMonad.Util.SpawnNamedPipe
 import XMonad.Util.WorkspaceCompare
+import XMonad.Hooks.FadeWindows
+
+
 
 -- layoutIcon :: String -> String
 -- layoutIcon l | "BSP" `isInfixOf` l         = " <fn=1>\57654</fn>"
@@ -112,12 +115,19 @@ botBarPP =
       ppLayout = const ""
     }
 
+myFadeHook = composeAll
+  [
+    opaque,
+    isUnfocused --> transparency 0.1
+  ]
+
 logHook :: X ()
 logHook = do
   refocusLastLogHook
   currentWorkspaceOnTop
   masterHistoryHook
   updatePointer (0.5, 0.5) (0, 0)
+  fadeWindowsLogHook myFadeHook
   showWNameLogHook def
 
 -- nsHideOnFocusLoss scratchpads

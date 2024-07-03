@@ -21,32 +21,17 @@ with lib.my; {
       recommendedProxySettings = true;
       recommendedTlsSettings = true;
 
-      upstreams."aghome" = {
-        servers."127.0.0.1:3000" = {};
-      };
-      upstreams."dashboard" = {
-        servers."127.0.0.1:${toString config.services.homepage-dashboard.listenPort}" = {};
-      };
-      upstreams."radarr" = {
-        servers."127.0.0.1:7878" = {};
-      };
-      upstreams."readarr" = {
-        servers."127.0.0.1:8787" = {};
-      };
-      upstreams."prowlarr" = {
-        servers."127.0.0.1:9696" = {};
-      };
-      upstreams."jellyfin" = {
-        servers."127.0.0.1:8096" = {};
-      };
-      upstreams."calibre" = {
-        servers."127.0.0.1:${toString config.services.calibre-server.port}" = {};
-      };
-      upstreams."calibre-web" = {
-        servers."127.0.0.1:${toString config.services.calibre-web.listen.port}" = {};
-      };
-      upstreams."qbittorrent" = {
-        servers."127.0.0.1:${toString config.services.qbittorrent.port}" = {};
+      upstreams = {
+        "aghome".servers."127.0.0.1:${toString config.services.adguardhome.port}" = {};
+        "dashboard".servers."127.0.0.1:${toString config.services.homepage-dashboard.listenPort}" = {};
+        "radarr".servers."127.0.0.1:7878" = {};
+        "sonarr".servers."127.0.0.1:8989" = {};
+        "readarr".servers."127.0.0.1:8787" = {};
+        "prowlarr".servers."127.0.0.1:9696" = {};
+        "jellyfin".servers."127.0.0.1:8096" = {};
+        "calibre".servers."127.0.0.1:${toString config.services.calibre-server.port}" = {};
+        "calibre-web".servers."127.0.0.1:${toString config.services.calibre-web.listen.port}" = {};
+        "qbittorrent".servers."127.0.0.1:${toString config.services.qbittorrent.port}" = {};
       };
 
       virtualHosts."local.self-hosted.com" = let
@@ -126,6 +111,7 @@ with lib.my; {
               // withWebSockets;
           }
           (mkArrProxy' "radarr")
+          (mkArrProxy' "sonarr")
           (mkArrProxy' "readarr")
           (mkArrProxy "prowlarr" "prowlarr(/[0-9]+)?/api")
         ];

@@ -29,8 +29,10 @@ in {
           enabled
           // {
             greeters.gtk.theme = {
-              name = "Adwaita-dark";
-              package = pkgs.gnome.gnome-themes-extra;
+              # package = pkgs.gnome.gnome-themes-extra;
+              # name = "Adwaita-dark";
+              package = pkgs.adw-gtk3;
+              name = "adw-gtk3-dark";
             };
           }
         );

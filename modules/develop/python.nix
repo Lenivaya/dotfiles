@@ -17,7 +17,7 @@ in {
       poetry
       ruff # lint
 
-      nodePackages.pyright
+      pyright
 
       (python312.withPackages (ps:
         with ps; [

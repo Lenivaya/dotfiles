@@ -1,6 +1,5 @@
 {
   config,
-  options,
   pkgs,
   lib,
   inputs,
@@ -127,7 +126,7 @@ in {
             kahole.magit
 
             # :lang
-            shd101wyy.markdown-preview-enhanced
+            # shd101wyy.markdown-preview-enhanced
             yzhang.markdown-all-in-one
             castwide.solargraph
             cschlosser.doxdocgen
@@ -176,7 +175,8 @@ in {
             ms-toolsai.jupyter
           ]
           ++ optionals modules.dev.dotnet.enable [
-            (ms-dotnettools.csdevkit.overrideAttrs (_super: _a: {sourceRoot = ".";}))
+            # (ms-dotnettools.csdevkit.overrideAttrs (_super: _a: {sourceRoot = ".";}))
+            ms-dotnettools.csdevkit
           ];
       };
   };

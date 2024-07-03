@@ -21,7 +21,7 @@ in {
   options.modules.editors.emacs = {
     enable = mkBoolOpt false;
     default = mkBoolOpt false;
-    doom = rec {
+    doom = {
       enable = mkBoolOpt false;
       repoUrl = mkOpt types.str "https://github.com/hlissner/doom-emacs";
     };

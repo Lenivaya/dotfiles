@@ -16,7 +16,7 @@ in {
       nix-index
       nix-output-monitor
       nix-tree
-      nix-top
+      # nix-top
 
       niv
       cachix

@@ -4,3 +4,4 @@
 tmp/
 .tex
 .auctex-auto/
+.direnv

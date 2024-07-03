@@ -11,13 +11,15 @@ with lib; {
   # nixpkgs.config.allowUnfree = true;
   hardware.enableRedistributableFirmware = true;
   hardware.enableAllFirmware = true;
-  hardware.opengl = {
+  hardware.graphics = {
     enable = true;
-    driSupport = true;
-    driSupport32Bit = true;
   };
 
   services.automatic-timezoned.enable = true;
+
+  console = {
+    useXkbConfig = true;
+  };
 
   i18n.defaultLocale = mkDefault "en_US.UTF-8";
   location.provider = "geoclue2";

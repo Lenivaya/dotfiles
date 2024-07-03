@@ -2,7 +2,6 @@
   config,
   options,
   lib,
-  home-manager,
   ...
 }:
 with lib;
@@ -18,10 +17,13 @@ with lib.my; {
     dotfiles = let
       t = either str path;
     in {
-      dir = mkOpt t (findFirst pathExists (toString ../.) [
-        "${config.user.home}/.config/dotfiles"
-        "/etc/dotfiles"
-      ]);
+      dir' = mkOpt t "${config.user.home}/.config/dotfiles";
+      dir =
+        mkOpt t
+        (findFirst pathExists (toString ../.) [
+          config.dotfiles.dir'
+          "/etc/dotfiles"
+        ]);
       binDir = mkOpt t "${config.dotfiles.dir}/bin";
       configDir = mkOpt t "${config.dotfiles.dir}/config";
       modulesDir = mkOpt t "${config.dotfiles.dir}/modules";

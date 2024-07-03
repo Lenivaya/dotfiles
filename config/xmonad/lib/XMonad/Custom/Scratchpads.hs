@@ -24,7 +24,8 @@ floatingNSP :: ManageHook
 floatingNSP = centerFloat w h
   where
     w = 1 / 2
-    h = 1 / 2.5
+    h = 1 / 1.5
+    -- h = 1 / 2.5
 
 scratchpads :: [NamedScratchpad]
 scratchpads =
@@ -32,28 +33,28 @@ scratchpads =
       "console"
       (spawnTerminalWith "NSPConsole" "$XMONAD_CONFIG_DIR/scripts/nsp-console.sh")
       (className =? "NSPConsole")
-      floatingNSP
-  , NS
+      floatingNSP,
+    NS
       "volume"
       (spawnTerminalWith "NSPVolume" (C.mixer C.applications))
       (className =? "NSPVolume")
-      floatingNSP
-  , NS
+      floatingNSP,
+    NS
       "soundEffects"
       (C.soundEffects C.applications)
       (appName =? "easyeffects")
-      (centerFloat 0.6 0.6)
-  , NS
+      (centerFloat 0.6 0.6),
+    NS
       "music"
       (C.player C.applications)
       (className =? "Spotify")
-      doFullCenterFloat
-  , NS
+      doFullCenterFloat,
+    NS
       "top"
       (spawnTerminalWith "NSPTop" (C.top C.applications))
       (className =? "NSPTop")
-      floatingNSP
-  , NS
+      floatingNSP,
+    NS
       "discord"
       -- "Discord"
       "vesktop"

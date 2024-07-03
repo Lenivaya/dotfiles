@@ -5,4 +5,4 @@ if [ $# -eq 0 ]; then
   exit 1
 fi
 
-$EDITOR "$1"
+$EDITOR "$1" &

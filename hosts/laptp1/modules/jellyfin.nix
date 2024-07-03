@@ -19,4 +19,6 @@ with my; {
   #   };
 
   systemd.services.jellyfin.serviceConfig.Nice = mkForce (- 19);
+  systemd.services.jellyfin.serviceConfig.IOWeight = mkForce 9000;
+  systemd.services.jellyfin.serviceConfig.CPUWeight = mkForce 9000;
 }

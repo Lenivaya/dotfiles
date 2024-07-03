@@ -17,7 +17,7 @@ in {
         vSync = true;
 
         activeOpacity = 1.0;
-        inactiveOpacity = 0.95;
+        inactiveOpacity = 0.92;
         opacityRules = [
           "100:name *= 'i3lock'"
           "100:class_g = 'Gimp'"
@@ -26,7 +26,8 @@ in {
           "100:class_g = 'feh'"
           "100:class_g = 'Thunderbird'"
           "100:class_g = 'mpv'"
-          "100:class_g = 'slop'"
+          "100:class_g ?= 'slop'"
+          "100:class_g *= 'ffcast'"
           "100:class_g = 'skippy-xd'"
           "100:_NET_WM_STATE@:32a *= '_NET_WM_STATE_FULLSCREEN'"
           "0:_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
@@ -43,16 +44,29 @@ in {
         shadowExclude = [
           "name *= 'picom'"
           "class_g = 'slop'"
+          "class_g *= 'ffcast'"
           "class_g = 'trayer'"
           "class_g ?= 'Notify-osd'"
           "class_g = 'Ulauncher'"
           "_GTK_FRAME_EXTENTS@:c"
           "_NET_WM_STATE@:32a *= '_NET_WM_STATE_HIDDEN'"
+          "window_type *= 'normal' && ! name ~= '' && ! class_g *= 'xmonad'" # fixes ffcast screen recordings
         ];
 
         settings = {
-          inactive-dim = 0.3;
           shadow-radius = 8;
+
+          inactive-dim = 0.3;
+          inactive-exclude = [
+            "window_type = 'dock'"
+            "window_type = 'desktop'"
+          ];
+
+          blur-background-exclude = [
+            "window_type = 'dock'"
+            "window_type = 'desktop'"
+            "class_g = 'slop'"
+          ];
 
           # wintypes = {
           #   normal = {
@@ -82,15 +96,17 @@ in {
             "class_g *= 'safeeyes'"
             "class_g *= 'skippy-xd'"
             "class_g ?= 'Steam'"
-            "class_g = 'slop'"
+            "class_g ?= 'slop'"
           ];
 
           fade-exclude = [
             "class_g = 'slop'"
-            # "class_g *= 'skippy-xd'"
+            "class_g = 'ffcast'"
+            "class_g = 'Emacs'"
+            "class_g *= 'skippy-xd'"
           ];
 
-          use-damage = true;
+          # use-damage = true;
 
           # Unredirect all windows if a full-screen opaque window is detected, to
           # maximize performance for full-screen windows. Known to cause

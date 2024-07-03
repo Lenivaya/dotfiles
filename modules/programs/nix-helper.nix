@@ -1,5 +1,4 @@
 {
-  options,
   config,
   lib,
   inputs,
@@ -11,21 +10,16 @@ with lib.my; let
 in {
   options.modules.programs.nix-helper.enable = mkBoolOpt false;
 
-  imports = [
-    inputs.nh.nixosModules.default
-  ];
-
-  # env.FLAKE = config.dotfiles.dir;
   config = mkIf cfg.enable {
-    nh =
+    programs.nh =
       enabled
       // {
-        clean =
-          enabled
-          // {
-            dates = "weekly";
-            extraArgs = "--keep-since 1w --keep 3";
-          };
+        flake = config.dotfiles.dir';
       };
+
+    # Removing diff script from srvos
+    system.activationScripts.diff.text = mkForce "";
+
+    # nixpkgs.overlays = [inputs.nh.overlays.default];
   };
 }

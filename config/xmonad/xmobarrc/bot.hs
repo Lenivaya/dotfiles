@@ -41,7 +41,7 @@ Config
         --   10
         -- ,
         -- Run Wireless "wlp4s0" ["-t", "<fn=1>\57775</fn> <essid> @ <quality>%"] 10
-        Run Wireless "wlp4s0" ["-t", "<fn=3></fn> <essid> @ <quality>%"] 10
+        Run Wireless "wlan0" ["-t", "<fn=3></fn> <ssid> @ <quality>%"] 10
       , Run
           DynNetwork
           -- ["-t", "<fn=1>\57660</fn> <rx> / <fn=1>\57659</fn> <tx> kbps"]
@@ -87,7 +87,7 @@ Config
   , alignSep = "}{"
   , template =
       " \
-      \%wlp4s0wi%  -  %dynnetwork%\
+      \%wlan0wi%  -  %dynnetwork%\
       \}\
       \%player%\
       \{\

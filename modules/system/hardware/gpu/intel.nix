@@ -37,22 +37,25 @@ in {
     # environment.sessionVariables.MESA_LOADER_DRIVER_OVERRIDE = lib.mkDefault "iris";
     # environment.sessionVariables.VDPAU_DRIVER = lib.mkDefault "va_gl";
 
-    hardware.opengl = {
-      extraPackages = with pkgs;
-        lib.mkForce [
-          # (vaapiIntel.override {enableHybridCodec = true;})
-          (intel-vaapi-driver.override {enableHybridCodec = true;})
-          intel-media-driver
-          intel-ocl
-          libvdpau-va-gl
-          intel-compute-runtime
-        ];
+    hardware.graphics =
+      enabled
+      // {
+        extraPackages = with pkgs;
+          lib.mkDefault [
+            # (vaapiIntel.override {enableHybridCodec = true;})
+            # (intel-vaapi-driver.override {enableHybridCodec = true;})
+            intel-media-driver # For Broadwell (2014) or newer processors. LIBVA_DRIVER_NAME=iHD
+            # intel-vaapi-driver # For older processors. LIBVA_DRIVER_NAME=i965
+            # intel-ocl
+            # libvdpau-va-gl
+            intel-compute-runtime
+          ];
 
-      extraPackages32 = with pkgs.pkgsi686Linux; [
-        # intel-compute-runtime # FIXME does not build due to unsupported system
-        intel-media-driver
-        vaapiIntel
-      ];
-    };
+        extraPackages32 = with pkgs.pkgsi686Linux; [
+          # intel-compute-runtime # FIXME does not build due to unsupported system
+          intel-media-driver
+          vaapiIntel
+        ];
+      };
   };
 }

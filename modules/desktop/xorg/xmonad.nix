@@ -6,6 +6,7 @@
   lib,
   pkgs,
   inputs,
+  system,
   ...
 }:
 with lib;
@@ -16,8 +17,8 @@ in {
   options.modules.desktop.xmonad.enable = mkBoolOpt false;
 
   imports = with inputs;
-    xmonad-contrib.nixosModules;
-  # ++ [xmonad-contrib.modernise.${system}];
+    xmonad-contrib.nixosModules
+    ++ [xmonad-contrib.modernise.${system}];
 
   config = mkIf cfg.enable {
     modules = {
@@ -69,6 +70,7 @@ in {
       xkb-switch # switch kbd layout when needed
       my.boomer # zooming the screen
       xkbmon # showing keyboard layout when changed
+      rofi-screenshot # screencasting
     ];
     fonts.packages = with pkgs; [
       siji # some nice icon

@@ -6,6 +6,7 @@ import XMonad hiding (manageHook)
 import XMonad.Actions.SpawnOn
 import XMonad.Custom.Manage.ManageHelpers
 import XMonad.Custom.Scratchpads
+import XMonad.Custom.Workspaces (git)
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.InsertPosition
 import XMonad.Hooks.ManageDocks
@@ -18,28 +19,32 @@ import XMonad.Util.NamedScratchpad
 
 composeActions :: [MaybeManageHook]
 composeActions =
-  [ appName =? "emacs-popup" -?> tileBelowNoFocus
-  , appName =? "eterm" -?> tileBelow
-  , appName =? "spotify" -?> doFullCenterFloat
-  , appName =? "emacs" <&&> title =? "emacs-anywhere" -?> centerFloat 0.5 0.5
-  , appName =? "ulauncher" -?> noBorder
-  , className =? "mpv" -?> tileNormal
-  , className =? "Pinentry" -?> doCenterFloat
-  , className =? "pinentry-gtk-2" -?> doCenterFloat
-  , className =? "Steam" <&&> not <$> title =? "Steam" -?> doCenterFloat
-  , className =? "Xmessage" -?> doCenterFloat
-  , className =? "Zenity" -?> doCenterFloat
-  , className =? "explorer.exe" -?> doFullFloat
-  , className =? "qemu-system-x86" -?> doCenterFloat
-  , className =? "qemu-system-x86_64" -?> doCenterFloat
-  , className =? "Safeeyes" -?> doFullFloat
-  , className =? "Avizo-service" -?> doIgnore
-  , isRole =? "GtkFileChooserDialog" -?> doCenterFloat
-  , isRole =? "pop-up" -?> doCenterFloat
-  , isRole =? "About" -?> doCenterFloat
-  , isDialog -?> doCenterFloat
-  , stringProperty "WM_WINDOW_ROLE" =? "browser" -?> ewmhDesktopsManageHook
-  , transience
+  [ appName =? "emacs-popup" -?> tileBelowNoFocus,
+    appName =? "eterm" -?> tileBelow,
+    appName =? "spotify" -?> doFullCenterFloat,
+    appName =? "emacs" <&&> title =? "emacs-anywhere" -?> centerFloat 0.5 0.5,
+    appName =? "ulauncher" -?> noBorder,
+    appName =? "Junction" -?> doCenterFloat,
+    className =? "mpv" -?> tileNormal,
+    className =? "Pinentry" -?> doCenterFloat,
+    className =? "pinentry-gtk-2" -?> doCenterFloat,
+    className =? "Steam" <&&> not <$> title =? "Steam" -?> doCenterFloat,
+    className =? "Xmessage" -?> doCenterFloat,
+    className =? "Zenity" -?> doCenterFloat,
+    className =? "explorer.exe" -?> doFullFloat,
+    className =? "qemu-system-x86" -?> doCenterFloat,
+    className =? "qemu-system-x86_64" -?> doCenterFloat,
+    className =? "re.sonny.Junction" -?> doCenterFloat,
+    className =? "gcr-prompter" <||> className =? "Gcr-prompter" -?> doCenterFloat,
+    className =? "Safeeyes" -?> doFullFloat,
+    className =? "Avizo-service" -?> doIgnore,
+    className =? "Git-butler" -?> doShift git,
+    isRole =? "GtkFileChooserDialog" -?> doCenterFloat,
+    isRole =? "pop-up" -?> doCenterFloat,
+    isRole =? "About" -?> doCenterFloat,
+    isDialog -?> doCenterFloat,
+    stringProperty "WM_WINDOW_ROLE" =? "browser" -?> ewmhDesktopsManageHook,
+    transience
   ]
   where
     tileNormal = insertPosition Above Newer
@@ -51,9 +56,9 @@ composeActions =
 manageHook :: ManageHook
 manageHook =
   composeAll
-    [ manageDocks
-    , fullscreenManageHook
-    , manageSpawn
-    , composeOne composeActions
-    , namedScratchpadManageHook scratchpads
+    [ manageDocks,
+      fullscreenManageHook,
+      manageSpawn,
+      composeOne composeActions,
+      namedScratchpadManageHook scratchpads
     ]

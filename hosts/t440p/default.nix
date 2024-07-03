@@ -5,6 +5,7 @@
   lib,
   inputs,
   system,
+  options,
   ...
 }:
 with lib;
@@ -15,8 +16,11 @@ with lib.my; {
       ./hardware-configuration.nix
       ./phone_cam.nix
       ./gpu.nix
+      ./picom.nix
+      ./fixes.nix
+      ./dns.nix
+      # ./mongodb.nix
       # ./postgresql.nix
-      ./mongodb.nix
       # ./jack_retask/jack_retask.nix
     ]
     ++ (with inputs.nixos-hardware.nixosModules; [
@@ -25,6 +29,7 @@ with lib.my; {
       # common-pc-laptop-ssd
       # common-pc-laptop-hdd
     ]);
+  # ++ [inputs.chaotic.nixosModules.default];
 
   this.isHeadful = true;
 
@@ -47,11 +52,17 @@ with lib.my; {
         };
 
         browsers = {
-          default = "google-chrome-stable";
+          # default = "google-chrome-stable";
+          default = "firefox-nightly";
 
-          chromium = enabled // {googled = true;};
-          qutebrowser = enabled;
+          chromium =
+            enabled
+            // {
+              package = inputs.browser-previews.packages.${pkgs.system}.google-chrome-dev;
+            };
+          firefox = enabled;
           tor = enabled;
+          # qutebrowser = enabled;
         };
 
         term = {
@@ -120,7 +131,6 @@ with lib.my; {
             webstorm
             rider
             pycharm-professional
-            phpstorm
             # rust-rover
           ];
         };
@@ -140,28 +150,15 @@ with lib.my; {
       dotnet =
         enabled
         // {
-          dotnetPkgsSdks = let
-            eol_dotnet_3_1 =
-              (import inputs.nixpkgs_eol_dotnet {inherit system;})
-              .dotnetCorePackages
-              .sdk_3_1;
-          in
-            with pkgs.dotnetCorePackages;
-              [
-                sdk_8_0
-                sdk_6_0
-              ]
-              ++ [eol_dotnet_3_1];
-        };
-      php =
-        enabled
-        // {
-          package = pkgs.php83;
+          dotnetPkgsSdks = with pkgs.dotnetCorePackages; [
+            sdk_8_0
+          ];
         };
     };
 
     services = {
       # greenclip = enabled;
+      ananicy = enabled;
       clipcat = enabled;
       kdeconnect = enabled;
       ssh = enabled;
@@ -198,17 +195,17 @@ with lib.my; {
           # undervolt =
           #   enabled
           #   // rec {
-          #     core = -80;
-          #     gpu = -40;
-          #     uncore = core;
-          #     analogio = core;
+          #     core = -50;
+          #     gpu = -30;
+          #     # uncore = core;
+          #     # analogio = core;
           #   };
         };
       gpu = {
         intel = enabled;
         # nvidia = enabled;
       };
-      audio = enabled // {effects = true;};
+      audio = enabled // {effects = enabled;};
       fingerprint = enabled;
       touchpad = enabled;
       bluetooth = enabled;
@@ -218,9 +215,19 @@ with lib.my; {
 
     adblock = enabled;
     bootsplash = enabled;
+    fast-networking = enabled;
   };
 
-  services.tlp.settings.CPU_MAX_PERF_ON_BAT = mkForce 50;
+  security.sudo-rs = enabled;
+
+  programs.nh.clean =
+    enabled
+    // {
+      dates = "weekly";
+      extraArgs = "--keep-since 1w --keep 3";
+    };
+
+  services.tlp.settings.CPU_MAX_PERF_ON_BAT = mkForce 65;
   services.tlp.settings = {
     # work at maximum on AC
     # CPU_SCALING_GOVERNOR_ON_AC = mkForce "performance";
@@ -234,9 +241,19 @@ with lib.my; {
   };
 
   boot.kernelPackages = let
-    kernel' = pkgs.unstable.linuxPackages_zen;
+    kernel' = pkgs.linuxPackages_cachyos-lto;
   in
     mkForce kernel';
+
+  # https://github.com/sched-ext/scx
+  # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
+  # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
+  chaotic.scx =
+    enabled
+    // {
+      scheduler = "scx_rusty";
+      # scheduler = "scx_rustland";
+    };
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
@@ -247,6 +264,9 @@ with lib.my; {
     # https://wiki.archlinux.org/title/improving_performance#Watchdogs
     "nowatchdog"
     "kernel.nmi_watchdog=0"
+
+    # Use TEO as CPUIdle Governor
+    # "cpuidle.governor=teo"
   ];
 
   boot.plymouth = rec {
@@ -268,17 +288,24 @@ with lib.my; {
     khal
     telegram-desktop
     ffmpeg-full
-    sqlfluff
+    pwvucontrol_git
+
+    video-trimmer
     # kdenlive
     # lightworks pitivi
+    # teams-for-linux
 
-    ciscoPacketTracer8
-    unstable.geogebra6
-
-    # warp-terminal
     postman
     my.gitbutler
+    scx # user-space schedulers
+    # warp-terminal
+    my.devtunnel
   ];
+
+  # devtunnel
+  # nixpkgs.config.permittedInsecurePackages = [
+  #   "openssl"
+  # ];
 
   hardware.trackpoint = {
     enable = true;
@@ -286,33 +313,17 @@ with lib.my; {
     sensitivity = 250;
   };
 
-  # powerManagement = let
-  #   modprobe = "${pkgs.kmod}/bin/modprobe";
-  # in
-  #   enabled
-  #   // {
-  #     # This fixes an issue with not being able to suspend or wake up from
-  #     # suspend due to a kernel bug[1] which is still not fixed.
-  #     #
-  #     # I guess this can also be fixed differently[2], which does look a lot nicer
-  #     # but I just can't bother.
-  #     #
-  #     # [1]: https://bbs.archlinux.org/viewtopic.php?id=270964
-  #     # [1]: https://bugs.launchpad.net/ubuntu/+source/linux/+bug/522998
-  #     # [1]: https://bugs.launchpad.net/ubuntu/+source/pm-utils/+bug/562484/comments/3
-  #     # [1]: https://gist.github.com/ioggstream/8f380d398aef989ac455b93b92d42048
-  #     # [2]: https://linrunner.de/tlp/settings/runtimepm.html
-  #     powerDownCommands = "${modprobe} -r xhci_pci";
-  #     powerUpCommands = "${modprobe} xhci_pci";
-  #   };
-
-  # Fix for libGL.so error
-  hardware.opengl =
+  hardware.graphics =
     enabled
     // {
-      setLdLibraryPath = true;
-      extraPackages = with pkgs; [libGL];
+      extraPackages = with pkgs; [
+        libGL
+        intel-vaapi-driver
+      ];
     };
+  environment.sessionVariables = {LIBVA_DRIVER_NAME = "i965";};
+
+  services.smartd = enabled;
 
   # services.syncthing =
   #   enabled
@@ -326,53 +337,9 @@ with lib.my; {
 
   # services.safeeyes = enabled;
 
-  services.smartd = enabled;
-
   # modules.services.zcfan = enabled;
   # services.thermald = mkForce disabled;
   # services.throttled = mkForce enabled;
-
-  home.services.picom.vSync = mkForce false;
-  home.services.picom.backend = mkForce "xrender";
-  # home.services.picom.settings = let
-  #   animationExclude = [
-  #     "class_g *= 'xmobar'"
-  #     "class_g *= 'xmonad'"
-  #     "class_g *= 'xmonad-prompt'"
-  #     "name *= 'xmobar'"
-  #     "name *= 'xmonad'"
-  #     "name *= 'xmonad-prompt'"
-  #     "class_g *= 'slop'"
-  #     "name *= 'slop'"
-  #     "class_g *= 'skippy-xd'"
-  #     "class_g *= 'skippy-xd'"
-  #     "class_g *= 'safeeyes'"
-  #   ];
-  # in {
-  #   corner-radius = 0;
-
-  #   animations = false;
-  #   # animation-stiffness = 100;
-  #   # animation-window-mass = 0.8;
-  #   # animation-dampening = 10;
-  #   # animation-clamping = true;
-
-  #   animation-open-exclude = animationExclude;
-  #   animation-unmap-exclude = animationExclude;
-
-  #   inactive-exclude = [
-  #     "window_type = 'dock'"
-  #     "window_type = 'desktop'"
-  #     "window_type = 'menu'"
-  #     "window_type = 'popup_menu'"
-  #     "window_type = 'dropdown_menu'"
-  #     "window_type = 'toolbar'"
-  #     "window_type = 'notification'"
-  #     "class_g *= 'avizo-service'"
-  #     "class_g *= 'slop'"
-  #     "name *= 'slop'"
-  #   ];
-  # };
 
   # services.tp-auto-kbbl =
   #   enabled
@@ -385,33 +352,47 @@ with lib.my; {
     freemem = "sync && echo 3 | sudo tee /proc/sys/vm/drop_caches";
   };
 
+  home.programs.emacs.package = mkForce pkgs.emacs29;
+
   # Dirty hack to have hosts file modifiable
   # (will be discarded on config change or reboot) [1]
   #
   # [1]: https://discourse.nixos.org/t/a-fast-way-for-modifying-etc-hosts-using-networking-extrahosts/4190/3
   environment.etc.hosts.mode = "0644";
 
+  # BPF-based auto-tuning of Linux system parameters
+  services.bpftune = enabled;
+
+  # Run appimages seamlesssly
+  programs.appimage.binfmt = true;
+
+  nix.settings = {
+    system-features = [
+      "gccarch-x86-64-v3"
+      "gccarch-x86-64-v4"
+    ];
+  };
+
   nixpkgs.overlays = let
     optimize = pkg: optimizeForThisHost (withClang pkg);
   in
     [inputs.nur.overlay]
     ++ [inputs.picom.overlay.${system}]
+    ++ [inputs.skippy-xd.overlays.default]
     ++ [
       (_final: prev: {
-        inherit
-          (pkgs.unstable)
-          firefox
-          firefox-bin
-          google-chrome
-          vscode
-          vscode-extensions
-          jetbrains
-          telegram-desktop
-          easyeffects
-          warp-terminal
-          postman
-          csharpier
-          ;
+        # inherit
+        #   (pkgs.unstable)
+        #   # bpftune
+        #   ;
+
+        intel-vaapi-driver = prev.intel-vaapi-driver.override {enableHybridCodec = true;};
+
+        telegram-desktop = prev.telegram-desktop_git;
+        alacritty = prev.alacritty_git;
+        firefox = prev.firefox_nightly;
+        yt-dlp = prev.yt-dlp_git;
+        mpv = prev.mpv-vapoursynth;
 
         picom = optimize prev.picom;
         skippy-xd = optimize prev.skippy-xd;

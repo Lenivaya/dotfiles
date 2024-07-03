@@ -23,7 +23,7 @@ in {
     user.packages = with pkgs;
       [
         sdk'
-        msbuild
+        # msbuild
         omnisharp-roslyn
         csharpier
       ]

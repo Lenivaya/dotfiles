@@ -194,7 +194,9 @@ keysDo =
   [ ("M-d s s", wrapKbdLayout . screenshotPrompt $ promptNoCompletion promptTheme),
     ("M-d s r", wrapKbdLayout . screencastPrompt $ promptNoCompletion promptTheme),
     ("M-d s z", spawn $ C.screenZoomer C.applications),
-    ("M-d w c", workspacePrompt promptTheme $ windows . copy)
+    ("M-d w c", workspacePrompt promptTheme $ windows . copy),
+    ("M-d c <Backspace>", spawn "clipcatctl clear"),
+    ("M-d c l", spawn "clipcat-last")
   ]
 
 keysSystem :: Keybindings
@@ -217,13 +219,15 @@ keysWorkspaces =
     ("M-w S-n", wrapKbdLayout $ renameProjectPrompt hotPromptTheme),
     ("M-w <Backspace>", removeWorkspace),
     ( "M-w S-<Backspace>",
-      confirmPrompt hotPromptTheme "Kill workspace?" $ killAll >> removeWorkspace
+      confirmPrompt hotPromptTheme "Kill workspace?" $
+        killAll >> removeWorkspace
     ),
     ("M-,", nextNonEmptyWS),
     ("M-.", prevNonEmptyWS),
     ("M-i", toggleWS' ["NSP"]),
     ("M-n", workspacePrompt promptTheme $ windows . S.shift),
-    ("M-w w", gridselectWorkspace gridSelectTheme S.greedyView)
+    -- ("M-w w", gridselectWorkspace gridSelectTheme S.greedyView)
+    ("M-w w", spawn "skippy-xd --paging")
   ]
     ++ zipKeys "M-" wsKeys [0 ..] (withNthWorkspace S.greedyView)
     ++ zipKeys "M-S-" wsKeys [0 ..] (withNthWorkspace S.shift)
@@ -247,7 +251,8 @@ keysSpawnables =
     ("M-o t", namedScratchpadAction scratchpads "top"),
     ("M-o v", namedScratchpadAction scratchpads "volume"),
     ("M-o s", namedScratchpadAction scratchpads "soundEffects"),
-    ("M-o d", namedScratchpadAction scratchpads "discord")
+    ("M-o d", namedScratchpadAction scratchpads "discord"),
+    ("M-o g", runOrRaise "git-butler" (className =? "Git-butler"))
   ]
 
 keysWindows :: Keybindings
@@ -328,7 +333,7 @@ keysLayout c =
     ("M-S-f", withFocused $ sendMessage . maximizeRestore),
     ("M-t g", toggleGaps),
     ("M-t s", toggleStatusBar),
-    ("M-t z", flash' "<~ ZEN ~>" >> toggleZen)
+    ("M-t z", toggleZen >> flash' "<~ ZEN ~>")
   ]
 
 mouseBindings :: XConfig Layout -> Mousebindings
