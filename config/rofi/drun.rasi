@@ -1,10 +1,9 @@
 configuration {
-	modi:				"drun";
 	font:				"Rubik 10";
 	show-icons:                     true;
 	icon-theme: 			"Reversal-dark";
-	display-drun: 			"";
-	drun-display-format:            "{name}";
+    display-combi: "λ";
+    display-drun: "λ";
 	sidebar-mode: 			false;
 }
 

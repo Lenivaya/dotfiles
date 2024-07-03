@@ -13,7 +13,6 @@ with lib.my; {
       enableGhostscriptFonts = true;
 
       packages = with pkgs; [
-        iosevka-bin
         ibm-plex
         noto-fonts
         ubuntu_font_family
@@ -41,11 +40,6 @@ with lib.my; {
           subpixel = {
             lcdfilter = "default";
             rgba = "rgb";
-          };
-          defaultFonts = {
-            monospace = ["Iosevka"];
-            sansSerif = ["IBM Plex Sans"];
-            serif = ["IBM Plex Serif"];
           };
         };
     };

@@ -21,7 +21,11 @@ in {
       services.dbus.packages = [pkgs.blueman];
       services.blueman = enabled;
 
-      environment.systemPackages = with pkgs; [blueberry bluetuith];
+      environment.systemPackages = with pkgs; [
+        overskride
+        # blueberry
+        bluetuith
+      ];
     }
 
     (mkIf hwCfg.audio.enable {

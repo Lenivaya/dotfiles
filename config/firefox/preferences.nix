@@ -35,6 +35,7 @@
   "layers.omtp.enabled" = true;
   "layout.display-list.retain" = true;
   "layout.display-list.retain.chrome" = true;
+  "layers.mlgpu.enabled" = true;
   "media.ffmpeg.vaapi.enabled" = true;
   # "media.rdd-vpx.enabled" = true;
   "media.rdd-vpx.enabled" =

@@ -33,6 +33,7 @@ in {
       description = "Touchpad gestures";
 
       path = with pkgs; [
+        bash
         xdotool
         skippy-xd
 
@@ -40,9 +41,7 @@ in {
         (writeShellScriptBin "toggleFullscreen"
           "wmctrl -r :ACTIVE: -b toggle,fullscreen")
 
-        bash
-        (writeShellScriptBin "next_ws" "${binDir}/cycle_ws next")
-        (writeShellScriptBin "prev_ws" "${binDir}/cycle_ws prev")
+        (writeShellScriptBin "cycle_ws" (readFile "${binDir}/cycle_ws"))
       ];
       script = getExe pkgs.libinput-gestures;
 

@@ -29,7 +29,11 @@ in {
         # calibre
         foliate
       ])
-      (mkIf cfg.pdf.enable [evince zathura])
+      (mkIf cfg.pdf.enable [
+        # evince
+        papers
+        zathura
+      ])
       (mkIf cfg.latex.enable [
         texlab
 

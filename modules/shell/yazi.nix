@@ -20,6 +20,29 @@ in {
             sort_dir_first = true;
             show_symlink = true;
           };
+
+          opener = {
+            zathura = [
+              {
+                run = ''zathura "$@"'';
+                for = "unix";
+                desc = "Open with zathura";
+              }
+            ];
+          };
+
+          open = {
+            append_rules = [
+              {
+                name = "*.pdf";
+                use = ["zathura" "evince"];
+              }
+              {
+                name = "*.epub";
+                use = ["foliate"];
+              }
+            ];
+          };
         };
       };
 

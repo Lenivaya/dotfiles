@@ -1,6 +1,5 @@
 {
   config,
-  options,
   lib,
   pkgs,
   ...
@@ -27,7 +26,7 @@ in {
       cargo-edit
     ];
 
-    env = rec {
+    env = {
       CARGO_HOME = "$XDG_DATA_HOME/cargo";
       RUSTUP_HOME = "$XDG_DATA_HOME/.rustup";
       PATH = ["$CARGO_HOME/bin"];

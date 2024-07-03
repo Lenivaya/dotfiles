@@ -1,6 +1,5 @@
 {
   config,
-  options,
   lib,
   pkgs,
   ...
@@ -12,7 +11,13 @@ in {
   options.modules.shell.direnv.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    user.packages = [pkgs.direnv];
+    programs.direnv =
+      enabled
+      // {
+        enable = true;
+        nix-direnv = enabled;
+      };
+
     modules.shell.zsh.rcInit = ''eval "$(direnv hook zsh)"'';
 
     services.lorri = enabled;

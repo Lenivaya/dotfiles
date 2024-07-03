@@ -3,8 +3,6 @@
   config,
   lib,
   pkgs,
-  home-manager,
-  system,
   ...
 }:
 with lib;
@@ -14,12 +12,15 @@ with lib.my; {
       inputs.home-manager.nixosModules.home-manager
       inputs.programsdb.nixosModules.programs-sqlite
     ]
-    # All my personal modules
+    ++ [inputs.chaotic.nixosModules.default]
+    ++ (with inputs.srvos; [
+      nixosModules.common
+    ])
     ++ (mapModulesRec' (toString ./modules) import);
 
   # Common config for all nixos machines; and to ensure the flake operates
   # soundly
-  environment.variables.DOTFILES = config.dotfiles.dir;
+  environment.variables.DOTFILES = config.dotfiles.dir';
   environment.variables.DOTFILES_BIN = config.dotfiles.binDir;
 
   # Configure nix and nixpkgs
@@ -42,11 +43,18 @@ with lib.my; {
         "dotfiles=${config.dotfiles.dir}"
       ];
     settings = {
-      experimental-features = spaceConcat [
-        "flakes"
-        "nix-command"
-        "repl-flake"
-      ];
+      # use-cgroups = true;
+      connect-timeout = 5; # bail early on missing cache hits
+
+      experimental-features = let
+        features = spaceConcat [
+          "flakes"
+          "nix-command"
+          "repl-flake"
+          # "cgroups"
+        ];
+      in
+        mkDefault features;
 
       warn-dirty = false;
 
@@ -55,9 +63,11 @@ with lib.my; {
         "https://nix-community.cachix.org"
         "https://nixpkgs-unfree.cachix.org/"
         "https://cuda-maintainers.cachix.org"
-        # Binary Cache for Haskell.nix
-        "https://cache.iog.io"
-        "https://cache.zw3rk.com"
+
+        # Binary Cache for Haskell.nix TODO FIXME
+        # "https://cache.iog.io"
+        # "https://cache.zw3rk.com"
+
         "https://nixpkgs-unfree.cachix.org" # unfree-package cache
         "https://numtide.cachix.org" # another unfree package cache
 
@@ -68,8 +78,10 @@ with lib.my; {
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
         "nixpkgs-unfree.cachix.org-1:hqvoInulhbV4nJ9yJOEr+4wxhDV4xq2d1DK7S6Nj6rs="
         "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
-        "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
-        "loony-tools:pr9m4BkM/5/eSTZlkQyRt57Jz7OMBxNSUiMC4FkcNfk="
+
+        # "hydra.iohk.io:f/Ea+s+dFdN+3Y/G+FDgSq+a5NEWhJGzdjvKNGv0/EQ="
+        # "loony-tools:pr9m4BkM/5/eSTZlkQyRt57Jz7OMBxNSUiMC4FkcNfk="
+
         "nixpkgs-unfree.cachix.org-1:hqvoInulhbV4nJ9yJOEr+4wxhDV4xq2d1DK7S6Nj6rs="
         "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
         "viperml.cachix.org-1:qZhKBMTfmcLL+OG6fj/hzsMEedgKvZVFRRAhq7j8Vh8="

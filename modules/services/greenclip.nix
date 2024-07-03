@@ -1,6 +1,5 @@
 # Simple clipboard manager to be integrated with rofi/dmenu
 {
-  options,
   config,
   lib,
   ...

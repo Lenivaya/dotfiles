@@ -23,31 +23,33 @@ in {
 
       dua # space usage
       duf # space usage tables
-      android-file-transfer
 
       ps_mem
       lm_sensors
       killall
 
-      libqalculate # calculator cli w/ currency conversion
-
       neovim
       curl
-      youtube-dl
       lnav # <- log file navigator
       procs # <- a "modern" replacement for ps
+    ]
+    ++ optionals config.this.isHeadful [
+      libqalculate # calculator cli w/ currency conversion
+      youtube-dl
+      android-file-transfer
     ]
     ++ optionals config.modules.desktop.enable (with pkgs.gnome; [
       # gnome-sound-recorder
       gnome-autoar
       gnome-system-monitor
-      eog
+      loupe # eog
     ])
     ++ optionals config.modules.desktop.enable [
       maim
       scrot # Screenshots
       jgmenu
-      gnome-usage
+      # gnome-usage
+      mission-center
 
       brightnessctl
 

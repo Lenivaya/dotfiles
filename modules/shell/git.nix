@@ -1,6 +1,5 @@
 {
   config,
-  options,
   lib,
   pkgs,
   ...
@@ -39,6 +38,7 @@ in {
       # git-extras
       git-ignore
       gex
+      gitu
     ];
   };
 }

@@ -50,7 +50,6 @@ in {
   home.programs.eza =
     enabled
     // {
-      enableAliases = true;
       icons = true;
     };
 

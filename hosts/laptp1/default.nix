@@ -10,15 +10,23 @@
 {
   pkgs,
   lib,
+  inputs,
   ...
 }:
 with lib;
 with my; {
-  imports = [
-    ../common.nix
-    ./hardware-configuration.nix
-    ./modules/default.nix
-  ];
+  imports =
+    [
+      ../common.nix
+      ./hardware-configuration.nix
+      ./modules/default.nix
+      ./modules/your-spotify.nix
+    ]
+    ++ (with inputs.srvos; [
+      nixosModules.server
+      nixosModules.mixins-nginx
+    ])
+    ++ [inputs.chaotic.nixosModules.default];
 
   this.isHeadless = true;
 
@@ -39,7 +47,12 @@ with my; {
       fs = enabled;
       # zram = enabled;
     };
+
+    fast-networking = enabled;
   };
+
+  # overriding after srvos
+  networking.hostName = mkForce "laptp1";
 
   # zramSwap = {
   #   algorithm = mkForce "lz4";
@@ -53,9 +66,11 @@ with my; {
   services.xserver = {videoDrivers = ["radeon"];};
 
   services.logind.lidSwitchExternalPower = "ignore";
+  networking.networkmanager.wifi.powersave = mkForce false;
   networking.networkmanager.wifi.macAddress = mkForce "permanent";
-  services.irqbalance = enabled;
+  # services.irqbalance = enabled;
   powerManagement.cpuFreqGovernor = mkForce "performance";
+  fileSystems."/".options = ["noatime" "nodiratime"];
 
   # Disabling some things that use memory
   # but are completely unrequired
@@ -65,11 +80,17 @@ with my; {
   services.automatic-timezoned = mkForce disabled;
   location.provider = mkForce "manual";
   security.polkit = mkForce disabled;
-  hardware.bluetooth = disabled;
-  sound = disabled;
+  hardware.bluetooth = mkForce disabled;
+  sound = mkForce disabled;
+  fonts.fontconfig = mkForce disabled;
+  boot.tmp.useTmpfs = mkForce false;
 
-  # Kernel (lts)
-  boot.kernelPackages = mkForce pkgs.linuxPackages;
+  boot.kernelPackages = let
+    kernel' = pkgs.linuxPackages_cachyos-server;
+  in
+    mkForce kernel';
+
+  services.bpftune = enabled;
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
@@ -84,7 +105,18 @@ with my; {
 
   environment.shellAliases = {
     freemem = "sync && echo 3 | sudo tee /proc/sys/vm/drop_caches";
-    stopMedia = "sudo systemctl stop radarr readarr prowlarr calibre-server calibre-web jellyfin";
-    startMedia = "sudo systemctl restart radarr readarr prowlarr calibre-server calibre-web jellyfin";
+    stopMedia = "sudo systemctl stop radarr sonarr readarr prowlarr calibre-server calibre-web jellyfin";
+    startMedia = "sudo systemctl restart radarr sonarr readarr prowlarr calibre-server calibre-web jellyfin";
   };
+
+  nixpkgs.overlays = [
+    (_final: prev: {
+      inherit
+        (pkgs.unstable)
+        bpftune
+        jellyfin
+        jellyfin-web
+        ;
+    })
+  ];
 }

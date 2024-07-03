@@ -37,12 +37,17 @@ in {
         enabled
         // {
           theme = {
-            package = pkgs.gnome.gnome-themes-extra;
-            name = "Adwaita-dark";
+            # Theme parser error: gtk.css:5:1-133: Failed to import: Error opening file /nix/store/w2av0y3h2gf7hryc5ib1acivbi5pvjdg-gnome-themes-extra-3.28/share/themes/Adwaita-dark/gtk-4.0/gtk.css: No such file or directory
+            # package = pkgs.gnome.gnome-themes-extra;
+            # name = "Adwaita-dark";
+            package = pkgs.adw-gtk3;
+            name = "adw-gtk3-dark";
           };
           iconTheme = {
             package = pkgs.papirus-icon-theme;
             name = "Papirus-Dark";
+            # package = pkgs.morewaita-icon-theme;
+            # name = "MoreWaita";
           };
           cursorTheme = {
             package = pkgs.gnome.gnome-themes-extra;
@@ -74,6 +79,8 @@ in {
       dconf.settings = {
         "org/gnome/desktop/interface" = {
           color-scheme = "prefer-dark";
+          font-antialiasing = "rgba";
+          font-hinting = "hintslight";
         };
       };
 

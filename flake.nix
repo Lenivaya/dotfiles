@@ -29,13 +29,15 @@
     };
 
     # vscode
-    nix-vscode-extensions = {
-      url = "github:nix-community/nix-vscode-extensions";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
 
     # Nix cli helper
-    nh.url = "github:viperML/nh";
+    # nh.url = "github:viperML/nh";
+
+    srvos = {
+      url = "github:nix-community/srvos";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     # Formatting and pre-commit hooks
     treefmt-nix = {
@@ -44,6 +46,20 @@
     };
     pre-commit-hooks = {
       url = "github:cachix/pre-commit-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # Some interesting packages
+    # https://github.com/chaotic-cx/nyx/pull/767 TODO
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+
+    betterfox = {
+      url = "github:yokoffing/betterfox";
+      flake = false;
+    };
+
+    browser-previews = {
+      url = "github:nix-community/browser-previews";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -58,16 +74,17 @@
       url = "github:nix-community/nix-index-database";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    # some upstream things
     picom = {
-      url = "github:yshui/picom";
+      url = "github:yshui/picom?rev=05c764c6055570f5f3d648bf740608763c2b2348";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
-    # gitbutler = {
-    #   url = "tarball+https://app.gitbutler.com/downloads/release/linux/x86_64/gz";
-    #   flake = false;
-    # };
-    nixpkgs_eol_dotnet.url = "github:NixOS/nixpkgs/64c27498901f104a11df646278c4e5c9f4d642db";
+    skippy-xd = {
+      # url = "github:felixfung/skippy-xd";
+      url = "path:///home/leniviy/code/Projects/skippy-xd";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = inputs @ {
@@ -88,6 +105,10 @@
         inherit system;
         config.allowUnfree = true; # forgive me Stallman senpai
         config.nvidia.acceptLicense = true;
+        # devtunnel
+        config.permittedInsecurePackages = [
+          "openssl-1.1.1w"
+        ];
         overlays = extraOverlays ++ (lib.attrValues self.overlays);
       };
     pkgs = mkPkgs nixpkgs [self.overlay];

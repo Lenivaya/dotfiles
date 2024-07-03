@@ -4,10 +4,16 @@ super + Escape
 
 # screencasting
 super + Print
-  scrrec -s ~/recordings/$(date +%F-%T).mp4
+  rofi-screenshot
 
-super + ctrl + Print
-  scrrec -s ~/recordings/$(date +%F-%T).gif
+super + alt + Print
+  rofi-screenshot -s
+
+# super + Print
+#   scrrec -s ~/recordings/$(date +%F-%T).mp4
+
+# super + ctrl + Print
+#   scrrec -s ~/recordings/$(date +%F-%T).gif
 
 # launch apps with super + <shift> keypad
 super + KP_Left

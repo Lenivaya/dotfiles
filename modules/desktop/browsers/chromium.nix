@@ -8,25 +8,17 @@
 with lib;
 with lib.my; let
   cfg = config.modules.desktop.browsers.chromium;
-  chrome' = with pkgs; (
-    if cfg.ungoogled
-    then ungoogled-chromium
-    else if cfg.googled
-    then google-chrome
-    else chromium
-  );
 in {
   options.modules.desktop.browsers.chromium = with types; {
+    package = mkOpt package pkgs.google-chrome;
     enable = mkBoolOpt false;
-    ungoogled = mkBoolOpt false;
-    googled = mkBoolOpt false;
   };
 
   config = mkIf cfg.enable {
     home.programs.chromium =
       enabled
       // {
-        package = chrome';
+        inherit (cfg) package;
 
         commandLineArgs =
           [

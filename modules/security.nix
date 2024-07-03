@@ -12,7 +12,10 @@ with lib; {
   boot.tmp.useTmpfs = mkDefault true;
   # If not using tmpfs, which is naturally purged on reboot, we must clean it
   # /tmp ourselves. /tmp should be volatile storage!
-  boot.tmp.cleanOnBoot = mkDefault (!config.boot.tmp.useTmpfs);
+  boot.tmp.cleanOnBoot = let
+    cleaningMakesSense = !config.boot.tmp.useTmpfs;
+  in
+    cleaningMakesSense;
 
   # Fix a security hole in place for backwards compatibility. See desc in
   # nixpkgs/nixos/modules/system/boot/loader/systemd-boot/systemd-boot.nix
@@ -51,7 +54,7 @@ with lib; {
 
     ## TCP optimization
     # TCP Fast Open is a TCP extension that reduces network latency by packing
-    # data in the sender’s initial TCP SYN. Setting 3 = enable TCP Fast Open for
+    # data in the sender's initial TCP SYN. Setting 3 = enable TCP Fast Open for
     # both incoming and outgoing connections:
     "net.ipv4.tcp_fastopen" = 3;
     # Bufferbloat mitigations + slight improvement in throughput & latency

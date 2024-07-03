@@ -24,13 +24,14 @@ with lib.my; let
 
       sponsorblock
       ublock-origin
-      localcdn
-      # clearurls
       libredirect
-      terms-of-service-didnt-read
-      istilldontcareaboutcookies # i-dont-care-about-cookies
       buster-captcha-solver
       # bypass-paywalls-clean
+      # clearurls
+
+      terms-of-service-didnt-read
+      istilldontcareaboutcookies # i-dont-care-about-cookies
+      consent-o-matic
 
       tree-style-tab
       tst-tab-search
@@ -39,7 +40,7 @@ with lib.my; let
       multi-account-containers
       violentmonkey
 
-      darkreader
+      # darkreader
 
       refined-github
       reddit-comment-collapser
@@ -84,6 +85,7 @@ in {
               DisablePocket = true;
               DontCheckDefaultBrowser = true;
               CaptivePortal = false;
+              HardwareAcceleration = true;
             };
             extraNativeMessagingHosts = with pkgs;
               []
@@ -96,6 +98,12 @@ in {
         profiles.default = {
           id = 0;
           inherit settings extensions userChrome userContent;
+
+          extraConfig = concatStringsSep "\n" [
+            (readFile "${inputs.betterfox}/Fastfox.js")
+            (readFile "${inputs.betterfox}/Peskyfox.js")
+            (readFile "${inputs.betterfox}/user.js")
+          ];
         };
       };
   };

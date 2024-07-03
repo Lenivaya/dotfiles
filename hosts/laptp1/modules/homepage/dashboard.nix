@@ -27,6 +27,14 @@ with my; {
               };
             }
             {
+              Sonarr = {
+                description = "TV series";
+                href = "http://local.self-hosted.com/sonarr";
+                icon = "sonarr.png";
+                siteMonitor = "http://local.self-hosted.com/sonarr";
+              };
+            }
+            {
               Prowlarr = {
                 href = "http://local.self-hosted.com/prowlarr";
                 icon = "prowlarr.png";

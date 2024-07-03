@@ -1,5 +1,4 @@
 {
-  options,
   config,
   lib,
   ...
@@ -16,9 +15,9 @@ in {
     services.openssh =
       enabled
       // {
-        settings.X11Forwarding = true;
+        settings.X11Forwarding = mkForce true;
         settings.PermitRootLogin = "no";
-        settings.PasswordAuthentication = true;
+        settings.PasswordAuthentication = mkForce true;
         startWhenNeeded = true;
 
         # Allow local LAN to connect with passwords

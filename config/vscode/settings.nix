@@ -134,7 +134,7 @@ in
       workbench.startupEditor = "None";
       breadcrumbs.enabled = true;
       window.menuBarVisibility = "toggle";
-      window.titleBarStyle = "native";
+      window.titleBarStyle = "custom"; # "native" without command center
       files.associations = {
         "bspwmrc" = "shellscript";
         "sxhkdrc" = "shellscript";
@@ -164,6 +164,7 @@ in
         "**/.mypy_cache/**" = true;
         "**/bazel-*/**" = true;
       };
+      files.refactoring.autoSave = true;
       explorer.confirmDragAndDrop = false;
       explorer.decorations.badges = false;
       explorer.decorations.colors = true;

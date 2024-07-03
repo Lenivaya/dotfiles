@@ -44,7 +44,7 @@ in {
       powerManagement = enabled // {finegrained = true;};
     };
 
-    hardware.opengl =
+    hardware.graphics =
       enabled
       // {
         extraPackages = with pkgs; [vaapiVdpau libvdpau-va-gl];

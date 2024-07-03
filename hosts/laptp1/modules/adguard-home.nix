@@ -17,29 +17,33 @@ in {
     // {
       mutableSettings = true;
       openFirewall = true;
+      port = adguardPort;
+
       settings = {
-        bind_port = adguardPort;
-        schema_version = 20;
         dns = {
           enable_dnssec = true;
+          upstream_mode = "parallel";
           upstream_dns = [
             "quic://dns.nextdns.io"
-            "https://dns.cloudflare.com/dns-query"
             "https://dns.quad9.net/dns-query"
-            "https://dns.google/dns-query"
+            "https://doh.libredns.gr/dns-query"
+            "https://doh.dns.sb/dns-query"
+            "https://freedns.controld.com/uncensored"
           ];
           bootstrap_dns = [
-            "1.1.1.1"
             "9.9.9.9"
+            "1.1.1.1"
           ];
 
           cache_optimistic = true;
-          cache_size = 10000000;
-          cache_ttl_min = 3600;
-          cache_ttl_max = 86400;
+          cache_size = megabytesToBytes 50;
+          cache_ttl_min = hoursToSeconds 1;
+          cache_ttl_max = hoursToSeconds 24;
         };
       };
     };
 
   systemd.services.adguardhome.serviceConfig.Nice = mkForce (- 20);
+  systemd.services.adguardhome.serviceConfig.IOWeight = mkForce 10000;
+  systemd.services.adguardhome.serviceConfig.CPUWeight = mkForce 10000;
 }

@@ -21,6 +21,8 @@ in {
       };
     };
 
+    services.upower = enabled;
+
     boot.kernelParams = [
       # https://wiki.archlinux.org/index.php/improving_performance#Changing_I/O_scheduler
       "scsi_mod.use_blk_mq=1"

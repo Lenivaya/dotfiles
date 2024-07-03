@@ -12,7 +12,10 @@ with lib.my; let
 in {
   options.modules.hardware.audio = {
     enable = mkBoolOpt false;
-    effects = mkBoolOpt false;
+    effects = {
+      enable = mkBoolOpt false;
+      morePlugins = mkBoolOpt false;
+    };
   };
 
   config = mkIf cfg.enable (mkMerge [
@@ -42,26 +45,39 @@ in {
         };
     }
 
-    (mkIf cfg.effects {
+    (mkIf cfg.effects.enable {
       home.services.easyeffects = enabled;
-      user.packages = with pkgs;
-        [easyeffects helvum pulsemixer pamix pamixer pulseaudio pavucontrol]
-        ++ [carla] # JACK utilities
-        ++ [lsp-plugins dragonfly-reverb rnnoise-plugin] # Audio plugins
-        ++ [
-          distrho
-          swh_lv2
-          calf
-          # ir.lv2
-        ];
-
-      environment.variables = with lib;
-        listToAttrs (map (type:
-          nameValuePair "${toUpper type}_PATH" [
-            "$HOME/.${type}"
-            "$HOME/.nix-profile/lib/${type}"
-            "/run/current-system/sw/lib/${type}"
-          ]) ["dssi" "ladspa" "lv2" "lxvst" "vst" "vst3"]);
+      user.packages = with pkgs; [
+        easyeffects
+        helvum
+        pulsemixer
+        pamix
+        pamixer
+        pulseaudio
+        pavucontrol
+      ];
     })
+
+    (mkIf
+      (cfg.effects.enable && cfg.effects.morePlugins)
+      {
+        user.packages = with pkgs;
+          [carla] # JACK utilities
+          ++ [lsp-plugins dragonfly-reverb rnnoise-plugin] # Audio plugins
+          ++ [
+            distrho
+            swh_lv2
+            calf
+            # ir.lv2
+          ];
+
+        environment.variables = with lib;
+          listToAttrs (map (type:
+            nameValuePair "${toUpper type}_PATH" [
+              "$HOME/.${type}"
+              "$HOME/.nix-profile/lib/${type}"
+              "/run/current-system/sw/lib/${type}"
+            ]) ["dssi" "ladspa" "lv2" "lxvst" "vst" "vst3"]);
+      })
   ]);
 }

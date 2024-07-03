@@ -8,9 +8,9 @@ import XMonad.Prompt
 import XMonad.Prompt.Shell
 
 data Application = Application
-  { applicationCategory :: String
-  , applicationName :: String
-  , applicationCommand :: String
+  { applicationCategory :: String,
+    applicationName :: String,
+    applicationCommand :: String
   }
 
 newtype AppByName = AppByName [Application]
@@ -25,22 +25,25 @@ myApps :: [Application]
 myApps = mconcat [myBrowsers, myReaders, mySoundUtils]
 
 myBrowsers =
-  [ Application "Browser" "Firefox" "firefox"
-  , Application "Browser" "Chromium" "chromium"
-  , Application "Browser" "Google-chrome" "google-chrome-stable"
-  , Application "Browser" "Brave" "brave"
-  , Application "Browser" "Qutebrowser" "qutebrowser"
+  [
+    Application "Browser" "Firefox" "firefox",
+    Application "Browser" "Firefox" "firefox-nightly",
+    Application "Browser" "Chromium" "chromium",
+    Application "Browser" "Google-chrome" "google-chrome-stable",
+    Application "Browser" "Google-chrome" "google-chrome-unstable",
+    Application "Browser" "Brave" "brave",
+    Application "Browser" "Qutebrowser" "qutebrowser"
   ]
 
 myReaders =
-  [ Application "Reader" "Zathura" "zathura"
-  , Application "Reader" "Foliate" "foliate"
-  , Application "Reader" "Evince" "evince"
+  [ Application "Reader" "Zathura" "zathura",
+    Application "Reader" "Foliate" "foliate",
+    Application "Reader" "Evince" "evince"
   ]
 
 mySoundUtils =
-  [ Application "Sound" "Easyeffects" "easyeffects"
-  , Application "Sound" "Pavucontrol" "pavucontrol"
+  [ Application "Sound" "Easyeffects" "easyeffects",
+    Application "Sound" "Pavucontrol" "pavucontrol"
   ]
 
 selectAppByNameAndDo' :: XPConfig -> AppByName -> (String -> X ()) -> X ()
