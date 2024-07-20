@@ -86,6 +86,13 @@ in {
       python311Packages.grip
       # :lang resc
       jq
+
+      # :lang nix
+      nil
+
+      # :lang nginx
+      nginx-language-server
+
       # :term vterm
       libtool
       # wakatime
@@ -101,6 +108,8 @@ in {
 
       # nice prose linting
       vale
+
+      emacs-lsp-booster
     ];
 
     fonts.packages = with pkgs; [

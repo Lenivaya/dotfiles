@@ -23,7 +23,8 @@ import XMonad.Custom.Prompt
   vm,
   write,
   note,
-  git
+  git,
+  messages
   ) =
   ( "GEN",
     "Code",
@@ -38,7 +39,8 @@ import XMonad.Custom.Prompt
     "VM",
     "WRITE",
     "NOTE",
-    "GIT"
+    "GIT",
+    "MSG"
   )
 
 workspaces :: [String]
@@ -136,5 +138,10 @@ projects =
       { projectName = git,
         projectDirectory = "~/",
         projectStartHook = Just $ do spawnOn git "git-butler"
+      },
+    Project
+      { projectName = messages,
+        projectDirectory = "~/",
+        projectStartHook = Just $ do spawnOn messages "telegram-desktop"
       }
   ]

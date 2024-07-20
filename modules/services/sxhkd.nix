@@ -6,16 +6,19 @@
 }:
 with lib;
 with lib.my; let
-  inherit (config.dotfiles) configDir;
+  inherit (config.dotfiles) outOfStoreConfigDir;
   cfg = config.modules.services.sxhkd;
 in {
   options.modules.services.sxhkd.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    home.configFile."sxhkd" = {
-      source = "${configDir}/sxhkd";
-      recursive = true;
-    };
+    # home.configFile."sxhkd" = {
+    #   source = "${configDir}/sxhkd";
+    #   recursive = true;
+    # };
+
+    system.userActivationScripts.linkSxhkdrc =
+      linkIfNotExist "~/.config/sxhkd" "${outOfStoreConfigDir}/sxhkd";
 
     user.packages = with pkgs; [sxhkd];
     services.xserver.displayManager.sessionCommands = ''

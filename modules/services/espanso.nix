@@ -20,7 +20,7 @@ in {
 
     # I want it to be editable
     system.userActivationScripts.linkEspansoConfig =
-      linkIfNotExist "$XDG_CONFIG_HOME/espanso" "${configDir}/espanso";
+      linkIfNotExist "~/.config/espanso" "${configDir}/espanso";
 
     # May be useful in future [1],
     # but for now it's pretty shitty solution [2]

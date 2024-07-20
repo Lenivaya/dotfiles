@@ -53,7 +53,7 @@ scratchpads =
       "top"
       (spawnTerminalWith "NSPTop" (C.top C.applications))
       (className =? "NSPTop")
-      floatingNSP,
+      (centerFloat 0.7 0.7),
     NS
       "discord"
       -- "Discord"

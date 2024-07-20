@@ -15,15 +15,16 @@ with lib.my; {
       packages = with pkgs; [
         ibm-plex
         noto-fonts
-        ubuntu_font_family
+        # ubuntu_font_family
         corefonts
         merriweather
         julia-mono # Unicode glyphs
-        (nerdfonts.override {fonts = ["FiraCode"];})
+        (pkgs.nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
+        # (nerdfonts.override {fonts = ["FiraCode"];})
 
         # lmmath
         # lmodern
-        cm_unicode
+        # cm_unicode
         # liberation_ttf
       ];
 

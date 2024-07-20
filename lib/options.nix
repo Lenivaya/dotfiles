@@ -1,5 +1,5 @@
 {lib, ...}: let
-  inherit (lib) mkOption types;
+  inherit (lib) mkOption types foldr unique mkIf;
 in rec {
   mkOpt = type: default: mkOption {inherit type default;};
 
@@ -13,6 +13,16 @@ in rec {
       example = true;
     };
 
-  enabled = {enable = true;};
   disabled = {enable = false;};
+  enabled' = otherThings:
+    {enable = true;} // otherThings;
+  enabled = enabled' {};
+
+  ifEnabled = cfg: mkIf cfg.enable;
+
+  valueForEach = names: value:
+    foldr
+    (name: acc: acc // {"${name}" = value;})
+    {}
+    (unique names);
 }

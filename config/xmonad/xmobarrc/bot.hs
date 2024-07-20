@@ -47,36 +47,38 @@ Config
           -- ["-t", "<fn=1>\57660</fn> <rx> / <fn=1>\57659</fn> <tx> kbps"]
           ["-t", "<fn=3></fn> <rx> / <fn=3></fn> <tx> kbps"]
           10
+
+      , Run Date "%d.%m.%y / %A / %H:%M" "date" 10
       , Run
           Kbd
           [ ("us", "<fn=3></fn> English")
           , ("ru", "<fn=3></fn> Русский")
           , ("ua", "<fn=3></fn> Українська")
           ]
-      , Run
-          Alsa
-          "default"
-          "Master"
-          [ "-t"
-          , "<fn=3><status></fn> <volume>%"
-          , "--"
-          , "--on"
-          , ""
-          , "--off"
-          , ""
-          , "--onc"
-          , "#a19782"
-          , "--offc"
-          , "#a19782"
-          -- , "--on"
-          -- , "\57427"
-          -- , "--off"
-          -- , "\57426"
-          -- , "--onc"
-          -- , "#a19782"
-          -- , "--offc"
-          -- , "#a19782"
-          ]
+      -- , Run
+      --     Alsa
+      --     "default"
+      --     "Master"
+      --     [ "-t"
+      --     , "<fn=3><status></fn> <volume>%"
+      --     , "--"
+      --     , "--on"
+      --     , ""
+      --     , "--off"
+      --     , ""
+      --     , "--onc"
+      --     , "#a19782"
+      --     , "--offc"
+      --     , "#a19782"
+      --     -- , "--on"
+      --     -- , "\57427"
+      --     -- , "--off"
+      --     -- , "\57426"
+      --     -- , "--onc"
+      --     -- , "#a19782"
+      --     -- , "--offc"
+      --     -- , "#a19782"
+      --     ]
       -- , Run MultiCpu ["-t", "<fn=3></fn> <total>%"]  10
       -- , Run Memory ["-t", "<fn=3></fn> <usedratio>%"] 10
       , Run ComX "player" [] "" "player" 10
@@ -91,6 +93,7 @@ Config
       \}\
       \%player%\
       \{\
-      \%warp% %caffeine%   %kbd%   %alsa:default:Master%\
+      \%warp% %caffeine%   %kbd%  |  %date%\
       \ "
+      -- \%warp% %caffeine%   %kbd%     %alsa:default:Master%\
   }

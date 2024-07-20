@@ -23,7 +23,8 @@ Config
     borderWidth = 1,
     iconRoot = ".",
     commands =
-      [ Run Date "%d.%m.%y / %A / %H:%M" "date" 10,
+      [
+        -- Run Date "%d.%m.%y / %A / %H:%M" "date" 10,
         -- TODO FIXME https://discourse.mozilla.org/t/retiring-the-mozilla-location-service/128693
         -- Run ComX "openweathermap" [] "" "weather" 10000,
         Run UnsafeXPropertyLog "_XMONAD_LOG_1",
@@ -37,7 +38,7 @@ Config
       \}\
       \\
       \{\
-      \%date% %_XMONAD_TRAYPAD%\
+      \%_XMONAD_TRAYPAD%\
       \ "
       -- \%weather%   %date% %_XMONAD_TRAYPAD%\
   }

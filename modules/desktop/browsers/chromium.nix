@@ -12,54 +12,68 @@ in {
   options.modules.desktop.browsers.chromium = with types; {
     package = mkOpt package pkgs.google-chrome;
     enable = mkBoolOpt false;
+    commandLineArgs = mkOpt (listOf string) [
+      # Dark theme
+      "--force-dark-mode"
+      # "--enable-features=WebUIDarkMode"
+
+      # GPU acceleration
+      "--ignore-gpu-blocklist"
+      "--enable-gpu-rasterization"
+      "--enable-native-gpu-memory-buffers"
+      "--enable-zero-copy"
+      # "--enable-features=VaapiVideoDecoder"
+      # # https://forum.manjaro.org/t/chromium-cant-enable-video-encoding-hardware-acceleration/101760/6
+      "--enable-oop-rasterization"
+      "--enable-raw-draw"
+      "--use-vulkan"
+      "--disable-sync-preferences"
+      "--enable-accelerated-2d-canvas"
+      "--enable-accelerated-video-decode"
+      "--enable-accelerated-mjpeg-decode"
+      "--enable-gpu-compositing"
+      "--enable-unsafe-webgpu"
+
+      "--smooth-scrolling"
+      "--enable-smooth-scrolling"
+
+      "--sharing-desktop-screenshots"
+
+      # Fuck this "outdated" shit
+      "--simulate-outdated-no-au='Tue, 31 Dec 2099 23:59:59 GMT'"
+
+      "--enable-features=${
+        comcat [
+          "BackForwardCache:enable_same_site/true"
+          "CopyLinkToText"
+          "OverlayScrollbar"
+          "TabHoverCardImages"
+          # "Vulkan"
+          # "DefaultANGLEVulkan"
+          # "VulkanFromANGLE"
+          # "RawDraw"
+          "VaapiVideoEncoder"
+          "VaapiVideoDecoder"
+          # "VaapiIgnoreDriverChecks"
+          # "VaapiVideoDecodeLinuxGL"
+          "CanvasOopRasterization"
+          "TouchpadOverscrollHistoryNavigation"
+        ]
+      }"
+    ];
   };
 
   config = mkIf cfg.enable {
     home.programs.chromium =
       enabled
       // {
-        inherit (cfg) package;
+        inherit
+          (cfg)
+          package
+          ;
 
         commandLineArgs =
-          [
-            # Dark theme
-            "--force-dark-mode"
-            # "--enable-features=WebUIDarkMode"
-
-            # GPU acceleration
-            "--ignore-gpu-blocklist"
-            "--enable-gpu-rasterization"
-            "--enable-native-gpu-memory-buffers"
-            "--enable-zero-copy"
-            # "--enable-features=VaapiVideoDecoder"
-            # # https://forum.manjaro.org/t/chromium-cant-enable-video-encoding-hardware-acceleration/101760/6
-            "--enable-oop-rasterization"
-            "--enable-raw-draw"
-            "--use-vulkan"
-            "--disable-sync-preferences"
-            "--enable-accelerated-2d-canvas"
-            "--enable-accelerated-video-decode"
-            "--enable-accelerated-mjpeg-decode"
-            "--enable-gpu-compositing"
-            "--enable-unsafe-webgpu"
-
-            # Fuck this "outdated" shit
-            "--simulate-outdated-no-au='Tue, 31 Dec 2099 23:59:59 GMT'"
-
-            "--enable-features=${
-              comcat [
-                "BackForwardCache:enable_same_site/true"
-                "CopyLinkToText"
-                "OverlayScrollbar"
-                "TabHoverCardImages"
-                "Vulkan"
-                # "RawDraw"
-                "VaapiVideoEncoder"
-                "VaapiVideoDecoder"
-                "CanvasOopRasterization"
-              ]
-            }"
-          ]
+          cfg.commandLineArgs
           ++ optionals config.modules.desktop.isWayland [
             # Wayland
 
@@ -86,7 +100,7 @@ in {
           "mnjggcdmjocbbbhaepdhchncahnbgone" # sponsorblock
 
           "hjdoplcnndgiblooccencgcggcoihigg" # didn't read, terms of service
-          "edibdbjcniadpccecjdfdjjppcpchdlm" # I still don't care about cookies
+          # "edibdbjcniadpccecjdfdjjppcpchdlm" # I still don't care about cookies
 
           "hlepfoohegkhhmjieoechaddaejaokhf" # refined github
           "njmimaecgocggclbecipdimilidimlpl" # reddit comment collapser

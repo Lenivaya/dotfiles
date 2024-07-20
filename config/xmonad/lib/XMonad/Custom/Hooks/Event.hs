@@ -50,8 +50,8 @@ handleEventHook =
         mconcat $ swallower <$> ["Alacritty", "St"],
         nspTrackHook scratchpads,
         -- Hacks.windowedFullscreenFixEventHook,
-        Hacks.trayerPaddingXmobarEventHook,
-        Hacks.trayerAboveXmobarEventHook
+        Hacks.trayerAboveXmobarEventHook,
+        Hacks.trayerPaddingXmobarEventHook
         -- , onTitleChange manageHook
       ]
         ++ serverEventHooks

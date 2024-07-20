@@ -13,8 +13,8 @@ in {
   config = mkIf iosevka.enable {
     fonts.packages = with pkgs; [
       iosevka-bin
-      (iosevka-bin.override {variant = "aile";})
-      (iosevka-bin.override {variant = "etoile";})
+      (iosevka-bin.override {variant = "Aile";})
+      (iosevka-bin.override {variant = "Etoile";})
     ];
 
     fonts.fontconfig.defaultFonts = mkForce {

@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  pkgs,
   ...
 }:
 with lib;
@@ -14,7 +13,6 @@ in {
     programs.direnv =
       enabled
       // {
-        enable = true;
         nix-direnv = enabled;
       };
 

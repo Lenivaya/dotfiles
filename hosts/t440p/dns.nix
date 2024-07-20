@@ -20,7 +20,7 @@ with my; {
       "-b 1.1.1.1"
       "--cache --cache-optimistic"
       "--cache-size=${toString (megabytesToBytes 50)}"
-      "--cache-min-ttl=${toString (hoursToSeconds 5)}"
+      "--cache-min-ttl=${toString (hoursToSeconds 10)}"
       "--cache-max-ttl=${toString (hoursToSeconds 96)}"
       "--http3"
     ];

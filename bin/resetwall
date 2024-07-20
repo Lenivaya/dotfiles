@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+# Resets the wallpaper, mainly needed after monitors reconnections
+# may be applied somewhere in autorandr hooks
+
+set -e
+
+readonly cachefile="$XDG_DATA_HOME/wall"
+
+setwall() {
+  echo "$current"
+  feh --bg-fill "$current" &
+}
+
+[ -f "$cachefile" ] && current=$(<"$cachefile") || current=""
+setwall
+# {
+# } >/dev/null 2>&1

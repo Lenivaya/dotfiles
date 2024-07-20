@@ -12,7 +12,15 @@ in {
   options.modules.hardware.gpu.nvidia = {enable = mkBoolOpt false;};
 
   config = mkIf cfg.enable {
+    # blacklist nouveau module so that it does not conflict with nvidia drm stuff
+    # also the nouveau performance is godawful, I'd rather run linux on a piece of paper than use nouveau
+    # no offense to nouveau devs, I'm sure they're doing their best and they have my respect for that
+    # but their best does not constitute a usable driver for me
+    boot.blacklistedKernelModules = ["nouveau"];
+
     boot.kernelModules = ["nvidia" "nvidia_drm" "nvidia_uvm" "nvidia_modeset"];
+
+    services.xserver.videoDrivers = ["nvidia"];
 
     environment.variables = {
       # Ultra low latency mode
@@ -22,35 +30,50 @@ in {
       __GL_LOG_MAX_ANISO = "4";
     };
 
+    environment.sessionVariables = {
+      LIBVA_DRIVER_NAME = mkDefault "nvidia";
+    };
+
     environment.systemPackages = with pkgs; [
       glxinfo
-      cudaPackages.cudnn
+      # cudaPackages.cudnn
       # cudaPackages.cuda_compat
-      cudatoolkit
+      # cudatoolkit
       vdpauinfo
 
-      # Respect XDG conventions, damn it!
-      (writeScriptBin "nvidia-settings" ''
-        #!${stdenv.shell}
-        mkdir -p "$XDG_CONFIG_HOME/nvidia"
-        exec ${
-          getExe config.boot.kernelPackages.nvidia_x11.settings
-        } --config="$XDG_CONFIG_HOME/nvidia/settings"
-      '')
+      # vulkan
+      vulkan-tools
+      vulkan-loader
+      vulkan-validation-layers
+      vulkan-extension-layer
+
+      # libva
+      libva
+      libva-utils
     ];
 
     hardware.nvidia = {
+      modesetting = enabled;
+      nvidiaSettings = false; # add nvidia-settings to pkgs, useless on nixos
+
       nvidiaPersistenced = true;
-      powerManagement = enabled // {finegrained = true;};
+      powerManagement = {
+        enable = mkDefault true;
+        finegrained = mkDefault false;
+      };
     };
 
     hardware.graphics =
       enabled
       // {
-        extraPackages = with pkgs; [vaapiVdpau libvdpau-va-gl];
+        extraPackages = with pkgs; [
+          nvidia-vaapi-driver
+          vaapiVdpau
+          libvdpau-va-gl
+        ];
+        extraPackages32 = with pkgs.pkgsi686Linux; [nvidia-vaapi-driver];
+        enable32Bit = true;
       };
-
-    services.xserver.videoDrivers = ["nvidia"];
 
     boot.kernelParams = [
       # If the Spectre V2 mitigation is necessary, some performance may be recovered by setting the

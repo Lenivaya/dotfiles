@@ -29,10 +29,10 @@ super + c
 #     volumedunst {down,up,mute,mic_mute}
 
 XF86Audio{LowerVolume,RaiseVolume,Mute,MicMute}
-  volumectl {-u down,-u up,toggle-mute,-m toggle-mute}
+  volumectl -M 0 {-u down,-u up,toggle-mute,-m toggle-mute}
 
 XF86MonBrightness{Up,Down}
-  lightctl {up,down}
+  lightctl -M 0 {up,down}
 
 XF86Display
   auto_brightness_toggle

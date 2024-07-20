@@ -1,7 +1,6 @@
 # https://github.com/SpitFire-666/Firefox-Stuff
 {
   config,
-  options,
   lib,
   pkgs,
   inputs,
@@ -30,8 +29,17 @@ with lib.my; let
       # clearurls
 
       terms-of-service-didnt-read
-      istilldontcareaboutcookies # i-dont-care-about-cookies
       consent-o-matic
+
+      # Might be slowing down the pages a lot [1],
+      # it's better to use ublock-origin with filter list
+      # or even more simple inbuilt firefox
+      # cookiebanners.service.mode 1
+      # cookiebanners.service.mode.privateBrowsing 1
+      #
+      # [1]: https://www.reddit.com/r/firefox/comments/1dt5yte/you_should_know_the_extension_still_dont_care
+      #
+      # istilldontcareaboutcookies # i-dont-care-about-cookies
 
       tree-style-tab
       tst-tab-search
@@ -50,7 +58,11 @@ with lib.my; let
     ++ optional modules.desktop.media.mpv.enable ff2mpv
     ++ optional modules.shell.pass.enable passff;
 in {
-  options.modules.desktop.browsers.firefox.enable = mkBoolOpt false;
+  options.modules.desktop.browsers.firefox = with types; {
+    enable = mkBoolOpt false;
+    package = mkOpt package pkgs.firefox;
+    executable = mkOpt str "firefox";
+  };
 
   config = mkIf cfg.enable {
     nixpkgs.overlays = [inputs.nur.overlay];
@@ -65,7 +77,7 @@ in {
         desktopName = "Firefox (Private)";
         genericName = "Open a private Firefox window";
         icon = "firefox";
-        exec = "firefox --private-window";
+        exec = "${cfg.executable} --private-window";
         categories = ["Network"];
       })
     ];
@@ -77,7 +89,7 @@ in {
       enabled
       // {
         package = with pkgs; let
-          firefox' = firefox.override {
+          firefox' = cfg.package.override {
             extraPolicies = {
               DisableAppUpdate = true;
               DisableFirefoxStudies = true;

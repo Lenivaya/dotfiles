@@ -30,7 +30,7 @@ case $1 in
   ;;
 -f)
   echo "Going to sleep..."
-  lock_screen
+  lock_screen &
   systemctl suspend
   ;;
 *)

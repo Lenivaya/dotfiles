@@ -144,7 +144,6 @@ layoutHook =
     . refocusLastLayoutHook
     . avoidStruts
     . applySpacing
-    . centeredIfSingle 0.97 0.97
     . mkToggle (single GAPS)
     . mkToggle (single REFLECTX)
     . mkToggle (single REFLECTY)
@@ -153,6 +152,7 @@ layoutHook =
     . addTabs shrinkText tabTheme
     . subLayout [] (Simplest ||| Accordion)
     -- . onWorkspace wsread (circle ||| flex ||| onebig)
+    . centeredIfSingle 0.9 0.95
     . maximize
     . minimize
     $ layouts

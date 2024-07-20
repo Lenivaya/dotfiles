@@ -12,7 +12,6 @@ in {
     [
       ripgrep # fast grepper
       fd # rust alternative to find
-      # handlr # better xdg-utils in rust
       binutils
       usbutils
 

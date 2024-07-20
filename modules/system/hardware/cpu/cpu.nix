@@ -9,59 +9,71 @@ with lib.my; let
 in {
   options.modules.hardware.cpu = {
     tdp = {
-      nominal = mkOption {
-        type = types.int;
-        default = 0;
+      p1 = {
+        watts = mkOption {
+          type = types.int;
+          default = 0;
+        };
+
+        duration = mkOption {
+          type = types.float;
+          default = 0.0;
+        };
       };
 
-      up = mkOption {
-        type = types.int;
-        default = 0;
+      p2 = {
+        watts = mkOption {
+          type = types.int;
+          default = 0;
+        };
+
+        duration = mkOption {
+          type = types.float;
+          default = 0.0;
+        };
       };
     };
 
-    intel = {
-      undervolt = {
-        enable = mkBoolOpt false;
-        core = mkOption {
-          type = types.int;
-          default = 0;
-        };
+    undervolt = {
+      enable = mkBoolOpt false;
+      core = mkOption {
+        type = types.int;
+        default = 0;
+      };
 
-        gpu = mkOption {
-          type = types.int;
-          default = 0;
-        };
+      gpu = mkOption {
+        type = types.int;
+        default = 0;
+      };
 
-        cache = mkOption {
-          internal = true;
-          type = types.int;
-          default = 0;
-        };
+      cache = mkOption {
+        internal = true;
+        type = types.int;
+        default = 0;
+      };
 
-        uncore = mkOption {
-          type = types.int;
-          default = 0;
-        };
+      uncore = mkOption {
+        type = types.int;
+        default = 0;
+      };
 
-        analogio = mkOption {
-          type = types.int;
-          default = 0;
-        };
+      analogio = mkOption {
+        type = types.int;
+        default = 0;
+      };
 
-        temp = mkOption {
-          type = types.int;
-          default = 0;
-        };
+      temp = mkOption {
+        type = types.int;
+        default = 0;
       };
     };
   };
 
   config = {
-    modules.hardware.cpu.intel.undervolt.cache = cfg.intel.undervolt.core;
+    modules.hardware.cpu.undervolt.cache = cfg.undervolt.core;
 
     # Compatibility with intel-undervolt
-    services.undervolt = with cfg.intel.undervolt;
+    services.undervolt = with cfg.undervolt;
       mkIf enable {
         coreOffset = core;
         gpuOffset = gpu;
@@ -90,27 +102,31 @@ in {
         GENERAL = {
           Enabled = true;
           Sysfs_Power_Path = "/sys/class/power_supply/AC*/online";
+          Autoreload = false;
         };
 
         BATTERY = {
-          Update_Rate_s = 30;
-          PL1_Tdp_W = cfg.tdp.nominal - 5;
-          PL1_Duration_s = 30;
-          PL2_Tdp_W = cfg.tdp.nominal + 5;
-          PL2_Duration_S = 5.0e-3;
+          Update_Rate_s = 32;
+          PL1_Tdp_W = cfg.tdp.p1.watts;
+          PL1_Duration_s = cfg.tdp.p1.duration;
+          PL2_Tdp_W = cfg.tdp.p2.watts;
+          PL2_Duration_S = cfg.tdp.p2.duration;
           Trip_Temp_C = 80;
+          # Set cTDP to normal=0, down=1 or up=2 (EXPERIMENTAL)
           cTDP = 0;
+          # Disable BDPROCHOT (EXPERIMENTAL)
           Disable_BDPROCHOT = false;
         };
 
         AC = {
-          Update_Rate_s = 5;
-          PL1_Tdp_W = cfg.tdp.up - 5;
-          PL1_Duration_s = 45;
-          PL2_Tdp_W = cfg.tdp.up + 5;
-          PL2_Duration_S = 7.0e-3;
+          Update_Rate_s = 8;
+          PL1_Tdp_W = cfg.tdp.p1.watts;
+          PL1_Duration_s = cfg.tdp.p1.duration;
+          PL2_Tdp_W = cfg.tdp.p2.watts;
+          PL2_Duration_S = cfg.tdp.p2.duration;
           Trip_Temp_C = 95;
-          HWP_Mode = true;
+          # Set HWP energy performance hints to 'performance' on high load (EXPERIMENTAL)
+          # HWP_Mode = true;
           cTDP = 0;
           Disable_BDPROCHOT = false;
         };
@@ -118,7 +134,7 @@ in {
         # In theory, the undervolting can be more aggressive since the cpu isn't as stressed
         "UNDERVOLT.BATTERY" = settings."UNDERVOLT.AC";
 
-        "UNDERVOLT.AC" = with cfg.intel.undervolt; {
+        "UNDERVOLT.AC" = with cfg.undervolt; {
           CORE = core;
           GPU = gpu;
           CACHE = cache;

@@ -15,12 +15,12 @@ in {
       clang
       llvmPackages.bintools
 
-      rustc
-      cargo
+      # rustc
+      # cargo
       rustup
 
-      clippy
-      rustfmt
+      # clippy
+      # rustfmt
 
       rust-analyzer
       cargo-edit

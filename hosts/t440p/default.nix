@@ -5,7 +5,6 @@
   lib,
   inputs,
   system,
-  options,
   ...
 }:
 with lib;
@@ -17,8 +16,9 @@ with lib.my; {
       ./phone_cam.nix
       ./gpu.nix
       ./picom.nix
-      ./fixes.nix
       ./dns.nix
+      ./auto-cpufreq.nix
+      ./zram.nix
       # ./mongodb.nix
       # ./postgresql.nix
       # ./jack_retask/jack_retask.nix
@@ -40,7 +40,10 @@ with lib.my; {
         xmonad = enabled;
         isPureWM = true;
 
+        # fonts.iosevka-full-mono = enabled;
         fonts.pragmata = enabled;
+
+        xdg.handlr = enabled;
 
         apps = {
           rofi = enabled;
@@ -52,15 +55,19 @@ with lib.my; {
         };
 
         browsers = {
-          # default = "google-chrome-stable";
-          default = "firefox-nightly";
+          default = "google-chrome-unstable";
 
+          firefox =
+            enabled
+            // {
+              package = pkgs.firefox_nightly;
+              executable = "firefox-nightly";
+            };
           chromium =
             enabled
             // {
               package = inputs.browser-previews.packages.${pkgs.system}.google-chrome-dev;
             };
-          firefox = enabled;
           tor = enabled;
           # qutebrowser = enabled;
         };
@@ -126,12 +133,12 @@ with lib.my; {
       jetbrains =
         enabled
         // {
-          # packages = with pkgs.nur.repos.tehplague.jetbrains; [
           packages = with pkgs.jetbrains; [
             webstorm
             rider
             pycharm-professional
-            # rust-rover
+            goland
+            rust-rover
           ];
         };
     };
@@ -154,6 +161,8 @@ with lib.my; {
             sdk_8_0
           ];
         };
+
+      typst = enabled;
     };
 
     services = {
@@ -178,39 +187,49 @@ with lib.my; {
             "cbatticon"
             "blueman-applet"
             "nm-applet"
+            "pasystray"
             "mictray"
+            "kdeconnect-indicator"
           ];
         };
     };
 
     programs = {
       nix-helper = enabled;
+      nix-ld = enabled;
     };
 
     hardware = {
       profiles.laptop = enabled;
       cpu.intel =
-        enabled
-        // {
-          # undervolt =
-          #   enabled
-          #   // rec {
-          #     core = -50;
-          #     gpu = -30;
-          #     # uncore = core;
-          #     # analogio = core;
-          #   };
+        enabled;
+
+      cpu = {
+        tdp = {
+          p1.watts = 37; # 47
+          p1.duration = 28.0;
+          p2.watts = 47;
+          p2.duration = 0.00244140625;
         };
+        undervolt =
+          enabled
+          // rec {
+            core = -70;
+            gpu = -40;
+            temp = 95;
+            uncore = core;
+            analogio = core;
+          };
+      };
       gpu = {
         intel = enabled;
-        # nvidia = enabled;
+        nvidia = enabled;
       };
       audio = enabled // {effects = enabled;};
       fingerprint = enabled;
       touchpad = enabled;
       bluetooth = enabled;
       fs = enabled // {ssd = enabled;};
-      # zram = enabled;
     };
 
     adblock = enabled;
@@ -241,19 +260,25 @@ with lib.my; {
   };
 
   boot.kernelPackages = let
-    kernel' = pkgs.linuxPackages_cachyos-lto;
+    # https://github.com/chaotic-cx/nyx/issues/687
+    # kernel' = pkgs.linuxPackages_cachyos-lto;
+    # kernel' = pkgs.linuxPackages_cachyos;
+    #
+    # Older version needed because of nvidia
+    kernel' = inputs.chaotic-kernel.packages.${pkgs.system}.linuxPackages_cachyos;
   in
     mkForce kernel';
 
   # https://github.com/sched-ext/scx
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  chaotic.scx =
-    enabled
-    // {
-      scheduler = "scx_rusty";
-      # scheduler = "scx_rustland";
-    };
+  # chaotic.scx =
+  #   enabled
+  #   // {
+  #     # scheduler = "scx_rusty";
+  #     # scheduler = "scx_bpfland";
+  #     scheduler = "scx_rustland";
+  #   };
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
@@ -265,16 +290,24 @@ with lib.my; {
     "nowatchdog"
     "kernel.nmi_watchdog=0"
 
+    "msr.allow_writes=on"
+
     # Use TEO as CPUIdle Governor
-    # "cpuidle.governor=teo"
+    "cpuidle.governor=teo"
+
+    # Enables RC6, RC6p and RC6pp.
+    # Last two are only available on Sandy Bridge CPUs (circa 2011).
+    "i915.enable_rc6=7"
+
+    "intel_pstate=active"
   ];
 
-  boot.plymouth = rec {
-    theme = "abstract_ring";
-    themePackages = with pkgs; let
-      theme' = adi1090x-plymouth-themes.override {selected_themes = [theme];};
-    in [theme'];
-  };
+  # boot.plymouth = rec {
+  #   theme = "abstract_ring";
+  #   themePackages = with pkgs; let
+  #     theme' = adi1090x-plymouth-themes.override {selected_themes = [theme];};
+  #   in [theme'];
+  # };
 
   networking.firewall = {
     allowedUDPPorts = [3000 4000 8080 8000 1433 4321 4322];
@@ -285,6 +318,8 @@ with lib.my; {
   boot.extraModprobeConfig = "options thinkpad_acpi experimental=1 fan_control=1";
 
   user.packages = with pkgs; [
+    arandr
+
     khal
     telegram-desktop
     ffmpeg-full
@@ -298,8 +333,11 @@ with lib.my; {
     postman
     my.gitbutler
     scx # user-space schedulers
+
+    inputs.twitch-hls-client.packages.${pkgs.system}.default
+    # my.devtunnel
     # warp-terminal
-    my.devtunnel
+    # zed-editor_git
   ];
 
   # devtunnel
@@ -321,7 +359,10 @@ with lib.my; {
         intel-vaapi-driver
       ];
     };
-  environment.sessionVariables = {LIBVA_DRIVER_NAME = "i965";};
+  environment.sessionVariables = {
+    LIBVA_DRIVER_NAME = "i965";
+    # LIBVA_DRIVER_NAME = "nvidia";
+  };
 
   services.smartd = enabled;
 
@@ -338,8 +379,8 @@ with lib.my; {
   # services.safeeyes = enabled;
 
   # modules.services.zcfan = enabled;
-  # services.thermald = mkForce disabled;
-  # services.throttled = mkForce enabled;
+  services.thermald = mkForce disabled;
+  services.throttled = mkForce enabled;
 
   # services.tp-auto-kbbl =
   #   enabled
@@ -366,6 +407,11 @@ with lib.my; {
   # Run appimages seamlesssly
   programs.appimage.binfmt = true;
 
+  services.journald.extraConfig = ''
+    SystemMaxUse=50M
+    RuntimeMaxUse=10M
+  '';
+
   nix.settings = {
     system-features = [
       "gccarch-x86-64-v3"
@@ -379,18 +425,22 @@ with lib.my; {
     [inputs.nur.overlay]
     ++ [inputs.picom.overlay.${system}]
     ++ [inputs.skippy-xd.overlays.default]
+    ++ [inputs.auto-cpufreq.overlays.default]
     ++ [
       (_final: prev: {
-        # inherit
-        #   (pkgs.unstable)
-        #   # bpftune
-        #   ;
+        inherit
+          (pkgs.unstable)
+          eza # https://github.com/NixOS/nixpkgs/pull/323555
+          easyeffects
+          ;
 
         intel-vaapi-driver = prev.intel-vaapi-driver.override {enableHybridCodec = true;};
+        btop = prev.btop.override {
+          cudaSupport = true;
+        };
 
         telegram-desktop = prev.telegram-desktop_git;
         alacritty = prev.alacritty_git;
-        firefox = prev.firefox_nightly;
         yt-dlp = prev.yt-dlp_git;
         mpv = prev.mpv-vapoursynth;
 

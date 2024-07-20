@@ -17,7 +17,7 @@ setwall() {
 
 updatewall() {
   betterlockscreen -u "$wallpaper" &
-  echo "$wallname" >>"$cachefile"
+  echo "$wallname" >"$cachefile"
 }
 
 [ -f "$cachefile" ] && current=$(<"$cachefile") || current=""
