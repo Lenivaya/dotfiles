@@ -16,6 +16,13 @@ in {
     zoxide
   ];
 
+  # Maybe some time
+  # home.programs.pistol =
+  #   enabled
+  #   // {
+  #     associations = [];
+  #   };
+
   home.configFile."ranger" = {
     source = "${configDir}/ranger";
     recursive = true;

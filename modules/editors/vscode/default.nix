@@ -7,6 +7,7 @@
 }:
 with lib;
 with lib.my; let
+  chromeCfg = config.modules.desktop.browsers.chromium;
   cfg = config.modules.editors.vscode;
   inherit (config.dotfiles) configDir;
   inherit (config) modules;
@@ -69,6 +70,13 @@ in {
     home.programs.vscode =
       enabled
       // {
+        package = let
+          vscode' = pkgs.vscode.override {
+            inherit (chromeCfg) commandLineArgs;
+          };
+        in
+          vscode';
+
         keybindings = import "${configDir}/vscode/keybindings.nix";
         userSettings = import "${configDir}/vscode/settings.nix" {
           inherit lib pkgs config;

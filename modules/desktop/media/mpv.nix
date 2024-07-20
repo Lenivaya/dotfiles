@@ -7,7 +7,6 @@
 }:
 with lib;
 with lib.my; let
-  inherit (config.dotfiles) configDir;
   cfg = config.modules.desktop.media.mpv;
 in {
   options.modules.desktop.media.mpv.enable = mkBoolOpt false;
@@ -89,9 +88,9 @@ in {
 
           ytdl = true;
 
-          hwdec = "auto-safe";
-          vo = "gpu";
-          profile = "gpu-hq";
+          # hwdec = "auto-safe";
+          # vo = "gpu";
+          # profile = "gpu-hq";
         };
       };
 

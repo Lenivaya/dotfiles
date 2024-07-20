@@ -11,7 +11,11 @@ in {
 
   config = mkIf cfg.enable {
     services.flatpak = enabled;
-    xdg.portal = enabled;
+    xdg.portal =
+      enabled
+      // {
+        xdgOpenUsePortal = true;
+      };
 
     # user.packages = with pkgs; [gnome.gnome-software];
 

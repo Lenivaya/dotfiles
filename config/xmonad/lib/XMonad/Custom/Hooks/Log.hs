@@ -127,7 +127,7 @@ logHook = do
   currentWorkspaceOnTop
   masterHistoryHook
   updatePointer (0.5, 0.5) (0, 0)
-  fadeWindowsLogHook myFadeHook
+  -- fadeWindowsLogHook myFadeHook
   showWNameLogHook def
 
 -- nsHideOnFocusLoss scratchpads

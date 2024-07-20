@@ -18,6 +18,7 @@ in {
     };
 
     environment.systemPackages = with pkgs; [avizo];
+    # home.services.avizo = enabled;
 
     systemd.user.services.avizo = mkGraphicalService {
       description = "Notification daemon for volume and brightness";

@@ -14,9 +14,10 @@ in {
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
       typst
-      # typst-live
+      tinymist
+      typst-live
       typst-lsp
-      typst-fmt
+      typstyle
     ];
   };
 }

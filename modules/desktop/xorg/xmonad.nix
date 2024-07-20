@@ -67,6 +67,7 @@ in {
       pstree # window swallowing
       xdotool # cliclable workspaces
       autorandr # to use with rescreen
+      arandr
       xkb-switch # switch kbd layout when needed
       my.boomer # zooming the screen
       xkbmon # showing keyboard layout when changed
@@ -77,6 +78,16 @@ in {
       font-awesome # even more nice icons
       weather-icons # for weather script
     ];
+
+    services.autorandr =
+      enabled
+      // {
+        hooks = {
+          postswitch = {
+            change-wallpaper = "source ~/.fehbg";
+          };
+        };
+      };
 
     systemd.user.services.xmonad-xkbmon = mkGraphicalService {
       description = "XMonad keyboard monitor";

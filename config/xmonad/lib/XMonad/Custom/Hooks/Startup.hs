@@ -11,4 +11,4 @@ import XMonad.Util.SpawnOnce
 startupHook :: X ()
 startupHook = do
   setWMName "XMonad"
-  spawn "betterlockscreen -w"
+  spawn "source ~/.fehbg"

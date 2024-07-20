@@ -11,24 +11,33 @@ with lib.my; let
   inherit (inputs) spicetify-nix;
 
   cfg = config.modules.desktop.media.spotify;
-  spicePkgs = spicetify-nix.packages.${pkgs.system}.default;
+  spicePkgs = spicetify-nix.legacyPackages.${pkgs.stdenv.system};
 in {
   options.modules.desktop.media.spotify.enable = mkBoolOpt false;
 
-  imports = [spicetify-nix.homeManagerModule];
+  imports = [spicetify-nix.homeManagerModules.default];
 
   config = mkIf cfg.enable {
     programs.spicetify =
       enabled
       // {
-        theme = spicePkgs.themes.text;
+        # theme = spicePkgs.themes.text;
+        theme =
+          spicePkgs.themes.spotifyNoPremium;
 
         enabledCustomApps = with spicePkgs.apps; [
-          lyrics-plus
+          lyricsPlus
           localFiles
-          marketplace
+          # marketplace
         ];
         enabledExtensions = with spicePkgs.extensions; [
+          adblock
+
+          shuffle
+          history
+          betterGenres
+          # beautifulLyrics
+
           powerBar
           keyboardShortcut
           seekSong
@@ -38,8 +47,6 @@ in {
           fullAlbumDate
           playlistIcons
           # wikify
-          adblock
-          # charliesAdblock
 
           groupSession
         ];

@@ -220,7 +220,7 @@ indent-guides              ; highlighted indent columns, notoriously slow
  )           ; ligatures and symbols to make your code pretty again
 ;; minimap                    ; show a map of the code on the side
 (modeline
- +light
+ ;; +light
  )                     ; snazzy, Atom-inspired modeline, plus API
 nav-flash                    ; blink the current line after jumping
 ;;neotree                    ; a project drawer, like NERDTree for vim
@@ -284,7 +284,9 @@ vterm             ; another terminals in Emacs
 #+begin_src emacs-lisp
 (syntax                       ; tasing you for every semicolon you forget
  +flymake
- +childframe)
+ +childframe
+ +icons
+ )
 (spell
  ;; +enchant
  )                        ; tasing you for misspelling mispelling
@@ -383,6 +385,7 @@ lua               ; one-based indices? one-based indices
 ;;nim               ; python + lisp at the speed of c
 (nix
  +tree-sitter
+ +lsp
  )               ; I hereby declare "nix geht mehr!"
 ;;ocaml             ; an objective camel
 (org              ; organize your plain life in plain text
@@ -542,28 +545,6 @@ I really don't like some ligatures so disabling them here.
 #   )
 # #+end_src
 
-**** Prettier page breaks
-
-In some files, =^L= appears as a page break character. This isn't that visually
-appealing, and Steve Purcell has been nice enough to make a package to display
-these as horizontal rules.
-#+begin_src emacs-lisp :tangle packages.el
-(package! page-break-lines :recipe (:host github :repo "purcell/page-break-lines")
-  :pin "79eca86e0634ac68af862e15c8a236c37f446dcd")
-#+end_src
-
-#+begin_src emacs-lisp
-(use-package! page-break-lines
-  :commands page-break-lines-mode
-  :init
-  (autoload 'turn-on-page-break-lines-mode "page-break-lines")
-  :config
-  (setq page-break-lines-max-width fill-column)
-  (map! :prefix "g"
-        :desc "Prev page break" :nv "[" #'backward-page
-        :desc "Next page break" :nv "]" #'forward-page))
-#+end_src
-
 *** Allow babel execution in CLI actions
 In this config I sometimes generate code to include in my config.
 This works nicely, but for it to work with =doom sync= et. al. I need to make sure
@@ -625,6 +606,7 @@ I prefer the dashboard, so let's ensure that's always switched to in new frames.
 (when (daemonp)
   (add-hook! 'server-after-make-frame-hook (switch-to-buffer +doom-dashboard-name)))
 #+end_src
+
 * Package loading
 :PROPERTIES:
 :header-args:emacs-lisp: :tangle "packages.el" :comments no
@@ -940,53 +922,19 @@ Silence all that useless output
 (setq direnv-always-show-summary nil)
 #+end_src
 ** Doom modeline
-Very nice and pretty, however I think the PDF modeline could do with tweaking.
-I raised [[https://github.com/seagle0128/doom-modeline/pull/425][an issue]] on this, however the response was basically "put your
-preferences in your personal config, the current default is sensible" --- so
-here we are.
 
-First up I'm going to want a segment for just the buffer file name, and a PDF
-icon. Then we'll redefine two functions used to generate the modeline.
+**** Height
+
+The default size (=25=) makes for a rather narrow mode line. To me, the modeline
+feels a bit comfier if we give it a bit more space. I find =45= adds roughly a
+third of the line height as padding above and below.
 
 #+begin_src emacs-lisp
-(after! doom-modeline
-  (doom-modeline-def-segment buffer-name
-    "Display the current buffer's name, without any other information."
-    (concat
-     (doom-modeline-spc)
-     (doom-modeline--buffer-name)))
-
-  (doom-modeline-def-segment pdf-icon
-    "PDF icon from all-the-icons."
-    (concat
-     (doom-modeline-spc)
-     (doom-modeline-icon 'octicon "file-pdf" nil nil
-                         :face (if (doom-modeline--active)
-                                   'all-the-icons-red
-                                 'mode-line-inactive)
-                         :v-adjust 0.02)))
-
-  (defun doom-modeline-update-pdf-pages ()
-    "Update PDF pages."
-    (setq doom-modeline--pdf-pages
-          (let ((current-page-str (number-to-string (eval `(pdf-view-current-page))))
-                (total-page-str (number-to-string (pdf-cache-number-of-pages))))
-            (concat
-             (propertize
-              (concat (make-string (- (length total-page-str) (length current-page-str)) ? )
-                      " P" current-page-str)
-              'face 'mode-line)
-             (propertize (concat "/" total-page-str) 'face 'doom-modeline-buffer-minor-mode)))))
-
-  (doom-modeline-def-segment pdf-pages
-    "Display PDF pages."
-    (if (doom-modeline--active) doom-modeline--pdf-pages
-      (propertize doom-modeline--pdf-pages 'face 'mode-line-inactive)))
-
-  (doom-modeline-def-modeline 'pdf
-    '(bar window-number pdf-pages pdf-icon buffer-name)
-    '(misc-info matches major-mode process vcs)))
+(setq doom-modeline-height 45)
 #+end_src
+
+
+
 ** Emacs-everywhere
 Configure it a bit
 #+begin_src emacs-lisp
@@ -1451,12 +1399,12 @@ Let's add hydra for window controls
 Let's add hydra for zoom control
 
 #+begin_src emacs-lisp
-(map!
- (:leader
-  :desc "Open hydra for zoom controls" "wz"
-  #'+hydra/text-zoom/body
+ (map!
+  (:leader
+   :desc "Open hydra for zoom controls" "wz"
+   #'+hydra/text-zoom/body
+   )
   )
- )
 #+end_src
 
 **** File info
@@ -1466,6 +1414,7 @@ Simple hydra for displaying and copying file information.
 #+begin_src emacs-lisp :tangle packages.el
 (package! file-info)
 #+end_src
+
 #+begin_src emacs-lisp
 (use-package! file-info
   :ensure t
@@ -1682,7 +1631,7 @@ More dictionaries
 #+end_src
 #+begin_src emacs-lisp
 (use-package! copilot
-  ;; :hook (prog-mode . copilot-mode)
+  :hook (prog-mode . copilot-mode)
   :init
   (map!
    (:leader
@@ -1699,13 +1648,205 @@ More dictionaries
   )
 #+end_src
 
+** Lsp tailwind
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! lsp-tailwindcss :recipe (:host github :repo "merrickluo/lsp-tailwindcss"))
+#+end_src
+#+begin_src emacs-lisp
+;; https://github.com/merrickluo/lsp-tailwindcss/issues/66
+;; (use-package! lsp-tailwindcss
+;;   ;; :when (modulep! +lsp)
+;;   :init
+;;   (setq! lsp-tailwindcss-add-on-mode t)
+;;   )
+;; (use-package! lsp-tailwindcss)
+#+end_src
+** nginx
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! nginx-mode)
+#+end_src
+#+begin_src emacs-lisp
+(use-package nginx-mode
+ :commands nginx-mode
+ )
+(add-hook! 'nginx-mode-hook #'lsp)
+#+end_src
 
 ** Treemacs
 
 #+begin_src emacs-lisp
 (setq treemacs-width 40)
-(setq treemacs--width-is-locked nil)
-(setq treemacs-width-is-initially-locked nil)
+(setq! treemacs--width-is-locked nil)
+(setq! treemacs-width-is-initially-locked nil)
+#+end_src
+
+Quite often there are superfluous files I'm not that interested in. There's no
+good reason for them to take up space. Let's add a mechanism to ignore them.
+#+begin_src emacs-lisp
+(after! treemacs
+  (defvar treemacs-file-ignore-extensions '()
+    "File extension which `treemacs-ignore-filter' will ensure are ignored")
+  (defvar treemacs-file-ignore-globs '()
+    "Globs which will are transformed to `treemacs-file-ignore-regexps' which `treemacs-ignore-filter' will ensure are ignored")
+  (defvar treemacs-file-ignore-regexps '()
+    "RegExps to be tested to ignore files, generated from `treeemacs-file-ignore-globs'")
+  (defun treemacs-file-ignore-generate-regexps ()
+    "Generate `treemacs-file-ignore-regexps' from `treemacs-file-ignore-globs'"
+    (setq treemacs-file-ignore-regexps (mapcar 'dired-glob-regexp treemacs-file-ignore-globs)))
+  (if (equal treemacs-file-ignore-globs '()) nil (treemacs-file-ignore-generate-regexps))
+  (defun treemacs-ignore-filter (file full-path)
+    "Ignore files specified by `treemacs-file-ignore-extensions', and `treemacs-file-ignore-regexps'"
+    (or (member (file-name-extension file) treemacs-file-ignore-extensions)
+        (let ((ignore-file nil))
+          (dolist (regexp treemacs-file-ignore-regexps ignore-file)
+            (setq ignore-file (or ignore-file (if (string-match-p regexp full-path) t nil)))))))
+  (add-to-list 'treemacs-ignored-file-predicates #'treemacs-ignore-filter))
+#+end_src
+
+Now, we just identify the files in question.
+#+begin_src emacs-lisp
+(setq treemacs-file-ignore-extensions
+      '(;; LaTeX
+        "aux"
+        "ptc"
+        "fdb_latexmk"
+        "fls"
+        "synctex.gz"
+        "toc"
+        ;; LaTeX - glossary
+        "glg"
+        "glo"
+        "gls"
+        "glsdefs"
+        "ist"
+        "acn"
+        "acr"
+        "alg"
+        ;; LaTeX - pgfplots
+        "mw"
+        ;; LaTeX - pdfx
+        "pdfa.xmpi"
+        ))
+(setq treemacs-file-ignore-globs
+      '(;; LaTeX
+        "*/_minted-*"
+        ;; AucTeX
+        "*/.auctex-auto"
+        "*/_region_.log"
+        "*/_region_.tex"))
+#+end_src
+
+** Prettier page breaks
+
+In some files, =^L= appears as a page break character. This isn't that visually
+appealing, and Steve Purcell has been nice enough to make a package to display
+these as horizontal rules.
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! page-break-lines :recipe (:host github :repo "purcell/page-break-lines")
+  :pin "79eca86e0634ac68af862e15c8a236c37f446dcd")
+#+end_src
+
+#+begin_src emacs-lisp :tangle config.el
+(use-package! page-break-lines
+  :commands page-break-lines-mode
+  :init
+  (autoload 'turn-on-page-break-lines-mode "page-break-lines")
+  :config
+  (setq page-break-lines-max-width fill-column)
+  (map! :prefix "g"
+        :desc "Prev page break" :nv "[" #'backward-page
+        :desc "Next page break" :nv "]" #'forward-page))
+#+end_src
+
+
+** Emacs lsp booster
+
+Make lsp faster using rust
+
+https://github.com/blahgeek/emacs-lsp-booster
+
+
+#+begin_src emacs-lisp :tangle "init.el" :noweb no-export :comments none
+(setenv "LSP_USE_PLISTS" "1")
+
+(defun lsp-booster--advice-json-parse (old-fn &rest args)
+  "Try to parse bytecode instead of json."
+  (or
+   (when (equal (following-char) ?#)
+     (let ((bytecode (read (current-buffer))))
+       (when (byte-code-function-p bytecode)
+         (funcall bytecode))))
+   (apply old-fn args)))
+(advice-add (if (progn (require 'json)
+                       (fboundp 'json-parse-buffer))
+                'json-parse-buffer
+              'json-read)
+            :around
+            #'lsp-booster--advice-json-parse)
+
+(defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
+  "Prepend emacs-lsp-booster command to lsp CMD."
+  (let ((orig-result (funcall old-fn cmd test?)))
+    (if (and (not test?)                             ;; for check lsp-server-present?
+             (not (file-remote-p default-directory)) ;; see lsp-resolve-final-command, it would add extra shell wrapper
+             lsp-use-plists
+             (not (functionp 'json-rpc-connection))  ;; native json-rpc
+             (executable-find "emacs-lsp-booster"))
+        (progn
+          (message "Using emacs-lsp-booster for %s!" orig-result)
+          (cons "emacs-lsp-booster" orig-result))
+      orig-result)))
+
+(advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
+#+end_src
+
+#+begin_src emacs-lisp
+(setq lsp-use-plists t)
+#+end_src
+
+
+** Typst
+
+Let's use typst
+
+#+begin_src emacs-lisp :tangle packages.el
+(package! typst-ts-mode :recipe (:host sourcehut :repo "meow_king/typst-ts-mode"))
+(package! typst-preview
+  :recipe (:host github :repo "havarddj/typst-preview.el"))
+#+end_src
+
+#+begin_src emacs-lisp
+(use-package! typst-ts-mode
+  )
+
+(after! typst-ts-mode
+  (add-to-list 'treesit-language-source-alist
+               '(typst "https://github.com/uben0/tree-sitter-typst"))
+  (treesit-install-language-grammar 'typst)
+  (set-formatter! 'typstyle '("typstyle" "-i") :modes '(typst-ts-mode))
+  )
+
+(setq lsp-typst-enable-backtrace "1")
+
+(after! lsp-mode
+  (add-to-list 'lsp-language-id-configuration
+               '("\\.typ$" . "typst"))
+
+  (lsp-register-client
+   (make-lsp-client :new-connection (lsp-stdio-connection "typst-lsp")
+                    :activation-fn (lsp-activate-on "typst")
+                    :environment-fn (lambda ()
+                                      '(("RUST_BACKTRACE" . lsp-typst-enable-backtrace)))
+                    :server-id 'typst-lsp)))
+
+
+
+(use-package! typst-preview
+  )
+
 #+end_src
 
 * Applications
@@ -1818,8 +1959,18 @@ Use alejandra formatter
         '(alejandra))
 
   )
+
+(setq-hook! 'nix-mode-hook +format-with-lsp nil)
 ;; (setq-hook! nix-mode-hook +format-with 'alejandra)
 ;; (setq-hook! 'nix-mode-hook +format-with nil)
+#+end_src
+
+Lsp settings
+#+begin_src emacs-lisp
+(setq
+ lsp-nix-nil-auto-eval-inputs nil
+ lsp-nix-nil-max-mem 2560
+ )
 #+end_src
 ** Org
 :PROPERTIES:
@@ -2371,6 +2522,8 @@ sequenceDiagram
 
 **** Org-roam
 
+***** UI
+
 Add ui for org-roam
 
 #+begin_src emacs-lisp
@@ -2397,6 +2550,23 @@ Add ui for org-roam
         org-roam-ui-open-on-start nil )
   )
 #+end_src
+***** Modeline file name
+
+All those numbers! It's messy. Let's adjust this in a similar way that I have in
+the [[*Window title][Window title]].
+
+#+begin_src emacs-lisp
+(defadvice! doom-modeline--buffer-file-name-roam-aware-a (orig-fun)
+  :around #'doom-modeline-buffer-file-name ; takes no args
+  (if (s-contains-p org-roam-directory (or buffer-file-name ""))
+      (replace-regexp-in-string
+       "\\(?:^\\|.*/\\)\\([0-9]\\{4\\}\\)\\([0-9]\\{2\\}\\)\\([0-9]\\{2\\}\\)[0-9]*-"
+       "🢔(\\1-\\2-\\3) "
+       (subst-char-in-string ?_ ?  buffer-file-name))
+    (funcall orig-fun)))
+#+end_src
+
+
 
 
 **** Org-transclusion

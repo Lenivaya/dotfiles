@@ -18,7 +18,7 @@
 
     # Spotify
     spicetify-nix = {
-      url = "github:the-argus/spicetify-nix";
+      url = "github:gerg-l/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -50,8 +50,8 @@
     };
 
     # Some interesting packages
-    # https://github.com/chaotic-cx/nyx/pull/767 TODO
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+    chaotic-kernel.url = "github:chaotic-cx/nyx?rev=b1ecb501161bae54fbc9fd27200bd34d40c4a47a";
 
     betterfox = {
       url = "github:yokoffing/betterfox";
@@ -75,14 +75,33 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    nix-ld-rs = {
+      url = "github:nix-community/nix-ld-rs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
+    # IntelliJ
+    intellimacs = {
+      url = "github:MarcoIeni/intellimacs";
+      flake = false;
+    };
+
     # some upstream things
     picom = {
-      url = "github:yshui/picom?rev=05c764c6055570f5f3d648bf740608763c2b2348";
+      url = "github:yshui/picom?rev=2dc218849dea256f5d48e2347fbfb8f2fead0aed";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     skippy-xd = {
       # url = "github:felixfung/skippy-xd";
       url = "path:///home/leniviy/code/Projects/skippy-xd";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    auto-cpufreq = {
+      url = "github:AdnanHodzic/auto-cpufreq";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    twitch-hls-client = {
+      url = "github:2bc4/twitch-hls-client?rev=13a738f96fb1569e5d790e2d063bde0c3a5dd0de";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

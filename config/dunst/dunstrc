@@ -1,6 +1,7 @@
 [global]
     ### Display ###
-    monitor = 0
+    ### https://github.com/dunst-project/dunst/issues/45
+    follow = keyboard
 
     # geometry = "330x50-10+50"
     # width = "330"
