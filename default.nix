@@ -11,6 +11,7 @@ with lib.my; {
     [
       inputs.home-manager.nixosModules.home-manager
       inputs.programsdb.nixosModules.programs-sqlite
+      inputs.lix-module.nixosModules.default
     ]
     ++ [inputs.chaotic.nixosModules.default]
     ++ (with inputs.srvos; [
@@ -34,7 +35,6 @@ with lib.my; {
     nixPathInputs = mapAttrsToList (n: v: "${n}=${v}") filteredInputs;
     registryInputs = mapAttrs (_: v: {flake = v;}) filteredInputs;
   in {
-    package = pkgs.nixFlakes;
     extraOptions = "experimental-features = nix-command flakes";
     nixPath =
       nixPathInputs
@@ -43,6 +43,7 @@ with lib.my; {
         "dotfiles=${config.dotfiles.dir}"
       ];
     settings = {
+      accept-flake-config = true;
       # use-cgroups = true;
       connect-timeout = 5; # bail early on missing cache hits
 
@@ -51,6 +52,7 @@ with lib.my; {
           "flakes"
           "nix-command"
           "repl-flake"
+          "big-parallel"
           # "cgroups"
         ];
       in
@@ -73,6 +75,8 @@ with lib.my; {
 
         # nh
         "https://viperml.cachix.org/"
+
+        "https://cache.lix.systems"
       ];
       trusted-public-keys = [
         "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
@@ -85,6 +89,8 @@ with lib.my; {
         "nixpkgs-unfree.cachix.org-1:hqvoInulhbV4nJ9yJOEr+4wxhDV4xq2d1DK7S6Nj6rs="
         "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
         "viperml.cachix.org-1:qZhKBMTfmcLL+OG6fj/hzsMEedgKvZVFRRAhq7j8Vh8="
+
+        "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
       ];
       auto-optimise-store = true;
     };

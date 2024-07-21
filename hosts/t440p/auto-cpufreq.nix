@@ -1,15 +1,8 @@
 # https://askubuntu.com/questions/1379048/intel-pstate-driver-not-being-loaded-when-added-to-grub-file
-{
-  lib,
-  ...
-}:
+{lib, ...}:
 with lib;
 with my; {
   services.tlp = mkForce disabled;
-
-  # boot.kernelParams = [
-  #   "intel_pstate=disable"
-  # ];
 
   # Superior power management for portable and battery powered systems. Plausible
   # but unnecessary on desktop systems.
@@ -26,7 +19,7 @@ with my; {
         energy_performance_preference = "performance";
         # scaling_min_freq = mkDefault (MHz 1700);
         scaling_max_freq = mkDefault (MHz 3400);
-        turbo = "auto";
+        turbo = "always";
       };
 
       battery = {

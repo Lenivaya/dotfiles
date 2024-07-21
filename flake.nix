@@ -86,6 +86,22 @@
       flake = false;
     };
 
+    # Lix
+    # lix-module = {
+    #   url = "https://git.lix.systems/lix-project/nixos-module/archive/2.90.0.tar.gz";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
+    # Since binary cache doens't work, why not build from master?
+    lix = {
+      url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";
+      flake = false;
+    };
+    lix-module = {
+      url = "git+https://git.lix.systems/lix-project/nixos-module";
+      inputs.lix.follows = "lix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # some upstream things
     picom = {
       url = "github:yshui/picom?rev=2dc218849dea256f5d48e2347fbfb8f2fead0aed";
@@ -97,13 +113,37 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     auto-cpufreq = {
-      url = "github:AdnanHodzic/auto-cpufreq";
+      url = "github:AdnanHodzic/auto-cpufreq?rev=f300d31e0ff07010f7ecacb0e89f44533d1c2386";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     twitch-hls-client = {
       url = "github:2bc4/twitch-hls-client?rev=13a738f96fb1569e5d790e2d063bde0c3a5dd0de";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+  };
+
+  nixConfig = {
+    extra-substituters = [
+      "https://aseipp-nix-cache.global.ssl.fastly.net"
+      "https://nix-community.cachix.org"
+      "https://nixpkgs-unfree.cachix.org/"
+      "https://cuda-maintainers.cachix.org"
+      "https://nixpkgs-unfree.cachix.org" # unfree-package cache
+      "https://numtide.cachix.org" # another unfree package cache
+      "https://pre-commit-hooks.cachix.org"
+      "https://viperml.cachix.org/"
+      "https://cache.lix.systems"
+    ];
+    extra-trusted-public-keys = [
+      "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
+      "nixpkgs-unfree.cachix.org-1:hqvoInulhbV4nJ9yJOEr+4wxhDV4xq2d1DK7S6Nj6rs="
+      "cuda-maintainers.cachix.org-1:0dq3bujKpuEPMCX6U4WylrUDZ9JyUG0VpVZa7CNfq5E="
+      "nixpkgs-unfree.cachix.org-1:hqvoInulhbV4nJ9yJOEr+4wxhDV4xq2d1DK7S6Nj6rs="
+      "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
+      "pre-commit-hooks.cachix.org-1:Pkk3Panw5AW24TOv6kz3PvLhlH8puAsJTBbOPmBo7Rc="
+      "viperml.cachix.org-1:qZhKBMTfmcLL+OG6fj/hzsMEedgKvZVFRRAhq7j8Vh8="
+      "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
+    ];
   };
 
   outputs = inputs @ {
@@ -179,7 +219,7 @@
             deadnix.enable = true;
             # statix.enable = true;
             # convco.enable = true;
-            # fourmolu.enable = true;
+            fourmolu.enable = true;
             typos = {
               enable = true;
               types = ["text"];

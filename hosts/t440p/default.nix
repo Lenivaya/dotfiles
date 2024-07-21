@@ -40,7 +40,6 @@ with lib.my; {
         xmonad = enabled;
         isPureWM = true;
 
-        # fonts.iosevka-full-mono = enabled;
         fonts.pragmata = enabled;
 
         xdg.handlr = enabled;
@@ -410,14 +409,18 @@ with lib.my; {
   services.journald.extraConfig = ''
     SystemMaxUse=50M
     RuntimeMaxUse=10M
+    SystemMaxFileSize=50M
   '';
 
   nix.settings = {
     system-features = [
       "gccarch-x86-64-v3"
       "gccarch-x86-64-v4"
+      "big-parallel"
     ];
   };
+
+  services.pipewire.package = pkgs.unstable.pipewire;
 
   nixpkgs.overlays = let
     optimize = pkg: optimizeForThisHost (withClang pkg);

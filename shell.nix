@@ -2,16 +2,11 @@
   pkgs ? import <nixpkgs> {},
   preCommitHook ? "",
 }:
-with pkgs; let
-  nixBin = writeShellScriptBin "nix" ''
-    ${nixFlakes}/bin/nix --option experimental-features "nix-command flakes" "$@"
-  '';
-in
+with pkgs;
   mkShell {
-    buildInputs = [git gnupg nix-zsh-completions];
+    buildInputs = [git gnupg nix-zsh-completions oxipng];
     shellHook = ''
       export DOTFILES="$(pwd)"
-      export PATH="$DOTFILES/bin:${nixBin}/bin:$PATH"
       ${preCommitHook}
     '';
   }

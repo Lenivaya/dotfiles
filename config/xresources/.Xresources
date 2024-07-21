@@ -43,6 +43,7 @@ st.alpha: 1
 
 
 Xcursor.theme: Adwaita
+Xcursor.size: 16
 
 !Fonts
 Xft.antialias: true

@@ -14,6 +14,8 @@ in {
       enabled
       // {
         nix-direnv = enabled;
+        silent = true;
+        loadInNixShell = true;
       };
 
     modules.shell.zsh.rcInit = ''eval "$(direnv hook zsh)"'';
