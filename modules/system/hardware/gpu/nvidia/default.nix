@@ -18,7 +18,12 @@ in {
     # but their best does not constitute a usable driver for me
     boot.blacklistedKernelModules = ["nouveau"];
 
-    boot.kernelModules = ["nvidia" "nvidia_drm" "nvidia_uvm" "nvidia_modeset"];
+    boot.kernelModules = [
+      "nvidia"
+      # "nvidia_drm"
+      # "nvidia_uvm"
+      # "nvidia_modeset"
+    ];
 
     services.xserver.videoDrivers = ["nvidia"];
 

@@ -22,7 +22,7 @@ in {
     environment.systemPackages = with pkgs;
       [gnome.gnome-tweaks]
       ++ (with pkgs.gnomeExtensions; [
-        pop-shell
+        # pop-shell
         gesture-improvements
         gsconnect
         vertical-workspaces #overview-navigation
