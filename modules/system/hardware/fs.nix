@@ -1,6 +1,5 @@
 {
   config,
-  options,
   lib,
   pkgs,
   ...
@@ -32,7 +31,7 @@ in {
       ];
     }
 
-    (mkIf (config.modules.desktop.enable) {
+    (mkIf config.modules.desktop.enable {
       programs = {
         gnome-disks = enabled;
       };

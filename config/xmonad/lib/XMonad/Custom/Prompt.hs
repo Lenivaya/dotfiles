@@ -6,6 +6,7 @@ module XMonad.Custom.Prompt (
   hotPromptTheme,
   promptThemeVim,
   promptNoCompletion,
+  promptNoHistory,
   gridSelectTheme,
   helpPromptConfig,
 ) where
@@ -22,6 +23,9 @@ import XMonad.Prompt.FuzzyMatch
 
 promptNoCompletion :: XPConfig -> XPConfig
 promptNoCompletion ptheme = ptheme {autoComplete = Nothing}
+
+promptNoHistory :: XPConfig -> XPConfig
+promptNoHistory ptheme = ptheme {historyFilter = const [], historySize = 0}
 
 promptTheme, hotPromptTheme, promptThemeVim :: XPConfig
 promptTheme =
@@ -40,6 +44,7 @@ promptTheme =
     , alwaysHighlight = True
     , historyFilter = deleteAllDuplicates
     , searchPredicate = fuzzyMatch
+    , historySize = 256
     , sorter = fuzzySort
     , complCaseSensitivity = CaseInSensitive
     , promptKeymap = emacsLikeXPKeymap

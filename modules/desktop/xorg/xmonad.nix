@@ -2,7 +2,6 @@
 # https://gist.github.com/altercation/fdd2dff789b4aa9287476bf33ba6167c (named actions) ?
 {
   config,
-  options,
   lib,
   pkgs,
   inputs,
@@ -45,8 +44,12 @@ in {
     services.xserver.windowManager.xmonad =
       enabled
       // {
-        enableContribAndExtras = true;
-        extraPackages = hpkgs: with hpkgs; [flow];
+        # enableContribAndExtras = true;
+        extraPackages = hpkgs:
+          with hpkgs; [
+            xmonad-contrib
+            flow
+          ];
         flake = enabled;
       };
 

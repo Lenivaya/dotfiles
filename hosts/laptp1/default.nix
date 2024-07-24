@@ -110,7 +110,7 @@ with my; {
   };
 
   nixpkgs.overlays = [
-    (_final: prev: {
+    (_final: _prev: {
       inherit
         (pkgs.unstable)
         bpftune

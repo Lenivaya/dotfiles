@@ -16,7 +16,7 @@ import XMonad.Custom.Scratchpads
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.OnPropertyChange
-import XMonad.Hooks.PerWindowKbdLayout
+-- import XMonad.Hooks.PerWindowKbdLayout
 import XMonad.Hooks.RefocusLast
 import XMonad.Hooks.ServerMode
 import XMonad.Hooks.StatusBar.PP (wrap)
@@ -44,7 +44,8 @@ handleEventHook =
   mconcat hooks
   where
     hooks =
-      [ perWindowKbdLayout,
+      [
+        -- perWindowKbdLayout,
         handleTimerEvent,
         refocusLastWhen myRefocusPred,
         mconcat $ swallower <$> ["Alacritty", "St"],

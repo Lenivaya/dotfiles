@@ -1,5 +1,4 @@
 {
-  options,
   config,
   lib,
   pkgs,
@@ -20,9 +19,9 @@ in {
 
     boot.kernelModules = [
       "nvidia"
-      # "nvidia_drm"
-      # "nvidia_uvm"
-      # "nvidia_modeset"
+      "nvidia_drm"
+      "nvidia_uvm"
+      "nvidia_modeset"
     ];
 
     services.xserver.videoDrivers = ["nvidia"];

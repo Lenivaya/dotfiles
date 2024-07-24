@@ -1,5 +1,4 @@
 # https://github.com/brenix/nix-config/blob/main/modules/nixos/services/ananicy/default.nix
-
 {
   config,
   lib,

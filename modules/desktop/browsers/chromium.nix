@@ -1,6 +1,5 @@
 {
   config,
-  options,
   lib,
   pkgs,
   ...
@@ -32,7 +31,6 @@ in {
       "--enable-accelerated-video-decode"
       "--enable-accelerated-mjpeg-decode"
       "--enable-gpu-compositing"
-      "--enable-unsafe-webgpu"
 
       "--smooth-scrolling"
       "--enable-smooth-scrolling"
@@ -44,14 +42,14 @@ in {
 
       "--enable-features=${
         comcat [
+          "ParallelDownloading"
           "BackForwardCache:enable_same_site/true"
           "CopyLinkToText"
           "OverlayScrollbar"
           "TabHoverCardImages"
           "Vulkan"
-          # "DefaultANGLEVulkan"
-          # "VulkanFromANGLE"
-          # "RawDraw"
+          "DefaultANGLEVulkan"
+          "VulkanFromANGLE"
           "VaapiVideoEncoder"
           "VaapiVideoDecoder"
           "VaapiIgnoreDriverChecks"
@@ -64,6 +62,10 @@ in {
   };
 
   config = mkIf cfg.enable {
+    user.packages = with pkgs; [
+      ff2mpv-rust
+    ];
+
     home.programs.chromium =
       enabled
       // {
@@ -72,19 +74,7 @@ in {
           package
           ;
 
-        commandLineArgs =
-          cfg.commandLineArgs
-          ++ optionals config.modules.desktop.isWayland [
-            # Wayland
-
-            # Disabled because hardware acceleration doesn't work
-            # when disabling --use-gl=egl, it's not gonna show any emoji
-            # and it's gonna be slow as hell
-            # "--use-gl=egl"
-
-            "--ozone-platform=wayland"
-            "--enable-features=UseOzonePlatform"
-          ];
+        inherit (cfg) commandLineArgs;
 
         extensions = [
           "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
@@ -94,7 +84,7 @@ in {
           "aghdiknflpelpkepifoplhodcnfildao" # tab session manager groups
           "mmcgnaachjapbbchcpjihhgjhpfcnoan" # open new tab after current tab
           "nacjakoppgmdcpemlfnfegmlhipddanj" # pdf.js with vimium
-          "bgfofngpplpmpijncjegfdgilpgamhdk" # modern scrollbar
+          # "bgfofngpplpmpijncjegfdgilpgamhdk" # modern scrollbar
           "opcjanmpjbdbdpnjfjbboacibokblbhl" # mut tab shortcuts
           # "njdfdhgcmkocbgbhcioffdbicglldapd" # localcdn
           "mnjggcdmjocbbbhaepdhchncahnbgone" # sponsorblock

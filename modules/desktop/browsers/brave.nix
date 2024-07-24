@@ -2,7 +2,6 @@
 #
 # A FOSS and privacy-minded browser.
 {
-  options,
   config,
   lib,
   pkgs,

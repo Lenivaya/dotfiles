@@ -1,12 +1,7 @@
 # https://git.kernel.org/pub/scm/network/wireless/iwd.git/tree/src/iwd.config.rst
-{
-  config,
-  lib,
-  ...
-}:
+{lib, ...}:
 with lib;
-with my; let
-in {
+with my; {
   networking.wireless.iwd =
     enabled
     // {

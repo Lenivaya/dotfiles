@@ -16,6 +16,11 @@ nixpkgs = searchEngine "nixpkgs" "https://search.nixos.org/packages?&query="
 nixopts = searchEngine "nixopts" "https://search.nixos.org/options?&query="
 searx = searchEngine "searx" "https://searx.work/?q="
 nixpkgsissues = searchEngine "nixpkgsissues" "https://github.com/NixOS/nixpkgs/issues?q="
+archWiki = searchEngine "archWiki" "https://wiki.archlinux.org/index.php?search="
+phind = searchEngine "phind" "https://www.phind.com/search?q="
+perplexity = searchEngine "perplexity" "https://www.perplexity.ai/search?s=o&q="
+qwant = searchEngine "qwant" "https://www.qwant.com/?q="
+mynixos = searchEngine "mynixos" "https://mynixos.com/search?q="
 
 myEngines :: [SearchEngine]
 myEngines =
@@ -36,6 +41,7 @@ myEngines =
     github,
     youtube,
     reddit,
+    homeManager,
     nixpkgs,
     nixpkgsissues,
     nixopts,
@@ -43,6 +49,11 @@ myEngines =
     duckduckgo,
     images,
     maps,
+    archWiki,
+    phind,
+    perplexity,
+    qwant,
+    mynixos,
     prefixAware google
   ]
 
@@ -87,4 +98,5 @@ selectAndSearchPrompt conf =
     go selected =
       forM_
         (lookup selected namesToEngines)
-        (promptSearch conf)
+        (promptSearch $ promptNoHistory conf
+        )

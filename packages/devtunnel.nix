@@ -5,8 +5,6 @@
   autoPatchelfHook,
   zlib,
   icu,
-  libgcc,
-  openssl_1_1,
   openssl,
   ...
 }:
@@ -22,7 +20,6 @@ stdenv.mkDerivation {
   meta = with lib; {
     description = "DevTunnel is a tool that allows you to expose your local development server to the internet";
     license = licenses.mit;
-    maintainers = with maintainers; [];
     platforms = ["x86_64-linux"];
   };
 

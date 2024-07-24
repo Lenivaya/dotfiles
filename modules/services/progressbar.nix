@@ -2,7 +2,6 @@
 # graphic progessbars for volume, brightness, etc.
 # So "progressbar 80" will spawn 80% filled bar
 {
-  options,
   config,
   lib,
   pkgs,
@@ -29,7 +28,7 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     {
-      environment.systemPackages = with pkgs; [progressScript];
+      environment.systemPackages = [progressScript];
 
       systemd.user.services.progressbar = mkGraphicalService {
         description = "X progress bar using xob";

@@ -30,8 +30,8 @@ stdenv.mkDerivation {
   version = "latest";
 
   src = fetchurl {
-    url = "https://releases.gitbutler.com/releases/release/0.12.13-1102/linux/x86_64/git-butler_0.12.13_amd64.deb";
-    sha256 = "17042hq2rlnla5ckjkdsq090g57pk3gxsn5g6g9s0y09bazqk3pg";
+    url = "https://releases.gitbutler.com/releases/release/0.12.14-1108/linux/x86_64/git-butler_0.12.14_amd64.deb";
+    sha256 = "072p8mpnkds3i91m0l67x69kq0ihqkl2fybnlnk5hfr01hw19bmb";
   };
 
   nativeBuildInputs = with pkgs; [
