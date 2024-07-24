@@ -6,7 +6,6 @@
 with lib;
 with lib.my; let
   # inherit (config.boot.kernelPackages) x86_energy_perf_policy;
-  enableRDW = config.networking.networkmanager.enable;
   cfg = config.modules.services.tlp;
 in {
   options.modules.services.tlp.enable = mkBoolOpt false;

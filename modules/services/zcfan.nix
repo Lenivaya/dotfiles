@@ -29,9 +29,9 @@ in {
         RestrictRealtime = true;
       };
 
-      script = getExe pkgs.my.zcfan;
+      script = getExe pkgs.zcfan;
     };
 
-    user.packages = with pkgs; [my.zcfan];
+    user.packages = with pkgs; [zcfan];
   };
 }

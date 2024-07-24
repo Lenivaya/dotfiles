@@ -100,8 +100,7 @@ in {
               HardwareAcceleration = true;
             };
             extraNativeMessagingHosts = with pkgs;
-              []
-              ++ optional modules.desktop.media.mpv.enable my.ff2mpv-rust
+              optional modules.desktop.media.mpv.enable ff2mpv-rust
               ++ optional modules.shell.pass.enable passff-host;
           };
         in

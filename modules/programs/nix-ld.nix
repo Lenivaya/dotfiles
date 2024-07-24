@@ -1,7 +1,6 @@
 {
   config,
   lib,
-  inputs,
   pkgs,
   ...
 }:
@@ -15,7 +14,7 @@ in {
     programs.nix-ld =
       enabled
       // {
-        package = inputs.nix-ld-rs.packages.${pkgs.hostPlatform.system}.nix-ld-rs;
+        package = pkgs.nix-ld-rs;
 
         libraries = with pkgs; [
           alsa-lib

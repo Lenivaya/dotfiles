@@ -9,7 +9,7 @@ with lib; {
           description = "Color in a standard hexadecimal notation.";
           example = "#000000";
         };
-    in rec {
+    in {
       black = mkColor "#0b0806";
       red = mkColor "#844d2c";
       green = mkColor "#57553a";

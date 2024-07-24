@@ -17,10 +17,25 @@ with lib.my; let
         warp-cli connect
     fi
   '';
+  # warpScript = pkgs.writeScriptBin "warp" ''
+  #   if systemctl is-active --quiet cloudflare-warp; then
+  #       warp-cli disconnect
+  #       systemctl stop cloudflare-warp
+  #   else
+  #       systemctl start cloudflare-warp
+  #       sleep 1
+  #       warp-cli connect
+  #   fi
+  # '';
 in {
   options.modules.services.warp.enable = mkBoolOpt false;
-
   config = mkIf cfg.enable {
+    # TODO
+    # services.cloudflare-warp =
+    #   enabled
+    #   // {
+    #   };
+
     systemd.services.warp-svc = mkGraphicalService {
       description = "Cloudfare warp daemon";
 

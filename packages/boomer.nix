@@ -18,7 +18,7 @@ with pkgs; let
     hash = "sha256-v3bMDobYQZqX0anBFIUfZx5q5/vxTHO6PDtKQlf5mgU=";
   };
 in
-  stdenv.mkDerivation rec {
+  stdenv.mkDerivation {
     pname = "boomer";
     name = "boomer";
 

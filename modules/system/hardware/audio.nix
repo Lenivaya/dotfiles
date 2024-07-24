@@ -1,6 +1,5 @@
 # https://github.com/musnix/musnix ?
 {
-  options,
   config,
   lib,
   pkgs,
@@ -43,41 +42,47 @@ in {
           pulse = enabled;
           jack = enabled;
         };
+
+      user.packages = with pkgs;
+        [
+          pulsemixer
+          pamix
+          pamixer
+          pulseaudio
+        ]
+        ++ optionals config.modules.desktop.enable [
+          helvum
+          pavucontrol
+        ];
     }
 
     (mkIf cfg.effects.enable {
       # home.services.easyeffects = enabled;
       user.packages = with pkgs; [
         easyeffects
-        helvum
-        pulsemixer
-        pamix
-        pamixer
-        pulseaudio
-        pavucontrol
       ];
     })
 
-    (mkIf
-      (cfg.effects.enable && cfg.effects.morePlugins)
-      {
-        user.packages = with pkgs;
-          [carla] # JACK utilities
-          ++ [lsp-plugins dragonfly-reverb rnnoise-plugin] # Audio plugins
-          ++ [
-            distrho
-            swh_lv2
-            calf
-            # ir.lv2
-          ];
+    # (mkIf
+    #   (cfg.effects.enable && cfg.effects.morePlugins)
+    #   {
+    #     # user.packages = with pkgs;
+    #     #   [carla] # JACK utilities
+    #     #   ++ [lsp-plugins dragonfly-reverb rnnoise-plugin] # Audio plugins
+    #     #   ++ [
+    #     #     distrho
+    #     #     swh_lv2
+    #     #     calf
+    #     #     # ir.lv2
+    #     #   ];
 
-        environment.variables = with lib;
-          listToAttrs (map (type:
-            nameValuePair "${toUpper type}_PATH" [
-              "$HOME/.${type}"
-              "$HOME/.nix-profile/lib/${type}"
-              "/run/current-system/sw/lib/${type}"
-            ]) ["dssi" "ladspa" "lv2" "lxvst" "vst" "vst3"]);
-      })
+    #     # environment.variables = with lib;
+    #     #   listToAttrs (map (type:
+    #     #     nameValuePair "${toUpper type}_PATH" [
+    #     #       "$HOME/.${type}"
+    #     #       "$HOME/.nix-profile/lib/${type}"
+    #     #       "/run/current-system/sw/lib/${type}"
+    #     #     ]) ["dssi" "ladspa" "lv2" "lxvst" "vst" "vst3"]);
+    #   })
   ]);
 }

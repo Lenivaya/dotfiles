@@ -4,7 +4,6 @@
 # disaster" languages.
 {
   config,
-  options,
   lib,
   pkgs,
   ...

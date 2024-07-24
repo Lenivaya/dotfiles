@@ -1,4 +1,4 @@
-{...}: {
+_: {
   # To use with system.userActivationScripts.
   linkIfNotExist = path: pathToLink: ''
     if ! [ -e ${path} ]; then

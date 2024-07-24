@@ -13,7 +13,7 @@ with my; {
       charger = {
         # See available governors:
         #  `cat /sys/devices/system/cpu/cpu0/cpufreq/scaling_available_governors`
-        governor = "schedutil";
+        governor = "performance";
         # See available preferences:
         #  `cat /sys/devices/system/cpu/cpu0/cpufreq/energy_performance_available_preferences`
         energy_performance_preference = "performance";

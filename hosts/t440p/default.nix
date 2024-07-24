@@ -18,7 +18,7 @@ with lib.my; {
       ./picom.nix
       ./dns.nix
       ./auto-cpufreq.nix
-      ./zram.nix
+      # ./zram.nix
       # ./mongodb.nix
       # ./postgresql.nix
       # ./jack_retask/jack_retask.nix
@@ -170,7 +170,7 @@ with lib.my; {
       clipcat = enabled;
       kdeconnect = enabled;
       ssh = enabled;
-      warp = enabled;
+      # warp = enabled;
       keyd = enabled;
       flatpak = enabled;
       # espanso = enabled;
@@ -214,7 +214,7 @@ with lib.my; {
           enabled
           // rec {
             core = -70;
-            gpu = -40;
+            gpu = -30;
             temp = 95;
             uncore = core;
             analogio = core;
@@ -222,7 +222,7 @@ with lib.my; {
       };
       gpu = {
         intel = enabled;
-        nvidia = enabled;
+        # nvidia = enabled;
       };
       audio = enabled // {effects = enabled;};
       fingerprint = enabled;
@@ -231,7 +231,8 @@ with lib.my; {
       fs = enabled // {ssd = enabled;};
     };
 
-    adblock = enabled;
+    # adblock = enabled;
+    zram = enabled;
     bootsplash = enabled;
     fast-networking = enabled;
   };
@@ -259,45 +260,36 @@ with lib.my; {
   };
 
   boot.kernelPackages = let
-    # https://github.com/chaotic-cx/nyx/issues/687
-    # kernel' = pkgs.linuxPackages_cachyos-lto;
-    # kernel' = pkgs.linuxPackages_cachyos;
-    #
-    # Older version needed because of nvidia
-    kernel' = inputs.chaotic-kernel.packages.${pkgs.system}.linuxPackages_cachyos;
+    kernel' = pkgs.linuxPackages_cachyos-lto;
   in
     mkForce kernel';
 
   # https://github.com/sched-ext/scx
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  # chaotic.scx =
-  #   enabled
-  #   // {
-  #     # scheduler = "scx_rusty";
-  #     # scheduler = "scx_bpfland";
-  #     scheduler = "scx_rustland";
-  #   };
+  chaotic.scx =
+    enabled
+    // {
+      # scheduler = "scx_rusty";
+      # scheduler = "scx_rustland";
+      scheduler = "scx_bpfland";
+    };
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
     #      vulnerabilities. Don't copy this blindly! And especially not for
     #      mission critical or server/headless builds exposed to the world.
     "mitigations=off"
-
+    "nohibernate"
     # https://wiki.archlinux.org/title/improving_performance#Watchdogs
     "nowatchdog"
     "kernel.nmi_watchdog=0"
-
     "msr.allow_writes=on"
-
     # Use TEO as CPUIdle Governor
     "cpuidle.governor=teo"
-
     # Enables RC6, RC6p and RC6pp.
     # Last two are only available on Sandy Bridge CPUs (circa 2011).
     "i915.enable_rc6=7"
-
     "intel_pstate=active"
   ];
 
@@ -333,16 +325,13 @@ with lib.my; {
     my.gitbutler
     scx # user-space schedulers
 
+    protonvpn-gui
+
     inputs.twitch-hls-client.packages.${pkgs.system}.default
     # my.devtunnel
     # warp-terminal
     # zed-editor_git
   ];
-
-  # devtunnel
-  # nixpkgs.config.permittedInsecurePackages = [
-  #   "openssl"
-  # ];
 
   hardware.trackpoint = {
     enable = true;
@@ -356,11 +345,23 @@ with lib.my; {
       extraPackages = with pkgs; [
         libGL
         intel-vaapi-driver
+        intel-ocl
+        vaapiIntel
+        vpl-gpu-rt
+      ];
+    };
+  chaotic.mesa-git =
+    enabled
+    // {
+      extraPackages = with pkgs; [
+        intel-vaapi-driver
+        intel-ocl
+        vaapiIntel
+        vpl-gpu-rt
       ];
     };
   environment.sessionVariables = {
-    LIBVA_DRIVER_NAME = "i965";
-    # LIBVA_DRIVER_NAME = "nvidia";
+    LIBVA_DRIVER_NAME = mkForce "i965";
   };
 
   services.smartd = enabled;
@@ -412,6 +413,8 @@ with lib.my; {
     SystemMaxFileSize=50M
   '';
 
+  systemd.coredump = disabled;
+
   nix.settings = {
     system-features = [
       "gccarch-x86-64-v3"
@@ -420,27 +423,28 @@ with lib.my; {
     ];
   };
 
-  services.pipewire.package = pkgs.unstable.pipewire;
+  home.programs.mpv.config = {
+    profile = "fast";
+  };
 
   nixpkgs.overlays = let
     optimize = pkg: optimizeForThisHost (withClang pkg);
   in
     [inputs.nur.overlay]
     ++ [inputs.picom.overlay.${system}]
-    ++ [inputs.skippy-xd.overlays.default]
+    # ++ [inputs.skippy-xd.overlays.default]
     ++ [inputs.auto-cpufreq.overlays.default]
     ++ [
       (_final: prev: {
         inherit
           (pkgs.unstable)
           eza # https://github.com/NixOS/nixpkgs/pull/323555
-          easyeffects
           ;
 
         intel-vaapi-driver = prev.intel-vaapi-driver.override {enableHybridCodec = true;};
-        btop = prev.btop.override {
-          cudaSupport = true;
-        };
+        # btop = prev.btop.override {
+        #   cudaSupport = true;
+        # };
 
         telegram-desktop = prev.telegram-desktop_git;
         alacritty = prev.alacritty_git;

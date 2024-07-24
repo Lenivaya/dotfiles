@@ -1,4 +1,4 @@
-_final: prev: {
+_final: _prev: {
   # skippy-xd = prev.skippy-xd.overrideAttrs (_oa: {
   #   src = prev.fetchFromGitHub {
   #     owner = "felixfung";

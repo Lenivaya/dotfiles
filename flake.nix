@@ -4,7 +4,6 @@
   # https://github.com/nix-community/haumea ?
 
   inputs = {
-    # Core dependencies
     nixpkgs.url = "nixpkgs/nixos-unstable"; # primary nixpkgs
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable"; # for packages on the edge
 
@@ -16,23 +15,17 @@
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
-    # Spotify
     spicetify-nix = {
       url = "github:gerg-l/spicetify-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # XMonad
     xmonad-contrib = {
       url = "github:xmonad/xmonad-contrib";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # vscode
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
-
-    # Nix cli helper
-    # nh.url = "github:viperML/nh";
 
     srvos = {
       url = "github:nix-community/srvos";
@@ -49,9 +42,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Some interesting packages
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
-    chaotic-kernel.url = "github:chaotic-cx/nyx?rev=b1ecb501161bae54fbc9fd27200bd34d40c4a47a";
+    # chaotic-kernel.url = "github:chaotic-cx/nyx?rev=b1ecb501161bae54fbc9fd27200bd34d40c4a47a"; # nvidia...
 
     betterfox = {
       url = "github:yokoffing/betterfox";
@@ -63,7 +55,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Extras
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nur.url = "github:nix-community/NUR";
     programsdb = {
@@ -75,23 +66,17 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    nix-ld-rs = {
-      url = "github:nix-community/nix-ld-rs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # IntelliJ
     intellimacs = {
       url = "github:MarcoIeni/intellimacs";
       flake = false;
     };
 
-    # Lix
+    # Since binary cache doens't work, why not build from master?
     # lix-module = {
     #   url = "https://git.lix.systems/lix-project/nixos-module/archive/2.90.0.tar.gz";
     #   inputs.nixpkgs.follows = "nixpkgs";
     # };
-    # Since binary cache doens't work, why not build from master?
     lix = {
       url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";
       flake = false;
@@ -108,9 +93,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     skippy-xd = {
-      # url = "github:felixfung/skippy-xd";
-      url = "path:///home/leniviy/code/Projects/skippy-xd";
-      inputs.nixpkgs.follows = "nixpkgs";
+      url = "github:felixfung/skippy-xd";
+      flake = false;
     };
     auto-cpufreq = {
       url = "github:AdnanHodzic/auto-cpufreq?rev=f300d31e0ff07010f7ecacb0e89f44533d1c2386";
@@ -124,7 +108,6 @@
 
   nixConfig = {
     extra-substituters = [
-      "https://aseipp-nix-cache.global.ssl.fastly.net"
       "https://nix-community.cachix.org"
       "https://nixpkgs-unfree.cachix.org/"
       "https://cuda-maintainers.cachix.org"
@@ -164,10 +147,6 @@
         inherit system;
         config.allowUnfree = true; # forgive me Stallman senpai
         config.nvidia.acceptLicense = true;
-        # devtunnel
-        config.permittedInsecurePackages = [
-          "openssl-1.1.1w"
-        ];
         overlays = extraOverlays ++ (lib.attrValues self.overlays);
       };
     pkgs = mkPkgs nixpkgs [self.overlay];

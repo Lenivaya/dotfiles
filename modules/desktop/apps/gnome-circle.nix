@@ -1,7 +1,6 @@
 # I like some gnome apps
 {
   config,
-  options,
   lib,
   pkgs,
   ...

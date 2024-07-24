@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -25,5 +26,13 @@ in {
       path = with pkgs; [skippy-xd];
       script = "skippy-xd --start-daemon";
     };
+
+    nixpkgs.overlays = [
+      (_final: prev: {
+        skippy-xd = prev.skippy-xd.overrideAttrs (_oa: {
+          src = inputs.skippy-xd;
+        });
+      })
+    ];
   };
 }

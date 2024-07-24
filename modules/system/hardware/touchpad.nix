@@ -1,5 +1,4 @@
 {
-  options,
   config,
   lib,
   pkgs,
@@ -8,7 +7,6 @@
 with lib;
 with lib.my; let
   cfg = config.modules.hardware.touchpad;
-
   inherit (config.dotfiles) configDir binDir;
 in {
   options.modules.hardware.touchpad.enable = mkBoolOpt false;

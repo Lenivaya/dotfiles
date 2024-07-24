@@ -1,6 +1,5 @@
 {
   config,
-  options,
   lib,
   pkgs,
   ...
@@ -12,17 +11,14 @@ in {
   options.modules.desktop.media.mpv.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    # home.configFile."mpv" = {
-    #   source = "${configDir}/mpv";
-    #   recursive = true;
-    # };
-
     home.programs.mpv =
       enabled
       // {
         package = with pkgs; let
           mpv' = mpv.override {
             scripts = with mpvScripts; [
+              seekTo
+
               mpris
               mpv-cheatsheet
               mpv-webm
@@ -59,6 +55,7 @@ in {
 
           "Alt+k" = "add sub-scale +0.1";
           "Alt+j" = "add sub-scale -0.1";
+          "Alt+g" = "script-message-to seek_to toggle-seeker";
 
           "B" = ''cycle-values background "#000000" "#ffffff"'';
         };
