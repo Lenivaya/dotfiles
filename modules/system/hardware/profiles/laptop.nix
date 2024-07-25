@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.hardware.profiles.laptop;
-in {
+in
+{
   options.modules.hardware.profiles.laptop = {
     enable = mkBoolOpt false;
     battery = mkOpt types.str "BAT0";
@@ -15,7 +17,9 @@ in {
 
   config = mkIf cfg.enable {
     modules = {
-      hardware = {touchpad = enabled;};
+      hardware = {
+        touchpad = enabled;
+      };
       services = {
         tlp = enabled;
       };
@@ -27,9 +31,14 @@ in {
       # https://wiki.archlinux.org/index.php/improving_performance#Changing_I/O_scheduler
       "scsi_mod.use_blk_mq=1"
     ];
-    fileSystems."/".options = ["noatime" "nodiratime"];
+    fileSystems."/".options = [
+      "noatime"
+      "nodiratime"
+    ];
 
-    powerManagement = enabled // {powertop = enabled;};
+    powerManagement = enabled // {
+      powertop = enabled;
+    };
     # services.thermald = enabled;
 
     # # https://github.com/Irqbalance/irqbalance/issues/54#issuecomment-319245584
@@ -55,7 +64,7 @@ in {
       timerConfig.OnBootSec = "2m";
       timerConfig.OnUnitInactiveSec = "2m";
       timerConfig.Unit = "notify-on-low-battery.service";
-      wantedBy = ["timers.target"];
+      wantedBy = [ "timers.target" ];
     };
 
     systemd.user.services.notify-on-low-battery = with cfg; {

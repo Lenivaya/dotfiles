@@ -29,7 +29,7 @@ stdenv.mkDerivation rec {
     sha256 = "sha256-Rr0UpJa7kemczCqNn6b8HNtW6PiWO/Ez1LUh/WNk8S8=";
   };
 
-  nativeBuildInputs = [p7zip];
+  nativeBuildInputs = [ p7zip ];
 
   sourceRoot = ".";
 

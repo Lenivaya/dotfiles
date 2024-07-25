@@ -1,9 +1,7 @@
-{
-  lib,
-  ...
-}:
+{ lib, ... }:
 with lib;
-with my; {
+with my;
+{
   # services.your_spotify =
   #   enabled
   #   // {

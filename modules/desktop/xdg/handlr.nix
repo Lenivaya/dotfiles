@@ -10,13 +10,15 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.desktop.xdg.handlr;
 
   shadowedXdgOpen = pkgs.writeShellScriptBin "xdg-open" ''
     ${getExe pkgs.handlr-regex} open "$@"
   '';
-in {
+in
+{
   options.modules.desktop.xdg.handlr.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {

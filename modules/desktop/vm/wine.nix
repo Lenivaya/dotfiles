@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.desktop.vm.wine;
-in {
+in
+{
   options.modules.desktop.vm.wine.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {

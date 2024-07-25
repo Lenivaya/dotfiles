@@ -1,6 +1,7 @@
-{lib, ...}:
+{ lib, ... }:
 with lib;
-with lib.my; {
+with lib.my;
+{
   # HACK Disable nvidia card for
   # the sake of power consumption
   hardware.nvidiaOptimus.disable = true;
@@ -49,8 +50,6 @@ with lib.my; {
   # specialisation = {
   #   on-the-go.configuration = {
   #     system.nixos.tags = ["on-the-go"];
-  #     # HACK Disable nvidia card for
-  #     # the sake of power consumption
   #     hardware.nvidiaOptimus.disable = true;
   #     modules.hardware.gpu.nvidia = mkForce disabled;
   #     environment.sessionVariables = {

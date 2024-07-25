@@ -1947,21 +1947,21 @@ Turn off company for nix
 (setq-hook! 'nix-mode-hook company-idle-delay nil)
 #+end_src
 
-Use alejandra formatter
+# Use alejandra formatter
 #+begin_src emacs-lisp
 ;; (set-formatter! 'alejandra "alejandra --quiet" :modes '(nix-mode)) ;; doesn't work for some reason
 
-(after! apheleia
+;; (after! apheleia
 
-  (push '(alejandra . ("alejandra" "--quiet" "-"))
-        apheleia-formatters)
-  (setf (alist-get 'nix-mode apheleia-mode-alist)
-        '(alejandra))
+;;   (push '(alejandra . ("alejandra" "--quiet" "-"))
+;;         apheleia-formatters)
+;;   (setf (alist-get 'nix-mode apheleia-mode-alist)
+;;         '(alejandra))
 
-  )
+;;   )
 
 (setq-hook! 'nix-mode-hook +format-with-lsp nil)
-;; (setq-hook! nix-mode-hook +format-with 'alejandra)
+(setq-hook! nix-mode-hook +format-with 'nixfmt)
 ;; (setq-hook! 'nix-mode-hook +format-with nil)
 #+end_src
 

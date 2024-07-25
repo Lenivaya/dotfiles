@@ -26,7 +26,7 @@ stdenvNoCC.mkDerivation rec {
     description = "PragmataPro meets Iosevka";
     homepage = "https://github.com/shytikov/pragmasevka";
     license = licenses.ofl;
-    maintainers = [maintainers.jboyens];
+    maintainers = [ maintainers.jboyens ];
     platforms = platforms.all;
   };
 }

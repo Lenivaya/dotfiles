@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.bootsplash;
-in {
+in
+{
   options.modules.bootsplash.enable = mkBoolOpt false;
 
   config =
@@ -48,10 +50,10 @@ in {
         '';
       };
     }
-    // (lib.optionalAttrs ((options.srvos.boot or {}) ? consoles) {
+    // (lib.optionalAttrs ((options.srvos.boot or { }) ? consoles) {
       # Serial doesn't work with plymouth for me [1]
       #
       # [1]: https://forums.developer.nvidia.com/t/plymouth-on-a-tx2/203513
-      srvos.boot.consoles = lib.mkDefault [];
+      srvos.boot.consoles = lib.mkDefault [ ];
     });
 }

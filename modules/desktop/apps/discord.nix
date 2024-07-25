@@ -1,26 +1,28 @@
 {
   config,
-  options,
   lib,
   pkgs,
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.desktop.apps.discord;
-in {
+in
+{
   options.modules.desktop.apps.discord.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs; let
-      # discord' = discord.override {
-      #   withOpenASAR = true;
-      #   withVencord = true;
-      #   nss = pkgs.nss_latest;
-      # };
-      discord' = vesktop;
-    in [
-      discord'
-    ];
+    user.packages =
+      with pkgs;
+      let
+        # discord' = discord.override {
+        #   withOpenASAR = true;
+        #   withVencord = true;
+        #   nss = pkgs.nss_latest;
+        # };
+        discord' = vesktop;
+      in
+      [ discord' ];
   };
 }

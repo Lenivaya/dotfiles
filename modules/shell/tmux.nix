@@ -5,10 +5,12 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   inherit (config.dotfiles) configDir;
   cfg = config.modules.shell.tmux;
-in {
+in
+{
   options.modules.shell.tmux.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -22,7 +24,7 @@ in {
         name = "tmux";
         desktopName = "Tmux";
         exec = "${config.modules.desktop.term.default} -e tmux";
-        categories = ["System"];
+        categories = [ "System" ];
       })
     ];
 
@@ -33,23 +35,24 @@ in {
         source = "${configDir}/tmux";
         recursive = true;
       };
-      "tmux/plugins".text = let
-        plugins = with pkgs.tmuxPlugins; [
-          prefix-highlight
-          yank
-          sensible
-          resurrect
-          continuum
-          tmux-thumbs
-          jump
-          fpp
-          extrakto
-          tmux-fzf
-          fzf-tmux-url
-          fuzzback
-        ];
-        loadPlugin = p: "run-shell ${p.rtp}";
-      in
+      "tmux/plugins".text =
+        let
+          plugins = with pkgs.tmuxPlugins; [
+            prefix-highlight
+            yank
+            sensible
+            resurrect
+            continuum
+            tmux-thumbs
+            jump
+            fpp
+            extrakto
+            tmux-fzf
+            fzf-tmux-url
+            fuzzback
+          ];
+          loadPlugin = p: "run-shell ${p.rtp}";
+        in
         concatLines (map loadPlugin plugins);
     };
   };

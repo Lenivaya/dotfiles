@@ -5,34 +5,37 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   inherit (config.dotfiles) configDir;
   inherit (config.user) name;
-in {
+in
+{
   config = mkIf config.modules.desktop.enable {
     xdg.portal.config.common.default = "*";
 
     home-manager.users.${name} = {
-      gtk = let
-        gtkSettings = mkMerge [
-          {
-            gtk-hint-font-metrics = 1;
-            gtk-xft-antialias = 1;
-            gtk-xft-hinting = 1;
-            gtk-xft-hintstyle = "hintslight";
-            gtk-xft-rgba = "rgb";
-            gtk-application-prefer-dark-theme = true;
-          }
+      gtk =
+        let
+          gtkSettings = mkMerge [
+            {
+              gtk-hint-font-metrics = 1;
+              gtk-xft-antialias = 1;
+              gtk-xft-hinting = 1;
+              gtk-xft-hintstyle = "hintslight";
+              gtk-xft-rgba = "rgb";
+              gtk-application-prefer-dark-theme = true;
+            }
 
-          (mkIf config.modules.desktop.isPureWM {
-            gtk-cursor-theme-size = 0;
+            (mkIf config.modules.desktop.isPureWM {
+              gtk-cursor-theme-size = 0;
 
-            # Remove min-max-close buttons
-            gtk-decoration-layout = "";
-            # gtk-decoration-layout = "appmenu:none";
-          })
-        ];
-      in
+              # Remove min-max-close buttons
+              gtk-decoration-layout = "";
+              # gtk-decoration-layout = "appmenu:none";
+            })
+          ];
+        in
         enabled
         // {
           theme = {
@@ -53,9 +56,7 @@ in {
             name = "Adwaita";
           };
           gtk3 = mkMerge [
-            {
-              extraConfig = gtkSettings;
-            }
+            { extraConfig = gtkSettings; }
 
             (mkIf config.modules.desktop.isPureWM {
               extraCss = ''
@@ -83,16 +84,14 @@ in {
         };
       };
 
-      qt =
-        enabled
-        // {
-          # https://pagure.io/fedora-workstation/issue/351
-          platformTheme = "gnome";
-          style = {
-            package = pkgs.adwaita-qt;
-            name = "adwaita-dark";
-          };
+      qt = enabled // {
+        # https://pagure.io/fedora-workstation/issue/351
+        platformTheme = "gnome";
+        style = {
+          package = pkgs.adwaita-qt;
+          name = "adwaita-dark";
         };
+      };
     };
 
     services.xserver.displayManager.sessionCommands = ''

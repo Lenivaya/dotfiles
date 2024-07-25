@@ -5,14 +5,16 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.desktop.term.alacritty;
   inherit (config.dotfiles) configDir;
-in {
+in
+{
   options.modules.desktop.term.alacritty.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs; [alacritty];
+    user.packages = with pkgs; [ alacritty ];
 
     home.configFile."alacritty" = {
       source = "${configDir}/alacritty";

@@ -8,7 +8,8 @@
   ...
 }:
 with lib;
-with lib.my; {
+with lib.my;
+{
   imports =
     [
       ../common.nix
@@ -29,86 +30,73 @@ with lib.my; {
       # common-pc-laptop-ssd
       # common-pc-laptop-hdd
     ]);
-  # ++ [inputs.chaotic.nixosModules.default];
 
   this.isHeadful = true;
 
   modules = {
-    desktop =
-      enabled
-      // {
-        xmonad = enabled;
-        isPureWM = true;
+    desktop = enabled // {
+      xmonad = enabled;
+      isPureWM = true;
 
-        fonts.pragmata = enabled;
+      fonts.pragmata = enabled;
 
-        xdg.handlr = enabled;
+      xdg.handlr = enabled;
 
-        apps = {
-          rofi = enabled;
-          dmenu = enabled;
-          dunst = enabled;
-          discord = enabled;
+      apps = {
+        rofi = enabled;
+        dmenu = enabled;
+        dunst = enabled;
+        discord = enabled;
 
-          gnome-circle = enabled;
+        gnome-circle = enabled;
+      };
+
+      browsers = {
+        default = "google-chrome-unstable";
+
+        firefox = enabled // {
+          package = pkgs.firefox_nightly;
+          executable = "firefox-nightly";
+        };
+        chromium = enabled // {
+          package = inputs.browser-previews.packages.${pkgs.system}.google-chrome-dev;
+        };
+        tor = enabled;
+        # qutebrowser = enabled;
+      };
+
+      term = {
+        alacritty = enabled;
+        default = mkForce "alacritty";
+      };
+
+      media = {
+        spotify = enabled;
+        mpv = enabled;
+
+        documents = enabled // {
+          pdf = enabled;
+          ebook = enabled;
+          latex = enabled;
         };
 
-        browsers = {
-          default = "google-chrome-unstable";
-
-          firefox =
-            enabled
-            // {
-              package = pkgs.firefox_nightly;
-              executable = "firefox-nightly";
-            };
-          chromium =
-            enabled
-            // {
-              package = inputs.browser-previews.packages.${pkgs.system}.google-chrome-dev;
-            };
-          tor = enabled;
-          # qutebrowser = enabled;
+        graphics = enabled // {
+          tools = enabled;
+          raster = enabled;
         };
 
-        term = {
-          alacritty = enabled;
-          default = mkForce "alacritty";
-        };
-
-        media = {
-          spotify = enabled;
-          mpv = enabled;
-
-          documents =
-            enabled
-            // {
-              pdf = enabled;
-              ebook = enabled;
-              latex = enabled;
-            };
-
-          graphics =
-            enabled
-            // {
-              tools = enabled;
-              raster = enabled;
-            };
-
-          recording =
-            enabled
-            // {
-              # audio = enabled;
-              video = enabled;
-            };
-        };
-
-        vm = {
-          qemu = enabled;
-          # virtualbox = enabled;
-          # wine = enabled;
+        recording = enabled // {
+          # audio = enabled;
+          video = enabled;
         };
       };
+
+      vm = {
+        qemu = enabled;
+        # virtualbox = enabled;
+        # wine = enabled;
+      };
+    };
 
     shell = {
       zsh = enabled;
@@ -123,23 +111,19 @@ with lib.my; {
 
     editors = {
       vscode = enabled;
-      emacs =
-        enabled
-        // {
-          doom = enabled;
-          default = true;
-        };
-      jetbrains =
-        enabled
-        // {
-          packages = with pkgs.jetbrains; [
-            webstorm
-            rider
-            pycharm-professional
-            goland
-            rust-rover
-          ];
-        };
+      emacs = enabled // {
+        doom = enabled;
+        default = true;
+      };
+      jetbrains = enabled // {
+        packages = with pkgs.jetbrains; [
+          webstorm
+          rider
+          pycharm-professional
+          goland
+          rust-rover
+        ];
+      };
     };
 
     dev = {
@@ -153,13 +137,9 @@ with lib.my; {
       haskell = enabled;
       node = enabled;
       python = enabled;
-      dotnet =
-        enabled
-        // {
-          dotnetPkgsSdks = with pkgs.dotnetCorePackages; [
-            sdk_8_0
-          ];
-        };
+      dotnet = enabled // {
+        dotnetPkgsSdks = with pkgs.dotnetCorePackages; [ sdk_8_0 ];
+      };
 
       typst = enabled;
     };
@@ -179,18 +159,16 @@ with lib.my; {
       #   // {
       #     howOften = "*-*-* 05:00:00"; # daily 5AM
       #   };
-      tray =
-        enabled
-        // {
-          trayApps = [
-            "cbatticon"
-            "blueman-applet"
-            "nm-applet"
-            "pasystray"
-            "mictray"
-            "kdeconnect-indicator"
-          ];
-        };
+      tray = enabled // {
+        trayApps = [
+          "cbatticon"
+          "blueman-applet"
+          "nm-applet"
+          "pasystray"
+          "mictray"
+          "kdeconnect-indicator"
+        ];
+      };
     };
 
     programs = {
@@ -200,35 +178,36 @@ with lib.my; {
 
     hardware = {
       profiles.laptop = enabled;
-      cpu.intel =
-        enabled;
+      cpu.intel = enabled;
 
       cpu = {
         tdp = {
           p1.watts = 37; # 47
           p1.duration = 28.0;
           p2.watts = 47;
-          p2.duration = 0.00244140625;
+          p2.duration = 2.44140625e-3;
         };
-        undervolt =
-          enabled
-          // rec {
-            core = -70;
-            gpu = -30;
-            temp = 95;
-            uncore = core;
-            analogio = core;
-          };
+        undervolt = enabled // rec {
+          core = -70;
+          gpu = -30;
+          temp = 95;
+          uncore = core;
+          analogio = core;
+        };
       };
       gpu = {
         intel = enabled;
         # nvidia = enabled;
       };
-      audio = enabled // {effects = enabled;};
+      audio = enabled // {
+        effects = enabled;
+      };
       fingerprint = enabled;
       touchpad = enabled;
       bluetooth = enabled;
-      fs = enabled // {ssd = enabled;};
+      fs = enabled // {
+        ssd = enabled;
+      };
     };
 
     # adblock = enabled;
@@ -239,12 +218,10 @@ with lib.my; {
 
   security.sudo-rs = enabled;
 
-  programs.nh.clean =
-    enabled
-    // {
-      dates = "weekly";
-      extraArgs = "--keep-since 1w --keep 3";
-    };
+  programs.nh.clean = enabled // {
+    dates = "weekly";
+    extraArgs = "--keep-since 1w --keep 3";
+  };
 
   services.tlp.settings.CPU_MAX_PERF_ON_BAT = mkForce 65;
   services.tlp.settings = {
@@ -259,21 +236,20 @@ with lib.my; {
     settings.sensor.devname = "video1"; # because video0 is virtual camera
   };
 
-  boot.kernelPackages = let
-    kernel' = pkgs.linuxPackages_cachyos-lto;
-  in
+  boot.kernelPackages =
+    let
+      kernel' = pkgs.linuxPackages_cachyos-lto;
+    in
     mkForce kernel';
 
   # https://github.com/sched-ext/scx
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  chaotic.scx =
-    enabled
-    // {
-      # scheduler = "scx_rusty";
-      # scheduler = "scx_rustland";
-      scheduler = "scx_bpfland";
-    };
+  chaotic.scx = enabled // {
+    # scheduler = "scx_rusty";
+    # scheduler = "scx_rustland";
+    scheduler = "scx_bpfland";
+  };
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
@@ -301,8 +277,24 @@ with lib.my; {
   # };
 
   networking.firewall = {
-    allowedUDPPorts = [3000 4000 8080 8000 1433 4321 4322];
-    allowedTCPPorts = [3000 4000 8080 8000 1433 4321 4322];
+    allowedUDPPorts = [
+      3000
+      4000
+      8080
+      8000
+      1433
+      4321
+      4322
+    ];
+    allowedTCPPorts = [
+      3000
+      4000
+      8080
+      8000
+      1433
+      4321
+      4322
+    ];
   };
 
   # For manual fan control with pwm
@@ -339,27 +331,23 @@ with lib.my; {
     sensitivity = 250;
   };
 
-  hardware.graphics =
-    enabled
-    // {
-      extraPackages = with pkgs; [
-        libGL
-        intel-vaapi-driver
-        intel-ocl
-        vaapiIntel
-        vpl-gpu-rt
-      ];
-    };
-  chaotic.mesa-git =
-    enabled
-    // {
-      extraPackages = with pkgs; [
-        intel-vaapi-driver
-        intel-ocl
-        vaapiIntel
-        vpl-gpu-rt
-      ];
-    };
+  hardware.graphics = enabled // {
+    extraPackages = with pkgs; [
+      libGL
+      intel-vaapi-driver
+      intel-ocl
+      vaapiIntel
+      vpl-gpu-rt
+    ];
+  };
+  chaotic.mesa-git = enabled // {
+    extraPackages = with pkgs; [
+      intel-vaapi-driver
+      intel-ocl
+      vaapiIntel
+      vpl-gpu-rt
+    ];
+  };
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = mkForce "i965";
   };
@@ -413,7 +401,10 @@ with lib.my; {
     SystemMaxFileSize=50M
   '';
 
-  systemd.coredump = disabled;
+  systemd.coredump.extraConfig = ''
+    Storage=none
+    ProcessSizeMax=0
+  '';
 
   nix.settings = {
     system-features = [
@@ -427,21 +418,20 @@ with lib.my; {
     profile = "fast";
   };
 
-  nixpkgs.overlays = let
-    optimize = pkg: optimizeForThisHost (withClang pkg);
-  in
-    [inputs.nur.overlay]
-    ++ [inputs.picom.overlay.${system}]
-    # ++ [inputs.skippy-xd.overlays.default]
-    ++ [inputs.auto-cpufreq.overlays.default]
+  nixpkgs.overlays =
+    let
+      optimize = pkg: optimizeForThisHost (withClang pkg);
+    in
+    [ inputs.nur.overlay ]
+    ++ [ inputs.picom.overlay.${system} ]
+    ++ [ inputs.auto-cpufreq.overlays.default ]
     ++ [
       (_final: prev: {
-        inherit
-          (pkgs.unstable)
+        inherit (pkgs.unstable)
           eza # https://github.com/NixOS/nixpkgs/pull/323555
           ;
 
-        intel-vaapi-driver = prev.intel-vaapi-driver.override {enableHybridCodec = true;};
+        intel-vaapi-driver = prev.intel-vaapi-driver.override { enableHybridCodec = true; };
         # btop = prev.btop.override {
         #   cudaSupport = true;
         # };

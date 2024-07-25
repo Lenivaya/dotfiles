@@ -9,7 +9,11 @@ _final: prev: {
 
     buildInputs =
       oa.buildInputs
-      ++ (with prev.xorg; [libXft libXext libXrandr]);
+      ++ (with prev.xorg; [
+        libXft
+        libXext
+        libXrandr
+      ]);
 
     # makeFlags = oa.makeFlags ++ ["enable_alpha=no"];
   });

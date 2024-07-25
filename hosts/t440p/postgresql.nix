@@ -1,16 +1,16 @@
-{
-  lib,
-  pkgs,
-  ...
-}:
+{ lib, pkgs, ... }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   postgres' = pkgs.postgresql_16;
 
   pgagent = pkgs.stdenv.mkDerivation rec {
     name = "pgagent";
-    nativeBuildInputs = with pkgs; [cmake];
-    buildInputs = with pkgs; [postgres' boost];
+    nativeBuildInputs = with pkgs; [ cmake ];
+    buildInputs = with pkgs; [
+      postgres'
+      boost
+    ];
 
     src = pkgs.fetchFromGitHub {
       owner = "postgres";
@@ -26,7 +26,8 @@ with lib.my; let
       cp *.{sql,control} $out/share/postgresql/extension
     '';
   };
-in {
+in
+{
   user.packages = with pkgs; [
     pgcli
     pgadmin4-desktopmode
@@ -34,36 +35,34 @@ in {
   ];
 
   services = {
-    postgresql =
-      enabled
-      // {
-        package = postgres';
-        extraPlugins = with postgres'.pkgs; [
-          pg_cron
-          hypopg
-          pg_repack
-          pgroonga # full text search
-          pg_uuidv7 # better uuids
-          pgagent
+    postgresql = enabled // {
+      package = postgres';
+      extraPlugins = with postgres'.pkgs; [
+        pg_cron
+        hypopg
+        pg_repack
+        pgroonga # full text search
+        pg_uuidv7 # better uuids
+        pgagent
+      ];
+
+      settings = {
+        shared_preload_libraries = comcat [
+          "pg_stat_statements"
+          "pg_repack"
         ];
-
-        settings = {
-          shared_preload_libraries = comcat [
-            "pg_stat_statements"
-            "pg_repack"
-          ];
-        };
-
-        # This crutch is here because some services cannot work via a UNIX
-        # socket connection and I can't be bothered to configure proper
-        # authentication.
-        authentication = ''
-          local all all trust
-        '';
       };
+
+      # This crutch is here because some services cannot work via a UNIX
+      # socket connection and I can't be bothered to configure proper
+      # authentication.
+      authentication = ''
+        local all all trust
+      '';
+    };
   };
 
-  user.extraGroups = ["postgres"];
+  user.extraGroups = [ "postgres" ];
 
   # nixpkgs.overlays = [
   #   (_: _: {

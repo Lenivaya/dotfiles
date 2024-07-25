@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with my; let
+with my;
+let
   cfg = config.modules.services.ananicy;
-in {
+in
+{
   options.modules.services.ananicy = with types; {
     enable = mkBoolOpt false;
   };

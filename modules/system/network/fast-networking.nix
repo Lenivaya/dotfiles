@@ -1,12 +1,10 @@
-{
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 with lib;
-with my; let
+with my;
+let
   cfg = config.modules.fast-networking;
-in {
+in
+{
   options.modules.fast-networking.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -42,7 +40,10 @@ in {
         "net.netfilter.nf_conntrack_tcp_timeout_established" = 600;
         "net.netfilter.nf_conntrack_tcp_timeout_time_wait" = 1;
       };
-      kernelModules = ["tls" "tcp_bbr"];
+      kernelModules = [
+        "tls"
+        "tcp_bbr"
+      ];
     };
   };
 }

@@ -5,12 +5,18 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.dev.elixir;
-in {
+in
+{
   options.modules.dev.elixir.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs; [erlang elixir elixir_ls];
+    user.packages = with pkgs; [
+      erlang
+      elixir
+      elixir_ls
+    ];
   };
 }

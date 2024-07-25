@@ -21,6 +21,7 @@ import XMonad.Hooks.RefocusLast
 import XMonad.Layout.Accordion
 import XMonad.Layout.BinarySpacePartition
 import XMonad.Layout.BoringWindows hiding (Replace)
+import XMonad.Layout.CenterMainFluid
 import XMonad.Layout.CenteredIfSingle
 import XMonad.Layout.CircleEx
 import XMonad.Layout.DraggingVisualizer
@@ -51,8 +52,6 @@ import XMonad.Layout.SubLayouts
 import XMonad.Layout.Tabbed
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.TwoPane
-import XMonad.Layout.CenterMainFluid
-
 
 -- import XMonad.Layout.WindowArranger
 import XMonad.Layout.WindowNavigation
@@ -80,7 +79,7 @@ onebig = setName "OneBig" $ OneBig (3 / 4) (3 / 4)
 monocle = setName "Monocle" Full
 grid = setName "Grid" $ limitWindows 9 $ Grid (16 / 10)
 roledex = Roledex
-centerMainFluid = CenterMainFluid 1 (3/100) (70/100)
+centerMainFluid = CenterMainFluid 1 (3 / 100) (70 / 100)
 
 hacking =
   setName "Hacking"

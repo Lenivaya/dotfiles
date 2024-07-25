@@ -1,16 +1,12 @@
 # Simple clipboard manager to be integrated with rofi/dmenu
-{
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.services.greenclip;
-in {
+in
+{
   options.modules.services.greenclip.enable = mkBoolOpt false;
 
-  config = mkIf cfg.enable {
-    services.greenclip = enabled;
-  };
+  config = mkIf cfg.enable { services.greenclip = enabled; };
 }

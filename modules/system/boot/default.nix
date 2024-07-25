@@ -1,5 +1,6 @@
-{lib, ...}:
-with lib; {
+{ lib, ... }:
+with lib;
+{
   config.boot = {
     # whether to enable support for Linux MD RAID arrays
     # I don't know why this defaults to true, how many people use RAID anyway?

@@ -5,17 +5,23 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   inherit (config.dotfiles) configDir;
   inherit (config) modules;
 
   cfg = config.modules.desktop.lockscreen;
   socket = "/tmp/xidlehook.sock";
-in {
+in
+{
   options.modules.desktop.lockscreen.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs; [betterlockscreen xidlehook my.caffeinate];
+    user.packages = with pkgs; [
+      betterlockscreen
+      xidlehook
+      my.caffeinate
+    ];
 
     home.configFile."betterlockscreen/betterlockscreenrc" = {
       source = "${configDir}/betterlockscreen/betterlockscreenrc";
@@ -38,20 +44,25 @@ in {
         XIDLEHOOK_SOCK = socket;
       };
 
-      path = with pkgs; [betterlockscreen xorg.xrandr gawk];
-      script = let
-        execCommand = spaceConcat (
-          [
-            (getExe pkgs.xidlehook)
-            "--detect-sleep"
-            "--not-when-fullscreen"
-            "--not-when-audio"
-            "--socket ${socket}"
-            "--timer 300 'betterlockscreen -l dim' ''"
-          ]
-          ++ optional modules.hardware.profiles.laptop.enable ''--timer 3600 "systemctl suspend" ""''
-        );
-      in
+      path = with pkgs; [
+        betterlockscreen
+        xorg.xrandr
+        gawk
+      ];
+      script =
+        let
+          execCommand = spaceConcat (
+            [
+              (getExe pkgs.xidlehook)
+              "--detect-sleep"
+              "--not-when-fullscreen"
+              "--not-when-audio"
+              "--socket ${socket}"
+              "--timer 300 'betterlockscreen -l dim' ''"
+            ]
+            ++ optional modules.hardware.profiles.laptop.enable ''--timer 3600 "systemctl suspend" ""''
+          );
+        in
         execCommand;
     };
   };

@@ -8,12 +8,17 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.dev.common-lisp;
-in {
+in
+{
   options.modules.dev.common-lisp.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs; [sbcl lispPackages.quicklisp];
+    user.packages = with pkgs; [
+      sbcl
+      lispPackages.quicklisp
+    ];
   };
 }

@@ -1,3 +1,1 @@
-_final: prev: {
-  youtube-dl = prev.yt-dlp.override {withAlias = true;};
-}
+_final: prev: { youtube-dl = prev.yt-dlp.override { withAlias = true; }; }

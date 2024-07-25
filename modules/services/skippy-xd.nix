@@ -6,10 +6,12 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   inherit (config.dotfiles) configDir;
   cfg = config.modules.services.skippy-xd;
-in {
+in
+{
   options.modules.services.skippy-xd.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -18,12 +20,12 @@ in {
       recursive = true;
     };
 
-    environment.systemPackages = with pkgs; [skippy-xd];
+    environment.systemPackages = with pkgs; [ skippy-xd ];
 
     systemd.user.services.skippy-xd = mkGraphicalService {
       description = "Windows and workspaces selector";
 
-      path = with pkgs; [skippy-xd];
+      path = with pkgs; [ skippy-xd ];
       script = "skippy-xd --start-daemon";
     };
 

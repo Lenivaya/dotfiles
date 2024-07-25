@@ -5,22 +5,22 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.hardware.touchpad;
   inherit (config.dotfiles) configDir binDir;
-in {
+in
+{
   options.modules.hardware.touchpad.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    services.xserver.libinput =
-      enabled
-      // {
-        touchpad = {
-          disableWhileTyping = true;
-          naturalScrolling = true;
-          accelProfile = "adaptive";
-        };
+    services.xserver.libinput = enabled // {
+      touchpad = {
+        disableWhileTyping = true;
+        naturalScrolling = true;
+        accelProfile = "adaptive";
       };
+    };
 
     home.configFile."libinput-gestures.conf" = {
       source = "${configDir}/libinput-gestures/libinput-gestures.conf";
@@ -36,8 +36,7 @@ in {
         skippy-xd
 
         wmctrl
-        (writeShellScriptBin "toggleFullscreen"
-          "wmctrl -r :ACTIVE: -b toggle,fullscreen")
+        (writeShellScriptBin "toggleFullscreen" "wmctrl -r :ACTIVE: -b toggle,fullscreen")
 
         (writeShellScriptBin "cycle_ws" (readFile "${binDir}/cycle_ws"))
       ];

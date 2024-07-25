@@ -14,7 +14,8 @@
   ...
 }:
 with lib;
-with my; {
+with my;
+{
   imports =
     [
       ../common.nix
@@ -25,8 +26,7 @@ with my; {
     ++ (with inputs.srvos; [
       nixosModules.server
       nixosModules.mixins-nginx
-    ])
-    ++ [inputs.chaotic.nixosModules.default];
+    ]);
 
   this.isHeadless = true;
 
@@ -59,18 +59,23 @@ with my; {
   #   memoryPercent = mkForce 50;
   # };
 
-  users.groups.media = {};
-  user.extraGroups = ["media"];
+  users.groups.media = { };
+  user.extraGroups = [ "media" ];
 
   # jellyfin and video things
-  services.xserver = {videoDrivers = ["radeon"];};
+  services.xserver = {
+    videoDrivers = [ "radeon" ];
+  };
 
   services.logind.lidSwitchExternalPower = "ignore";
   networking.networkmanager.wifi.powersave = mkForce false;
   networking.networkmanager.wifi.macAddress = mkForce "permanent";
   # services.irqbalance = enabled;
   powerManagement.cpuFreqGovernor = mkForce "performance";
-  fileSystems."/".options = ["noatime" "nodiratime"];
+  fileSystems."/".options = [
+    "noatime"
+    "nodiratime"
+  ];
 
   # Disabling some things that use memory
   # but are completely unrequired
@@ -85,9 +90,10 @@ with my; {
   fonts.fontconfig = mkForce disabled;
   boot.tmp.useTmpfs = mkForce false;
 
-  boot.kernelPackages = let
-    kernel' = pkgs.linuxPackages_cachyos-server;
-  in
+  boot.kernelPackages =
+    let
+      kernel' = pkgs.linuxPackages_cachyos-server;
+    in
     mkForce kernel';
 
   services.bpftune = enabled;
@@ -109,14 +115,5 @@ with my; {
     startMedia = "sudo systemctl restart radarr sonarr readarr prowlarr calibre-server calibre-web jellyfin";
   };
 
-  nixpkgs.overlays = [
-    (_final: _prev: {
-      inherit
-        (pkgs.unstable)
-        bpftune
-        jellyfin
-        jellyfin-web
-        ;
-    })
-  ];
+  nixpkgs.overlays = [ (_final: _prev: { inherit (pkgs.unstable) bpftune jellyfin jellyfin-web; }) ];
 }

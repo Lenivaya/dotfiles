@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.desktop.apps.gnome-circle;
-in {
+in
+{
   options.modules.desktop.apps.gnome-circle.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {

@@ -1,12 +1,17 @@
 {
-  pkgs ? import <nixpkgs> {},
+  pkgs ? import <nixpkgs> { },
   preCommitHook ? "",
 }:
 with pkgs;
-  mkShell {
-    buildInputs = [git gnupg nix-zsh-completions oxipng];
-    shellHook = ''
-      export DOTFILES="$(pwd)"
-      ${preCommitHook}
-    '';
-  }
+mkShell {
+  buildInputs = [
+    git
+    gnupg
+    nix-zsh-completions
+    oxipng
+  ];
+  shellHook = ''
+    export DOTFILES="$(pwd)"
+    ${preCommitHook}
+  '';
+}

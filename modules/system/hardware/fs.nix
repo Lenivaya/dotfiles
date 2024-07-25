@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.hardware.fs;
-in {
+in
+{
   options.modules.hardware.fs = {
     enable = mkBoolOpt false;
     zfs.enable = mkBoolOpt false;
@@ -57,7 +59,7 @@ in {
     (mkIf cfg.zfs.enable (mkMerge [
       {
         boot.loader.grub.copyKernels = true;
-        boot.supportedFilesystems = ["zfs"];
+        boot.supportedFilesystems = [ "zfs" ];
         boot.zfs.devNodes = "/dev/disk/by-partuuid";
         services.zfs.autoScrub = enabled;
       }

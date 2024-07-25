@@ -1,12 +1,14 @@
 # Reconfigures sound card so it won't mute internal
 # microphone when headphones are plugged in
-_: let
+_:
+let
   soundCard = "/sys/class/sound/hwC2D0";
-in {
+in
+{
   # hardware.firmware = [ ( pkgs.writeTextDir "/lib/firmware/hda-jack-retask.fw" ( builtins.readFile ./hda-jack-retask.fw ) ) ];
   systemd.services.jack-retask = {
-    wantedBy = ["multi-user.target"];
-    before = ["multi-user.target"];
+    wantedBy = [ "multi-user.target" ];
+    before = [ "multi-user.target" ];
 
     script = ''
       (

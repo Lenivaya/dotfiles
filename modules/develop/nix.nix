@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.dev.nix;
-in {
+in
+{
   options.modules.dev.nix.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -22,8 +24,7 @@ in {
       manix
 
       # nixpkgs-fmt
-      # nixfmt
-      alejandra
+      nixfmt-rfc-style
       statix
       deadnix
     ];

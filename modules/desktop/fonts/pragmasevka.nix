@@ -6,18 +6,20 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   inherit (config.modules.desktop.fonts) pragmasevka;
-in {
+in
+{
   options.modules.desktop.fonts.pragmasevka.enable = mkBoolOpt false;
 
   config = mkIf pragmasevka.enable {
-    fonts.packages = with pkgs; [my.pragmasevka];
+    fonts.packages = with pkgs; [ my.pragmasevka ];
 
     fonts.fontconfig.defaultFonts = mkForce {
-      monospace = ["Pragmasevka"];
-      sansSerif = ["Pragmasevka"];
-      serif = ["Pragmasevka"];
+      monospace = [ "Pragmasevka" ];
+      sansSerif = [ "Pragmasevka" ];
+      serif = [ "Pragmasevka" ];
     };
   };
 }

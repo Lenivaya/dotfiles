@@ -5,10 +5,12 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   hwCfg = config.modules.hardware;
   cfg = hwCfg.bluetooth;
-in {
+in
+{
   options.modules.hardware.bluetooth = {
     enable = mkBoolOpt false;
   };
@@ -16,8 +18,10 @@ in {
   config = mkIf cfg.enable (mkMerge [
     {
       # hardware.bluetooth = enabled // {package = pkgs.bluezFull;};
-      hardware.bluetooth = enabled // {package = pkgs.bluez;};
-      services.dbus.packages = [pkgs.blueman];
+      hardware.bluetooth = enabled // {
+        package = pkgs.bluez;
+      };
+      services.dbus.packages = [ pkgs.blueman ];
       services.blueman = enabled;
 
       environment.systemPackages = with pkgs; [
@@ -34,14 +38,14 @@ in {
         # support, so it must be selected here.
         package = pkgs.pulseaudioFull;
         # Enable additional codecs
-        extraModules = [pkgs.pulseaudio-modules-bt];
+        extraModules = [ pkgs.pulseaudio-modules-bt ];
         # Switch to bluetooth headset on connect
         extraConfig = ''
           load-module module-switch-on-connect
         '';
       };
 
-      hardware.bluetooth.disabledPlugins = ["sap"];
+      hardware.bluetooth.disabledPlugins = [ "sap" ];
       hardware.bluetooth.settings = {
         General = {
           MultiProfile = "multiple";
@@ -62,7 +66,9 @@ in {
           ];
         };
 
-        GATT = {KeySize = 16;};
+        GATT = {
+          KeySize = 16;
+        };
 
         AVDTP = {
           SessionMode = "ertm";

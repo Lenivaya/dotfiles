@@ -8,7 +8,8 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.services.progressbar;
 
   progressPipe = "/tmp/progressbarPipe";
@@ -20,7 +21,8 @@ with lib.my; let
       fi
     '';
   };
-in {
+in
+{
   options.modules.services.progressbar = {
     enable = mkBoolOpt false;
     styles = mkOpt types.lines "";
@@ -28,12 +30,12 @@ in {
 
   config = mkIf cfg.enable (mkMerge [
     {
-      environment.systemPackages = [progressScript];
+      environment.systemPackages = [ progressScript ];
 
       systemd.user.services.progressbar = mkGraphicalService {
         description = "X progress bar using xob";
 
-        path = with pkgs; [xob];
+        path = with pkgs; [ xob ];
         script = ''
           rm -f ${progressPipe} && mkfifo ${progressPipe}
           tail -f ${progressPipe} | xob
@@ -41,8 +43,6 @@ in {
       };
     }
 
-    (mkIf (notEmptyString cfg.styles) {
-      home.configFile."xob/styles.cfg".text = cfg.styles;
-    })
+    (mkIf (notEmptyString cfg.styles) { home.configFile."xob/styles.cfg".text = cfg.styles; })
   ]);
 }

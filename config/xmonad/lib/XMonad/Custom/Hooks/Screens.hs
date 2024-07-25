@@ -7,5 +7,6 @@ import XMonad.Core
 myRandrChangeHook :: X ()
 myRandrChangeHook = do
   pure ()
-  -- spawn "autorandr --change"
-  -- spawn "~/.fehbg"
+
+-- spawn "autorandr --change"
+-- spawn "~/.fehbg"

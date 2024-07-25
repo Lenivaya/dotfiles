@@ -7,7 +7,8 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   inherit (config.dotfiles) configDir;
   inherit (config) modules;
 
@@ -17,7 +18,8 @@ with lib.my; let
   userChrome = readFile "${configDir}/firefox/userChrome.css";
   userContent = readFile "${configDir}/firefox/userContent.css";
   settings = import "${configDir}/firefox/preferences.nix";
-  extensions = with firefoxExtensions;
+  extensions =
+    with firefoxExtensions;
     [
       vimium-c
 
@@ -57,7 +59,8 @@ with lib.my; let
     ]
     ++ optional modules.desktop.media.mpv.enable ff2mpv
     ++ optional modules.shell.pass.enable passff;
-in {
+in
+{
   options.modules.desktop.browsers.firefox = with types; {
     enable = mkBoolOpt false;
     package = mkOpt package pkgs.firefox;
@@ -65,7 +68,7 @@ in {
   };
 
   config = mkIf cfg.enable {
-    nixpkgs.overlays = [inputs.nur.overlay];
+    nixpkgs.overlays = [ inputs.nur.overlay ];
 
     env.XDG_DESKTOP_DIR = "$HOME"; # prevent firefox creating ~/Desktop
 
@@ -78,17 +81,17 @@ in {
         genericName = "Open a private Firefox window";
         icon = "firefox";
         exec = "${cfg.executable} --private-window";
-        categories = ["Network"];
+        categories = [ "Network" ];
       })
     ];
 
     # Smooth scrolling
     environment.sessionVariables.MOZ_USE_XINPUT2 = "1";
 
-    home.programs.firefox =
-      enabled
-      // {
-        package = with pkgs; let
+    home.programs.firefox = enabled // {
+      package =
+        with pkgs;
+        let
           firefox' = cfg.package.override {
             extraPolicies = {
               DisableAppUpdate = true;
@@ -99,23 +102,29 @@ in {
               CaptivePortal = false;
               HardwareAcceleration = true;
             };
-            extraNativeMessagingHosts = with pkgs;
+            extraNativeMessagingHosts =
+              with pkgs;
               optional modules.desktop.media.mpv.enable ff2mpv-rust
               ++ optional modules.shell.pass.enable passff-host;
           };
         in
-          firefox';
+        firefox';
 
-        profiles.default = {
-          id = 0;
-          inherit settings extensions userChrome userContent;
+      profiles.default = {
+        id = 0;
+        inherit
+          settings
+          extensions
+          userChrome
+          userContent
+          ;
 
-          extraConfig = concatStringsSep "\n" [
-            (readFile "${inputs.betterfox}/Fastfox.js")
-            (readFile "${inputs.betterfox}/Peskyfox.js")
-            (readFile "${inputs.betterfox}/user.js")
-          ];
-        };
+        extraConfig = concatStringsSep "\n" [
+          (readFile "${inputs.betterfox}/Fastfox.js")
+          (readFile "${inputs.betterfox}/Peskyfox.js")
+          (readFile "${inputs.betterfox}/user.js")
+        ];
       };
+    };
   };
 }

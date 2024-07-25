@@ -1,7 +1,8 @@
 # https://askubuntu.com/questions/1379048/intel-pstate-driver-not-being-loaded-when-added-to-grub-file
-{lib, ...}:
+{ lib, ... }:
 with lib;
-with my; {
+with my;
+{
   services.tlp = mkForce disabled;
 
   # Superior power management for portable and battery powered systems. Plausible

@@ -5,10 +5,13 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   inherit (config.env) TERM;
-in {
-  user.packages = with pkgs;
+in
+{
+  user.packages =
+    with pkgs;
     [
       ripgrep # fast grepper
       fd # rust alternative to find
@@ -37,12 +40,15 @@ in {
       youtube-dl
       android-file-transfer
     ]
-    ++ optionals config.modules.desktop.enable (with pkgs.gnome; [
-      # gnome-sound-recorder
-      gnome-autoar
-      gnome-system-monitor
-      loupe # eog
-    ])
+    ++ optionals config.modules.desktop.enable (
+      with pkgs.gnome;
+      [
+        # gnome-sound-recorder
+        gnome-autoar
+        gnome-system-monitor
+        loupe # eog
+      ]
+    )
     ++ optionals config.modules.desktop.enable [
       maim
       scrot # Screenshots
@@ -66,7 +72,7 @@ in {
         desktopName = "Calculator";
         icon = "calc";
         exec = "${TERM} -e qalc";
-        categories = ["Development"];
+        categories = [ "Development" ];
       })
     ];
 }

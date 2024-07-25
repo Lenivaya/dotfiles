@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.services.random-wallpaper;
-in {
+in
+{
   options.modules.services.random-wallpaper = with types; {
     enable = mkBoolOpt false;
     howOften = mkOpt str "daily";
@@ -16,23 +18,22 @@ in {
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
-      (
-        writeScriptBin
-        "random-wallpaper"
-        "systemctl --user restart random-wallpaper.service"
-      )
+      (writeScriptBin "random-wallpaper" "systemctl --user restart random-wallpaper.service")
     ];
 
     systemd.user.timers.random-wallpaper = {
       timerConfig.OnCalendar = cfg.howOften;
       timerConfig.Unit = "random-wallpaper.service";
-      wantedBy = ["timers.target"];
+      wantedBy = [ "timers.target" ];
     };
 
     systemd.user.services.random-wallpaper = mkGraphicalService {
       serviceConfig.PassEnvironment = "DISPLAY";
 
-      path = with pkgs; [feh betterlockscreen];
+      path = with pkgs; [
+        feh
+        betterlockscreen
+      ];
       script = ''
         feh --randomize --recursive --bg-fill ${cfg.wallpapersDir}
         betterlockscreen -u $(

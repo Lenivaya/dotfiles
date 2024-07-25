@@ -25,8 +25,7 @@ myApps :: [Application]
 myApps = mconcat [myBrowsers, myReaders, mySoundUtils]
 
 myBrowsers =
-  [
-    Application "Browser" "Firefox" "firefox",
+  [ Application "Browser" "Firefox" "firefox",
     Application "Browser" "Firefox" "firefox-nightly",
     Application "Browser" "Chromium" "chromium",
     Application "Browser" "Google-chrome" "google-chrome-stable",

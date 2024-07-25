@@ -5,10 +5,12 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   inherit (config.dotfiles) outOfStoreConfigDir;
   cfg = config.modules.services.sxhkd;
-in {
+in
+{
   options.modules.services.sxhkd.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -17,10 +19,9 @@ in {
     #   recursive = true;
     # };
 
-    system.userActivationScripts.linkSxhkdrc =
-      linkIfNotExist "~/.config/sxhkd" "${outOfStoreConfigDir}/sxhkd";
+    system.userActivationScripts.linkSxhkdrc = linkIfNotExist "~/.config/sxhkd" "${outOfStoreConfigDir}/sxhkd";
 
-    user.packages = with pkgs; [sxhkd];
+    user.packages = with pkgs; [ sxhkd ];
     services.xserver.displayManager.sessionCommands = ''
       ${getExe pkgs.sxhkd} &
     '';

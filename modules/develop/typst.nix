@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.dev.typst;
-in {
+in
+{
   options.modules.dev.typst.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {

@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   inherit (config.modules.desktop.fonts) ibmsevka;
-in {
+in
+{
   options.modules.desktop.fonts.ibmsevka.enable = mkBoolOpt false;
 
   config = mkIf ibmsevka.enable {
@@ -18,9 +20,9 @@ in {
     ];
 
     fonts.fontconfig.defaultFonts = mkForce {
-      monospace = ["Iosevka"];
-      sansSerif = ["IBM Plex Sans"];
-      serif = ["IBM Plex Serif"];
+      monospace = [ "Iosevka" ];
+      sansSerif = [ "IBM Plex Sans" ];
+      serif = [ "IBM Plex Serif" ];
     };
   };
 }

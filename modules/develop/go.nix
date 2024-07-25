@@ -5,20 +5,20 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.dev.go;
-in {
+in
+{
   options.modules.dev.go.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    home.programs.go =
-      enabled
-      // {
-        package = pkgs.go;
-        goBin = ".go/bin";
-        goPath = ".go";
-      };
+    home.programs.go = enabled // {
+      package = pkgs.go;
+      goBin = ".go/bin";
+      goPath = ".go";
+    };
 
-    user.packages = with pkgs; [gotools];
+    user.packages = with pkgs; [ gotools ];
   };
 }

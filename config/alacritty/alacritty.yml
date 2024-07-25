@@ -54,12 +54,12 @@ colors:
     cyan: "0x718062"
     white: "0xc1ab83"
   indexed_colors:
-    - { index: 16, color: "0xde935f" }
-    - { index: 17, color: "0xa3685a" }
-    - { index: 18, color: "0x282a2e" }
-    - { index: 19, color: "0x373b41" }
-    - { index: 20, color: "0xb4b7b4" }
-    - { index: 21, color: "0xe0e0e0" }
+    - {index: 16, color: "0xde935f"}
+    - {index: 17, color: "0xa3685a"}
+    - {index: 18, color: "0x282a2e"}
+    - {index: 19, color: "0x373b41"}
+    - {index: 20, color: "0xb4b7b4"}
+    - {index: 21, color: "0xe0e0e0"}
 bell:
   duration: 0
 selection:
@@ -79,4 +79,4 @@ debug:
   ref_test: false
 key_bindings:
   # Start new instance in current dir with Ctrl+Shift+Enter
-  - { key: Return, mods: Control|Shift, action: SpawnNewInstance }
+  - {key: Return, mods: Control|Shift, action: SpawnNewInstance}
