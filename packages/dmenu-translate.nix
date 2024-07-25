@@ -19,7 +19,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-I38V51BnEH2LsUCIyRmOwnF737yaYDGiH/wsZhdGOHw=";
   };
 
-  nativeBuildInputs = [makeWrapper];
+  nativeBuildInputs = [ makeWrapper ];
 
   prePatch = ''
     substituteInPlace ./dmenu-translate \
@@ -32,11 +32,13 @@ stdenv.mkDerivation rec {
     install -D --target-directory=$out/bin/ ./dmenu-translate
 
     wrapProgram $out/bin/dmenu-translate \
-      --prefix PATH ":" ${lib.makeBinPath [
-      dmenu
-      translate-shell
-      libnotify
-    ]}
+      --prefix PATH ":" ${
+        lib.makeBinPath [
+          dmenu
+          translate-shell
+          libnotify
+        ]
+      }
 
     runHook postInstall
   '';
@@ -45,7 +47,7 @@ stdenv.mkDerivation rec {
     description = "Quick text translation with dmenu";
     homepage = "https://github.com/NikitaIvanovV/dmenu-translate?tab=readme-ov-file";
     license = licenses.mit;
-    maintainers = with maintainers; [];
+    maintainers = with maintainers; [ ];
     mainProgram = "dmenu-translate";
     platforms = platforms.all;
   };

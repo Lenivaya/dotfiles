@@ -1,10 +1,9 @@
-{lib, ...}:
+{ lib, ... }:
 with lib;
-with my; {
-  services.radarr =
-    enabled
-    // {
-      openFirewall = true;
-      group = "media";
-    };
+with my;
+{
+  services.radarr = enabled // {
+    openFirewall = true;
+    group = "media";
+  };
 }

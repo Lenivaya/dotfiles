@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   inherit (config.dotfiles) configDir;
-in {
+in
+{
   user.packages = with pkgs; [
     ranger
 

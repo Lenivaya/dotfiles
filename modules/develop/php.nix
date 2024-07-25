@@ -6,18 +6,22 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.dev.php;
-in {
+in
+{
   options.modules.dev.php = with types; {
     enable = mkBoolOpt false;
     package = mkOpt package pkgs.php;
   };
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs; let
-      php' = cfg.package;
-    in
+    user.packages =
+      with pkgs;
+      let
+        php' = cfg.package;
+      in
       [
         php'
         phpactor

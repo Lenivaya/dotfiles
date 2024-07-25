@@ -5,7 +5,8 @@
   ...
 }:
 with lib;
-with lib.my; {
+with lib.my;
+{
   config = mkIf config.modules.desktop.enable {
     fonts = {
       fontDir = enabled;
@@ -15,11 +16,10 @@ with lib.my; {
       packages = with pkgs; [
         ibm-plex
         noto-fonts
-        # ubuntu_font_family
         corefonts
         merriweather
         julia-mono # Unicode glyphs
-        (pkgs.nerdfonts.override {fonts = ["NerdFontsSymbolsOnly"];})
+        (pkgs.nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
         # (nerdfonts.override {fonts = ["FiraCode"];})
 
         # lmmath
@@ -28,21 +28,17 @@ with lib.my; {
         # liberation_ttf
       ];
 
-      fontconfig =
-        enabled
-        // {
-          antialias = true;
-          hinting =
-            enabled
-            // {
-              autohint = false;
-              style = "slight";
-            };
-          subpixel = {
-            lcdfilter = "default";
-            rgba = "rgb";
-          };
+      fontconfig = enabled // {
+        antialias = true;
+        hinting = enabled // {
+          autohint = false;
+          style = "slight";
         };
+        subpixel = {
+          lcdfilter = "default";
+          rgba = "rgb";
+        };
+      };
     };
   };
 }

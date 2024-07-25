@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.dev.rust;
-in {
+in
+{
   options.modules.dev.rust.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -29,7 +31,7 @@ in {
     env = {
       CARGO_HOME = "$XDG_DATA_HOME/cargo";
       RUSTUP_HOME = "$XDG_DATA_HOME/.rustup";
-      PATH = ["$CARGO_HOME/bin"];
+      PATH = [ "$CARGO_HOME/bin" ];
     };
   };
 }

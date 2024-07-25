@@ -20,7 +20,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-GIfr0CkfpORjc/y8cZkoLKg0+M43Noeui4NGVzKfqaM=";
   };
 
-  nativeBuildInputs = [makeWrapper];
+  nativeBuildInputs = [ makeWrapper ];
 
   installPhase = ''
     runHook preInstall
@@ -28,7 +28,14 @@ stdenv.mkDerivation rec {
     install -D --target-directory=$out/bin/ ./udiskie-dmenu
 
     wrapProgram $out/bin/udiskie-dmenu \
-      --prefix PATH ":" ${lib.makeBinPath [libnotify udiskie udisks dmenu]}
+      --prefix PATH ":" ${
+        lib.makeBinPath [
+          libnotify
+          udiskie
+          udisks
+          dmenu
+        ]
+      }
 
     runHook postInstall
   '';
@@ -38,7 +45,7 @@ stdenv.mkDerivation rec {
     homepage = "https://github.com/fogine/udiskie-dmenu";
     changelog = "https://github.com/fogine/udiskie-dmenu/blob/${src.rev}/CHANGELOG.md";
     license = licenses.mit;
-    maintainers = with maintainers; [];
+    maintainers = with maintainers; [ ];
     mainProgram = "udiskie-dmenu";
     platforms = platforms.all;
   };

@@ -1,29 +1,22 @@
 name: Push to trunk
-
 on:
   push:
     paths-ignore:
       - "README.md"
   pull_request:
-
 jobs:
   format:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
       - name: Install Nix
         uses: DeterminateSystems/nix-installer-action@v10
-
       - name: Run the Magic Nix Cache
         uses: DeterminateSystems/magic-nix-cache-action@v4
-
       - name: Format
         run: nix fmt
-
       # - name: Lint errors fixing
       #   run: nix run nixpkgs#statix fix .
-
       - name: Commit formatting changes
         uses: stefanzweifel/git-auto-commit-action@v4
         with:

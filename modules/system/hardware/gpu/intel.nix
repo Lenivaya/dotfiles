@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.hardware.gpu.intel;
-in {
+in
+{
   options.modules.hardware.gpu.intel.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -37,27 +39,25 @@ in {
     # environment.sessionVariables.MESA_LOADER_DRIVER_OVERRIDE = lib.mkDefault "iris";
     # environment.sessionVariables.VDPAU_DRIVER = lib.mkDefault "va_gl";
 
-    hardware.graphics =
-      enabled
-      // {
-        extraPackages = with pkgs;
-          lib.mkDefault [
-            # (vaapiIntel.override {enableHybridCodec = true;})
-            # (intel-vaapi-driver.override {enableHybridCodec = true;})
-            intel-media-driver # For Broadwell (2014) or newer processors. LIBVA_DRIVER_NAME=iHD
-            vaapiIntel
-            # intel-vaapi-driver # For older processors. LIBVA_DRIVER_NAME=i965
-            intel-ocl
-            # libvdpau-va-gl
-            intel-compute-runtime
-            vpl-gpu-rt
-          ];
-
-        extraPackages32 = with pkgs.pkgsi686Linux; [
-          # intel-compute-runtime # FIXME does not build due to unsupported system
-          intel-media-driver
+    hardware.graphics = enabled // {
+      extraPackages =
+        with pkgs;
+        lib.mkDefault [
+          # (vaapiIntel.override {enableHybridCodec = true;})
+          # (intel-vaapi-driver.override {enableHybridCodec = true;})
+          intel-media-driver # For Broadwell (2014) or newer processors. LIBVA_DRIVER_NAME=iHD
           vaapiIntel
+          # intel-vaapi-driver # For older processors. LIBVA_DRIVER_NAME=i965
+          intel-ocl
+          # libvdpau-va-gl
+          intel-compute-runtime
+          vpl-gpu-rt
         ];
-      };
+
+      extraPackages32 = with pkgs.pkgsi686Linux; [
+        intel-media-driver
+        vaapiIntel
+      ];
+    };
   };
 }

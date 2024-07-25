@@ -9,15 +9,15 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   inherit (config.dotfiles) configDir;
   cfg = config.modules.desktop.xmonad;
-in {
+in
+{
   options.modules.desktop.xmonad.enable = mkBoolOpt false;
 
-  imports = with inputs;
-    xmonad-contrib.nixosModules
-    ++ [xmonad-contrib.modernise.${system}];
+  imports = with inputs; xmonad-contrib.nixosModules ++ [ xmonad-contrib.modernise.${system} ];
 
   config = mkIf cfg.enable {
     modules = {
@@ -41,17 +41,15 @@ in {
       };
     };
 
-    services.xserver.windowManager.xmonad =
-      enabled
-      // {
-        # enableContribAndExtras = true;
-        extraPackages = hpkgs:
-          with hpkgs; [
-            xmonad-contrib
-            flow
-          ];
-        flake = enabled;
-      };
+    services.xserver.windowManager.xmonad = enabled // {
+      # enableContribAndExtras = true;
+      extraPackages =
+        hpkgs: with hpkgs; [
+          xmonad-contrib
+          flow
+        ];
+      flake = enabled;
+    };
 
     services.xserver.displayManager.defaultSession = "none+xmonad";
 
@@ -82,22 +80,23 @@ in {
       weather-icons # for weather script
     ];
 
-    services.autorandr =
-      enabled
-      // {
-        hooks = {
-          postswitch = {
-            change-wallpaper = "source ~/.fehbg";
-          };
+    services.autorandr = enabled // {
+      hooks = {
+        postswitch = {
+          change-wallpaper = "source ~/.fehbg";
         };
       };
+    };
 
     systemd.user.services.xmonad-xkbmon = mkGraphicalService {
       description = "XMonad keyboard monitor";
-      path = with pkgs; [xkbmon xmonadctl];
+      path = with pkgs; [
+        xkbmon
+        xmonadctl
+      ];
       script = readFile "${configDir}/xmonad/scripts/keyboard-listener";
     };
 
-    env.PATH = ["$DOTFILES/config/xmonad/scripts/xmobar"];
+    env.PATH = [ "$DOTFILES/config/xmonad/scripts/xmobar" ];
   };
 }

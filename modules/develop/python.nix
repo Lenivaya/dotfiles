@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.dev.python;
-in {
+in
+{
   options.modules.dev.python.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -17,8 +19,8 @@ in {
 
       pyright
 
-      (python312.withPackages (ps:
-        with ps; [
+      (python312.withPackages (
+        ps: with ps; [
           # python-lsp-server
 
           pip
@@ -31,7 +33,8 @@ in {
           pyflakes
 
           # python-lsp-ruff
-        ]))
+        ]
+      ))
     ];
 
     env = {

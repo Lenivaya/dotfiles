@@ -5,17 +5,21 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.hardware.gpu.nvidia;
-in {
-  options.modules.hardware.gpu.nvidia = {enable = mkBoolOpt false;};
+in
+{
+  options.modules.hardware.gpu.nvidia = {
+    enable = mkBoolOpt false;
+  };
 
   config = mkIf cfg.enable {
     # blacklist nouveau module so that it does not conflict with nvidia drm stuff
     # also the nouveau performance is godawful, I'd rather run linux on a piece of paper than use nouveau
     # no offense to nouveau devs, I'm sure they're doing their best and they have my respect for that
     # but their best does not constitute a usable driver for me
-    boot.blacklistedKernelModules = ["nouveau"];
+    boot.blacklistedKernelModules = [ "nouveau" ];
 
     boot.kernelModules = [
       "nvidia"
@@ -24,7 +28,7 @@ in {
       "nvidia_modeset"
     ];
 
-    services.xserver.videoDrivers = ["nvidia"];
+    services.xserver.videoDrivers = [ "nvidia" ];
 
     environment.variables = {
       # Ultra low latency mode
@@ -67,17 +71,15 @@ in {
       };
     };
 
-    hardware.graphics =
-      enabled
-      // {
-        extraPackages = with pkgs; [
-          nvidia-vaapi-driver
-          vaapiVdpau
-          libvdpau-va-gl
-        ];
-        extraPackages32 = with pkgs.pkgsi686Linux; [nvidia-vaapi-driver];
-        enable32Bit = true;
-      };
+    hardware.graphics = enabled // {
+      extraPackages = with pkgs; [
+        nvidia-vaapi-driver
+        vaapiVdpau
+        libvdpau-va-gl
+      ];
+      extraPackages32 = with pkgs.pkgsi686Linux; [ nvidia-vaapi-driver ];
+      enable32Bit = true;
+    };
 
     boot.kernelParams = [
       # If the Spectre V2 mitigation is necessary, some performance may be recovered by setting the

@@ -5,13 +5,15 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.shell.weather;
-in {
+in
+{
   options.modules.shell.weather.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs; [wthrr];
+    user.packages = with pkgs; [ wthrr ];
 
     environment.shellAliases = {
       weather = "wthrr";

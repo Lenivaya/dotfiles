@@ -1,12 +1,10 @@
-{
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 with lib;
-with my; let
+with my;
+let
   inherit (config.dotfiles) configDir;
-in {
+in
+{
   # FIXME HACK unless animations are properly supported by home-manager
   home.configFile."picom/picom.conf".text = mkForce (readFile "${configDir}/picom/picom.conf");
 

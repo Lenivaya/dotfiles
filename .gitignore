@@ -5,3 +5,5 @@ tmp/
 .tex
 .auctex-auto/
 .direnv
+
+.pre-commit-config.yaml

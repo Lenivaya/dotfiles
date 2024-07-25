@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   inherit (config.user) name;
-in {
+in
+{
   config = mkIf config.modules.desktop.enable {
     services = {
       # mounting
@@ -18,12 +20,11 @@ in {
       # thumbnails
       tumbler.enable = true;
 
-      dbus.packages = with pkgs; [
-        nautilus-open-any-terminal
-      ];
+      dbus.packages = with pkgs; [ nautilus-open-any-terminal ];
     };
 
-    environment.systemPackages = with pkgs.gnome;
+    environment.systemPackages =
+      with pkgs.gnome;
       [
         nautilus
         nautilus-python
@@ -53,18 +54,19 @@ in {
     # Without this plugins won't work[1]
     # (when not using GNOME DE)
     # [1]: https://github.com/NixOS/nixpkgs/issues/168651#issuecomment-1373275164
-    environment.pathsToLink = [
-      "/share/nautilus-python/extensions"
-    ];
+    environment.pathsToLink = [ "/share/nautilus-python/extensions" ];
     environment.sessionVariables = {
       NAUTILUS_4_EXTENSION_DIR = "${config.system.path}/lib/nautilus/extensions-4";
       NAUTILUS_EXTENSION_DIR = "${config.system.path}/lib/nautilus/extensions-3.0";
-      GST_PLUGIN_SYSTEM_PATH_1_0 = makeSearchPathOutput "lib" "lib/gstreamer-1.0" (with pkgs.gst_all_1; [
-        gst-plugins-good
-        gst-plugins-bad
-        gst-plugins-ugly
-        gst-libav
-      ]);
+      GST_PLUGIN_SYSTEM_PATH_1_0 = makeSearchPathOutput "lib" "lib/gstreamer-1.0" (
+        with pkgs.gst_all_1;
+        [
+          gst-plugins-good
+          gst-plugins-bad
+          gst-plugins-ugly
+          gst-libav
+        ]
+      );
     };
   };
 }

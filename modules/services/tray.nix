@@ -5,10 +5,12 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.services.tray;
   spawnCommand = command: "${command} &";
-in {
+in
+{
   options.modules.services.tray = with types; {
     enable = mkBoolOpt false;
     trayer = mkBoolOpt false;
@@ -42,26 +44,27 @@ in {
         RemainAfterExit = true;
       };
 
-      path = with pkgs; [trayer];
-      script = let
-        trayerCommand = spaceConcat [
-          "trayer"
-          "-l"
-          "--edge top --align center"
-          "--distancefrom top --distance 100"
-          "--SetDockType true --SetPartialStrut false"
-          "--widthtype request --expand true"
-          "--transparent true --alpha 255"
-          "--height 26 --heighttype pixel"
-          "--iconspacing 5"
-        ];
-      in
+      path = with pkgs; [ trayer ];
+      script =
+        let
+          trayerCommand = spaceConcat [
+            "trayer"
+            "-l"
+            "--edge top --align center"
+            "--distancefrom top --distance 100"
+            "--SetDockType true --SetPartialStrut false"
+            "--widthtype request --expand true"
+            "--transparent true --alpha 255"
+            "--height 26 --heighttype pixel"
+            "--iconspacing 5"
+          ];
+        in
         spawnCommand trayerCommand;
     };
 
     systemd.user.services.trayApps = mkGraphicalService {
       description = "tray apps";
-      after = ["tray.service"];
+      after = [ "tray.service" ];
 
       serviceConfig = {
         Type = "forking";
@@ -78,9 +81,10 @@ in {
         kdeconnect
         cbatticon
       ];
-      script = let
-        trayElements = spaceConcat (map spawnCommand cfg.trayApps);
-      in
+      script =
+        let
+          trayElements = spaceConcat (map spawnCommand cfg.trayApps);
+        in
         trayElements;
     };
   };

@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.services.zcfan;
-in {
+in
+{
   options.modules.services.zcfan.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -15,7 +17,7 @@ in {
 
     systemd.services.zcfan = {
       description = "A zero-configuration fan daemon for ThinkPads";
-      wantedBy = ["default.target"];
+      wantedBy = [ "default.target" ];
 
       serviceConfig = {
         Restart = "always";
@@ -32,6 +34,6 @@ in {
       script = getExe pkgs.zcfan;
     };
 
-    user.packages = with pkgs; [zcfan];
+    user.packages = with pkgs; [ zcfan ];
   };
 }

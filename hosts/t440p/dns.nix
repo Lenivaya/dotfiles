@@ -5,13 +5,17 @@
   ...
 }:
 with lib;
-with my; {
-  networking.nameservers = mkForce ["127.0.0.1" "::1"];
+with my;
+{
+  networking.nameservers = mkForce [
+    "127.0.0.1"
+    "::1"
+  ];
   networking.networkmanager.dns = mkForce "none";
 
   systemd.services.dnsproxy = {
     description = "dnsproxy";
-    path = with pkgs; [dnsproxy];
+    path = with pkgs; [ dnsproxy ];
     script = spaceConcat [
       "dnsproxy"
       "-l 127.0.0.1"
@@ -24,6 +28,6 @@ with my; {
       "--cache-max-ttl=${toString (hoursToSeconds 96)}"
       "--http3"
     ];
-    wantedBy = ["multi-user.target"];
+    wantedBy = [ "multi-user.target" ];
   };
 }

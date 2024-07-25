@@ -11,9 +11,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.desktop.media.recording;
-in {
+in
+{
   options.modules.desktop.media.recording = {
     enable = mkBoolOpt false;
     audio.enable = mkBoolOpt false;
@@ -21,36 +23,41 @@ in {
   };
 
   config = mkIf cfg.enable {
-    home.programs.obs-studio =
-      mkIf cfg.video.enable enabled
-      // {
-        package = pkgs.obs-studio;
-        plugins = with pkgs.obs-studio-plugins; [
-          obs-backgroundremoval
-          obs-vaapi
-          obs-pipewire-audio-capture
-          droidcam-obs
-          obs-multi-rtmp
-          looking-glass-obs
-        ];
-      };
+    home.programs.obs-studio = mkIf cfg.video.enable enabled // {
+      package = pkgs.obs-studio;
+      plugins = with pkgs.obs-studio-plugins; [
+        obs-backgroundremoval
+        obs-vaapi
+        obs-pipewire-audio-capture
+        droidcam-obs
+        obs-multi-rtmp
+        looking-glass-obs
+      ];
+    };
 
-    user.packages = with pkgs;
-    # for recording and remastering audio
+    user.packages =
+      with pkgs;
+      # for recording and remastering audio
       (
-        if cfg.audio.enable
-        then with pkgs; [audacity ardour]
-        else []
+        if cfg.audio.enable then
+          with pkgs;
+          [
+            audacity
+            ardour
+          ]
+        else
+          [ ]
       )
       ++
-      # for longer term streaming/recording the screen
-      (
-        if cfg.video.enable
-        # then [obs-studio handbrake]
-        then [
-          handbrake
-        ]
-        else []
-      );
+        # for longer term streaming/recording the screen
+        (
+          if
+            cfg.video.enable
+          # then [obs-studio handbrake]
+          then
+            [ handbrake ]
+          else
+            [ ]
+        );
   };
 }

@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.desktop;
-in {
+in
+{
   options.modules.desktop = {
     enable = mkBoolOpt false;
     isWayland = mkBoolOpt false;
@@ -15,42 +17,45 @@ in {
   };
 
   config = mkIf cfg.enable {
-    services.xserver =
-      enabled
-      // {
-        autoRepeatDelay = 200;
-        autoRepeatInterval = 25;
-        layout = comcat ["us" "ru" "ua"];
-        xkbOptions = comcat ["grp:win_space_toggle" "caps:ctrl_modifier"];
+    services.xserver = enabled // {
+      autoRepeatDelay = 200;
+      autoRepeatInterval = 25;
+      layout = comcat [
+        "us"
+        "ru"
+        "ua"
+      ];
+      xkbOptions = comcat [
+        "grp:win_space_toggle"
+        "caps:ctrl_modifier"
+      ];
 
-        exportConfiguration = true;
+      exportConfiguration = true;
 
-        displayManager.lightdm = mkDefault (
-          enabled
-          // {
-            greeters.gtk.theme = {
-              # package = pkgs.gnome.gnome-themes-extra;
-              # name = "Adwaita-dark";
-              package = pkgs.adw-gtk3;
-              name = "adw-gtk3-dark";
-            };
-          }
-        );
-      };
+      displayManager.lightdm = mkDefault (
+        enabled
+        // {
+          greeters.gtk.theme = {
+            # package = pkgs.gnome.gnome-themes-extra;
+            # name = "Adwaita-dark";
+            package = pkgs.adw-gtk3;
+            name = "adw-gtk3-dark";
+          };
+        }
+      );
+    };
 
-    services.dbus.packages = with pkgs; [dconf];
+    services.dbus.packages = with pkgs; [ dconf ];
     programs.dconf = enabled;
 
     xdg = {
-      portal =
-        enabled
-        // {
-          extraPortals = with pkgs; [
-            xdg-desktop-portal-gtk
-            # xdg-desktop-portal-gnome
-          ];
-          gtkUsePortal = true;
-        };
+      portal = enabled // {
+        extraPortals = with pkgs; [
+          xdg-desktop-portal-gtk
+          # xdg-desktop-portal-gnome
+        ];
+        gtkUsePortal = true;
+      };
     };
 
     modules.services.sxhkd = enabled;

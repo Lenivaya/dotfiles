@@ -5,12 +5,14 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   inherit (config.dotfiles) configDir;
   inherit (config.env) TERM;
 
   cfg = config.modules.shell.xplr;
-in {
+in
+{
   options.modules.shell.xplr.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -21,7 +23,11 @@ in {
         desktopName = "XPLR";
         icon = "utilities-terminal";
         exec = "${TERM} -e xplr";
-        categories = ["FileManager" "FileTools" "System"];
+        categories = [
+          "FileManager"
+          "FileTools"
+          "System"
+        ];
       })
 
       # images preview

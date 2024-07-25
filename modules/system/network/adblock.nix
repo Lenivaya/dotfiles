@@ -1,20 +1,19 @@
 # Blocking some internet shit here
-{
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.adblock;
-in {
+in
+{
   options.modules.adblock.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    networking.stevenblack =
-      enabled
-      // {
-        block = ["gambling" "fakenews"];
-      };
+    networking.stevenblack = enabled // {
+      block = [
+        "gambling"
+        "fakenews"
+      ];
+    };
   };
 }

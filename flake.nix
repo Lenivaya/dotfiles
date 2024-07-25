@@ -38,7 +38,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     pre-commit-hooks = {
-      url = "github:cachix/pre-commit-hooks.nix";
+      url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -129,100 +129,66 @@
     ];
   };
 
-  outputs = inputs @ {
-    self,
-    nixpkgs,
-    nixpkgs-unstable,
-    treefmt-nix,
-    pre-commit-hooks,
-    home-manager,
-    ...
-  }: let
-    inherit (lib.my) mapModules mapModulesRec mapHosts;
+  outputs =
+    inputs@{
+      self,
+      nixpkgs,
+      nixpkgs-unstable,
+      treefmt-nix,
+      pre-commit-hooks,
+      home-manager,
+      ...
+    }:
+    let
+      inherit (lib.my) mapModules mapModulesRec mapHosts;
 
-    system = "x86_64-linux";
+      system = "x86_64-linux";
 
-    mkPkgs = pkgs: extraOverlays:
-      import pkgs {
-        inherit system;
-        config.allowUnfree = true; # forgive me Stallman senpai
-        config.nvidia.acceptLicense = true;
-        overlays = extraOverlays ++ (lib.attrValues self.overlays);
-      };
-    pkgs = mkPkgs nixpkgs [self.overlay];
-    pkgs' = mkPkgs nixpkgs-unstable [];
+      mkPkgs =
+        pkgs: extraOverlays:
+        import pkgs {
+          inherit system;
+          config.allowUnfree = true; # forgive me Stallman senpai
+          config.nvidia.acceptLicense = true;
+          overlays = extraOverlays ++ (lib.attrValues self.overlays);
+        };
+      pkgs = mkPkgs nixpkgs [ self.overlay ];
+      pkgs' = mkPkgs nixpkgs-unstable [ ];
 
-    lib =
-      nixpkgs.lib.extend
-      (self: _super:
+      lib = nixpkgs.lib.extend (
+        self: _super:
         {
           my = import ./lib {
             inherit pkgs inputs;
             lib = self;
           };
         }
-        // home-manager.lib);
-  in {
-    lib = lib.my;
-
-    overlay = _final: _prev: {
-      unstable = pkgs';
-      my = self.packages."${system}";
-    };
-
-    overlays =
-      mapModules ./overlays import;
-
-    packages."${system}" =
-      mapModules ./packages (p: pkgs.callPackage p {inherit inputs;});
-
-    nixosModules =
-      {dotfiles = import ./.;} // mapModulesRec ./modules import;
-
-    nixosConfigurations =
-      mapHosts ./hosts {};
-
-    devShells."${system}".default = let
-      preCommitHook =
-        (pre-commit-hooks.lib.${system}.run {
-          src = ./.;
-          hooks = {
-            editorconfig-checker.enable = true;
-            black.enable = true;
-            prettier.enable = true;
-            shellcheck.enable = true;
-            shfmt.enable = true;
-            # yamllint.enable = true;
-            actionlint.enable = true;
-            alejandra.enable = true;
-            deadnix.enable = true;
-            # statix.enable = true;
-            # convco.enable = true;
-            fourmolu.enable = true;
-            typos = {
-              enable = true;
-              types = ["text"];
-            };
-          };
-          settings.deadnix.edit = true;
-        })
-        .shellHook;
+        // home-manager.lib
+      );
     in
-      import ./shell.nix {inherit pkgs preCommitHook;};
+    {
+      lib = lib.my;
 
-    apps."${system}".default = {
-      type = "app";
-      program = ./bin/hey;
-    };
+      overlay = _final: _prev: {
+        unstable = pkgs';
+        my = self.packages."${system}";
+      };
 
-    formatter.${system} =
-      treefmt-nix.lib.mkWrapper
-      pkgs
-      {
+      overlays = mapModules ./overlays import;
+
+      packages."${system}" = mapModules ./packages (p: pkgs.callPackage p { inherit inputs; });
+
+      nixosModules = {
+        dotfiles = import ./.;
+      } // mapModulesRec ./modules import;
+
+      nixosConfigurations = mapHosts ./hosts { };
+
+      formatter.${system} = treefmt-nix.lib.mkWrapper pkgs {
         projectRootFile = "flake.nix";
 
         programs = {
-          alejandra.enable = true;
+          nixfmt-rfc-style.enable = true;
           deadnix.enable = true;
           shfmt.enable = true;
           black.enable = true;
@@ -230,19 +196,39 @@
           mdsh.enable = true;
           yamlfmt.enable = true;
           prettier.enable = true;
+          # fourmolu.enable = true;
         };
       };
 
-    templates = {
-      full = {
-        path = ./.;
-        description = "A grossly incandescent nixos config";
-      };
-      minimal = {
-        path = ./templates/minimal;
-        description = "A grossly incandescent and minimal nixos config";
-      };
+      devShells."${system}".default =
+        let
+          preCommitHook =
+            (pre-commit-hooks.lib.${system}.run {
+              src = ./.;
+              hooks = {
+                editorconfig-checker.enable = true;
+                black.enable = true;
+                prettier.enable = true;
+                shellcheck.enable = true;
+                shfmt.enable = true;
+                # yamllint.enable = true;
+                actionlint.enable = true;
+                nixfmt = {
+                  enable = true;
+                  package = pkgs.nixfmt-rfc-style;
+                };
+                deadnix.enable = true;
+                # statix.enable = true;
+                # convco.enable = true;
+                fourmolu.enable = true;
+                typos = {
+                  enable = true;
+                  types = [ "text" ];
+                };
+              };
+              settings.deadnix.edit = true;
+            }).shellHook;
+        in
+        import ./shell.nix { inherit pkgs preCommitHook; };
     };
-    templates.default = self.templates.minimal;
-  };
 }

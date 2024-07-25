@@ -1,10 +1,7 @@
-{
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 with lib;
-with lib.my; {
+with lib.my;
+{
   config = mkMerge [
     (mkIf config.this.isHeadful {
       home-manager.users.${config.user.name}.manual = {

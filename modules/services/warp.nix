@@ -5,7 +5,8 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.services.warp;
   warpScript = pkgs.writeScriptBin "warp" ''
     if systemctl is-active --quiet warp-svc; then
@@ -17,17 +18,18 @@ with lib.my; let
         warp-cli connect
     fi
   '';
-  # warpScript = pkgs.writeScriptBin "warp" ''
-  #   if systemctl is-active --quiet cloudflare-warp; then
-  #       warp-cli disconnect
-  #       systemctl stop cloudflare-warp
-  #   else
-  #       systemctl start cloudflare-warp
-  #       sleep 1
-  #       warp-cli connect
-  #   fi
-  # '';
-in {
+in
+# warpScript = pkgs.writeScriptBin "warp" ''
+#   if systemctl is-active --quiet cloudflare-warp; then
+#       warp-cli disconnect
+#       systemctl stop cloudflare-warp
+#   else
+#       systemctl start cloudflare-warp
+#       sleep 1
+#       warp-cli connect
+#   fi
+# '';
+{
   options.modules.services.warp.enable = mkBoolOpt false;
   config = mkIf cfg.enable {
     # TODO
@@ -39,10 +41,13 @@ in {
     systemd.services.warp-svc = mkGraphicalService {
       description = "Cloudfare warp daemon";
 
-      path = with pkgs; [cloudflare-warp];
+      path = with pkgs; [ cloudflare-warp ];
       script = "warp-svc";
     };
 
-    user.packages = with pkgs; [cloudflare-warp warpScript];
+    user.packages = with pkgs; [
+      cloudflare-warp
+      warpScript
+    ];
   };
 }

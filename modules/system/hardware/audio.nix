@@ -6,9 +6,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.hardware.audio;
-in {
+in
+{
   options.modules.hardware.audio = {
     enable = mkBoolOpt false;
     effects = {
@@ -21,29 +23,34 @@ in {
     {
       sound = enabled;
       security.rtkit = enabled;
-      user.extraGroups = ["audio" "pipewire"];
+      user.extraGroups = [
+        "audio"
+        "pipewire"
+      ];
 
       boot.kernelModules =
-        ["snd_seq" "snd_seq_midi" "snd_rawmidi"] # ALSA Sequencer kernel modules
-        ++ ["snd_pcm_oss" "snd_mixer_oss" "snd_seq_oss"]
-        ++ ["uinput"]; # AVRCP protocol support/compatibility for input device
+        [
+          "snd_seq"
+          "snd_seq_midi"
+          "snd_rawmidi"
+        ] # ALSA Sequencer kernel modules
+        ++ [
+          "snd_pcm_oss"
+          "snd_mixer_oss"
+          "snd_seq_oss"
+        ]
+        ++ [ "uinput" ]; # AVRCP protocol support/compatibility for input device
 
-      services.pipewire =
-        enabled
-        // {
-          alsa =
-            enabled
-            // {
-              support32Bit = with pkgs; (
-                stdenv.hostPlatform.isLinux
-                && stdenv.hostPlatform.isx86
-              );
-            };
-          pulse = enabled;
-          jack = enabled;
+      services.pipewire = enabled // {
+        alsa = enabled // {
+          support32Bit = with pkgs; (stdenv.hostPlatform.isLinux && stdenv.hostPlatform.isx86);
         };
+        pulse = enabled;
+        jack = enabled;
+      };
 
-      user.packages = with pkgs;
+      user.packages =
+        with pkgs;
         [
           pulsemixer
           pamix
@@ -58,9 +65,7 @@ in {
 
     (mkIf cfg.effects.enable {
       # home.services.easyeffects = enabled;
-      user.packages = with pkgs; [
-        easyeffects
-      ];
+      user.packages = with pkgs; [ easyeffects ];
     })
 
     # (mkIf

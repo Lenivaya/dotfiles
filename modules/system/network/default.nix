@@ -1,6 +1,7 @@
-{lib, ...}:
+{ lib, ... }:
 with lib;
-with lib.my; {
+with lib.my;
+{
   services = {
     # systemd DNS resolver daemon
     resolved = enabled;
@@ -25,17 +26,18 @@ with lib.my; {
       "9.9.9.9"
     ];
 
-    networkmanager =
-      enabled
-      // {
-        plugins = []; # disable all plugins, we don't need them
-        dns = "systemd-resolved"; # use systemd-resolved as dns backend
-        unmanaged = ["docker0" "rndis0"];
-        wifi = {
-          macAddress = "random"; # use a random mac address on every boot
-          powersave = true; # enable wifi powersaving
-        };
+    networkmanager = enabled // {
+      plugins = [ ]; # disable all plugins, we don't need them
+      dns = "systemd-resolved"; # use systemd-resolved as dns backend
+      unmanaged = [
+        "docker0"
+        "rndis0"
+      ];
+      wifi = {
+        macAddress = "random"; # use a random mac address on every boot
+        powersave = true; # enable wifi powersaving
       };
+    };
   };
 
   # enable wireless database, it helps with finding the right channels

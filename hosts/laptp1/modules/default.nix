@@ -1,4 +1,5 @@
-{...}: {
+{ ... }:
+{
   imports = [
     ./adguard-home.nix
     ./radarr.nix

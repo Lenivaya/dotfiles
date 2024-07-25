@@ -5,7 +5,8 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.editors.emacs;
   inherit (config.dotfiles) configDir;
 
@@ -17,7 +18,8 @@ with lib.my; let
       exec emacsclient --create-frame --alternate-editor emacs "$@"
     fi
   '';
-in {
+in
+{
   options.modules.editors.emacs = {
     enable = mkBoolOpt false;
     default = mkBoolOpt false;
@@ -33,18 +35,14 @@ in {
 
       ## Doom dependencies
       git
-      (ripgrep.override {withPCRE2 = true;})
+      (ripgrep.override { withPCRE2 = true; })
 
       ## Optional dependencies
       editorconfig-core-c # per-project style config
       fd # faster projectile indexing
       gnutls # for TLS connectivity
       imagemagick # for image-dired
-      (
-        mkIf
-        config.programs.gnupg.agent.enable
-        pinentry-emacs
-      ) # in-emacs gnupg prompts
+      (mkIf config.programs.gnupg.agent.enable pinentry-emacs) # in-emacs gnupg prompts
       zstd # for undo-tree compression
 
       python39Packages.pylatexenc # LaTeX parser
@@ -61,16 +59,18 @@ in {
 
       # :checkers (spell +enchant)
       enchant
-      (aspellWithDicts (ds:
-        with ds; [
+      (aspellWithDicts (
+        ds: with ds; [
           en
           en-computers
           en-science
           uk
           ru
-        ]))
+        ]
+      ))
       (hunspellWithDicts (
-        with hunspellDicts; [
+        with hunspellDicts;
+        [
           en_US-large
           en_GB-large
           uk_UA
@@ -112,38 +112,29 @@ in {
       emacs-lsp-booster
     ];
 
-    fonts.packages = with pkgs; [
-      emacs-all-the-icons-fonts
-    ];
+    fonts.packages = with pkgs; [ emacs-all-the-icons-fonts ];
 
-    home.programs.emacs =
-      enabled
-      // {
-        package =
-          if config.modules.desktop.isWayland
-          then pkgs.emacs29-pgtk
-          else pkgs.emacs29-gtk3;
-        extraPackages = epkgs: with epkgs; [vterm];
-      };
+    home.programs.emacs = enabled // {
+      package = if config.modules.desktop.isWayland then pkgs.emacs29-pgtk else pkgs.emacs29-gtk3;
+      extraPackages = epkgs: with epkgs; [ vterm ];
+    };
 
     modules.editors.default = mkIf cfg.default (getExe editorScript);
 
-    env.PATH = ["$XDG_CONFIG_HOME/emacs/bin"];
+    env.PATH = [ "$XDG_CONFIG_HOME/emacs/bin" ];
 
-    system.userActivationScripts =
-      mkIf cfg.doom.enable
-      {
-        installDoomEmacs = ''
-          if ! [ -d ~/.config/emacs ]; then
-              git clone --depth=1 --single-branch "${cfg.doom.repoUrl}" "$XDG_CONFIG_HOME/emacs"
-          fi
-        '';
-        linkAndTangleDoomConfig = ''
-          if ! [ -d $HOME/.config/doom ]; then
-              ln -s ${configDir}/doom ~/.config/doom
-              ~/.config/emacs/bin/org-tangle ~/.config/doom/config.org
-          fi
-        '';
-      };
+    system.userActivationScripts = mkIf cfg.doom.enable {
+      installDoomEmacs = ''
+        if ! [ -d ~/.config/emacs ]; then
+            git clone --depth=1 --single-branch "${cfg.doom.repoUrl}" "$XDG_CONFIG_HOME/emacs"
+        fi
+      '';
+      linkAndTangleDoomConfig = ''
+        if ! [ -d $HOME/.config/doom ]; then
+            ln -s ${configDir}/doom ~/.config/doom
+            ~/.config/emacs/bin/org-tangle ~/.config/doom/config.org
+        fi
+      '';
+    };
   };
 }

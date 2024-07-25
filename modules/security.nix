@@ -1,9 +1,6 @@
+{ lib, config, ... }:
+with lib;
 {
-  lib,
-  config,
-  ...
-}:
-with lib; {
   ## System security tweaks
   security.protectKernelImage = true;
 
@@ -12,9 +9,10 @@ with lib; {
   boot.tmp.useTmpfs = mkDefault true;
   # If not using tmpfs, which is naturally purged on reboot, we must clean it
   # /tmp ourselves. /tmp should be volatile storage!
-  boot.tmp.cleanOnBoot = let
-    cleaningMakesSense = !config.boot.tmp.useTmpfs;
-  in
+  boot.tmp.cleanOnBoot =
+    let
+      cleaningMakesSense = !config.boot.tmp.useTmpfs;
+    in
     cleaningMakesSense;
 
   # Fix a security hole in place for backwards compatibility. See desc in
@@ -61,7 +59,7 @@ with lib; {
     "net.ipv4.tcp_congestion_control" = "bbr";
     "net.core.default_qdisc" = "cake";
   };
-  boot.kernelModules = ["tcp_bbr"];
+  boot.kernelModules = [ "tcp_bbr" ];
 
   # Change me later!
   user.initialPassword = "nixos";

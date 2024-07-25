@@ -326,7 +326,10 @@
     "key" = "ctrl+shift+=";
     "command" = "extension.multiCommand.execute";
     "args" = {
-      "sequence" = ["editor.action.fontZoomReset" "workbench.action.zoomReset"];
+      "sequence" = [
+        "editor.action.fontZoomReset"
+        "workbench.action.zoomReset"
+      ];
     };
   }
 

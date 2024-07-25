@@ -18,7 +18,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-4A4VUYaTdWy/aTi6SdTMUdMiq9++smKUxMH6hepbPS0=";
   };
 
-  nativeBuildInputs = [makeWrapper];
+  nativeBuildInputs = [ makeWrapper ];
 
   installPhase = ''
     runHook preInstall
@@ -27,7 +27,12 @@ stdenv.mkDerivation rec {
     install -D --target-directory=$out/bin/ ./rofi-chrome-profile-launcher
 
     wrapProgram $out/bin/rofi-chrome-profile-launcher \
-      --prefix PATH ":" ${lib.makeBinPath [python3 bash]}
+      --prefix PATH ":" ${
+        lib.makeBinPath [
+          python3
+          bash
+        ]
+      }
 
     runHook postInstall
   '';

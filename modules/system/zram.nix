@@ -1,24 +1,20 @@
-{
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.zram;
-in {
+in
+{
   options.modules.zram = {
     enable = mkBoolOpt false;
   };
 
   config = mkIf cfg.enable {
-    zramSwap =
-      enabled
-      // {
-        algorithm = "zstd";
-        priority = 1000;
-        memoryPercent = 90;
-      };
+    zramSwap = enabled // {
+      algorithm = "zstd";
+      priority = 1000;
+      memoryPercent = 90;
+    };
 
     # <https://www.kernel.org/doc/html/latest/admin-guide/sysctl/vm.html>
     # <https://github.com/pop-os/default-settings/pull/163>

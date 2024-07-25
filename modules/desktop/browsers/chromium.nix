@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.desktop.browsers.chromium;
-in {
+in
+{
   options.modules.desktop.browsers.chromium = with types; {
     package = mkOpt package pkgs.google-chrome;
     enable = mkBoolOpt false;
@@ -62,45 +64,36 @@ in {
   };
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs; [
-      ff2mpv-rust
-    ];
+    user.packages = with pkgs; [ ff2mpv-rust ];
 
-    home.programs.chromium =
-      enabled
-      // {
-        inherit
-          (cfg)
-          package
-          ;
+    home.programs.chromium = enabled // {
+      inherit (cfg) package commandLineArgs;
 
-        inherit (cfg) commandLineArgs;
+      extensions = [
+        "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
+        "hfjbmagddngcpeloejdejnfgbamkjaeg" # vimium c
+        "hkgfoiooedgoejojocmhlaklaeopbecg" # picture-in-picture
+        "iaiomicjabeggjcfkbimgmglanimpnae" # tab session manager
+        "aghdiknflpelpkepifoplhodcnfildao" # tab session manager groups
+        "mmcgnaachjapbbchcpjihhgjhpfcnoan" # open new tab after current tab
+        "nacjakoppgmdcpemlfnfegmlhipddanj" # pdf.js with vimium
+        # "bgfofngpplpmpijncjegfdgilpgamhdk" # modern scrollbar
+        "opcjanmpjbdbdpnjfjbboacibokblbhl" # mut tab shortcuts
+        # "njdfdhgcmkocbgbhcioffdbicglldapd" # localcdn
+        "mnjggcdmjocbbbhaepdhchncahnbgone" # sponsorblock
 
-        extensions = [
-          "cjpalhdlnbpafiamejdnhcphjbkeiagm" # ublock origin
-          "hfjbmagddngcpeloejdejnfgbamkjaeg" # vimium c
-          "hkgfoiooedgoejojocmhlaklaeopbecg" # picture-in-picture
-          "iaiomicjabeggjcfkbimgmglanimpnae" # tab session manager
-          "aghdiknflpelpkepifoplhodcnfildao" # tab session manager groups
-          "mmcgnaachjapbbchcpjihhgjhpfcnoan" # open new tab after current tab
-          "nacjakoppgmdcpemlfnfegmlhipddanj" # pdf.js with vimium
-          # "bgfofngpplpmpijncjegfdgilpgamhdk" # modern scrollbar
-          "opcjanmpjbdbdpnjfjbboacibokblbhl" # mut tab shortcuts
-          # "njdfdhgcmkocbgbhcioffdbicglldapd" # localcdn
-          "mnjggcdmjocbbbhaepdhchncahnbgone" # sponsorblock
+        "hjdoplcnndgiblooccencgcggcoihigg" # didn't read, terms of service
+        # "edibdbjcniadpccecjdfdjjppcpchdlm" # I still don't care about cookies
 
-          "hjdoplcnndgiblooccencgcggcoihigg" # didn't read, terms of service
-          # "edibdbjcniadpccecjdfdjjppcpchdlm" # I still don't care about cookies
+        "hlepfoohegkhhmjieoechaddaejaokhf" # refined github
+        "njmimaecgocggclbecipdimilidimlpl" # reddit comment collapser
+        "kbmfpngjjgdllneeigpgjifpgocmfgmb" # reddit enhancement suite
 
-          "hlepfoohegkhhmjieoechaddaejaokhf" # refined github
-          "njmimaecgocggclbecipdimilidimlpl" # reddit comment collapser
-          "kbmfpngjjgdllneeigpgjifpgocmfgmb" # reddit enhancement suite
-
-          {
-            id = "lkbebcjgcmobigpeffafkodonchffocl";
-            updateUrl = "https://gitlab.com/magnolia1234/bypass-paywalls-chrome-clean/-/raw/master/updates.xml?ref_type=heads";
-          }
-        ];
-      };
+        {
+          id = "lkbebcjgcmobigpeffafkodonchffocl";
+          updateUrl = "https://gitlab.com/magnolia1234/bypass-paywalls-chrome-clean/-/raw/master/updates.xml?ref_type=heads";
+        }
+      ];
+    };
   };
 }

@@ -3,7 +3,7 @@ final: prev: {
     postFixup = ''
       wrapProgram $out/bin/${oa.pname} \
         --set PATH ${
-        with final;
+          with final;
           lib.makeBinPath [
             libnotify
             slop
@@ -16,7 +16,7 @@ final: prev: {
             procps
             gawk # fixes screen recording feature
           ]
-      }
+        }
     '';
   });
 }

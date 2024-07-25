@@ -98,5 +98,5 @@ selectAndSearchPrompt conf =
     go selected =
       forM_
         (lookup selected namesToEngines)
-        (promptSearch $ promptNoHistory conf
+        ( promptSearch $ promptNoHistory conf
         )

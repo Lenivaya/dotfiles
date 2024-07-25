@@ -20,10 +20,14 @@ stdenv.mkDerivation {
   meta = with lib; {
     description = "DevTunnel is a tool that allows you to expose your local development server to the internet";
     license = licenses.mit;
-    platforms = ["x86_64-linux"];
+    platforms = [ "x86_64-linux" ];
   };
 
-  buildInputs = [autoPatchelfHook zlib stdenv.cc.cc.lib];
+  buildInputs = [
+    autoPatchelfHook
+    zlib
+    stdenv.cc.cc.lib
+  ];
   runtimeDependencies = [
     icu
     openssl.out

@@ -21,7 +21,7 @@ stdenv.mkDerivation rec {
     hash = "sha256-T8y/V/QaiVqv+LjaeeujweyawxYvqvy8q8iMX7KgZ04=";
   };
 
-  nativeBuildInputs = [makeWrapper];
+  nativeBuildInputs = [ makeWrapper ];
 
   prePatch = ''
     substituteInPlace ./dmenu-pipewire \
@@ -34,7 +34,14 @@ stdenv.mkDerivation rec {
     install -D --target-directory=$out/bin/ ./dmenu-pipewire
 
     wrapProgram $out/bin/dmenu-pipewire \
-      --prefix PATH ":" ${lib.makeBinPath [dmenu jq pipewire wireplumber]}
+      --prefix PATH ":" ${
+        lib.makeBinPath [
+          dmenu
+          jq
+          pipewire
+          wireplumber
+        ]
+      }
 
     runHook postInstall
   '';
@@ -43,7 +50,7 @@ stdenv.mkDerivation rec {
     description = "Audio sink chooser";
     homepage = "https://github.com/hvitoi/dmenu-pipewire";
     license = licenses.mit;
-    maintainers = with maintainers; [];
+    maintainers = with maintainers; [ ];
     mainProgram = "dmenu-pipewire";
     platforms = platforms.all;
   };

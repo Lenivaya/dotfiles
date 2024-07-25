@@ -38,11 +38,9 @@
   "layers.mlgpu.enabled" = true;
   "media.ffmpeg.vaapi.enabled" = true;
   # "media.rdd-vpx.enabled" = true;
-  "media.rdd-vpx.enabled" =
-    false; # https://bugzilla.mozilla.org/show_bug.cgi?id=1673184
+  "media.rdd-vpx.enabled" = false; # https://bugzilla.mozilla.org/show_bug.cgi?id=1673184
   # "media.ffvpx.enabled" = true;
-  "media.ffvpx.enabled" =
-    false; # https://www.opennet.ru/opennews/art.shtml?num=53086
+  "media.ffvpx.enabled" = false; # https://www.opennet.ru/opennews/art.shtml?num=53086
   "media.navigator.mediadatadecoder_vpx_enabled" = true;
   "gfx.webrender.all" = true;
   "gfx.webrender.compositor.force-enabled" = true;
@@ -92,10 +90,8 @@
   "browser.urlbar.unitConversion.enabled" = true;
 
   # Disable some not so useful functionality.
-  "browser.disableResetPrompt" =
-    true; # "Looks like you haven't started Firefox in a while."
-  "browser.onboarding.enabled" =
-    false; # "New to Firefox? Let's get started!" tour
+  "browser.disableResetPrompt" = true; # "Looks like you haven't started Firefox in a while."
+  "browser.onboarding.enabled" = false; # "New to Firefox? Let's get started!" tour
   "browser.aboutConfig.showWarning" = false; # Warning when opening about:config
   "extensions.pocket.enabled" = false;
   "extensions.shield-recipe-client.enabled" = false;
@@ -175,8 +171,7 @@
 
   # disable reports
   "browser.crashReports.unsubmittedCheck.autoSubmit" = false;
-  "browser.crashReports.unsubmittedCheck.autoSubmit2" =
-    false; # don't submit backlogged reports
+  "browser.crashReports.unsubmittedCheck.autoSubmit2" = false; # don't submit backlogged reports
   "browser.crashReports.unsubmittedCheck.enabled" = false;
   "browser.tabs.crashReporting.sendReport" = false;
   "breakpad.reportURL" = "";

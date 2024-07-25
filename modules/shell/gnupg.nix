@@ -5,9 +5,11 @@
   ...
 }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.shell.gnupg;
-in {
+in
+{
   options.modules.shell.gnupg = with types; {
     enable = mkBoolOpt false;
     cacheTTL = mkOpt int 3600; # 1hr
@@ -17,7 +19,7 @@ in {
     {
       environment.variables.GNUPGHOME = "$XDG_CONFIG_HOME/gnupg";
       programs.gnupg.agent = enabled;
-      user.packages = with pkgs; [tomb];
+      user.packages = with pkgs; [ tomb ];
 
       home.configFile."gnupg/gpg-agent.conf" = {
         text = ''
@@ -29,7 +31,7 @@ in {
 
     (mkIf config.this.isHeadful {
       programs.gnupg.agent.pinentryPackage = mkForce pkgs.pinentry-gnome3;
-      user.packages = with pkgs; [gnome.seahorse];
+      user.packages = with pkgs; [ gnome.seahorse ];
     })
   ]);
 }

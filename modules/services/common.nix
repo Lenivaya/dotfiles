@@ -5,7 +5,8 @@
   ...
 }:
 with lib;
-with lib.my; {
+with lib.my;
+{
   services = mkMerge [
     {
       acpid = enabled;
@@ -17,9 +18,7 @@ with lib.my; {
       nscd.enableNsncd = true;
     }
 
-    (mkIf config.this.isHeadful {
-      udev.packages = [pkgs.android-udev-rules];
-    })
+    (mkIf config.this.isHeadful { udev.packages = [ pkgs.android-udev-rules ]; })
 
     (mkIf config.modules.desktop.enable {
       xbanish = enabled;

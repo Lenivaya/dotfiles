@@ -1,12 +1,10 @@
-{
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 with lib;
-with lib.my; let
+with lib.my;
+let
   cfg = config.modules.services.kdeconnect;
-in {
+in
+{
   options.modules.services.kdeconnect.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
@@ -20,6 +18,8 @@ in {
       ];
     };
 
-    home.services.kdeconnect = enabled // {indicator = true;};
+    home.services.kdeconnect = enabled // {
+      indicator = true;
+    };
   };
 }
