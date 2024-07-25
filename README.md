@@ -79,4 +79,3 @@
 
 > :warning: **Don't forget to change your `root` and `$USER` passwords!** They
 > are set to `nixos` by default.
-
