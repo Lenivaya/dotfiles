@@ -52,7 +52,7 @@ in
             # name = "MoreWaita";
           };
           cursorTheme = {
-            package = pkgs.gnome.gnome-themes-extra;
+            package = pkgs.gnome-themes-extra;
             name = "Adwaita";
           };
           gtk3 = mkMerge [
@@ -86,7 +86,7 @@ in
 
       qt = enabled // {
         # https://pagure.io/fedora-workstation/issue/351
-        platformTheme = "gnome";
+        platformTheme.name = "adwaita";
         style = {
           package = pkgs.adwaita-qt;
           name = "adwaita-dark";

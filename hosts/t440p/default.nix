@@ -116,13 +116,7 @@ with lib.my;
         default = true;
       };
       jetbrains = enabled // {
-        packages = with pkgs.jetbrains; [
-          webstorm
-          rider
-          pycharm-professional
-          goland
-          rust-rover
-        ];
+        packages = with pkgs; [ jetbrains-toolbox ]; # KISS
       };
     };
 
@@ -218,6 +212,7 @@ with lib.my;
 
   security.sudo-rs = enabled;
 
+  nix.gc.automatic = mkForce false;
   programs.nh.clean = enabled // {
     dates = "weekly";
     extraArgs = "--keep-since 1w --keep 3";
@@ -335,7 +330,6 @@ with lib.my;
     extraPackages = with pkgs; [
       libGL
       intel-vaapi-driver
-      intel-ocl
       vaapiIntel
       vpl-gpu-rt
     ];
@@ -343,7 +337,6 @@ with lib.my;
   chaotic.mesa-git = enabled // {
     extraPackages = with pkgs; [
       intel-vaapi-driver
-      intel-ocl
       vaapiIntel
       vpl-gpu-rt
     ];
@@ -424,13 +417,9 @@ with lib.my;
     in
     [ inputs.nur.overlay ]
     ++ [ inputs.picom.overlay.${system} ]
-    ++ [ inputs.auto-cpufreq.overlays.default ]
+    # ++ [ inputs.auto-cpufreq.overlays.default ]
     ++ [
       (_final: prev: {
-        inherit (pkgs.unstable)
-          eza # https://github.com/NixOS/nixpkgs/pull/323555
-          ;
-
         intel-vaapi-driver = prev.intel-vaapi-driver.override { enableHybridCodec = true; };
         # btop = prev.btop.override {
         #   cudaSupport = true;

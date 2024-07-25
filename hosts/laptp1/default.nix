@@ -86,7 +86,6 @@ with my;
   location.provider = mkForce "manual";
   security.polkit = mkForce disabled;
   hardware.bluetooth = mkForce disabled;
-  sound = mkForce disabled;
   fonts.fontconfig = mkForce disabled;
   boot.tmp.useTmpfs = mkForce false;
 

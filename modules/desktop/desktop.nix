@@ -20,12 +20,12 @@ in
     services.xserver = enabled // {
       autoRepeatDelay = 200;
       autoRepeatInterval = 25;
-      layout = comcat [
+      xkb.layout = comcat [
         "us"
         "ru"
         "ua"
       ];
-      xkbOptions = comcat [
+      xkb.options = comcat [
         "grp:win_space_toggle"
         "caps:ctrl_modifier"
       ];
@@ -54,7 +54,7 @@ in
           xdg-desktop-portal-gtk
           # xdg-desktop-portal-gnome
         ];
-        gtkUsePortal = true;
+        # gtkUsePortal = true;
       };
     };
 

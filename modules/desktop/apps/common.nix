@@ -34,21 +34,17 @@ in
       curl
       lnav # <- log file navigator
       procs # <- a "modern" replacement for ps
+
+      # gnome-sound-recorder
+      gnome-autoar
+      gnome-system-monitor
+      loupe # eog
     ]
     ++ optionals config.this.isHeadful [
       libqalculate # calculator cli w/ currency conversion
       youtube-dl
       android-file-transfer
     ]
-    ++ optionals config.modules.desktop.enable (
-      with pkgs.gnome;
-      [
-        # gnome-sound-recorder
-        gnome-autoar
-        gnome-system-monitor
-        loupe # eog
-      ]
-    )
     ++ optionals config.modules.desktop.enable [
       maim
       scrot # Screenshots

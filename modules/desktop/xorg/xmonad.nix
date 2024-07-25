@@ -51,7 +51,7 @@ in
       flake = enabled;
     };
 
-    services.xserver.displayManager.defaultSession = "none+xmonad";
+    services.displayManager.defaultSession = "none+xmonad";
 
     environment.sessionVariables = {
       XMONAD_CONFIG_DIR = "$XDG_CONFIG_HOME/dotfiles/config/xmonad";

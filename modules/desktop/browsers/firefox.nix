@@ -102,7 +102,7 @@ in
               CaptivePortal = false;
               HardwareAcceleration = true;
             };
-            extraNativeMessagingHosts =
+            nativeMessagingHosts =
               with pkgs;
               optional modules.desktop.media.mpv.enable ff2mpv-rust
               ++ optional modules.shell.pass.enable passff-host;

@@ -1,6 +1,4 @@
-{ lib, pkgs, ... }:
-with builtins;
-with lib;
+{ pkgs, ... }:
 rec {
   optimizeWithFlags =
     pkg: flags:

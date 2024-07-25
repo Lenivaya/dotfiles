@@ -96,10 +96,10 @@
       url = "github:felixfung/skippy-xd";
       flake = false;
     };
-    auto-cpufreq = {
-      url = "github:AdnanHodzic/auto-cpufreq?rev=f300d31e0ff07010f7ecacb0e89f44533d1c2386";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # auto-cpufreq = {
+    #   url = "github:AdnanHodzic/auto-cpufreq?rev=f300d31e0ff07010f7ecacb0e89f44533d1c2386";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
     twitch-hls-client = {
       url = "github:2bc4/twitch-hls-client?rev=13a738f96fb1569e5d790e2d063bde0c3a5dd0de";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -217,7 +217,12 @@
                   enable = true;
                   package = pkgs.nixfmt-rfc-style;
                 };
-                deadnix.enable = true;
+                deadnix = {
+                  enable = true;
+                  settings = {
+                    edit = true;
+                  };
+                };
                 # statix.enable = true;
                 # convco.enable = true;
                 fourmolu.enable = true;
@@ -226,7 +231,6 @@
                   types = [ "text" ];
                 };
               };
-              settings.deadnix.edit = true;
             }).shellHook;
         in
         import ./shell.nix { inherit pkgs preCommitHook; };
