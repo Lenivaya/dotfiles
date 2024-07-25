@@ -23,22 +23,18 @@ in
       dbus.packages = with pkgs; [ nautilus-open-any-terminal ];
     };
 
-    environment.systemPackages =
-      with pkgs.gnome;
-      [
-        nautilus
-        nautilus-python
-        sushi
-        file-roller
-        simple-scan
-      ]
-      ++ (with pkgs; [
-        nautilus-open-any-terminal
+    environment.systemPackages = with pkgs; [
+      nautilus
+      nautilus-python
+      sushi
+      file-roller
+      simple-scan
+      nautilus-open-any-terminal
 
-        # thumbnails
-        gst_all_1.gst-libav
-        ffmpegthumbnailer
-      ]);
+      # thumbnails
+      gst_all_1.gst-libav
+      ffmpegthumbnailer
+    ];
 
     services.xserver.desktopManager.gnome.extraGSettingsOverridePackages = with pkgs; [
       nautilus-open-any-terminal

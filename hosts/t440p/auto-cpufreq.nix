@@ -8,8 +8,7 @@ with my;
   # Superior power management for portable and battery powered systems. Plausible
   # but unnecessary on desktop systems.
   # See: <https://github.com/AdnanHodzic/auto-cpufreq>
-  services.auto-cpufreq = {
-    enable = true;
+  services.auto-cpufreq = enabled // {
     settings = {
       charger = {
         # See available governors:

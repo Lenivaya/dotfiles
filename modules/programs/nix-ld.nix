@@ -68,6 +68,7 @@ in
         xorg.libxkbfile
         xorg.libxshmfence
         zlib
+        libsecret
       ];
     };
   };

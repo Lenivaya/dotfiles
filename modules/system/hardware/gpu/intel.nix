@@ -48,7 +48,7 @@ in
           intel-media-driver # For Broadwell (2014) or newer processors. LIBVA_DRIVER_NAME=iHD
           vaapiIntel
           # intel-vaapi-driver # For older processors. LIBVA_DRIVER_NAME=i965
-          intel-ocl
+          # intel-ocl
           # libvdpau-va-gl
           intel-compute-runtime
           vpl-gpu-rt

@@ -13,7 +13,7 @@ in
   options.modules.desktop.browsers.chromium = with types; {
     package = mkOpt package pkgs.google-chrome;
     enable = mkBoolOpt false;
-    commandLineArgs = mkOpt (listOf string) [
+    commandLineArgs = mkOpt (listOf str) [
       # Dark theme
       "--force-dark-mode"
       # "--enable-features=WebUIDarkMode"

@@ -21,7 +21,6 @@ in
 
   config = mkIf cfg.enable (mkMerge [
     {
-      sound = enabled;
       security.rtkit = enabled;
       user.extraGroups = [
         "audio"

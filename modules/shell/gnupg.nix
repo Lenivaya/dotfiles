@@ -31,7 +31,7 @@ in
 
     (mkIf config.this.isHeadful {
       programs.gnupg.agent.pinentryPackage = mkForce pkgs.pinentry-gnome3;
-      user.packages = with pkgs; [ gnome.seahorse ];
+      user.packages = with pkgs; [ seahorse ];
     })
   ]);
 }

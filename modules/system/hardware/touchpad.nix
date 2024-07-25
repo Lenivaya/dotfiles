@@ -14,7 +14,7 @@ in
   options.modules.hardware.touchpad.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    services.xserver.libinput = enabled // {
+    services.libinput = enabled // {
       touchpad = {
         disableWhileTyping = true;
         naturalScrolling = true;
