@@ -1,7 +1,7 @@
 { lib, ... }:
 with lib;
 {
-  boot.loader.timeout = 1;
+  boot.loader.timeout = mkDefault 1;
 
   networking = {
     networkmanager.enable = true;

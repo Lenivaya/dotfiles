@@ -40,7 +40,7 @@ in
       description = "General-purpose replacement for xautolock.";
 
       environment = {
-        PRIMARY_DISPLAY = "$(xrandr | awk '/ primary/{print $1}')";
+        PRIMARY_DISPLAY = "$(xrandr | awk '/primary/{print $1}')";
         XIDLEHOOK_SOCK = socket;
       };
 
@@ -58,9 +58,15 @@ in
               "--not-when-fullscreen"
               "--not-when-audio"
               "--socket ${socket}"
-              "--timer 300 'betterlockscreen -l dim' ''"
+              ''
+                --timer 60 \
+                  'xrandr --output "$PRIMARY_DISPLAY" --brightness .1' \
+                  'xrandr --output "$PRIMARY_DISPLAY" --brightness 1' \
+              ''
+              "--timer 200 'betterlockscreen -l dim' ''"
             ]
-            ++ optional modules.hardware.profiles.laptop.enable ''--timer 3600 "systemctl suspend" ""''
+            # ++ optional modules.hardware.profiles.laptop.enable ''--timer 3600 "systemctl suspend" ""''
+            ++ optional modules.hardware.profiles.laptop.enable ''--timer 200 "systemctl suspend" ""''
           );
         in
         execCommand;

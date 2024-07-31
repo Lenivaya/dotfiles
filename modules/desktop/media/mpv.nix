@@ -51,13 +51,13 @@ in
         "Shift+LEFT" = "no-osd seek -1 exact";
         "Shift+UP" = "no-osd seek 5 exact";
         "Shift+DOWN" = "no-osd seek -5 exact";
+        "Alt+g" = "script-message-to seek_to toggle-seeker";
 
         "Alt+h" = "add sub-delay +1";
         "Alt+l" = "add sub-delay -1";
 
         "Alt+k" = "add sub-scale +0.1";
         "Alt+j" = "add sub-scale -0.1";
-        "Alt+g" = "script-message-to seek_to toggle-seeker";
 
         "B" = ''cycle-values background "#000000" "#ffffff"'';
       };

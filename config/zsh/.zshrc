@@ -97,7 +97,8 @@ zinit wait"0c" lucid light-mode for \
     as"program" \
         pick"tldr" raylee/tldr \
     as"completion" \
-        OMZP::docker/_docker \
+        OMZP::docker/completions/_docker \
+        OMZP::docker-compose/_docker-compose \
         OMZL::completion.zsh \
         ninrod/pass-zsh-completion \
         spwhitt/nix-zsh-completions \

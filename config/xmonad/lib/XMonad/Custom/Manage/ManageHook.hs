@@ -39,6 +39,13 @@ composeActions =
     className =? "Safeeyes" -?> doFullFloat,
     className =? "Avizo-service" -?> doIgnore,
     className =? "Git-butler" -?> doShift git,
+    className
+      =? "jetbrains-toolbox"
+      <||> appName
+      =? "JetBrains Toolbox"
+      <||> title
+      =? "JetBrains Toolbox"
+      -?> doCenterFloat,
     isRole =? "GtkFileChooserDialog" -?> doCenterFloat,
     isRole =? "pop-up" -?> doCenterFloat,
     isRole =? "About" -?> doCenterFloat,

@@ -48,11 +48,11 @@
         "systems": "systems_2"
       },
       "locked": {
-        "lastModified": 1721849134,
-        "narHash": "sha256-m5rG7k0dNneN3ISAuhsxfbWGH8kyuHBdkUR14gAOons=",
+        "lastModified": 1722021905,
+        "narHash": "sha256-cg2NXstXWbJ06z8wyx59ujcBu9NpsHdSMrI0uowAYvg=",
         "owner": "nix-community",
         "repo": "browser-previews",
-        "rev": "c6ef9a1395510b50748a6a0c509e6f75a4db703d",
+        "rev": "94988428ed8c412542c62f100ed3eb6700845de8",
         "type": "github"
       },
       "original": {
@@ -72,11 +72,11 @@
         "yafas": "yafas"
       },
       "locked": {
-        "lastModified": 1721845625,
-        "narHash": "sha256-jXs5B8PFz7FISnnY9XHEz6o4yDMfMx+pdsW701ixAWY=",
+        "lastModified": 1722269440,
+        "narHash": "sha256-eUzqnxgHIfxGcXk0SwXwP011uQ41WOEHX+gg1uPSkcE=",
         "owner": "chaotic-cx",
         "repo": "nyx",
-        "rev": "cab93b8c9b761e38c22d5edd87e8e95f905bc8cc",
+        "rev": "a383380ec33f66ef92c4e815260271f6ad7cf286",
         "type": "github"
       },
       "original": {
@@ -442,11 +442,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1721804110,
-        "narHash": "sha256-i4jINRazBKPqlaS+qhlP+kV/UHEq3vs5itfpblqu4ZM=",
+        "lastModified": 1722119539,
+        "narHash": "sha256-2kU90liMle0vKR8exJx1XM4hZh9CdNgZGHCTbeA9yzY=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "af70fc502a15d7e1e4c5a4c4fc8e06c2ec561e0c",
+        "rev": "d0240a064db3987eb4d5204cf2400bc4452d9922",
         "type": "github"
       },
       "original": {
@@ -500,11 +500,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1721226562,
-        "narHash": "sha256-KfdwusX12hhkzXKBmu2HhaU9EhaxVeWLDQw1Ll2A03o=",
+        "lastModified": 1721993749,
+        "narHash": "sha256-dGqEQ68GNGmA8+HHzHEqAcW2uGu/AX+sRWcMO99UM8s=",
         "owner": "Jovian-Experiments",
         "repo": "Jovian-NixOS",
-        "rev": "927eea31915468e06b94bedf678261dc7cf048c8",
+        "rev": "3bd059992912139d6a12e86ba418f933ec368ef2",
         "type": "github"
       },
       "original": {
@@ -615,6 +615,26 @@
         "type": "github"
       }
     },
+    "nixos-06cb-009a-fingerprint-sensor": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1722214265,
+        "narHash": "sha256-Snq2KOgOwIn2h4QNxxziVzmZMuiPztaW4wRpGu+VzBo=",
+        "owner": "bmanuel",
+        "repo": "nixos-06cb-009a-fingerprint-sensor",
+        "rev": "a874371d0b23bc8c8ef97ac10275af497a07c845",
+        "type": "github"
+      },
+      "original": {
+        "owner": "bmanuel",
+        "repo": "nixos-06cb-009a-fingerprint-sensor",
+        "type": "github"
+      }
+    },
     "nixos-hardware": {
       "locked": {
         "lastModified": 1721900127,
@@ -632,11 +652,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1721562059,
-        "narHash": "sha256-Tybxt65eyOARf285hMHIJ2uul8SULjFZbT9ZaEeUnP8=",
+        "lastModified": 1722062969,
+        "narHash": "sha256-QOS0ykELUmPbrrUGmegAUlpmUFznDQeR4q7rFhl8eQg=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "68c9ed8bbed9dfce253cc91560bf9043297ef2fe",
+        "rev": "b73c2221a46c13557b1b3be9c2070cc42cf01eb3",
         "type": "github"
       },
       "original": {
@@ -773,17 +793,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1720201830,
-        "narHash": "sha256-oLThFcmU7hzvdL+5qRezMF1NKablvcgA8ISdgfEjeQE=",
+        "lastModified": 1722385855,
+        "narHash": "sha256-3A6biT45w6lJhDB4w9Ua79nXVNC/xHbQqqvpu3BvmZU=",
         "owner": "yshui",
         "repo": "picom",
-        "rev": "2dc218849dea256f5d48e2347fbfb8f2fead0aed",
+        "rev": "7094d7a9065cde5cc01b8ff193e8ee6a464bf9f3",
         "type": "github"
       },
       "original": {
         "owner": "yshui",
         "repo": "picom",
-        "rev": "2dc218849dea256f5d48e2347fbfb8f2fead0aed",
+        "rev": "7094d7a9065cde5cc01b8ff193e8ee6a464bf9f3",
         "type": "github"
       }
     },
@@ -843,6 +863,7 @@
         "lix-module": "lix-module",
         "nix-index-db": "nix-index-db",
         "nix-vscode-extensions": "nix-vscode-extensions",
+        "nixos-06cb-009a-fingerprint-sensor": "nixos-06cb-009a-fingerprint-sensor",
         "nixos-hardware": "nixos-hardware",
         "nixpkgs": "nixpkgs_3",
         "nixpkgs-unstable": "nixpkgs-unstable",

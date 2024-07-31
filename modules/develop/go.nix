@@ -20,5 +20,9 @@ in
     };
 
     user.packages = with pkgs; [ gotools ];
+
+    env = {
+      PATH = [ "$GOBIN" ];
+    };
   };
 }

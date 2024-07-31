@@ -1,0 +1,64 @@
+
+./Screens.hs,109
+module XMonad.Custom.Hooks.Screens XMonad.Custom.Hooks.Screens0,1
+myRandrChangeHook myRandrChangeHook6,7
+
+./Startup.hs,99
+module XMonad.Custom.Hooks.Startup XMonad.Custom.Hooks.Startup0,1
+startupHook startupHook10,11
+
+./Event.hs,165
+module XMonad.Custom.Hooks.Event XMonad.Custom.Hooks.Event0,1
+myRefocusPred myRefocusPred27,28
+swallower swallower28,29
+handleEventHook handleEventHook30,31
+
+./Log.hs,224
+module XMonad.Custom.Hooks.Log XMonad.Custom.Hooks.Log0,1
+layoutName layoutName40,41
+windowCount windowCount43,44
+topBarPP topBarPP57,58
+topBarPP' topBarPP'76,77
+botBarPP botBarPP102,103
+logHook logHook114,115
+
+./Statusbar.hs,205
+module XMonad.Custom.Hooks.Statusbar XMonad.Custom.Hooks.Statusbar0,1
+barCommand barCommand12,13
+xmobarTop xmobarTop17,18
+xmobarBot xmobarBot18,19
+barSpawner barSpawner20,21
+traySB traySB24,25
+
+./Layout.hs,947
+module XMonad.Custom.Hooks.Layout XMonad.Custom.Hooks.Layout2,3
+data CustomTransformers CustomTransformers53,54
+data CustomTransformers = GAPSGAPS53,54
+instance Transformer Transformer CustomTransformers Window56,57
+  transform transform57,58
+applySpacing applySpacing59,60
+setName setName62,63
+rTall rTall65,66
+bsp bsp68,69
+tall tall69,70
+circle circle70,71
+twoPane twoPane71,72
+onebig onebig72,73
+monocle monocle73,74
+grid grid74,75
+roledex roledex75,76
+hacking hacking77,78
+threeColMid threeColMid85,86
+flex flex90,91
+(|(|||!)102,103
+layoutsStart layoutsStart105,106
+layoutsInfo layoutsInfo107,108
+layouts layouts122,123
+layoutNames layoutNames123,124
+defaultLayout defaultLayout124,125
+layoutHook layoutHook126,127
+toggleGaps toggleGaps153,154
+toggleStatusBar toggleStatusBar154,155
+toggleZen toggleZen155,156
+instance Read Read (Layout Window)161,162
+  readsPrec readsPrec162,163

@@ -24,6 +24,7 @@ in
       services = {
         avizo = enabled;
         skippy-xd = enabled;
+        clipcat = enabled;
       };
       desktop = {
         lockscreen = enabled;

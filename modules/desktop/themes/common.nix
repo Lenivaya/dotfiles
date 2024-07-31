@@ -24,7 +24,6 @@ in
               gtk-xft-hinting = 1;
               gtk-xft-hintstyle = "hintslight";
               gtk-xft-rgba = "rgb";
-              gtk-application-prefer-dark-theme = true;
             }
 
             (mkIf config.modules.desktop.isPureWM {
@@ -56,7 +55,11 @@ in
             name = "Adwaita";
           };
           gtk3 = mkMerge [
-            { extraConfig = gtkSettings; }
+            {
+              extraConfig = gtkSettings // {
+                gtk-application-prefer-dark-theme = true;
+              };
+            }
 
             (mkIf config.modules.desktop.isPureWM {
               extraCss = ''
