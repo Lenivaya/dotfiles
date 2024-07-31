@@ -32,7 +32,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # Formatting and pre-commit hooks
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -43,7 +42,6 @@
     };
 
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
-    # chaotic-kernel.url = "github:chaotic-cx/nyx?rev=b1ecb501161bae54fbc9fd27200bd34d40c4a47a"; # nvidia...
 
     betterfox = {
       url = "github:yokoffing/betterfox";
@@ -87,19 +85,22 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # t480 fingerprints
+    nixos-06cb-009a-fingerprint-sensor = {
+      url = "github:bmanuel/nixos-06cb-009a-fingerprint-sensor";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # some upstream things
     picom = {
-      url = "github:yshui/picom?rev=2dc218849dea256f5d48e2347fbfb8f2fead0aed";
+      # url = "github:yshui/picom?rev=2dc218849dea256f5d48e2347fbfb8f2fead0aed";
+      url = "github:yshui/picom?rev=7094d7a9065cde5cc01b8ff193e8ee6a464bf9f3";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     skippy-xd = {
       url = "github:felixfung/skippy-xd";
       flake = false;
     };
-    # auto-cpufreq = {
-    #   url = "github:AdnanHodzic/auto-cpufreq?rev=f300d31e0ff07010f7ecacb0e89f44533d1c2386";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
     twitch-hls-client = {
       url = "github:2bc4/twitch-hls-client?rev=13a738f96fb1569e5d790e2d063bde0c3a5dd0de";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -135,7 +136,6 @@
       nixpkgs,
       nixpkgs-unstable,
       treefmt-nix,
-      pre-commit-hooks,
       home-manager,
       ...
     }:
@@ -188,7 +188,7 @@
         projectRootFile = "flake.nix";
 
         programs = {
-          nixfmt-rfc-style.enable = true;
+          nixfmt.enable = true;
           deadnix.enable = true;
           shfmt.enable = true;
           black.enable = true;
@@ -200,39 +200,6 @@
         };
       };
 
-      devShells."${system}".default =
-        let
-          preCommitHook =
-            (pre-commit-hooks.lib.${system}.run {
-              src = ./.;
-              hooks = {
-                editorconfig-checker.enable = true;
-                black.enable = true;
-                prettier.enable = true;
-                shellcheck.enable = true;
-                shfmt.enable = true;
-                # yamllint.enable = true;
-                actionlint.enable = true;
-                nixfmt = {
-                  enable = true;
-                  package = pkgs.nixfmt-rfc-style;
-                };
-                deadnix = {
-                  enable = true;
-                  settings = {
-                    edit = true;
-                  };
-                };
-                # statix.enable = true;
-                # convco.enable = true;
-                fourmolu.enable = true;
-                typos = {
-                  enable = true;
-                  types = [ "text" ];
-                };
-              };
-            }).shellHook;
-        in
-        import ./shell.nix { inherit pkgs preCommitHook; };
+      devShells."${system}".default = import ./shell.nix { inherit pkgs inputs system; };
     };
 }

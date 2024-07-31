@@ -19,4 +19,10 @@ _: {
     fi
     cat ${pathToLink} > ${path}
   '';
+
+  createDirIfNotExist = path: ''
+    if ! [ -d ${path} ]; then
+      mkdir -p ${path}
+    fi
+  '';
 }

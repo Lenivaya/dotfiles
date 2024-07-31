@@ -1,9 +1,4 @@
-{
-  options,
-  config,
-  lib,
-  ...
-}:
+{ config, lib, ... }:
 with lib;
 with lib.my;
 let

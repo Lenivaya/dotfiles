@@ -78,5 +78,10 @@ in
         fi
       '';
     };
+
+    systemd.timers."nh-clean".unitConfig.ConditionACPower = mkForce true;
+    systemd.timers."logrotate".unitConfig.ConditionACPower = mkForce true;
+    systemd.timers."fwupd-refresh".unitConfig.ConditionACPower = mkForce true;
+    systemd.timers."docker-prune".unitConfig.ConditionACPower = mkForce true;
   };
 }

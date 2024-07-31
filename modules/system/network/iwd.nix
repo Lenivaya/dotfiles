@@ -3,6 +3,7 @@
 with lib;
 with my;
 {
+  networking.wireless.enable = mkForce false;
   networking.wireless.iwd = enabled // {
     settings = {
       Network = {

@@ -1,5 +1,7 @@
-# t440p -- thinkpad t440p
-# https://github.com/CRAG666/dotfiles/tree/main/thinkpad
+# t480 -- thinkpad t480
+#
+# https://wiki.archlinux.org/title/Lenovo_ThinkPad_T480
+# https://github.com/taj-ny/nix-config/blob/c52560a2c6b9ca4d00cff130f99c119c9cf59f69/nixos/thinkpad/throttled.nix
 {
   pkgs,
   lib,
@@ -10,25 +12,16 @@
 with lib;
 with lib.my;
 {
-  imports =
-    [
-      ../common.nix
-      ./hardware-configuration.nix
-      ./phone_cam.nix
-      ./gpu.nix
-      ./picom.nix
-      ./dns.nix
-      ./auto-cpufreq.nix
-      # ./mongodb.nix
-      # ./postgresql.nix
-      # ./jack_retask/jack_retask.nix
-    ]
-    ++ (with inputs.nixos-hardware.nixosModules; [
-      lenovo-thinkpad-t440p
-      common-pc-laptop-acpi_call
-      # common-pc-laptop-ssd
-      # common-pc-laptop-hdd
-    ]);
+  imports = [
+    ../common.nix
+    ./hardware-configuration.nix
+
+    ./phone_cam.nix
+    ./picom.nix
+    ./dns.nix
+    ./power-management.nix
+    ./fingerprint/default.nix
+  ] ++ (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-t480 ]);
 
   this.isHeadful = true;
 
@@ -61,7 +54,6 @@ with lib.my;
           package = inputs.browser-previews.packages.${pkgs.system}.google-chrome-dev;
         };
         tor = enabled;
-        # qutebrowser = enabled;
       };
 
       term = {
@@ -76,7 +68,7 @@ with lib.my;
         documents = enabled // {
           pdf = enabled;
           ebook = enabled;
-          latex = enabled;
+          # latex = enabled;
         };
 
         graphics = enabled // {
@@ -85,16 +77,14 @@ with lib.my;
         };
 
         recording = enabled // {
-          # audio = enabled;
           video = enabled;
+          # audio = enabled;
         };
       };
 
-      vm = {
-        qemu = enabled;
-        # virtualbox = enabled;
-        # wine = enabled;
-      };
+      # vm = {
+      #   qemu = enabled;
+      # };
     };
 
     shell = {
@@ -123,35 +113,26 @@ with lib.my;
       docker = enabled;
       nix = enabled;
       shell = enabled;
-      # cc = enabled;
       # elixir = enabled;
       rust = enabled;
       go = enabled;
-      haskell = enabled;
+      # haskell = enabled;
       node = enabled;
       python = enabled;
-      dotnet = enabled // {
-        dotnetPkgsSdks = with pkgs.dotnetCorePackages; [ sdk_8_0 ];
-      };
-
+      # dotnet = enabled // {
+      #   dotnetPkgsSdks = with pkgs.dotnetCorePackages; [ sdk_8_0 ];
+      # };
       typst = enabled;
     };
 
     services = {
-      # greenclip = enabled;
       ananicy = enabled;
       clipcat = enabled;
       kdeconnect = enabled;
       ssh = enabled;
-      # warp = enabled;
       keyd = enabled;
-      flatpak = enabled;
+      # flatpak = enabled;
       # espanso = enabled;
-      # random-wallpaper =
-      #   enabled
-      #   // {
-      #     howOften = "*-*-* 05:00:00"; # daily 5AM
-      #   };
       tray = enabled // {
         trayApps = [
           "cbatticon"
@@ -172,25 +153,23 @@ with lib.my;
     hardware = {
       profiles.laptop = enabled;
       cpu.intel = enabled;
-
       cpu = {
-        tdp = {
-          p1.watts = 37; # 47
-          p1.duration = 28.0;
-          p2.watts = 47;
-          p2.duration = 2.44140625e-3;
-        };
         undervolt = enabled // rec {
-          core = -70;
-          gpu = -30;
-          temp = 95;
+          # works
+          # core = -100;
+          # gpu = -85;
+          # temp = 97;
+          # uncore = core;
+          # analogio = core;
+          core = -100;
+          gpu = -100;
+          temp = 97;
           uncore = core;
           analogio = core;
         };
       };
       gpu = {
         intel = enabled;
-        # nvidia = enabled;
       };
       audio = enabled // {
         effects = enabled;
@@ -209,20 +188,16 @@ with lib.my;
     fast-networking = enabled;
   };
 
+  services.hardware.bolt.enable = true;
+
+  services.fwupd = enabled;
+
   security.sudo-rs = enabled;
 
   nix.gc.automatic = mkForce false;
   programs.nh.clean = enabled // {
     dates = "weekly";
     extraArgs = "--keep-since 1w --keep 3";
-  };
-
-  services.tlp.settings.CPU_MAX_PERF_ON_BAT = mkForce 65;
-  services.tlp.settings = {
-    # work at maximum on AC
-    # CPU_SCALING_GOVERNOR_ON_AC = mkForce "performance";
-    CPU_ENERGY_PERF_POLICY_ON_AC = mkForce "performance";
-    CPU_SCALING_MAX_FREQ_ON_AC = MHz 4000;
   };
 
   services.clight = {
@@ -236,16 +211,6 @@ with lib.my;
     in
     mkForce kernel';
 
-  # https://github.com/sched-ext/scx
-  # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
-  # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
-  # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  # chaotic.scx = enabled // {
-  #   scheduler = "scx_rusty";
-  #   # scheduler = "scx_rustland";
-  #   # scheduler = "scx_bpfland";
-  # };
-
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
     #      vulnerabilities. Don't copy this blindly! And especially not for
@@ -258,18 +223,8 @@ with lib.my;
     "msr.allow_writes=on"
     # Use TEO as CPUIdle Governor
     "cpuidle.governor=teo"
-    # Enables RC6, RC6p and RC6pp.
-    # Last two are only available on Sandy Bridge CPUs (circa 2011).
-    "i915.enable_rc6=7"
     "intel_pstate=active"
   ];
-
-  # boot.plymouth = rec {
-  #   theme = "abstract_ring";
-  #   themePackages = with pkgs; let
-  #     theme' = adi1090x-plymouth-themes.override {selected_themes = [theme];};
-  #   in [theme'];
-  # };
 
   networking.firewall = {
     allowedUDPPorts = [
@@ -292,8 +247,10 @@ with lib.my;
     ];
   };
 
-  # For manual fan control with pwm
-  boot.extraModprobeConfig = "options thinkpad_acpi experimental=1 fan_control=1";
+  boot.extraModprobeConfig = "
+    options thinkpad_acpi experimental=1 fan_control=1
+    options psmouse synaptics_intertouch=1
+  ";
 
   user.packages = with pkgs; [
     khal
@@ -302,9 +259,6 @@ with lib.my;
     pwvucontrol_git
 
     video-trimmer
-    # kdenlive
-    # lightworks pitivi
-    # teams-for-linux
 
     postman
     my.gitbutler
@@ -313,9 +267,7 @@ with lib.my;
     protonvpn-gui
 
     inputs.twitch-hls-client.packages.${pkgs.system}.default
-    # my.devtunnel
-    # warp-terminal
-    # zed-editor_git
+    clight-gui
   ];
 
   hardware.trackpoint = {
@@ -327,52 +279,28 @@ with lib.my;
   hardware.graphics = enabled // {
     extraPackages = with pkgs; [
       libGL
-      intel-vaapi-driver
+      intel-media-driver
       vaapiIntel
       vpl-gpu-rt
     ];
   };
   chaotic.mesa-git = enabled // {
     extraPackages = with pkgs; [
-      intel-vaapi-driver
+      intel-media-driver
       vaapiIntel
       vpl-gpu-rt
     ];
   };
   environment.sessionVariables = {
-    LIBVA_DRIVER_NAME = mkForce "i965";
+    LIBVA_DRIVER_NAME = mkForce "iHD";
   };
 
   services.smartd = enabled;
 
-  # services.syncthing =
-  #   enabled
-  #   // {
-  #     user = config.user.name;
-  #     dataDir = "${config.user.home}/Sync";
-
-  #     overrideDevices = true;
-  #     overrideFolders = true;
-  #   };
-
-  # services.safeeyes = enabled;
-
   # modules.services.zcfan = enabled;
-  services.thermald = mkForce disabled;
-  services.throttled = mkForce enabled;
-
-  # services.tp-auto-kbbl =
-  #   enabled
-  #   // {
-  #     device = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
-  #   };
-
-  environment.shellAliases = {
-    shutUpAndGetOutOfMySight = "sudo modprobe -r uvcvideo && volumectl -m mute";
-    freemem = "sync && echo 3 | sudo tee /proc/sys/vm/drop_caches";
-  };
-
-  home.programs.emacs.package = mkForce pkgs.emacs29;
+  # services.thermald = mkForce disabled;
+  # services.throttled = mkForce enabled;
+  services.throttled = mkForce disabled; # breaks things smh idk
 
   # Dirty hack to have hosts file modifiable
   # (will be discarded on config change or reboot) [1]
@@ -409,6 +337,11 @@ with lib.my;
     profile = "fast";
   };
 
+  environment.shellAliases = {
+    shutUpAndGetOutOfMySight = "sudo modprobe -r uvcvideo && volumectl -m mute";
+    freemem = "sync && echo 3 | sudo tee /proc/sys/vm/drop_caches";
+  };
+
   nixpkgs.overlays =
     let
       optimize = pkg: optimizeForThisHost (withClang pkg);
@@ -417,17 +350,10 @@ with lib.my;
     ++ [ inputs.picom.overlay.${system} ]
     ++ [
       (_final: prev: {
-        intel-vaapi-driver = prev.intel-vaapi-driver.override { enableHybridCodec = true; };
-        # btop = prev.btop.override {
-        #   cudaSupport = true;
-        # };
-
         telegram-desktop = prev.telegram-desktop_git;
         alacritty = prev.alacritty_git;
         yt-dlp = prev.yt-dlp_git;
         mpv = prev.mpv-vapoursynth;
-
-        picom = optimize prev.picom;
         skippy-xd = optimize prev.skippy-xd;
         dmenu = optimize prev.dmenu;
         nsxiv = optimize prev.nsxiv;

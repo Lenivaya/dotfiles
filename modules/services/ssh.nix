@@ -12,7 +12,7 @@ in
 
     services.openssh = enabled // {
       settings.X11Forwarding = mkForce true;
-      settings.PermitRootLogin = "no";
+      settings.PermitRootLogin = mkDefault "no";
       settings.PasswordAuthentication = mkForce true;
       startWhenNeeded = true;
 

@@ -196,7 +196,8 @@ keysDo =
     ("M-d s z", spawn $ C.screenZoomer C.applications),
     ("M-d w c", workspacePrompt promptTheme $ windows . copy),
     ("M-d c <Backspace>", spawn "clipcatctl clear"),
-    ("M-d c l", spawn "clipcat-last")
+    ("M-d c l", spawn "clipcat-last"),
+    ("M-d m r", spawn "autorandr -c")
   ]
 
 keysSystem :: Keybindings
