@@ -1,15 +1,17 @@
 # https://askubuntu.com/questions/1379048/intel-pstate-driver-not-being-loaded-when-added-to-grub-file
 # https://www.reddit.com/r/thinkpad/comments/12177bx/how_effective_is_charging_threshold_at_protecting/
+#
+# https://www.reddit.com/r/LinuxOnThinkpad/comments/uw6hh9/a_better_t480_power_saving_guide/
 { lib, ... }:
 with lib;
 with my;
 {
   services.tlp.settings = {
     CPU_ENERGY_PERF_POLICY_ON_AC = mkForce "performance";
-    CPU_ENERGY_PERF_POLICY_ON_BAT = mkForce "power";
+    CPU_ENERGY_PERF_POLICY_ON_BAT = mkForce "balance_power";
 
     CPU_SCALING_MAX_FREQ_ON_AC = MHz 4000;
-    CPU_MAX_PERF_ON_BAT = mkForce 50;
+    CPU_SCALING_MAX_FREQ_ON_BAT = MHz 1700;
 
     START_CHARGE_THRESH_BAT0 = 85;
     STOP_CHARGE_THRESH_BAT0 = 90;

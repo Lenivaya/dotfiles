@@ -13,6 +13,8 @@ in
   options.modules.hardware.gpu.intel.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
+    services.xserver.videoDriver = mkDefault "modesetting";
+
     boot.kernelParams = [
       # Enable power-saving display C-states
       "i915.enable_dc=1"
@@ -42,22 +44,22 @@ in
     hardware.graphics = enabled // {
       extraPackages =
         with pkgs;
-        lib.mkDefault [
-          # (vaapiIntel.override {enableHybridCodec = true;})
-          # (intel-vaapi-driver.override {enableHybridCodec = true;})
+        mkDefault [
           intel-media-driver # For Broadwell (2014) or newer processors. LIBVA_DRIVER_NAME=iHD
+          intel-vaapi-driver
           vaapiIntel
-          # intel-vaapi-driver # For older processors. LIBVA_DRIVER_NAME=i965
-          # intel-ocl
-          # libvdpau-va-gl
+          vaapiVdpau
+          libvdpau-va-gl
           intel-compute-runtime
           vpl-gpu-rt
         ];
 
-      extraPackages32 = with pkgs.pkgsi686Linux; [
-        intel-media-driver
-        vaapiIntel
-      ];
+      extraPackages32 =
+        with pkgs.pkgsi686Linux;
+        mkDefault [
+          intel-media-driver
+          vaapiIntel
+        ];
     };
   };
 }

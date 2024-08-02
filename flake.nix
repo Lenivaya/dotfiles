@@ -70,21 +70,6 @@
       flake = false;
     };
 
-    # Since binary cache doens't work, why not build from master?
-    # lix-module = {
-    #   url = "https://git.lix.systems/lix-project/nixos-module/archive/2.90.0.tar.gz";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
-    lix = {
-      url = "https://git.lix.systems/lix-project/lix/archive/main.tar.gz";
-      flake = false;
-    };
-    lix-module = {
-      url = "git+https://git.lix.systems/lix-project/nixos-module";
-      inputs.lix.follows = "lix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     # t480 fingerprints
     nixos-06cb-009a-fingerprint-sensor = {
       url = "github:bmanuel/nixos-06cb-009a-fingerprint-sensor";
@@ -93,7 +78,6 @@
 
     # some upstream things
     picom = {
-      # url = "github:yshui/picom?rev=2dc218849dea256f5d48e2347fbfb8f2fead0aed";
       url = "github:yshui/picom?rev=7094d7a9065cde5cc01b8ff193e8ee6a464bf9f3";
       inputs.nixpkgs.follows = "nixpkgs";
     };

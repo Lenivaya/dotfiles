@@ -18,7 +18,6 @@ with lib.my;
 
     ./phone_cam.nix
     ./picom.nix
-    ./dns.nix
     ./power-management.nix
     ./fingerprint/default.nix
   ] ++ (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-t480 ]);
@@ -154,18 +153,16 @@ with lib.my;
       profiles.laptop = enabled;
       cpu.intel = enabled;
       cpu = {
-        undervolt = enabled // rec {
-          # works
-          # core = -100;
-          # gpu = -85;
-          # temp = 97;
-          # uncore = core;
-          # analogio = core;
-          core = -100;
-          gpu = -100;
+        # tdp = {
+        #   p1.watts = 200;
+        #   p1.duration = 28.0;
+        #   p2.watts = 29;
+        #   p2.duration = 2.44140625e-3;
+        # };
+        undervolt = enabled // {
+          core = -130;
+          gpu = -130;
           temp = 97;
-          uncore = core;
-          analogio = core;
         };
       };
       gpu = {
@@ -188,11 +185,17 @@ with lib.my;
     fast-networking = enabled;
   };
 
+  nix.package = pkgs.unstable.nixVersions.git;
+
   services.hardware.bolt.enable = true;
-
   services.fwupd = enabled;
+  services.psd = enabled // { };
 
-  security.sudo-rs = enabled;
+  security.sudo-rs = enabled // {
+    extraConfig = ''
+      Defaults timestamp_timeout=30
+    '';
+  };
 
   nix.gc.automatic = mkForce false;
   programs.nh.clean = enabled // {
@@ -201,6 +204,14 @@ with lib.my;
   };
 
   services.clight = {
+    # BUG https://github.com/NixOS/nixpkgs/issues/321121
+    settings.daytime = {
+      sunrise = "07:00";
+      sunset = "19:00";
+    };
+
+    settings.resumedelay = 5;
+
     settings.keyboard.disabled = true;
     settings.sensor.devname = "video1"; # because video0 is virtual camera
   };
@@ -224,6 +235,10 @@ with lib.my;
     # Use TEO as CPUIdle Governor
     "cpuidle.governor=teo"
     "intel_pstate=active"
+    # Disabling the HDMI audio output
+    "snd_hda_codec_hdmi"
+    # Enable powersaving for Intel soundcards
+    "snd_hda_intel.power_save=1"
   ];
 
   networking.firewall = {
@@ -253,6 +268,7 @@ with lib.my;
   ";
 
   user.packages = with pkgs; [
+    (inxi.override { withRecommends = true; })
     khal
     telegram-desktop
     ffmpeg-full
@@ -267,20 +283,16 @@ with lib.my;
     protonvpn-gui
 
     inputs.twitch-hls-client.packages.${pkgs.system}.default
-    clight-gui
-  ];
 
-  hardware.trackpoint = {
-    enable = true;
-    speed = 500;
-    sensitivity = 250;
-  };
+    warp-terminal
+  ];
 
   hardware.graphics = enabled // {
     extraPackages = with pkgs; [
       libGL
       intel-media-driver
       vaapiIntel
+      vaapiVdpau
       vpl-gpu-rt
     ];
   };
@@ -288,6 +300,7 @@ with lib.my;
     extraPackages = with pkgs; [
       intel-media-driver
       vaapiIntel
+      vaapiVdpau
       vpl-gpu-rt
     ];
   };
@@ -335,6 +348,7 @@ with lib.my;
 
   home.programs.mpv.config = {
     profile = "fast";
+    hwdec = "auto";
   };
 
   environment.shellAliases = {

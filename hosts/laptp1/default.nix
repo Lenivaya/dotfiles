@@ -40,6 +40,7 @@ with my;
 
     services = {
       ssh = enabled;
+      adguardhome = enabled;
     };
 
     hardware = {

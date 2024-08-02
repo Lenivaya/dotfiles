@@ -41,14 +41,14 @@ in
         "plymouth.ignore-serial-consoles"
       ];
 
-      powerManagement = with pkgs; {
-        powerDownCommands = ''
-          ${getExe' plymouth "plymouth"} --show-splash
-        '';
-        resumeCommands = ''
-          ${getExe' plymouth "plymouth"} --quit
-        '';
-      };
+      # powerManagement = with pkgs; {
+      #   powerDownCommands = ''
+      #     ${getExe' plymouth "plymouth"} --show-splash
+      #   '';
+      #   resumeCommands = ''
+      #     ${getExe' plymouth "plymouth"} --quit
+      #   '';
+      # };
     }
     // (lib.optionalAttrs ((options.srvos.boot or { }) ? consoles) {
       # Serial doesn't work with plymouth for me [1]

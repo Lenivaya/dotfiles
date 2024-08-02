@@ -15,7 +15,7 @@ with lib.my;
       # earlyoom = enabled;
 
       # https://github.com/NixOS/nixpkgs/issues/135888
-      nscd.enableNsncd = true;
+      nscd.enableNsncd = mkDefault true;
     }
 
     (mkIf config.this.isHeadful { udev.packages = [ pkgs.android-udev-rules ]; })

@@ -16,10 +16,13 @@ with lib.my;
 
     # dns
     nameservers = [
+      # nextdns
+      # fastest, I don't care about privacy so much
+      "45.90.28.137"
+
       # cloudflare, yuck
       # shares data
       "1.1.1.1"
-      "1.0.0.1"
 
       # quad9, said to be the best
       # shares *less* data

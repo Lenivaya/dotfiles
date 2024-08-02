@@ -1,7 +1,6 @@
 { ... }:
 {
   imports = [
-    ./adguard-home.nix
     ./radarr.nix
     ./sonarr.nix
     ./books.nix

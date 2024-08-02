@@ -128,7 +128,7 @@ in
             PL2_Duration_S = cfg.tdp.p2.duration;
             Trip_Temp_C = 95;
             # Set HWP energy performance hints to 'performance' on high load (EXPERIMENTAL)
-            # HWP_Mode = true;
+            HWP_Mode = true;
             cTDP = 0;
             Disable_BDPROCHOT = false;
           };
