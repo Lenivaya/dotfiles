@@ -83,7 +83,7 @@ in
       # :tools lookup
       sqlite
       # :lang markdown previews
-      python311Packages.grip
+      python312Packages.grip
       # :lang resc
       jq
 
@@ -99,7 +99,7 @@ in
       wakatime
 
       # mermaid diagrams in org-mode
-      nodePackages.mermaid-cli
+      mermaid-cli
       # gnuplot in org mode
       gnuplot
 

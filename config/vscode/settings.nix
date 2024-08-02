@@ -392,15 +392,15 @@ mkMerge [
         flake8Enabled = true;
         flake8Path = getExe flake8;
         mypyEnabled = true;
-        banditPath = getExe bandit;
-        mypyPath = getExe mypy;
+        banditPath = getExe' bandit "bandit";
+        mypyPath = getExe' mypy "mypy";
         pycodestyleEnabled = true;
         pycodestylePath = getExe pycodestyle;
         pydocstyleEnabled = false;
         pydocstylePath = getExe pydocstyle;
         pylamaEnabled = true;
         pylamaPath = getExe pylama;
-        pylintPath = getExe pylint;
+        pylintPath = getExe' pylint "pylint";
       };
       testing.unittestEnabled = true;
     };

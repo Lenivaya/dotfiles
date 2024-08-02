@@ -11,7 +11,6 @@ with lib.my;
   imports = [
     inputs.home-manager.nixosModules.home-manager
     inputs.programsdb.nixosModules.programs-sqlite
-    inputs.lix-module.nixosModules.default
     inputs.chaotic.nixosModules.default
   ] ++ (with inputs.srvos; [ nixosModules.common ]) ++ (mapModulesRec' (toString ./modules) import);
 

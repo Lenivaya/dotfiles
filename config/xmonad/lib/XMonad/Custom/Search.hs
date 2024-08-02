@@ -21,6 +21,7 @@ phind = searchEngine "phind" "https://www.phind.com/search?q="
 perplexity = searchEngine "perplexity" "https://www.perplexity.ai/search?s=o&q="
 qwant = searchEngine "qwant" "https://www.qwant.com/?q="
 mynixos = searchEngine "mynixos" "https://mynixos.com/search?q="
+nixosWiki = searchEngine "nixosWiki" "https://wiki.nixos.org/w/index.php?search="
 
 myEngines :: [SearchEngine]
 myEngines =
@@ -54,6 +55,7 @@ myEngines =
     perplexity,
     qwant,
     mynixos,
+    nixosWiki,
     prefixAware google
   ]
 

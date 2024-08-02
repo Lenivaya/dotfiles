@@ -46,7 +46,7 @@ in
           watchexec
 
           # rubber
-          python310Packages.pygments # Code highlighting with minted
+          # python310Packages.pygments # Code highlighting with minted
         ])
       ]);
 

@@ -1,4 +1,6 @@
-{ inputs, ... }:
+{ inputs, lib, ... }:
+with lib;
+with my;
 {
   # imports = with inputs; [
   #   nixos-06cb-009a-fingerprint-sensor.nixosModules.open-fprintd

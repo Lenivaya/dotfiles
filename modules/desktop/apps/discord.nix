@@ -16,11 +16,6 @@ in
     user.packages =
       with pkgs;
       let
-        # discord' = discord.override {
-        #   withOpenASAR = true;
-        #   withVencord = true;
-        #   nss = pkgs.nss_latest;
-        # };
         discord' = vesktop;
       in
       [ discord' ];

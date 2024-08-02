@@ -39,6 +39,7 @@ zinit wait lucid light-mode for \
         OMZL::compfix.zsh \
         OMZL::directories.zsh \
         OMZL::spectrum.zsh \
+        OMZL::completion.zsh \
         OMZL::theme-and-appearance.zsh
 
 zinit light-mode for \

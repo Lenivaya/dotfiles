@@ -14,6 +14,9 @@ with lib.my;
         enable = true;
         doc.enable = false;
         info.enable = false;
+        nixos = {
+          enable = false;
+        };
       };
     })
     (mkIf config.this.isHeadless {

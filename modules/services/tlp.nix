@@ -63,7 +63,7 @@ in
 
         DEVICES_TO_DISABLE_ON_BAT_NOT_IN_USE = "bluetooth wwan";
 
-        DEVICES_TO_DISABLE_ON_LAN_CONNECT = "wwan";
+        DEVICES_TO_DISABLE_ON_LAN_CONNECT = "wifi wwan";
         DEVICES_TO_DISABLE_ON_WIFI_CONNECT = "";
         DEVICES_TO_DISABLE_ON_WWAN_CONNECT = "wifi";
 
@@ -78,12 +78,15 @@ in
     };
 
     # environment.systemPackages = [x86_energy_perf_policy];
-    # nixpkgs.overlays = [
-    #   (_final: prev: {
-    #     tlp = prev.tlp.override {
-    #       inherit x86_energy_perf_policy enableRDW;
-    #     };
-    #   })
-    # ];
+    nixpkgs.overlays = [
+      (_final: prev: {
+        tlp = prev.tlp.override {
+          enableRDW = true;
+          # inherit # x86_energy_perf_policy
+          #   enableRDW
+          #   ;
+        };
+      })
+    ];
   };
 }
