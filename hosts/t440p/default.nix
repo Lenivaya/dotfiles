@@ -19,6 +19,7 @@ with lib.my;
       ./picom.nix
       ./dns.nix
       ./auto-cpufreq.nix
+      ./modules/default.nix
       # ./mongodb.nix
       # ./postgresql.nix
       # ./jack_retask/jack_retask.nix
@@ -28,7 +29,8 @@ with lib.my;
       common-pc-laptop-acpi_call
       # common-pc-laptop-ssd
       # common-pc-laptop-hdd
-    ]);
+    ])
+    ++ (with inputs.srvos; [ nixosModules.mixins-nginx ]);
 
   this.isHeadful = true;
 
@@ -76,7 +78,7 @@ with lib.my;
         documents = enabled // {
           pdf = enabled;
           ebook = enabled;
-          latex = enabled;
+          # latex = enabled;
         };
 
         graphics = enabled // {
@@ -86,7 +88,7 @@ with lib.my;
 
         recording = enabled // {
           # audio = enabled;
-          video = enabled;
+          # video = enabled;
         };
       };
 
@@ -109,14 +111,14 @@ with lib.my;
     };
 
     editors = {
-      vscode = enabled;
+      # vscode = enabled;
       emacs = enabled // {
         doom = enabled;
         default = true;
       };
-      jetbrains = enabled // {
-        packages = with pkgs; [ jetbrains-toolbox ]; # KISS
-      };
+      # jetbrains = enabled // {
+      #   packages = with pkgs; [ jetbrains-toolbox ]; # KISS
+      # };
     };
 
     dev = {
@@ -127,17 +129,18 @@ with lib.my;
       # elixir = enabled;
       rust = enabled;
       go = enabled;
-      haskell = enabled;
+      # haskell = enabled;
       node = enabled;
       python = enabled;
-      dotnet = enabled // {
-        dotnetPkgsSdks = with pkgs.dotnetCorePackages; [ sdk_8_0 ];
-      };
+      # dotnet = enabled // {
+      #   dotnetPkgsSdks = with pkgs.dotnetCorePackages; [ sdk_8_0 ];
+      # };
 
-      typst = enabled;
+      # typst = enabled;
     };
 
     services = {
+      adguardhome = enabled;
       # greenclip = enabled;
       ananicy = enabled;
       clipcat = enabled;
@@ -145,7 +148,7 @@ with lib.my;
       ssh = enabled;
       # warp = enabled;
       keyd = enabled;
-      flatpak = enabled;
+      # flatpak = enabled;
       # espanso = enabled;
       # random-wallpaper =
       #   enabled
@@ -175,7 +178,7 @@ with lib.my;
 
       cpu = {
         tdp = {
-          p1.watts = 37; # 47
+          p1.watts = 37;
           p1.duration = 28.0;
           p2.watts = 47;
           p2.duration = 2.44140625e-3;
@@ -208,6 +211,10 @@ with lib.my;
     bootsplash = enabled;
     fast-networking = enabled;
   };
+
+  nix.package = pkgs.unstable.nixVersions.git;
+
+  services.fwupd = enabled;
 
   security.sudo-rs = enabled;
 
@@ -306,7 +313,7 @@ with lib.my;
     # lightworks pitivi
     # teams-for-linux
 
-    postman
+    # postman
     my.gitbutler
     scx # user-space schedulers
 
