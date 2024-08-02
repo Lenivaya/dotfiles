@@ -1,8 +1,1 @@
-{
-  config,
-  lib,
-  pkgs,
-  ...
-}:
-with lib;
-{ }
+{ lib, ... }: with lib; { }
