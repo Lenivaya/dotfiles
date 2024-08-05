@@ -92,10 +92,11 @@ in
     systemd.user.services.xmonad-xkbmon = mkGraphicalService {
       description = "XMonad keyboard monitor";
       path = with pkgs; [
+        bash
         xkbmon
         xmonadctl
       ];
-      script = readFile "${configDir}/xmonad/scripts/keyboard-listener";
+      script = "${configDir}/xmonad/scripts/keyboard-listener";
     };
 
     env.PATH = [ "$DOTFILES/config/xmonad/scripts/xmobar" ];

@@ -721,17 +721,17 @@
         ]
       },
       "locked": {
-        "lastModified": 1722385855,
-        "narHash": "sha256-3A6biT45w6lJhDB4w9Ua79nXVNC/xHbQqqvpu3BvmZU=",
+        "lastModified": 1722736485,
+        "narHash": "sha256-ywYV7uBS+DbEAQsr4nBvMi40P3eM5QzDG14uQuhfLWI=",
         "owner": "yshui",
         "repo": "picom",
-        "rev": "7094d7a9065cde5cc01b8ff193e8ee6a464bf9f3",
+        "rev": "567c0bad985c1a062017e30a02cb56981dee6013",
         "type": "github"
       },
       "original": {
         "owner": "yshui",
         "repo": "picom",
-        "rev": "7094d7a9065cde5cc01b8ff193e8ee6a464bf9f3",
+        "rev": "567c0bad985c1a062017e30a02cb56981dee6013",
         "type": "github"
       }
     },

@@ -33,7 +33,7 @@ scratchpads =
       "console"
       (spawnTerminalWith "NSPConsole" "$XMONAD_CONFIG_DIR/scripts/nsp-console.sh")
       (className =? "NSPConsole")
-      floatingNSP,
+      (centerFloat 0.7 0.7),
     NS
       "volume"
       (spawnTerminalWith "NSPVolume" (C.mixer C.applications))
@@ -60,7 +60,12 @@ scratchpads =
       "vesktop"
       -- (className =? "discord")
       (className =? "vesktop")
-      doFullCenterFloat
+      doFullCenterFloat,
+    NS
+      "cpupower"
+      "cpupower-gui"
+      (className =? "Cpupower-gui")
+      (centerFloat 0.7 0.7)
   ]
   where
     doFullCenterFloat = centerFloat 0.85 0.85

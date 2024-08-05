@@ -7,6 +7,7 @@
   lib,
   inputs,
   system,
+  config,
   ...
 }:
 with lib;
@@ -160,8 +161,8 @@ with lib.my;
         #   p2.duration = 2.44140625e-3;
         # };
         undervolt = enabled // {
-          core = -130;
-          gpu = -130;
+          core = -120;
+          gpu = -120;
           temp = 97;
         };
       };
@@ -183,10 +184,20 @@ with lib.my;
     zram = enabled;
     bootsplash = enabled;
     fast-networking = enabled;
+    powermanagement-resting = enabled // {
+      services = [
+        "bpftune"
+        "docker"
+        "fwupd"
+        "kdeconnect"
+        "picom"
+      ];
+    };
   };
 
   nix.package = pkgs.unstable.nixVersions.git;
 
+  services.cpupower-gui = enabled;
   services.hardware.bolt.enable = true;
   services.fwupd = enabled;
   services.psd = enabled // { };
@@ -287,6 +298,14 @@ with lib.my;
     warp-terminal
   ];
 
+  # services.syncthing = enabled // {
+  #   user = config.user.name;
+  #   dataDir = "${config.user.home}/Sync";
+
+  #   overrideDevices = true;
+  #   overrideFolders = true;
+  # };
+
   hardware.graphics = enabled // {
     extraPackages = with pkgs; [
       libGL
@@ -294,6 +313,10 @@ with lib.my;
       vaapiIntel
       vaapiVdpau
       vpl-gpu-rt
+      vulkan-loader
+      vulkan-validation-layers
+      vulkan-extension-layer
+      vulkan-tools
     ];
   };
   chaotic.mesa-git = enabled // {
@@ -302,6 +325,10 @@ with lib.my;
       vaapiIntel
       vaapiVdpau
       vpl-gpu-rt
+      vulkan-loader
+      vulkan-validation-layers
+      vulkan-extension-layer
+      vulkan-tools
     ];
   };
   environment.sessionVariables = {
@@ -313,7 +340,7 @@ with lib.my;
   # modules.services.zcfan = enabled;
   # services.thermald = mkForce disabled;
   # services.throttled = mkForce enabled;
-  services.throttled = mkForce disabled; # breaks things smh idk
+  services.throttled = mkForce disabled;
 
   # Dirty hack to have hosts file modifiable
   # (will be discarded on config change or reboot) [1]

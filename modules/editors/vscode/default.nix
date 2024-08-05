@@ -19,66 +19,20 @@ in
   };
 
   config = mkIf cfg.enable {
-    # imports = [
-    #   # Source: https://gist.github.com/piousdeer/b29c272eaeba398b864da6abf6cb5daa
-    #   # Make vscode settings writable
-
-    #   (import (builtins.fetchurl {
-    #     url = "https://gist.githubusercontent.com/piousdeer/b29c272eaeba398b864da6abf6cb5daa/raw/41e569ba110eb6ebbb463a6b1f5d9fe4f9e82375/mutability.nix";
-    #     sha256 = "4b5ca670c1ac865927e98ac5bf5c131eca46cc20abf0bd0612db955bfc979de8";
-    #   }) {inherit config lib;})
-
-    #   (import (builtins.fetchurl {
-    #     url = "https://gist.githubusercontent.com/piousdeer/b29c272eaeba398b864da6abf6cb5daa/raw/41e569ba110eb6ebbb463a6b1f5d9fe4f9e82375/vscode.nix";
-    #     sha256 = "fed877fa1eefd94bc4806641cea87138df78a47af89c7818ac5e76ebacbd025f";
-    #   }) {inherit config lib pkgs;})
-    # ];
-    home.activation =
-      let
-        sysDir =
-          if pkgs.stdenv.hostPlatform.isDarwin then
-            "${config.home.homeDirectory}/Library/Application Support"
-          else
-            "${config.user.home}/.config";
-        userConfigPath = "${sysDir}/Code/User";
-
-        mkTmp = file: "${file}.tmp";
-
-        userSettings = "${userConfigPath}/settings.json";
-        userKeybindings = "${userConfigPath}/keybindings.json";
-
-        userSettings' = mkTmp userSettings;
-        userKeybindings' = mkTmp userKeybindings;
-      in
-      {
-        removeExistingVSCodeSettings = lib.hm.dag.entryBefore [ "checkLinkTargets" ] ''
-          rm -rf "${userSettings}"
-          rm -rf "${userKeybindings}"
-        '';
-
-        overwriteVSCodeSymlink = lib.hm.dag.entryAfter [ "linkGeneration" ] ''
-          cat "${userSettings}" > ${userSettings'}
-          cat "${userKeybindings}" > ${userKeybindings'}
-
-          rm -rf "${userSettings}"
-          rm -rf "${userKeybindings}"
-
-          cat "${userSettings'}" > ${userSettings}
-          cat "${userKeybindings'}" > ${userKeybindings}
-        '';
-      };
-
     nixpkgs.overlays = [ inputs.nix-vscode-extensions.overlays.default ];
+
+    # embrace the impurnes, make it more usable
+    system.userActivationScripts.linkVscodeConfig = ''
+      ${linkIfNotExist "~/.config/Code/User/settings.json" "${configDir}/vscode/settings.json"}
+      ${linkIfNotExist "~/.config/Code/User/keybindings.json" "${configDir}/vscode/keybindings.json"}
+    '';
 
     home.programs.vscode = enabled // {
       package =
         let
-          vscode' = pkgs.vscode.override { inherit (chromeCfg) commandLineArgs; };
+          vscode' = (pkgs.vscode.override { inherit (chromeCfg) commandLineArgs; }).fhs;
         in
         vscode';
-
-      keybindings = import "${configDir}/vscode/keybindings.nix";
-      userSettings = import "${configDir}/vscode/settings.nix" { inherit lib pkgs config; };
 
       mutableExtensionsDir = true;
       extensions =

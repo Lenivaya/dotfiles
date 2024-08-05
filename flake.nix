@@ -8,7 +8,7 @@
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable"; # for packages on the edge
 
     home-manager = {
-      url = "github:nix-community/home-manager";
+      url = "github:nix-community/home-manager" ;
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -78,7 +78,7 @@
 
     # some upstream things
     picom = {
-      url = "github:yshui/picom?rev=7094d7a9065cde5cc01b8ff193e8ee6a464bf9f3";
+      url = "github:yshui/picom?rev=567c0bad985c1a062017e30a02cb56981dee6013";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     skippy-xd = {
@@ -168,10 +168,12 @@
 
       nixosConfigurations = mapHosts ./hosts { };
 
+      devShells."${system}".default = import ./shell.nix { inherit pkgs inputs system; };
+
       formatter.${system} = treefmt-nix.lib.mkWrapper pkgs {
         projectRootFile = "flake.nix";
 
-        programs = {
+        programs =  {
           nixfmt.enable = true;
           deadnix.enable = true;
           shfmt.enable = true;
@@ -183,7 +185,5 @@
           # fourmolu.enable = true;
         };
       };
-
-      devShells."${system}".default = import ./shell.nix { inherit pkgs inputs system; };
     };
 }

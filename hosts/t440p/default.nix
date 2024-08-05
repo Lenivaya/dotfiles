@@ -5,6 +5,7 @@
   lib,
   inputs,
   system,
+  config,
   ...
 }:
 with lib;
@@ -82,8 +83,8 @@ with lib.my;
         };
 
         graphics = enabled // {
-          tools = enabled;
-          raster = enabled;
+          # tools = enabled;
+          # raster = enabled;
         };
 
         recording = enabled // {
@@ -215,6 +216,7 @@ with lib.my;
   nix.package = pkgs.unstable.nixVersions.git;
 
   services.fwupd = enabled;
+  services.cpupower-gui = enabled;
 
   security.sudo-rs = enabled;
 
