@@ -1,0 +1,50 @@
+#!/usr/bin/env bash
+
+# Script to cycle through windows in the current workspace
+# Usage: cycle_windows.sh [next|prev]
+
+# Function to display usage information
+usage() {
+  echo "Usage: $0 [next|prev]"
+  exit 1
+}
+
+# Get the direction argument, default to 'next' if not provided
+direction=${1:-next}
+
+# Function to get the list of window IDs in the current workspace
+get_window_ids() {
+  xdotool search --onlyvisible --desktop "$(xdotool get_desktop)" "" | sort
+}
+
+# Get the list of window IDs
+mapfile -t window_ids < <(get_window_ids)
+
+# Get the current active window ID
+current_window=$(xdotool getactivewindow)
+
+# Function to find the target window ID based on the direction
+get_target_window() {
+  local current_index target_index
+  for i in "${!window_ids[@]}"; do
+    if [[ "${window_ids[i]}" == "$current_window" ]]; then
+      case "$direction" in
+      next) target_index=$(((i + 1) % ${#window_ids[@]})) ;;
+      prev) target_index=$(((i - 1 + ${#window_ids[@]}) % ${#window_ids[@]})) ;;
+      esac
+      echo "${window_ids[$target_index]}"
+      return
+    fi
+  done
+}
+
+# Handle the direction argument
+case "$direction" in
+next | prev)
+  target_window_id=$(get_target_window)
+  xdotool windowactivate "$target_window_id"
+  ;;
+*)
+  usage
+  ;;
+esac

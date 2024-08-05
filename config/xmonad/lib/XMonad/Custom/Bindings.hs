@@ -253,6 +253,7 @@ keysSpawnables =
     ("M-o v", namedScratchpadAction scratchpads "volume"),
     ("M-o s", namedScratchpadAction scratchpads "soundEffects"),
     ("M-o d", namedScratchpadAction scratchpads "discord"),
+    ("M-o p", namedScratchpadAction scratchpads "cpupower"),
     ("M-o g", runOrRaise "git-butler" (className =? "Git-butler"))
   ]
 

@@ -6,7 +6,7 @@ let
 in
 {
   # FIXME HACK unless animations are properly supported by home-manager
-  home.configFile."picom/picom.conf".text = mkForce (readFile "${configDir}/picom/picom.conf");
+  home.configFile."picom/picom.conf".source = mkForce "${configDir}/picom/picom.conf";
 
   # home.services.picom.vSync = mkForce false;
   # home.services.picom.backend = mkForce "xrender";

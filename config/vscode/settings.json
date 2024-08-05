@@ -1,0 +1,473 @@
+{
+  "C_Cpp": {
+    "clang_format_fallbackStyle": "LLVM",
+    "intelliSenseEngineFallback": "Enabled",
+    "workspaceParsingPriority": "medium"
+  },
+  "[css]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[html]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[markdown]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "breadcrumbs": {
+    "enabled": true
+  },
+  "codesnap.showLineNumbers": false,
+  "diffEditor": {
+    "ignoreTrimWhitespace": false
+  },
+  "editor": {
+    "cursorBlinking": "smooth",
+    "cursorSmoothCaretAnimation": true,
+    "fontLigatures": true,
+    "inlayHints": {
+      "enabled": "offUnlessPressed"
+    },
+    "lineHeight": 20,
+    "lineNumbers": "relative",
+    "minimap": {
+      "showSlider": "always"
+    },
+    "mouseWheelZoom": true,
+    "multiCursorModifier": "ctrlCmd",
+    "quickSuggestions": {
+      "comments": true,
+      "other": true,
+      "strings": true
+    },
+    "renderIndentGuides": false,
+    "renderWhitespace": "none",
+    "rulers": [80, 100],
+    "smoothScrolling": true,
+    "snippetSuggestions": "top",
+    "suggest": {
+      "localityBonus": true
+    },
+    "tabSize": 2,
+    "tokenColorCustomizations": {
+      "textMateRules": [
+        {
+          "name": "markup diff",
+          "scope": "markup.changed.diff",
+          "settings": {
+            "foreground": "#f0c674"
+          }
+        },
+        {
+          "name": "diff",
+          "scope": "meta.diff.header.from-filemeta.diff.header.to-file,punctuation.definition.from-file.diff,punctuation.definition.to-file.diff",
+          "settings": {
+            "foreground": "#81a2be"
+          }
+        },
+        {
+          "name": "inserted.diff",
+          "scope": "markup.inserted.diff",
+          "settings": {
+            "foreground": "#b5bd68"
+          }
+        },
+        {
+          "name": "deleted.diff",
+          "scope": "markup.deleted.diff",
+          "settings": {
+            "foreground": "#cc6666"
+          }
+        }
+      ]
+    },
+    "wordWrap": "off"
+  },
+  "editor.quickSuggestions": {
+    "comments": "on",
+    "strings": "on"
+  },
+  "editor.wordBasedSuggestions": "matchingDocuments",
+  "editor.wordBasedSuggestionsMode": "allDocuments",
+  "emmet": {
+    "includeLanguages": {
+      "jinja-html": "html"
+    }
+  },
+  "eslint": {
+    "packageManager": "yarn",
+    "validate": ["html", "javascript", "javascriptreact"]
+  },
+  "explorer": {
+    "confirmDragAndDrop": false,
+    "decorations": {
+      "badges": false,
+      "colors": true
+    },
+    "excludeGitIgnore": true,
+    "incrementalNaming": "smart",
+    "openEditors": {
+      "visible": 8
+    }
+  },
+  "explorer.autoReveal": false,
+  "extensions": {
+    "autoUpdate": false
+  },
+  "files": {
+    "associations": {
+      "*.conkyrc": "lua",
+      "*.pug": "jade",
+      "*.toml": "ini",
+      "*.xmobarrc": "haskell",
+      ".Xresources": "shellscript",
+      "bspwmrc": "shellscript",
+      "sxhkdrc": "shellscript"
+    },
+    "enableTrash": false,
+    "exclude": {
+      "**/*.olean": true,
+      "**/.DS_Store": false,
+      "**/.git": false,
+      "**/.hg": true,
+      "**/.svn": true,
+      "**/CVS": true
+    },
+    "insertFinalNewline": true,
+    "refactoring": {
+      "autoSave": true
+    },
+    "trimTrailingWhitespace": true,
+    "watcherExclude": {
+      "**/.git/objects/**": true,
+      "**/.git/subtree-cache/**": true,
+      "**/.hg/store/**": true,
+      "**/.mypy_cache/**": true,
+      "**/bazel-*/**": true,
+      "**/node_modules/**": true,
+      "**/target/debug/**": true
+    }
+  },
+  "git": {
+    "allowForcePush": true,
+    "autofetch": true,
+    "confirmSync": false,
+    "detectSubmodules": false,
+    "enableCommitSigning": true,
+    "enableSmartCommit": true,
+    "showPushSuccessNotification": true
+  },
+  "gitlens": {
+    "codeLens": {
+      "scopes": ["document", "containers", "blocks"]
+    }
+  },
+  "gopls": {
+    "expandWorkspaceToModule": true,
+    "experimentalWorkspaceModule": true
+  },
+  "haskell": {
+    "formattingProvider": "fourmolu"
+  },
+  "html": {
+    "format": {
+      "contentUnformatted": "pre,code,style,textarea",
+      "extraLiners": "",
+      "wrapLineLength": 0
+    }
+  },
+  "java": {
+    "implementationsCodeLens": {
+      "enabled": true
+    },
+    "referencesCodeLens": {
+      "enabled": true
+    },
+    "saveActions": {
+      "organizeImports": true
+    }
+  },
+  "javascript": {
+    "format": {
+      "insertSpaceAfterConstructor": true,
+      "insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+      "insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
+      "insertSpaceBeforeFunctionParenthesis": true
+    },
+    "referencesCodeLens": {
+      "enabled": true
+    }
+  },
+  "jupyter": {
+    "disableJupyterAutoStart": true,
+    "searchForJupyter": false,
+    "useNotebookEditor": false
+  },
+  "latex-workshop": {
+    "latex": {
+      "autoClean": {
+        "run": "onBuilt"
+      },
+      "tools": [
+        {
+          "args": [
+            "-f",
+            "-cd",
+            "-pdf",
+            "-file-line-error",
+            "-synctex=1",
+            "-interaction=nonstopmode",
+            "-outdir=./",
+            "-xelatex",
+            "%DOC%"
+          ],
+          "command": "latexmk",
+          "name": "latexmk"
+        },
+        {
+          "args": [
+            "-synctex=1",
+            "-interaction=nonstopmode",
+            "-file-line-error",
+            "%DOC%"
+          ],
+          "command": "pdflatex",
+          "name": "pdflatex"
+        },
+        {
+          "args": ["%DOCFILE%"],
+          "command": "bibtex",
+          "name": "bibtex"
+        }
+      ]
+    },
+    "linting": {
+      "chktex": {
+        "enabled": true
+      }
+    },
+    "view": {
+      "pdf": {
+        "viewer": "tab"
+      }
+    }
+  },
+  "markdown": {
+    "preview": {
+      "typographer": true
+    }
+  },
+  "materialTheme": {
+    "accent": "Graphite"
+  },
+  "maven": {
+    "terminal": {
+      "useJavaHome": true
+    }
+  },
+  "nix": {
+    "enableLanguageServer": true,
+    "formatterPath": "nixfmt"
+  },
+  "npm": {
+    "packageManager": "yarn"
+  },
+  "path-intellisense": {
+    "showHiddenFiles": true
+  },
+  "pdf-preview": {
+    "default": {
+      "scale": "page-fit",
+      "scrollMode": "wrapped"
+    }
+  },
+  "php": {
+    "validate": {
+      "run": "onType"
+    }
+  },
+  "python": {
+    "analysis": {
+      "completeFunctionParens": true
+    },
+    "autoComplete": {
+      "addBrackets": true
+    },
+    "autoUpdateLanguageServer": false,
+    "experiments": {
+      "optOutFrom": ["All"]
+    },
+    "formatting": {
+      "provider": "yapf"
+    },
+    "languageServer": "Pylance",
+    "linting": {
+      "flake8Enabled": true,
+      "mypyEnabled": true,
+      "pycodestyleEnabled": true,
+      "pydocstyleEnabled": false,
+      "pylamaEnabled": true
+    },
+    "testing": {
+      "unittestEnabled": true
+    }
+  },
+  "scm": {
+    "defaultViewMode": "tree"
+  },
+  "search": {
+    "smartCase": true
+  },
+  "terminal": {
+    "external": {
+      "linuxExec": "alacritty"
+    },
+    "integrated": {
+      "fontSize": 22,
+      "rendererType": "experimentalWebgl"
+    }
+  },
+  "todo-tree": {
+    "general": {
+      "tags": ["BUG", "HACK", "FIXME", "TODO", "XXX", "[ ]", "[x]"]
+    },
+    "tree": {
+      "showScanModeButton": false
+    }
+  },
+  "tslint": {
+    "packageManager": "yarn",
+    "validateWithDefaultConfig": true
+  },
+  "typescript": {
+    "format": {
+      "insertSpaceAfterConstructor": true,
+      "insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": true,
+      "insertSpaceAfterOpeningAndBeforeClosingNonemptyBrackets": true,
+      "insertSpaceBeforeFunctionParenthesis": true
+    },
+    "implementationsCodeLens": {
+      "enabled": true
+    },
+    "referencesCodeLens": {
+      "enabled": true
+    },
+    "tsc": {
+      "autoDetect": "watch"
+    }
+  },
+  "update": {
+    "mode": "none"
+  },
+  "vim": {
+    "autoSwitchInputMethod": {
+      "defaultIM": "us",
+      "enable": true,
+      "obtainIMCmd": "xkb-switch",
+      "switchIMCmd": "xkb-switch -s {im}"
+    },
+    "camelCaseMotion": {
+      "enable": true
+    },
+    "easymotion": true,
+    "hlsearch": true,
+    "incsearch": true,
+    "insertModeKeyBindings": [
+      {
+        "after": ["<Esc>"],
+        "before": ["j", "j"]
+      }
+    ],
+    "normalModeKeyBindingsNonRecursive": [
+      {
+        "before": ["<Esc>"],
+        "commands": [":nohl"]
+      },
+      {
+        "before": ["<space>"],
+        "commands": ["vspacecode.space"]
+      },
+      {
+        "before": [","],
+        "commands": [
+          "vspacecode.space",
+          {
+            "args": "m",
+            "command": "whichkey.triggerKey"
+          }
+        ]
+      },
+      {
+        "before": ["g", "r"],
+        "commands": ["editor.action.rename"]
+      }
+    ],
+    "sneak": true,
+    "useCtrlKeys": true,
+    "useSystemClipboard": true,
+    "visualModeKeyBindingsNonRecursive": [
+      {
+        "before": ["<space>"],
+        "commands": ["vspacecode.show"]
+      },
+      {
+        "before": [","],
+        "commands": [
+          "vspacecode.space",
+          {
+            "args": "m",
+            "command": "whichkey.triggerKey"
+          }
+        ]
+      }
+    ]
+  },
+  "window": {
+    "menuBarVisibility": "toggle",
+    "titleBarStyle": "custom"
+  },
+  "workbench": {
+    "colorCustomizations": {
+      "activityBarBadge.background": "#616161",
+      "editorSuggestWidget.highlightForeground": "#616161",
+      "editorWidget.border": "#616161",
+      "list.activeSelectionForeground": "#616161",
+      "list.highlightForeground": "#616161",
+      "list.inactiveSelectionForeground": "#616161",
+      "notificationLink.foreground": "#616161",
+      "pickerGroup.foreground": "#616161",
+      "progressBar.background": "#616161",
+      "scrollbarSlider.activeBackground": "#61616150",
+      "tab.activeBorder": "#616161",
+      "textLink.foreground": "#616161"
+    },
+    "colorTheme": "Min Tomorrow Dark",
+    "editorAssociations": [
+      {
+        "filenamePattern": "*.ipynb",
+        "viewType": "jupyter-notebook"
+      }
+    ],
+    "iconTheme": "vs-seti",
+    "list": {
+      "smoothScrolling": true
+    },
+    "sideBar": {
+      "location": "right"
+    },
+    "startupEditor": "None",
+    "tree": {
+      "expandMode": "singleClick"
+    }
+  },
+  "editor.cursorSmoothCaretAnimation": "on",
+  "editor.guides.indentation": false,
+  "nix.enableLanguageServer": true,
+  "nix.formatterPath": "nixfmt",
+  "haskell.manageHLS": "GHCup",
+  "errorLens.fontStyleItalic": true,
+  "solargraph.formatting": true,
+  "editor.fontLigatures": true,
+  "[nix]": {
+    "editor.defaultFormatter": "jnoortheen.nix-ide"
+  }
+}
