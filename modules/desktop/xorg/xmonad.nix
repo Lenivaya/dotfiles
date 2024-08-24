@@ -5,7 +5,6 @@
   lib,
   pkgs,
   inputs,
-  system,
   ...
 }:
 with lib;
@@ -13,18 +12,30 @@ with lib.my;
 let
   inherit (config.dotfiles) configDir;
   cfg = config.modules.desktop.xmonad;
+
+  flakeCfg = config.services.xserver.windowManager.xmonad;
+  hoverlay = _final: _prev: hself: _hsuper: {
+    xmonad-extras = hself.callCabal2nix "xmonad-extras" (inputs.xmonad-extras) { };
+  };
+  comp = {
+    inherit (flakeCfg.flake) prefix compiler;
+  };
+  xmonadExtrasOverlay = inputs.xmonad.lib.fromHOL hoverlay comp;
 in
 {
   options.modules.desktop.xmonad.enable = mkBoolOpt false;
 
-  imports = with inputs; xmonad-contrib.nixosModules ++ [ xmonad-contrib.modernise.${system} ];
+  imports = with inputs; xmonad-contrib.nixosModules;
+  # ++ [ xmonad-contrib.modernise.${system} ];
 
   config = mkIf cfg.enable {
+    nixpkgs.overlays = [ xmonadExtrasOverlay ];
+
     modules = {
       services = {
         avizo = enabled;
         skippy-xd = enabled;
-        clipcat = enabled;
+        greenclip = enabled;
       };
       desktop = {
         lockscreen = enabled;
@@ -43,13 +54,9 @@ in
     };
 
     services.xserver.windowManager.xmonad = enabled // {
-      # enableContribAndExtras = true;
-      extraPackages =
-        hpkgs: with hpkgs; [
-          xmonad-contrib
-          flow
-        ];
       flake = enabled;
+      enableContribAndExtras = true;
+      extraPackages = hpkgs: with hpkgs; [ flow ];
     };
 
     services.displayManager.defaultSession = "none+xmonad";
@@ -60,7 +67,7 @@ in
       XMONAD_DATA_DIR = "$XDG_DATA_HOME/xmonad";
     };
 
-    user.packages = with pkgs; [
+    environment.systemPackages = with pkgs; [
       xmonadctl
       xmobar
       trayer # tray
@@ -85,6 +92,7 @@ in
       hooks = {
         postswitch = {
           change-wallpaper = "source ~/.fehbg";
+          restart-xmonad = "xmonadctl --restart";
         };
       };
     };

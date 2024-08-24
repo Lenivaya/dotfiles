@@ -75,6 +75,7 @@ import XMonad.Util.NamedScratchpad hiding (
   namedScratchpadFilterOutWorkspace,
  )
 import XMonad.Util.WorkspaceCompare
+import XMonad.Actions.WindowBringer
 
 type Keybinding = (String, X ())
 type Keybindings = [Keybinding]
@@ -151,9 +152,10 @@ flash' = flashText def 0.5
 
 keysBase :: Keybindings
 keysBase =
-  [ ("M-q q", confirmPrompt hotPromptTheme "Quit XMonad?" $ io exitSuccess),
+  [ ("M-q q", confirmPrompt (promptNoHistory hotPromptTheme) "Quit XMonad?" $ io exitSuccess),
     -- ("M-q r", spawn "xmonad --recompile" >> restart "xmonad" True),
-    ("M-q r", spawn "xmonad --recompile && xmonad --restart"),
+    -- ("M-q r", spawn "xmonad --recompile && xmonad --restart"),
+    ("M-q r", spawn "xmonad --restart"),
     ("M-x", wrapKbdLayout $ shellPrompt $ promptNoCompletion promptTheme),
     ("M-S-x", spawn $ C.appmenu C.applications),
     -- , ("M-c", spawn $ C.clipboardSelector C.applications)
@@ -168,14 +170,16 @@ keysSelect =
 
 keysPass :: Keybindings
 keysPass =
-  [ ("M-p p", wrapKbdLayout $ passPrompt promptTheme),
+  [ ("M-p p", wrapKbdLayout $ passPrompt passPromptTheme),
     ( "M-p g",
       wrapKbdLayout . passGenerateAndCopyPrompt $ promptNoCompletion promptThemeVim
     ),
-    ("M-p d", wrapKbdLayout $ passRemovePrompt $ promptNoCompletion promptTheme),
-    ("M-p t", wrapKbdLayout $ passTypePrompt promptTheme),
-    ("M-p e", wrapKbdLayout $ passEditPrompt promptTheme)
+    ("M-p d", wrapKbdLayout $ passRemovePrompt $ promptNoCompletion passPromptTheme),
+    ("M-p t", wrapKbdLayout $ passTypePrompt passPromptTheme),
+    ("M-p e", wrapKbdLayout $ passEditPrompt passPromptTheme)
   ]
+  where
+    passPromptTheme = promptNoHistory promptTheme
 
 keysGo :: Keybindings
 keysGo =
@@ -195,6 +199,7 @@ keysDo =
     ("M-d s r", wrapKbdLayout . screencastPrompt $ promptNoCompletion promptTheme),
     ("M-d s z", spawn $ C.screenZoomer C.applications),
     ("M-d w c", workspacePrompt promptTheme $ windows . copy),
+    ("M-d w S-c", copyMenu),
     ("M-d c <Backspace>", spawn "clipcatctl clear"),
     ("M-d c l", spawn "clipcat-last"),
     ("M-d m r", spawn "autorandr -c")
@@ -207,17 +212,18 @@ keysSystem =
     ("C-S-<Print>", screenshot SelectCopyToClipboard),
     ("M-t c", spawn "$XMONAD_CONFIG_DIR/scripts/toggle-compositor.sh"),
     ("M-t l", spawn "zzz"),
-    ("M-t S-l", spawn "$XMONAD_CONFIG_DIR/scripts/caffeine")
+    ("M-t S-l", spawn "$XMONAD_CONFIG_DIR/scripts/caffeine"),
+    ("M-t C-S-l", spawn "xset dpms force off")
   ]
 
 keysWorkspaces :: Keybindings
 keysWorkspaces =
-  [ ("M-w S-o", withDefaultKbdLayout $ switchProjectPrompt promptTheme),
+  [ ("M-w S-o", withDefaultKbdLayout $ switchProjectPrompt $ promptNoHistory promptTheme),
     ( "M-w C-S-o",
       withDefaultKbdLayout . switchProjectPrompt $ promptNoCompletion promptTheme
     ),
-    ("M-w S-s", wrapKbdLayout $ shiftToProjectPrompt promptTheme),
-    ("M-w S-n", wrapKbdLayout $ renameProjectPrompt hotPromptTheme),
+    ("M-w S-s", wrapKbdLayout $ shiftToProjectPrompt $ promptNoHistory promptTheme),
+    ("M-w S-n", wrapKbdLayout $ renameProjectPrompt $ promptNoHistory hotPromptTheme),
     ("M-w <Backspace>", removeWorkspace),
     ( "M-w S-<Backspace>",
       confirmPrompt hotPromptTheme "Kill workspace?" $
@@ -226,7 +232,7 @@ keysWorkspaces =
     ("M-,", nextNonEmptyWS),
     ("M-.", prevNonEmptyWS),
     ("M-i", toggleWS' ["NSP"]),
-    ("M-n", workspacePrompt promptTheme $ windows . S.shift),
+    ("M-n", workspacePrompt (promptNoHistory promptTheme) $ windows . S.shift),
     -- ("M-w w", gridselectWorkspace gridSelectTheme S.greedyView)
     ("M-w w", spawn "skippy-xd --paging")
   ]
@@ -243,13 +249,15 @@ keysSpawnables =
     ("M-C-<Return>", spawn $ C.termSmallFont C.applications),
     ("M-C-S-<Return>", spawn $ C.termSmallFont C.applications ++ " -e tmux"),
     ("M-o b", spawn $ C.browser C.applications),
-    ("M-o S-b", wrapKbdLayout $ selectBrowserByNameAndSpawn promptTheme),
+    ("M-o S-b", wrapKbdLayout $ selectBrowserByNameAndSpawn $ promptNoHistory promptTheme),
     ("M-o e", raiseEditor),
-    ("M-o r", spawn $ C.term C.applications ++ " -e ranger"),
+    ("M-o f r", spawn $ C.term C.applications ++ " -e ranger"),
+    ("M-o f y", spawn $ C.term C.applications ++ " -e yazi"),
     ("M-o S-e", spawn "doom +everywhere"),
     ("M-o c", namedScratchpadAction scratchpads "console"),
     ("M-o m", namedScratchpadAction scratchpads "music"),
     ("M-o t", namedScratchpadAction scratchpads "top"),
+    ("M-o S-t", namedScratchpadAction scratchpads "telegram"),
     ("M-o v", namedScratchpadAction scratchpads "volume"),
     ("M-o s", namedScratchpadAction scratchpads "soundEffects"),
     ("M-o d", namedScratchpadAction scratchpads "discord"),
@@ -260,16 +268,18 @@ keysSpawnables =
 keysWindows :: Keybindings
 keysWindows =
   [ ("M-w k", kill),
-    ("M-w S-k", wrapKbdLayout $ confirmPrompt hotPromptTheme "Kill all" killAll),
+    ("M-w S-k", wrapKbdLayout $ confirmPrompt (
+      promptNoHistory
+        hotPromptTheme) "Kill all" killAll),
     ( "M-w C-S-k",
       wrapKbdLayout $
-        confirmPrompt hotPromptTheme "Kill others" $
+        confirmPrompt (promptNoHistory hotPromptTheme) "Kill others" $
           withOthers killWindow
     ),
     ("M-w d", wrapKbdLayout windowMenu),
-    ("M-w g", withDefaultKbdLayout $ windowPrompt promptTheme Goto allWindows),
-    ("M-w /", withDefaultKbdLayout $ windowPrompt promptTheme Goto wsWindows),
-    ("M-w b", withDefaultKbdLayout $ windowPrompt promptTheme Bring allWindows),
+    ("M-w g", withDefaultKbdLayout $ windowPrompt (promptNoHistory promptTheme) Goto allWindows),
+    ("M-w /", withDefaultKbdLayout $ windowPrompt (promptNoHistory promptTheme) Goto wsWindows),
+    ("M-w b", withDefaultKbdLayout $ windowPrompt (promptNoHistory promptTheme) Bring allWindows),
     ("M-w c", toggleCopyToAll),
     ("M-w o", sendMessage Mag.Toggle),
     ("M-w S-c", kill1), -- To remove focused copied window from current workspace

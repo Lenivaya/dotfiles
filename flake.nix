@@ -7,8 +7,10 @@
     nixpkgs.url = "nixpkgs/nixos-unstable"; # primary nixpkgs
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable"; # for packages on the edge
 
+    git-ignore-nix.url = "github:hercules-ci/gitignore.nix/master";
+
     home-manager = {
-      url = "github:nix-community/home-manager" ;
+      url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -20,9 +22,20 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    xmonad = {
+      url = "github:xmonad/xmonad";
+      inputs.unstable.follows = "nixpkgs";
+      inputs.git-ignore-nix.follows = "git-ignore-nix";
+    };
     xmonad-contrib = {
       url = "github:xmonad/xmonad-contrib";
       inputs.nixpkgs.follows = "nixpkgs";
+      inputs.xmonad.follows = "xmonad";
+      inputs.git-ignore-nix.follows = "git-ignore-nix";
+    };
+    xmonad-extras = {
+      url = "github:xmonad/xmonad-extras";
+      flake = false;
     };
 
     nix-vscode-extensions.url = "github:nix-community/nix-vscode-extensions";
@@ -45,6 +58,10 @@
 
     betterfox = {
       url = "github:yokoffing/betterfox";
+      flake = false;
+    };
+    penguin-fox = {
+      url = "github:p3nguin-kun/penguinFox";
       flake = false;
     };
 
@@ -77,8 +94,12 @@
     };
 
     # some upstream things
+    auto-cpufreq = {
+      url = "github:AdnanHodzic/auto-cpufreq";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     picom = {
-      url = "github:yshui/picom?rev=567c0bad985c1a062017e30a02cb56981dee6013";
+      url = "github:yshui/picom?rev=c3e18a6e7a9299d9be421bcfc249bb348087d1ea";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     skippy-xd = {
@@ -100,7 +121,7 @@
       "https://numtide.cachix.org" # another unfree package cache
       "https://pre-commit-hooks.cachix.org"
       "https://viperml.cachix.org/"
-      "https://cache.lix.systems"
+      "https://chaotic-nyx.cachix.org/"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
@@ -110,7 +131,7 @@
       "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
       "pre-commit-hooks.cachix.org-1:Pkk3Panw5AW24TOv6kz3PvLhlH8puAsJTBbOPmBo7Rc="
       "viperml.cachix.org-1:qZhKBMTfmcLL+OG6fj/hzsMEedgKvZVFRRAhq7j8Vh8="
-      "cache.lix.systems:aBnZUw8zA7H35Cz2RyKFVs3H4PlGTLawyY5KRbvJR8o="
+      "chaotic-nyx.cachix.org-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
     ];
   };
 
@@ -173,7 +194,7 @@
       formatter.${system} = treefmt-nix.lib.mkWrapper pkgs {
         projectRootFile = "flake.nix";
 
-        programs =  {
+        programs = {
           nixfmt.enable = true;
           deadnix.enable = true;
           shfmt.enable = true;

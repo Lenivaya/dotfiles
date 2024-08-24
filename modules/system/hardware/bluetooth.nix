@@ -47,6 +47,7 @@ in
       hardware.bluetooth.disabledPlugins = [ "sap" ];
       hardware.bluetooth.settings = {
         General = {
+          ControllerMode = "bredr";
           MultiProfile = "multiple";
           FastConnectable = true;
           Privacy = "device";

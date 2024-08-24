@@ -91,8 +91,9 @@ projects =
       { projectName = note,
         projectDirectory = "~/",
         projectStartHook = Just $ do
-          spawnOn note (C.browser C.applications)
-          spawnOn note "emacs_lets_note"
+          -- spawnOn note (C.browser C.applications)
+          -- spawnOn note "emacs_lets_note"
+          spawnOn note "obsidian"
       },
     Project
       { projectName = code,

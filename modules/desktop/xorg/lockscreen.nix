@@ -14,7 +14,10 @@ let
   socket = "/tmp/xidlehook.sock";
 in
 {
-  options.modules.desktop.lockscreen.enable = mkBoolOpt false;
+  options.modules.desktop.lockscreen = {
+    enable = mkBoolOpt false;
+    autoSuspend = mkBoolOpt true;
+  };
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
@@ -66,7 +69,7 @@ in
               "--timer 200 'betterlockscreen -l dim' ''"
             ]
             # ++ optional modules.hardware.profiles.laptop.enable ''--timer 3600 "systemctl suspend" ""''
-            ++ optional modules.hardware.profiles.laptop.enable ''--timer 200 "systemctl suspend" ""''
+            ++ optional cfg.autoSuspend ''--timer 200 "systemctl suspend" ""''
           );
         in
         execCommand;

@@ -115,19 +115,18 @@ botBarPP =
       ppLayout = const ""
     }
 
-myFadeHook = composeAll
-  [
-    opaque,
-    isUnfocused --> transparency 0.1
-  ]
+-- myFadeHook = composeAll
+--   [
+--     opaque,
+--     isUnfocused --> transparency 0.1
+--   ]
 
 logHook :: X ()
 logHook = do
-  refocusLastLogHook
+  updatePointer (0.5, 0.5) (0, 0)
   currentWorkspaceOnTop
   masterHistoryHook
-  updatePointer (0.5, 0.5) (0, 0)
-  -- fadeWindowsLogHook myFadeHook
   showWNameLogHook def
-
--- nsHideOnFocusLoss scratchpads
+  -- refocusLastLogHook
+  -- fadeWindowsLogHook myFadeHook
+  -- nsHideOnFocusLoss scratchpads

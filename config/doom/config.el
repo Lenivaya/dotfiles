@@ -744,6 +744,12 @@ T - tag prefix
               ("TAB" . 'copilot-accept-completion)
               ("C-TAB" . 'copilot-accept-completion-by-word)
               ("C-<tab>" . 'copilot-accept-completion-by-word))
+  :config
+  (add-to-list 'copilot-indentation-alist '(prog-mode 2))
+  (add-to-list 'copilot-indentation-alist '(org-mode 2))
+  (add-to-list 'copilot-indentation-alist '(text-mode 2))
+  (add-to-list 'copilot-indentation-alist '(closure-mode 2))
+  (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2))
   )
 ;; Copilot:2 ends here
 
@@ -1290,36 +1296,6 @@ Return nil otherwise."
    '((mermaid . t)))
   ;; (setq ob-mermaid-cli-path (executable-find "mmdc"))
   )
-(use-package! websocket
-  :after org-roam)
-
-(use-package! org-roam-ui
-  :after org-roam
-  :init
-  (map!
-   (:leader
-    (:prefix-map ("n r u" . "roam ui")
-     :desc "Open roam ui" "o" #'org-roam-ui-open
-     :desc "Zoom to current note" "z" #'org-roam-ui-node-zoom
-     :desc "Open local view" "l" #'org-roam-ui-node-local
-     )
-    )
-   )
-  :config
-  (setq org-roam-ui-sync-theme t
-        org-roam-ui-follow t
-        org-roam-ui-update-on-save t
-        ;; prefer opening it with  `org-roam-ui-open`
-        org-roam-ui-open-on-start nil )
-  )
-(defadvice! doom-modeline--buffer-file-name-roam-aware-a (orig-fun)
-  :around #'doom-modeline-buffer-file-name ; takes no args
-  (if (s-contains-p org-roam-directory (or buffer-file-name ""))
-      (replace-regexp-in-string
-       "\\(?:^\\|.*/\\)\\([0-9]\\{4\\}\\)\\([0-9]\\{2\\}\\)\\([0-9]\\{2\\}\\)[0-9]*-"
-       "🢔(\\1-\\2-\\3) "
-       (subst-char-in-string ?_ ?  buffer-file-name))
-    (funcall orig-fun)))
 (use-package! org-transclusion
   :after org
   :init

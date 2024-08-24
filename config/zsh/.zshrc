@@ -23,7 +23,9 @@ _set_cursor() {
 precmd_functions+=(_set_cursor)
 
 ## System provided completions
-fpath+=( /run/current-system/sw/share/zsh/site-functions )
+fpath+=(
+  /run/current-system/sw/share/zsh/site-functions
+)
 
 source ~/.zinit/bin/zinit.zsh
 autoload -Uz _zinit
@@ -110,6 +112,9 @@ zinit wait"0c" lucid light-mode for \
             3v1n0/zsh-bash-completions-fallback \
         lenivaya/zsh-eza-plugin  \
         # hermitmaster/zsh-exa-plugin  \
+        
+# zinit ice atload"zpcdreplay" atclone"./zplug.zsh" atpull"%atclone"
+# zinit light g-plane/pnpm-shell-completion
 
 source $XDG_CONFIG_HOME/zsh/br
 

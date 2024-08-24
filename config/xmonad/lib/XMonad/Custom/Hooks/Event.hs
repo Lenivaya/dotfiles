@@ -16,7 +16,7 @@ import XMonad.Custom.Scratchpads
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.OnPropertyChange
--- import XMonad.Hooks.PerWindowKbdLayout
+import XMonad.Hooks.PerWindowKbdLayout
 import XMonad.Hooks.RefocusLast
 import XMonad.Hooks.ServerMode
 import XMonad.Hooks.StatusBar.PP (wrap)
@@ -24,9 +24,11 @@ import XMonad.Hooks.WindowSwallowing
 import XMonad.Operations
 import XMonad.Util.Hacks qualified as Hacks
 import XMonad.Util.Loggers.NamedScratchpad
+import XMonad.Hooks.FloatConfigureReq
+import XMonad.Hooks.ManageHelpers
 
 myRefocusPred = refocusingIsActive <||> isFloat
-swallower prog = swallowEventHook (className =? prog) (pure True)
+-- swallower prog = swallowEventHook (className =? prog) (pure True)
 
 serverEventHooks =
   [serverModeEventHookF "XMONAD_SHOW_TEXT" flash']
@@ -39,6 +41,12 @@ serverEventHooks =
         0.5
         . wrap "  " "  "
 
+myFloatConfReqHook :: MaybeMaybeManageHook
+myFloatConfReqHook = composeAll [
+  className =? "URxvt" -?> pure <$> doFloat,
+  className =? "TelegramDesktop" -?> pure <$> doFloat
+                                ]
+
 handleEventHook :: Event -> X All
 handleEventHook =
   mconcat hooks
@@ -48,11 +56,13 @@ handleEventHook =
         -- perWindowKbdLayout,
         handleTimerEvent,
         refocusLastWhen myRefocusPred,
-        mconcat $ swallower <$> ["Alacritty", "St"],
         nspTrackHook scratchpads,
-        -- Hacks.windowedFullscreenFixEventHook,
+        floatConfReqHook myFloatConfReqHook,
+        fixSteamFlicker,
         Hacks.trayerAboveXmobarEventHook,
         Hacks.trayerPaddingXmobarEventHook
+        -- mconcat $ swallower <$> ["Alacritty", "St"]
+        -- Hacks.windowedFullscreenFixEventHook,
         -- , onTitleChange manageHook
       ]
         ++ serverEventHooks

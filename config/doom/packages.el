@@ -73,9 +73,6 @@
 (package! org-appear :recipe (:host github :repo "awth13/org-appear")
   :pin "60ba267c5da336e75e603f8c7ab3f44e6f4e4dac")
 
-(package! org-roam-ui)
-(package! websocket)
-
 (package! org-transclusion)
 
 (package! pretty-hydra)  ;; dependency
@@ -171,6 +168,7 @@
 (package! typst-ts-mode :recipe (:host sourcehut :repo "meow_king/typst-ts-mode"))
 (package! typst-preview
   :recipe (:host github :repo "havarddj/typst-preview.el"))
+(package! websocket)
 ;; Typst:1 ends here
 
 ;; [[file:config.org::*Obsidian][Obsidian:1]]

@@ -13,6 +13,7 @@ in
   options.modules.hardware.profiles.laptop = {
     enable = mkBoolOpt false;
     battery = mkOpt types.str "BAT0";
+    autoSuspendOnLowBattery = mkBoolOpt false;
   };
 
   config = mkIf cfg.enable {
@@ -24,6 +25,8 @@ in
         tlp = enabled;
       };
     };
+
+    environment.systemPackages = with pkgs; [ powertop ];
 
     services.upower = enabled;
 
@@ -50,8 +53,15 @@ in
     # services.irqbalance.enable = lib.mkDefault true;
 
     services.udev.extraRules = ''
-      # Automatically suspend the system at <5%
-      SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", ATTR{capacity}=="[0-5]", RUN+="${pkgs.systemd}/bin/systemctl suspend"
+      ${
+        if cfg.autoSuspendOnLowBattery then
+          ''
+            # Automatically suspend the system at <10%
+            SUBSYSTEM=="power_supply", ATTR{status}=="Discharging", ATTR{capacity}=="[0-9]", RUN+="${pkgs.systemd}/bin/systemctl suspend"
+          ''
+        else
+          ""
+      }
       # Set scheduler for NVMe
       ACTION=="add|change", KERNEL=="nvme[0-9]*", ATTR{queue/scheduler}="none"
       # Set scheduler for SSD and eMMC

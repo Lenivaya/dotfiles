@@ -1,4 +1,5 @@
 # Simple clipboard manager to be integrated with rofi/dmenu
+# FIXME BUG TODO https://github.com/xrelkd/clipcat/issues/434
 { config, lib, ... }:
 with lib;
 with lib.my;
@@ -11,6 +12,9 @@ in
 
   config = mkIf cfg.enable {
     services.clipcat = enabled;
+    systemd.user.services.clipcat.serviceConfig = {
+      Restart = "on-failure";
+    };
 
     home.configFile."clipcat" = {
       source = "${configDir}/clipcat";

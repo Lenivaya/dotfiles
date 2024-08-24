@@ -79,6 +79,7 @@
        :emacs
        (dired
         +icons
+        +dirvish
         ;; +ranger
         )               ; making dired pretty [functional]
        electric                     ; smarter, keyword-based electric-indent
@@ -201,7 +202,7 @@
         +present         ; using Emacs for presentations
         +gnuplot
         +journal
-        +roam2
+        ;; +roam2
         )
        ;;perl              ; write code no one else can comprehend
        ;; (php +lsp +tree-sitter)               ; perl's insecure younger brother

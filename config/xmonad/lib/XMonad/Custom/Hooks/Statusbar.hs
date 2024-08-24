@@ -18,7 +18,7 @@ barCommand = printf command
 xmobarTop = statusBarPropTo "_XMONAD_LOG_1" (barCommand "top") topBarPP'
 xmobarBot = statusBarPropTo "_XMONAD_LOG_2" (barCommand "bot") (pure botBarPP)
 
-barSpawner :: ScreenId -> IO StatusBarConfig
+barSpawner :: ScreenId -> X StatusBarConfig
 barSpawner 0 = pure $ xmobarTop <> xmobarBot <> traySB -- two bars and tray on the main screen
 barSpawner _ = mempty -- nothing on the rest of the screens
 

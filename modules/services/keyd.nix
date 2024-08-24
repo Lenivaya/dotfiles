@@ -47,7 +47,13 @@ in
       };
     };
 
-    user.packages = with pkgs; [ keyd ];
+    environment.systemPackages = with pkgs; [ keyd ];
+    users.groups."keyd" = { };
     user.extraGroups = [ "keyd" ];
+
+    systemd.services.keyd.serviceConfig.CapabilityBoundingSet = [
+      "CAP_SETGID"
+      "CAP_SYS_NICE"
+    ];
   };
 }

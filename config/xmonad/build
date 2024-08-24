@@ -1,0 +1,80 @@
+#!/usr/bin/env sh
+
+# $XMONAD_GHC --make xmonad.hs \
+#   -i -ilib \
+#   -fforce-recomp \
+#   -main-is main \
+#   -v0 \
+#   -O3 -optc-O3 -optl-O3 \
+#   -opta-march=native -optc-march=native -optl-march=native \
+#   -optc-ffast-math -optl-ffast-math -split-sections -split-objs \
+#   -threaded -rtsopts -with-rtsopts=-N \
+#   -fstrictness -funbox-strict-fields -fmax-simplifier-iterations=20 \
+#   -fregs-graph -fstatic-argument-transformation \
+#   -optc-flto -optl-flto \
+#   -fno-ignore-asserts -funfolding-use-threshold=16 -funfolding-keeness-factor=2 \
+#   -optc-fno-stack-protector -optc-DNDEBUG -optl-fno-stack-protector \
+#   -o "$1"
+
+# $XMONAD_GHC --make xmonad.hs \
+#   -i -ilib \
+#   -fforce-recomp \
+#   -main-is main \
+#   -v0 \
+#   -O3 -optc-O3 -optl-O3 \
+#   -opta-march=native -optc-march=native -optl-march=native \
+#   -optc-ffast-math -optl-ffast-math -split-sections -split-objs \
+#   -threaded -rtsopts -with-rtsopts="-N" \
+#   -fstrictness -funbox-strict-fields -fmax-simplifier-iterations=20 \
+#   -fregs-graph -fstatic-argument-transformation \
+#   -optc-flto -optl-flto \
+#   -fno-ignore-asserts -funfolding-use-threshold=16 -funfolding-keeness-factor=2 \
+#   -optc-fno-stack-protector -optc-DNDEBUG -optl-fno-stack-protector \
+#   -fexcess-precision -optc-ffast-math \
+#   -optc-fomit-frame-pointer -optl-s \
+#   -optc-ffunction-sections -optc-fdata-sections \
+#   -optl-Wl,--gc-sections,--as-needed \
+#   -o "$1"
+
+$XMONAD_GHC --make xmonad.hs \
+  -i -ilib \
+  -fforce-recomp \
+  -main-is main \
+  -v0 \
+  -O3 -optc-O3 -optl-O3 \
+  -opta-march=native -optc-march=native -optl-march=native \
+  -optc-ffast-math -optl-ffast-math -split-sections -split-objs \
+  -threaded -rtsopts -with-rtsopts="-N" \
+  -fstrictness -funbox-strict-fields -fmax-simplifier-iterations=10 \
+  -fregs-graph -fstatic-argument-transformation \
+  -optc-flto -optl-flto \
+  -fno-ignore-asserts -funfolding-use-threshold=8 \
+  -optc-fno-stack-protector -optc-DNDEBUG -optl-fno-stack-protector \
+  -fexcess-precision -optc-ffast-math \
+  -optc-fomit-frame-pointer -optl-s \
+  -optc-ffunction-sections -optc-fdata-sections \
+  -optl-Wl,--gc-sections,--as-needed \
+  -fspecialise -fspecialise-aggressively \
+  -fcross-module-specialise \
+  -fexpose-all-unfoldings \
+  -flate-specialise \
+  -fno-full-laziness \
+  -fno-state-hack \
+  -optc-fno-plt \
+  -optc-fno-semantic-interposition \
+  -optc-fdevirtualize-at-ltrans \
+  -optc-fira-hoist-pressure \
+  -optc-floop-nest-optimize \
+  -optc-fmerge-all-constants \
+  -optc-fmodulo-sched \
+  -optc-fmodulo-sched-allow-regmoves \
+  -optc-fgcse-sm \
+  -optc-fgcse-las \
+  -optc-fipa-pta \
+  -optc-fivopts \
+  -optc-ftree-loop-ivcanon \
+  -optc-fisolate-erroneous-paths-dereference \
+  -optc-fira-loop-pressure \
+  -optc-fopt-info-vec-optimized \
+  -optl-Wl,-O3,--sort-common,--as-needed \
+  -o "$1"

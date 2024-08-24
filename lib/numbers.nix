@@ -9,5 +9,7 @@ _: {
 
   megabytesToBytes = x: 1024 * 1024 * x;
 
+  gigabytesToMegabytes = x: 1024 * x;
+
   hoursToSeconds = x: x * 3600;
 }

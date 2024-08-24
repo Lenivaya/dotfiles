@@ -11,6 +11,8 @@ import XMonad.Util.SpawnOnce
 
 startupHook :: X ()
 startupHook = do
-  setWMName "XMonad"
-  -- setDefaultCursor xC_left_ptr
-  spawn "source ~/.fehbg"
+  -- setWMName "XMonad"
+  setWMName "LG3D"
+
+-- setDefaultCursor xC_left_ptr
+-- spawn "source ~/.fehbg"

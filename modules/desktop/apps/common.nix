@@ -10,7 +10,7 @@ let
   inherit (config.env) TERM;
 in
 {
-  user.packages =
+  environment.systemPackages =
     with pkgs;
     [
       ripgrep # fast grepper

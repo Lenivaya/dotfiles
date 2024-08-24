@@ -1,3 +1,6 @@
+# https://wiki.archlinux.org/title/Zram
+# https://github.com/pop-os/default-settings/blob/master_jammy/usr/bin/pop-zram-config
+# https://github.com/pop-os/default-settings/blob/master_jammy/etc/default/pop-zram
 { config, lib, ... }:
 with lib;
 with lib.my;
@@ -12,8 +15,9 @@ in
   config = mkIf cfg.enable {
     zramSwap = enabled // {
       algorithm = "zstd";
-      priority = 1000;
-      memoryPercent = 90;
+      memoryPercent = mkDefault 100;
+      priority = mkDefault 1000;
+      # memoryMax = megabytesToBytes 16384;
     };
 
     # <https://www.kernel.org/doc/html/latest/admin-guide/sysctl/vm.html>

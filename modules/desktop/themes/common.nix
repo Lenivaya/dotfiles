@@ -13,6 +13,7 @@ in
 {
   config = mkIf config.modules.desktop.enable {
     xdg.portal.config.common.default = "*";
+    programs.gdk-pixbuf.modulePackages = [ pkgs.librsvg ];
 
     home-manager.users.${name} = {
       gtk =

@@ -7,11 +7,10 @@
   lib,
   inputs,
   system,
-  config,
   ...
 }:
 with lib;
-with lib.my;
+with my;
 {
   imports = [
     ../common.nix
@@ -31,7 +30,6 @@ with lib.my;
       isPureWM = true;
 
       fonts.pragmata = enabled;
-
       xdg.handlr = enabled;
 
       apps = {
@@ -39,12 +37,12 @@ with lib.my;
         dmenu = enabled;
         dunst = enabled;
         discord = enabled;
-
         gnome-circle = enabled;
       };
 
       browsers = {
-        default = "google-chrome-unstable";
+        # default = "google-chrome-unstable";
+        default = "firefox-nightly";
 
         firefox = enabled // {
           package = pkgs.firefox_nightly;
@@ -68,7 +66,7 @@ with lib.my;
         documents = enabled // {
           pdf = enabled;
           ebook = enabled;
-          # latex = enabled;
+          latex = enabled;
         };
 
         graphics = enabled // {
@@ -82,9 +80,9 @@ with lib.my;
         };
       };
 
-      # vm = {
-      #   qemu = enabled;
-      # };
+      vm = {
+        qemu = enabled;
+      };
     };
 
     shell = {
@@ -110,6 +108,7 @@ with lib.my;
     };
 
     dev = {
+      java = enabled;
       docker = enabled;
       nix = enabled;
       shell = enabled;
@@ -127,7 +126,8 @@ with lib.my;
 
     services = {
       ananicy = enabled;
-      clipcat = enabled;
+      # clipcat = enabled;
+      greenclip = enabled;
       kdeconnect = enabled;
       ssh = enabled;
       keyd = enabled;
@@ -151,7 +151,9 @@ with lib.my;
     };
 
     hardware = {
-      profiles.laptop = enabled;
+      profiles.laptop = enabled // {
+        autoSuspendOnLowBattery = false;
+      };
       cpu.intel = enabled;
       cpu = {
         # tdp = {
@@ -161,8 +163,8 @@ with lib.my;
         #   p2.duration = 2.44140625e-3;
         # };
         undervolt = enabled // {
-          core = -120;
-          gpu = -120;
+          core = -110;
+          gpu = -110;
           temp = 97;
         };
       };
@@ -184,18 +186,19 @@ with lib.my;
     zram = enabled;
     bootsplash = enabled;
     fast-networking = enabled;
-    powermanagement-resting = enabled // {
-      services = [
-        "bpftune"
-        "docker"
-        "fwupd"
-        "kdeconnect"
-        "picom"
-      ];
-    };
+    # powermanagement-resting = enabled // {
+    #   services = [
+    #     "bpftune"
+    #     "docker"
+    #     "fwupd"
+    #     "kdeconnect"
+    #     "picom"
+    #   ];
+    # };
   };
 
   nix.package = pkgs.unstable.nixVersions.git;
+  # nix.package = pkgs.lix_git;
 
   services.cpupower-gui = enabled;
   services.hardware.bolt.enable = true;
@@ -206,11 +209,37 @@ with lib.my;
     extraConfig = ''
       Defaults timestamp_timeout=30
     '';
+    extraRules =
+      let
+        mkRule = pkg: cmd: rules: [
+          {
+            command = "${pkg}/bin/${cmd}";
+            options = rules;
+          }
+          {
+            command = "/run/current-system/sw/bin/${cmd}";
+            options = rules;
+          }
+        ];
+        mkNoPwd = pkg: cmd: mkRule pkg cmd [ "NOPASSWD" ];
+      in
+      [
+        {
+          commands =
+            (mkNoPwd pkgs.ps_mem "ps_mem")
+            ++ (mkNoPwd pkgs.unixtools.fdisk "fdisk -l")
+            ++ (mkNoPwd pkgs.undervolt "undervolt -r")
+            ++ (mkNoPwd pkgs.smartmontools "smartctl")
+            ++ (mkNoPwd pkgs.powertop "powertop")
+            ++ (mkNoPwd pkgs.intel-gpu-tools "intel_gpu_top");
+          groups = [ "wheel" ];
+        }
+      ];
   };
 
   nix.gc.automatic = mkForce false;
   programs.nh.clean = enabled // {
-    dates = "weekly";
+    dates = "monthly";
     extraArgs = "--keep-since 1w --keep 3";
   };
 
@@ -250,7 +279,18 @@ with lib.my;
     "snd_hda_codec_hdmi"
     # Enable powersaving for Intel soundcards
     "snd_hda_intel.power_save=1"
+    "i915.enable_psr=2"
   ];
+
+  # https://github.com/sched-ext/scx
+  # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
+  # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
+  # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
+  # chaotic.scx = enabled // {
+  #   # scheduler = "scx_rusty";
+  #   # scheduler = "scx_rustland";
+  #   scheduler = "scx_bpfland";
+  # };
 
   networking.firewall = {
     allowedUDPPorts = [
@@ -261,6 +301,7 @@ with lib.my;
       1433
       4321
       4322
+      24800
     ];
     allowedTCPPorts = [
       3000
@@ -270,6 +311,7 @@ with lib.my;
       1433
       4321
       4322
+      24800
     ];
   };
 
@@ -278,24 +320,31 @@ with lib.my;
     options psmouse synaptics_intertouch=1
   ";
 
-  user.packages = with pkgs; [
+  environment.systemPackages = with pkgs; [
     (inxi.override { withRecommends = true; })
     khal
     telegram-desktop
     ffmpeg-full
-    pwvucontrol_git
-
+    # pwvucontrol_git
     video-trimmer
-
     postman
     my.gitbutler
     scx # user-space schedulers
-
     protonvpn-gui
-
     inputs.twitch-hls-client.packages.${pkgs.system}.default
-
     warp-terminal
+    curtail # image compression
+    smartmontools
+    gcc
+    barrier
+    distrobox
+    obsidian
+    qrrs
+    iwgtk
+    code-cursor
+    bottles
+    ungoogled-chromium
+    # lan-mouse_git
   ];
 
   # services.syncthing = enabled // {
@@ -309,6 +358,19 @@ with lib.my;
   hardware.graphics = enabled // {
     extraPackages = with pkgs; [
       libGL
+      intel-ocl
+      intel-media-driver
+      vaapiIntel
+      vaapiVdpau
+      vpl-gpu-rt
+      vulkan-loader
+      vulkan-validation-layers
+      vulkan-extension-layer
+      vulkan-tools
+    ];
+    extraPackages32 = with pkgs; [
+      libGL
+      intel-ocl
       intel-media-driver
       vaapiIntel
       vaapiVdpau
@@ -319,18 +381,22 @@ with lib.my;
       vulkan-tools
     ];
   };
-  chaotic.mesa-git = enabled // {
-    extraPackages = with pkgs; [
-      intel-media-driver
-      vaapiIntel
-      vaapiVdpau
-      vpl-gpu-rt
-      vulkan-loader
-      vulkan-validation-layers
-      vulkan-extension-layer
-      vulkan-tools
-    ];
-  };
+  # chaotic.mesa-git = enabled // {
+  #   fallbackSpecialisation = false;
+  #   method = "replaceRuntimeDependencies";
+  #   extraPackages = with pkgs; [
+  #     libGL
+  #     intel-ocl
+  #     intel-media-driver
+  #     vaapiIntel
+  #     vaapiVdpau
+  #     vpl-gpu-rt
+  #     vulkan-loader
+  #     vulkan-validation-layers
+  #     vulkan-extension-layer
+  #     vulkan-tools
+  #   ];
+  # };
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = mkForce "iHD";
   };
@@ -349,7 +415,7 @@ with lib.my;
   environment.etc.hosts.mode = "0644";
 
   # BPF-based auto-tuning of Linux system parameters
-  services.bpftune = enabled;
+  # services.bpftune = enabled;
 
   # Run appimages seamlesssly
   programs.appimage.binfmt = true;
@@ -365,12 +431,30 @@ with lib.my;
     ProcessSizeMax=0
   '';
 
+  # https://www.reddit.com/r/Fedora/comments/10s06fd/why_is_systemdoomd_still_a_thing/
+  # https://www.reddit.com/r/Ubuntu/comments/uyl4i6/ubuntu_2204s_new_oom_killing_system_is_killing/
+  systemd.oomd = disabled;
+
   nix.settings = {
     system-features = [
       "gccarch-x86-64-v3"
       "gccarch-x86-64-v4"
       "big-parallel"
     ];
+  };
+
+  # https://www.reddit.com/r/NixOS/comments/1eqcgom/mitigate_pipewire_webcam_battery_drain/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+  # https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/2669
+  services.pipewire = {
+    wireplumber = {
+      extraConfig = {
+        "10-disable-camera" = {
+          "wireplumber.profiles" = {
+            main."monitor.libcamera" = "disabled";
+          };
+        };
+      };
+    };
   };
 
   home.programs.mpv.config = {
@@ -383,6 +467,10 @@ with lib.my;
     freemem = "sync && echo 3 | sudo tee /proc/sys/vm/drop_caches";
   };
 
+  services.avahi = enabled;
+
+  # services.safeeyes = enabled;
+
   nixpkgs.overlays =
     let
       optimize = pkg: optimizeForThisHost (withClang pkg);
@@ -391,6 +479,12 @@ with lib.my;
     ++ [ inputs.picom.overlay.${system} ]
     ++ [
       (_final: prev: {
+        inherit (pkgs.unstable)
+          easyeffects
+          typst-lsp
+          code-cursor
+          ;
+
         telegram-desktop = prev.telegram-desktop_git;
         alacritty = prev.alacritty_git;
         yt-dlp = prev.yt-dlp_git;

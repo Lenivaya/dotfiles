@@ -10,7 +10,7 @@
   wireplumber,
   ...
 }:
-stdenv.mkDerivation rec {
+stdenv.mkDerivation {
   pname = "dmenu-pipewire";
   version = "unstable-2023-08-02";
 
