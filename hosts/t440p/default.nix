@@ -39,6 +39,7 @@ with lib.my;
     desktop = enabled // {
       xmonad = enabled;
       isPureWM = true;
+      lockscreen.autoSuspend = false;
 
       fonts.pragmata = enabled;
 
@@ -54,7 +55,8 @@ with lib.my;
       };
 
       browsers = {
-        default = "google-chrome-unstable";
+        # default = "google-chrome-unstable";
+        default = "firefox-nightly";
 
         firefox = enabled // {
           package = pkgs.firefox_nightly;
@@ -63,7 +65,7 @@ with lib.my;
         chromium = enabled // {
           package = inputs.browser-previews.packages.${pkgs.system}.google-chrome-dev;
         };
-        tor = enabled;
+        # tor = enabled;
         # qutebrowser = enabled;
       };
 
@@ -89,7 +91,7 @@ with lib.my;
 
         recording = enabled // {
           # audio = enabled;
-          # video = enabled;
+          video = enabled;
         };
       };
 
@@ -142,9 +144,9 @@ with lib.my;
 
     services = {
       adguardhome = enabled;
-      # greenclip = enabled;
       ananicy = enabled;
-      clipcat = enabled;
+      # clipcat = enabled;
+      greenclip = enabled;
       kdeconnect = enabled;
       ssh = enabled;
       # warp = enabled;
@@ -218,11 +220,39 @@ with lib.my;
   services.fwupd = enabled;
   services.cpupower-gui = enabled;
 
-  security.sudo-rs = enabled;
+  security.sudo-rs = enabled // {
+    extraConfig = ''
+      Defaults timestamp_timeout=30
+    '';
+    extraRules =
+      let
+        mkRule = pkg: cmd: rules: [
+          {
+            command = "${pkg}/bin/${cmd}";
+            options = rules;
+          }
+          {
+            command = "/run/current-system/sw/bin/${cmd}";
+            options = rules;
+          }
+        ];
+        mkNoPwd = pkg: cmd: mkRule pkg cmd [ "NOPASSWD" ];
+      in
+      [
+        {
+          commands =
+            (mkNoPwd pkgs.ps_mem "ps_mem")
+            ++ (mkNoPwd pkgs.unixtools.fdisk "fdisk -l")
+            ++ (mkNoPwd pkgs.undervolt "undervolt -r")
+            ++ (mkNoPwd pkgs.smartmontools "smartctl");
+          groups = [ "wheel" ];
+        }
+      ];
+  };
 
   nix.gc.automatic = mkForce false;
   programs.nh.clean = enabled // {
-    dates = "weekly";
+    dates = "monthly";
     extraArgs = "--keep-since 1w --keep 3";
   };
 
@@ -235,6 +265,12 @@ with lib.my;
   };
 
   services.clight = {
+    # BUG https://github.com/NixOS/nixpkgs/issues/321121
+    settings.daytime = {
+      sunrise = "07:00";
+      sunset = "19:00";
+    };
+
     settings.keyboard.disabled = true;
     settings.sensor.devname = "video1"; # because video0 is virtual camera
   };
@@ -250,9 +286,9 @@ with lib.my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   # chaotic.scx = enabled // {
-  #   scheduler = "scx_rusty";
+  #   # scheduler = "scx_rusty";
   #   # scheduler = "scx_rustland";
-  #   # scheduler = "scx_bpfland";
+  #   scheduler = "scx_bpfland";
   # };
 
   boot.kernelParams = [
@@ -271,6 +307,10 @@ with lib.my;
     # Last two are only available on Sandy Bridge CPUs (circa 2011).
     "i915.enable_rc6=7"
     "intel_pstate=active"
+    # Disabling the HDMI audio output
+    "snd_hda_codec_hdmi"
+    # Enable powersaving for Intel soundcards
+    "snd_hda_intel.power_save=1"
   ];
 
   # boot.plymouth = rec {
@@ -298,33 +338,32 @@ with lib.my;
       1433
       4321
       4322
+      24800
     ];
   };
 
   # For manual fan control with pwm
   boot.extraModprobeConfig = "options thinkpad_acpi experimental=1 fan_control=1";
 
-  user.packages = with pkgs; [
+  environment.systemPackages = with pkgs; [
     khal
     telegram-desktop
     ffmpeg-full
-    pwvucontrol_git
-
     video-trimmer
     # kdenlive
     # lightworks pitivi
     # teams-for-linux
-
     # postman
     my.gitbutler
     scx # user-space schedulers
-
     protonvpn-gui
-
-    inputs.twitch-hls-client.packages.${pkgs.system}.default
+    # inputs.twitch-hls-client.packages.${pkgs.system}.default
+    smartmontools
     # my.devtunnel
     # warp-terminal
     # zed-editor_git
+    barrier
+    # lan-mouse_git
   ];
 
   hardware.trackpoint = {
@@ -339,13 +378,10 @@ with lib.my;
       intel-vaapi-driver
       vaapiIntel
       vpl-gpu-rt
-    ];
-  };
-  chaotic.mesa-git = enabled // {
-    extraPackages = with pkgs; [
-      intel-vaapi-driver
-      vaapiIntel
-      vpl-gpu-rt
+      vulkan-loader
+      vulkan-validation-layers
+      vulkan-extension-layer
+      vulkan-tools
     ];
   };
   environment.sessionVariables = {
@@ -354,15 +390,13 @@ with lib.my;
 
   services.smartd = enabled;
 
-  # services.syncthing =
-  #   enabled
-  #   // {
-  #     user = config.user.name;
-  #     dataDir = "${config.user.home}/Sync";
+  services.syncthing = enabled // {
+    user = config.user.name;
+    dataDir = "${config.user.home}/Sync";
 
-  #     overrideDevices = true;
-  #     overrideFolders = true;
-  #   };
+    overrideDevices = true;
+    overrideFolders = true;
+  };
 
   # services.safeeyes = enabled;
 
@@ -390,7 +424,7 @@ with lib.my;
   environment.etc.hosts.mode = "0644";
 
   # BPF-based auto-tuning of Linux system parameters
-  services.bpftune = enabled;
+  # services.bpftune = enabled;
 
   # Run appimages seamlesssly
   programs.appimage.binfmt = true;
@@ -406,6 +440,10 @@ with lib.my;
     ProcessSizeMax=0
   '';
 
+  # https://www.reddit.com/r/Fedora/comments/10s06fd/why_is_systemdoomd_still_a_thing/
+  # https://www.reddit.com/r/Ubuntu/comments/uyl4i6/ubuntu_2204s_new_oom_killing_system_is_killing/
+  systemd.oomd = disabled;
+
   nix.settings = {
     system-features = [
       "gccarch-x86-64-v3"
@@ -414,9 +452,31 @@ with lib.my;
     ];
   };
 
+  # https://www.reddit.com/r/NixOS/comments/1eqcgom/mitigate_pipewire_webcam_battery_drain/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
+  # https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/2669
+  services.pipewire = {
+    wireplumber = {
+      extraConfig = {
+        "10-disable-camera" = {
+          "wireplumber.profiles" = {
+            main."monitor.libcamera" = "disabled";
+          };
+        };
+      };
+    };
+  };
+
   home.programs.mpv.config = {
     profile = "fast";
   };
+
+  # Mostly use it as second screen with home-server capabilities, if I want to
+  # put it to sleep I'll do it manually
+  services.logind.lidSwitchExternalPower = "ignore";
+
+  services.avahi = enabled;
+
+  services.dnsmasq = mkForce disabled;
 
   nixpkgs.overlays =
     let

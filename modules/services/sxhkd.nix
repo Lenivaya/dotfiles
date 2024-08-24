@@ -21,7 +21,7 @@ in
 
     system.userActivationScripts.linkSxhkdrc = linkIfNotExist "~/.config/sxhkd" "${outOfStoreConfigDir}/sxhkd";
 
-    user.packages = with pkgs; [ sxhkd ];
+    environment.systemPackages = with pkgs; [ sxhkd ];
     services.xserver.displayManager.sessionCommands = ''
       ${getExe pkgs.sxhkd} &
     '';

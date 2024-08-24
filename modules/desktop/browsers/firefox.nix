@@ -15,8 +15,14 @@ let
   cfg = config.modules.desktop.browsers.firefox;
   firefoxExtensions = pkgs.nur.repos.rycee.firefox-addons;
 
-  userChrome = readFile "${configDir}/firefox/userChrome.css";
-  userContent = readFile "${configDir}/firefox/userContent.css";
+  userChrome = ''
+    ${readFile "${configDir}/firefox/userChrome.css"}
+    ${readFile "${inputs.penguin-fox}/files/chrome/userChrome.css"}
+  '';
+  userContent = ''
+    ${readFile "${configDir}/firefox/userContent.css"}
+    ${readFile "${inputs.penguin-fox}/files/chrome/userContent.css"}
+  '';
   settings = import "${configDir}/firefox/preferences.nix";
   extensions =
     with firefoxExtensions;
@@ -98,9 +104,23 @@ in
               DisableFirefoxStudies = true;
               DisableTelemetry = true;
               DisablePocket = true;
+              DisableSetDesktopBackground = true;
               DontCheckDefaultBrowser = true;
               CaptivePortal = false;
               HardwareAcceleration = true;
+              UserMessaging = {
+                ExtensionRecommendations = false;
+                SkipOnboarding = true;
+              };
+              OverrideFirstRunPage = "";
+              PromptForDownloadLocation = true;
+              FirefoxHome = {
+                Search = true;
+                Pocket = false;
+                Snippets = false;
+                TopSites = false;
+                Highlights = false;
+              };
             };
             nativeMessagingHosts =
               with pkgs;

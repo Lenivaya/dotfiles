@@ -37,7 +37,8 @@ myBrowsers =
 myReaders =
   [ Application "Reader" "Zathura" "zathura",
     Application "Reader" "Foliate" "foliate",
-    Application "Reader" "Evince" "evince"
+    Application "Reader" "Evince" "evince",
+    Application "Reader" "Papers" "papers"
   ]
 
 mySoundUtils =

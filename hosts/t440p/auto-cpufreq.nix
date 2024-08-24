@@ -1,5 +1,5 @@
 # https://askubuntu.com/questions/1379048/intel-pstate-driver-not-being-loaded-when-added-to-grub-file
-{ lib, ... }:
+{ lib, inputs, ... }:
 with lib;
 with my;
 {
@@ -8,6 +8,7 @@ with my;
   # Superior power management for portable and battery powered systems. Plausible
   # but unnecessary on desktop systems.
   # See: <https://github.com/AdnanHodzic/auto-cpufreq>
+  imports = [ inputs.auto-cpufreq.nixosModules.default ];
   services.auto-cpufreq = enabled // {
     settings = {
       charger = {

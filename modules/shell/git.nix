@@ -35,7 +35,7 @@ in
       (mkIf config.modules.shell.gnupg.enable gitAndTools.git-crypt)
       # git-extras
       git-ignore
-      gex
+      # gex
       gitu
     ];
   };

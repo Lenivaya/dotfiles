@@ -96,7 +96,7 @@ with my;
     in
     mkForce kernel';
 
-  services.bpftune = enabled;
+  # services.bpftune = enabled;
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU

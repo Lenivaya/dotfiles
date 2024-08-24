@@ -41,7 +41,7 @@ in
               name = "*.pdf";
               use = [
                 "zathura"
-                "evince"
+                "papers"
               ];
             }
             {

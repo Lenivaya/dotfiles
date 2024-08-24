@@ -34,6 +34,6 @@ in
       script = getExe pkgs.zcfan;
     };
 
-    user.packages = with pkgs; [ zcfan ];
+    environment.systemPackages = with pkgs; [ zcfan ];
   };
 }

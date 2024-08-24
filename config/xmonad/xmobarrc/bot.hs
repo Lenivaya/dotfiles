@@ -79,8 +79,9 @@ Config
       --     -- , "--offc"
       --     -- , "#a19782"
       --     ]
-      -- , Run MultiCpu ["-t", "<fn=3></fn> <total>%"]  10
-      -- , Run Memory ["-t", "<fn=3></fn> <usedratio>%"] 10
+      , Run MultiCpu ["-t", "<fn=3></fn> <total>%"]  10
+      , Run Memory ["-t", "<fn=3></fn> <usedratio>%"] 10
+      -- , Run Memory [ "-t", "<fn=3></fn> <used> Gb", "--", "--scale", "1024"] 20
       , Run ComX "player" [] "" "player" 10
       , Run ComX "caffeinatestatus" [] "" "caffeine" 10
       , Run ComX "warpstatus" [] "" "warp" 10
@@ -89,7 +90,7 @@ Config
   , alignSep = "}{"
   , template =
       " \
-      \%wlan0wi%  -  %dynnetwork%\
+      \%wlan0wi%  -  %dynnetwork%  |  %memory%  |  %multicpu%\
       \}\
       \%player%\
       \{\

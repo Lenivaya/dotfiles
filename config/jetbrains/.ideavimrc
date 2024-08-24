@@ -41,6 +41,8 @@ set so=5
 set nohlserach
 set ignorecase
 set nu
+set relativenumber number
+
 
 """ Idea specific settings ------------------
 set ideajoin

@@ -21,11 +21,12 @@ import XMonad.Custom.Theme qualified as T
 import XMonad.Prompt
 import XMonad.Prompt.FuzzyMatch
 
-promptNoCompletion :: XPConfig -> XPConfig
-promptNoCompletion ptheme = ptheme {autoComplete = Nothing}
 
 promptNoHistory :: XPConfig -> XPConfig
 promptNoHistory ptheme = ptheme {historyFilter = const [], historySize = 0}
+
+promptNoCompletion :: XPConfig -> XPConfig
+promptNoCompletion ptheme = promptNoHistory ptheme {autoComplete = Nothing}
 
 promptTheme, hotPromptTheme, promptThemeVim :: XPConfig
 promptTheme =
@@ -50,7 +51,9 @@ promptTheme =
     , promptKeymap = emacsLikeXPKeymap
     , autoComplete = (5 `ms`)
     }
+
 promptThemeVim = promptTheme {promptKeymap = vimLikeXPKeymap}
+
 hotPromptTheme =
   promptNoCompletion
     promptTheme

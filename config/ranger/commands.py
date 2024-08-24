@@ -59,13 +59,17 @@ class fzf_select(Command):
         import os.path
 
         if self.quantifier:
-            command = "find -L . \( -path '*/\.*' -o -fstype 'dev' -o -fstype \
-                    'proc' \) -prune -o -type d -print 2> /dev/null | sed 1d \
-                    | cut -b3- | fzf +m"
+            command = (
+                "find -L . \\( -path '*/\\.*' -o -fstype 'dev' -o -fstype "
+                "'proc' \\) -prune -o -type d -print 2> /dev/null | sed 1d "
+                "| cut -b3- | fzf +m"
+            )
         else:
-            command = "find -L . \( -path '*/\.*' -o -fstype 'dev' -o -fstype \
-                    'proc' \) -prune -o -print 2> /dev/null | sed 1d | cut \
-                    -b3- | fzf +m"
+            command = (
+                "find -L . \\( -path '*/\\.*' -o -fstype 'dev' -o -fstype "
+                "'proc' \\) -prune -o -print 2> /dev/null | sed 1d | cut "
+                "-b3- | fzf +m"
+            )
 
         fzf = self.fm.execute_command(command, stdout=subprocess.PIPE)
         stdout, stderr = fzf.communicate()

@@ -14,7 +14,7 @@ rustPlatform.buildRustPackage rec {
 
   cargoSha256 = "tZ3XVrlIs3xZvPiTU4fchus2lgenfVPB+xz0PhVu9gg=";
 
-  meta = with stdenv.lib; {
+  meta = {
     description = "A command-line app bringing caffeinate functionality to xidlehook.";
     homepage = "https://github.com/rschmukler/caffeinate";
   };

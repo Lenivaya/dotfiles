@@ -65,7 +65,12 @@ scratchpads =
       "cpupower"
       "cpupower-gui"
       (className =? "Cpupower-gui")
-      (centerFloat 0.7 0.7)
+      (centerFloat 0.7 0.7),
+    NS
+      "telegram"
+      "telegram-desktop"
+      (className =? "TelegramDesktop")
+      doFullCenterFloat
   ]
   where
     doFullCenterFloat = centerFloat 0.85 0.85

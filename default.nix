@@ -108,9 +108,6 @@ with lib.my;
     systemd-boot.graceful = mkDefault true;
   };
 
-  # enable the unified cgroup hierarchy (cgroupsv2)
-  systemd.enableUnifiedCgroupHierarchy = true;
-
   # Just the bear necessities...
   environment.systemPackages = with pkgs; [
     cached-nix-shell
