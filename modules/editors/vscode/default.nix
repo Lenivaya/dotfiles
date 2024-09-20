@@ -8,7 +8,6 @@
 with lib;
 with lib.my;
 let
-  chromeCfg = config.modules.desktop.browsers.chromium;
   cfg = config.modules.editors.vscode;
   inherit (config.dotfiles) configDir;
   inherit (config) modules;
