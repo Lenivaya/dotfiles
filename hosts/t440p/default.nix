@@ -424,7 +424,7 @@ with lib.my;
   environment.etc.hosts.mode = "0644";
 
   # BPF-based auto-tuning of Linux system parameters
-  # services.bpftune = enabled;
+  services.bpftune = enabled;
 
   # Run appimages seamlesssly
   programs.appimage.binfmt = true;
