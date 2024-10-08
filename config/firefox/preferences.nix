@@ -175,4 +175,11 @@
   "browser.crashReports.unsubmittedCheck.enabled" = false;
   "browser.tabs.crashReporting.sendReport" = false;
   "breakpad.reportURL" = "";
+
+  # Allow svgs to take on theme colors
+  "svg.context-properties.content.enabled" = true;
+
+  # Seriously. Stop popping up on every damn page. If I want it translated,
+  # I know where to find gtranslate/deepl/whatever!
+  "browser.translations.automaticallyPopup" = false;
 }

@@ -205,7 +205,7 @@ with my;
   services.fwupd = enabled;
   services.psd = enabled // { };
 
-  security.sudo-rs = enabled // {
+  security.sudo = enabled // {
     extraConfig = ''
       Defaults timestamp_timeout=30
     '';
@@ -247,7 +247,7 @@ with my;
     # BUG https://github.com/NixOS/nixpkgs/issues/321121
     settings.daytime = {
       sunrise = "07:00";
-      sunset = "19:00";
+      sunset = "18:00";
     };
 
     settings.resumedelay = 5;
@@ -286,11 +286,11 @@ with my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  # chaotic.scx = enabled // {
-  #   # scheduler = "scx_rusty";
-  #   # scheduler = "scx_rustland";
-  #   scheduler = "scx_bpfland";
-  # };
+  chaotic.scx = enabled // {
+    # scheduler = "scx_rusty";
+    # scheduler = "scx_rustland";
+    scheduler = "scx_bpfland";
+  };
 
   networking.firewall = {
     allowedUDPPorts = [
@@ -336,7 +336,7 @@ with my;
     curtail # image compression
     smartmontools
     gcc
-    barrier
+    input-leap
     distrobox
     obsidian
     qrrs
@@ -344,6 +344,7 @@ with my;
     code-cursor
     bottles
     ungoogled-chromium
+    wireguard-tools
     # lan-mouse_git
   ];
 
@@ -468,6 +469,10 @@ with my;
   };
 
   services.avahi = enabled;
+
+  services.tomcat = {
+    enable = true;
+  };
 
   # services.safeeyes = enabled;
 

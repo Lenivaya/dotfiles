@@ -56,14 +56,19 @@
 
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
 
+    # Firefox
     betterfox = {
       url = "github:yokoffing/betterfox";
       flake = false;
     };
-    penguin-fox = {
-      url = "github:p3nguin-kun/penguinFox";
+    minimalisticfox = {
+      url = "github:jamir-boop/minimalisticfox";
       flake = false;
     };
+    # penguin-fox = {
+    #   url = "github:Lenivaya/pengufox";
+    #   flake = false;
+    # };
 
     browser-previews = {
       url = "github:nix-community/browser-previews";
@@ -99,7 +104,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     picom = {
-      url = "github:yshui/picom?rev=c3e18a6e7a9299d9be421bcfc249bb348087d1ea";
+      url = "github:yshui/picom?rev=383cde7512a25740fb7d1f5d814e8a691c47d342";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     skippy-xd = {

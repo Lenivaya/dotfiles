@@ -26,6 +26,7 @@ in
       enabledCustomApps = with spicePkgs.apps; [
         lyricsPlus
         localFiles
+        reddit
         # marketplace
       ];
       enabledExtensions = with spicePkgs.extensions; [

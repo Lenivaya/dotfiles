@@ -33,7 +33,7 @@ scratchpads =
       "console"
       (spawnTerminalWith "NSPConsole" "$XMONAD_CONFIG_DIR/scripts/nsp-console.sh")
       (className =? "NSPConsole")
-      (centerFloat 0.7 0.7),
+      doFullCenterFloat,
     NS
       "volume"
       (spawnTerminalWith "NSPVolume" (C.mixer C.applications))
@@ -53,7 +53,7 @@ scratchpads =
       "top"
       (spawnTerminalWith "NSPTop" (C.top C.applications))
       (className =? "NSPTop")
-      (centerFloat 0.7 0.7),
+      doFullCenterFloat,
     NS
       "discord"
       -- "Discord"

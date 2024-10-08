@@ -9,6 +9,7 @@ tmp/
 .pre-commit-config.yaml
 result
 
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
@@ -21,3 +22,4 @@ result
 
 # Built Visual Studio Code Extensions
 *.vsix
+

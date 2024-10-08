@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+#
+# TODO FIXME
+
+# Get list of Doom Emacs workspaces
+workspaces=$(emacsclient -e "(mapcar #'prin1-to-string (+workspace-list-names))" | tr -d '()')
+
+# Remove quotes, backslashes, and create a list
+cleaned_workspaces=$(echo "$workspaces" | sed 's/" "/\n/g; s/^"//; s/"$//; s/\\//g')
+
+echo "$cleaned_workspaces"
+
+# Present workspaces in dmenu
+chosen_workspace=$(echo "$cleaned_workspaces" | dmenu -p "Choose a Doom Emacs workspace:" -l 10)
+
+if [ -z "$chosen_workspace" ]; then
+  echo "Workspace selection canceled."
+  exit 0
+fi
+
+echo "$chosen_workspace"
+
+emacsclient -c -e "(+workspace/switch-to $chosen_workspace)"

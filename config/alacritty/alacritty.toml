@@ -1,5 +1,6 @@
-live_config_reload = true
+[general]
 working_directory = "None"
+live_config_reload = true
 
 [bell]
 duration = 0

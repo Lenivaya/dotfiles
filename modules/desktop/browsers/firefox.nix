@@ -17,12 +17,14 @@ let
 
   userChrome = ''
     ${readFile "${configDir}/firefox/userChrome.css"}
-    ${readFile "${inputs.penguin-fox}/files/chrome/userChrome.css"}
+    ${readFile "${inputs.minimalisticfox}/userChrome.css"}
   '';
+  # ${readFile "${inputs.penguin-fox}/files/chrome/userChrome.css"}
   userContent = ''
     ${readFile "${configDir}/firefox/userContent.css"}
-    ${readFile "${inputs.penguin-fox}/files/chrome/userContent.css"}
+    ${readFile "${inputs.minimalisticfox}/userContent.css"}
   '';
+  # ${readFile "${inputs.penguin-fox}/files/chrome/userContent.css"}
   settings = import "${configDir}/firefox/preferences.nix";
   extensions =
     with firefoxExtensions;
@@ -141,6 +143,7 @@ in
 
         extraConfig = concatStringsSep "\n" [
           (readFile "${inputs.betterfox}/Fastfox.js")
+          (readFile "${inputs.betterfox}/Securefox.js")
           (readFile "${inputs.betterfox}/Peskyfox.js")
           (readFile "${inputs.betterfox}/user.js")
         ];

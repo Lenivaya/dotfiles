@@ -220,7 +220,7 @@ with lib.my;
   services.fwupd = enabled;
   services.cpupower-gui = enabled;
 
-  security.sudo-rs = enabled // {
+  security.sudo = enabled // {
     extraConfig = ''
       Defaults timestamp_timeout=30
     '';
@@ -268,7 +268,7 @@ with lib.my;
     # BUG https://github.com/NixOS/nixpkgs/issues/321121
     settings.daytime = {
       sunrise = "07:00";
-      sunset = "19:00";
+      sunset = "18:00";
     };
 
     settings.keyboard.disabled = true;
@@ -362,7 +362,7 @@ with lib.my;
     # my.devtunnel
     # warp-terminal
     # zed-editor_git
-    barrier
+    input-leap
     # lan-mouse_git
   ];
 
