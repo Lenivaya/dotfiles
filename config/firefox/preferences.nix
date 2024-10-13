@@ -182,4 +182,7 @@
   # Seriously. Stop popping up on every damn page. If I want it translated,
   # I know where to find gtranslate/deepl/whatever!
   "browser.translations.automaticallyPopup" = false;
+
+  # enable HEVC
+  "media.wmf.hevc.enabled" = true;
 }

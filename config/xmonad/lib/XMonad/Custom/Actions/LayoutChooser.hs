@@ -1,9 +1,9 @@
 module XMonad.Custom.Actions.LayoutChooser where
 
-import Data.Foldable
+import qualified Data.Map as M
 import XMonad
 import XMonad.Actions.GridSelect
-import XMonad.Custom.Hooks.Layout (layoutNames)
+import XMonad.Custom.Hooks.Layout (layoutMap, layoutNames)
 import XMonad.Custom.Prompt
 import XMonad.Prompt
 
@@ -18,13 +18,8 @@ selectLayoutByName conf =
   mkXPrompt
     LayoutByName
     conf
-    (listCompFunc conf layoutNames)
-    go
-  where
-    go selected =
-      forM_
-        (lookup selected $ zip layoutNames layoutNames)
-        (sendMessage . JumpToLayout)
+    (mkComplFunFromList' conf layoutNames)
+    (sendMessage . JumpToLayout . (M.findWithDefault "" `flip` layoutMap))
 
 -- GridSelect
 gridChooselayoutTheme :: GSConfig String
@@ -33,7 +28,5 @@ gridChooselayoutTheme =
 
 selectLayoutGrid :: X ()
 selectLayoutGrid =
-  gridselect gridChooselayoutTheme layouts
+  gridselect gridChooselayoutTheme (zip layoutNames layoutNames)
     >>= mapM_ (sendMessage . JumpToLayout)
-  where
-    layouts = zip layoutNames layoutNames

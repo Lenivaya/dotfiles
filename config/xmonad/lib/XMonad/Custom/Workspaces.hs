@@ -33,7 +33,7 @@ import XMonad.Custom.Prompt
     "SYS",
     "TMP",
     "WRK",
-    "Template",
+    "TEMPLATE",
     "GRAPH",
     "SOUND",
     "VM",

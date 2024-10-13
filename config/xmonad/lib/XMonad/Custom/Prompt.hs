@@ -20,7 +20,7 @@ import XMonad.Actions.ShowText
 import XMonad.Custom.Theme qualified as T
 import XMonad.Prompt
 import XMonad.Prompt.FuzzyMatch
-
+import qualified Data.Map.Strict as M
 
 promptNoHistory :: XPConfig -> XPConfig
 promptNoHistory ptheme = ptheme {historyFilter = const [], historySize = 0}
@@ -81,10 +81,10 @@ ms = Just . (* 10 ^ (4 :: Int))
 gridSelectTheme = (buildDefaultGSConfig colorizer) {gs_font = T.font}
 
 listCompFunc :: XPConfig -> [String] -> String -> IO [String]
-listCompFunc c xs s = return (filter (searchPredicate c s) xs)
+listCompFunc c xs s = return $ filter (searchPredicate c s) xs
 
 aListCompFunc :: XPConfig -> [(String, a)] -> String -> IO [String]
-aListCompFunc c xs = listCompFunc c (map fst xs)
+aListCompFunc c xs s = return $ map fst $ filter (searchPredicate c s . fst) xs
 
 predicateFunction :: String -> String -> Bool
 predicateFunction x y = lc x `isInfixOf` lc y where lc = map toLower

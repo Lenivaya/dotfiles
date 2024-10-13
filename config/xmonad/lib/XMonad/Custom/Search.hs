@@ -5,6 +5,8 @@ module XMonad.Custom.Search (
 
 import Data.Foldable
 import Data.List
+import qualified Data.Map.Strict as M
+import Data.Maybe (fromMaybe)
 import XMonad
 import XMonad.Actions.Search
 import XMonad.Actions.ShowText
@@ -67,9 +69,7 @@ engineNames = getName <$> myEngines
 myEngine = intelligent . namedEngine "multi" $ foldr1 (!>) myEngines
 
 showAllEngines :: X ()
-showAllEngines = flashText helpPromptConfig 0.5 prompt
-  where
-    prompt = unwords engineNames
+showAllEngines = flashText helpPromptConfig 0.5 (unwords engineNames)
 
 mySearch :: X ()
 mySearch =
@@ -81,7 +81,11 @@ Let's define a prompt that starts with selecting
 engine and only then entering search term
 -}
 
+namesToEngines :: [(String, SearchEngine)]
 namesToEngines = zip engineNames myEngines
+
+namesToEnginesMap :: M.Map String SearchEngine
+namesToEnginesMap = M.fromList namesToEngines
 
 data SearchEngineByName = SearchEngineByName
 
@@ -89,16 +93,12 @@ instance XPrompt SearchEngineByName where
   showXPrompt _ = "Search engine: "
 
 selectAndSearchPrompt :: XPConfig -> X ()
-selectAndSearchPrompt conf =
+selectAndSearchPrompt conf = do
   showAllEngines
-    >> mkXPrompt
-      SearchEngineByName
-      conf
-      (listCompFunc conf engineNames)
-      go
+  mkXPrompt
+    SearchEngineByName
+    conf
+    (mkComplFunFromList' conf engineNames)
+    (selectAndSearch . fromMaybe duckduckgo . (`M.lookup` namesToEnginesMap))
   where
-    go selected =
-      forM_
-        (lookup selected namesToEngines)
-        ( promptSearch $ promptNoHistory conf
-        )
+    selectAndSearch engine = promptSearch (promptNoHistory conf) engine

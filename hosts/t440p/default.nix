@@ -285,11 +285,11 @@ with lib.my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  # chaotic.scx = enabled // {
-  #   # scheduler = "scx_rusty";
-  #   # scheduler = "scx_rustland";
-  #   scheduler = "scx_bpfland";
-  # };
+  chaotic.scx = enabled // {
+    # scheduler = "scx_rusty";
+    # scheduler = "scx_rustland";
+    scheduler = "scx_bpfland";
+  };
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU

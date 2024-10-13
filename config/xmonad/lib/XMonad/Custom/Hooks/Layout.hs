@@ -3,6 +3,7 @@
 module XMonad.Custom.Hooks.Layout (
   layoutHook,
   layoutNames,
+  layoutMap,
   defaultLayout,
   CustomTransformers (..),
   toggleZen,
@@ -10,6 +11,7 @@ module XMonad.Custom.Hooks.Layout (
   toggleGaps,
 ) where
 
+import qualified Data.Map as M
 import Data.Ratio ((%))
 import XMonad hiding (layoutHook)
 
@@ -129,6 +131,7 @@ layoutsInfo =
 
 layouts = fst layoutsInfo
 layoutNames = description <$> snd layoutsInfo
+layoutMap = M.fromList $ zip layoutNames layoutNames
 defaultLayout = head layoutNames
 
 layoutHook =

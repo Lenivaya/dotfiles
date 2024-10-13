@@ -13,7 +13,7 @@ in
     };
 
     # Removing diff script from srvos
-    system.activationScripts.diff.text = mkForce "";
+    system.activationScripts.update-diff.text = mkForce "";
 
     # nixpkgs.overlays = [inputs.nh.overlays.default];
   };

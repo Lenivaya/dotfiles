@@ -10,14 +10,14 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Install Nix
-        uses: DeterminateSystems/nix-installer-action@v10
+        uses: DeterminateSystems/nix-installer-action@v14
       - name: Run the Magic Nix Cache
-        uses: DeterminateSystems/magic-nix-cache-action@v4
+        uses: DeterminateSystems/magic-nix-cache-action@v8
       - name: Format
         run: nix fmt
       # - name: Lint errors fixing
       #   run: nix run nixpkgs#statix fix .
       - name: Commit formatting changes
-        uses: stefanzweifel/git-auto-commit-action@v4
+        uses: stefanzweifel/git-auto-commit-action@v5
         with:
           commit_message: Apply formatting changes

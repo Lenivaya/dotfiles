@@ -163,6 +163,12 @@ in
           exec = "systemctl shutdown";
         })
         (makeDesktopItem {
+          name = "suspend";
+          desktopName = "System: Suspend";
+          icon = "system-suspend";
+          exec = "systemctl suspend";
+        })
+        (makeDesktopItem {
           name = "sleep";
           desktopName = "System: Sleep";
           icon = "system-suspend";

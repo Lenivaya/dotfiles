@@ -85,11 +85,26 @@ type Mousebindings = M.Map (ButtonMask, Button) (Window -> X ())
 modMask :: KeyMask
 modMask = mod4Mask
 
-zipKeys :: [a] -> [[a]] -> [t1] -> (t1 -> b) -> [([a], b)]
-zipKeys m ks as f = zipWith (\k d -> (m ++ k, f d)) ks as
+-- | Combines modifiers, key sequences, actions, and a function to create keybindings.
+-- Used for creating multiple keybindings with a shared modifier and varying key sequences.
+zipKeys :: [a] -- ^ Modifiers
+ -> [[a]] -- ^ Key sequences
+ -> [t1] -- ^ Actions
+ -> (t1 -> b) -- ^ Binding function
+ -> [([a], b)] -- ^ Resulting keybindings
+zipKeys modifiers keySequences actions bindingFunction =
+  zipWith (\keys action -> (modifiers ++ keys, bindingFunction action)) keySequences actions
 
-zipKeys' :: [a] -> [[a]] -> [t1] -> (t1 -> t2 -> b) -> t2 -> [([a], b)]
-zipKeys' m ks as f b = zipWith (\k d -> (m ++ k, f d b)) ks as
+-- | Similar to zipKeys, but allows an additional parameter for the binding function.
+-- Useful when the binding function requires an extra argument.
+zipKeys' :: [a] -- ^ Modifiers
+ -> [[a]] -- ^ Key sequences
+ -> [t1] -- ^ Actions
+ -> (t1 -> t2 -> b) -- ^ Binding function
+ -> t2 -- ^ Extra parameter
+ -> [([a], b)] -- ^ Resulting keybindings
+zipKeys' modifiers keySequences actions bindingFunction param =
+  zipWith (\keys action -> (modifiers ++ keys, bindingFunction action param)) keySequences actions
 
 tryMessageR_ :: (Message a, Message b) => a -> b -> X ()
 tryMessageR_ x y = sequence_ [tryMessageWithNoRefreshToCurrent x y, refresh]
@@ -218,9 +233,9 @@ keysSystem =
 
 keysWorkspaces :: Keybindings
 keysWorkspaces =
-  [ ("M-w S-o", withDefaultKbdLayout $ switchProjectPrompt $ promptNoHistory promptTheme),
+  [ ("M-w S-o", wrapKbdLayout $ switchProjectPrompt $ promptNoHistory promptTheme),
     ( "M-w C-S-o",
-      withDefaultKbdLayout . switchProjectPrompt $ promptNoCompletion promptTheme
+      wrapKbdLayout . switchProjectPrompt $ promptNoCompletion promptTheme
     ),
     ("M-w S-s", wrapKbdLayout $ shiftToProjectPrompt $ promptNoHistory promptTheme),
     ("M-w S-n", wrapKbdLayout $ renameProjectPrompt $ promptNoHistory hotPromptTheme),
@@ -277,9 +292,9 @@ keysWindows =
           withOthers killWindow
     ),
     ("M-w d", wrapKbdLayout windowMenu),
-    ("M-w g", withDefaultKbdLayout $ windowPrompt (promptNoHistory promptTheme) Goto allWindows),
-    ("M-w /", withDefaultKbdLayout $ windowPrompt (promptNoHistory promptTheme) Goto wsWindows),
-    ("M-w b", withDefaultKbdLayout $ windowPrompt (promptNoHistory promptTheme) Bring allWindows),
+    ("M-w g", wrapKbdLayout $ windowPrompt (promptNoHistory promptTheme) Goto allWindows),
+    ("M-w /", wrapKbdLayout $ windowPrompt (promptNoHistory promptTheme) Goto wsWindows),
+    ("M-w b", wrapKbdLayout $ windowPrompt (promptNoHistory promptTheme) Bring allWindows),
     ("M-w c", toggleCopyToAll),
     ("M-w o", sendMessage Mag.Toggle),
     ("M-w S-c", kill1), -- To remove focused copied window from current workspace

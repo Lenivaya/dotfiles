@@ -40,6 +40,7 @@ let
 
       terms-of-service-didnt-read
       consent-o-matic
+      don-t-fuck-with-paste
 
       # Might be slowing down the pages a lot [1],
       # it's better to use ublock-origin with filter list
