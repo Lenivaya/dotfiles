@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+# Some hellish flags given using AI
+
 $XMONAD_GHC --make xmonad.hs \
   -i -ilib \
   -fforce-recomp \
@@ -16,10 +18,100 @@ $XMONAD_GHC --make xmonad.hs \
   -optc-fno-stack-protector -optc-DNDEBUG -optl-fno-stack-protector \
   -optc-fomit-frame-pointer \
   -optc-ffunction-sections -optc-fdata-sections \
-  -optl-Wl,--gc-sections,--as-needed \
+  -optl-Wl,--gc-sections,--as-needed,--strip-all \
   -optc-fno-plt \
   -optc-fno-semantic-interposition \
   -optc-fmerge-all-constants \
   -optl-Wl,-O3,--sort-common,--as-needed \
-  -optl-s \
+  -fexpose-all-unfoldings \
+  -flate-specialise \
+  -fstatic-argument-transformation \
+  -optc-march=native \
+  -optc-mtune=native \
+  -optc-fno-exceptions \
+  -optc-fno-rtti \
+  -optc-fno-threadsafe-statics \
+  -optc-fno-use-cxa-atexit \
+  -optc-fno-asynchronous-unwind-tables \
+  -optc-fno-unwind-tables \
+  -optc-fno-math-errno \
+  -optc-fno-trapping-math \
+  -optc-ffinite-math-only \
+  -optc-fno-signed-zeros \
+  -optc-fno-associative-math \
+  -optc-fno-reciprocal-math \
+  -optc-fstrict-aliasing \
+  -optc-fstrict-overflow \
+  -optc-fdelete-null-pointer-checks \
+  -optc-freorder-blocks-algorithm=simple \
+  -optc-freorder-blocks-and-partition \
+  -optc-fprefetch-loop-arrays \
+  -optc-flto -optl-flto \
+  -fproc-alignment=64 \
+  -optc-fopenmp-simd \
+  -optc-fno-common \
+  -optc-fno-zero-initialized-in-bss \
+  -optc-fmerge-constants \
+  -optc-fmodulo-sched \
+  -optc-fmodulo-sched-allow-regmoves \
+  -optc-fsched-pressure \
+  -optc-fsched-spec-load \
+  -optc-fno-jump-tables \
+  -optc-fno-indirect-inlining \
+  -optc-fno-inline-functions-called-once \
+  -optc-fno-inline-small-functions \
+  -optc-fno-align-functions \
+  -optc-fno-align-jumps \
+  -optc-fno-align-loops \
+  -optc-fno-align-labels \
+  -optc-falign-functions=1 \
+  -optc-falign-jumps=1 \
+  -optc-falign-loops=1 \
+  -optc-falign-labels=1 \
+  -optc-mno-vzeroupper \
+  -optl-Wl,-z,norelro \
+  -optl-Wl,--build-id=none \
+  -fno-keep-cafs \
+  -fno-warn-unused-do-bind \
+  -fno-warn-missing-methods \
+  -fno-warn-tabs \
+  -fno-cse \
+  -fno-embed-manifest \
+  -optc-fno-ident \
+  -optc-fno-dwarf2-cfi-asm \
+  -optc-fno-split-stack \
+  -optc-fno-stack-check \
+  -optc-fno-instrument-functions \
+  -optc-fno-profile-arcs \
+  -optc-fno-test-coverage \
+  -optc-fno-optimize-sibling-calls \
+  -fno-info-table-map \
+  -fno-write-interface \
+  -fno-write-ide-info \
+  -fno-hpc \
+  -fno-prof-auto \
+  -fno-prof-cafs \
+  -fno-shared-implib \
+  -optc-fno-exceptions \
+  -optc-fno-rtti \
+  -optc-fno-enforce-eh-specs \
+  -optc-fno-use-cxa-get-exception-ptr \
+  -optc-fno-use-cxa-atexit \
+  -optc-fno-gnu-unique \
+  -optc-fno-toplevel-reorder \
+  -optc-fno-tree-vectorize \
+  -optc-fno-tree-slp-vectorize \
+  -optc-fno-tree-loop-vectorize \
+  -optc-fno-predictive-commoning \
+  -optc-fno-inline-functions \
+  -optc-fno-unroll-loops \
+  -optc-fno-unroll-all-loops \
+  -optc-fno-peephole2 \
+  -optc-fno-math-errno \
+  -optc-fno-trapping-math \
+  -optc-fassociative-math \
+  -optc-freciprocal-math \
+  -optc-ffinite-math-only \
+  -optc-fno-signed-zeros \
+  -optc-funsafe-math-optimizations \
   -o "$1"

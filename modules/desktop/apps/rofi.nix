@@ -45,7 +45,7 @@ in
       pass.enable = config.modules.shell.pass.enable;
     };
 
-    services.xserver.gdk-pixbuf.modulePackages = [ pkgs.librsvg ];
+    programs.gdk-pixbuf.modulePackages = [ pkgs.librsvg ];
 
     home.configFile."rofi" = {
       source = "${configDir}/rofi";

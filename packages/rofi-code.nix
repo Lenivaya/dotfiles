@@ -26,7 +26,6 @@ buildGoModule rec {
     description = "Use rofi to quickly open VSCode or Codium workspaces";
     homepage = "https://github.com/Coffelius/rofi-code";
     license = licenses.mit;
-    maintainers = with maintainers; [ ];
     mainProgram = "rofi-code";
   };
 }

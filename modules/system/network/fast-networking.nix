@@ -10,6 +10,7 @@ in
   config = mkIf cfg.enable {
     boot = {
       kernel.sysctl = {
+        # https://github.com/lovesegfault/nix-config/blob/23d432581755927dd08a11c84e078bc106698425/hardware/fast-networking.nix#L4
         "net.core.default_qdisc" = mkForce "cake";
         "net.core.optmem_max" = 65536;
         "net.core.rmem_default" = 1048576;
@@ -39,7 +40,11 @@ in
         "net.netfilter.nf_conntrack_max" = 1048576;
         "net.netfilter.nf_conntrack_tcp_timeout_established" = 600;
         "net.netfilter.nf_conntrack_tcp_timeout_time_wait" = 1;
+
+        # https://github.com/garuda-linux/garuda-nix-subsystem/blob/main/internal/modules/base/networking.nix
+        "net.ipv4.tcp_fin_timeout" = 5;
       };
+      # https://github.com/lovesegfault/nix-config/blob/23d432581755927dd08a11c84e078bc106698425/hardware/fast-networking.nix#L4
       kernelModules = [
         "tls"
         "tcp_bbr"

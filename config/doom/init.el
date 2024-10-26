@@ -231,7 +231,9 @@
        (web +lsp +tree-sitter)              ; the tubes
        (yaml +lsp +tree-sitter)
        (graphql
-        +lsp)
+        +lsp
+        +tree-sitter
+        )
        ;;vala              ; GObjective-C
 
        :email

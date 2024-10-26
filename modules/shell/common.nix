@@ -48,7 +48,7 @@ in
   ];
 
   home.programs.eza = enabled // {
-    icons = true;
+    icons = "auto";
   };
 
   home.programs.broot = enabled;

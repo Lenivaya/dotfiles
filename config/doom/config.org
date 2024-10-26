@@ -426,7 +426,9 @@ solidity          ; do you need a blockchain? No.
 (web +lsp +tree-sitter)              ; the tubes
 (yaml +lsp +tree-sitter)
 (graphql
- +lsp)
+ +lsp
+ +tree-sitter
+ )
 ;;vala              ; GObjective-C
 #+end_src
 **** Everything in Emacs

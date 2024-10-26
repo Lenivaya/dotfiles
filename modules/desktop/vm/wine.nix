@@ -17,7 +17,6 @@ in
       wineWowPackages.staging
       winetricks
       bottles
-      # (winetricks.override {wine = wineWowPackages.staging;})
     ];
   };
 }

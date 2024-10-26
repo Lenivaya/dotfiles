@@ -1,5 +1,6 @@
 # t480 -- thinkpad t480
 #
+#
 # https://wiki.archlinux.org/title/Lenovo_ThinkPad_T480
 # https://github.com/taj-ny/nix-config/blob/c52560a2c6b9ca4d00cff130f99c119c9cf59f69/nixos/thinkpad/throttled.nix
 {
@@ -82,6 +83,7 @@ with my;
 
       vm = {
         qemu = enabled;
+        wine = enabled;
       };
     };
 
@@ -286,11 +288,11 @@ with my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  chaotic.scx = enabled // {
-    # scheduler = "scx_rusty";
-    # scheduler = "scx_rustland";
-    scheduler = "scx_bpfland";
-  };
+  # chaotic.scx = enabled // {
+  #   # scheduler = "scx_rusty";
+  #   # scheduler = "scx_rustland";
+  #   scheduler = "scx_bpfland";
+  # };
 
   networking.firewall = {
     allowedUDPPorts = [
@@ -336,16 +338,16 @@ with my;
     curtail # image compression
     smartmontools
     gcc
-    input-leap
     distrobox
     obsidian
     qrrs
     iwgtk
     code-cursor
-    bottles
     ungoogled-chromium
     wireguard-tools
     # lan-mouse_git
+    # input-leap
+    my.deskflow
   ];
 
   # services.syncthing = enabled // {
@@ -416,7 +418,7 @@ with my;
   environment.etc.hosts.mode = "0644";
 
   # BPF-based auto-tuning of Linux system parameters
-  services.bpftune = enabled;
+  # services.bpftune = enabled;
 
   # Run appimages seamlesssly
   programs.appimage.binfmt = true;
@@ -470,10 +472,6 @@ with my;
 
   services.avahi = enabled;
 
-  services.tomcat = {
-    enable = true;
-  };
-
   # services.safeeyes = enabled;
 
   nixpkgs.overlays =
@@ -488,6 +486,7 @@ with my;
           easyeffects
           typst-lsp
           code-cursor
+          obsidian
           ;
 
         telegram-desktop = prev.telegram-desktop_git;
