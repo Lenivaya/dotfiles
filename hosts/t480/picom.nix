@@ -8,4 +8,3 @@ in
   # FIXME HACK unless animations are properly supported by home-manager
   home.configFile."picom/picom.conf".source = mkForce "${configDir}/picom/picom.conf";
 }
-// disableUserService "picom"

@@ -25,6 +25,7 @@
     xmonad = {
       url = "github:xmonad/xmonad";
       inputs.unstable.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
       inputs.git-ignore-nix.follows = "git-ignore-nix";
     };
     xmonad-contrib = {
@@ -76,6 +77,7 @@
     };
 
     nixos-hardware.url = "github:nixos/nixos-hardware";
+    nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
     nur.url = "github:nix-community/NUR";
     programsdb = {
       url = "github:wamserma/flake-programs-sqlite";
@@ -104,7 +106,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     picom = {
-      url = "github:yshui/picom?rev=383cde7512a25740fb7d1f5d814e8a691c47d342";
+      url = "github:yshui/picom";
       inputs.nixpkgs.follows = "nixpkgs";
     };
     skippy-xd = {
@@ -113,6 +115,10 @@
     };
     twitch-hls-client = {
       url = "github:2bc4/twitch-hls-client?rev=13a738f96fb1569e5d790e2d063bde0c3a5dd0de";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    resterrs = {
+      url = "git+file:///home/leniviy/code/Projects/resterrs";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };

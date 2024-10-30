@@ -37,6 +37,7 @@ in
       git-ignore
       # gex
       gitu
+      lazygit
     ];
   };
 }

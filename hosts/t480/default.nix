@@ -8,6 +8,7 @@
   lib,
   inputs,
   system,
+  config,
   ...
 }:
 with lib;
@@ -21,6 +22,11 @@ with my;
     ./picom.nix
     ./power-management.nix
     ./fingerprint/default.nix
+
+    inputs.resterrs.nixosModules.default
+
+    inputs.nixos-facter-modules.nixosModules.facter
+    { config.facter.reportPath = ./facter.json; }
   ] ++ (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-t480 ]);
 
   this.isHeadful = true;
@@ -49,9 +55,14 @@ with my;
           package = pkgs.firefox_nightly;
           executable = "firefox-nightly";
         };
-        chromium = enabled // {
-          package = inputs.browser-previews.packages.${pkgs.system}.google-chrome-dev;
-        };
+        chromium =
+          let
+            chrome' = inputs.browser-previews.packages.${pkgs.system}.google-chrome;
+          in
+          enabled
+          // {
+            package = chrome';
+          };
         tor = enabled;
       };
 
@@ -128,8 +139,8 @@ with my;
 
     services = {
       ananicy = enabled;
-      # clipcat = enabled;
-      greenclip = enabled;
+      clipcat = enabled;
+      # greenclip = enabled;
       kdeconnect = enabled;
       ssh = enabled;
       keyd = enabled;
@@ -288,11 +299,11 @@ with my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  # chaotic.scx = enabled // {
-  #   # scheduler = "scx_rusty";
-  #   # scheduler = "scx_rustland";
-  #   scheduler = "scx_bpfland";
-  # };
+  chaotic.scx = enabled // {
+    # scheduler = "scx_rusty";
+    # scheduler = "scx_rustland";
+    scheduler = "scx_bpfland";
+  };
 
   networking.firewall = {
     allowedUDPPorts = [
@@ -473,6 +484,33 @@ with my;
   services.avahi = enabled;
 
   # services.safeeyes = enabled;
+
+  services.resterrs = enabled // {
+    settings = {
+      system_services_to_stop = [
+        "fwupd"
+        "syncthing"
+        "bpftune"
+      ];
+      user_services_to_stop = [
+        "kdeconnect"
+        "picom"
+        "easyeffects"
+      ];
+      apps_to_stop = [
+        "telegram-desktop"
+        "vesktop"
+        "deskflow"
+      ];
+      commands_unplugged = [
+        "bluetoothctl power off"
+      ];
+      commands_plugged = [
+        "bluetoothctl power on"
+      ];
+      username = config.user.name;
+    };
+  };
 
   nixpkgs.overlays =
     let

@@ -63,7 +63,7 @@ in
     }
 
     (mkIf cfg.effects.enable {
-      # home.services.easyeffects = enabled;
+      home.services.easyeffects = enabled;
       user.packages = with pkgs; [ easyeffects ];
     })
 
