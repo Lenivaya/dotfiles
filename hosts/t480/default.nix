@@ -510,6 +510,9 @@ with my;
       ];
       username = config.user.name;
     };
+    extraServicePackages = with pkgs; [
+      bluez
+    ];
   };
 
   nixpkgs.overlays =

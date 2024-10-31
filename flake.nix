@@ -189,9 +189,7 @@
         unstable = pkgs';
         my = self.packages."${system}";
       };
-
       overlays = mapModules ./overlays import;
-
       packages."${system}" = mapModules ./packages (p: pkgs.callPackage p { inherit inputs; });
 
       nixosModules = {
@@ -201,7 +199,6 @@
       nixosConfigurations = mapHosts ./hosts { };
 
       devShells."${system}".default = import ./shell.nix { inherit pkgs inputs system; };
-
       formatter.${system} = treefmt-nix.lib.mkWrapper pkgs {
         projectRootFile = "flake.nix";
 
@@ -214,6 +211,7 @@
           mdsh.enable = true;
           yamlfmt.enable = true;
           prettier.enable = true;
+          toml-sort.enable = true;
           # fourmolu.enable = true;
         };
       };

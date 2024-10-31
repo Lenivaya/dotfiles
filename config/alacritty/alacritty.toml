@@ -1,12 +1,22 @@
-[general]
-working_directory = "None"
-live_config_reload = true
-
 [bell]
 duration = 0
 
 [colors]
 draw_bold_text_with_bright_colors = true
+
+[colors.bright]
+black = "0x2f2b2a"
+blue = "0x526274"
+cyan = "0x718062"
+green = "0x897f5a"
+magenta = "0x755c47"
+red = "0xa64848"
+white = "0xc1ab83"
+yellow = "0xc8b38d"
+
+[colors.cursor]
+cursor = "0x844d2c"
+text = "0x1d2021"
 
 [[colors.indexed_colors]]
 color = "0xde935f"
@@ -31,20 +41,6 @@ index = 20
 [[colors.indexed_colors]]
 color = "0xe0e0e0"
 index = 21
-
-[colors.bright]
-black = "0x2f2b2a"
-blue = "0x526274"
-cyan = "0x718062"
-green = "0x897f5a"
-magenta = "0x755c47"
-red = "0xa64848"
-white = "0xc1ab83"
-yellow = "0xc8b38d"
-
-[colors.cursor]
-cursor = "0x844d2c"
-text = "0x1d2021"
 
 [colors.normal]
 black = "0x0b0806"
@@ -87,6 +83,10 @@ style = "Italic"
 [font.normal]
 family = "monospace"
 style = "Regular"
+
+[general]
+working_directory = "None"
+live_config_reload = true
 
 [[keyboard.bindings]]
 action = "SpawnNewInstance"
