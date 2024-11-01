@@ -15,7 +15,7 @@ let
 
   flakeCfg = config.services.xserver.windowManager.xmonad;
   hoverlay = _final: _prev: hself: _hsuper: {
-    xmonad-extras = hself.callCabal2nix "xmonad-extras" (inputs.xmonad-extras) { };
+    xmonad-extras = hself.callCabal2nix "xmonad-extras" inputs.xmonad-extras { };
   };
   comp = {
     inherit (flakeCfg.flake) prefix compiler;

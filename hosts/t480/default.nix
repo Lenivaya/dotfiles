@@ -139,8 +139,8 @@ with my;
 
     services = {
       ananicy = enabled;
-      clipcat = enabled;
-      # greenclip = enabled;
+      # clipcat = enabled;
+      greenclip = enabled;
       kdeconnect = enabled;
       ssh = enabled;
       keyd = enabled;
@@ -216,7 +216,7 @@ with my;
   services.cpupower-gui = enabled;
   services.hardware.bolt.enable = true;
   services.fwupd = enabled;
-  services.psd = enabled // { };
+  # services.psd = enabled // { };
 
   security.sudo = enabled // {
     extraConfig = ''

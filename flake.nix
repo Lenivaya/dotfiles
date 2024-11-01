@@ -164,7 +164,7 @@
         pkgs: extraOverlays:
         import pkgs {
           inherit system;
-          config.allowUnfree = true; # forgive me Stallman senpai
+          config.allowUnfree = true;
           config.nvidia.acceptLicense = true;
           overlays = extraOverlays ++ (lib.attrValues self.overlays);
         };
@@ -195,7 +195,6 @@
       nixosModules = {
         dotfiles = import ./.;
       } // mapModulesRec ./modules import;
-
       nixosConfigurations = mapHosts ./hosts { };
 
       devShells."${system}".default = import ./shell.nix { inherit pkgs inputs system; };
@@ -206,7 +205,7 @@
           nixfmt.enable = true;
           deadnix.enable = true;
           shfmt.enable = true;
-          black.enable = true;
+          ruff-format.enable = true;
           rufo.enable = true;
           mdsh.enable = true;
           yamlfmt.enable = true;

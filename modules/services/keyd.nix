@@ -14,36 +14,35 @@ in
 
   config = mkIf cfg.enable {
     services.keyd = enabled // {
-      keyboards.default.settings = {
-        main = {
-          # Better escape
-          "j+k" = "esc";
+      keyboards.default = {
+        settings = {
+          main = {
+            "j+k" = "esc";
+            "d+f" = "delete";
 
-          control = "layer(modified_escape)";
-          capslock = "layer(modified_escape)";
+            capslock = "overload(control, esc)";
+            leftalt = "layer(nav)";
+          };
 
-          # nav layer
-          leftalt = "layer(nav)";
+          "nav:A" = {
+            h = "left";
+            j = "down";
+            k = "up";
+            l = "right";
+          };
         };
+        # https://github.com/NixOS/nixpkgs/issues/345167#issuecomment-2380874454
+        extraConfig = ''
+          [nav+shift]
+          j = pagedown
+          k = pageup
+          i = insert
+          d = delete
 
-        # Ctrl + [ will always trigger escape for all
-        # language layouts
-        "modified_escape:C" = {
-          "[" = "esc";
-        };
-
-        "nav:A" = {
-          h = "left";
-          j = "down";
-          k = "up";
-          l = "right";
-        };
-
-        # that is broken by nixos module (TODO)
-        # "nav+shift" = {
-        #   j = "pagedown";
-        #   k = "pageup";
-        # };
+          [nav+control+shift]
+          j = end
+          k = home
+        '';
       };
     };
 
