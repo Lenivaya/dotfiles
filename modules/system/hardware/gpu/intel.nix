@@ -46,7 +46,7 @@ in
         with pkgs;
         mkDefault [
           intel-media-driver # For Broadwell (2014) or newer processors. LIBVA_DRIVER_NAME=iHD
-          intel-vaapi-driver
+          vaapiIntel
           vaapiIntel
           vaapiVdpau
           libvdpau-va-gl

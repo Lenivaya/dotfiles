@@ -15,6 +15,9 @@ in
     xdg.portal.config.common.default = "*";
     programs.gdk-pixbuf.modulePackages = [ pkgs.librsvg ];
 
+    # GTK3 plugin to show popup to search compatible application's menus
+    programs.plotinus.enable = mkDefault true;
+
     home-manager.users.${name} = {
       gtk =
         let

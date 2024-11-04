@@ -1,6 +1,5 @@
 # t480 -- thinkpad t480
 #
-#
 # https://wiki.archlinux.org/title/Lenovo_ThinkPad_T480
 # https://github.com/taj-ny/nix-config/blob/c52560a2c6b9ca4d00cff130f99c119c9cf59f69/nixos/thinkpad/throttled.nix
 {
@@ -27,6 +26,7 @@ with my;
 
     inputs.nixos-facter-modules.nixosModules.facter
     { config.facter.reportPath = ./facter.json; }
+
   ] ++ (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-t480 ]);
 
   this.isHeadful = true;
@@ -48,12 +48,12 @@ with my;
       };
 
       browsers = {
-        # default = "google-chrome-unstable";
-        default = "firefox-nightly";
+        default = "firefox";
 
         firefox = enabled // {
-          package = pkgs.firefox_nightly;
-          executable = "firefox-nightly";
+          # package = pkgs.firefox_nightly;
+          package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
+          executable = "firefox";
         };
         chromium =
           let
@@ -125,7 +125,7 @@ with my;
       docker = enabled;
       nix = enabled;
       shell = enabled;
-      # elixir = enabled;
+      elixir = enabled;
       rust = enabled;
       go = enabled;
       # haskell = enabled;
@@ -300,8 +300,6 @@ with my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   chaotic.scx = enabled // {
-    # scheduler = "scx_rusty";
-    # scheduler = "scx_rustland";
     scheduler = "scx_bpfland";
   };
 
@@ -338,7 +336,6 @@ with my;
     khal
     telegram-desktop
     ffmpeg-full
-    # pwvucontrol_git
     video-trimmer
     postman
     my.gitbutler
@@ -356,8 +353,6 @@ with my;
     code-cursor
     ungoogled-chromium
     wireguard-tools
-    # lan-mouse_git
-    # input-leap
     my.deskflow
   ];
 
@@ -502,12 +497,12 @@ with my;
         "vesktop"
         "deskflow"
       ];
-      commands_unplugged = [
-        "bluetoothctl power off"
-      ];
-      commands_plugged = [
-        "bluetoothctl power on"
-      ];
+      # commands_unplugged = [
+      #   "bluetoothctl power off"
+      # ];
+      # commands_plugged = [
+      #   "bluetoothctl power on"
+      # ];
       username = config.user.name;
     };
     extraServicePackages = with pkgs; [
@@ -534,6 +529,7 @@ with my;
         alacritty = prev.alacritty_git;
         yt-dlp = prev.yt-dlp_git;
         mpv = prev.mpv-vapoursynth;
+
         skippy-xd = optimize prev.skippy-xd;
         dmenu = optimize prev.dmenu;
         nsxiv = optimize prev.nsxiv;

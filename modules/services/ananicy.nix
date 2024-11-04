@@ -19,7 +19,7 @@ in
     services.ananicy = {
       enable = true;
       package = pkgs.ananicy-cpp;
-      rulesProvider = pkgs.ananicy-cpp-rules; # chaotic-nyx
+      rulesProvider = pkgs.ananicy-rules-cachyos_git; # chaotic-nyx
       settings = {
         check_freq = 15;
         cgroup_load = true;

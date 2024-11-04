@@ -24,6 +24,8 @@ with lib.my;
       # ./mongodb.nix
       # ./postgresql.nix
       # ./jack_retask/jack_retask.nix
+      inputs.nixos-facter-modules.nixosModules.facter
+      { config.facter.reportPath = ./facter.json; }
     ]
     ++ (with inputs.nixos-hardware.nixosModules; [
       lenovo-thinkpad-t440p
@@ -55,16 +57,20 @@ with lib.my;
       };
 
       browsers = {
-        # default = "google-chrome-unstable";
-        default = "firefox-nightly";
+        default = "firefox";
 
         firefox = enabled // {
-          package = pkgs.firefox_nightly;
-          executable = "firefox-nightly";
+          package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
+          executable = "firefox";
         };
-        chromium = enabled // {
-          package = inputs.browser-previews.packages.${pkgs.system}.google-chrome-dev;
-        };
+        chromium =
+          let
+            chrome' = inputs.browser-previews.packages.${pkgs.system}.google-chrome;
+          in
+          enabled
+          // {
+            package = chrome';
+          };
         # tor = enabled;
         # qutebrowser = enabled;
       };
@@ -285,11 +291,11 @@ with lib.my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  # chaotic.scx = enabled // {
-  #   # scheduler = "scx_rusty";
-  #   # scheduler = "scx_rustland";
-  #   # scheduler = "scx_bpfland";
-  # };
+  chaotic.scx = enabled // {
+    # scheduler = "scx_rusty";
+    # scheduler = "scx_rustland";
+    scheduler = "scx_bpfland";
+  };
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
@@ -362,8 +368,6 @@ with lib.my;
     # my.devtunnel
     # warp-terminal
     # zed-editor_git
-    # input-leap
-    # lan-mouse_git
     my.deskflow
   ];
 
@@ -376,8 +380,7 @@ with lib.my;
   hardware.graphics = enabled // {
     extraPackages = with pkgs; [
       libGL
-      intel-vaapi-driver
-      vaapiIntel
+      intel-ocl
       vpl-gpu-rt
       vulkan-loader
       vulkan-validation-layers
@@ -391,13 +394,13 @@ with lib.my;
 
   services.smartd = enabled;
 
-  services.syncthing = enabled // {
-    user = config.user.name;
-    dataDir = "${config.user.home}/Sync";
+  # services.syncthing = enabled // {
+  #   user = config.user.name;
+  #   dataDir = "${config.user.home}/Sync";
 
-    overrideDevices = true;
-    overrideFolders = true;
-  };
+  #   overrideDevices = true;
+  #   overrideFolders = true;
+  # };
 
   # services.safeeyes = enabled;
 
@@ -416,7 +419,7 @@ with lib.my;
     freemem = "sync && echo 3 | sudo tee /proc/sys/vm/drop_caches";
   };
 
-  home.programs.emacs.package = mkForce pkgs.emacs29;
+  # home.programs.emacs.package = mkForce pkgs.emacs29;
 
   # Dirty hack to have hosts file modifiable
   # (will be discarded on config change or reboot) [1]

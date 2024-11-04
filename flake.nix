@@ -55,9 +55,14 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+    # chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+    chaotic.url = "github:chaotic-cx/nyx?rev=6fef60c332441a65360d06661ef2a3137e802181";
 
     # Firefox
+    firefox = {
+      url = "github:colemickens/flake-firefox-nightly";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     betterfox = {
       url = "github:yokoffing/betterfox";
       flake = false;
@@ -66,10 +71,6 @@
       url = "github:jamir-boop/minimalisticfox";
       flake = false;
     };
-    # penguin-fox = {
-    #   url = "github:Lenivaya/pengufox";
-    #   flake = false;
-    # };
 
     browser-previews = {
       url = "github:nix-community/browser-previews";
