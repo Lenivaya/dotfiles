@@ -59,6 +59,8 @@ let
   firefox' = cfg.package.override {
     extraPolicies = {
       # https://github.com/mozilla/policy-templates/blob/master/linux/policies.json
+      # about:policies#documentation
+      ManualAppUpdateOnly = true;
       AppAutoUpdate = false;
       DisableAppUpdate = true;
       DisableFeedbackCommands = true;
@@ -87,6 +89,7 @@ let
         Snippets = false;
         TopSites = false;
         Highlights = false;
+        SponsoredTopSites = false;
       };
       FirefoxSuggest = {
         WebSuggestions = false;

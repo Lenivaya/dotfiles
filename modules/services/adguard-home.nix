@@ -27,7 +27,8 @@ in
           enable_dnssec = true;
           upstream_mode = "parallel";
           upstream_dns = [
-            "quic://dns.nextdns.io"
+            # "quic://dns.nextdns.io"
+            "https://dns.nextdns.io"
             "https://dns.quad9.net/dns-query"
             "https://doh.libredns.gr/dns-query"
             "https://doh.dns.sb/dns-query"

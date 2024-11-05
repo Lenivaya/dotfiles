@@ -55,8 +55,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
-    chaotic.url = "github:chaotic-cx/nyx?rev=6fef60c332441a65360d06661ef2a3137e802181";
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
 
     # Firefox
     firefox = {
@@ -157,9 +156,9 @@
       ...
     }:
     let
-      inherit (lib.my) mapModules mapModulesRec mapHosts;
-
       system = "x86_64-linux";
+
+      inherit (lib.my) mapModules mapModulesRec mapHosts;
 
       mkPkgs =
         pkgs: extraOverlays:
@@ -199,21 +198,8 @@
       nixosConfigurations = mapHosts ./hosts { };
 
       devShells."${system}".default = import ./shell.nix { inherit pkgs inputs system; };
-      formatter.${system} = treefmt-nix.lib.mkWrapper pkgs {
-        projectRootFile = "flake.nix";
-
-        programs = {
-          nixfmt.enable = true;
-          deadnix.enable = true;
-          shfmt.enable = true;
-          ruff-format.enable = true;
-          rufo.enable = true;
-          mdsh.enable = true;
-          yamlfmt.enable = true;
-          prettier.enable = true;
-          toml-sort.enable = true;
-          # fourmolu.enable = true;
-        };
+      formatter.${system} = import ./extra/treefmt.nix {
+        treefmt-wrapper = treefmt-nix.lib.mkWrapper pkgs;
       };
     };
 }

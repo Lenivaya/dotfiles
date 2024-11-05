@@ -21,6 +21,7 @@ in
             "d+f" = "delete";
 
             capslock = "overload(control, esc)";
+            leftcontrol = "overload(alternative_left_control_layer, leftcontrol)";
             leftalt = "layer(nav)";
           };
 
@@ -29,6 +30,18 @@ in
             j = "down";
             k = "up";
             l = "right";
+          };
+          "alternative_left_control_layer" = {
+            z = "f1";
+            x = "f2";
+            c = "f3";
+            v = "f4";
+            b = "f5";
+            n = "f6";
+            m = "f7";
+            comma = "f8";
+            period = "f9";
+            slash = "f10";
           };
         };
         # https://github.com/NixOS/nixpkgs/issues/345167#issuecomment-2380874454

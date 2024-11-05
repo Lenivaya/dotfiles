@@ -221,7 +221,7 @@ with lib.my;
     fast-networking = enabled;
   };
 
-  nix.package = pkgs.unstable.nixVersions.git;
+  # nix.package = pkgs.unstable.nixVersions.git;
 
   services.fwupd = enabled;
   services.cpupower-gui = enabled;

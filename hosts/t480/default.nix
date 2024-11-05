@@ -51,7 +51,6 @@ with my;
         default = "firefox";
 
         firefox = enabled // {
-          # package = pkgs.firefox_nightly;
           package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
           executable = "firefox";
         };
@@ -210,7 +209,7 @@ with my;
     # };
   };
 
-  nix.package = pkgs.unstable.nixVersions.git;
+  # nix.package = pkgs.unstable.nixVersions.git;
   # nix.package = pkgs.lix_git;
 
   services.cpupower-gui = enabled;
@@ -300,6 +299,8 @@ with my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   chaotic.scx = enabled // {
+    # package = pkgs.scx_git.bpfland
+    package = pkgs.unstable.scx.bpfland;
     scheduler = "scx_bpfland";
   };
 
@@ -339,7 +340,6 @@ with my;
     video-trimmer
     postman
     my.gitbutler
-    scx # user-space schedulers
     protonvpn-gui
     inputs.twitch-hls-client.packages.${pkgs.system}.default
     warp-terminal
