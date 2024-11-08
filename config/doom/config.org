@@ -609,6 +609,12 @@ I prefer the dashboard, so let's ensure that's always switched to in new frames.
 (when (daemonp)
   (add-hook! 'server-after-make-frame-hook (switch-to-buffer +doom-dashboard-name)))
 #+end_src
+*** Automatically save sessions
+
+#+begin_src emacs-lisp
+;; Set up automatic session saving every hour (3600 seconds)
+(run-with-timer 3600 3600 #'doom/quicksave-session)
+#+end_src
 
 * Package loading
 :PROPERTIES:

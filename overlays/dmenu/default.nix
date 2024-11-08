@@ -7,6 +7,8 @@ _final: prev: {
       hash = "sha256-bZbMGA5w3gLMf/kOzy+ji8GNkGZ3Srt6TfKwK6BLc4A=";
     };
 
+    NIX_LDFLAGS = "-lm";
+
     patches = [ ./0001-configure-patches.patch ];
   });
 }

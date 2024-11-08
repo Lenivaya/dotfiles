@@ -113,14 +113,10 @@
       url = "github:felixfung/skippy-xd";
       flake = false;
     };
-    twitch-hls-client = {
-      url = "github:2bc4/twitch-hls-client?rev=13a738f96fb1569e5d790e2d063bde0c3a5dd0de";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    resterrs = {
-      url = "git+file:///home/leniviy/code/Projects/resterrs";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # resterrs = {
+    #   url = "path:///home/leniviy/code/Projects/resterrs";
+    #   inputs.nixpkgs.follows = "nixpkgs";
+    # };
   };
 
   nixConfig = {

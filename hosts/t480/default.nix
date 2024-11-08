@@ -22,7 +22,7 @@ with my;
     ./power-management.nix
     ./fingerprint/default.nix
 
-    inputs.resterrs.nixosModules.default
+    # inputs.resterrs.nixosModules.default
 
     inputs.nixos-facter-modules.nixosModules.facter
     { config.facter.reportPath = ./facter.json; }
@@ -341,7 +341,8 @@ with my;
     postman
     my.gitbutler
     protonvpn-gui
-    inputs.twitch-hls-client.packages.${pkgs.system}.default
+    # inputs.twitch-hls-client.packages.${pkgs.system}.default
+    my.twitch-hls-client
     warp-terminal
     curtail # image compression
     smartmontools
@@ -355,14 +356,6 @@ with my;
     wireguard-tools
     my.deskflow
   ];
-
-  # services.syncthing = enabled // {
-  #   user = config.user.name;
-  #   dataDir = "${config.user.home}/Sync";
-
-  #   overrideDevices = true;
-  #   overrideFolders = true;
-  # };
 
   hardware.graphics = enabled // {
     extraPackages = with pkgs; [
@@ -480,35 +473,35 @@ with my;
 
   # services.safeeyes = enabled;
 
-  services.resterrs = enabled // {
-    settings = {
-      system_services_to_stop = [
-        "fwupd"
-        "syncthing"
-        "bpftune"
-      ];
-      user_services_to_stop = [
-        "kdeconnect"
-        "picom"
-        "easyeffects"
-      ];
-      apps_to_stop = [
-        "telegram-desktop"
-        "vesktop"
-        "deskflow"
-      ];
-      # commands_unplugged = [
-      #   "bluetoothctl power off"
-      # ];
-      # commands_plugged = [
-      #   "bluetoothctl power on"
-      # ];
-      username = config.user.name;
-    };
-    extraServicePackages = with pkgs; [
-      bluez
-    ];
-  };
+  # services.resterrs = enabled // {
+  #   settings = {
+  #     system_services_to_stop = [
+  #       "fwupd"
+  #       "syncthing"
+  #       "bpftune"
+  #     ];
+  #     user_services_to_stop = [
+  #       "kdeconnect"
+  #       "picom"
+  #       "easyeffects"
+  #     ];
+  #     apps_to_stop = [
+  #       "telegram-desktop"
+  #       "vesktop"
+  #       "deskflow"
+  #     ];
+  #     commands_unplugged = [
+  #       "bluetoothctl power off"
+  #     ];
+  #     commands_plugged = [
+  #       "bluetoothctl power on"
+  #     ];
+  #     username = config.user.name;
+  #   };
+  #   extraServicePackages = with pkgs; [
+  #     bluez
+  #   ];
+  # };
 
   nixpkgs.overlays =
     let

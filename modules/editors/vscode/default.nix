@@ -24,6 +24,9 @@ in
     system.userActivationScripts.linkVscodeConfig = ''
       ${linkIfNotExist "~/.config/Code/User/settings.json" "${configDir}/vscode/settings.json"}
       ${linkIfNotExist "~/.config/Code/User/keybindings.json" "${configDir}/vscode/keybindings.json"}
+
+      ${linkIfNotExist "~/.config/Cursor/User/settings.json" "${configDir}/vscode/settings.json"}
+      ${linkIfNotExist "~/.config/Cursor/User/keybindings.json" "${configDir}/vscode/keybindings.json"}
     '';
 
     home.programs.vscode = enabled // {

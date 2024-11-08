@@ -45,7 +45,7 @@ in
       (mkIf config.programs.gnupg.agent.enable pinentry-emacs) # in-emacs gnupg prompts
       zstd # for undo-tree compression
 
-      python39Packages.pylatexenc # LaTeX parser
+      python312Packages.pylatexenc # LaTeX parser
       ghostscript
 
       # my.my_cookies # leetcode cookie retriever

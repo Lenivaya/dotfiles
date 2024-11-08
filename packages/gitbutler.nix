@@ -30,8 +30,8 @@ stdenv.mkDerivation {
   version = "latest";
 
   src = fetchurl {
-    url = "https://releases.gitbutler.com/releases/release/0.13.5-1375/linux/x86_64/git-butler_0.13.5_amd64.deb";
-    sha256 = "19rs022as8npvap5y5dwxl6011g0zyqc4zgdiqa50jsmsfhk4hid";
+    url = "https://releases.gitbutler.com/releases/release/0.13.13-1460/linux/x86_64/GitButler_0.13.13_amd64.deb";
+    sha256 = "16zgvbhgxbnqgs1jk5m23mqw1bh7q823j6nxjgfyd1a567nhbis6";
   };
 
   nativeBuildInputs = with pkgs; [
@@ -42,12 +42,24 @@ stdenv.mkDerivation {
   ];
 
   buildInputs = with pkgs; [
-    openssl
-    webkitgtk
     glib-networking
-    libsoup
     libthai
     stdenv.cc.cc
+    gtk3
+    glib
+    dbus
+    openssl_3
+    librsvg
+    gettext
+    libiconv
+    libsoup
+    libsoup_3
+    webkitgtk
+    webkitgtk_4_1
+    cairo
+    pango
+    harfbuzz
+    gdk-pixbuf
   ];
 
   installPhase = ''

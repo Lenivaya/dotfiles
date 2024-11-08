@@ -154,6 +154,11 @@
   (add-hook! 'server-after-make-frame-hook (switch-to-buffer +doom-dashboard-name)))
 ;; daemon initialization ends here
 
+;; [[file:config.org::*Automatically save sessions][Automatically save sessions:1]]
+;; Set up automatic session saving every hour (3600 seconds)
+(run-with-timer 3600 3600 #'doom/quicksave-session)
+;; Automatically save sessions:1 ends here
+
 (use-package! aas
   :commands aas-mode)
 

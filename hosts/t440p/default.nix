@@ -292,8 +292,6 @@ with lib.my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   chaotic.scx = enabled // {
-    # scheduler = "scx_rusty";
-    # scheduler = "scx_rustland";
     scheduler = "scx_bpfland";
   };
 
@@ -361,7 +359,6 @@ with lib.my;
     # teams-for-linux
     # postman
     my.gitbutler
-    scx # user-space schedulers
     protonvpn-gui
     # inputs.twitch-hls-client.packages.${pkgs.system}.default
     smartmontools

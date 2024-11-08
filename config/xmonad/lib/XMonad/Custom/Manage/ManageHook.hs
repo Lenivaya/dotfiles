@@ -38,7 +38,7 @@ composeActions =
     className =? "gcr-prompter" <||> className =? "Gcr-prompter" -?> doCenterFloat,
     className =? "Safeeyes" -?> doFullFloat,
     className =? "Avizo-service" -?> doIgnore,
-    className =? "Git-butler" -?> doShift git,
+    className =? "gitbutler-tauri" -?> doShift git,
     className
       =? "jetbrains-toolbox"
       <||> appName

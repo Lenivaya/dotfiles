@@ -508,5 +508,8 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "emmet.triggerExpansionOnTab": true,
-  "emmet.showSuggestionsAsSnippets": true
+  "emmet.showSuggestionsAsSnippets": true,
+  "[java]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

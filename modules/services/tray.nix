@@ -78,7 +78,7 @@ in
         pasystray
         mictray
         udiskie
-        kdeconnect
+        plasma5Packages.kdeconnect-kde
         cbatticon
       ];
       script =

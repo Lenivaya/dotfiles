@@ -138,7 +138,7 @@ projects =
     Project
       { projectName = git,
         projectDirectory = "~/",
-        projectStartHook = Just $ do spawnOn git "git-butler"
+        projectStartHook = Just $ do spawnOn git "gitbutler-tauri"
       },
     Project
       { projectName = messages,

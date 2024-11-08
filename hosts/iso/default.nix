@@ -23,7 +23,7 @@ with lib.my;
     };
 
     services = {
-      ssh = enabled;
+      # ssh = enabled;
       keyd = enabled;
     };
 
