@@ -71,14 +71,10 @@
       flake = false;
     };
 
-    browser-previews = {
-      url = "github:nix-community/browser-previews";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nixos-facter-modules.url = "github:numtide/nixos-facter-modules";
     nur.url = "github:nix-community/NUR";
+
     programsdb = {
       url = "github:wamserma/flake-programs-sqlite";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -100,6 +96,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # ayugram-desktop.url = "github:/ayugram-port/ayugram-desktop/release?submodules=1";
+
     # some upstream things
     auto-cpufreq = {
       url = "github:AdnanHodzic/auto-cpufreq";
@@ -113,10 +111,15 @@
       url = "github:felixfung/skippy-xd";
       flake = false;
     };
-    # resterrs = {
-    #   url = "path:///home/leniviy/code/Projects/resterrs";
-    #   inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    browser-previews = {
+      url = "github:nix-community/browser-previews";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    resterrs = {
+      # url = "path:///home/leniviy/code/Projects/resterrs";
+      url = "github:Lenivaya/resterrs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   nixConfig = {
@@ -129,6 +132,7 @@
       "https://pre-commit-hooks.cachix.org"
       "https://viperml.cachix.org/"
       "https://chaotic-nyx.cachix.org/"
+      "https://cache.garnix.io"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
@@ -139,6 +143,7 @@
       "pre-commit-hooks.cachix.org-1:Pkk3Panw5AW24TOv6kz3PvLhlH8puAsJTBbOPmBo7Rc="
       "viperml.cachix.org-1:qZhKBMTfmcLL+OG6fj/hzsMEedgKvZVFRRAhq7j8Vh8="
       "chaotic-nyx.cachix.org-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
+      "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
     ];
   };
 

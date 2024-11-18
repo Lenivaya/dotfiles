@@ -14,6 +14,7 @@ in
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
+      nil
       nix-index
       nix-output-monitor
       nix-tree

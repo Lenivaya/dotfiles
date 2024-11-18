@@ -1,5 +1,6 @@
 # t440p -- thinkpad t440p
 # https://github.com/CRAG666/dotfiles/tree/main/thinkpad
+# 
 {
   pkgs,
   lib,
@@ -292,6 +293,7 @@ with lib.my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   chaotic.scx = enabled // {
+    package = pkgs.unstable.scx.bpfland;
     scheduler = "scx_bpfland";
   };
 
@@ -352,6 +354,7 @@ with lib.my;
   environment.systemPackages = with pkgs; [
     khal
     telegram-desktop
+    # inputs.ayugram-desktop.packages.${pkgs.system}.ayugram-desktop
     ffmpeg-full
     video-trimmer
     # kdenlive

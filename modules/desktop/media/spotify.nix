@@ -31,23 +31,22 @@ in
       ];
       enabledExtensions = with spicePkgs.extensions; [
         adblock
-
         shuffle
+        featureShuffle
         history
         betterGenres
-        # beautifulLyrics
-
         powerBar
         keyboardShortcut
         seekSong
         goToSong
-
+        loopyLoop
         fullAppDisplayMod
         fullAlbumDate
         playlistIcons
-        # wikify
-
+        playlistIntersection
         groupSession
+        copyToClipboard
+        playingSource
       ];
     };
   };

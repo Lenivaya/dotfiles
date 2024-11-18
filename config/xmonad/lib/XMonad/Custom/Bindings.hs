@@ -283,6 +283,7 @@ keysSpawnables =
 keysWindows :: Keybindings
 keysWindows =
   [ ("M-w k", kill),
+    ("M-w S-w", spawn "skippy-xd --expose"),
     ("M-w S-k", wrapKbdLayout $ confirmPrompt (
       promptNoHistory
         hotPromptTheme) "Kill all" killAll),

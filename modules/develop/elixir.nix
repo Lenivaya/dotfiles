@@ -17,6 +17,7 @@ in
       erlang
       elixir
       elixir_ls
+      inotify-tools
     ];
   };
 }

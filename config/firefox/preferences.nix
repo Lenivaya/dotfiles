@@ -185,4 +185,7 @@
 
   # enable HEVC
   "media.wmf.hevc.enabled" = true;
+
+  # obsidian clipper
+  "extensions.openPopupWithoutUserGesture.enabled" = true;
 }

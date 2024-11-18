@@ -25,7 +25,8 @@ updateFreq = 60.0
 # XQueryTree, _NET_CLIENT_LIST, _WIN_CLIENT_LIST
 # If you see missing windows, or windows that you did not expect,
 # Try a different option
-clientList = XQueryTree
+# clientList = XQueryTree
+clientList = _NET_CLIENT_LIST
 
 # when compositors such as picom are not used
 # turn on pseudo-transparency

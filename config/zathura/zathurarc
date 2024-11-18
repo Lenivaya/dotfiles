@@ -94,3 +94,4 @@ set scroll-page-aware           false
 
 set selection-clipboard clipboard
 set selection-notification      false
+set first-page-column 1:1

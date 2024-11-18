@@ -496,7 +496,7 @@
   "tailwind-fold.autoFold": false,
   "typescript.updateImportsOnFileMove.enabled": "always",
   "[dockercompose]": {
-    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[nginx]": {
     "editor.defaultFormatter": "raynigon.nginx-formatter"
@@ -511,5 +511,6 @@
   "emmet.showSuggestionsAsSnippets": true,
   "[java]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
-  }
+  },
+  "workbench.colorTheme": "Min Tomorrow Dark"
 }

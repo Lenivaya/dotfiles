@@ -16,7 +16,8 @@ in
     user.packages =
       with pkgs;
       let
-        discord' = vesktop;
+        # discord' = vesktop;
+        discord' = legcord;
       in
       [ discord' ];
   };

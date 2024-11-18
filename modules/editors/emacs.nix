@@ -87,9 +87,6 @@ in
       # :lang resc
       jq
 
-      # :lang nix
-      nil
-
       # :lang nginx
       nginx-language-server
 

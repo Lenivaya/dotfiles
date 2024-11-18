@@ -42,13 +42,16 @@ in
             comma = "f8";
             period = "f9";
             slash = "f10";
+            space = "rightmouse";
           };
         };
         # https://github.com/NixOS/nixpkgs/issues/345167#issuecomment-2380874454
         extraConfig = ''
-          [nav+shift]
+          [nav+control]
           j = pagedown
           k = pageup
+
+          [nav+shift]
           i = insert
           d = delete
 

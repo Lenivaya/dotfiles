@@ -22,7 +22,7 @@ with my;
     ./power-management.nix
     ./fingerprint/default.nix
 
-    # inputs.resterrs.nixosModules.default
+    inputs.resterrs.nixosModules.default
 
     inputs.nixos-facter-modules.nixosModules.facter
     { config.facter.reportPath = ./facter.json; }
@@ -336,6 +336,7 @@ with my;
     (inxi.override { withRecommends = true; })
     khal
     telegram-desktop
+    # inputs.ayugram-desktop.packages.${pkgs.system}.ayugram-desktop
     ffmpeg-full
     video-trimmer
     postman
@@ -343,7 +344,7 @@ with my;
     protonvpn-gui
     # inputs.twitch-hls-client.packages.${pkgs.system}.default
     my.twitch-hls-client
-    warp-terminal
+    # warp-terminal
     curtail # image compression
     smartmontools
     gcc
@@ -473,35 +474,35 @@ with my;
 
   # services.safeeyes = enabled;
 
-  # services.resterrs = enabled // {
-  #   settings = {
-  #     system_services_to_stop = [
-  #       "fwupd"
-  #       "syncthing"
-  #       "bpftune"
-  #     ];
-  #     user_services_to_stop = [
-  #       "kdeconnect"
-  #       "picom"
-  #       "easyeffects"
-  #     ];
-  #     apps_to_stop = [
-  #       "telegram-desktop"
-  #       "vesktop"
-  #       "deskflow"
-  #     ];
-  #     commands_unplugged = [
-  #       "bluetoothctl power off"
-  #     ];
-  #     commands_plugged = [
-  #       "bluetoothctl power on"
-  #     ];
-  #     username = config.user.name;
-  #   };
-  #   extraServicePackages = with pkgs; [
-  #     bluez
-  #   ];
-  # };
+  services.resterrs = enabled // {
+    settings = {
+      system_services_to_stop = [
+        "fwupd"
+        "syncthing"
+        "bpftune"
+      ];
+      user_services_to_stop = [
+        "kdeconnect"
+        "picom"
+        "easyeffects"
+      ];
+      apps_to_stop = [
+        # "telegram-desktop"
+        "vesktop"
+        "deskflow"
+      ];
+      commands_unplugged = [
+        "bluetoothctl power off"
+      ];
+      commands_plugged = [
+        "bluetoothctl power on"
+      ];
+      username = config.user.name;
+    };
+    extraServicePackages = with pkgs; [
+      bluez
+    ];
+  };
 
   nixpkgs.overlays =
     let
@@ -516,8 +517,11 @@ with my;
           typst-lsp
           code-cursor
           obsidian
+          jetbrains-toolbox
+          ungoogled-chromium
           ;
 
+        distrobox = prev.distrobox_git;
         telegram-desktop = prev.telegram-desktop_git;
         alacritty = prev.alacritty_git;
         yt-dlp = prev.yt-dlp_git;

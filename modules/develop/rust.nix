@@ -26,6 +26,10 @@ in
 
       rust-analyzer
       cargo-edit
+
+      # oftern required
+      openssl
+      pkg-config
     ];
 
     env = {
