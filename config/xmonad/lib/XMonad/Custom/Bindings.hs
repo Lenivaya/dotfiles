@@ -249,7 +249,7 @@ keysWorkspaces =
     ("M-i", toggleWS' ["NSP"]),
     ("M-n", workspacePrompt (promptNoHistory promptTheme) $ windows . S.shift),
     -- ("M-w w", gridselectWorkspace gridSelectTheme S.greedyView)
-    ("M-w w", spawn "skippy-xd --paging")
+    ("M-w p", spawn "skippy-xd --paging")
   ]
     ++ zipKeys "M-" wsKeys [0 ..] (withNthWorkspace S.greedyView)
     ++ zipKeys "M-S-" wsKeys [0 ..] (withNthWorkspace S.shift)
@@ -283,7 +283,7 @@ keysSpawnables =
 keysWindows :: Keybindings
 keysWindows =
   [ ("M-w k", kill),
-    ("M-w S-w", spawn "skippy-xd --expose"),
+    ("M-w w", spawn "skippy-xd --expose"),
     ("M-w S-k", wrapKbdLayout $ confirmPrompt (
       promptNoHistory
         hotPromptTheme) "Kill all" killAll),

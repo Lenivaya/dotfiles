@@ -31,7 +31,7 @@ in
       killall
 
       neovim
-      curl
+      curlHTTP3
       lnav # <- log file navigator
       procs # <- a "modern" replacement for ps
 
@@ -50,7 +50,7 @@ in
       scrot # Screenshots
       jgmenu
       # gnome-usage
-      mission-center
+      # mission-center
 
       brightnessctl
 

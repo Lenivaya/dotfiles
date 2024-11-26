@@ -27,7 +27,7 @@ in
       rust-analyzer
       cargo-edit
 
-      # oftern required
+      # ofter required
       openssl
       pkg-config
     ];

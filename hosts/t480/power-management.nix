@@ -2,7 +2,11 @@
 # https://www.reddit.com/r/thinkpad/comments/12177bx/how_effective_is_charging_threshold_at_protecting/
 #
 # https://www.reddit.com/r/LinuxOnThinkpad/comments/uw6hh9/a_better_t480_power_saving_guide/
-{ lib, inputs, ... }:
+{
+  lib,
+  inputs,
+  ...
+}:
 with lib;
 with my;
 {

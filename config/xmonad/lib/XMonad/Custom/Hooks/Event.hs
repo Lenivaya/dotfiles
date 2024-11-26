@@ -57,7 +57,7 @@ handleEventHook =
         handleTimerEvent,
         refocusLastWhen myRefocusPred,
         nspTrackHook scratchpads,
-        floatConfReqHook myFloatConfReqHook,
+        -- floatConfReqHook myFloatConfReqHook,
         fixSteamFlicker,
         Hacks.trayerAboveXmobarEventHook,
         Hacks.trayerPaddingXmobarEventHook

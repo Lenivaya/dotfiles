@@ -45,7 +45,7 @@ in
           support32Bit = with pkgs; (stdenv.hostPlatform.isLinux && stdenv.hostPlatform.isx86);
         };
         pulse = enabled;
-        jack = enabled;
+        # jack = enabled;
       };
 
       user.packages =

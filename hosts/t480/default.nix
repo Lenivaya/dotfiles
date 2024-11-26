@@ -175,8 +175,10 @@ with my;
         #   p2.duration = 2.44140625e-3;
         # };
         undervolt = enabled // {
-          core = -110;
-          gpu = -110;
+          # core = -110;
+          # gpu = -110;
+          core = -100;
+          gpu = -100;
           temp = 97;
         };
       };
@@ -237,13 +239,16 @@ with my;
       in
       [
         {
-          commands =
+          commands = mkMerge [
             (mkNoPwd pkgs.ps_mem "ps_mem")
-            ++ (mkNoPwd pkgs.unixtools.fdisk "fdisk -l")
-            ++ (mkNoPwd pkgs.undervolt "undervolt -r")
-            ++ (mkNoPwd pkgs.smartmontools "smartctl")
-            ++ (mkNoPwd pkgs.powertop "powertop")
-            ++ (mkNoPwd pkgs.intel-gpu-tools "intel_gpu_top");
+            (mkNoPwd pkgs.unixtools.fdisk "fdisk -l")
+            (mkNoPwd pkgs.undervolt "undervolt -r")
+            (mkNoPwd pkgs.smartmontools "smartctl")
+            (mkNoPwd pkgs.powertop "powertop")
+            (mkNoPwd pkgs.intel-gpu-tools "intel_gpu_top")
+            (mkNoPwd pkgs.tlp "tlp ac")
+            (mkNoPwd pkgs.tlp "tlp bat")
+          ];
           groups = [ "wheel" ];
         }
       ];
@@ -342,7 +347,6 @@ with my;
     postman
     my.gitbutler
     protonvpn-gui
-    # inputs.twitch-hls-client.packages.${pkgs.system}.default
     my.twitch-hls-client
     # warp-terminal
     curtail # image compression
@@ -355,7 +359,7 @@ with my;
     code-cursor
     ungoogled-chromium
     wireguard-tools
-    my.deskflow
+    deskflow
   ];
 
   hardware.graphics = enabled // {
@@ -418,7 +422,7 @@ with my;
   environment.etc.hosts.mode = "0644";
 
   # BPF-based auto-tuning of Linux system parameters
-  # services.bpftune = enabled;
+  services.bpftune = enabled;
 
   # Run appimages seamlesssly
   programs.appimage.binfmt = true;
@@ -488,7 +492,7 @@ with my;
       ];
       apps_to_stop = [
         # "telegram-desktop"
-        "vesktop"
+        # "vesktop"
         "deskflow"
       ];
       commands_unplugged = [
@@ -514,11 +518,9 @@ with my;
       (_final: prev: {
         inherit (pkgs.unstable)
           easyeffects
-          typst-lsp
           code-cursor
           obsidian
           jetbrains-toolbox
-          ungoogled-chromium
           ;
 
         distrobox = prev.distrobox_git;

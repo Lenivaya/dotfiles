@@ -20,10 +20,11 @@ with lib.my;
       ./gpu.nix
       ./picom.nix
       ./dns.nix
-      ./auto-cpufreq.nix
       ./modules/default.nix
+      ./power-management.nix
+
+      ./postgresql.nix
       # ./mongodb.nix
-      # ./postgresql.nix
       # ./jack_retask/jack_retask.nix
       inputs.nixos-facter-modules.nixosModules.facter
       { config.facter.reportPath = ./facter.json; }
@@ -263,14 +264,6 @@ with lib.my;
     extraArgs = "--keep-since 1w --keep 3";
   };
 
-  services.tlp.settings.CPU_MAX_PERF_ON_BAT = mkForce 65;
-  services.tlp.settings = {
-    # work at maximum on AC
-    # CPU_SCALING_GOVERNOR_ON_AC = mkForce "performance";
-    CPU_ENERGY_PERF_POLICY_ON_AC = mkForce "performance";
-    CPU_SCALING_MAX_FREQ_ON_AC = MHz 4000;
-  };
-
   services.clight = {
     # BUG https://github.com/NixOS/nixpkgs/issues/321121
     settings.daytime = {
@@ -368,14 +361,14 @@ with lib.my;
     # my.devtunnel
     # warp-terminal
     # zed-editor_git
-    my.deskflow
+    deskflow
   ];
 
-  hardware.trackpoint = {
-    enable = true;
-    speed = 500;
-    sensitivity = 250;
-  };
+  # hardware.trackpoint = {
+  #   enable = true;
+  #   speed = 500;
+  #   sensitivity = 250;
+  # };
 
   hardware.graphics = enabled // {
     extraPackages = with pkgs; [
@@ -428,7 +421,7 @@ with lib.my;
   environment.etc.hosts.mode = "0644";
 
   # BPF-based auto-tuning of Linux system parameters
-  # services.bpftune = enabled;
+  services.bpftune = enabled;
 
   # Run appimages seamlesssly
   programs.appimage.binfmt = true;

@@ -55,7 +55,7 @@ scratchpads =
       (className =? "NSPTop")
       doFullCenterFloat,
     NS
-      "legcord"
+      "discord"
       "legcord"
       (className =? "legcord")
       doFullCenterFloat,
