@@ -20,11 +20,12 @@ in
       # rustc
       # cargo
       rustup
+      rustPlatform.bindgenHook
 
       # clippy
       # rustfmt
 
-      rust-analyzer
+      # rust-analyzer
       cargo-edit
 
       # ofter required

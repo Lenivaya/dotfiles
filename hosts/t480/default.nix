@@ -48,11 +48,11 @@ with my;
       };
 
       browsers = {
-        default = "firefox";
+        default = "firefox-nightly";
 
         firefox = enabled // {
-          package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
-          executable = "firefox";
+          package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
+          executable = "firefox-nightly";
         };
         chromium =
           let
@@ -304,8 +304,8 @@ with my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   chaotic.scx = enabled // {
-    # package = pkgs.scx_git.bpfland
-    package = pkgs.unstable.scx.bpfland;
+    # package = pkgs.scx_git.full;
+    package = pkgs.unstable.scx.rustscheds;
     scheduler = "scx_bpfland";
   };
 

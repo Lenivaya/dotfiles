@@ -8,6 +8,7 @@ module XMonad.Custom.Bindings (
 ) where
 
 import Data.Foldable
+import Flow
 import Data.Map qualified as M
 import System.Exit
 import XMonad hiding (
@@ -120,9 +121,9 @@ getSortByIndexNonSP = (. namedScratchpadFilterOutWorkspace) <$> getSortByIndex
 
 nextNonEmptyWS, prevNonEmptyWS :: X ()
 nextNonEmptyWS =
-  findWorkspace getSortByIndexNonSP Next HiddenNonEmptyWS 1 >>= windows . S.view
+  findWorkspace getSortByIndexNonSP Next HiddenNonEmptyWS 1 >>= windows <. S.view
 prevNonEmptyWS =
-  findWorkspace getSortByIndexNonSP Prev HiddenNonEmptyWS 1 >>= windows . S.view
+  findWorkspace getSortByIndexNonSP Prev HiddenNonEmptyWS 1 >>= windows <. S.view
 
 toggleFloat :: Window -> X ()
 toggleFloat win = windows $ \windowSet ->
@@ -138,13 +139,13 @@ integrateOthers :: S.Stack a -> [a]
 integrateOthers (S.Stack _ u d) = u <> d
 
 withOthers :: (Window -> X ()) -> X ()
-withOthers f = withWindowSet $ mapM_ f . others
+withOthers f = withWindowSet $ mapM_ f <. others
   where
     others =
       maybe [] integrateOthers
-        . S.stack
-        . S.workspace
-        . S.current
+        <. S.stack
+        <. S.workspace
+        <. S.current
 
 myKeys config = mkKeymap config keys
   where

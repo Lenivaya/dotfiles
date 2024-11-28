@@ -27,10 +27,7 @@ import XMonad.Util.ClickableWorkspaces
 import XMonad.Util.NamedScratchpad hiding (
   namedScratchpadFilterOutWorkspace,
  )
-import XMonad.Util.SpawnNamedPipe
 import XMonad.Util.WorkspaceCompare
-import XMonad.Hooks.FadeWindows
-
 
 
 -- layoutIcon :: String -> String
@@ -115,17 +112,11 @@ botBarPP =
       ppLayout = const ""
     }
 
--- myFadeHook = composeAll
---   [
---     opaque,
---     isUnfocused --> transparency 0.1
---   ]
-
 logHook :: X ()
 logHook = do
   updatePointer (0.5, 0.5) (0, 0)
-  currentWorkspaceOnTop
   masterHistoryHook
+  currentWorkspaceOnTop
   showWNameLogHook def
   -- refocusLastLogHook
   -- fadeWindowsLogHook myFadeHook

@@ -107,7 +107,7 @@ opacity = 255
 
 [highlight]
 tint = black
-tintOpacity = 50
+tintOpacity = 60
 opacity = 255
 
 [shadow]

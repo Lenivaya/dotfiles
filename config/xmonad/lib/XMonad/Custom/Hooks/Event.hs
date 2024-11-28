@@ -54,10 +54,10 @@ handleEventHook =
     hooks =
       [
         -- perWindowKbdLayout,
+        -- floatConfReqHook myFloatConfReqHook,
         handleTimerEvent,
         refocusLastWhen myRefocusPred,
         nspTrackHook scratchpads,
-        -- floatConfReqHook myFloatConfReqHook,
         fixSteamFlicker,
         Hacks.trayerAboveXmobarEventHook,
         Hacks.trayerPaddingXmobarEventHook

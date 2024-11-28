@@ -1,6 +1,6 @@
 # t440p -- thinkpad t440p
 # https://github.com/CRAG666/dotfiles/tree/main/thinkpad
-# 
+#
 {
   pkgs,
   lib,
@@ -19,10 +19,9 @@ with lib.my;
       ./phone_cam.nix
       ./gpu.nix
       ./picom.nix
-      ./dns.nix
+      # ./dns.nix
       ./modules/default.nix
       ./power-management.nix
-
       ./postgresql.nix
       # ./mongodb.nix
       # ./jack_retask/jack_retask.nix
@@ -59,20 +58,20 @@ with lib.my;
       };
 
       browsers = {
-        default = "firefox";
+        default = "firefox-nightly";
 
         firefox = enabled // {
           package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
-          executable = "firefox";
+          executable = "firefox-nightly";
         };
-        chromium =
-          let
-            chrome' = inputs.browser-previews.packages.${pkgs.system}.google-chrome;
-          in
-          enabled
-          // {
-            package = chrome';
-          };
+        # chromium =
+        #   let
+        #     chrome' = inputs.browser-previews.packages.${pkgs.system}.google-chrome;
+        #   in
+        #   enabled
+        #   // {
+        #     package = chrome';
+        #   };
         # tor = enabled;
         # qutebrowser = enabled;
       };
@@ -286,7 +285,7 @@ with lib.my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   chaotic.scx = enabled // {
-    package = pkgs.unstable.scx.bpfland;
+    package = pkgs.unstable.scx.rustscheds;
     scheduler = "scx_bpfland";
   };
 
@@ -349,7 +348,7 @@ with lib.my;
     telegram-desktop
     # inputs.ayugram-desktop.packages.${pkgs.system}.ayugram-desktop
     ffmpeg-full
-    video-trimmer
+    # video-trimmer
     # kdenlive
     # lightworks pitivi
     # teams-for-linux

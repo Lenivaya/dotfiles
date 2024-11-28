@@ -15,6 +15,9 @@ import qualified Data.Map as M
 import Data.Ratio ((%))
 import XMonad hiding (layoutHook)
 
+
+import Flow
+
 -- import XMonad.Actions.MouseResize
 import XMonad.Custom.Theme (tabTheme)
 import XMonad.Custom.Workspaces
@@ -134,34 +137,34 @@ layoutNames = description <$> snd layoutsInfo
 layoutMap = M.fromList $ zip layoutNames layoutNames
 defaultLayout = head layoutNames
 
+-- fullscreenFloat
+-- . fullscreenFull
+-- . draggingVisualizer
+-- . mouseResize
+-- . windowArrange
+-- . magnifierOff
+-- . onWorkspace wsread (circle ||| flex ||| onebig)
 layoutHook =
-  fullscreenFloat
-    -- . fullscreenFull
-    . smartBorders
-    . boringWindows
-    . draggingVisualizer
-    -- . mouseResize
-    -- . windowArrange
-    . layoutHintsToCenter
-    -- . magnifierOff
-    . magnifierczOff' 1.3
-    . lessBorders OnlyLayoutFloat
-    . mkToggle (single NBFULL)
-    . refocusLastLayoutHook
-    . avoidStruts
-    . applySpacing
-    . mkToggle (single GAPS)
-    . mkToggle (single REFLECTX)
-    . mkToggle (single REFLECTY)
-    . windowNavigation
-    . hiddenWindows
-    . addTabs shrinkText tabTheme
-    . subLayout [] (Simplest ||| Accordion)
-    -- . onWorkspace wsread (circle ||| flex ||| onebig)
-    . centeredIfSingle 0.9 0.95
-    . maximize
-    . minimize
-    $ layouts
+     maximize
+    .> minimize
+    .> centeredIfSingle 0.9 0.95
+    .> subLayout [] (Simplest ||| Accordion)
+    .> addTabs shrinkText tabTheme
+    .> windowNavigation
+    .> hiddenWindows
+    .> applySpacing
+    .> avoidStruts
+    .> mkToggle (single NBFULL)
+    .> mkToggle (single GAPS)
+    .> mkToggle (single REFLECTX)
+    .> mkToggle (single REFLECTY)
+    .> lessBorders OnlyLayoutFloat
+    .> refocusLastLayoutHook
+    .> magnifierczOff' 1.3
+    .> layoutHintsToCenter
+    .> boringWindows
+    .> smartBorders
+    <| layouts
 
 toggleGaps = sendMessage $ Toggle GAPS
 toggleStatusBar = sendMessage ToggleStruts

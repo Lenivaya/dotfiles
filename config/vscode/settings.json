@@ -519,5 +519,8 @@
   "[shellscript]": {
     "editor.defaultFormatter": "mads-hartmann.bash-ide-vscode"
   },
-  "database-client.autoSync": true
+  "database-client.autoSync": true,
+  "rust-analyzer.diagnostics.experimental.enable": true,
+  "rust-analyzer.cachePriming.enable": false,
+  "rust-analyzer.server.path": "rust-analyzer"
 }

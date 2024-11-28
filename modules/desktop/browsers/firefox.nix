@@ -18,12 +18,12 @@ let
 
   userChrome = ''
     ${readFile "${configDir}/firefox/userChrome.css"}
-    ${readFile "${inputs.minimalisticfox}/userChrome.css"}
   '';
+  # ${readFile "${inputs.minimalisticfox}/userChrome.css"}
   userContent = ''
     ${readFile "${configDir}/firefox/userContent.css"}
-    ${readFile "${inputs.minimalisticfox}/userContent.css"}
   '';
+  # ${readFile "${inputs.minimalisticfox}/userContent.css"}
   settings = import "${configDir}/firefox/preferences.nix";
   extensions =
     with firefoxExtensions;

@@ -50,14 +50,14 @@ myConfig =
                 , focusFollowsMouse = True
                 , clickJustFocuses = False
                 }
-                |> ewmh
-                |> ewmhFullscreen
-                |> configureMRU
-                |> docks
-                |> Hacks.javaHack
-                |> dynamicProjects C.projects
                 |> withNavigation2DConfig C.navigation
                 |> withUrgencyHook (borderUrgencyHook C.red1)
                 |> addRandrChangeHook C.myRandrChangeHook
+                |> dynamicProjects C.projects
                 |> dynamicSBs C.barSpawner
+                |> configureMRU
+                |> ewmh
+                |> ewmhFullscreen
+                |> docks
+                -- |> Hacks.javaHack
                 |> (return :: a -> IO a)
