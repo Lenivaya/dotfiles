@@ -54,14 +54,9 @@ with my;
           package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
           executable = "firefox-nightly";
         };
-        chromium =
-          let
-          in
-          # chrome' = inputs.browser-previews.packages.${pkgs.system}.google-chrome;
-          enabled
-          // {
-            # package = chrome';
-          };
+        chromium = enabled // {
+          # package = chrome';
+        };
         tor = enabled;
       };
 

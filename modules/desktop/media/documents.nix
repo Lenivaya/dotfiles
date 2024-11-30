@@ -24,7 +24,7 @@ in
       with pkgs;
       (mkMerge [
         [
-          libreoffice #-fresh
+          libreoffice # -fresh
           pandoc # Universal Markup converter
         ]
 
