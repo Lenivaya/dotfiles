@@ -19,7 +19,8 @@ with lib.my;
         corefonts
         merriweather
         julia-mono # Unicode glyphs
-        (pkgs.nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
+        nerd-fonts.symbols-only
+        # (pkgs.nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
         # (nerdfonts.override {fonts = ["FiraCode"];})
 
         # lmmath

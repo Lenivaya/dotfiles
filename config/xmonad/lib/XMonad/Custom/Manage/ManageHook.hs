@@ -63,8 +63,7 @@ composeActions =
 manageHook :: ManageHook
 manageHook =
   composeAll
-    [ manageDocks,
-      fullscreenManageHook,
+    [
       manageSpawn,
       composeOne composeActions,
       namedScratchpadManageHook scratchpads

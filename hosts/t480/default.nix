@@ -56,11 +56,11 @@ with my;
         };
         chromium =
           let
-            chrome' = inputs.browser-previews.packages.${pkgs.system}.google-chrome;
           in
+          # chrome' = inputs.browser-previews.packages.${pkgs.system}.google-chrome;
           enabled
           // {
-            package = chrome';
+            # package = chrome';
           };
         tor = enabled;
       };
@@ -174,13 +174,13 @@ with my;
         #   p2.watts = 29;
         #   p2.duration = 2.44140625e-3;
         # };
-        undervolt = enabled // {
-          # core = -110;
-          # gpu = -110;
-          core = -100;
-          gpu = -100;
-          temp = 97;
-        };
+        # undervolt = enabled // {
+        #   # core = -110;
+        #   # gpu = -110;
+        #   core = -100;
+        #   gpu = -100;
+        #   temp = 97;
+        # };
       };
       gpu = {
         intel = enabled;
@@ -303,7 +303,7 @@ with my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  chaotic.scx = enabled // {
+  services.scx = enabled // {
     # package = pkgs.scx_git.full;
     package = pkgs.unstable.scx.rustscheds;
     scheduler = "scx_bpfland";

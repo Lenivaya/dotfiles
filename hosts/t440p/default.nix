@@ -284,7 +284,7 @@ with lib.my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  chaotic.scx = enabled // {
+  services.scx = enabled // {
     package = pkgs.unstable.scx.rustscheds;
     scheduler = "scx_bpfland";
   };

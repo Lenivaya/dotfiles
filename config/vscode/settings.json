@@ -109,7 +109,7 @@
       "visible": 8
     }
   },
-  "explorer.autoReveal": false,
+  "explorer.autoReveal": true,
   "extensions": {
     "autoUpdate": false
   },
@@ -358,12 +358,50 @@
   "update": {
     "mode": "none"
   },
+  "window": {
+    "menuBarVisibility": "toggle",
+    "titleBarStyle": "custom"
+  },
+  "workbench": {
+    "colorCustomizations": {
+      "activityBarBadge.background": "#616161",
+      "editorSuggestWidget.highlightForeground": "#616161",
+      "editorWidget.border": "#616161",
+      "list.activeSelectionForeground": "#616161",
+      "list.highlightForeground": "#616161",
+      "list.inactiveSelectionForeground": "#616161",
+      "notificationLink.foreground": "#616161",
+      "pickerGroup.foreground": "#616161",
+      "progressBar.background": "#616161",
+      "scrollbarSlider.activeBackground": "#61616150",
+      "tab.activeBorder": "#616161",
+      "textLink.foreground": "#616161"
+    },
+    "colorTheme": "Min Tomorrow Dark",
+    "editorAssociations": [
+      {
+        "filenamePattern": "*.ipynb",
+        "viewType": "jupyter-notebook"
+      }
+    ],
+    "iconTheme": "vs-seti",
+    "list": {
+      "smoothScrolling": true
+    },
+    "sideBar": {
+      "location": "right"
+    },
+    "startupEditor": "None",
+    "tree": {
+      "expandMode": "singleClick"
+    }
+  },
   "vim": {
     "autoSwitchInputMethod": {
       "defaultIM": "us",
       "enable": true,
-      "obtainIMCmd": "xkb-switch",
-      "switchIMCmd": "xkb-switch -s {im}"
+      "obtainIMCmd": "/etc/profiles/per-user/leniviy/bin/xkb-switch",
+      "switchIMCmd": "/etc/profiles/per-user/leniviy/bin/xkb-switch -s {im}"
     },
     "camelCaseMotion": {
       "enable": true
@@ -420,44 +458,6 @@
         ]
       }
     ]
-  },
-  "window": {
-    "menuBarVisibility": "toggle",
-    "titleBarStyle": "custom"
-  },
-  "workbench": {
-    "colorCustomizations": {
-      "activityBarBadge.background": "#616161",
-      "editorSuggestWidget.highlightForeground": "#616161",
-      "editorWidget.border": "#616161",
-      "list.activeSelectionForeground": "#616161",
-      "list.highlightForeground": "#616161",
-      "list.inactiveSelectionForeground": "#616161",
-      "notificationLink.foreground": "#616161",
-      "pickerGroup.foreground": "#616161",
-      "progressBar.background": "#616161",
-      "scrollbarSlider.activeBackground": "#61616150",
-      "tab.activeBorder": "#616161",
-      "textLink.foreground": "#616161"
-    },
-    "colorTheme": "Min Tomorrow Dark",
-    "editorAssociations": [
-      {
-        "filenamePattern": "*.ipynb",
-        "viewType": "jupyter-notebook"
-      }
-    ],
-    "iconTheme": "vs-seti",
-    "list": {
-      "smoothScrolling": true
-    },
-    "sideBar": {
-      "location": "right"
-    },
-    "startupEditor": "None",
-    "tree": {
-      "expandMode": "singleClick"
-    }
   },
   "editor.cursorSmoothCaretAnimation": "on",
   "editor.guides.indentation": false,
@@ -522,5 +522,8 @@
   "database-client.autoSync": true,
   "rust-analyzer.diagnostics.experimental.enable": true,
   "rust-analyzer.cachePriming.enable": false,
-  "rust-analyzer.server.path": "rust-analyzer"
+  "rust-analyzer.server.path": "rust-analyzer",
+  "editor.renderWhitespace": "all",
+  "editor.minimap.enabled": true,
+  "debug.toolBarLocation": "docked"
 }

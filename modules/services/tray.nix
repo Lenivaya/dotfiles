@@ -13,7 +13,7 @@ in
 {
   options.modules.services.tray = with types; {
     enable = mkBoolOpt false;
-    trayer = mkBoolOpt false;
+    # trayer = mkBoolOpt false;
     trayApps = mkOpt (listOf str) [
       "blueman-applet"
       "nm-applet"
@@ -34,33 +34,33 @@ in
     #   };
     # };
 
-    systemd.user.services.trayer = mkGraphicalService {
-      enable = cfg.trayer;
+    # systemd.user.services.trayer = mkGraphicalService {
+    #   enable = cfg.trayer;
 
-      description = "X tray for WM's";
+    #   description = "X tray for WM's";
 
-      serviceConfig = {
-        Type = "forking";
-        RemainAfterExit = true;
-      };
+    #   serviceConfig = {
+    #     Type = "forking";
+    #     RemainAfterExit = true;
+    #   };
 
-      path = with pkgs; [ trayer ];
-      script =
-        let
-          trayerCommand = spaceConcat [
-            "trayer"
-            "-l"
-            "--edge top --align center"
-            "--distancefrom top --distance 100"
-            "--SetDockType true --SetPartialStrut false"
-            "--widthtype request --expand true"
-            "--transparent true --alpha 255"
-            "--height 26 --heighttype pixel"
-            "--iconspacing 5"
-          ];
-        in
-        spawnCommand trayerCommand;
-    };
+    #   path = with pkgs; [ trayer ];
+    #   script =
+    #     let
+    #       trayerCommand = spaceConcat [
+    #         "trayer"
+    #         "-l"
+    #         "--edge top --align center"
+    #         "--distancefrom top --distance 100"
+    #         "--SetDockType true --SetPartialStrut false"
+    #         "--widthtype request --expand true"
+    #         "--transparent true --alpha 255"
+    #         "--height 26 --heighttype pixel"
+    #         "--iconspacing 5"
+    #       ];
+    #     in
+    #     spawnCommand trayerCommand;
+    # };
 
     systemd.user.services.trayApps = mkGraphicalService {
       description = "tray apps";

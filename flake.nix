@@ -111,10 +111,10 @@
       url = "github:felixfung/skippy-xd";
       flake = false;
     };
-    browser-previews = {
-      url = "github:nix-community/browser-previews";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    # browser-previews = {
+    #   url = "github:nix-community/browser-previews";
+    #   # inputs.nixpkgs.follows = "nixpkgs";
+    # };
     resterrs = {
       # url = "path:///home/leniviy/code/Projects/resterrs";
       url = "github:Lenivaya/resterrs";

@@ -108,6 +108,24 @@ in
       script = "${configDir}/xmonad/scripts/keyboard-listener";
     };
 
+    systemd.user.services.trayer = mkGraphicalService {
+      enable = mkForce true;
+      description = "Trayer, for xmonad";
+      path = with pkgs; [ trayer ];
+      script = spaceConcat [
+        "trayer"
+        "-l"
+        "--SetDockType true --SetPartialStrut false"
+        "--edge top --align right"
+        "--widthtype request --expand true"
+        "--monitor primary"
+        "--tint 0x0B0806"
+        "--transparent true --alpha 10"
+        "--distancefrom top,right --distance 22,27"
+        "--height 25 --iconspacing 3 --padding 1 --margin 1"
+      ];
+    };
+
     env.PATH = [ "$DOTFILES/config/xmonad/scripts/xmobar" ];
   };
 }
