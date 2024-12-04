@@ -59,5 +59,5 @@ myConfig =
                 |> ewmh
                 |> ewmhFullscreen
                 |> docks
-                -- |> Hacks.javaHack
+                |> Hacks.javaHack
                 |> (return :: a -> IO a)

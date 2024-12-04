@@ -19,7 +19,6 @@ import XMonad.Custom.Scratchpads
 import XMonad.Custom.Theme
 import XMonad.Hooks.CurrentWorkspaceOnTop
 import XMonad.Hooks.EwmhDesktops
-import XMonad.Hooks.RefocusLast
 import XMonad.Hooks.ShowWName
 import XMonad.Hooks.StatusBar.PP
 import XMonad.StackSet qualified as W
@@ -28,6 +27,9 @@ import XMonad.Util.NamedScratchpad hiding (
   namedScratchpadFilterOutWorkspace,
  )
 import XMonad.Util.WorkspaceCompare
+import qualified Data.Map as Map
+import Data.IORef
+import System.IO.Unsafe (unsafePerformIO)
 
 
 -- layoutIcon :: String -> String
@@ -38,8 +40,19 @@ import XMonad.Util.WorkspaceCompare
 --              | "OneBig" `isInfixOf` l      = " <fn=1>\57377</fn>"
 --              | otherwise                   = ""
 
+-- Create a global cache for layout names
+layoutNameCache :: IORef (Map.Map String String)
+layoutNameCache = unsafePerformIO $ newIORef Map.empty
+
 layoutName :: String -> String
-layoutName l = fromMaybe "" $ find (`isInfixOf` l) layoutNames
+layoutName l = unsafePerformIO $ do
+  cache <- readIORef layoutNameCache
+  case Map.lookup l cache of
+    Just name -> return name
+    Nothing -> do
+      let name = fromMaybe "" $ find (`isInfixOf` l) layoutNames
+      modifyIORef' layoutNameCache (Map.insert l name)
+      return name
 
 windowCount =
   Just
@@ -118,6 +131,5 @@ logHook = do
   masterHistoryHook
   currentWorkspaceOnTop
   showWNameLogHook def
-  -- refocusLastLogHook
   -- fadeWindowsLogHook myFadeHook
   -- nsHideOnFocusLoss scratchpads

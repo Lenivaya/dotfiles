@@ -3,17 +3,19 @@
 # If -f, then put computer to sleep.
 # Otherwise, lock screen and turn off monitor.
 
-function betterlockscreen_command {
-  # betterlockscreen -l dim -- --layout-pos="ix-1000:iy+1000" --time-size="25" --verif-text="" >/dev/null
-  betterlockscreen -l dim --off "$1" -- --verif-text="" >/dev/null
-}
+# function betterlockscreen_command {
+#   # betterlockscreen -l dim -- --layout-pos="ix-1000:iy+1000" --time-size="25" --verif-text="" >/dev/null
+#   betterlockscreen -l dim --off "$1" -- --verif-text="" >/dev/null
+# }
 
 function lock_screen {
-  pgrep "betterlockscreen" || betterlockscreen_command
+  # pgrep "betterlockscreen" || betterlockscreen_command
+  dm-tool lock
 }
 
 function lock_screen_sleep {
-  pgrep "betterlockscreen" || betterlockscreen_command 10
+  # pgrep "betterlockscreen" || betterlockscreen_command 10
+  dm-tool lock
 }
 
 function print_usage {

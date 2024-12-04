@@ -169,13 +169,13 @@ with my;
         #   p2.watts = 29;
         #   p2.duration = 2.44140625e-3;
         # };
-        # undervolt = enabled // {
-        #   # core = -110;
-        #   # gpu = -110;
-        #   core = -100;
-        #   gpu = -100;
-        #   temp = 97;
-        # };
+        undervolt = enabled // {
+          core = -110;
+          gpu = -110;
+          # core = -90;
+          # gpu = -90;
+          temp = 97;
+        };
       };
       gpu = {
         intel = enabled;
@@ -299,8 +299,8 @@ with my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   services.scx = enabled // {
-    # package = pkgs.scx_git.full;
-    package = pkgs.unstable.scx.rustscheds;
+    # package = pkgs.unstable.scx.rustscheds;
+    package = pkgs.scx_git.full;
     scheduler = "scx_bpfland";
   };
 

@@ -148,6 +148,7 @@ layoutHook =
      maximize
     .> minimize
     .> centeredIfSingle 0.9 0.95
+    .> refocusLastLayoutHook
     .> subLayout [] (Simplest ||| Accordion)
     .> addTabs shrinkText tabTheme
     .> windowNavigation
@@ -159,7 +160,6 @@ layoutHook =
     .> mkToggle (single REFLECTX)
     .> mkToggle (single REFLECTY)
     .> lessBorders OnlyLayoutFloat
-    .> refocusLastLayoutHook
     .> magnifierczOff' 1.3
     .> layoutHintsToCenter
     .> boringWindows

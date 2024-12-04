@@ -41,18 +41,19 @@ serverEventHooks =
         0.5
         . wrap "  " "  "
 
-myFloatConfReqHook :: MaybeMaybeManageHook
-myFloatConfReqHook = composeAll [
-  className =? "URxvt" -?> pure <$> doFloat,
-  className =? "TelegramDesktop" -?> pure <$> doFloat
-                                ]
+-- myFloatConfReqHook :: MaybeMaybeManageHook
+-- myFloatConfReqHook = composeAll [
+--   className =? "URxvt" -?> pure <$> doFloat,
+--   className =? "TelegramDesktop" -?> pure <$> doFloat
+--                                 ]
 
 handleEventHook :: Event -> X All
 handleEventHook =
   mconcat hooks
   where
     hooks =
-      [
+      serverEventHooks
+      ++ [
         -- perWindowKbdLayout,
         -- floatConfReqHook myFloatConfReqHook,
         handleTimerEvent,
@@ -65,4 +66,3 @@ handleEventHook =
         -- Hacks.windowedFullscreenFixEventHook,
         -- , onTitleChange manageHook
       ]
-        ++ serverEventHooks

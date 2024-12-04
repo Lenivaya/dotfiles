@@ -524,6 +524,5 @@
   "rust-analyzer.cachePriming.enable": false,
   "rust-analyzer.server.path": "rust-analyzer",
   "editor.renderWhitespace": "all",
-  "editor.minimap.enabled": true,
   "debug.toolBarLocation": "docked"
 }

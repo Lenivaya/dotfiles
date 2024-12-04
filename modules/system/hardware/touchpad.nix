@@ -46,7 +46,6 @@ in
         xdotool
         skippy-xd
         wmctrl
-        betterlockscreen
         procps
       ];
       script = getExe pkgs.libinput-gestures;

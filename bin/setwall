@@ -16,7 +16,7 @@ setwall() {
 }
 
 updatewall() {
-  betterlockscreen -u "$wallpaper" &
+  # betterlockscreen -u "$wallpaper" &
   echo "$wallname" >"$cachefile"
 }
 

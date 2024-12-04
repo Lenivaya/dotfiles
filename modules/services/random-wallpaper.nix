@@ -32,14 +32,14 @@ in
 
       path = with pkgs; [
         feh
-        betterlockscreen
+        # betterlockscreen
       ];
       script = ''
         feh --randomize --recursive --bg-fill ${cfg.wallpapersDir}
-        betterlockscreen -u $(
-          cat ~/.fehbg | grep -o "'[^']*'" | head -n1 | sed "s/'//g"
-        )
       '';
+      # betterlockscreen -u $(
+      #   cat ~/.fehbg | grep -o "'[^']*'" | head -n1 | sed "s/'//g"
+      # )
     };
   };
 }

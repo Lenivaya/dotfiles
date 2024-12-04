@@ -7,8 +7,8 @@
 with lib;
 with lib.my;
 let
-  inherit (config.dotfiles) configDir;
-  inherit (config) modules;
+  # inherit (config.dotfiles) configDir;
+  # inherit (config) modules;
 
   cfg = config.modules.desktop.lockscreen;
   socket = "/tmp/xidlehook.sock";
@@ -21,15 +21,15 @@ in
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
-      betterlockscreen
+      # betterlockscreen
       xidlehook
       my.caffeinate
     ];
 
-    home.configFile."betterlockscreen/betterlockscreenrc" = {
-      source = "${configDir}/betterlockscreen/betterlockscreenrc";
-      recursive = true;
-    };
+    # home.configFile."betterlockscreen/betterlockscreenrc" = {
+    #   source = "${configDir}/betterlockscreen/betterlockscreenrc";
+    #   recursive = true;
+    # };
 
     # home.services.xidlehook =
     #   enabled
@@ -48,7 +48,8 @@ in
       };
 
       path = with pkgs; [
-        betterlockscreen
+        # betterlockscreen
+        lightdm
         xorg.xrandr
         gawk
       ];
@@ -66,7 +67,8 @@ in
                   'xrandr --output "$PRIMARY_DISPLAY" --brightness .1' \
                   'xrandr --output "$PRIMARY_DISPLAY" --brightness 1' \
               ''
-              "--timer 200 'betterlockscreen -l dim' ''"
+              # "--timer 200 'betterlockscreen -l dim' ''"
+              "--timer 200 'dm-tool lock' ''"
             ]
             # ++ optional modules.hardware.profiles.laptop.enable ''--timer 3600 "systemctl suspend" ""''
             ++ optional cfg.autoSuspend ''--timer 200 "systemctl suspend" ""''

@@ -16,6 +16,7 @@ import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
 import XMonad.StackSet as W
 import XMonad.Util.NamedScratchpad
+import XMonad.Custom.Workspaces (wsNames)
 
 composeActions :: [MaybeManageHook]
 composeActions =
@@ -38,7 +39,7 @@ composeActions =
     className =? "gcr-prompter" <||> className =? "Gcr-prompter" -?> doCenterFloat,
     className =? "Safeeyes" -?> doFullFloat,
     className =? "Avizo-service" -?> doIgnore,
-    className =? "gitbutler-tauri" -?> doShift git,
+    className =? "gitbutler-tauri" -?> doShift (git wsNames),
     className
       =? "jetbrains-toolbox"
       <||> appName
