@@ -1637,6 +1637,7 @@ More dictionaries
 #+begin_src emacs-lisp :tangle packages.el
 (package! copilot
   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
+(package! copilot-chat)
 #+end_src
 #+begin_src emacs-lisp
 (use-package! copilot
@@ -1661,6 +1662,7 @@ More dictionaries
   (add-to-list 'copilot-indentation-alist '(closure-mode 2))
   (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2))
   )
+(use-package! copilot-chat)
 #+end_src
 
 ** Lsp tailwind

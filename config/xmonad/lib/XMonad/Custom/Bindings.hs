@@ -181,7 +181,8 @@ keysBase =
 keysSelect :: Keybindings
 keysSelect =
   [ ("M-s k", selectKbdLayout $ promptNoCompletion promptTheme),
-    ("M-s l", wrapKbdLayout $ selectLayoutByName promptTheme)
+    ("M-s l", wrapKbdLayout $ selectLayoutByName promptTheme),
+    ("M-s S-l", switchToMRUKbdLayout)
   ]
 
 keysPass :: Keybindings

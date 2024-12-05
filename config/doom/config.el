@@ -756,6 +756,7 @@ T - tag prefix
   (add-to-list 'copilot-indentation-alist '(closure-mode 2))
   (add-to-list 'copilot-indentation-alist '(emacs-lisp-mode 2))
   )
+(use-package! copilot-chat)
 ;; Copilot:2 ends here
 
 ;; [[file:config.org::*Lsp tailwind][Lsp tailwind:2]]

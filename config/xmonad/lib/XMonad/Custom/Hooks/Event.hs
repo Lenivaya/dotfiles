@@ -26,20 +26,18 @@ import XMonad.Util.Hacks qualified as Hacks
 import XMonad.Util.Loggers.NamedScratchpad
 import XMonad.Hooks.FloatConfigureReq
 import XMonad.Hooks.ManageHelpers
+-- import XMonad.Custom.Actions.Keyboard
 
 myRefocusPred = refocusingIsActive <||> isFloat
 -- swallower prog = swallowEventHook (className =? prog) (pure True)
 
+flash' :: String -> X ()
+flash' text = do
+  -- updateMRULayout text
+  flashText def {st_font = "xft:monospace:size=25"} 0.5 (wrap "  " "  " text)
+
 serverEventHooks =
   [serverModeEventHookF "XMONAD_SHOW_TEXT" flash']
-  where
-    flash' =
-      flashText
-        def
-          { st_font = "xft:monospace:size=25"
-          }
-        0.5
-        . wrap "  " "  "
 
 -- myFloatConfReqHook :: MaybeMaybeManageHook
 -- myFloatConfReqHook = composeAll [
@@ -52,17 +50,17 @@ handleEventHook =
   mconcat hooks
   where
     hooks =
-      serverEventHooks
-      ++ [
+      [
         -- perWindowKbdLayout,
         -- floatConfReqHook myFloatConfReqHook,
         handleTimerEvent,
         refocusLastWhen myRefocusPred,
         nspTrackHook scratchpads,
-        fixSteamFlicker,
         Hacks.trayerAboveXmobarEventHook,
-        Hacks.trayerPaddingXmobarEventHook
+        Hacks.trayerPaddingXmobarEventHook,
+        fixSteamFlicker
         -- mconcat $ swallower <$> ["Alacritty", "St"]
         -- Hacks.windowedFullscreenFixEventHook,
         -- , onTitleChange manageHook
       ]
+      ++ serverEventHooks

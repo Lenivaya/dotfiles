@@ -188,17 +188,30 @@ with lib.my;
 
       cpu = {
         tdp = {
-          p1.watts = 37;
-          p1.duration = 28.0;
-          p2.watts = 47;
-          p2.duration = 2.44140625e-3;
+          battery = {
+            risky = true;
+            p1.watts = 37;
+            p1.duration = 28.0;
+            p2.watts = 47;
+            p2.duration = 2.44140625e-3;
+            cTDP = 1;
+          };
+          ac = {
+            risky = true;
+            updateRate = 1;
+            p1.watts = 80;
+            p1.duration = 28.0;
+            p2.watts = 80;
+            p2.duration = 2.44140625e-3;
+            cTDP = 2;
+          };
         };
         undervolt = enabled // rec {
           core = -70;
           gpu = -30;
-          temp = 95;
           uncore = core;
           analogio = core;
+          temp = 95;
         };
       };
       gpu = {
@@ -397,7 +410,7 @@ with lib.my;
 
   # services.safeeyes = enabled;
 
-  # modules.services.zcfan = enabled;
+  modules.services.zcfan = enabled;
   services.thermald = mkForce disabled;
   services.throttled = mkForce enabled;
 

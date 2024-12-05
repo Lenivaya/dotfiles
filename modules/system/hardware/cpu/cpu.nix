@@ -7,27 +7,78 @@ in
 {
   options.modules.hardware.cpu = {
     tdp = {
-      p1 = {
-        watts = mkOption {
+      battery = {
+        risky = mkBoolOpt false;
+        updateRate = mkOption {
           type = types.int;
-          default = 0;
+          default = 30;
         };
 
-        duration = mkOption {
-          type = types.float;
-          default = 0.0;
+        p1 = {
+          watts = mkOption {
+            type = types.int;
+            default = 0;
+          };
+
+          duration = mkOption {
+            type = types.float;
+            default = 0.0;
+          };
+        };
+
+        p2 = {
+          watts = mkOption {
+            type = types.int;
+            default = 0;
+          };
+
+          duration = mkOption {
+            type = types.float;
+            default = 0.0;
+          };
+        };
+
+        cTDP = mkOption {
+          type = types.int;
+          default = 0;
+          description = "Set cTDP to normal=0, down=1 or up=2 (EXPERIMENTAL)";
         };
       };
-
-      p2 = {
-        watts = mkOption {
+      ac = {
+        risky = mkBoolOpt false;
+        updateRate = mkOption {
           type = types.int;
-          default = 0;
+          default = 5;
         };
 
-        duration = mkOption {
-          type = types.float;
-          default = 0.0;
+        p1 = {
+          watts = mkOption {
+            type = types.int;
+            default = 0;
+          };
+
+          duration = mkOption {
+            type = types.float;
+            default = 0.0;
+          };
+        };
+
+        p2 = {
+          watts = mkOption {
+            type = types.int;
+            default = 0;
+          };
+
+          duration = mkOption {
+            type = types.float;
+            default = 0.0;
+          };
+        };
+
+        cTDP = mkOption {
+          type = types.int;
+          default = 0;
+          description = "Set cTDP to normal=0, down=1 or up=2 (EXPERIMENTAL)";
         };
       };
     };
@@ -108,29 +159,33 @@ in
           };
 
           BATTERY = {
-            Update_Rate_s = 32;
-            PL1_Tdp_W = cfg.tdp.p1.watts;
-            PL1_Duration_s = cfg.tdp.p1.duration;
-            PL2_Tdp_W = cfg.tdp.p2.watts;
-            PL2_Duration_S = cfg.tdp.p2.duration;
-            Trip_Temp_C = 80;
+            Update_Rate_s = 30;
+            PL1_Tdp_W = cfg.tdp.battery.p1.watts;
+            PL1_Duration_s = cfg.tdp.battery.p1.duration;
+            PL2_Tdp_W = cfg.tdp.battery.p2.watts;
+            PL2_Duration_S = cfg.tdp.battery.p2.duration;
+            # Trip_Temp_C = 85;
+            Trip_Temp_C = cfg.undervolt.temp;
             # Set cTDP to normal=0, down=1 or up=2 (EXPERIMENTAL)
-            cTDP = 0;
+            cTDP = cfg.tdp.battery.cTDP;
             # Disable BDPROCHOT (EXPERIMENTAL)
-            Disable_BDPROCHOT = false;
+            Disable_BDPROCHOT = cfg.tdp.battery.risky;
           };
 
           AC = {
-            Update_Rate_s = 8;
-            PL1_Tdp_W = cfg.tdp.p1.watts;
-            PL1_Duration_s = cfg.tdp.p1.duration;
-            PL2_Tdp_W = cfg.tdp.p2.watts;
-            PL2_Duration_S = cfg.tdp.p2.duration;
-            Trip_Temp_C = 95;
+            Update_Rate_s = 5;
+            PL1_Tdp_W = cfg.tdp.ac.p1.watts;
+            PL1_Duration_s = cfg.tdp.ac.p1.duration;
+            PL2_Tdp_W = cfg.tdp.ac.p2.watts;
+            PL2_Duration_S = cfg.tdp.ac.p2.duration;
+            # Trip_Temp_C = 95;
+            Trip_Temp_C = cfg.undervolt.temp;
             # Set HWP energy performance hints to 'performance' on high load (EXPERIMENTAL)
             HWP_Mode = true;
-            cTDP = 0;
-            Disable_BDPROCHOT = false;
+            # Set cTDP to normal=0, down=1 or up=2 (EXPERIMENTAL)
+            cTDP = cfg.tdp.ac.cTDP;
+            # Disable BDPROCHOT (EXPERIMENTAL)
+            Disable_BDPROCHOT = cfg.tdp.ac.risky;
           };
 
           # In theory, the undervolting can be more aggressive since the cpu isn't as stressed

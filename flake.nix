@@ -1,5 +1,5 @@
 {
-  description = "Config...";
+ description = "Config...";
 
   # https://github.com/nix-community/haumea ?
 

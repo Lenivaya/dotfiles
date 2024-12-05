@@ -149,6 +149,7 @@
 ;; [[file:config.org::*Copilot][Copilot:1]]
 (package! copilot
   :recipe (:host github :repo "copilot-emacs/copilot.el" :files ("*.el")))
+(package! copilot-chat)
 ;; Copilot:1 ends here
 
 ;; [[file:config.org::*Lsp tailwind][Lsp tailwind:1]]

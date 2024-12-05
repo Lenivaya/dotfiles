@@ -128,14 +128,14 @@ projects =
       spawnTerminalWith "SPACE-ANALYZER" "--hold -e duf"
       spawnTerminalWith "SPACE-ANALYZER" "-e dua i ~/",
     makeProject "WEATHER" $ Just $ do
-      spawnTerminalWith "WEATHER" "-e curl wttr.in"
+      spawnTerminalWith "WEATHER" "--hold -e curl wttr.in"
       spawnBrowserWithUrl "WEATHER" "https://merrysky.net/",
     makeProject "DEV" $ Just $ do
       spawnOn "DEV" "cursor"
       spawnTerminalWith "DEV" "-e tmux"
       spawnBrowserWithUrl "DEV" "https://devdocs.io",
     makeProject "NET" $ Just $ do
-      spawnTerminalWith "NET" "-e , speedtest-rs"
+      spawnTerminalWith "NET" "--hold -e , speedtest-rs"
       spawnTerminalWith "NET" "-e , bmon",
     makeProject "LOGS" $ Just $ do
       spawnTerminalWith "LOGS" "--hold -e journalctl -f",
@@ -151,6 +151,8 @@ projects =
     makeProject "CRYPTO" $ Just $ do
       spawnTerminalWith "CRYPTO" "-e , cointop"
       spawnBrowserWithUrls "CRYPTO" ["https://x.com", "https://dropstab.com", "https://binance.com"],
-    makeProject "STREAM" $ Just $ do
-      spawnOn "STREAM" "obs"
+    makeProject "REC" $ Just $ do
+      spawnOn "REC" "obs",
+    makeProject "WATCH" $ Just $ do
+      spawnBrowserWithUrls "WATCH" ["https://youtube.com", "https://www.youtube.com/playlist?list=WL"]
   ]

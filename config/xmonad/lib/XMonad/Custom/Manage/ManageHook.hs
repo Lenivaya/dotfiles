@@ -6,7 +6,7 @@ import XMonad hiding (manageHook)
 import XMonad.Actions.SpawnOn
 import XMonad.Custom.Manage.ManageHelpers
 import XMonad.Custom.Scratchpads
-import XMonad.Custom.Workspaces (git)
+import XMonad.Custom.Workspaces (git, wsNames)
 import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.InsertPosition
 import XMonad.Hooks.ManageDocks
@@ -16,7 +16,6 @@ import XMonad.Layout.Fullscreen
 import XMonad.Layout.NoBorders
 import XMonad.StackSet as W
 import XMonad.Util.NamedScratchpad
-import XMonad.Custom.Workspaces (wsNames)
 
 composeActions :: [MaybeManageHook]
 composeActions =
@@ -64,8 +63,7 @@ composeActions =
 manageHook :: ManageHook
 manageHook =
   composeAll
-    [
-      manageSpawn,
+    [ manageSpawn,
       composeOne composeActions,
       namedScratchpadManageHook scratchpads
     ]

@@ -1,7 +1,29 @@
-module XMonad.Custom.Actions.Keyboard where
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE NamedFieldPuns #-}
+{-# LANGUAGE OverloadedStrings #-}
+{-# LANGUAGE RecordWildCards #-}
 
-import Control.Monad
+module XMonad.Custom.Actions.Keyboard (
+  -- * Types
+  LayoutSwitch (..),
+
+  -- * Core functions
+  setKbdLayout,
+  switchToMRUKbdLayout,
+  selectKbdLayout,
+  wrapKbdLayout,
+
+  -- * Utility functions
+  getCurrentLayout,
+  getKbdLayouts,
+  getRecentLayouts,
+) where
+
+import Control.Monad (unless)
+import Data.Char (isSpace)
 import Data.IORef
+import Data.List (nub)
+import Data.Maybe (listToMaybe)
 import System.IO.Unsafe (unsafePerformIO)
 import XMonad
 import XMonad.Actions.ShowText
@@ -9,53 +31,95 @@ import XMonad.Custom.Prompt
 import XMonad.Prompt
 import XMonad.Util.Run (runProcessWithInput)
 
--- | Set the keyboard layout using xkb-switch
-setKbdLayout :: String -> X ()
-setKbdLayout layout = spawn $ "xkb-switch -s " ++ layout
+-- | Represents a keyboard layout switch event
+data LayoutSwitch = LayoutSwitch
+  { -- | The layout that was switched to
+    lsLayout :: !String,
+    -- | Whether this was a service switch (e.g., temporary English for input)
+    lsIsService :: !Bool
+  }
+  deriving (Show, Eq)
 
--- | Cache for storing the list of keyboard layouts
-{-# NOINLINE cachedLayouts #-}
-cachedLayouts :: IORef (Maybe [String])
-cachedLayouts = unsafePerformIO $ newIORef Nothing
+-- | Maximum number of events to store
+maxEventHistory :: Int
+maxEventHistory = 5
 
-{-| Get the list of available keyboard layouts
-This function caches the result to avoid repeated system calls
--}
+-- | Cache for storing layout switch history
+{-# NOINLINE layoutSwitchHistory #-}
+layoutSwitchHistory :: IORef [LayoutSwitch]
+layoutSwitchHistory = unsafePerformIO $ newIORef []
+
+-- | Create a new layout switch event
+mkLayoutSwitch :: String -> Bool -> LayoutSwitch
+mkLayoutSwitch layout = LayoutSwitch (cleanLayout layout)
+  where
+    cleanLayout = filter (not . isSpace)
+
+-- | Update the layout switch history
+recordLayoutSwitch :: LayoutSwitch -> X ()
+recordLayoutSwitch switch@LayoutSwitch {..}
+  | lsIsService = return () -- Don't record service switches
+  | otherwise = liftIO $ modifyIORef layoutSwitchHistory updateHistory
+  where
+    updateHistory history =
+      take maxEventHistory $
+        switch
+          : filter (\LayoutSwitch {lsLayout = layout} -> layout /= lsLayout) history
+
+-- | Get the most recent non-service layout different from the current one
+getMRULayout :: String -> X (Maybe String)
+getMRULayout currentLayout = do
+  history <- liftIO $ readIORef layoutSwitchHistory
+  pure $
+    listToMaybe
+      [ lsLayout switch
+        | switch <- history,
+          not (lsIsService switch),
+          lsLayout switch /= currentLayout
+      ]
+
+-- | Set keyboard layout with history tracking
+setKbdLayout :: Bool -> String -> X ()
+setKbdLayout isService layout = do
+  let switch = mkLayoutSwitch layout isService
+  unless isService $ recordLayoutSwitch switch
+  spawn $ "xkb-switch -s " ++ lsLayout switch
+
+-- | Switch to the most recently used non-service layout
+switchToMRUKbdLayout :: X ()
+switchToMRUKbdLayout = do
+  current <- mkLayoutSwitch <$> getCurrentLayout <*> pure False
+  getMRULayout (lsLayout current) >>= \case
+    Just layout -> setKbdLayout False layout
+    Nothing -> return ()
+
+-- | Wrap an action with keyboard layout switching
+wrapKbdLayout :: X () -> X ()
+wrapKbdLayout action = do
+  layoutBeforeAction <- getCurrentLayout
+  setKbdLayout True "us" -- Mark as service switch
+  action
+  setKbdLayout True layoutBeforeAction -- Mark as service switch
+
+-- | Get recent non-service layouts (for debugging)
+getRecentLayouts :: X [String]
+getRecentLayouts = do
+  history <- liftIO $ readIORef layoutSwitchHistory
+  pure . nub $
+    [ lsLayout switch
+      | switch <- history,
+        not (lsIsService switch)
+    ]
+
+-- | Get available keyboard layouts
 getKbdLayouts :: X [String]
-getKbdLayouts = do
-  cached <- liftIO $ readIORef cachedLayouts
-  case cached of
-    Just layouts -> return layouts
-    Nothing -> do
-      layouts <- lines <$> runProcessWithInput "xkb-switch" ["-l"] ""
-      liftIO $ writeIORef cachedLayouts (Just layouts)
-      return layouts
+getKbdLayouts =
+  filter (not . null) . lines
+    <$> runProcessWithInput "xkb-switch" ["-l"] ""
 
 -- | Get the current keyboard layout
 getCurrentLayout :: X String
 getCurrentLayout = runProcessWithInput "xkb-switch" ["-p"] ""
-
--- | Switch to the default keyboard layout (US)
-switchToDefault :: X ()
-switchToDefault = setKbdLayout "us"
-
-{-| Wrap an action with keyboard layout switching
-Switches to the default layout before the action and restores the original layout after
--}
-wrapKbdLayout
-  :: X ()
-  -- ^ The action to be performed
-  -> X ()
-  -- ^ An XMonad action with modified keyboard layout
-wrapKbdLayout action = do
-  layoutBeforeAction <- getCurrentLayout
-  switchToDefault
-  action
-  setKbdLayout layoutBeforeAction
-
--- | Perform an action with the default keyboard layout
-withDefaultKbdLayout :: X () -> X ()
-withDefaultKbdLayout action = switchToDefault >> action
 
 -- | Prompt for selecting a keyboard layout
 data KbdLayoutPrompt = KbdLayoutPrompt
@@ -69,8 +133,7 @@ kbdHelpConfig = def {st_font = "xft:monospace:size=20"}
 
 -- | Prompt the user to select a keyboard layout
 selectKbdLayout :: XPConfig -> X ()
-selectKbdLayout conf = do
-  switchToDefault
+selectKbdLayout conf = wrapKbdLayout $ do
   layouts <- getKbdLayouts
   flashText kbdHelpConfig 0.5 (unwords layouts)
-  mkXPrompt KbdLayoutPrompt conf (listCompFunc conf layouts) setKbdLayout
+  mkXPrompt KbdLayoutPrompt conf (listCompFunc conf layouts) (setKbdLayout False)

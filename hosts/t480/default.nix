@@ -163,18 +163,31 @@ with my;
       };
       cpu.intel = enabled;
       cpu = {
-        # tdp = {
-        #   p1.watts = 200;
-        #   p1.duration = 28.0;
-        #   p2.watts = 29;
-        #   p2.duration = 2.44140625e-3;
-        # };
-        undervolt = enabled // {
+        tdp = {
+          battery = {
+            risky = true;
+            p1.watts = 29;
+            p1.duration = 28.0;
+            p2.watts = 44;
+            p2.duration = 2.44140625e-3;
+            cTDP = 1;
+          };
+          ac = {
+            risky = true;
+            updateRate = 1;
+            p1.watts = 64;
+            p1.duration = 28.0;
+            p2.watts = 64;
+            p2.duration = 2.44140625e-3;
+            cTDP = 2;
+          };
+        };
+        undervolt = enabled {
           core = -110;
           gpu = -110;
-          # core = -90;
-          # gpu = -90;
-          temp = 97;
+          temp = 95;
+          # uncore = core;
+          # analogio = core;
         };
       };
       gpu = {
@@ -405,10 +418,9 @@ with my;
 
   services.smartd = enabled;
 
-  # modules.services.zcfan = enabled;
-  # services.thermald = mkForce disabled;
-  # services.throttled = mkForce enabled;
-  services.throttled = mkForce disabled;
+  modules.services.zcfan = enabled;
+  services.thermald = mkForce disabled;
+  services.throttled = mkForce enabled;
 
   # Dirty hack to have hosts file modifiable
   # (will be discarded on config change or reboot) [1]

@@ -15,7 +15,6 @@ import qualified Data.Map as M
 import Data.Ratio ((%))
 import XMonad hiding (layoutHook)
 
-
 import Flow
 
 -- import XMonad.Actions.MouseResize
@@ -145,7 +144,7 @@ defaultLayout = head layoutNames
 -- . magnifierOff
 -- . onWorkspace wsread (circle ||| flex ||| onebig)
 layoutHook =
-     maximize
+  maximize
     .> minimize
     .> centeredIfSingle 0.9 0.95
     .> refocusLastLayoutHook

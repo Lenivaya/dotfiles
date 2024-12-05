@@ -23,6 +23,7 @@ import XMonad.Hooks.ShowWName
 import XMonad.Hooks.StatusBar.PP
 import XMonad.StackSet qualified as W
 import XMonad.Util.ClickableWorkspaces
+import XMonad.Util.Loggers.NamedScratchpad
 import XMonad.Util.NamedScratchpad hiding (
   namedScratchpadFilterOutWorkspace,
  )
