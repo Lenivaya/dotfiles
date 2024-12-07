@@ -1,5 +1,5 @@
 _final: prev: {
-  zcfan = prev.zcfan.overrideAttrs (oa: {
+  zcfan = prev.zcfan.overrideAttrs (_oa: {
     src = prev.fetchFromGitHub {
       owner = "cdown";
       repo = "zcfan";
