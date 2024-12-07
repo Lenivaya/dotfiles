@@ -166,9 +166,9 @@ with my;
         tdp = {
           battery = {
             risky = true;
-            p1.watts = 29;
+            p1.watts = 15;
             p1.duration = 28.0;
-            p2.watts = 44;
+            p2.watts = 30;
             p2.duration = 2.44140625e-3;
             cTDP = 1;
           };
@@ -182,12 +182,9 @@ with my;
             cTDP = 2;
           };
         };
-        undervolt = enabled {
+        undervolt = enabled // {
           core = -110;
           gpu = -110;
-          temp = 95;
-          # uncore = core;
-          # analogio = core;
         };
       };
       gpu = {

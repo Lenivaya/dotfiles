@@ -20,8 +20,8 @@ in
 
   config = mkIf cfg.enable {
     programs.spicetify = enabled // {
-      # theme = spicePkgs.themes.text;
-      theme = spicePkgs.themes.spotifyNoPremium;
+      theme = spicePkgs.themes.text;
+      # theme = spicePkgs.themes.spotifyNoPremium;
 
       enabledCustomApps = with spicePkgs.apps; [
         lyricsPlus

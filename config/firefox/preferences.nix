@@ -188,4 +188,7 @@
 
   # obsidian clipper
   "extensions.openPopupWithoutUserGesture.enabled" = true;
+
+  # Tab groups
+  "browser.tabs.groups.enabled" = true;
 }

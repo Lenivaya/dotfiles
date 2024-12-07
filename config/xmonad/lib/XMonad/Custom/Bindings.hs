@@ -180,7 +180,7 @@ keysBase =
 
 keysSelect :: Keybindings
 keysSelect =
-  [ ("M-s k", selectKbdLayout $ promptNoCompletion promptTheme),
+  [ ("M-s k", selectKbdLayout promptTheme),
     ("M-s l", wrapKbdLayout $ selectLayoutByName promptTheme),
     ("M-s S-l", switchToMRUKbdLayout)
   ]
@@ -374,7 +374,6 @@ mouseBindings config =
       -- mod-button2, Raise the window to the top of the stack
       ((mod4Mask, button2), \w -> focus w >> windows S.shiftMaster),
       -- mod-button3, Set the window to floating mode and resize by dragging
-
       ( (mod4Mask, button3),
         \w -> focus w >> mouseResizeWindow w >> windows S.shiftMaster
       ),
@@ -382,10 +381,10 @@ mouseBindings config =
       ((mod4Mask, button4), \w -> withFocused minimizeWindow),
       ((mod4Mask, button5), \w -> withLastMinimized maximizeWindowAndFocus),
       -- Dragging of tiled windows
-      ((modMask .|. shiftMask, button1), dragWindow),
+      ((modMask .|. shiftMask, button1), dragWindow)
       --- Some touchpad things
-      -- Go to next workspace on left scroll
-      ((mod4Mask, 7), const nextNonEmptyWS),
-      -- Go to previous workspace on right scroll
-      ((mod4Mask, 6), const prevNonEmptyWS)
+      -- -- Go to next workspace on left scroll
+      -- ((mod4Mask, 7), const nextNonEmptyWS),
+      -- -- Go to previous workspace on right scroll
+      -- ((mod4Mask, 6), const prevNonEmptyWS)
     ]

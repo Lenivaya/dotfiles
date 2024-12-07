@@ -24,6 +24,7 @@ import Data.Char (isSpace)
 import Data.IORef
 import Data.List (nub)
 import Data.Maybe (listToMaybe)
+import Flow ((|>))
 import System.IO.Unsafe (unsafePerformIO)
 import XMonad
 import XMonad.Actions.ShowText
@@ -70,13 +71,13 @@ recordLayoutSwitch switch@LayoutSwitch {..}
 getMRULayout :: String -> X (Maybe String)
 getMRULayout currentLayout = do
   history <- liftIO $ readIORef layoutSwitchHistory
-  pure $
-    listToMaybe
-      [ lsLayout switch
-        | switch <- history,
-          not (lsIsService switch),
-          lsLayout switch /= currentLayout
-      ]
+  pure
+    ( history
+        |> filter (\LayoutSwitch {lsLayout = layout} -> layout /= currentLayout)
+        |> filter (not . lsIsService)
+        |> listToMaybe
+        |> fmap lsLayout
+    )
 
 -- | Set keyboard layout with history tracking
 setKbdLayout :: Bool -> String -> X ()
@@ -105,17 +106,19 @@ wrapKbdLayout action = do
 getRecentLayouts :: X [String]
 getRecentLayouts = do
   history <- liftIO $ readIORef layoutSwitchHistory
-  pure . nub $
-    [ lsLayout switch
-      | switch <- history,
-        not (lsIsService switch)
-    ]
+  pure
+    ( history
+        |> filter (not . lsIsService)
+        |> map lsLayout
+        |> nub
+    )
 
 -- | Get available keyboard layouts
 getKbdLayouts :: X [String]
 getKbdLayouts =
-  filter (not . null) . lines
-    <$> runProcessWithInput "xkb-switch" ["-l"] ""
+  runProcessWithInput "xkb-switch" ["-l"] ""
+    |> fmap lines
+    |> fmap (filter (not . null))
 
 -- | Get the current keyboard layout
 getCurrentLayout :: X String
@@ -133,7 +136,8 @@ kbdHelpConfig = def {st_font = "xft:monospace:size=20"}
 
 -- | Prompt the user to select a keyboard layout
 selectKbdLayout :: XPConfig -> X ()
-selectKbdLayout conf = wrapKbdLayout $ do
+selectKbdLayout conf = do
+  setKbdLayout True "us"
   layouts <- getKbdLayouts
   flashText kbdHelpConfig 0.5 (unwords layouts)
   mkXPrompt KbdLayoutPrompt conf (listCompFunc conf layouts) (setKbdLayout False)
