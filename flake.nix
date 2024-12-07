@@ -167,6 +167,12 @@
           inherit system;
           config.allowUnfree = true;
           config.nvidia.acceptLicense = true;
+          config.permittedInsecurePackages = [
+            "aspnetcore-runtime-6.0.36"
+            "aspnetcore-runtime-wrapped-6.0.36"
+            "dotnet-sdk-6.0.428"
+            "dotnet-sdk-wrapped-6.0.428"
+          ];
           overlays = extraOverlays ++ (lib.attrValues self.overlays);
         };
       pkgs = mkPkgs nixpkgs [ self.overlay ];
