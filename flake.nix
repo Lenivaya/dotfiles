@@ -57,7 +57,6 @@
 
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
 
-    # Firefox
     firefox = {
       url = "github:colemickens/flake-firefox-nightly";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -66,10 +65,10 @@
       url = "github:yokoffing/betterfox";
       flake = false;
     };
-    # minimalisticfox = {
-    #   url = "github:jamir-boop/minimalisticfox";
-    #   flake = false;
-    # };
+    firefox-csshacks = {
+      url = "github:MrOtherGuy/firefox-csshacks";
+      flake = false;
+    };
 
     nixos-hardware.url = "github:nixos/nixos-hardware";
     nixos-facter-modules.url = "github:numtide/nixos-facter-modules";

@@ -512,6 +512,9 @@ with my;
     ];
   };
 
+  networking.wireless.iwd.settings.General.AddressRandomization = "network";
+  networking.wireless.iwd.settings.General.AddressRandomizationRange = "full";
+
   nixpkgs.overlays =
     let
       optimize = pkg: optimizeForThisHost (withClang pkg);

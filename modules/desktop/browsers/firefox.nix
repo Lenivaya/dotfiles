@@ -16,14 +16,43 @@ let
   cfg = config.modules.desktop.browsers.firefox;
   firefoxExtensions = pkgs.nur.repos.rycee.firefox-addons;
 
+  readHack = path: ''
+    ${readFile "${inputs.firefox-csshacks}/${path}"}
+  '';
   userChrome = ''
+    ${readHack "chrome/centered_statuspanel.css"}
+    ${readHack "chrome/urlbar_centered_text.css"}
+    ${readHack "chrome/compact_proton.css"}
+    ${readHack "chrome/compact_urlbar_megabar.css"}
+    ${readHack "chrome/minimal_in-UI_scrollbars.css"}
+
+    ${readHack "chrome/hide_tabs_with_one_tab_w_window_controls.css"}
+    ${readHack "chrome/numbered_tabs.css"}
+    ${readHack "chrome/combined_favicon_and_tab_close_button.css"}
+    ${readHack "chrome/tab_separator_lines.css"}
+    ${readHack "chrome/dual_color_tab_attention_indicator.css"}
+
+    ${readHack "chrome/autohide_bookmarks_and_main_toolbars.css"}
+    ${readHack "chrome/hide_toolbox_top_bottom_borders.css"}
+    ${readHack "chrome/less_static_throbber.css"}
+
+    ${readHack "chrome/iconized_main_menu.css"}
+    ${readHack "chrome/iconized_menubar_items.css"}
+    ${readHack "chrome/iconized_places_context_menu.css"}
+    ${readHack "chrome/iconized_tabs_context_menu.css"}
+    ${readHack "chrome/iconized_textbox_context_menu.css"}
+    ${readHack "chrome/iconized_content_context_menu.css"}
+    ${readHack "chrome/icon_only_context_menu_text_controls.css"}
+
     ${readFile "${configDir}/firefox/userChrome.css"}
   '';
-  # ${readFile "${inputs.minimalisticfox}/userChrome.css"}
   userContent = ''
+    ${readHack "content/compact_about_config.css"}
+    ${readHack "content/compact_addons_manager.css"}
+    ${readHack "content/limit_css_data_leak.css"}
     ${readFile "${configDir}/firefox/userContent.css"}
   '';
-  # ${readFile "${inputs.minimalisticfox}/userContent.css"}
+
   settings = import "${configDir}/firefox/preferences.nix";
   extensions =
     with firefoxExtensions;
@@ -37,11 +66,8 @@ let
       # bypass-paywalls-clean
 
       terms-of-service-didnt-read
-      # consent-o-matic
       don-t-fuck-with-paste
 
-      # tree-style-tab
-      # tst-tab-search
       tab-session-manager
 
       multi-account-containers
@@ -109,6 +135,18 @@ in
   };
 
   config = mkIf cfg.enable {
+    # home-manager.users.${config.user.name} = {
+    #   imports = [ inputs.textfox.homeManagerModules.default ];
+    #   textfox = {
+    #     enable = true;
+    #     profile = "default";
+    #     config = {
+    #       displayHorizontalTabs = true;
+    #       font.family = "monospace";
+    #     };
+    #   };
+    # };
+
     nixpkgs.overlays = [ inputs.nur.overlay ];
 
     env.XDG_DESKTOP_DIR = "$HOME"; # prevent firefox creating ~/Desktop
