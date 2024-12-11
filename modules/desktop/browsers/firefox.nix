@@ -1,5 +1,6 @@
 # https://github.com/SpitFire-666/Firefox-Stuff
 # https://codeberg.org/wolfangaukang/multifirefox ?
+# https://wiki.nixos.org/wiki/Firefox
 {
   config,
   lib,
@@ -54,25 +55,23 @@ let
   '';
 
   settings = import "${configDir}/firefox/preferences.nix";
+  searchEngines = import "${configDir}/firefox/search-engines.nix";
+
   extensions =
     with firefoxExtensions;
     [
       vimium-c
-
       sponsorblock
       ublock-origin
       libredirect
       buster-captcha-solver
       # bypass-paywalls-clean
-
       terms-of-service-didnt-read
       don-t-fuck-with-paste
-
       tab-session-manager
-
+      languagetool
       multi-account-containers
       violentmonkey
-
       refined-github
       reddit-comment-collapser
       reddit-enhancement-suite
@@ -135,18 +134,6 @@ in
   };
 
   config = mkIf cfg.enable {
-    # home-manager.users.${config.user.name} = {
-    #   imports = [ inputs.textfox.homeManagerModules.default ];
-    #   textfox = {
-    #     enable = true;
-    #     profile = "default";
-    #     config = {
-    #       displayHorizontalTabs = true;
-    #       font.family = "monospace";
-    #     };
-    #   };
-    # };
-
     nixpkgs.overlays = [ inputs.nur.overlay ];
 
     env.XDG_DESKTOP_DIR = "$HOME"; # prevent firefox creating ~/Desktop
@@ -178,6 +165,11 @@ in
           userChrome
           userContent
           ;
+
+        search = {
+          force = true;
+          engines = searchEngines;
+        };
 
         extraConfig = concatStringsSep "\n" [
           (readFile "${inputs.betterfox}/Fastfox.js")

@@ -112,7 +112,9 @@ in
     fonts.packages = with pkgs; [ emacs-all-the-icons-fonts ];
 
     home.programs.emacs = enabled // {
-      package = if config.modules.desktop.isWayland then pkgs.emacs29-pgtk else pkgs.emacs-gtk;
+      package = mkDefault (
+        if config.modules.desktop.isWayland then pkgs.emacs29-pgtk else pkgs.emacs-gtk
+      );
       extraPackages = epkgs: with epkgs; [ vterm ];
     };
 

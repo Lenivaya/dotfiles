@@ -79,6 +79,7 @@ with lib.my;
         extraGroups = [
           "wheel"
           "adbuser"
+          "adbusers"
           "networkmanager"
           "video"
           "input"

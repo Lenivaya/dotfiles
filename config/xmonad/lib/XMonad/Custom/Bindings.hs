@@ -170,8 +170,9 @@ keysBase :: Keybindings
 keysBase =
   [ ("M-q q", confirmPrompt (promptNoHistory hotPromptTheme) "Quit XMonad?" $ io exitSuccess),
     -- ("M-q r", spawn "xmonad --recompile" >> restart "xmonad" True),
-    -- ("M-q r", spawn "xmonad --recompile && xmonad --restart"),
-    ("M-q r", spawn "xmonad --restart"),
+    -- ("M-q r", restart "xmonad" True),
+    ("M-q r", spawn "xmonad --recompile; xmonad --restart"),
+    -- ("M-q r", spawn "xmonad --restart"),
     ("M-x", wrapKbdLayout $ shellPrompt $ promptNoCompletion promptTheme),
     ("M-S-x", spawn $ C.appmenu C.applications),
     -- , ("M-c", spawn $ C.clipboardSelector C.applications)

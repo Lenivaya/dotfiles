@@ -48,11 +48,11 @@ with my;
       };
 
       browsers = {
-        default = "firefox-nightly";
+        default = "firefox";
 
         firefox = enabled // {
-          package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
-          executable = "firefox-nightly";
+          package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
+          executable = "firefox";
         };
         chromium = enabled // {
           # package = chrome';
@@ -251,8 +251,8 @@ with my;
             (mkNoPwd pkgs.smartmontools "smartctl")
             (mkNoPwd pkgs.powertop "powertop")
             (mkNoPwd pkgs.intel-gpu-tools "intel_gpu_top")
-            (mkNoPwd pkgs.tlp "tlp ac")
-            (mkNoPwd pkgs.tlp "tlp bat")
+            # (mkNoPwd pkgs.tlp "tlp ac")
+            # (mkNoPwd pkgs.tlp "tlp bat")
           ];
           groups = [ "wheel" ];
         }
@@ -393,22 +393,22 @@ with my;
       vulkan-tools
     ];
   };
-  # chaotic.mesa-git = enabled // {
-  #   fallbackSpecialisation = false;
-  #   method = "replaceRuntimeDependencies";
-  #   extraPackages = with pkgs; [
-  #     libGL
-  #     intel-ocl
-  #     intel-media-driver
-  #     vaapiIntel
-  #     vaapiVdpau
-  #     vpl-gpu-rt
-  #     vulkan-loader
-  #     vulkan-validation-layers
-  #     vulkan-extension-layer
-  #     vulkan-tools
-  #   ];
-  # };
+  chaotic.mesa-git = enabled // {
+    # fallbackSpecialisation = false;
+    # method = "replaceRuntimeDependencies";
+    extraPackages = with pkgs; [
+      libGL
+      intel-ocl
+      intel-media-driver
+      vaapiIntel
+      vaapiVdpau
+      vpl-gpu-rt
+      vulkan-loader
+      vulkan-validation-layers
+      vulkan-extension-layer
+      vulkan-tools
+    ];
+  };
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = mkForce "iHD";
   };
@@ -416,8 +416,9 @@ with my;
   services.smartd = enabled;
 
   modules.services.zcfan = enabled;
-  services.thermald = mkForce disabled;
-  services.throttled = mkForce enabled;
+  # services.thermald = mkForce disabled;
+  # services.throttled = mkForce enabled;
+  services.throttled = mkForce disabled;
 
   # Dirty hack to have hosts file modifiable
   # (will be discarded on config change or reboot) [1]
@@ -515,6 +516,8 @@ with my;
   networking.wireless.iwd.settings.General.AddressRandomization = "network";
   networking.wireless.iwd.settings.General.AddressRandomizationRange = "full";
 
+  home.programs.emacs.package = pkgs.emacs30;
+
   nixpkgs.overlays =
     let
       optimize = pkg: optimizeForThisHost (withClang pkg);
@@ -528,6 +531,7 @@ with my;
           code-cursor
           obsidian
           jetbrains-toolbox
+          protonvpn-gui
           ;
 
         distrobox = prev.distrobox_git;

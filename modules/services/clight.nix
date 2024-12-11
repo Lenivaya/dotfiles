@@ -10,6 +10,7 @@ with lib.my;
   config = mkIf config.modules.desktop.isPureWM {
     services.clight = enabled // {
       settings = {
+        verbose = false;
         dimmer.disabled = true;
         # gamma.long_transition = true;
       };

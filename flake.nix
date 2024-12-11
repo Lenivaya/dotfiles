@@ -7,12 +7,12 @@
     nixpkgs.url = "nixpkgs/nixos-unstable"; # primary nixpkgs
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable"; # for packages on the edge
 
-    git-ignore-nix.url = "github:hercules-ci/gitignore.nix/master";
-
     home-manager = {
       url = "github:nix-community/home-manager";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    git-ignore-nix.url = "github:hercules-ci/gitignore.nix/master";
 
     agenix.url = "github:ryantm/agenix";
     agenix.inputs.nixpkgs.follows = "nixpkgs";

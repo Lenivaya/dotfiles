@@ -58,11 +58,11 @@ with lib.my;
       };
 
       browsers = {
-        default = "firefox-nightly";
+        default = "firefox";
 
         firefox = enabled // {
           package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
-          executable = "firefox-nightly";
+          executable = "firefox";
         };
         # chromium =
         #   let
@@ -411,8 +411,9 @@ with lib.my;
   # services.safeeyes = enabled;
 
   modules.services.zcfan = enabled;
-  services.thermald = mkForce disabled;
-  services.throttled = mkForce enabled;
+  # services.thermald = mkForce disabled;
+  # services.throttled = mkForce enabled;
+  services.throttled = mkForce disabled;
 
   # services.tp-auto-kbbl =
   #   enabled

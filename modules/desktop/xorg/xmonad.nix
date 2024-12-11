@@ -93,7 +93,7 @@ in
       hooks = {
         postswitch = {
           change-wallpaper = "source ~/.fehbg";
-          restart-xmonad = "xmonadctl --restart";
+          restart-xmonad = "xmonad --restart";
         };
       };
     };

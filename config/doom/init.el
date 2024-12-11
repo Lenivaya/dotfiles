@@ -255,20 +255,25 @@
 
 (setenv "LSP_USE_PLISTS" "1")
 
-(defun lsp-booster--advice-json-parse (old-fn &rest args)
-  "Try to parse bytecode instead of json."
-  (or
-   (when (equal (following-char) ?#)
-     (let ((bytecode (read (current-buffer))))
-       (when (byte-code-function-p bytecode)
-         (funcall bytecode))))
-   (apply old-fn args)))
-(advice-add (if (progn (require 'json)
-                       (fboundp 'json-parse-buffer))
-                'json-parse-buffer
-              'json-read)
-            :around
-            #'lsp-booster--advice-json-parse)
+
+;; Not needed since emacs v30 introduced new parser, but we still may benefit
+;; from emacs-lsp-booster
+;; https://github.com/blahgeek/emacs-lsp-booster/issues/25
+;; (defun lsp-booster--advice-json-parse (old-fn &rest args)
+;;   "Try to parse bytecode instead of json."
+;;   (or
+;;    (when (equal (following-char) ?#)
+;;      (let ((bytecode (read (current-buffer))))
+;;        (when (byte-code-function-p bytecode)
+;;          (funcall bytecode))))
+;;    (apply old-fn args)))
+;; (advice-add (if (progn (require 'json)
+;;                        (fboundp 'json-parse-buffer))
+;;                 'json-parse-buffer
+;;               'json-read)
+;;             :around
+;;             #'lsp-booster--advice-json-parse)
+
 
 (defun lsp-booster--advice-final-command (old-fn cmd &optional test?)
   "Prepend emacs-lsp-booster command to lsp CMD."
@@ -280,7 +285,9 @@
              (executable-find "emacs-lsp-booster"))
         (progn
           (message "Using emacs-lsp-booster for %s!" orig-result)
-          (cons "emacs-lsp-booster" orig-result))
+          (append
+           (list "emacs-lsp-booster" "--disable-bytecode" "--")
+           (if (listp orig-result) orig-result (list orig-result))))
       orig-result)))
 
 (advice-add 'lsp-resolve-final-command :around #'lsp-booster--advice-final-command)
