@@ -17,6 +17,8 @@
   "browser.compactmode.show" = true;
   # Start with blank page
   "browser.startup.page" = 0;
+  # don't use system theme
+  "browser.theme.content-theme" = 2;
 
   # Pdf's
   # Don't download pdf's just for previews
@@ -191,4 +193,8 @@
 
   # Tab groups
   "browser.tabs.groups.enabled" = true;
+
+  "app.normandy.first_run" = false;
+  "trailhead.firstrun.didSeeAboutWelcome" = true;
+  "browser.uitour.enabled" = false;
 }

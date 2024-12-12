@@ -152,7 +152,10 @@ in
     ];
 
     # Smooth scrolling
-    environment.sessionVariables.MOZ_USE_XINPUT2 = "1";
+    environment.sessionVariables = {
+      MOZ_WEBRENDER = 1;
+      MOZ_USE_XINPUT2 = "1";
+    };
 
     home.programs.firefox = enabled // {
       package = firefox';
