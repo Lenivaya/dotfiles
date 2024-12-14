@@ -199,4 +199,12 @@
   #unified-extensions-panel .subviewbutton {
     margin: 0 !important;
   }
+
+  /* Shorten the One-Offs Search Icon Bar Vertically */
+  #urlbar .search-one-offs:not([hidden]) {
+    display: none !important;
+  }
+  #urlbar .search-one-offs .search-panel-header {
+    display: none !important;
+  }
 }

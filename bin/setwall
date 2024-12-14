@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Sets the image as a wallpaper for desktop and lock screen
+# Sets the image as a wallpaper for desktop
 
 # Example usage
 # setwall ~/Pictures/walls/Thomas_Cole_-_Dream_of_Arcadia_-_Google_Art_Project.jpg
@@ -7,26 +7,6 @@
 
 set -e
 
-readonly cachefile="$XDG_DATA_HOME/wall"
 wallpaper="${1}"
-wallname="$(basename "$wallpaper")"
 
-setwall() {
-  feh --bg-fill "$wallpaper" &
-}
-
-updatewall() {
-  # betterlockscreen -u "$wallpaper" &
-  echo "$wallname" >"$cachefile"
-}
-
-[ -f "$cachefile" ] && current=$(<"$cachefile") || current=""
-if [[ $current == "$wallname" ]]; then
-  echo "Seems like the wallpaper is already set."
-  exit 1
-else
-  {
-    setwall
-    updatewall
-  } >/dev/null 2>&1
-fi
+feh --bg-fill "$wallpaper" &

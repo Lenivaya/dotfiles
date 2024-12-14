@@ -19,16 +19,6 @@ let
     fi
   '';
 in
-# warpScript = pkgs.writeScriptBin "warp" ''
-#   if systemctl is-active --quiet cloudflare-warp; then
-#       warp-cli disconnect
-#       systemctl stop cloudflare-warp
-#   else
-#       systemctl start cloudflare-warp
-#       sleep 1
-#       warp-cli connect
-#   fi
-# '';
 {
   options.modules.services.warp.enable = mkBoolOpt false;
   config = mkIf cfg.enable {

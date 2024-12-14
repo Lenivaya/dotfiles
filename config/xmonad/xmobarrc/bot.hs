@@ -41,20 +41,21 @@ Config
         --   10
         -- ,
         -- Run Wireless "wlp4s0" ["-t", "<fn=1>\57775</fn> <essid> @ <quality>%"] 10
-        Run Wireless "wlan0" ["-t", "<fn=3></fn> <ssid> @ <quality>%"] 10
-      , Run
+        -- Run Wireless "wlan0" ["-t", "<fn=3></fn> <ssid> @ <quality>%"] 10
+      -- ,
+      Run
           DynNetwork
           -- ["-t", "<fn=1>\57660</fn> <rx> / <fn=1>\57659</fn> <tx> kbps"]
           ["-t", "<fn=3></fn> <rx> / <fn=3></fn> <tx> kbps"]
           10
 
       , Run Date "%d.%m.%y / %A / %H:%M" "date" 10
-      , Run
-          Kbd
-          [ ("us", "<fn=3></fn> English")
-          , ("ru", "<fn=3></fn> Русский")
-          , ("ua", "<fn=3></fn> Українська")
-          ]
+      -- , Run
+      --     Kbd
+      --     [ ("us", "<fn=3></fn> English")
+      --     , ("ru", "<fn=3></fn> Русский")
+      --     , ("ua", "<fn=3></fn> Українська")
+      --     ]
       -- , Run
       --     Alsa
       --     "default"
@@ -90,11 +91,10 @@ Config
   , alignSep = "}{"
   , template =
       " \
-      \%wlan0wi%  -  %dynnetwork%  |  %memory%  |  %multicpu%\
+      \%memory%  |  %multicpu%  |  %dynnetwork%\
       \}\
       \%player%\
       \{\
-      \%warp% %caffeine%   %kbd%  |  %date%\
+      \%warp% %caffeine%   |  %date%\
       \ "
-      -- \%warp% %caffeine%   %kbd%     %alsa:default:Master%\
   }

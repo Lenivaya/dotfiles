@@ -435,7 +435,7 @@ with lib.my;
   environment.etc.hosts.mode = "0644";
 
   # BPF-based auto-tuning of Linux system parameters
-  services.bpftune = enabled;
+  # services.bpftune = enabled;
 
   # Run appimages seamlesssly
   programs.appimage.binfmt = true;
@@ -488,6 +488,8 @@ with lib.my;
   services.avahi = enabled;
 
   services.dnsmasq = mkForce disabled;
+
+  home.programs.emacs.package = pkgs.emacs30;
 
   nixpkgs.overlays =
     let

@@ -148,6 +148,7 @@ with my;
           "pasystray"
           "mictray"
           "kdeconnect-indicator"
+          "gxkb"
         ];
       };
     };
@@ -365,6 +366,7 @@ with my;
     ungoogled-chromium
     wireguard-tools
     deskflow
+    # macchanger
   ];
 
   hardware.graphics = enabled // {
@@ -394,7 +396,7 @@ with my;
     ];
   };
   chaotic.mesa-git = enabled // {
-    # fallbackSpecialisation = false;
+    fallbackSpecialisation = false;
     # method = "replaceRuntimeDependencies";
     extraPackages = with pkgs; [
       libGL
@@ -427,7 +429,7 @@ with my;
   environment.etc.hosts.mode = "0644";
 
   # BPF-based auto-tuning of Linux system parameters
-  services.bpftune = enabled;
+  # services.bpftune = enabled;
 
   # Run appimages seamlesssly
   programs.appimage.binfmt = true;
@@ -527,11 +529,7 @@ with my;
     ++ [
       (_final: prev: {
         inherit (pkgs.unstable)
-          easyeffects
           code-cursor
-          obsidian
-          jetbrains-toolbox
-          protonvpn-gui
           ;
 
         distrobox = prev.distrobox_git;

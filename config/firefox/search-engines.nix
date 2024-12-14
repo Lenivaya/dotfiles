@@ -923,7 +923,10 @@ in
     urls = [ { template = "https://nixpkgs-tracker.ocfox.me/?pr={searchTerms}"; } ];
     iconUpdateURL = "https://ocfox.me/favicon.ico";
     updateInterval = updateOnceInAWeek;
-    definedAliases = [ "@nixpkgs" ];
+    definedAliases = [
+      "@nixpkgstracker"
+      "@nixtrack"
+    ];
   };
 
   "Nuget" = {
@@ -999,5 +1002,12 @@ in
     definedAliases = [
       "@downdetector"
     ];
+  };
+
+  "Pixabay" = {
+    urls = [ { template = "https://pixabay.com/images/search/{searchTerms}"; } ];
+    iconUpdateURL = "https://pixabay.com/favicon.ico";
+    updateInterval = updateOnceInAWeek;
+    definedAliases = [ "@pixabay" ];
   };
 }

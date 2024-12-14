@@ -50,17 +50,17 @@ handleEventHook =
   mconcat hooks
   where
     hooks =
+      serverEventHooks ++
       [
         -- perWindowKbdLayout,
         -- floatConfReqHook myFloatConfReqHook,
-        handleTimerEvent,
         refocusLastWhen myRefocusPred,
         nspTrackHook scratchpads,
         Hacks.trayerAboveXmobarEventHook,
         Hacks.trayerPaddingXmobarEventHook,
-        fixSteamFlicker
+        fixSteamFlicker,
+        handleTimerEvent
         -- mconcat $ swallower <$> ["Alacritty", "St"]
         -- Hacks.windowedFullscreenFixEventHook,
         -- , onTitleChange manageHook
       ]
-      ++ serverEventHooks

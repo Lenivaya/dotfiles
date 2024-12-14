@@ -30,6 +30,7 @@ in
             j = "down";
             k = "up";
             l = "right";
+            "/" = "slash"; # to work across different keyboard layouts
           };
           "alternative_left_control_layer" = {
             z = "f1";

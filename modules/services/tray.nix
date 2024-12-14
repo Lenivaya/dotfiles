@@ -21,6 +21,7 @@ in
       "mictray"
       "udiskie -t"
       "kdeconnect-indicator"
+      "gxkb"
     ];
   };
 
@@ -80,6 +81,7 @@ in
         udiskie
         plasma5Packages.kdeconnect-kde
         cbatticon
+        gxkb
       ];
       script =
         let
