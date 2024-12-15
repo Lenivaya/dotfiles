@@ -181,6 +181,9 @@
   # Allow svgs to take on theme colors
   "svg.context-properties.content.enabled" = true;
 
+  # Enable color-mixing for the layout.css.color-mix.enabled flag
+  "layout.css.color-mix.enabled" = true;
+
   # Seriously. Stop popping up on every damn page. If I want it translated,
   # I know where to find gtranslate/deepl/whatever!
   "browser.translations.automaticallyPopup" = false;

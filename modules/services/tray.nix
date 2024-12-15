@@ -14,6 +14,19 @@ in
   options.modules.services.tray = with types; {
     enable = mkBoolOpt false;
     # trayer = mkBoolOpt false;
+    trayPkgs = mkOpt (listOf package) (
+      with pkgs;
+      [
+        bluez
+        networkmanagerapplet
+        pasystray
+        mictray
+        udiskie
+        plasma5Packages.kdeconnect-kde
+        gxkb
+        indicator-sound-switcher
+      ]
+    );
     trayApps = mkOpt (listOf str) [
       "blueman-applet"
       "nm-applet"
@@ -22,6 +35,7 @@ in
       "udiskie -t"
       "kdeconnect-indicator"
       "gxkb"
+      "indicator-sound-switcher"
     ];
   };
 
@@ -73,16 +87,7 @@ in
         Restart = "always";
       };
 
-      path = with pkgs; [
-        networkmanagerapplet
-        blueman
-        pasystray
-        mictray
-        udiskie
-        plasma5Packages.kdeconnect-kde
-        cbatticon
-        gxkb
-      ];
+      path = cfg.trayPkgs;
       script =
         let
           trayElements = spaceConcat (map spawnCommand cfg.trayApps);

@@ -21,11 +21,14 @@ let
     ${readFile "${inputs.firefox-csshacks}/${path}"}
   '';
   userChrome = ''
+    ${readHack "chrome/hide_statuspanel_when_fullscreen.css"}
     ${readHack "chrome/centered_statuspanel.css"}
+
     ${readHack "chrome/urlbar_centered_text.css"}
     ${readHack "chrome/compact_proton.css"}
     ${readHack "chrome/compact_urlbar_megabar.css"}
     ${readHack "chrome/minimal_in-UI_scrollbars.css"}
+    ${readHack "chrome/classic_grid_main_menu_popup.css"}
 
     ${readHack "chrome/hide_tabs_with_one_tab_w_window_controls.css"}
     ${readHack "chrome/numbered_tabs.css"}
@@ -45,12 +48,17 @@ let
     ${readHack "chrome/iconized_content_context_menu.css"}
     ${readHack "chrome/icon_only_context_menu_text_controls.css"}
 
+    ${readHack "chrome/grid_overflow_menu.css"}
+
     ${readFile "${configDir}/firefox/userChrome.css"}
   '';
   userContent = ''
     ${readHack "content/compact_about_config.css"}
     ${readHack "content/compact_addons_manager.css"}
     ${readHack "content/limit_css_data_leak.css"}
+    ${readHack "content/remove_textbox_focusring.css"}
+    ${readHack "content/transparent_reader_toolbar.css"}
+    ${readHack "content/standalone_image_page_mods.css"}
     ${readFile "${configDir}/firefox/userContent.css"}
   '';
 

@@ -141,6 +141,17 @@ with my;
       # flatpak = enabled;
       # espanso = enabled;
       tray = enabled // {
+        trayPkgs = with pkgs; [
+          bluez
+          networkmanagerapplet
+          pasystray
+          mictray
+          udiskie
+          plasma5Packages.kdeconnect-kde
+          gxkb
+          indicator-sound-switcher
+          spotify-tray
+        ];
         trayApps = [
           "cbatticon"
           "blueman-applet"
@@ -149,6 +160,8 @@ with my;
           "mictray"
           "kdeconnect-indicator"
           "gxkb"
+          "indicator-sound-switcher"
+          "spotify-tray"
         ];
       };
     };
@@ -206,15 +219,6 @@ with my;
     zram = enabled;
     bootsplash = enabled;
     fast-networking = enabled;
-    # powermanagement-resting = enabled // {
-    #   services = [
-    #     "bpftune"
-    #     "docker"
-    #     "fwupd"
-    #     "kdeconnect"
-    #     "picom"
-    #   ];
-    # };
   };
 
   # nix.package = pkgs.unstable.nixVersions.git;

@@ -30,7 +30,7 @@ in
             j = "down";
             k = "up";
             l = "right";
-            "/" = "slash"; # to work across different keyboard layouts
+            "/" = "slash";
           };
           "alternative_left_control_layer" = {
             z = "f1";
@@ -44,6 +44,13 @@ in
             period = "f9";
             slash = "f10";
             space = "rightmouse";
+
+            # to work across different keyboard layouts
+            "i" = "i";
+            "o" = "o";
+            "u" = "u";
+            "a" = "a";
+            "/" = "slash";
           };
         };
         # https://github.com/NixOS/nixpkgs/issues/345167#issuecomment-2380874454

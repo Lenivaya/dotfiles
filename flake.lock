@@ -130,11 +130,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1733879849,
-        "narHash": "sha256-9xAu2td5i2IB9eILgZGjDN2+WCxBbavlmAZLgD7SQ8o=",
+        "lastModified": 1734265937,
+        "narHash": "sha256-qqDA6vAfJkLvNYw4UKzCWmd8lUkJIQJqEhe9JAZh5So=",
         "owner": "colemickens",
         "repo": "flake-firefox-nightly",
-        "rev": "ede26ee860200352c0fc5555af020b80fa8af5e2",
+        "rev": "e29216f72d0f775ff0ca151002b98c8ecf44dbab",
         "type": "github"
       },
       "original": {
@@ -146,11 +146,11 @@
     "firefox-csshacks": {
       "flake": false,
       "locked": {
-        "lastModified": 1733738009,
-        "narHash": "sha256-X+HaGdlkMVKPnsWPUv/f79s6Tx4HymoHQwXYAVKC/Hc=",
+        "lastModified": 1734084346,
+        "narHash": "sha256-+l/dg/aMsJR2HYcuRL6G+bAWg2DQdUEQGjMHg+sputw=",
         "owner": "MrOtherGuy",
         "repo": "firefox-csshacks",
-        "rev": "890a03f4ffd8ba7833a42aaa09d7b40565c04dd4",
+        "rev": "8fdc6419ff85f3214f36a534482157d2e9c57bd5",
         "type": "github"
       },
       "original": {
@@ -532,11 +532,11 @@
         "nixpkgs-lib": "nixpkgs-lib"
       },
       "locked": {
-        "lastModified": 1733660018,
-        "narHash": "sha256-DHW2Hzyo8W6wVPGFaYLM9mKMH/qAtHJSUZ4ti7LHMCY=",
+        "lastModified": 1734264809,
+        "narHash": "sha256-94fu5E0gM8aMY0bX/ix7BWGf/e/OfGjoCtNrJfwL0dM=",
         "owner": "nix-community",
         "repo": "lib-aggregate",
-        "rev": "f710791be27b31ea1ee9c40a94d08bcbba99b3c0",
+        "rev": "46bedda9e45f2735f41ec3c01cba2b8ce7ba9808",
         "type": "github"
       },
       "original": {
@@ -713,11 +713,11 @@
     },
     "nixpkgs-lib": {
       "locked": {
-        "lastModified": 1733620091,
-        "narHash": "sha256-5WoMeCkaXqTZwwCNLRzyLxEJn8ISwjx4cNqLgqKwg9s=",
+        "lastModified": 1734224914,
+        "narHash": "sha256-hKWALzQ/RxxXdKWsLKXULru6XTag9Cc5exgVyS4a/AE=",
         "owner": "nix-community",
         "repo": "nixpkgs.lib",
-        "rev": "f4dc9a6c02e5e14d91d158522f69f6ab4194eb5b",
+        "rev": "538697b664a64fade8ce628d01f35d1f1fd82d77",
         "type": "github"
       },
       "original": {
@@ -984,11 +984,11 @@
     "skippy-xd": {
       "flake": false,
       "locked": {
-        "lastModified": 1731461085,
-        "narHash": "sha256-yn87jFfCZvYwmPfHmspJVbfkOPdHUTzxjdF4KkfImjA=",
+        "lastModified": 1734218260,
+        "narHash": "sha256-eecbdYKYJIk1EICxgQvDE207yS78uoU5Lsr9r7YvYXw=",
         "owner": "felixfung",
         "repo": "skippy-xd",
-        "rev": "f41853d865155b1f89cbb08323c463b24d6ae428",
+        "rev": "775e14ac395b7c07b85fa9228072569274dc99be",
         "type": "github"
       },
       "original": {
