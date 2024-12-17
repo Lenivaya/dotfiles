@@ -824,7 +824,7 @@ in
     urls = [ { template = "invidious.nerdvpn.de/search?q={searchTerms}"; } ];
     iconUpdateURL = "https://invidious.nerdvpn.de/favicon.ico";
     updateInterval = updateOnceInAWeek;
-    definedAliases = [ "@inv" ];
+    definedAliases = [ "@inv" "@invidious" ];
   };
 
   "AlternativeTo" = {

@@ -1,4 +1,9 @@
 # https://github.com/brenix/nix-config/blob/main/modules/nixos/services/ananicy/default.nix
+#
+# When using any of the schedulers from the sched-ext framework,
+# it’s strongly advised to disable and avoid using ananicy-cpp [1]
+#
+# [1]: https://wiki.cachyos.org/configuration/sched-ext/
 {
   config,
   lib,

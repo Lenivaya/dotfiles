@@ -118,7 +118,7 @@ projects =
       spawnBrowserWithUrl "AI" "https://claude.ai",
     makeProject "GH" $ Just $ do
       spawnBrowserWithUrl "GH" "https://github.com"
-      spawnBrowserWithUrl "GH" "https://github.com/notifications",
+      spawnBrowserWithUrls "GH" ["https://github.com/notifications", "https://github.com/pulls"],
     makeProject "MAIL" $ Just $ do
       spawnBrowserWithUrl "MAIL" "https://mail.google.com"
       spawnBrowserWithUrl "MAIL" "https://mail.proton.me",
@@ -154,5 +154,8 @@ projects =
     makeProject "REC" $ Just $ do
       spawnOn "REC" "obs",
     makeProject "WATCH" $ Just $ do
-      spawnBrowserWithUrls "WATCH" ["https://youtube.com", "https://www.youtube.com/playlist?list=WL"]
+      spawnBrowserWithUrls "WATCH" ["https://youtube.com", "https://www.youtube.com/playlist?list=WL"],
+    makeProject "UPWORK" $ Just $ do
+      spawnBrowserWithUrls "UPWORK" ["https://www.upwork.com/", "https://www.upwork.com/nx/find-work/best-matches", "https://www.upwork.com/nx/plans/connects/history/"]
+      spawnOn "UPWORK" "upwork"
   ]

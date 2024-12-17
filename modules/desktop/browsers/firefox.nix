@@ -24,11 +24,12 @@ let
     ${readHack "chrome/hide_statuspanel_when_fullscreen.css"}
     ${readHack "chrome/centered_statuspanel.css"}
 
-    ${readHack "chrome/urlbar_centered_text.css"}
     ${readHack "chrome/compact_proton.css"}
-    ${readHack "chrome/compact_urlbar_megabar.css"}
     ${readHack "chrome/minimal_in-UI_scrollbars.css"}
     ${readHack "chrome/classic_grid_main_menu_popup.css"}
+
+    ${readHack "chrome/compact_urlbar_megabar.css"}
+    ${readHack "chrome/urlbar_centered_text.css"}
 
     ${readHack "chrome/hide_tabs_with_one_tab_w_window_controls.css"}
     ${readHack "chrome/numbered_tabs.css"}

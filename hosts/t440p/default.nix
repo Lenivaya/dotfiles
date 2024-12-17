@@ -145,13 +145,12 @@ with lib.my;
       # dotnet = enabled // {
       #   dotnetPkgsSdks = with pkgs.dotnetCorePackages; [ sdk_8_0 ];
       # };
-
       # typst = enabled;
     };
 
     services = {
       adguardhome = enabled;
-      ananicy = enabled;
+      # ananicy = enabled;
       # clipcat = enabled;
       greenclip = enabled;
       kdeconnect = enabled;
@@ -323,6 +322,11 @@ with lib.my;
     "snd_hda_codec_hdmi"
     # Enable powersaving for Intel soundcards
     "snd_hda_intel.power_save=1"
+    # In some cases, split lock mitigate can slow down performance in some applications and games.
+    # A patch is available to disable it via sysctl. [1]
+    #
+    # [1]: https://wiki.cachyos.org/configuration/general_system_tweaks/
+    "kernel.split_lock_mitigate=0"
   ];
 
   # boot.plymouth = rec {

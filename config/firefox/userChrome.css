@@ -207,4 +207,24 @@
   #urlbar .search-one-offs .search-panel-header {
     display: none !important;
   }
+
+  /* https://www.reddit.com/r/FirefoxCSS/comments/1ge6kii/how_to_center_seach_suggestions/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button */
+  /* Center text and url suggestions in the URL bar */
+  .urlbarView-row {
+    justify-content: center !important;
+  }
+  .urlbarView-row-inner {
+    max-width: max-content !important;
+  }
+  .urlbarView-no-wrap {
+    max-width: 100% !important;
+  }
+
+  /* https://www.reddit.com/r/firefox/comments/6u6gg0/i_want_the_text_of_the_url_bar_to_be_positioned/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button */
+  #urlbar:not([focused]) .urlbar-input-box {
+    text-align: center;
+  }
+  #urlbar .urlbar-input-box {
+    text-align: center;
+  }
 }

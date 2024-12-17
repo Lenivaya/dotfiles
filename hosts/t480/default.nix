@@ -132,7 +132,7 @@ with my;
     };
 
     services = {
-      ananicy = enabled;
+      # ananicy = enabled;
       # clipcat = enabled;
       greenclip = enabled;
       kdeconnect = enabled;
@@ -307,6 +307,11 @@ with my;
     # Enable powersaving for Intel soundcards
     "snd_hda_intel.power_save=1"
     "i915.enable_psr=2"
+    # In some cases, split lock mitigate can slow down performance in some applications and games.
+    # A patch is available to disable it via sysctl. [1]
+    #
+    # [1]: https://wiki.cachyos.org/configuration/general_system_tweaks/
+    "kernel.split_lock_mitigate=0"
   ];
 
   # https://github.com/sched-ext/scx
@@ -370,7 +375,7 @@ with my;
     ungoogled-chromium
     wireguard-tools
     deskflow
-    # macchanger
+    upwork
   ];
 
   hardware.graphics = enabled // {
