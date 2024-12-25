@@ -41,7 +41,9 @@ in
 
       mutableExtensionsDir = true;
       extensions =
-        with pkgs.vscode-marketplace;
+        with pkgs;
+        with vscode-marketplace-release;
+        with vscode-marketplace;
         [
           bodil.file-browser
 
@@ -67,6 +69,7 @@ in
           jacobdufault.fuzzy-search
           ms-vscode.vs-keybindings
 
+          mechatroner.rainbow-csv
           aaron-bond.better-comments
           alefragnani.bookmarks
           christian-kohler.path-intellisense
@@ -103,8 +106,9 @@ in
           skellock.just
 
           mustafamohamad.min-tomorrow-theme
-
           ryuta46.multi-command
+          usernamehw.find-jump
+          fill-labs.dependi
         ]
         ++ optionals modules.desktop.media.documents.latex.enable [
           james-yu.latex-workshop
@@ -114,8 +118,11 @@ in
           jnoortheen.nix-ide
           arrterian.nix-env-selector
         ]
-        ++ optionals modules.dev.go.enable [ rust-lang.rust-analyzer ]
-        ++ optionals modules.dev.rust.enable [ golang.go ]
+        ++ optionals modules.dev.go.enable [ golang.go ]
+        ++ optionals modules.dev.rust.enable [
+          rust-lang.rust-analyzer
+          lorenzopirro.rust-flash-snippets
+        ]
         ++ optionals modules.dev.node.enable [ mgmcdermott.vscode-language-babel ]
         ++ optionals modules.dev.haskell.enable [
           haskell.haskell

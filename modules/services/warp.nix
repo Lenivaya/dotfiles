@@ -22,18 +22,14 @@ in
 {
   options.modules.services.warp.enable = mkBoolOpt false;
   config = mkIf cfg.enable {
-    # TODO
-    # services.cloudflare-warp =
-    #   enabled
-    #   // {
-    #   };
+    services.cloudflare-warp = enabled;
 
-    systemd.services.warp-svc = mkGraphicalService {
-      description = "Cloudfare warp daemon";
+    # systemd.services.warp-svc = mkGraphicalService {
+    #   description = "Cloudfare warp daemon";
 
-      path = with pkgs; [ cloudflare-warp ];
-      script = "warp-svc";
-    };
+    #   path = with pkgs; [ cloudflare-warp ];
+    #   script = "warp-svc";
+    # };
 
     user.packages = with pkgs; [
       cloudflare-warp

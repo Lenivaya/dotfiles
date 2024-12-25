@@ -190,7 +190,7 @@
   "browser.translations.automaticallyPopup" = false;
 
   # enable HEVC
-  "media.wmf.hevc.enabled" = true;
+  # "media.wmf.hevc.enabled" = true;
 
   # obsidian clipper
   "extensions.openPopupWithoutUserGesture.enabled" = true;
@@ -203,4 +203,19 @@
   "browser.uitour.enabled" = false;
 
   "layout.css.has-selector.enabled" = true;
+
+  # https://www.reddit.com/r/firefox/comments/xqmlbt/does_anyone_know_how_to_reduce_animation_on/
+  "ui.prefersReducedMotion" = 1;
+  "toolkit.cosmeticAnimations.enable" = false;
+  "full-screen-api.warning.delay" = 50;
+  "full-screen-api.warning.timeout" = 50;
+  "full-screen-api.transition-duration.enter" = "0 0";
+  "full-screen-api.transition-duration.leave" = "0 0";
+  "full-screen-api.transition.timeout" = 0;
+
+  # Get rid of pointless URL bar element space-waster
+  "browser.urlbar.hideGoButton" = true;
+
+  # *Always* present the Reader Mode button in the toolbar, even if the automated parsing thinks it won't work
+  "reader.parse-on-load.force-enable" = true;
 }

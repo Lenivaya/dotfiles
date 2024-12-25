@@ -297,7 +297,6 @@ with lib.my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   services.scx = enabled // {
-    # package = pkgs.unstable.scx.rustscheds;
     package = pkgs.scx_git.full;
     scheduler = "scx_bpfland";
   };
@@ -337,6 +336,11 @@ with lib.my;
   # };
 
   networking.firewall = {
+    allowedUDPPortRanges = [
+      { from = 3000; to = 3007; }
+      { from = 4000; to = 4007; }
+      { from = 8000; to = 8010; }
+    ];
     allowedUDPPorts = [
       3000
       4000
@@ -414,7 +418,7 @@ with lib.my;
 
   # services.safeeyes = enabled;
 
-  modules.services.zcfan = enabled;
+  # modules.services.zcfan = enabled;
   # services.thermald = mkForce disabled;
   # services.throttled = mkForce enabled;
   services.throttled = mkForce disabled;
@@ -439,7 +443,7 @@ with lib.my;
   environment.etc.hosts.mode = "0644";
 
   # BPF-based auto-tuning of Linux system parameters
-  # services.bpftune = enabled;
+  services.bpftune = enabled;
 
   # Run appimages seamlesssly
   programs.appimage.binfmt = true;

@@ -107,6 +107,8 @@ in
       vale
 
       emacs-lsp-booster
+
+      editorScript
     ];
 
     fonts.packages = with pkgs; [ emacs-all-the-icons-fonts ];

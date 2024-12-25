@@ -92,7 +92,11 @@ projects =
       spawnOn (write wsNames) "emacs_lets_write",
     makeProject (note wsNames) $ Just $ do
       spawnOn (note wsNames) "obsidian",
-    makeProject (code wsNames) $ Just raiseEditor,
+    makeProject (code wsNames) $ Just $ do
+      wrapKbdLayout $
+        selectEditorByNameAndDo
+          promptTheme
+          (spawnOn (code wsNames)),
     makeProject (web wsNames) $ Just $ do
       wrapKbdLayout $
         selectBrowserByNameAndDo
@@ -110,12 +114,13 @@ projects =
     makeProject (wsWRK wsNames) Nothing,
     makeProject (git wsNames) $ Just $ do spawnOn (git wsNames) "gitbutler-tauri",
     makeProject (messages wsNames) $ Just $ do spawnOn (messages wsNames) "telegram-desktop",
+    makeProject "START" Nothing,
     makeProject "MON" $ Just $ do
       spawnTerminalWith "MON" "-e btop"
       spawnTerminalWith "MON" "-e htop",
     makeProject "AI" $ Just $ do
       spawnBrowserWithUrl "AI" "https://chat.openai.com"
-      spawnBrowserWithUrl "AI" "https://claude.ai",
+      spawnBrowserWithUrls "AI" ["https://claude.ai", "https://copilot.microsoft.com"],
     makeProject "GH" $ Just $ do
       spawnBrowserWithUrl "GH" "https://github.com"
       spawnBrowserWithUrls "GH" ["https://github.com/notifications", "https://github.com/pulls"],

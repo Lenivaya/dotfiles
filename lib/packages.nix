@@ -1,4 +1,9 @@
-{ pkgs, ... }:
+{
+  pkgs,
+  inputs,
+  system,
+  ...
+}:
 rec {
   optimizeWithFlags =
     pkg: flags:
@@ -44,4 +49,17 @@ rec {
     );
 
   withDebuggingCompiled = pkg: optimizeWithFlags pkg [ "-DDEBUG" ];
+
+  useNixpkgs = nixpkgs: import nixpkgs { inherit system; };
+  fromUnstable = useNixpkgs (inputs.nixpkgs-unstable or inputs.nixpkgs);
+  fromRev =
+    rev: hash:
+    useNixpkgs (
+      inputs.nixpkgs.legacyPackages.${system}.fetchFromGitHub {
+        owner = "NixOS";
+        repo = "nixpkgs";
+        inherit rev hash;
+      }
+    );
+  fromPR = pr: fromRev "refs/pull/${toString pr}/head";
 }

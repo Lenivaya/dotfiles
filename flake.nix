@@ -93,8 +93,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # ayugram-desktop.url = "github:/ayugram-port/ayugram-desktop/release?submodules=1";
-
     # some upstream things
     auto-cpufreq = {
       url = "github:AdnanHodzic/auto-cpufreq";
@@ -179,7 +177,7 @@
         self: _super:
         {
           my = import ./lib {
-            inherit pkgs inputs;
+            inherit pkgs inputs system;
             lib = self;
           };
         }

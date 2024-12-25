@@ -1,3 +1,9 @@
+{-# LANGUAGE DerivingVia #-}
+{-# LANGUAGE StrictData #-}
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE DeriveGeneric #-}
+{-# LANGUAGE DerivingStrategies #-}
+
 module XMonad.Custom.Actions.ApplicationChooser where
 
 import Data.List
@@ -6,74 +12,123 @@ import XMonad
 import XMonad.Custom.Prompt
 import XMonad.Prompt
 import XMonad.Prompt.Shell
+import qualified Data.Map as Map
+import GHC.Generics (Generic)
 
 data Application = Application
-  { applicationCategory :: String,
-    applicationName :: String,
-    applicationCommand :: String
+  { applicationCategory :: !AppCategory,
+    applicationName :: !String,
+    applicationCommand :: !String
   }
+  deriving stock (Eq, Show, Generic)
 
-newtype AppByName = AppByName [Application]
+newtype AppByName = AppByName
+  { getApps :: [Application]
+  } deriving stock (Generic)
 
 instance XPrompt AppByName where
-  showXPrompt (AppByName apps) = prompt
+  showXPrompt (AppByName apps) =
+    "Application (" <> categories <> "): "
     where
-      prompt = mconcat ["Application (", categories, "): "]
-      categories = intercalate ", " . nub $ map applicationCategory apps
+      categories = intercalate ", " . nub $ show . applicationCategory <$> apps
 
-myApps :: [Application]
-myApps = mconcat [myBrowsers, myReaders, mySoundUtils]
+-- Define the AppGroup type class
+class AppGroup a where
+  getApplications :: a -> [Application]
 
+data AppCategory
+  = Browsers
+  | Readers
+  | SoundUtils
+  | Editors
+  deriving stock (Eq, Show, Generic)
+
+instance AppGroup AppCategory where
+  getApplications = \case
+    Browsers -> myBrowsers
+    Readers -> myReaders
+    SoundUtils -> mySoundUtils
+    Editors -> myEditors
+
+-- Core application lists
+myBrowsers, myReaders, mySoundUtils, myEditors :: [Application]
 myBrowsers =
-  [ Application "Browser" "Firefox" "firefox",
-    Application "Browser" "Firefox" "firefox-nightly",
-    Application "Browser" "Chromium" "chromium",
-    Application "Browser" "Google-chrome" "google-chrome-stable",
-    Application "Browser" "Google-chrome" "google-chrome-unstable",
-    Application "Browser" "Brave" "brave",
-    Application "Browser" "Qutebrowser" "qutebrowser"
+  [ Application Browsers "Firefox" "firefox",
+    Application Browsers "Firefox Nightly" "firefox-nightly",
+    Application Browsers "Chromium" "chromium",
+    Application Browsers "Google Chrome" "google-chrome-stable",
+    Application Browsers "Google Chrome Unstable" "google-chrome-unstable",
+    Application Browsers "Brave" "brave",
+    Application Browsers "Qutebrowser" "qutebrowser"
   ]
 
 myReaders =
-  [ Application "Reader" "Zathura" "zathura",
-    Application "Reader" "Foliate" "foliate",
-    Application "Reader" "Evince" "evince",
-    Application "Reader" "Papers" "papers"
+  [ Application Readers "Zathura" "zathura",
+    Application Readers "Foliate" "foliate",
+    Application Readers "Evince" "evince",
+    Application Readers "Papers" "papers"
   ]
 
 mySoundUtils =
-  [ Application "Sound" "Easyeffects" "easyeffects",
-    Application "Sound" "Pavucontrol" "pavucontrol"
+  [ Application SoundUtils "Easyeffects" "easyeffects",
+    Application SoundUtils "Pavucontrol" "pavucontrol"
   ]
 
+myEditors =
+  [ Application Editors "Neovim" "neovide",
+    Application Editors "VSCode" "code",
+    Application Editors "Cursor" "cursor",
+    Application Editors "Emacs" "emacseditor",
+    Application Editors "Zed" "zeditor"
+  ]
+
+-- Core selection function
 selectAppByNameAndDo' :: XPConfig -> AppByName -> (String -> X ()) -> X ()
 selectAppByNameAndDo' conf (AppByName apps) action = do
   cmds <- io getCommands
-
-  let
-    layoutCompFunc = aListCompFunc conf
-
-    validApps = filter ((`elem` cmds) . applicationCommand) apps
-    appNames = applicationName <$> validApps
-    appCommands = applicationCommand <$> validApps
-    appNames' = zip appNames appCommands
-
-    lookupApp cmd =
-      applicationCommand
-        <$> find (\app -> cmd == applicationName app) validApps
+  let validApps = filter ((`elem` cmds) . applicationCommand) apps
+      appMapping = Map.fromList $ map toNameCommandPair validApps
 
   mkXPrompt
     (AppByName apps)
     conf
-    (layoutCompFunc appNames')
-    (action . fromJust . lookupApp)
+    (aListCompFunc conf $ Map.toList appMapping)
+    (maybe (pure ()) action . (`Map.lookup` appMapping))
+  where
+    toNameCommandPair app = (applicationName app, applicationCommand app)
 
-selectAppByNameAndDo conf = selectAppByNameAndDo' conf (AppByName myApps)
-selectAppByNameAndSpawn conf = selectAppByNameAndDo conf spawn
+-- Generic action creators
+withCategory :: AppCategory -> (String -> X ()) -> XPConfig -> X ()
+withCategory category action =
+    selectAppByNameAndDo' `flip` (AppByName $ getApplications category) `flip` action
 
-selectBrowserByNameAndDo conf =
-  selectAppByNameAndDo' conf (AppByName myBrowsers)
-selectBrowserByNameAndSpawn conf = selectBrowserByNameAndDo conf spawn
+-- Fixed type signature and implementation
+selectCategoryAndDo :: AppCategory -> XPConfig -> (String -> X ()) -> X ()
+selectCategoryAndDo category conf action = withCategory category action conf
 
-selectReaderByNameAndDo conf = selectAppByNameAndDo' conf (AppByName myReaders)
-selectReaderByNameAndSpawn conf = selectReaderByNameAndDo conf spawn
+-- Common action creators
+spawnFromCategory :: AppCategory -> XPConfig -> X ()
+spawnFromCategory cat conf = selectCategoryAndDo cat conf spawn
+
+terminalFromCategory :: AppCategory -> XPConfig -> X ()
+terminalFromCategory cat conf = selectCategoryAndDo cat conf (spawn . ("alacritty -e " ++))
+
+-- Convenience functions for common categories
+selectEditorByNameAndDo :: XPConfig -> (String -> X ()) -> X ()
+selectEditorByNameAndDo conf = selectCategoryAndDo Editors conf
+
+selectBrowserByNameAndDo :: XPConfig -> (String -> X ()) -> X ()
+selectBrowserByNameAndDo conf = selectCategoryAndDo Browsers conf
+
+selectReaderByNameAndDo :: XPConfig -> (String -> X ()) -> X ()
+selectReaderByNameAndDo conf = selectCategoryAndDo Readers conf
+
+selectBrowserByNameAndSpawn :: XPConfig -> X ()
+selectBrowserByNameAndSpawn conf = selectCategoryAndDo Browsers conf spawn
+
+selectReaderByNameAndSpawn :: XPConfig -> X ()
+selectReaderByNameAndSpawn conf = selectCategoryAndDo Readers conf spawn
+
+selectEditorByNameAndSpawn :: XPConfig -> X ()
+selectEditorByNameAndSpawn conf = selectCategoryAndDo Editors conf spawn
+

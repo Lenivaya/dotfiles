@@ -2,6 +2,7 @@
   inputs,
   lib,
   pkgs,
+  system,
   ...
 }:
 let
@@ -26,6 +27,7 @@ let
           lib
           pkgs
           inputs
+          system
           ;
       }
     )

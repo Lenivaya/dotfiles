@@ -241,7 +241,7 @@ keysWorkspaces =
       wrapKbdLayout . switchProjectPrompt $ promptNoCompletion promptTheme
     ),
     ("M-w S-s", wrapKbdLayout $ shiftToProjectPrompt $ promptNoHistory promptTheme),
-    ("M-w S-n", wrapKbdLayout $ renameProjectPrompt $ promptNoHistory hotPromptTheme),
+    ("M-w n", wrapKbdLayout $ renameProjectPrompt $ promptNoHistory hotPromptTheme),
     ("M-w <Backspace>", removeWorkspace),
     ( "M-w S-<Backspace>",
       confirmPrompt hotPromptTheme "Kill workspace?" $

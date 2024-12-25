@@ -227,4 +227,33 @@
   #urlbar .urlbar-input-box {
     text-align: center;
   }
+
+  /* Hide loading burst */
+  .tab-loading-burst {
+    display: none !important;
+  }
+
+  /* https://www.reddit.com/r/FirefoxCSS/comments/1hj7mjy/how_do_i_disable_the_shadow_around_browser_content/ */
+  #tabbrowser-tabbox {
+    outline: none !important;
+    box-shadow: none !important;
+    border-radius: 0px !important;
+  }
+  /* Remove shadows */
+  * {
+    box-shadow: none !important;
+    --panel-shadow: none !important;
+    -moz-window-shadow: none;
+  }
+  #nav-bar,
+  #urlbar[focused] > #urlbar-background,
+  #searchbar:focus-within,
+  tooltip {
+    box-shadow: none !important;
+    border: none !important;
+  }
+  menupopup,
+  panel {
+    --panel-shadow: none !important;
+  }
 }

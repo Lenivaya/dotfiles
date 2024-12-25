@@ -115,7 +115,6 @@ with my;
     };
 
     dev = {
-      java = enabled;
       docker = enabled;
       nix = enabled;
       shell = enabled;
@@ -125,13 +124,14 @@ with my;
       # haskell = enabled;
       node = enabled;
       python = enabled;
-      # dotnet = enabled // {
-      #   dotnetPkgsSdks = with pkgs.dotnetCorePackages; [ sdk_8_0 ];
-      # };
+      dotnet = enabled // {
+        dotnetPkgsSdks = with pkgs.dotnetCorePackages; [ sdk_9_0 ];
+      };
       typst = enabled;
     };
 
     services = {
+      # warp = enabled;
       # ananicy = enabled;
       # clipcat = enabled;
       greenclip = enabled;
@@ -142,6 +142,7 @@ with my;
       # espanso = enabled;
       tray = enabled // {
         trayPkgs = with pkgs; [
+          cbatticon
           bluez
           networkmanagerapplet
           pasystray
@@ -150,7 +151,6 @@ with my;
           plasma5Packages.kdeconnect-kde
           gxkb
           indicator-sound-switcher
-          spotify-tray
         ];
         trayApps = [
           "cbatticon"
@@ -161,7 +161,6 @@ with my;
           "kdeconnect-indicator"
           "gxkb"
           "indicator-sound-switcher"
-          "spotify-tray"
         ];
       };
     };
@@ -325,6 +324,20 @@ with my;
   };
 
   networking.firewall = {
+    allowedUDPPortRanges = [
+      {
+        from = 3000;
+        to = 3007;
+      }
+      {
+        from = 4000;
+        to = 4007;
+      }
+      {
+        from = 8000;
+        to = 8010;
+      }
+    ];
     allowedUDPPorts = [
       3000
       4000
@@ -361,7 +374,6 @@ with my;
     video-trimmer
     postman
     my.gitbutler
-    protonvpn-gui
     my.twitch-hls-client
     # warp-terminal
     curtail # image compression
@@ -376,6 +388,9 @@ with my;
     wireguard-tools
     deskflow
     upwork
+    neovide
+    (fromRev "8f7199857248a868f091d26ad69f259205765f4c" "sha256-bhzt6O6M70v4H9qw4hVbMidVtiEHVK/3tt460ARvx6g=")
+    .code-cursor
   ];
 
   hardware.graphics = enabled // {
@@ -404,29 +419,29 @@ with my;
       vulkan-tools
     ];
   };
-  chaotic.mesa-git = enabled // {
-    fallbackSpecialisation = false;
-    # method = "replaceRuntimeDependencies";
-    extraPackages = with pkgs; [
-      libGL
-      intel-ocl
-      intel-media-driver
-      vaapiIntel
-      vaapiVdpau
-      vpl-gpu-rt
-      vulkan-loader
-      vulkan-validation-layers
-      vulkan-extension-layer
-      vulkan-tools
-    ];
-  };
+  # chaotic.mesa-git = enabled // {
+  #   fallbackSpecialisation = false;
+  #   # method = "replaceRuntimeDependencies";
+  #   extraPackages = with pkgs; [
+  #     libGL
+  #     intel-ocl
+  #     intel-media-driver
+  #     vaapiIntel
+  #     vaapiVdpau
+  #     vpl-gpu-rt
+  #     vulkan-loader
+  #     vulkan-validation-layers
+  #     vulkan-extension-layer
+  #     vulkan-tools
+  #   ];
+  # };
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = mkForce "iHD";
   };
 
   services.smartd = enabled;
 
-  modules.services.zcfan = enabled;
+  # modules.services.zcfan = enabled;
   # services.thermald = mkForce disabled;
   # services.throttled = mkForce enabled;
   services.throttled = mkForce disabled;
@@ -438,7 +453,7 @@ with my;
   environment.etc.hosts.mode = "0644";
 
   # BPF-based auto-tuning of Linux system parameters
-  # services.bpftune = enabled;
+  services.bpftune = enabled;
 
   # Run appimages seamlesssly
   programs.appimage.binfmt = true;
