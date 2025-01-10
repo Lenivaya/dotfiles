@@ -44,9 +44,6 @@ in
           # (texliveMinimal.withPackages (ps: with ps; [dvisvgm]))
           tectonic
           watchexec
-
-          # rubber
-          # python310Packages.pygments # Code highlighting with minted
         ])
       ]);
 

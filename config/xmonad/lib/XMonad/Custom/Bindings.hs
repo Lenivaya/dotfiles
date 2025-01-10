@@ -220,7 +220,7 @@ keysDo =
     ("M-d w S-c", copyMenu),
     ("M-d c <Backspace>", spawn "clipcatctl clear"),
     ("M-d c l", spawn "clipcat-last"),
-    ("M-d m r", spawn "autorandr -c")
+    ("M-d m r", spawn "autorandr -c --force")
   ]
 
 keysSystem :: Keybindings
@@ -250,7 +250,7 @@ keysWorkspaces =
     ("M-,", nextNonEmptyWS),
     ("M-.", prevNonEmptyWS),
     ("M-i", toggleWS' ["NSP"]),
-    ("M-n", workspacePrompt (promptNoHistory promptTheme) $ windows . S.shift),
+    ("M-n", wrapKbdLayout $ workspacePrompt (promptNoHistory promptTheme) $ windows . S.shift),
     -- ("M-w w", gridselectWorkspace gridSelectTheme S.greedyView)
     ("M-w p", spawn "skippy-xd --paging")
   ]

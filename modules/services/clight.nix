@@ -17,5 +17,10 @@ with lib.my;
     };
 
     systemd.user.services.clight.path = with pkgs; [ gawk ];
+
+    # Hate those libddcutil logs
+    systemd.services.clightd.serviceConfig.StandardOutput = mkForce "null";
+    systemd.services.clightd.serviceConfig.StandardError = mkForce "null";
+    systemd.services.clightd.serviceConfig.LogLevelMax = mkForce 2; # error
   };
 }

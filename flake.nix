@@ -48,9 +48,11 @@
 
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
     pre-commit-hooks = {
       url = "github:cachix/git-hooks.nix";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
@@ -93,6 +95,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    winapps = {
+      url = "github:winapps-org/winapps";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     # some upstream things
     auto-cpufreq = {
       url = "github:AdnanHodzic/auto-cpufreq";
@@ -106,13 +113,17 @@
       url = "github:felixfung/skippy-xd";
       flake = false;
     };
-    # browser-previews = {
-    #   url = "github:nix-community/browser-previews";
-    #   # inputs.nixpkgs.follows = "nixpkgs";
-    # };
+    browser-previews = {
+      url = "github:nix-community/browser-previews";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
     resterrs = {
       # url = "path:///home/leniviy/code/Projects/resterrs";
       url = "github:Lenivaya/resterrs";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    stevenblack-hosts = {
+      url = "github:StevenBlack/hosts";
       inputs.nixpkgs.follows = "nixpkgs";
     };
   };
@@ -127,7 +138,6 @@
       "https://pre-commit-hooks.cachix.org"
       "https://viperml.cachix.org/"
       "https://chaotic-nyx.cachix.org/"
-      "https://cache.garnix.io"
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="
@@ -138,7 +148,6 @@
       "pre-commit-hooks.cachix.org-1:Pkk3Panw5AW24TOv6kz3PvLhlH8puAsJTBbOPmBo7Rc="
       "viperml.cachix.org-1:qZhKBMTfmcLL+OG6fj/hzsMEedgKvZVFRRAhq7j8Vh8="
       "chaotic-nyx.cachix.org-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
-      "cache.garnix.io:CTFPyKSLcx5RMJKfLo5EEPUObbA78b0YQ2DTCJXqr9g="
     ];
   };
 
@@ -167,6 +176,7 @@
             "aspnetcore-runtime-wrapped-6.0.36"
             "dotnet-sdk-6.0.428"
             "dotnet-sdk-wrapped-6.0.428"
+            "deskflow-1.18.0"
           ];
           overlays = extraOverlays ++ (lib.attrValues self.overlays);
         };

@@ -27,6 +27,13 @@ with my;
     inputs.nixos-facter-modules.nixosModules.facter
     { config.facter.reportPath = ./facter.json; }
 
+    inputs.stevenblack-hosts.nixosModule
+    {
+      networking.stevenBlackHosts = enabled // {
+        blockFakenews = true;
+        blockGambling = true;
+      };
+    }
   ] ++ (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-t480 ]);
 
   this.isHeadful = true;
@@ -54,15 +61,20 @@ with my;
           package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
           executable = "firefox";
         };
-        chromium = enabled // {
-          # package = chrome';
-        };
+        chromium =
+          let
+            chrome' = inputs.browser-previews.packages.${pkgs.system}.google-chrome;
+          in
+          enabled
+          // {
+            package = chrome';
+          };
         tor = enabled;
       };
 
       term = {
-        alacritty = enabled;
-        default = mkForce "alacritty";
+        kitty = enabled;
+        default = mkForce "kitty";
       };
 
       media = {
@@ -87,8 +99,9 @@ with my;
       };
 
       vm = {
-        qemu = enabled;
-        wine = enabled;
+        winapps = enabled;
+        # qemu = enabled;
+        # wine = enabled;
       };
     };
 
@@ -143,7 +156,7 @@ with my;
       tray = enabled // {
         trayPkgs = with pkgs; [
           cbatticon
-          bluez
+          blueman
           networkmanagerapplet
           pasystray
           mictray
@@ -168,33 +181,35 @@ with my;
     programs = {
       nix-helper = enabled;
       nix-ld = enabled;
+      distrobox = enabled;
     };
 
     hardware = {
       profiles.laptop = enabled // {
         autoSuspendOnLowBattery = false;
       };
+      ddc = enabled;
       cpu.intel = enabled;
       cpu = {
-        tdp = {
-          battery = {
-            risky = true;
-            p1.watts = 15;
-            p1.duration = 28.0;
-            p2.watts = 30;
-            p2.duration = 2.44140625e-3;
-            cTDP = 1;
-          };
-          ac = {
-            risky = true;
-            updateRate = 1;
-            p1.watts = 64;
-            p1.duration = 28.0;
-            p2.watts = 64;
-            p2.duration = 2.44140625e-3;
-            cTDP = 2;
-          };
-        };
+        # t44dp = {
+        #   battery = {
+        #     risky = true;
+        #     p1.watts = 15;
+        #     p1.duration = 28.0;
+        #     p2.watts = 30;
+        #     p2.duration = 2.44140625e-3;
+        #     cTDP = 1;
+        #   };
+        #   ac = {
+        #     risky = true;
+        #     updateRate = 1;
+        #     p1.watts = 64;
+        #     p1.duration = 32.0;
+        #     p2.watts = 44;
+        #     p2.duration = 2.44140625e-3;
+        #     cTDP = 2;
+        #   };
+        # };
         undervolt = enabled // {
           core = -110;
           gpu = -110;
@@ -214,7 +229,6 @@ with my;
       };
     };
 
-    # adblock = enabled;
     zram = enabled;
     bootsplash = enabled;
     fast-networking = enabled;
@@ -255,8 +269,6 @@ with my;
             (mkNoPwd pkgs.smartmontools "smartctl")
             (mkNoPwd pkgs.powertop "powertop")
             (mkNoPwd pkgs.intel-gpu-tools "intel_gpu_top")
-            # (mkNoPwd pkgs.tlp "tlp ac")
-            # (mkNoPwd pkgs.tlp "tlp bat")
           ];
           groups = [ "wheel" ];
         }
@@ -318,8 +330,7 @@ with my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   services.scx = enabled // {
-    # package = pkgs.unstable.scx.rustscheds;
-    package = pkgs.scx_git.full;
+    # package = pkgs.scx_git.full;
     scheduler = "scx_bpfland";
   };
 
@@ -366,6 +377,7 @@ with my;
   ";
 
   environment.systemPackages = with pkgs; [
+    code-cursor
     (inxi.override { withRecommends = true; })
     khal
     telegram-desktop
@@ -379,18 +391,17 @@ with my;
     curtail # image compression
     smartmontools
     gcc
-    distrobox
     obsidian
     qrrs
     iwgtk
-    code-cursor
+    protonvpn-gui
     ungoogled-chromium
     wireguard-tools
     deskflow
     upwork
     neovide
-    (fromRev "8f7199857248a868f091d26ad69f259205765f4c" "sha256-bhzt6O6M70v4H9qw4hVbMidVtiEHVK/3tt460ARvx6g=")
-    .code-cursor
+    beekeeper-studio
+    # zoom-us
   ];
 
   hardware.graphics = enabled // {
@@ -437,11 +448,15 @@ with my;
   # };
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = mkForce "iHD";
+
+    # https://wiki.archlinux.org/title/GTK#GTK_4_applications_are_slow
+    GSK_RENDERER = "gl";
+    GDK_DEBUG = "gl-no-fractional";
   };
 
   services.smartd = enabled;
 
-  # modules.services.zcfan = enabled;
+  modules.services.zcfan = enabled;
   # services.thermald = mkForce disabled;
   # services.throttled = mkForce enabled;
   services.throttled = mkForce disabled;
@@ -544,11 +559,14 @@ with my;
 
   home.programs.emacs.package = pkgs.emacs30;
 
+  # services.xserver.displayManager.lightdm = mkForce disabled;
+  # services.displayManager.ly = enabled // { };
+
   nixpkgs.overlays =
     let
       optimize = pkg: optimizeForThisHost (withClang pkg);
     in
-    [ inputs.nur.overlay ]
+    [ inputs.nur.overlays.default ]
     ++ [ inputs.picom.overlay.${system} ]
     ++ [
       (_final: prev: {

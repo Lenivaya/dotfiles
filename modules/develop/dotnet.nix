@@ -25,7 +25,6 @@ in
       with pkgs;
       [
         sdk'
-        # msbuild
         omnisharp-roslyn
         csharpier
       ]

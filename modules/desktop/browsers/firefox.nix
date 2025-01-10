@@ -143,7 +143,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    nixpkgs.overlays = [ inputs.nur.overlay ];
+    nixpkgs.overlays = [ inputs.nur.overlays.default ];
 
     env.XDG_DESKTOP_DIR = "$HOME"; # prevent firefox creating ~/Desktop
 

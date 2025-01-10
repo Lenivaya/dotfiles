@@ -41,9 +41,9 @@ in
       desktop = {
         lockscreen = enabled;
         compositor = enabled;
-        term = {
-          alacritty = enabled;
-          default = mkForce "alacritty";
+        term = mkDefault {
+          kitty = enabled;
+          default = mkForce "kitty";
         };
 
         apps = {

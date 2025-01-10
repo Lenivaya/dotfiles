@@ -256,4 +256,9 @@
   panel {
     --panel-shadow: none !important;
   }
+
+  /* https://www.reddit.com/r/FirefoxCSS/comments/1hp3xf0/how_to_remove_this_border/ */
+  #sidebar-splitter {
+    display: none;
+  }
 }

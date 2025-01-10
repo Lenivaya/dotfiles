@@ -574,10 +574,10 @@ avoid polluting the output.
 # #+end_src
 ** Performance
 
-#+begin_src emacs-lisp
-(setq gcmh-high-cons-threshold most-positive-fixnum)
-(setq max-specpdl-size 100000)
-#+end_src
+# #+begin_src emacs-lisp
+# (setq gcmh-high-cons-threshold most-positive-fixnum)
+# (setq max-specpdl-size 100000)
+# #+end_src
 
 ** Other Things
 *** Editor interaction

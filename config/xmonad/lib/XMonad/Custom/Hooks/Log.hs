@@ -32,26 +32,20 @@ import qualified Data.Map as Map
 import Data.IORef
 import System.IO.Unsafe (unsafePerformIO)
 
-
--- layoutIcon :: String -> String
--- layoutIcon l | "BSP" `isInfixOf` l         = " <fn=1>\57654</fn>"
---              | "Circle" `isInfixOf` l      = " <fn=1>\57521</fn>"
---              | "Tall" `isInfixOf` l        = " <fn=1>\57346</fn>"
---              | "ThreeColMid" `isInfixOf` l = " <fn=1>\57377</fn>"
---              | "OneBig" `isInfixOf` l      = " <fn=1>\57377</fn>"
---              | otherwise                   = ""
-
 -- Create a global cache for layout names
 layoutNameCache :: IORef (Map.Map String String)
 layoutNameCache = unsafePerformIO $ newIORef Map.empty
 
 layoutName :: String -> String
-layoutName l = unsafePerformIO $ do
+layoutName s = if null s then "" else last (words s)
+
+layoutName' :: String -> String
+layoutName' l = unsafePerformIO $ do
   cache <- readIORef layoutNameCache
   case Map.lookup l cache of
     Just name -> return name
     Nothing -> do
-      let name = fromMaybe "" $ find (`isInfixOf` l) layoutNames
+      let name = layoutName l
       modifyIORef' layoutNameCache (Map.insert l name)
       return name
 
@@ -80,9 +74,8 @@ topBarPP =
       ppSep = " / ",
       ppWsSep = " ",
       ppTitle = xmobarColor white1 "" . shorten 60,
-      ppTitleSanitize = xmobarStrip,
-      ppLayout = xmobarColor white1 "" . layoutName,
-      -- , ppOrder           = id
+      -- ppTitleSanitize = xmobarStrip,
+      ppLayout = xmobarColor white1 "" . layoutName',
       ppOrder = \[ws, l, t, ex] -> [ws, l, ex, t],
       ppSort = (namedScratchpadFilterOutWorkspace .) <$> getSortByIndex,
       ppExtras = [windowCount]
@@ -128,9 +121,9 @@ botBarPP =
 
 logHook :: X ()
 logHook = do
-  updatePointer (0.5, 0.5) (0, 0)
   masterHistoryHook
-  currentWorkspaceOnTop
+  updatePointer (0.5, 0.5) (0, 0)
   showWNameLogHook def
-  -- fadeWindowsLogHook myFadeHook
   -- nsHideOnFocusLoss scratchpads
+  -- currentWorkspaceOnTop
+  -- fadeWindowsLogHook myFadeHook

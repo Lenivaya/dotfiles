@@ -111,7 +111,7 @@ spawnFromCategory :: AppCategory -> XPConfig -> X ()
 spawnFromCategory cat conf = selectCategoryAndDo cat conf spawn
 
 terminalFromCategory :: AppCategory -> XPConfig -> X ()
-terminalFromCategory cat conf = selectCategoryAndDo cat conf (spawn . ("alacritty -e " ++))
+terminalFromCategory cat conf = selectCategoryAndDo cat conf (spawn . ("$TERM -e " ++))
 
 -- Convenience functions for common categories
 selectEditorByNameAndDo :: XPConfig -> (String -> X ()) -> X ()

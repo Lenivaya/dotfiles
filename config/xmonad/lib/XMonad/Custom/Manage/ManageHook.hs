@@ -19,38 +19,40 @@ import XMonad.Util.NamedScratchpad
 
 composeActions :: [MaybeManageHook]
 composeActions =
-  [ appName =? "emacs-popup" -?> tileBelowNoFocus,
-    appName =? "eterm" -?> tileBelow,
-    appName =? "spotify" -?> doFullCenterFloat,
-    appName =? "emacs" <&&> title =? "emacs-anywhere" -?> centerFloat 0.5 0.5,
-    appName =? "ulauncher" -?> noBorder,
-    appName =? "Junction" -?> doCenterFloat,
+  [
+    -- appName =? "emacs-popup" -?> tileBelowNoFocus,
+    -- appName =? "eterm" -?> tileBelow,
+    -- appName =? "spotify" -?> doFullCenterFloat,
+    -- appName =? "emacs" <&&> title =? "emacs-anywhere" -?> centerFloat 0.5 0.5,
+    -- appName =? "ulauncher" -?> noBorder,
+    -- appName =? "Junction" -?> doCenterFloat,
     className =? "mpv" -?> tileNormal,
     className =? "Pinentry" -?> doCenterFloat,
     className =? "pinentry-gtk-2" -?> doCenterFloat,
-    className =? "Steam" <&&> not <$> title =? "Steam" -?> doCenterFloat,
+    -- className =? "Steam" <&&> not <$> title =? "Steam" -?> doCenterFloat,
     className =? "Xmessage" -?> doCenterFloat,
-    className =? "Zenity" -?> doCenterFloat,
-    className =? "explorer.exe" -?> doFullFloat,
-    className =? "qemu-system-x86" -?> doCenterFloat,
-    className =? "qemu-system-x86_64" -?> doCenterFloat,
-    className =? "re.sonny.Junction" -?> doCenterFloat,
-    className =? "gcr-prompter" <||> className =? "Gcr-prompter" -?> doCenterFloat,
-    className =? "Safeeyes" -?> doFullFloat,
+    -- className =? "Zenity" -?> doCenterFloat,
+    -- className =? "explorer.exe" -?> doFullFloat,
+    -- className =? "qemu-system-x86" -?> doCenterFloat,
+    -- className =? "qemu-system-x86_64" -?> doCenterFloat,
+    -- className =? "re.sonny.Junction" -?> doCenterFloat,
+    -- className =? "gcr-prompter" <||> className =? "Gcr-prompter" -?> doCenterFloat,
+    -- className =? "Safeeyes" -?> doFullFloat,
     className =? "Avizo-service" -?> doIgnore,
     className =? "gitbutler-tauri" -?> doShift (git wsNames),
-    className
-      =? "jetbrains-toolbox"
-      <||> appName
-      =? "JetBrains Toolbox"
-      <||> title
-      =? "JetBrains Toolbox"
-      -?> doCenterFloat,
+    -- className
+    --   =? "jetbrains-toolbox"
+    --   <||> appName
+    --   =? "JetBrains Toolbox"
+    --   <||> title
+    --   =? "JetBrains Toolbox"
+    --   -?> doCenterFloat,
     isRole =? "GtkFileChooserDialog" -?> doCenterFloat,
     isRole =? "pop-up" -?> doCenterFloat,
     isRole =? "About" -?> doCenterFloat,
     isDialog -?> doCenterFloat,
-    stringProperty "WM_WINDOW_ROLE" =? "browser" -?> ewmhDesktopsManageHook,
+    isRole =? "browser" -?> ewmhDesktopsManageHook,
+    isRole =? "bubble" -?> doIgnore, -- for Chromeium tooltip
     transience
   ]
   where

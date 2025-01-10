@@ -105,6 +105,8 @@ in
           vscode-org-mode.org-mode
           skellock.just
 
+          ambar.bundle-size
+
           mustafamohamad.min-tomorrow-theme
           ryuta46.multi-command
           usernamehw.find-jump

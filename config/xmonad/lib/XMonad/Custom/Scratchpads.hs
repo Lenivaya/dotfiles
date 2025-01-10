@@ -17,8 +17,8 @@ spawnTerminalWith :: String -> String -> String
 spawnTerminalWith className command = unwords $ terminal : options
   where
     terminal = term applications
-    options = ["--class", class', "-e", command]
-    class' = className ++ "," ++ className
+    options = ["--class", className, "-e", command]
+    -- class' = className ++ "," ++ className
 
 floatingNSP :: ManageHook
 floatingNSP = centerFloat w h

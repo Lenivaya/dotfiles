@@ -17,14 +17,14 @@ super + alt + Print
 
 # launch apps with super + <shift> keypad
 super + KP_Left
-  alacritty -e ranger
+  $TERM -e ranger
 
 super + KP_Home
-  alacritty -e tmux
+  $TERM -e tmux
 
 super + c
   rofi-greenclip
-   # clipcat-selector
+  # clipcat-selector
 
 # XF86Audio{LowerVolume,RaiseVolume,Mute,MicMute}
 #     volumedunst {down,up,mute,mic_mute}
@@ -40,7 +40,7 @@ XF86Display
 
 XF86Search
   rofi_drun
-    # rofi -show drun
+# rofi -show drun
 
 XF86LaunchA
   rofi_windows
@@ -57,8 +57,18 @@ ctrl + {Delete,End,Escape,Insert}
 # Expose windows
 XF86Tools
   skippy-xd --expose
+
+alt + space
+    skippy-xd --expose
+
+alt + shift + space
+    skippy-xd --paging
+
+# super + w ; {w,p}
+# 	{skippy-xd --expose, skippy-xd --paging}
+
 # XF86Tools
-#     keyboard-switch
+#     skippy-xd --expose
 
 # alt + space
 #     keyboard-switch

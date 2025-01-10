@@ -1,0 +1,60 @@
+* {
+  outline: none;
+}
+
+button:focus {
+  outline-style: solid;
+  outline-offset: -2px;
+  outline-width: 1px;
+  -gtk-outline-radius: 2px;
+}
+window,
+.titlebar,
+headerbar,
+decoration {
+  border-radius: 0;
+}
+
+/* Always use background color */
+GtkWindow {
+  background-color: @theme_bg_color;
+}
+
+/* Fix tooltip background override */
+.tooltip {
+  background-color: rgba(0, 0, 0, 0.8);
+}
+
+.tooltip * {
+  background-color: transparent;
+}
+
+/* Fix Nautilus desktop window background override */
+NautilusWindow {
+  background-color: transparent;
+}
+.window-frame,
+.window-frame:backdrop {
+  box-shadow: 0 0 0 black;
+  border-style: none;
+  margin: 0;
+  border-radius: 0;
+}
+
+.titlebar {
+  border-radius: 0;
+}
+
+.window-frame.csd.popup {
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.13);
+}
+
+.header-bar {
+  background-image: none;
+  background-color: #ededed;
+  box-shadow: none;
+}
+/* You may want to use this if you do not like the double title.
+              GtkLabel.title {
+                  opacity: 0;
+              }*/

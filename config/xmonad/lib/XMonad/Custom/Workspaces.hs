@@ -120,7 +120,7 @@ projects =
       spawnTerminalWith "MON" "-e htop",
     makeProject "AI" $ Just $ do
       spawnBrowserWithUrl "AI" "https://chat.openai.com"
-      spawnBrowserWithUrls "AI" ["https://claude.ai", "https://copilot.microsoft.com"],
+      spawnBrowserWithUrls "AI" ["https://claude.ai", "https://copilot.microsoft.com", "https://chat.deepseek.com/"],
     makeProject "GH" $ Just $ do
       spawnBrowserWithUrl "GH" "https://github.com"
       spawnBrowserWithUrls "GH" ["https://github.com/notifications", "https://github.com/pulls"],
@@ -155,7 +155,7 @@ projects =
       spawnTerminalWith "DOCKER" "-e oxker",
     makeProject "CRYPTO" $ Just $ do
       spawnTerminalWith "CRYPTO" "-e , cointop"
-      spawnBrowserWithUrls "CRYPTO" ["https://x.com", "https://dropstab.com", "https://binance.com"],
+      spawnBrowserWithUrls "CRYPTO" ["https://x.com", "https://dropstab.com"],
     makeProject "REC" $ Just $ do
       spawnOn "REC" "obs",
     makeProject "WATCH" $ Just $ do

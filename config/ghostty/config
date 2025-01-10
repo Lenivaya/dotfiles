@@ -1,0 +1,42 @@
+# font-family = monospace
+font-family = PragmataPro Mono Liga
+font-size = 20
+
+cursor-style = bar
+cursor-style = block
+cursor-style-blink = false
+
+adjust-cell-height = 35%
+
+window-padding-x = 30
+window-padding-y = 30
+window-padding-balance = true
+window-decoration = false
+fullscreen = true
+
+# theme = Tomorrow Night Bright
+
+# Color scheme
+palette = 0=#0b0806
+palette = 1=#844d2c
+palette = 2=#57553a
+palette = 3=#a17c38
+palette = 4=#41434f
+palette = 5=#6b4444
+palette = 6=#59664c
+palette = 7=#a19782
+palette = 8=#2f2b2a
+palette = 9=#a64848
+palette = 10=#897f5a
+palette = 11=#c8b38d
+palette = 12=#526274
+palette = 13=#755c47
+palette = 14=#718062
+palette = 15=#c1ab83
+
+background = 0b0806
+foreground = a19782
+cursor-color = 844d2c
+selection-background = 373b41  # Using indexed_color[19] from your Alacritty config
+selection-foreground = a19782  # Using normal.white as a default since it wasn't specified
+

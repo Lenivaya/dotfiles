@@ -59,9 +59,9 @@ in
       # authentication.
       authentication = ''
         local all all trust
-        host    all        all         all                   md5
+        host all all all trust
         # ipv6
-        host all       all     ::1/128        trust
+        host all all ::1/128 trust
       '';
     };
   };

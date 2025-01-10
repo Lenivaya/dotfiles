@@ -54,12 +54,12 @@ handleEventHook =
       [
         -- perWindowKbdLayout,
         -- floatConfReqHook myFloatConfReqHook,
+        -- nspTrackHook scratchpads,
+        handleTimerEvent,
         refocusLastWhen myRefocusPred,
-        nspTrackHook scratchpads,
         Hacks.trayerAboveXmobarEventHook,
-        Hacks.trayerPaddingXmobarEventHook,
-        fixSteamFlicker,
-        handleTimerEvent
+        Hacks.trayerPaddingXmobarEventHook
+        -- fixSteamFlicker,
         -- mconcat $ swallower <$> ["Alacritty", "St"]
         -- Hacks.windowedFullscreenFixEventHook,
         -- , onTitleChange manageHook

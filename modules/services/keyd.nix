@@ -23,6 +23,8 @@ in
             capslock = "overload(control, esc)";
             leftcontrol = "overload(alternative_left_control_layer, leftcontrol)";
             leftalt = "layer(nav)";
+
+            rightshift = "backspace";
           };
 
           "nav:A" = {

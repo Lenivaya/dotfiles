@@ -17,7 +17,7 @@ in
     trayPkgs = mkOpt (listOf package) (
       with pkgs;
       [
-        bluez
+        blueman
         networkmanagerapplet
         pasystray
         mictray

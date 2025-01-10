@@ -1,6 +1,7 @@
-#!/usr/bin/env bash
+#!/usr/bin/env cached-nix-shell
+#!nix-shell -i bash -p pipewire
 
 blacklist=("Spotify")
 notification_sound="$DOTFILES/config/dunst/Submarine.wav"
 
-[[ ! ${blacklist[*]} =~ $DUNST_APP_NAME ]] && paplay --volume 20 "$notification_sound"
+[[ ! ${blacklist[*]} =~ $DUNST_APP_NAME ]] && pw-cat --volume 0.2 -p "$notification_sound"

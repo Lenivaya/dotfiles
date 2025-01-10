@@ -929,6 +929,7 @@ in
     definedAliases = [
       "@nixpkgstracker"
       "@nixtrack"
+      "@nixprtracker"
     ];
   };
 

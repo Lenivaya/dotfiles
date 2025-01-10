@@ -54,7 +54,7 @@
     history_length = 20
 
     ### Misc/Advanced ###
-   
+
     # dmenu path
     dmenu = dmenu -p "dunst" -l 10
     # dmenu = rofi -dmenu -p dunst:

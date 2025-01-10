@@ -1,0 +1,38 @@
+/* https://github.com/rose-pine/vimium-c */
+
+/* find-host, not working write to the find-host section, so I put it outside */
+.R.HM.D > .LH {
+  background: #0b0806;
+  border: 0.5px solid #a17c38;
+  color: #a19782;
+}
+
+/* #ui */
+.HUD,
+.TEE {
+  padding: 0;
+  bottom: 1px;
+}
+
+/* #omni */
+#input {
+  text-align: center !important;
+}
+
+body::after {
+  border: none;
+}
+
+.item {
+  border-bottom: none;
+  padding-top: 0px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.item.s,
+.item:hover {
+}

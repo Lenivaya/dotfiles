@@ -129,11 +129,6 @@
 )
 ;; Ligatures:1 ends here
 
-;; [[file:config.org::*Performance][Performance:1]]
-(setq gcmh-high-cons-threshold most-positive-fixnum)
-(setq max-specpdl-size 100000)
-;; Performance:1 ends here
-
 ;; [[file:config.org::*Mouse buttons][Mouse buttons:1]]
 (map! :n [mouse-8] #'better-jumper-jump-backward
       :n [mouse-9] #'better-jumper-jump-forward)

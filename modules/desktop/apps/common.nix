@@ -39,6 +39,8 @@ in
       gnome-autoar
       gnome-system-monitor
       loupe # eog
+
+      libnotify
     ]
     ++ optionals config.this.isHeadful [
       libqalculate # calculator cli w/ currency conversion

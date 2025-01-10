@@ -17,7 +17,7 @@ in
       algorithm = "zstd";
       memoryPercent = mkDefault 100;
       priority = mkDefault 1000;
-      # memoryMax = megabytesToBytes 16384;
+      memoryMax = megabytesToBytes 16384;
     };
 
     # <https://www.kernel.org/doc/html/latest/admin-guide/sysctl/vm.html>

@@ -38,6 +38,7 @@ in
               # gtk-decoration-layout = "appmenu:none";
             })
           ];
+          extraCss = readFile "${configDir}/gtk/css/gtk.css";
         in
         enabled
         // {
@@ -66,21 +67,20 @@ in
             }
 
             (mkIf config.modules.desktop.isPureWM {
-              extraCss = ''
-                * { outline: none; }
-
-                button:focus {
-                    outline-style: solid;
-                    outline-offset: -2px;
-                    outline-width: 1px;
-                    -gtk-outline-radius: 2px;
-                }
-              '';
+              inherit extraCss;
             })
           ];
-          gtk4 = {
-            extraConfig = gtkSettings;
-          };
+          gtk4 = mkMerge [
+            {
+              extraConfig = gtkSettings // {
+                gtk-application-prefer-dark-theme = true;
+              };
+            }
+
+            (mkIf config.modules.desktop.isPureWM {
+              inherit extraCss;
+            })
+          ];
         };
 
       dconf.settings = {

@@ -15,7 +15,9 @@ in
   config = mkIf cfg.enable {
     virtualisation.docker = enabled // {
       enableOnBoot = mkDefault false;
-      autoPrune = enabled;
+      autoPrune = enabled // {
+        dates = "monthly";
+      };
       enableNvidia = any (v: v == "nvidia") config.services.xserver.videoDrivers;
     };
 

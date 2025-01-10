@@ -16,9 +16,8 @@ let
         shfmt.enable = true;
         # yamllint.enable = true;
         actionlint.enable = true;
-        nixfmt = {
+        nixfmt-rfc-style = {
           enable = true;
-          package = pkgs.nixfmt-rfc-style;
         };
         deadnix = {
           enable = true;
@@ -26,13 +25,13 @@ let
             edit = true;
           };
         };
+        fourmolu.enable = true;
         # statix.enable = true;
         # convco.enable = true;
-        fourmolu.enable = true;
-        typos = {
-          enable = true;
-          types = [ "text" ];
-        };
+        # typos = {
+        #   enable = true;
+        #   types = [ "text" ];
+        # };
       };
     }).shellHook;
 in

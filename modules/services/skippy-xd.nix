@@ -26,7 +26,7 @@ in
       description = "Windows and workspaces selector";
 
       path = with pkgs; [ skippy-xd ];
-      script = "skippy-xd --start-daemon";
+      script = "skippy-xd --start-daemon --config --config-reload ${configDir}/skippy-xd/skippy-xd.rc";
     };
 
     nixpkgs.overlays = [

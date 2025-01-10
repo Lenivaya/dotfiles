@@ -30,7 +30,6 @@ with lib.my;
     ]
     ++ (with inputs.nixos-hardware.nixosModules; [
       lenovo-thinkpad-t440p
-      common-pc-laptop-acpi_call
       # common-pc-laptop-ssd
       # common-pc-laptop-hdd
     ])
@@ -77,8 +76,8 @@ with lib.my;
       };
 
       term = {
-        alacritty = enabled;
-        default = mkForce "alacritty";
+        kitty = enabled;
+        default = mkForce "kitty";
       };
 
       media = {
@@ -103,7 +102,7 @@ with lib.my;
       };
 
       vm = {
-        qemu = enabled;
+        # qemu = enabled;
         # virtualbox = enabled;
         # wine = enabled;
       };
@@ -228,7 +227,6 @@ with lib.my;
       };
     };
 
-    # adblock = enabled;
     zram = enabled;
     bootsplash = enabled;
     fast-networking = enabled;
@@ -297,7 +295,7 @@ with lib.my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   services.scx = enabled // {
-    package = pkgs.scx_git.full;
+    # package = pkgs.scx_git.full;
     scheduler = "scx_bpfland";
   };
 
@@ -337,9 +335,18 @@ with lib.my;
 
   networking.firewall = {
     allowedUDPPortRanges = [
-      { from = 3000; to = 3007; }
-      { from = 4000; to = 4007; }
-      { from = 8000; to = 8010; }
+      {
+        from = 3000;
+        to = 3007;
+      }
+      {
+        from = 4000;
+        to = 4007;
+      }
+      {
+        from = 8000;
+        to = 8010;
+      }
     ];
     allowedUDPPorts = [
       3000
@@ -495,15 +502,18 @@ with lib.my;
 
   services.avahi = enabled;
 
-  services.dnsmasq = mkForce disabled;
+  # services.dnsmasq = mkForce disabled;
 
   home.programs.emacs.package = pkgs.emacs30;
+
+  # services.xserver.displayManager.lightdm = mkForce disabled;
+  # services.displayManager.ly = enabled // { };
 
   nixpkgs.overlays =
     let
       optimize = pkg: optimizeForThisHost (withClang pkg);
     in
-    [ inputs.nur.overlay ]
+    [ inputs.nur.overlays.default ]
     ++ [ inputs.picom.overlay.${system} ]
     ++ [
       (_final: prev: {

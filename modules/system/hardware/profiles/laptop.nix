@@ -76,7 +76,6 @@ in
       timerConfig.Unit = "notify-on-low-battery.service";
       wantedBy = [ "timers.target" ];
     };
-
     systemd.user.services.notify-on-low-battery = with cfg; {
       serviceConfig.PassEnvironment = "DISPLAY";
       script = ''

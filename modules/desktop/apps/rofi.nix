@@ -20,7 +20,7 @@ in
       plugins = with pkgs; [
         rofi-emoji
         rofi-calc
-        rofi-file-browser
+        # rofi-file-browser
         rofi-top
       ];
       theme = "main";
@@ -31,7 +31,7 @@ in
           "combi"
           "drun"
           "emoji"
-          "filebrowser"
+          # "filebrowser"
         ];
         combi-modi = comcat [
           "drun"

@@ -218,4 +218,10 @@
 
   # *Always* present the Reader Mode button in the toolbar, even if the automated parsing thinks it won't work
   "reader.parse-on-load.force-enable" = true;
+
+  "image.jxl.enabled" = true;
+
+  # https://discourse.mozilla.org/t/solved-window-decoration-theme-on-linux/67006/6
+  # Disable this ugly as shit strange decorations that apperas like a border around my window on XMonad
+  "browser.tabs.inTitlebar" = 0;
 }
