@@ -20,46 +20,52 @@ let
   readHack = path: ''
     ${readFile "${inputs.firefox-csshacks}/${path}"}
   '';
+  readChromeHack = path: ''
+    ${readHack "chrome/${path}"}
+  '';
+  readContentHack = path: ''
+    ${readHack "content/${path}"}
+  '';
   userChrome = ''
-    ${readHack "chrome/hide_statuspanel_when_fullscreen.css"}
-    ${readHack "chrome/centered_statuspanel.css"}
+    ${readChromeHack "hide_statuspanel_when_fullscreen.css"}
+    ${readChromeHack "centered_statuspanel.css"}
 
-    ${readHack "chrome/compact_proton.css"}
-    ${readHack "chrome/minimal_in-UI_scrollbars.css"}
-    ${readHack "chrome/classic_grid_main_menu_popup.css"}
+    ${readChromeHack "compact_proton.css"}
+    ${readChromeHack "minimal_in-UI_scrollbars.css"}
+    ${readChromeHack "classic_grid_main_menu_popup.css"}
 
-    ${readHack "chrome/compact_urlbar_megabar.css"}
-    ${readHack "chrome/urlbar_centered_text.css"}
+    ${readChromeHack "compact_urlbar_megabar.css"}
+    ${readChromeHack "urlbar_centered_text.css"}
 
-    ${readHack "chrome/hide_tabs_with_one_tab_w_window_controls.css"}
-    ${readHack "chrome/numbered_tabs.css"}
-    ${readHack "chrome/combined_favicon_and_tab_close_button.css"}
-    ${readHack "chrome/tab_separator_lines.css"}
-    ${readHack "chrome/dual_color_tab_attention_indicator.css"}
+    ${readChromeHack "hide_tabs_with_one_tab_w_window_controls.css"}
+    ${readChromeHack "numbered_tabs.css"}
+    ${readChromeHack "combined_favicon_and_tab_close_button.css"}
+    ${readChromeHack "tab_separator_lines.css"}
+    ${readChromeHack "dual_color_tab_attention_indicator.css"}
 
-    ${readHack "chrome/autohide_bookmarks_and_main_toolbars.css"}
-    ${readHack "chrome/hide_toolbox_top_bottom_borders.css"}
-    ${readHack "chrome/less_static_throbber.css"}
+    ${readChromeHack "autohide_bookmarks_and_main_toolbars.css"}
+    ${readChromeHack "hide_toolbox_top_bottom_borders.css"}
+    ${readChromeHack "less_static_throbber.css"}
 
-    ${readHack "chrome/iconized_main_menu.css"}
-    ${readHack "chrome/iconized_menubar_items.css"}
-    ${readHack "chrome/iconized_places_context_menu.css"}
-    ${readHack "chrome/iconized_tabs_context_menu.css"}
-    ${readHack "chrome/iconized_textbox_context_menu.css"}
-    ${readHack "chrome/iconized_content_context_menu.css"}
-    ${readHack "chrome/icon_only_context_menu_text_controls.css"}
+    ${readChromeHack "iconized_main_menu.css"}
+    ${readChromeHack "iconized_menubar_items.css"}
+    ${readChromeHack "iconized_places_context_menu.css"}
+    ${readChromeHack "iconized_tabs_context_menu.css"}
+    ${readChromeHack "iconized_textbox_context_menu.css"}
+    ${readChromeHack "iconized_content_context_menu.css"}
+    ${readChromeHack "icon_only_context_menu_text_controls.css"}
 
-    ${readHack "chrome/grid_overflow_menu.css"}
+    ${readChromeHack "grid_overflow_menu.css"}
 
     ${readFile "${configDir}/firefox/userChrome.css"}
   '';
   userContent = ''
-    ${readHack "content/compact_about_config.css"}
-    ${readHack "content/compact_addons_manager.css"}
-    ${readHack "content/limit_css_data_leak.css"}
-    ${readHack "content/remove_textbox_focusring.css"}
-    ${readHack "content/transparent_reader_toolbar.css"}
-    ${readHack "content/standalone_image_page_mods.css"}
+    ${readContentHack "compact_about_config.css"}
+    ${readContentHack "compact_addons_manager.css"}
+    ${readContentHack "limit_css_data_leak.css"}
+    ${readContentHack "remove_textbox_focusring.css"}
+    ${readContentHack "transparent_reader_toolbar.css"}
+    ${readContentHack "standalone_image_page_mods.css"}
     ${readFile "${configDir}/firefox/userContent.css"}
   '';
 

@@ -224,4 +224,8 @@
   # https://discourse.mozilla.org/t/solved-window-decoration-theme-on-linux/67006/6
   # Disable this ugly as shit strange decorations that apperas like a border around my window on XMonad
   "browser.tabs.inTitlebar" = 0;
+
+  # https://gist.github.com/RubenKelevra/fd66c2f856d703260ecdf0379c4f59db
+  "network.captive-portal-service.enabled" = false;
+  "network.notify.checkForProxies" = false; # don't try to find proxies
 }

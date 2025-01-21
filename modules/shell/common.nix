@@ -49,6 +49,7 @@ in
 
   home.programs.eza = enabled // {
     icons = "auto";
+    extraOptions = [ "--hyperlink" ];
   };
 
   home.programs.broot = enabled;

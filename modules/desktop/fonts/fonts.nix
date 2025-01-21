@@ -20,6 +20,7 @@ with lib.my;
         merriweather
         julia-mono # Unicode glyphs
         nerd-fonts.symbols-only
+        my.fast-font
         # (pkgs.nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
         # (nerdfonts.override {fonts = ["FiraCode"];})
 

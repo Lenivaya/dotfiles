@@ -1,9 +1,8 @@
 # font-family = monospace
 font-family = PragmataPro Mono Liga
-font-size = 20
+font-size = 12
 
 cursor-style = bar
-cursor-style = block
 cursor-style-blink = false
 
 adjust-cell-height = 35%
@@ -12,6 +11,8 @@ window-padding-x = 30
 window-padding-y = 30
 window-padding-balance = true
 window-decoration = false
+gtk-titlebar      = false
+gtk-adwaita       = false
 fullscreen = true
 
 # theme = Tomorrow Night Bright
@@ -37,6 +38,6 @@ palette = 15=#c1ab83
 background = 0b0806
 foreground = a19782
 cursor-color = 844d2c
-selection-background = 373b41  # Using indexed_color[19] from your Alacritty config
-selection-foreground = a19782  # Using normal.white as a default since it wasn't specified
+# selection-background = 373b41  # Using indexed_color[19] from your Alacritty config
+# selection-foreground = a19782  # Using normal.white as a default since it wasn't specified
 

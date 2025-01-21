@@ -43,15 +43,15 @@ myConfig =
                 , modMask = C.modMask
                 , keys = C.myKeys
                 , logHook = C.logHook
-                , startupHook = mconcat [C.startupHook, nspTrackStartup C.scratchpads]
+                , startupHook =  C.startupHook
                 , mouseBindings = C.mouseBindings
                 , manageHook = C.manageHook
                 , handleEventHook = C.handleEventHook
                 , focusFollowsMouse = True
-                , clickJustFocuses = False
+                , clickJustFocuses = True
                 }
                 |> withNavigation2DConfig C.navigation
-                |> withUrgencyHook (borderUrgencyHook C.red1)
+                -- |> withUrgencyHook (borderUrgencyHook C.red1)
                 |> addRandrChangeHook C.myRandrChangeHook
                 |> dynamicProjects C.projects
                 |> dynamicSBs C.barSpawner

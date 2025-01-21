@@ -28,7 +28,7 @@ in
         "net.ipv4.tcp_max_syn_backlog" = 8192;
         "net.ipv4.tcp_max_tw_buckets" = 2000000;
         "net.ipv4.tcp_mtu_probing" = 1;
-        "net.ipv4.tcp_rfc1337" = mkForce 1;
+        "net.ipv4.tcp_rfc1337" = mkDefault 1;
         "net.ipv4.tcp_rmem" = "4096 1048576 2097152";
         "net.ipv4.tcp_slow_start_after_idle" = 0;
         "net.ipv4.tcp_syncookies" = mkForce 1;

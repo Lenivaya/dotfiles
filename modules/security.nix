@@ -48,7 +48,7 @@ with lib;
     # Protects against SYN flood attacks
     "net.ipv4.tcp_syncookies" = 1;
     # Incomplete protection again TIME-WAIT assassination
-    "net.ipv4.tcp_rfc1337" = 1;
+    "net.ipv4.tcp_rfc1337" = mkDefault 1;
 
     ## TCP optimization
     # TCP Fast Open is a TCP extension that reduces network latency by packing

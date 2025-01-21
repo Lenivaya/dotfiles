@@ -84,7 +84,7 @@ in
       rofi-screenshot # screencasting
     ];
     fonts.packages = with pkgs; [
-      siji # some nice icon
+      # siji # some nice icon
       font-awesome # even more nice icons
       weather-icons # for weather script
     ];
@@ -94,6 +94,7 @@ in
         postswitch = {
           change-wallpaper = "source ~/.fehbg";
           restart-xmonad = "xmonad --restart";
+          restart-avizo = "systemctl --user restart avizo";
         };
       };
     };

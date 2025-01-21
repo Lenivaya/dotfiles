@@ -22,17 +22,17 @@ in
 
     environment.systemPackages =
       with pkgs;
-      [ gnome.gnome-tweaks ]
+      [ gnome-tweaks ]
       ++ (with pkgs.gnomeExtensions; [
         # pop-shell
-        gesture-improvements
+        # gesture-improvements
         gsconnect
         vertical-workspaces # overview-navigation
         space-bar
         vim-alt-tab
         # useless-gaps
       ]);
-    services.udev.packages = with pkgs; [ gnome.gnome-settings-daemon ];
+    services.udev.packages = with pkgs; [ gnome-settings-daemon ];
 
     services.power-profiles-daemon.enable = false;
     hardware.pulseaudio.enable = false;

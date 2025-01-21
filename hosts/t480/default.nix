@@ -41,6 +41,7 @@ with my;
   modules = {
     desktop = enabled // {
       xmonad = enabled;
+      gnome = enabled;
       isPureWM = true;
 
       fonts.pragmata = enabled;
@@ -184,6 +185,11 @@ with my;
       distrobox = enabled;
     };
 
+    cachyos = {
+      settings = enabled;
+      udev = enabled;
+    };
+
     hardware = {
       profiles.laptop = enabled // {
         autoSuspendOnLowBattery = false;
@@ -210,9 +216,12 @@ with my;
         #     cTDP = 2;
         #   };
         # };
-        undervolt = enabled // {
+        undervolt = enabled // rec {
           core = -110;
           gpu = -110;
+          # core = -50;
+          # gpu = -50;
+          temp = 100;
         };
       };
       gpu = {
@@ -456,7 +465,7 @@ with my;
 
   services.smartd = enabled;
 
-  modules.services.zcfan = enabled;
+  # modules.services.zcfan = enabled;
   # services.thermald = mkForce disabled;
   # services.throttled = mkForce enabled;
   services.throttled = mkForce disabled;
@@ -479,14 +488,14 @@ with my;
     SystemMaxFileSize=50M
   '';
 
-  systemd.coredump.extraConfig = ''
-    Storage=none
-    ProcessSizeMax=0
-  '';
+  # systemd.coredump.extraConfig = ''
+  #   Storage=none
+  #   ProcessSizeMax=0
+  # '';
 
   # https://www.reddit.com/r/Fedora/comments/10s06fd/why_is_systemdoomd_still_a_thing/
   # https://www.reddit.com/r/Ubuntu/comments/uyl4i6/ubuntu_2204s_new_oom_killing_system_is_killing/
-  systemd.oomd = disabled;
+  # systemd.oomd = disabled;
 
   nix.settings = {
     system-features = [
@@ -554,8 +563,8 @@ with my;
     ];
   };
 
-  networking.wireless.iwd.settings.General.AddressRandomization = "network";
-  networking.wireless.iwd.settings.General.AddressRandomizationRange = "full";
+  # networking.wireless.iwd.settings.General.AddressRandomization = "network";
+  # networking.wireless.iwd.settings.General.AddressRandomizationRange = "full";
 
   home.programs.emacs.package = pkgs.emacs30;
 

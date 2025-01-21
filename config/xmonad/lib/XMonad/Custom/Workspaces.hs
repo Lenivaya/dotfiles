@@ -5,12 +5,12 @@ module XMonad.Custom.Workspaces where
 import Data.Foldable
 import XMonad hiding (workspaces)
 import XMonad.Actions.DynamicProjects
-import XMonad.Actions.SpawnOn
 import XMonad.Actions.WindowGo
 import XMonad.Custom.Actions.ApplicationChooser
 import XMonad.Custom.Actions.Keyboard
 import XMonad.Custom.Misc qualified as C
 import XMonad.Custom.Prompt
+import XMonad.Util.Run
 
 data WorkspaceNames = WorkspaceNames
   { generic :: String,
@@ -64,14 +64,14 @@ makeProject' name dir hook = Project
   }
 
 -- Helper function to spawn terminal with a command
-spawnTerminalWith :: String -> String -> X ()
-spawnTerminalWith ws cmd = spawnOn ws (C.term C.applications ++ " " ++ cmd)
+spawnTerminalWith :: String -> X ()
+spawnTerminalWith cmd = spawn (C.term C.applications ++ " " ++ cmd)
 
-spawnBrowserWithUrls :: String -> [String] -> X ()
-spawnBrowserWithUrls ws urls = spawnOn ws (C.browser C.applications ++ " " ++ unwords urls)
+spawnBrowserWithUrls :: [String] -> X ()
+spawnBrowserWithUrls urls = spawn (C.browser C.applications ++ " " ++ unwords urls)
 
-spawnBrowserWithUrl :: String -> String -> X ()
-spawnBrowserWithUrl ws url = spawnOn ws (C.browser C.applications ++ " --new-window " ++ url)
+spawnBrowserWithUrl :: String -> X ()
+spawnBrowserWithUrl url = spawn (C.browser C.applications ++ " --new-window " ++ url)
 
 -- All projects are either long lived (workspaces) or dynamic workspaces for specific
 -- use-cases, or dynamic projects used for starting something from use-case workspace `template`
@@ -79,88 +79,88 @@ projects :: [Project]
 projects =
   [ makeProject (generic wsNames) Nothing,
     makeProject (template wsNames) $ Just $ do
-      spawnTerminalWith (template wsNames) "-e tmux"
-      spawnOn (template wsNames) (C.browser C.applications),
+      spawnTerminalWith "-e tmux"
+      spawn (C.browser C.applications),
     makeProject (graphics wsNames) $ Just $ do
-      spawnOn (graphics wsNames) "gimp",
+      spawn "gimp",
     makeProject (sound wsNames) $ Just $ do
-      spawnOn (sound wsNames) (C.soundEffects C.applications)
-      spawnOn (sound wsNames) "pavucontrol",
+      spawn (C.soundEffects C.applications)
+      spawn "pavucontrol",
     makeProject (vm wsNames) $ Just $ do
-      spawnOn (vm wsNames) (C.virtualMachinesManger C.applications),
+      spawn (C.virtualMachinesManger C.applications),
     makeProject (write wsNames) $ Just $ do
-      spawnOn (write wsNames) "emacs_lets_write",
+      spawn "emacs_lets_write",
     makeProject (note wsNames) $ Just $ do
-      spawnOn (note wsNames) "obsidian",
+      spawn "obsidian",
     makeProject (code wsNames) $ Just $ do
       wrapKbdLayout $
         selectEditorByNameAndDo
           promptTheme
-          (spawnOn (code wsNames)),
+          spawn,
     makeProject (web wsNames) $ Just $ do
       wrapKbdLayout $
         selectBrowserByNameAndDo
           promptTheme
-          (spawnOn (web wsNames)),
+          spawn,
     makeProject (wsread wsNames) $ Just $ do
       wrapKbdLayout $
         selectReaderByNameAndDo
           promptTheme
-          (spawnOn (wsread wsNames)),
+          spawn,
     makeProject (sys wsNames) $ Just $ do
-      spawnOn (sys wsNames) (C.term C.applications)
-      spawnOn (sys wsNames) (C.term C.applications),
+      spawn (C.term C.applications)
+      spawn (C.term C.applications),
     makeProject (tmp wsNames) Nothing,
     makeProject (wsWRK wsNames) Nothing,
-    makeProject (git wsNames) $ Just $ do spawnOn (git wsNames) "gitbutler-tauri",
-    makeProject (messages wsNames) $ Just $ do spawnOn (messages wsNames) "telegram-desktop",
+    makeProject (git wsNames) $ Just $ do spawn "gitbutler-tauri",
+    makeProject (messages wsNames) $ Just $ do spawn "telegram-desktop",
     makeProject "START" Nothing,
     makeProject "MON" $ Just $ do
-      spawnTerminalWith "MON" "-e btop"
-      spawnTerminalWith "MON" "-e htop",
+      spawnTerminalWith "-e btop"
+      spawnTerminalWith "-e htop",
     makeProject "AI" $ Just $ do
-      spawnBrowserWithUrl "AI" "https://chat.openai.com"
-      spawnBrowserWithUrls "AI" ["https://claude.ai", "https://copilot.microsoft.com", "https://chat.deepseek.com/"],
+      spawnBrowserWithUrl "https://chat.openai.com"
+      spawnBrowserWithUrls ["https://claude.ai", "https://copilot.microsoft.com", "https://chat.deepseek.com"],
     makeProject "GH" $ Just $ do
-      spawnBrowserWithUrl "GH" "https://github.com"
-      spawnBrowserWithUrls "GH" ["https://github.com/notifications", "https://github.com/pulls"],
+      spawnBrowserWithUrl "https://github.com"
+      spawnBrowserWithUrls ["https://github.com/notifications", "https://github.com/pulls"],
     makeProject "MAIL" $ Just $ do
-      spawnBrowserWithUrl "MAIL" "https://mail.google.com"
-      spawnBrowserWithUrl "MAIL" "https://mail.proton.me",
+      spawnBrowserWithUrl "https://mail.google.com"
+      spawnBrowserWithUrl "https://mail.proton.me",
     makeProject "TWR" $ Just $ do
-      spawnBrowserWithUrl "TWR" "https://x.com",
+      spawnBrowserWithUrl "https://x.com",
     makeProject "SPACE-ANALYZER" $ Just $ do
-      spawnTerminalWith "SPACE-ANALYZER" "--hold -e duf"
-      spawnTerminalWith "SPACE-ANALYZER" "-e dua i ~/",
+      spawnTerminalWith "--hold -e duf"
+      spawnTerminalWith "-e dua i ~/",
     makeProject "WEATHER" $ Just $ do
-      spawnTerminalWith "WEATHER" "--hold -e curl wttr.in"
-      spawnBrowserWithUrl "WEATHER" "https://merrysky.net/",
+      spawnTerminalWith "--hold -e curl wttr.in"
+      spawnBrowserWithUrl "https://merrysky.net/",
     makeProject "DEV" $ Just $ do
-      spawnOn "DEV" "cursor"
-      spawnTerminalWith "DEV" "-e tmux"
-      spawnBrowserWithUrl "DEV" "https://devdocs.io",
+      spawn "cursor"
+      spawnTerminalWith "-e tmux"
+      spawnBrowserWithUrl "https://devdocs.io",
     makeProject "NET" $ Just $ do
-      spawnTerminalWith "NET" "--hold -e , speedtest-rs"
-      spawnTerminalWith "NET" "-e , bmon",
+      spawnTerminalWith "--hold -e , speedtest-rs"
+      spawnTerminalWith "-e , bmon",
     makeProject "LOGS" $ Just $ do
-      spawnTerminalWith "LOGS" "--hold -e journalctl -f",
+      spawnTerminalWith "--hold -e journalctl -f",
     makeProject "API" $ Just $ do
-      spawnOn "API" "postman",
+      spawn "postman",
     makeProject "LANG" $ Just $ do
-      spawnBrowserWithUrls "LANG" ["https://duolingo.com", "https://translate.google.com", "https://forvo.com"],
+      spawnBrowserWithUrls ["https://duolingo.com", "https://translate.google.com", "https://forvo.com"],
     makeProject "TRANSLATE" $ Just $ do
-      spawnBrowserWithUrls "TRANSLATE" ["https://translate.google.com", "https://deepl.com", "https://reverso.net"],
+      spawnBrowserWithUrls ["https://translate.google.com", "https://deepl.com", "https://reverso.net"],
     makeProject "DOCKER" $ Just $ do
-      spawnTerminalWith "DOCKER" "-e lazydocker"
-      spawnTerminalWith "DOCKER" "-e oxker",
+      spawnTerminalWith "-e lazydocker"
+      spawnTerminalWith "-e oxker",
     makeProject "CRYPTO" $ Just $ do
-      spawnTerminalWith "CRYPTO" "-e , cointop"
-      spawnBrowserWithUrls "CRYPTO" ["https://x.com", "https://dropstab.com"],
+      spawnTerminalWith "-e , cointop"
+      spawnBrowserWithUrls ["https://x.com", "https://dropstab.com"],
     makeProject "REC" $ Just $ do
-      spawnOn "REC" "obs",
+      spawn "obs",
     makeProject "WATCH" $ Just $ do
-      spawnBrowserWithUrls "WATCH" ["https://youtube.com", "https://www.youtube.com/playlist?list=WL"],
+      spawnBrowserWithUrls ["https://youtube.com", "https://www.youtube.com/playlist?list=WL"],
     makeProject "UPWORK" $ Just $ do
-      spawnBrowserWithUrls "UPWORK" ["https://www.upwork.com/", "https://www.upwork.com/nx/find-work/best-matches", "https://www.upwork.com/nx/plans/connects/history/"]
-      spawnOn "UPWORK" "upwork"
+      spawnBrowserWithUrls ["https://www.upwork.com/", "https://www.upwork.com/nx/find-work/best-matches", "https://www.upwork.com/nx/plans/connects/history/"]
+      spawn "upwork"
   ]

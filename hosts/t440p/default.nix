@@ -180,6 +180,11 @@ with lib.my;
       nix-ld = enabled;
     };
 
+    cachyos = {
+      settings = enabled;
+      udev = enabled;
+    };
+
     hardware = {
       profiles.laptop = enabled;
       cpu.intel = enabled;
@@ -209,7 +214,7 @@ with lib.my;
           gpu = -30;
           uncore = core;
           analogio = core;
-          temp = 95;
+          temp = 100;
         };
       };
       gpu = {
@@ -411,6 +416,10 @@ with lib.my;
   };
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = mkForce "i965";
+
+    # https://wiki.archlinux.org/title/GTK#GTK_4_applications_are_slow
+    GSK_RENDERER = "gl";
+    GDK_DEBUG = "gl-no-fractional";
   };
 
   services.smartd = enabled;
@@ -425,7 +434,7 @@ with lib.my;
 
   # services.safeeyes = enabled;
 
-  # modules.services.zcfan = enabled;
+  modules.services.zcfan = enabled;
   # services.thermald = mkForce disabled;
   # services.throttled = mkForce enabled;
   services.throttled = mkForce disabled;
@@ -461,14 +470,14 @@ with lib.my;
     SystemMaxFileSize=50M
   '';
 
-  systemd.coredump.extraConfig = ''
-    Storage=none
-    ProcessSizeMax=0
-  '';
+  # systemd.coredump.extraConfig = ''
+  #   Storage=none
+  #   ProcessSizeMax=0
+  # '';
 
   # https://www.reddit.com/r/Fedora/comments/10s06fd/why_is_systemdoomd_still_a_thing/
   # https://www.reddit.com/r/Ubuntu/comments/uyl4i6/ubuntu_2204s_new_oom_killing_system_is_killing/
-  systemd.oomd = disabled;
+  # systemd.oomd = disabled;
 
   nix.settings = {
     system-features = [

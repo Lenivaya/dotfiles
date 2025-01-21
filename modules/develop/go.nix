@@ -19,10 +19,13 @@ in
       goPath = ".go";
     };
 
-    user.packages = with pkgs; [ gotools ];
+    user.packages = with pkgs; [
+      gotools
+      gopls
+    ];
 
     env = {
-      PATH = [ "$GOBIN" ];
+      PATH = [ "$GOPATH/bin" ];
     };
   };
 }

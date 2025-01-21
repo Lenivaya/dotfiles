@@ -65,6 +65,8 @@ in
       feh
       lxappearance
 
+      gnome-clocks
+
       (makeDesktopItem {
         name = "scratch-calc";
         desktopName = "Calculator";

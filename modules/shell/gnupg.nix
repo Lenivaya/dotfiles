@@ -17,16 +17,12 @@ in
 
   config = mkIf cfg.enable (mkMerge [
     {
-      environment.variables.GNUPGHOME = "$XDG_CONFIG_HOME/gnupg";
-      programs.gnupg.agent = enabled;
-      user.packages = with pkgs; [ tomb ];
-
-      home.configFile."gnupg/gpg-agent.conf" = {
-        text = ''
-          default-cache-ttl ${toString cfg.cacheTTL}
-        '';
-        # pinentry-program ${getExe pkgs.pinentry-gnome}
+      programs.gnupg.agent = enabled // {
+        settings = {
+          default-cache-ttl = cfg.cacheTTL;
+        };
       };
+      user.packages = with pkgs; [ tomb ];
     }
 
     (mkIf config.this.isHeadful {

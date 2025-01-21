@@ -152,7 +152,7 @@
     "autofetch": true,
     "confirmSync": false,
     "detectSubmodules": false,
-    "enableCommitSigning": true,
+    "enableCommitSigning": false,
     "enableSmartCommit": true,
     "showPushSuccessNotification": true
   },
@@ -493,7 +493,7 @@
   "[typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "tailwind-fold.autoFold": true,
+  "tailwind-fold.autoFold": false,
   "typescript.updateImportsOnFileMove.enabled": "always",
   "[dockercompose]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -524,5 +524,9 @@
   "rust-analyzer.cachePriming.enable": false,
   "rust-analyzer.server.path": "rust-analyzer",
   "editor.renderWhitespace": "all",
-  "debug.toolBarLocation": "docked"
+  "debug.toolBarLocation": "docked",
+  "[csharp]": {
+    "editor.defaultFormatter": "ms-dotnettools.csharp"
+  },
+  "files.autoSave": "afterDelay"
 }

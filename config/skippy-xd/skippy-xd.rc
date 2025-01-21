@@ -27,6 +27,7 @@ updateFreq = 60.0
 # Try a different option
 # clientList = XQueryTree
 clientList = _NET_CLIENT_LIST
+# clientList = _WIN_CLIENT_LIST
 
 # when compositors such as picom are not used
 # turn on pseudo-transparency
@@ -49,7 +50,7 @@ distance = 50
 exposeLayout = boxy
 
 # Whether to show the window bigger than its original size
-allowUpscale = true
+allowUpscale = false
 
 [filter]
 
@@ -60,6 +61,10 @@ showOnlyCurrentMonitor = false
 # windows that are minimized, shaded, or on other virtual desktops
 showShadow = true
 
+# Choose whether to always display sticky windows
+# Switch shows sticky windows regardless of configuration
+showSticky = true
+
 # For switch and expose,
 # Whether to limit window select on current virtual desktop
 # Or allow window selection on all virtual desktops
@@ -67,7 +72,19 @@ showShadow = true
 switchShowAllDesktops = false
 exposeShowAllDesktops = false
 
+# Whether the filtering of window class
+# Will be persistent across activations
+persistentFiltering = false
+
 [display]
+
+# Shows _NET_WM_WINDOW_TYPE_DESKTOP windows
+# which are usually wallpaper/background related
+showDesktop = true
+
+# During paging mode, preserve original desktop appearance
+# From the background being applied
+preservePages = true
 
 # Background when skippy-xd is activated
 # To display background wallpaper:
@@ -83,14 +100,14 @@ background = #00000055
 movePointer = false
 
 # Whether to display window frames
-includeFrame = true
+includeFrame = false
 
 # Show window previews with rounded corners,
 # with corner radius in pixels
-cornerRadius = 5
+cornerRadius = 0
 
 # Icon parameters
-showIconsOnThumbnails = false
+showIconsOnThumbnails = true
 preferredIconSize = 48
 
 # Box display when live preview is not available
@@ -125,6 +142,8 @@ allowOverlap = true
 show = false
 showDesktop = false
 showMonitor = false
+# showDesktop = true
+# showMonitor = false
 offsetX = 0
 offsetY = -5
 width = 0.8

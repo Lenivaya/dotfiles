@@ -22,7 +22,7 @@ import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ShowWName
 import XMonad.Hooks.StatusBar.PP
 import XMonad.StackSet qualified as W
-import XMonad.Util.ClickableWorkspaces
+-- import XMonad.Util.ClickableWorkspaces
 import XMonad.Util.Loggers.NamedScratchpad
 import XMonad.Util.NamedScratchpad hiding (
   namedScratchpadFilterOutWorkspace,
@@ -52,7 +52,7 @@ layoutName' l = unsafePerformIO $ do
 windowCount =
   Just
     . xmobarColor white2 ""
-    . xmobarFont 2
+    . xmobarFont 1
     . wrap "[" "]"
     . show
     . length
@@ -66,7 +66,7 @@ windowCount =
 topBarPP :: PP
 topBarPP =
   def
-    { ppCurrent = xmobarColor white2 "" . xmobarFont 2 . wrap "=" "=",
+    { ppCurrent = xmobarColor white2 "" . xmobarFont 1 . wrap "=" "=",
       ppVisible = xmobarColor white1 "" . wrap "~" "~",
       ppHidden = xmobarColor white1 "" . wrap "-" "-",
       ppHiddenNoWindows = xmobarColor white1 "" . wrap "_" "_",
@@ -87,9 +87,9 @@ topBarPP' = do
 
   let copiesCurrent ws
         | ws `elem` c =
-            xmobarColor yellow2 "" . xmobarFont 2 . wrap "*" "=" $ ws
+            xmobarColor yellow2 "" . xmobarFont 1 . wrap "*" "=" $ ws
         | otherwise =
-            xmobarColor white2 "" . xmobarFont 2 . wrap "=" "=" $ ws
+            xmobarColor white2 "" . xmobarFont 1 . wrap "=" "=" $ ws
   let copiesHidden ws
         | ws `elem` c = xmobarColor yellow1 "" . wrap "*" "-" $ ws
         | otherwise = xmobarColor white1 "" . wrap "-" "-" $ ws
@@ -99,13 +99,11 @@ topBarPP' = do
 
   let copiesCurrentPP = xmobarColor yellow1 "" . wrap "*" "-"
 
-  clickablePP
-    topBarPP
-      { ppCurrent = copiesCurrent,
-        ppHidden = copiesHidden,
-        ppUrgent = copiesUrgent
-      }
-    >>= copiesPP copiesCurrentPP
+  copiesPP copiesCurrentPP $ topBarPP
+    { ppCurrent = copiesCurrent,
+      ppHidden = copiesHidden,
+      ppUrgent = copiesUrgent
+    }
 
 botBarPP :: PP
 botBarPP =

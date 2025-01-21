@@ -9,3 +9,24 @@
     scrollbar-width: thin !important;
   }
 }
+
+/* https://www.reddit.com/r/FirefoxCSS/comments/1hy3suk/remove_firefox_support_button/ */
+[is="moz-support-link"] {
+  display: none !important;
+}
+[support-page="addons-help"] {
+  display: none !important;
+}
+/* Hide all 'Learn more' links in about:preferences */
+@-moz-document url-prefix("about:preferences") {
+  .learnMore,
+  .browsing-cfr-recommendations-learn-more,
+  #addEngines,
+  #addressAutofillLearnMore,
+  #creditCardAutofillLearnMore,
+  #creditCardReauthenticateLearnMore,
+  #crashReporterLearnMore,
+  a[is="moz-support-link"] {
+    display: none !important;
+  }
+}

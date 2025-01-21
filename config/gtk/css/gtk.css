@@ -8,6 +8,7 @@ button:focus {
   outline-width: 1px;
   -gtk-outline-radius: 2px;
 }
+
 window,
 .titlebar,
 headerbar,
@@ -46,7 +47,9 @@ NautilusWindow {
 }
 
 .window-frame.csd.popup {
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.13);
+  box-shadow:
+    0 1px 2px rgba(0, 0, 0, 0.2),
+    0 0 0 1px rgba(0, 0, 0, 0.13);
 }
 
 .header-bar {
@@ -54,7 +57,15 @@ NautilusWindow {
   background-color: #ededed;
   box-shadow: none;
 }
-/* You may want to use this if you do not like the double title.
-              GtkLabel.title {
-                  opacity: 0;
-              }*/
+/* You may want to use this if you do not like the double title. /*/
+GtkLabel.title {
+  opacity: 0;
+}
+
+/* rm -rf window shadows */
+window.csd,             /* gtk4? */
+window.csd decoration {
+  /* gtk3 */
+  border-radius: 0;
+  box-shadow: none;
+}

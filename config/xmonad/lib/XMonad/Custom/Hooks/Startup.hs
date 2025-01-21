@@ -14,7 +14,7 @@ startupHook = do
   -- setWMName "LG3D"
   -- setWMName "XMonad"
   -- setDefaultCursor xC_left_ptr -- sets some strange looking cursor
-  -- spawnOnce "xsetroot -cursor_name left_ptr"
+  spawnOnce "xsetroot -cursor_name left_ptr"
   spawnOnce "source ~/.fehbg"
 
 -- setDefaultCursor xC_left_ptr
