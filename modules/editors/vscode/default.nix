@@ -79,8 +79,6 @@ in
           ms-azuretools.vscode-docker
           ms-vscode-remote.remote-containers
           ms-vscode-remote.remote-ssh
-          ms-vsliveshare.vsliveshare
-          nhoizey.gremlins
           peterschmalfeldt.explorer-exclude
           quicktype.quicktype
           stylelint.vscode-stylelint

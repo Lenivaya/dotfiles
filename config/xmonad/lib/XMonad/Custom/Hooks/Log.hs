@@ -31,6 +31,12 @@ import XMonad.Util.WorkspaceCompare
 import qualified Data.Map as Map
 import Data.IORef
 import System.IO.Unsafe (unsafePerformIO)
+import XMonad.Hooks.RefocusLast
+import qualified XMonad.Util.ExtensibleState as UXS
+import XMonad.Actions.Minimize
+import XMonad.Util.Minimize
+import XMonad.Util.Loggers
+import XMonad.Custom.Utils.Loggers
 
 -- Create a global cache for layout names
 layoutNameCache :: IORef (Map.Map String String)
@@ -49,20 +55,6 @@ layoutName' l = unsafePerformIO $ do
       modifyIORef' layoutNameCache (Map.insert l name)
       return name
 
-windowCount =
-  Just
-    . xmobarColor white2 ""
-    . xmobarFont 1
-    . wrap "[" "]"
-    . show
-    . length
-    . W.integrate'
-    . W.stack
-    . W.workspace
-    . W.current
-    . windowset
-    <$> get
-
 topBarPP :: PP
 topBarPP =
   def
@@ -76,10 +68,10 @@ topBarPP =
       ppTitle = xmobarColor white1 "" . shorten 60,
       -- ppTitleSanitize = xmobarStrip,
       ppLayout = xmobarColor white1 "" . layoutName',
-      ppOrder = \[ws, l, t, ex] -> [ws, l, ex, t],
+      ppOrder = \(ws:l:t:ex) -> [ws, l] ++ ex ++ [t],
       ppSort = (namedScratchpadFilterOutWorkspace .) <$> getSortByIndex,
-      ppExtras = [windowCount]
-    }
+      ppExtras = [windowsLogger]
+}
 
 topBarPP' :: X PP
 topBarPP' = do
@@ -121,7 +113,9 @@ logHook :: X ()
 logHook = do
   masterHistoryHook
   updatePointer (0.5, 0.5) (0, 0)
+  refocusLastLogHook
+  nsHideOnFocusLoss scratchpads
+  -- nsSingleScratchpadPerWorkspace scratchpads
   showWNameLogHook def
-  -- nsHideOnFocusLoss scratchpads
   -- currentWorkspaceOnTop
   -- fadeWindowsLogHook myFadeHook

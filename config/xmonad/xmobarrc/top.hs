@@ -1,8 +1,7 @@
 Config
   { font = "monospace Regular 12",
     additionalFonts =
-      [
-        "monospace Regular 12",
+      [ "monospace Regular 12",
         "monospace Regular 10",
         -- "Weather Icons Regular 10",
         "FontAwesome Regular 10"
@@ -24,8 +23,7 @@ Config
     borderWidth = 1,
     iconRoot = ".",
     commands =
-      [
-        -- Run Date "%d.%m.%y / %A / %H:%M" "date" 10,
+      [ -- Run Date "%d.%m.%y / %A / %H:%M" "date" 10,
         -- TODO FIXME https://discourse.mozilla.org/t/retiring-the-mozilla-location-service/128693
         -- Run ComX "openweathermap" [] "" "weather" 10000,
         -- Run UnsafeXPropertyLog "_XMONAD_LOG_1",

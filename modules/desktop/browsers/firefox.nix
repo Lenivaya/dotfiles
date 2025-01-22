@@ -81,15 +81,15 @@ let
       libredirect
       buster-captcha-solver
       # bypass-paywalls-clean
-      terms-of-service-didnt-read
+      # terms-of-service-didnt-read
       don-t-fuck-with-paste
       tab-session-manager
       languagetool
       multi-account-containers
       violentmonkey
       refined-github
-      reddit-comment-collapser
-      reddit-enhancement-suite
+      # reddit-comment-collapser
+      # reddit-enhancement-suite
     ]
     ++ optional modules.desktop.media.mpv.enable ff2mpv
     ++ optional modules.shell.pass.enable passff;

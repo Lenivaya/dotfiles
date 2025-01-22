@@ -50,6 +50,11 @@ maxEventHistory = 5
 layoutSwitchHistory :: IORef [LayoutSwitch]
 layoutSwitchHistory = unsafePerformIO $ newIORef []
 
+-- | Cache for storing available keyboard layouts
+{-# NOINLINE kbdLayoutsCache #-}
+kbdLayoutsCache :: IORef (Maybe [String])
+kbdLayoutsCache = unsafePerformIO $ newIORef Nothing
+
 -- | Create a new layout switch event
 mkLayoutSwitch :: String -> Bool -> LayoutSwitch
 mkLayoutSwitch layout = LayoutSwitch (cleanLayout layout)
@@ -115,10 +120,19 @@ getRecentLayouts = do
 
 -- | Get available keyboard layouts
 getKbdLayouts :: X [String]
-getKbdLayouts =
-  runProcessWithInput "xkb-switch" ["-l"] ""
-    |> fmap lines
-    |> fmap (filter (not . null))
+getKbdLayouts = do
+  cached <- liftIO $ readIORef kbdLayoutsCache
+  case cached of
+    Just layouts -> return layouts
+    Nothing -> do
+      layouts <-
+        runProcessWithInput "xkb-switch" ["-l"] ""
+          |> fmap lines
+          |> fmap (filter (not . null))
+      unless (null layouts) $
+        liftIO $
+          writeIORef kbdLayoutsCache (Just layouts)
+      return layouts
 
 -- | Get the current keyboard layout
 getCurrentLayout :: X String

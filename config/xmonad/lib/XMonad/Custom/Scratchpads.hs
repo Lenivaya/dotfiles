@@ -12,6 +12,7 @@ import XMonad.Util.NamedScratchpad hiding (
   namedScratchpadFilterOutWorkspace,
  )
 import XMonad.Util.WorkspaceCompare
+import XMonad.Custom.Manage.ManageHelpers
 
 spawnTerminalWith :: String -> String -> String
 spawnTerminalWith className command = unwords $ terminal : options
@@ -64,11 +65,46 @@ scratchpads =
       "cpupower-gui"
       (className =? "Cpupower-gui")
       (centerFloat 0.7 0.7),
+    -- NS
+    --   "telegram"
+    --   "telegram-desktop"
+    --   (className =? "TelegramDesktop")
+    --   doFullCenterFloat,
     NS
-      "telegram"
-      "telegram-desktop"
-      (className =? "TelegramDesktop")
-      doFullCenterFloat
+      "reader"
+      "foliate"
+      (className =? "com.github.johnfactotum.Foliate")
+      doFullCenterFloat,
+    NS
+      "notes"
+      "obsidian"
+      (className =? "obsidian")
+      doFullCenterFloat,
+   NS
+      "logs"
+      (spawnTerminalWith "NSPLogs" "--hold -e journalctl -f")
+      (className =? "NSPLogs")
+      doFullCenterFloat,
+   NS
+      "calculator"
+      (spawnTerminalWith "NSPCalc" "qalc")
+      (className =? "NSPCalc")
+      (centerFloat 0.4 0.4),
+   NS
+      "calendar"
+      (spawnTerminalWith "NSPCalendar" "khal interactive")
+      (className =? "NSPCalendar")
+      (centerFloat 0.4 0.4),
+   NS
+      "translate"
+      (spawnTerminalWith "NSPTrans" "trans :ru -I")
+      (className =? "NSPTrans")
+      (centerFloat 0.5 0.5),
+   NS
+      "bluetooth"
+      (spawnTerminalWith "NSPTrans" "bluetuith")
+      (className =? "NSPBluetooth")
+      (centerFloat 0.5 0.5)
   ]
   where
     doFullCenterFloat = centerFloat 0.85 0.85

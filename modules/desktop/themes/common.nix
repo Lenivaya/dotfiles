@@ -23,6 +23,7 @@ in
         let
           gtkSettings = mkMerge [
             {
+              #   gtk-hint-font-metrics = false;
               gtk-hint-font-metrics = 1;
               gtk-xft-antialias = 1;
               gtk-xft-hinting = 1;

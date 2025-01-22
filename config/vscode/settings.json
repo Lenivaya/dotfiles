@@ -22,7 +22,7 @@
   },
   "editor": {
     "cursorBlinking": "smooth",
-    "cursorSmoothCaretAnimation": true,
+    "cursorSmoothCaretAnimation": false,
     "fontLigatures": true,
     "inlayHints": {
       "enabled": "offUnlessPressed"
@@ -42,7 +42,7 @@
     "renderIndentGuides": false,
     "renderWhitespace": "none",
     "rulers": [80, 100],
-    "smoothScrolling": true,
+    "smoothScrolling": false,
     "snippetSuggestions": "top",
     "suggest": {
       "localityBonus": true
@@ -386,7 +386,7 @@
     ],
     "iconTheme": "vs-seti",
     "list": {
-      "smoothScrolling": true
+      "smoothScrolling": false
     },
     "sideBar": {
       "location": "right"
@@ -459,7 +459,6 @@
       }
     ]
   },
-  "editor.cursorSmoothCaretAnimation": "on",
   "editor.guides.indentation": false,
   "nix.enableLanguageServer": true,
   "nix.formatterPath": "nixfmt",
@@ -528,5 +527,12 @@
   "[csharp]": {
     "editor.defaultFormatter": "ms-dotnettools.csharp"
   },
-  "files.autoSave": "afterDelay"
+  "files.autoSave": "afterDelay",
+  "files.autoSaveDelay": 1000,
+  "editor.accessibilitySupport": "off",
+  "editor.cursorSmoothCaretAnimation": "off",
+  "workbench.tips.enabled": false,
+  "files.autoGuessEncoding": false,
+  "emmet.showExpandedAbbreviation": "never",
+  "editor.minimap.enabled": true
 }

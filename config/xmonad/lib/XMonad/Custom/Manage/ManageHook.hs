@@ -19,8 +19,7 @@ import XMonad.Util.NamedScratchpad
 
 composeActions :: [MaybeManageHook]
 composeActions =
-  [
-    -- appName =? "emacs-popup" -?> tileBelowNoFocus,
+  [ -- appName =? "emacs-popup" -?> tileBelowNoFocus,
     -- appName =? "eterm" -?> tileBelow,
     -- appName =? "spotify" -?> doFullCenterFloat,
     -- appName =? "emacs" <&&> title =? "emacs-anywhere" -?> centerFloat 0.5 0.5,
@@ -39,7 +38,7 @@ composeActions =
     -- className =? "gcr-prompter" <||> className =? "Gcr-prompter" -?> doCenterFloat,
     -- className =? "Safeeyes" -?> doFullFloat,
     className =? "Avizo-service" -?> doIgnore,
-    className =? "gitbutler-tauri" -?> doShift (git wsNames),
+    -- className =? "gitbutler-tauri" -?> doShift (git wsNames),
     -- className
     --   =? "jetbrains-toolbox"
     --   <||> appName
@@ -53,6 +52,7 @@ composeActions =
     isDialog -?> doCenterFloat,
     isRole =? "browser" -?> ewmhDesktopsManageHook,
     isRole =? "bubble" -?> doIgnore, -- for Chromeium tooltip
+    -- isFullscreen -?> doFloat,
     transience
   ]
   where
@@ -65,8 +65,8 @@ composeActions =
 manageHook :: ManageHook
 manageHook =
   composeAll
-    [
-      -- manageSpawn,
+    [ -- manageSpawn,
       composeOne composeActions,
       namedScratchpadManageHook scratchpads
+      -- fullscreenManageHook
     ]

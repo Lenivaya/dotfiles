@@ -37,9 +37,9 @@ in
     };
 
     # https://github.com/CachyOS/CachyOS-Settings/blob/master/usr/lib/tmpfiles.d/thp-shrinker.conf
-    boot.kernel.sysfs.sys.kernel.mm.transparent_hugepage.khugepaged.max_ptes_none = mkForce 409;
+    boot.kernel.sysfs.sys.kernel.mm.transparent_hugepage.khugepaged.max_ptes_none = 409;
 
     # https://github.com/CachyOS/CachyOS-Settings/blob/master/usr/lib/tmpfiles.d/thp-shrinker.conf
-    boot.kernel.sysfs.sys.kernel.mm.transparent_hugepage.defrag = mkForce "defer+madvise";
+    boot.kernel.sysfs.sys.kernel.mm.transparent_hugepage.defrag = "defer+madvise";
   };
 }

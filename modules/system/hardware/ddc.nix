@@ -1,4 +1,5 @@
 # https://news.ycombinator.com/item?id=24344696
+# https://wiki.nixos.org/wiki/Backlight
 {
   config,
   lib,
@@ -20,7 +21,7 @@ in
       hardware.i2c.enable = true;
       boot.kernelModules = [
         "ddcci"
-        "ddcci_backlight"
+        "ddcci-backlight"
       ];
       boot.extraModulePackages = with config.boot.kernelPackages; [ ddcci-driver ];
 

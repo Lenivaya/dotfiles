@@ -32,17 +32,18 @@ in
 
       exportConfiguration = true;
 
-      displayManager.lightdm = mkDefault (
-        enabled
-        // {
-          greeters.gtk.theme = {
-            # package = pkgs.gnome.gnome-themes-extra;
-            # name = "Adwaita-dark";
-            package = pkgs.adw-gtk3;
-            name = "adw-gtk3-dark";
-          };
-        }
-      );
+      displayManager.gdm.enable = mkDefault true;
+      # displayManager.lightdm = mkDefault (
+      #   enabled
+      #   // {
+      #     greeters.gtk.theme = {
+      #       # package = pkgs.gnome.gnome-themes-extra;
+      #       # name = "Adwaita-dark";
+      #       package = pkgs.adw-gtk3;
+      #       name = "adw-gtk3-dark";
+      #     };
+      #   }
+      # );
     };
 
     services.dbus.packages = with pkgs; [ dconf ];

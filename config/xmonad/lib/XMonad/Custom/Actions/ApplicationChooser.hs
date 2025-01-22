@@ -1,19 +1,19 @@
-{-# LANGUAGE DerivingVia #-}
-{-# LANGUAGE StrictData #-}
-{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE DeriveGeneric #-}
 {-# LANGUAGE DerivingStrategies #-}
+{-# LANGUAGE DerivingVia #-}
+{-# LANGUAGE LambdaCase #-}
+{-# LANGUAGE StrictData #-}
 
 module XMonad.Custom.Actions.ApplicationChooser where
 
 import Data.List
+import qualified Data.Map as Map
 import Data.Maybe
+import GHC.Generics (Generic)
 import XMonad
 import XMonad.Custom.Prompt
 import XMonad.Prompt
 import XMonad.Prompt.Shell
-import qualified Data.Map as Map
-import GHC.Generics (Generic)
 
 data Application = Application
   { applicationCategory :: !AppCategory,
@@ -24,7 +24,8 @@ data Application = Application
 
 newtype AppByName = AppByName
   { getApps :: [Application]
-  } deriving stock (Generic)
+  }
+  deriving stock (Generic)
 
 instance XPrompt AppByName where
   showXPrompt (AppByName apps) =
@@ -61,19 +62,16 @@ myBrowsers =
     Application Browsers "Brave" "brave",
     Application Browsers "Qutebrowser" "qutebrowser"
   ]
-
 myReaders =
   [ Application Readers "Zathura" "zathura",
     Application Readers "Foliate" "foliate",
     Application Readers "Evince" "evince",
     Application Readers "Papers" "papers"
   ]
-
 mySoundUtils =
   [ Application SoundUtils "Easyeffects" "easyeffects",
     Application SoundUtils "Pavucontrol" "pavucontrol"
   ]
-
 myEditors =
   [ Application Editors "Neovim" "neovide",
     Application Editors "VSCode" "code",
@@ -100,7 +98,9 @@ selectAppByNameAndDo' conf (AppByName apps) action = do
 -- Generic action creators
 withCategory :: AppCategory -> (String -> X ()) -> XPConfig -> X ()
 withCategory category action =
-    selectAppByNameAndDo' `flip` (AppByName $ getApplications category) `flip` action
+  selectAppByNameAndDo'
+    `flip` (AppByName $ getApplications category)
+    `flip` action
 
 -- Fixed type signature and implementation
 selectCategoryAndDo :: AppCategory -> XPConfig -> (String -> X ()) -> X ()
@@ -131,4 +131,3 @@ selectReaderByNameAndSpawn conf = selectCategoryAndDo Readers conf spawn
 
 selectEditorByNameAndSpawn :: XPConfig -> X ()
 selectEditorByNameAndSpawn conf = selectCategoryAndDo Editors conf spawn
-

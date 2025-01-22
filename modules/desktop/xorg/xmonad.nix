@@ -27,7 +27,6 @@ in
   options.modules.desktop.xmonad.enable = mkBoolOpt false;
 
   imports = with inputs; xmonad-contrib.nixosModules;
-  # ++ [ xmonad-contrib.modernise.${system} ];
 
   config = mkIf cfg.enable {
     nixpkgs.overlays = [ xmonadExtrasOverlay ];
@@ -58,6 +57,29 @@ in
       flake = enabled;
       enableContribAndExtras = true;
       extraPackages = hpkgs: with hpkgs; [ flow ];
+      enableConfiguredRecompile = true;
+      ghcArgs = [
+        "-hidir /tmp" # place interface files in /tmp, otherwise ghc tries to write them to the nix store
+        "-odir /tmp" # place object files in /tmp, otherwise ghc tries to write them to the nix store
+        "-O3"
+        "-funfolding-use-threshold=16"
+        "-fexcess-precision"
+        "-optc-O3"
+        "-optc-march=native"
+        "-optc-mtune=native"
+        "-optc-ffast-math"
+
+        "-fdicts-cheap"
+        "-fspecialise-aggressively"
+        "-fblock-layout-weightless"
+        "-feager-blackholing"
+        "-fexpose-all-unfoldings"
+        "-fregs-iterative"
+        "-fspec-constr-keen"
+        "-fstatic-argument-transformation"
+        "-funbox-strict-fields"
+        "-flate-dmd-anal"
+      ];
     };
 
     services.displayManager.defaultSession = "none+xmonad";

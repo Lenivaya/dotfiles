@@ -18,7 +18,9 @@ import XMonad hiding (layoutHook)
 import Flow
 
 -- import XMonad.Actions.MouseResize
+import XMonad.Layout.IfMax
 import XMonad.Custom.Theme (tabTheme)
+import XMonad.Layout.Grid qualified as G
 import XMonad.Custom.Workspaces
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.RefocusLast
@@ -110,6 +112,14 @@ flex =
       rTall 1 (1 / 20) (2 / 3)
         ||| rTall 1 (1 / 20) (1 / 2)
 
+-- tallGrid = renamed [Replace "Tall Grid"] $ (IfMax 4 rTall grid)
+tallGrid =
+  setName "Tall Grid" $ (IfMax 4 rTall grid)
+  where
+      rTall = limitSelect 1 2 $ ResizableTall 1 (1/20) (1/2) []
+      grid = G.GridRatio (4/3)
+
+
 (|||!) (joined, layouts) newLayout =
   (joined ||| newLayout, layouts <> [Layout newLayout])
 
@@ -128,6 +138,7 @@ layoutsInfo =
     |||! onebig
     |||! monocle
     |||! grid
+    |||! tallGrid
     |||! roledex
     |||! centerMainFluid
 
@@ -147,7 +158,7 @@ layoutHook =
   maximize
     .> minimize
     .> centeredIfSingle 0.9 0.95
-    .> refocusLastLayoutHook
+    -- .> refocusLastLayoutHook
     .> subLayout [] (Simplest ||| Accordion)
     .> addTabs shrinkText tabTheme
     .> windowNavigation
@@ -163,6 +174,7 @@ layoutHook =
     .> layoutHintsToCenter
     .> boringWindows
     .> smartBorders
+    .> fullscreenFloat
     <| layouts
 
 toggleGaps = sendMessage $ Toggle GAPS

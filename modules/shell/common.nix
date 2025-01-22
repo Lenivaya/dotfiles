@@ -42,6 +42,7 @@ in
     zoxide
     atuin
     sysz
+    translate-shell
     # carapace
 
     nix-your-shell # use configured shell in nix shells

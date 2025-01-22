@@ -18,7 +18,6 @@ with lib.my;
       ./hardware-configuration.nix
       ./phone_cam.nix
       ./gpu.nix
-      ./picom.nix
       # ./dns.nix
       ./modules/default.nix
       ./power-management.nix
@@ -339,7 +338,7 @@ with lib.my;
   # };
 
   networking.firewall = {
-    allowedUDPPortRanges = [
+    allowedTCPPortRanges = [
       {
         from = 3000;
         to = 3007;
@@ -371,6 +370,7 @@ with lib.my;
       4321
       4322
       24800
+      6379
     ];
   };
 
@@ -517,6 +517,11 @@ with lib.my;
 
   # services.xserver.displayManager.lightdm = mkForce disabled;
   # services.displayManager.ly = enabled // { };
+
+  # services.redis.servers.default = enabled // {
+  #   port = 6379;
+  #   openFirewall = true;
+  # };
 
   nixpkgs.overlays =
     let

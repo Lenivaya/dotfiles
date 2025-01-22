@@ -55,7 +55,8 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+    # chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
+    chaotic.url = "github:chaotic-cx/nyx";
 
     firefox = {
       url = "github:colemickens/flake-firefox-nightly";
@@ -100,6 +101,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    infuse = {
+      url = "git+https://codeberg.org/amjoseph/infuse.nix";
+      flake = false;
+    };
+
     # some upstream things
     auto-cpufreq = {
       url = "github:AdnanHodzic/auto-cpufreq";
@@ -110,7 +116,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     skippy-xd = {
-      url = "github:felixfung/skippy-xd";
+      url = "github:felixfung/skippy-xd?rev=cb14e598431b93f46073256f603cfd0e6f20e517";
       flake = false;
     };
     browser-previews = {
@@ -190,6 +196,7 @@
             inherit pkgs inputs system;
             lib = self;
           };
+          inherit ((import inputs.infuse { inherit lib; }).v1) infuse;
         }
         // home-manager.lib
       );

@@ -16,6 +16,7 @@ import XMonad hiding (
   modMask,
   mouseBindings,
  )
+import XMonad.Prompt.RunOrRaise
 import XMonad.Actions.CopyWindow
 import XMonad.Actions.CycleWS
 import XMonad.Actions.DwmPromote
@@ -76,7 +77,12 @@ import XMonad.Util.NamedScratchpad hiding (
   namedScratchpadFilterOutWorkspace,
  )
 import XMonad.Util.WorkspaceCompare
-import XMonad.Actions.WindowBringer
+-- import XMonad.Actions.WindowBringer
+import XMonad.Actions.CycleRecentWS
+import XMonad.Custom.Actions.ScratchpadChooser
+import XMonad.Custom.Actions.TmuxPrompt
+import XMonad.Actions.RepeatAction
+
 
 type Keybinding = (String, X ())
 type Keybindings = [Keybinding]
@@ -150,19 +156,21 @@ withOthers f = withWindowSet $ mapM_ f <. others
 myKeys config = mkKeymap config keys
   where
     keys =
-      mconcat
-        [ keysBase,
-          keysPass,
-          keysGo,
-          keysDo,
-          keysSystem,
-          keysWorkspaces,
-          keysSpawnables,
-          keysWindows,
-          keysLayout config,
-          keysResize,
-          keysSelect
-        ]
+      rememberActions "M-a r" $
+        mconcat
+          [ keysBase,
+            keysPass,
+            keysGo,
+            keysDo,
+            keysSystem,
+            keysWorkspaces,
+            keysSpawnables,
+            keysScreen,
+            keysWindows,
+            keysLayout config,
+            keysResize,
+            keysSelect
+          ]
 
 flash' = flashText def 0.5
 
@@ -174,6 +182,7 @@ keysBase =
     ("M-q r", spawn "xmonad --recompile; xmonad --restart"),
     -- ("M-q r", spawn "xmonad --restart"),
     ("M-x", wrapKbdLayout $ shellPrompt $ promptNoCompletion promptTheme),
+    ("M-r", wrapKbdLayout $  runOrRaisePrompt promptTheme),
     ("M-S-x", spawn $ C.appmenu C.applications),
     -- , ("M-c", spawn $ C.clipboardSelector C.applications)
     ("M1-<Tab>", mostRecentlyUsed [xK_Alt_L, xK_Alt_R] xK_Tab)
@@ -183,7 +192,8 @@ keysSelect :: Keybindings
 keysSelect =
   [ ("M-s k", selectKbdLayout promptTheme),
     ("M-s l", wrapKbdLayout $ selectLayoutByName promptTheme),
-    ("M-s S-l", switchToMRUKbdLayout)
+    ("M-s S-l", switchToMRUKbdLayout),
+    ("M-s o", wrapKbdLayout $ selectScratchpadByName promptTheme)
   ]
 
 keysPass :: Keybindings
@@ -208,7 +218,8 @@ keysGo =
     ),
     ("M-g m", wrapKbdLayout . manPrompt $ promptNoCompletion promptTheme),
     ("M-g c", wrapKbdLayout $ calcPrompt (promptNoCompletion promptTheme) ""),
-    ("M-g t", wrapKbdLayout $ spawn "dmenu-tmux")
+    -- ("M-g t", wrapKbdLayout $ spawn "dmenu-tmux")
+    ("M-g t", wrapKbdLayout $ tmuxPrompt promptTheme)
   ]
 
 keysDo :: Keybindings
@@ -217,7 +228,8 @@ keysDo =
     ("M-d s r", wrapKbdLayout . screencastPrompt $ promptNoCompletion promptTheme),
     ("M-d s z", spawn $ C.screenZoomer C.applications),
     ("M-d w c", workspacePrompt promptTheme $ windows . copy),
-    ("M-d w S-c", copyMenu),
+    -- ("M-d w S-c", copyMenuConfig def {menuArgs = ["-p", "Choose a window to copy:", "-l", "10"]}),
+    -- ("M-d w S-c", copyMenuConfig windowBringerConfig),
     -- ("M-d c <Backspace>", spawn "clipcatctl clear"),
     -- ("M-d c l", spawn "clipcat-last"),
     ("M-d c <Backspace>", spawn "greenclip clear"),
@@ -252,8 +264,11 @@ keysWorkspaces =
     ("M-.", prevNonEmptyWS),
     ("M-i", toggleWS' ["NSP"]),
     ("M-n", wrapKbdLayout $ workspacePrompt (promptNoHistory promptTheme) $ windows . S.shift),
+    ("M-w p", spawn "skippy-xd --paging"),
+    ("M-<Tab>", cycleRecentNonEmptyWS [xK_Alt_L, xK_Alt_R, xK_Escape] xK_comma xK_period),
+    ("M-w a", currentProject >>= activateProject)
     -- ("M-w w", gridselectWorkspace gridSelectTheme S.greedyView)
-    ("M-w p", spawn "skippy-xd --paging")
+    -- ("M-<Tab>", cycleRecentNonEmptyWS [xK_Alt_L, xK_Alt_R, xK_Escape] xK_Tab xK_grave),
   ]
     ++ zipKeys "M-" wsKeys [0 ..] (withNthWorkspace S.greedyView)
     ++ zipKeys "M-S-" wsKeys [0 ..] (withNthWorkspace S.shift)
@@ -274,14 +289,22 @@ keysSpawnables =
     ("M-o f y", spawn $ C.term C.applications ++ " -e yazi"),
     ("M-o S-e", spawn "doom +everywhere"),
     ("M-o c", namedScratchpadAction scratchpads "console"),
-    ("M-o m", namedScratchpadAction scratchpads "music"),
+    ("M-s m", namedScratchpadAction scratchpads "music"),
     ("M-o t", namedScratchpadAction scratchpads "top"),
-    ("M-o S-t", namedScratchpadAction scratchpads "telegram"),
+    -- ("M-s S-t", namedScratchpadAction scratchpads "telegram"),
     ("M-o v", namedScratchpadAction scratchpads "volume"),
     ("M-o s", namedScratchpadAction scratchpads "soundEffects"),
     ("M-o d", namedScratchpadAction scratchpads "discord"),
-    ("M-o p", namedScratchpadAction scratchpads "cpupower"),
-    ("M-o g", runOrRaise "gitbutler-tauri" (className =? "gitbutler-tauri"))
+    ("M-s p", namedScratchpadAction scratchpads "cpupower"),
+    ("M-s b", namedScratchpadAction scratchpads "bluetooth"),
+    ("M-o r", namedScratchpadAction scratchpads "reader"),
+    ("M-s g", runOrRaise "gitbutler-tauri" (className =? "gitbutler-tauri"))
+  ]
+
+keysScreen :: Keybindings
+keysScreen =
+  [ ("M-s n", nextScreen),
+    ("M-s p", prevScreen)
   ]
 
 keysWindows :: Keybindings
@@ -296,10 +319,12 @@ keysWindows =
         confirmPrompt (promptNoHistory hotPromptTheme) "Kill others" $
           withOthers killWindow
     ),
-    ("M-w d", wrapKbdLayout windowMenu),
+    -- ("M-w d", wrapKbdLayout windowMenu),
+    -- ("M-w g", wrapKbdLayout $ windowMultiPrompt (promptNoHistory promptTheme) [(Goto, allWindows), (Goto, wsWindows)]),
     ("M-w g", wrapKbdLayout $ windowPrompt (promptNoHistory promptTheme) Goto allWindows),
     ("M-w /", wrapKbdLayout $ windowPrompt (promptNoHistory promptTheme) Goto wsWindows),
     ("M-w b", wrapKbdLayout $ windowPrompt (promptNoHistory promptTheme) Bring allWindows),
+    ("M-d w S-c", wrapKbdLayout $ windowPrompt (promptNoHistory promptTheme) BringCopy allWindows),
     ("M-w c", toggleCopyToAll),
     ("M-w o", sendMessage Mag.Toggle),
     ("M-w S-c", kill1), -- To remove focused copied window from current workspace
@@ -323,6 +348,8 @@ keysWindows =
     ( "M-w S-<Space>",
       selectWindow def >>= (`whenJust` windows . (S.shiftMaster .) . S.focusWindow)
     ),
+    ("M-w C-S-<Space>", selectWindow def >>= (`whenJust` killWindow)),
+    ("M-w s h", selectWindow def >>= (`whenJust` minimizeWindow)),
     ("M-/", windows S.focusDown),
     ("M-S-/", windows S.focusUp)
   ]
@@ -332,6 +359,7 @@ keysWindows =
     ++ zipKeys' "M-" arrowKeys directions screenGo True
     ++ zipKeys' "M-S-" arrowKeys directions windowToScreen True
     ++ zipKeys' "M-C-" arrowKeys directions screenSwap True
+    ++ zipKeys' "C-<Space> " vimKeys directions screenSwap True
   where
     directions = [D, U, L, R]
     arrowKeys = ["<D>", "<U>", "<L>", "<R>"]
@@ -351,9 +379,10 @@ keysResize =
 
 keysLayout :: XConfig Layout -> Keybindings
 keysLayout c =
-  [ ("M-<Tab>", sendMessage NextLayout),
-    ("M-C-<Tab>", toSubl NextLayout),
-    ("M-S-<Tab>", setLayout $ XMonad.layoutHook c),
+  [
+    -- ("M-d l-n", sendMessage NextLayout),
+    -- ("M-d l-s", toSubl NextLayout),
+    ("M-d C-S-r", setLayout $ XMonad.layoutHook c),
     ("M-y", withFocused toggleFloat),
     ("M-S-y", sinkAll),
     ("M-S-,", sendMessage $ IncMasterN (-1)),

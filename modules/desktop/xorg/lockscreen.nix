@@ -49,7 +49,7 @@ in
 
       path = with pkgs; [
         # betterlockscreen
-        lightdm # FIXME XDG_SEAT_PATH is not present in systemd service context (/org/freedesktop/DisplayManager/Seat0)
+        # lightdm # FIXME XDG_SEAT_PATH is not present in systemd service context (/org/freedesktop/DisplayManager/Seat0)
         xorg.xrandr
         gawk
       ];

@@ -6,13 +6,13 @@
 }:
 stdenvNoCC.mkDerivation {
   pname = "fast-font";
-  version = "final-unstable-2024-12-15";
+  version = "final-unstable";
 
   src = fetchFromGitHub {
     owner = "Born2Root";
     repo = "Fast-Font";
-    rev = "f6b5d706ac1c9266ccfee5a5c08599bcc9f4f328";
-    hash = "sha256-TDIjEf9deASNL0KoWtlj/dZM6zRpW3JO1W5fVwz5BDI=";
+    rev = "be82e4c72cc3f40d44a270b2d4d7d45a79d676ee";
+    hash = "sha256-ZSxt1BDmsbvz2FVMpvgybvba0YEraz1SDo8tFNFJuhs=";
   };
 
   installPhase = ''

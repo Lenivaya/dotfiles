@@ -31,6 +31,8 @@ import XMonad.Hooks.UrgencyHook
 import XMonad.Layout.IndependentScreens
 import XMonad.Util.Hacks qualified as Hacks
 import XMonad.Util.Loggers.NamedScratchpad
+import XMonad.Layout.Fullscreen
+
 
 myConfig =
         def

@@ -18,7 +18,6 @@ with my;
     ./hardware-configuration.nix
 
     ./phone_cam.nix
-    ./picom.nix
     ./power-management.nix
     ./fingerprint/default.nix
 
@@ -41,7 +40,6 @@ with my;
   modules = {
     desktop = enabled // {
       xmonad = enabled;
-      gnome = enabled;
       isPureWM = true;
 
       fonts.pragmata = enabled;
@@ -465,7 +463,7 @@ with my;
 
   services.smartd = enabled;
 
-  # modules.services.zcfan = enabled;
+  modules.services.zcfan = enabled;
   # services.thermald = mkForce disabled;
   # services.throttled = mkForce enabled;
   services.throttled = mkForce disabled;
@@ -571,6 +569,17 @@ with my;
   # services.xserver.displayManager.lightdm = mkForce disabled;
   # services.displayManager.ly = enabled // { };
 
+  # monitors
+  services.udev.extraRules =
+    let
+      bash = "${pkgs.bash}/bin/bash";
+      ddcciDev = "AUX B/DDI B/PHY B";
+      ddcciNode = "/sys/bus/i2c/devices/i2c-4/new_device";
+    in
+    ''
+      SUBSYSTEM=="i2c", ACTION=="add", ATTR{name}=="${ddcciDev}", RUN+="${bash} -c 'sleep 30; printf ddcci\ 0x37 > ${ddcciNode}'"
+    '';
+
   nixpkgs.overlays =
     let
       optimize = pkg: optimizeForThisHost (withClang pkg);
@@ -584,6 +593,7 @@ with my;
           ;
 
         distrobox = prev.distrobox_git;
+        # telegram-desktop = prev.telegram-desktop_git;
         telegram-desktop = prev.telegram-desktop_git;
         alacritty = prev.alacritty_git;
         yt-dlp = prev.yt-dlp_git;

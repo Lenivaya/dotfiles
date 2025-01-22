@@ -22,7 +22,6 @@ with my;
       ./hardware-configuration.nix
       # ./modules/default.nix
       # ./modules/your-spotify.nix
-      ./picom.nix
 
       inputs.nixos-facter-modules.nixosModules.facter
       { config.facter.reportPath = ./facter.json; }

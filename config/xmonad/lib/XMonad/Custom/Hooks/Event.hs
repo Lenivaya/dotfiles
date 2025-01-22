@@ -13,7 +13,7 @@ import XMonad.Actions.ShowText
 import XMonad.Custom.Manage.ManageHook (manageHook)
 import XMonad.Custom.Prompt
 import XMonad.Custom.Scratchpads
-import XMonad.Hooks.EwmhDesktops
+-- import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.OnPropertyChange
 import XMonad.Hooks.PerWindowKbdLayout
@@ -26,18 +26,12 @@ import XMonad.Util.Hacks qualified as Hacks
 import XMonad.Util.Loggers.NamedScratchpad
 import XMonad.Hooks.FloatConfigureReq
 import XMonad.Hooks.ManageHelpers
--- import XMonad.Custom.Actions.Keyboard
+import XMonad.Layout.Fullscreen
+import XMonad.Custom.Hooks.KeyboardChangeEvent
 
 myRefocusPred = refocusingIsActive <||> isFloat
 -- swallower prog = swallowEventHook (className =? prog) (pure True)
 
-flash' :: String -> X ()
-flash' text = do
-  -- updateMRULayout text
-  flashText def {st_font = "xft:monospace:size=25"} 0.5 (wrap "  " "  " text)
-
-serverEventHooks =
-  [serverModeEventHookF "XMONAD_SHOW_TEXT" flash']
 
 -- myFloatConfReqHook :: MaybeMaybeManageHook
 -- myFloatConfReqHook = composeAll [
@@ -50,7 +44,7 @@ handleEventHook =
   mconcat hooks
   where
     hooks =
-      serverEventHooks ++
+      -- serverEventHooks ++
       [
         -- perWindowKbdLayout,
         -- floatConfReqHook myFloatConfReqHook,
@@ -58,7 +52,9 @@ handleEventHook =
         handleTimerEvent,
         refocusLastWhen myRefocusPred,
         Hacks.trayerAboveXmobarEventHook,
-        Hacks.trayerPaddingXmobarEventHook
+        Hacks.trayerPaddingXmobarEventHook,
+        keyboardChangeEventHook
+        -- fullscreenEventHook
         -- fixSteamFlicker,
         -- mconcat $ swallower <$> ["Alacritty", "St"]
         -- Hacks.windowedFullscreenFixEventHook,
