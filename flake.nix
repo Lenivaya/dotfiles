@@ -116,7 +116,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
     skippy-xd = {
-      url = "github:felixfung/skippy-xd?rev=cb14e598431b93f46073256f603cfd0e6f20e517";
+      url = "github:felixfung/skippy-xd";
       flake = false;
     };
     browser-previews = {
@@ -132,6 +132,7 @@
       url = "github:StevenBlack/hosts";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+    # neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
   nixConfig = {

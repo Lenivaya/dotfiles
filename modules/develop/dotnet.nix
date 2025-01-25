@@ -32,7 +32,7 @@ in
       ++ cfg.otherPkgs;
 
     env = {
-      DOTNET_ROOT = "${sdk'}";
+      DOTNET_ROOT = "${sdk'}/share/dotnet";
       DOTNET_CLI_HOME = "$XDG_DATA_HOME"; # dotnet cli appends the path with .dotnet :(
       NUGET_PACKAGES = "$XDG_DATA_HOME/NuGet/packages";
       NUGET_HTTP_CACHE_PATH = "$XDG_DATA_HOME/NuGet/v3-cache";

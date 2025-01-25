@@ -104,9 +104,6 @@
   "security.pki.sha1_enforcement_level" = 1;
   # https://github.com/tlswg/tls13-spec/issues/1001
   "security.tls.enable_0rtt_data" = false;
-  # Use Mozilla geolocation service instead of Google if given permission
-  "geo.provider.network.url" =
-    "https://location.services.mozilla.com/v1/geolocate?key=%MOZILLA_API_KEY%";
   "geo.provider.use_gpsd" = false;
   # https://support.mozilla.org/en-US/kb/extension-recommendations
   "browser.newtabpage.activity-stream.asrouter.userprefs.cfr" = false;
@@ -119,14 +116,14 @@
   # Reduce File IO / SSD abuse
   # Otherwise, Firefox bombards the HD with writes. Not so nice for SSDs.
   # This forces it to write every 30 minutes, rather than 15 seconds.
-  "browser.sessionstore.interval" = "1800000";
+  # "browser.sessionstore.interval" = "1800000";
   # Disable battery API
   # https://developer.mozilla.org/en-US/docs/Web/API/BatteryManager
   # https://bugzilla.mozilla.org/show_bug.cgi?id=1313580
   "dom.battery.enabled" = false;
   # Disable "beacon" asynchronous HTTP transfers (used for analytics)
   # https://developer.mozilla.org/en-US/docs/Web/API/navigator.sendBeacon
-  "beacon.enabled" = false;
+  # "beacon.enabled" = false;
   # Disable pinging URIs specified in HTML <a> ping= attributes
   # http://kb.mozillazine.org/Browser.send_pings
   "browser.send_pings" = false;
@@ -167,10 +164,10 @@
   "accessibility.force_disabled" = 1;
   # Enable ETP for decent security (makes firefox containers and many
   # common security/privacy add-ons redundant).
-  "browser.contentblocking.category" = "strict";
-  "privacy.donottrackheader.enabled" = true;
-  "privacy.donottrackheader.value" = 1;
-  "privacy.purge_trackers.enabled" = true;
+  # "browser.contentblocking.category" = "strict";
+  # "privacy.donottrackheader.enabled" = true;
+  # "privacy.donottrackheader.value" = 1;
+  # "privacy.purge_trackers.enabled" = true;
 
   # disable reports
   "browser.crashReports.unsubmittedCheck.autoSubmit" = false;
@@ -187,7 +184,7 @@
 
   # Seriously. Stop popping up on every damn page. If I want it translated,
   # I know where to find gtranslate/deepl/whatever!
-  "browser.translations.automaticallyPopup" = false;
+  # "browser.translations.automaticallyPopup" = false;
 
   # enable HEVC
   # "media.wmf.hevc.enabled" = true;
@@ -226,6 +223,55 @@
   "browser.tabs.inTitlebar" = 0;
 
   # https://gist.github.com/RubenKelevra/fd66c2f856d703260ecdf0379c4f59db
-  "network.captive-portal-service.enabled" = false;
-  "network.notify.checkForProxies" = false; # don't try to find proxies
+  # General tweaks
+  "network.captive-portal-service.enabled" = false; # don't try to find captive portals
+  # "network.notify.checkForProxies" = false; # don't try to find proxies
+  "browser.cache.disk.enable" = true;
+  "browser.cache.frecency_half_life_hours" = 18; # lower cache sweep intervals
+  "browser.cache.max_shutdown_io_lag" = 16; # let the browser finish more io on shutdown
+  "browser.cache.memory.capacity" = 2097152; # fixed maximum 2 GB in memory cache
+  "browser.cache.memory.max_entry_size" = 327680; # maximum size of in memory cached objects
+  "browser.cache.disk.metadata_memory_limit" = 15360; # increase size (in KB) of "Intermediate memory caching of frequently used metadata (a.k.a. disk cache memory pool)"
+  # GFX rendering tweaks:
+  "gfx.canvas.accelerated" = true;
+  "gfx.canvas.accelerated.cache-items" = 32768;
+  "gfx.canvas.accelerated.cache-size" = 4096;
+  # "layers.acceleration.force-enabled" = false;
+  "gfx.content.skia-font-cache-size" = 80;
+  # "gfx.webrender.all" = true;
+  "gfx.webrender.compositor" = true;
+  # "gfx.webrender.compositor.force-enabled" = true;
+  "gfx.webrender.enabled" = true;
+  "gfx.webrender.precache-shaders" = true;
+  "gfx.webrender.program-binary-disk" = true;
+  "gfx.webrender.software.opengl" = true;
+  "image.mem.decode_bytes_at_a_time" = 65536;
+  "image.mem.shared.unmap.min_expiration_ms" = 120000;
+  "layers.gpu-process.enabled" = true;
+  "layers.gpu-process.force-enabled" = true;
+  "image.cache.size" = 10485760;
+  "media.memory_cache_max_size" = 1048576;
+  "media.memory_caches_combined_limit_kb" = 3145728;
+  # "media.hardware-video-decoding.force-enabled" = true;
+  # "media.ffmpeg.vaapi.enabled" = true;
+  # Increase predictive network operations
+  "network.dns.disablePrefetchFromHTTPS" = false;
+  "network.dnsCacheEntries" = 20000;
+  "network.dnsCacheExpiration" = 3600;
+  "network.dnsCacheExpirationGracePeriod" = 240;
+  "network.predictor.enable-hover-on-ssl" = true;
+  "network.predictor.enable-prefetch" = true;
+  "network.predictor.preconnect-min-confidence" = 20;
+  "network.predictor.prefetch-force-valid-for" = 3600;
+  "network.predictor.prefetch-min-confidence" = 30;
+  "network.predictor.prefetch-rolling-load-count" = 120;
+  "network.predictor.preresolve-min-confidence" = 10;
+  # Faster SSL
+  "network.ssl_tokens_cache_capacity" = 32768; # more TLS token caching (fast reconnects)
+
+  "fission.autostart" = false; # disable enhanced protection between threads/processes of the browser (which uses LOADS of memory to do)
+  "privacy.partition.network_state" = false; # don't seperate the network state (e.g. the cache) by top level domains)
+
+  "dom.ipc.processCount" = 1;
+  "dom.ipc.processCount.webIsolated" = 1;
 }

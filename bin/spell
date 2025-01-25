@@ -25,10 +25,10 @@ spell_check() {
 }
 
 case "$1" in
-  -h | --help)
-    echo "Usage: spell <word>"
-    ;;
-  *)
-    spell_check "$@"
-    ;;
+-h | --help)
+  echo "Usage: spell <word>"
+  ;;
+*)
+  spell_check "$@"
+  ;;
 esac

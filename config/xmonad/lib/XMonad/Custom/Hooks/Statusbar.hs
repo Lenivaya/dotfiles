@@ -24,7 +24,7 @@ xmobarBot screen = statusBarPropTo "_XMONAD_LOG_2" (barCommand screen "bot") (pu
 barSpawner :: ScreenId -> X StatusBarConfig
 -- barSpawner _ = mempty
 barSpawner 0 = pure $ xmobarTop 0 <> xmobarBot 0 <> traySB -- two bars and tray on the main screen
-barSpawner 1 = pure $ xmobarTop 1 <> xmobarBot 1 <> traySB -- two bars and tray on the main screen
+barSpawner _ = pure $ xmobarTop 1 -- only top bar on the rest of the screens
 
 traySB :: StatusBarConfig
 traySB =

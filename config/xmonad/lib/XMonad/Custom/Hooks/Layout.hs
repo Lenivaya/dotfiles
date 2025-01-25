@@ -1,4 +1,5 @@
 {-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE ImportQualifiedPost #-}
 
 module XMonad.Custom.Hooks.Layout (
   layoutHook,
@@ -11,16 +12,15 @@ module XMonad.Custom.Hooks.Layout (
   toggleGaps,
 ) where
 
-import qualified Data.Map as M
+import Data.Map qualified as M
 import Data.Ratio ((%))
 import XMonad hiding (layoutHook)
 
 import Flow
 
 -- import XMonad.Actions.MouseResize
-import XMonad.Layout.IfMax
+
 import XMonad.Custom.Theme (tabTheme)
-import XMonad.Layout.Grid qualified as G
 import XMonad.Custom.Workspaces
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.RefocusLast
@@ -32,8 +32,10 @@ import XMonad.Layout.CenteredIfSingle
 import XMonad.Layout.CircleEx
 import XMonad.Layout.DraggingVisualizer
 import XMonad.Layout.Fullscreen
+import XMonad.Layout.Grid qualified as G
 import XMonad.Layout.GridVariants
 import XMonad.Layout.Hidden
+import XMonad.Layout.IfMax
 import XMonad.Layout.LayoutCombinators
 import XMonad.Layout.LayoutHints
 import XMonad.Layout.LayoutModifier
@@ -116,9 +118,8 @@ flex =
 tallGrid =
   setName "Tall Grid" $ (IfMax 4 rTall grid)
   where
-      rTall = limitSelect 1 2 $ ResizableTall 1 (1/20) (1/2) []
-      grid = G.GridRatio (4/3)
-
+    rTall = limitSelect 1 2 $ ResizableTall 1 (1 / 20) (1 / 2) []
+    grid = G.GridRatio (4 / 3)
 
 (|||!) (joined, layouts) newLayout =
   (joined ||| newLayout, layouts <> [Layout newLayout])

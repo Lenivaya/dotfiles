@@ -1,9 +1,12 @@
+{-# LANGUAGE ImportQualifiedPost #-}
+
 module XMonad.Custom.Scratchpads (
   scratchpads,
   namedScratchpadFilterOutWorkspace,
 ) where
 
 import XMonad.Core
+import XMonad.Custom.Manage.ManageHelpers
 import XMonad.Custom.Manage.ManageHelpers (centerFloat)
 import XMonad.Custom.Misc as C
 import XMonad.ManageHook
@@ -12,21 +15,22 @@ import XMonad.Util.NamedScratchpad hiding (
   namedScratchpadFilterOutWorkspace,
  )
 import XMonad.Util.WorkspaceCompare
-import XMonad.Custom.Manage.ManageHelpers
 
 spawnTerminalWith :: String -> String -> String
 spawnTerminalWith className command = unwords $ terminal : options
   where
     terminal = term applications
     options = ["--class", className, "-e", command]
-    -- class' = className ++ "," ++ className
+
+-- class' = className ++ "," ++ className
 
 floatingNSP :: ManageHook
 floatingNSP = centerFloat w h
   where
     w = 1 / 2
     h = 1 / 1.5
-    -- h = 1 / 2.5
+
+-- h = 1 / 2.5
 
 scratchpads :: [NamedScratchpad]
 scratchpads =
@@ -80,27 +84,27 @@ scratchpads =
       "obsidian"
       (className =? "obsidian")
       doFullCenterFloat,
-   NS
+    NS
       "logs"
       (spawnTerminalWith "NSPLogs" "--hold -e journalctl -f")
       (className =? "NSPLogs")
       doFullCenterFloat,
-   NS
+    NS
       "calculator"
       (spawnTerminalWith "NSPCalc" "qalc")
       (className =? "NSPCalc")
       (centerFloat 0.4 0.4),
-   NS
+    NS
       "calendar"
       (spawnTerminalWith "NSPCalendar" "khal interactive")
       (className =? "NSPCalendar")
       (centerFloat 0.4 0.4),
-   NS
+    NS
       "translate"
       (spawnTerminalWith "NSPTrans" "trans :ru -I")
       (className =? "NSPTrans")
       (centerFloat 0.5 0.5),
-   NS
+    NS
       "bluetooth"
       (spawnTerminalWith "NSPTrans" "bluetuith")
       (className =? "NSPBluetooth")

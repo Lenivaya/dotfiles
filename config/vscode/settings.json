@@ -467,6 +467,7 @@
   "solargraph.formatting": true,
   "editor.fontLigatures": true,
   "[nix]": {
+    "editor.formatOnSave": true,
     "editor.defaultFormatter": "brettm12345.nixfmt-vscode"
   },
   "[json]": {
@@ -474,6 +475,7 @@
   },
   "cSpell.userWords": ["Keypair"],
   "[typescript]": {
+    "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[jsonc]": {
@@ -490,6 +492,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "[typescriptreact]": {
+    "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "tailwind-fold.autoFold": false,
@@ -519,20 +522,30 @@
     "editor.defaultFormatter": "mads-hartmann.bash-ide-vscode"
   },
   "database-client.autoSync": true,
+  "[rust]": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "rust-lang.rust-analyzer"
+  },
   "rust-analyzer.diagnostics.experimental.enable": true,
+  "rust-analyzer.cargo.allFeatures": true,
+  "rust-analyzer.checkOnSave.command": "clippy",
   "rust-analyzer.cachePriming.enable": false,
   "rust-analyzer.server.path": "rust-analyzer",
   "editor.renderWhitespace": "all",
   "debug.toolBarLocation": "docked",
   "[csharp]": {
-    "editor.defaultFormatter": "ms-dotnettools.csharp"
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "csharpier.csharpier-vscode"
   },
-  "files.autoSave": "afterDelay",
+  "files.autoSave": "off",
+  "files.autoSave": "off",
   "files.autoSaveDelay": 1000,
   "editor.accessibilitySupport": "off",
   "editor.cursorSmoothCaretAnimation": "off",
   "workbench.tips.enabled": false,
   "files.autoGuessEncoding": false,
   "emmet.showExpandedAbbreviation": "never",
-  "editor.minimap.enabled": true
+  "editor.minimap.enabled": true,
+  "csharp.preview.improvedLaunchExperience": true,
+  "dotnet.useLegacyDotnetResolution": false
 }

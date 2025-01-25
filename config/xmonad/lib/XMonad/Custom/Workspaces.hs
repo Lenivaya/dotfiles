@@ -1,3 +1,4 @@
+{-# LANGUAGE ImportQualifiedPost #-}
 {-# LANGUAGE RecordWildCards #-}
 
 module XMonad.Custom.Workspaces where
@@ -10,6 +11,8 @@ import XMonad.Custom.Actions.ApplicationChooser
 import XMonad.Custom.Actions.Keyboard
 import XMonad.Custom.Misc qualified as C
 import XMonad.Custom.Prompt
+import XMonad.Custom.Scratchpads
+import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run
 
 data WorkspaceNames = WorkspaceNames
@@ -31,23 +34,24 @@ data WorkspaceNames = WorkspaceNames
   }
 
 wsNames :: WorkspaceNames
-wsNames = WorkspaceNames
-  { generic = "GEN",
-    code = "Code",
-    web = "WWW",
-    wsread = "Read",
-    sys = "SYS",
-    tmp = "TMP",
-    wsWRK = "WRK",
-    template = "TEMPLATE",
-    graphics = "GRAPH",
-    sound = "SOUND",
-    vm = "VM",
-    write = "WRITE",
-    note = "NOTE",
-    git = "GIT",
-    messages = "MSG"
-  }
+wsNames =
+  WorkspaceNames
+    { generic = "GEN",
+      code = "Code",
+      web = "WWW",
+      wsread = "Read",
+      sys = "SYS",
+      tmp = "TMP",
+      wsWRK = "WRK",
+      template = "TEMPLATE",
+      graphics = "GRAPH",
+      sound = "SOUND",
+      vm = "VM",
+      write = "WRITE",
+      note = "NOTE",
+      git = "GIT",
+      messages = "MSG"
+    }
 
 workspaces :: [String]
 workspaces = [generic wsNames, sys wsNames, tmp wsNames, wsWRK wsNames, code wsNames, web wsNames]
@@ -57,11 +61,12 @@ makeProject :: String -> Maybe (X ()) -> Project
 makeProject name hook = makeProject' name "~/" hook
 
 makeProject' :: String -> String -> Maybe (X ()) -> Project
-makeProject' name dir hook = Project
-  { projectName = name,
-    projectDirectory = dir,
-    projectStartHook = hook
-  }
+makeProject' name dir hook =
+  Project
+    { projectName = name,
+      projectDirectory = dir,
+      projectStartHook = hook
+    }
 
 -- Helper function to spawn terminal with a command
 spawnTerminalWith :: String -> X ()
@@ -91,7 +96,8 @@ projects =
     makeProject (write wsNames) $ Just $ do
       spawn "emacs_lets_write",
     makeProject (note wsNames) $ Just $ do
-      spawn "obsidian",
+      namedScratchpadAction scratchpads "notes",
+    -- spawn "obsidian",
     makeProject (code wsNames) $ Just $ do
       wrapKbdLayout $
         selectEditorByNameAndDo
@@ -120,7 +126,8 @@ projects =
       spawnTerminalWith "-e htop",
     makeProject "AI" $ Just $ do
       spawnBrowserWithUrl "https://chat.openai.com"
-      spawnBrowserWithUrls ["https://claude.ai", "https://copilot.microsoft.com", "https://chat.deepseek.com"],
+      spawnBrowserWithUrls
+        ["https://claude.ai", "https://copilot.microsoft.com", "https://chat.deepseek.com"],
     makeProject "GH" $ Just $ do
       spawnBrowserWithUrl "https://github.com"
       spawnBrowserWithUrls ["https://github.com/notifications", "https://github.com/pulls"],
@@ -147,9 +154,11 @@ projects =
     makeProject "API" $ Just $ do
       spawn "postman",
     makeProject "LANG" $ Just $ do
-      spawnBrowserWithUrls ["https://duolingo.com", "https://translate.google.com", "https://forvo.com"],
+      spawnBrowserWithUrls
+        ["https://duolingo.com", "https://translate.google.com", "https://forvo.com"],
     makeProject "TRANSLATE" $ Just $ do
-      spawnBrowserWithUrls ["https://translate.google.com", "https://deepl.com", "https://reverso.net"],
+      spawnBrowserWithUrls
+        ["https://translate.google.com", "https://deepl.com", "https://reverso.net"],
     makeProject "DOCKER" $ Just $ do
       spawnTerminalWith "-e lazydocker"
       spawnTerminalWith "-e oxker",
@@ -161,6 +170,13 @@ projects =
     makeProject "WATCH" $ Just $ do
       spawnBrowserWithUrls ["https://youtube.com", "https://www.youtube.com/playlist?list=WL"],
     makeProject "UPWORK" $ Just $ do
-      spawnBrowserWithUrls ["https://www.upwork.com/", "https://www.upwork.com/nx/find-work/best-matches", "https://www.upwork.com/nx/plans/connects/history/"]
-      spawn "upwork"
+      spawnBrowserWithUrls
+        [ "https://www.upwork.com/",
+          "https://www.upwork.com/nx/find-work/best-matches",
+          "https://www.upwork.com/nx/plans/connects/history/"
+        ]
+      spawn "upwork",
+    makeProject "DOTFILES" $ Just $ do
+      spawnTerminalWith "--hold -e $DOTFILES"
+      spawnTerminalWith "-e nvim $DOTFILES"
   ]

@@ -35,6 +35,6 @@ in
     services.udev.packages = with pkgs; [ gnome-settings-daemon ];
 
     services.power-profiles-daemon.enable = false;
-    hardware.pulseaudio.enable = false;
+    services.pulseaudio.enable = false;
   };
 }

@@ -1,3 +1,5 @@
+{-# LANGUAGE ImportQualifiedPost #-}
+
 module XMonad.Custom.Hooks.Log (
   logHook,
   topBarPP',
@@ -22,21 +24,23 @@ import XMonad.Hooks.EwmhDesktops
 import XMonad.Hooks.ShowWName
 import XMonad.Hooks.StatusBar.PP
 import XMonad.StackSet qualified as W
+
 -- import XMonad.Util.ClickableWorkspaces
+
+import Data.IORef
+import Data.Map qualified as Map
+import System.IO.Unsafe (unsafePerformIO)
+import XMonad.Actions.Minimize
+import XMonad.Custom.Utils.Loggers
+import XMonad.Hooks.RefocusLast
+import XMonad.Util.ExtensibleState qualified as UXS
+import XMonad.Util.Loggers
 import XMonad.Util.Loggers.NamedScratchpad
+import XMonad.Util.Minimize
 import XMonad.Util.NamedScratchpad hiding (
   namedScratchpadFilterOutWorkspace,
  )
 import XMonad.Util.WorkspaceCompare
-import qualified Data.Map as Map
-import Data.IORef
-import System.IO.Unsafe (unsafePerformIO)
-import XMonad.Hooks.RefocusLast
-import qualified XMonad.Util.ExtensibleState as UXS
-import XMonad.Actions.Minimize
-import XMonad.Util.Minimize
-import XMonad.Util.Loggers
-import XMonad.Custom.Utils.Loggers
 
 -- Create a global cache for layout names
 layoutNameCache :: IORef (Map.Map String String)
@@ -68,10 +72,10 @@ topBarPP =
       ppTitle = xmobarColor white1 "" . shorten 60,
       -- ppTitleSanitize = xmobarStrip,
       ppLayout = xmobarColor white1 "" . layoutName',
-      ppOrder = \(ws:l:t:ex) -> [ws, l] ++ ex ++ [t],
+      ppOrder = \(ws : l : t : ex) -> [ws, l] ++ ex ++ [t],
       ppSort = (namedScratchpadFilterOutWorkspace .) <$> getSortByIndex,
       ppExtras = [windowsLogger]
-}
+    }
 
 topBarPP' :: X PP
 topBarPP' = do
@@ -91,11 +95,12 @@ topBarPP' = do
 
   let copiesCurrentPP = xmobarColor yellow1 "" . wrap "*" "-"
 
-  copiesPP copiesCurrentPP $ topBarPP
-    { ppCurrent = copiesCurrent,
-      ppHidden = copiesHidden,
-      ppUrgent = copiesUrgent
-    }
+  copiesPP copiesCurrentPP $
+    topBarPP
+      { ppCurrent = copiesCurrent,
+        ppHidden = copiesHidden,
+        ppUrgent = copiesUrgent
+      }
 
 botBarPP :: PP
 botBarPP =
@@ -117,5 +122,6 @@ logHook = do
   nsHideOnFocusLoss scratchpads
   -- nsSingleScratchpadPerWorkspace scratchpads
   showWNameLogHook def
-  -- currentWorkspaceOnTop
-  -- fadeWindowsLogHook myFadeHook
+
+-- currentWorkspaceOnTop
+-- fadeWindowsLogHook myFadeHook

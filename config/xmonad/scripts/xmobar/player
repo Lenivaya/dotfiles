@@ -3,12 +3,12 @@
 player_status=$(playerctl --player playerctld status)
 
 case "$player_status" in
-    Playing | Paused)
-        artist=$(playerctl metadata artist)
-        title=$(playerctl metadata title)
-        echo "$artist - $title"
-        ;;
-    *)
-        echo ""
-        ;;
+Playing | Paused)
+  artist=$(playerctl metadata artist)
+  title=$(playerctl metadata title)
+  echo "$artist - $title"
+  ;;
+*)
+  echo ""
+  ;;
 esac

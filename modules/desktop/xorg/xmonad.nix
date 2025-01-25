@@ -79,6 +79,10 @@ in
         "-fstatic-argument-transformation"
         "-funbox-strict-fields"
         "-flate-dmd-anal"
+
+        "-flto"
+        "-optc-flto"
+        "-optl-flto"
       ];
     };
 

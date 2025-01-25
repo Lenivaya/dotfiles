@@ -1,26 +1,29 @@
+{-# LANGUAGE ImportQualifiedPost #-}
+
 module XMonad.Custom.Utils.Loggers where
 
-import qualified XMonad.Util.ExtensibleState as UXS
-import XMonad.Actions.Minimize
-import XMonad.Util.Minimize
-import XMonad.Util.Loggers
+import Control.Monad
 import XMonad
-import XMonad.StackSet qualified as W
-import XMonad.Hooks.StatusBar.PP
+import XMonad.Actions.Minimize
 import XMonad.Custom.Theme
 import XMonad.Custom.Utils.Array
-import Control.Monad
+import XMonad.Hooks.StatusBar.PP
+import XMonad.StackSet qualified as W
+import XMonad.Util.ExtensibleState qualified as UXS
+import XMonad.Util.Loggers
+import XMonad.Util.Minimize
 
--- | A logger that displays the count of visible and minimized windows in the current workspace.
---   The format is:
---   * "[N]" when there are no minimized windows (N = total windows)
---   * "[V] (H)" when there are minimized windows where:
---     - V = visible windows count
---     - H = hidden/minimized windows count
---
---   Colors:
---   * Window counts are displayed in white2
---   * Hidden window count is displayed in red2
+{-| A logger that displays the count of visible and minimized windows in the current workspace.
+  The format is:
+  * "[N]" when there are no minimized windows (N = total windows)
+  * "[V] (H)" when there are minimized windows where:
+    - V = visible windows count
+    - H = hidden/minimized windows count
+
+  Colors:
+  * Window counts are displayed in white2
+  * Hidden window count is displayed in red2
+-}
 windowsLogger :: Logger
 windowsLogger = do
   windows <- gets $ W.integrate' . W.stack . W.workspace . W.current . windowset
@@ -35,7 +38,10 @@ windowsLogger = do
       formatHidden = xmobarColor red2 "" . wrap "(" ")" . show
 
   case isThereAnyWindow of
-    True -> return $ Just $ if hiddenCount <= 0
-      then formatCount totalCount
-      else formatCount visibleCount ++ " " ++ formatHidden hiddenCount
+    True ->
+      return $
+        Just $
+          if hiddenCount <= 0
+            then formatCount totalCount
+            else formatCount visibleCount ++ " " ++ formatHidden hiddenCount
     False -> return Nothing

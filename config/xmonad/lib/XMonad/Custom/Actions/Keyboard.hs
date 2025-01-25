@@ -20,7 +20,7 @@ module XMonad.Custom.Actions.Keyboard (
 ) where
 
 import Control.Monad (unless)
-import Data.Char (isSpace)
+import Data.Char (isSpace, toLower)
 import Data.IORef
 import Data.List (nub)
 import Data.Maybe (listToMaybe)
@@ -29,6 +29,8 @@ import System.IO.Unsafe (unsafePerformIO)
 import XMonad
 import XMonad.Actions.ShowText
 import XMonad.Custom.Prompt
+import XMonad.Custom.Utils.Keyboard (flashKeyboardChange, formatLayouts)
+import XMonad.Custom.Utils.Strings (trim)
 import XMonad.Prompt
 import XMonad.Util.Run (runProcessWithInput)
 
@@ -136,7 +138,7 @@ getKbdLayouts = do
 
 -- | Get the current keyboard layout
 getCurrentLayout :: X String
-getCurrentLayout = runProcessWithInput "xkb-switch" ["-p"] ""
+getCurrentLayout = trim <$> runProcessWithInput "xkb-switch" ["-p"] ""
 
 -- | Prompt for selecting a keyboard layout
 data KbdLayoutPrompt = KbdLayoutPrompt
@@ -151,7 +153,8 @@ kbdHelpConfig = def {st_font = "xft:monospace:size=20"}
 -- | Prompt the user to select a keyboard layout
 selectKbdLayout :: XPConfig -> X ()
 selectKbdLayout conf = do
+  current <- getCurrentLayout
   setKbdLayout True "us"
   layouts <- getKbdLayouts
-  flashText kbdHelpConfig 0.5 (unwords layouts)
+  flashKeyboardChange (formatLayouts layouts (map toLower current))
   mkXPrompt KbdLayoutPrompt conf (listCompFunc conf layouts) (setKbdLayout False)

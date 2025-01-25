@@ -17,6 +17,19 @@ let
   cfg = config.modules.desktop.browsers.firefox;
   firefoxExtensions = pkgs.nur.repos.rycee.firefox-addons;
 
+  # I'd like to place my settings after extraConfig to override some values from betterfox and etc modules I use
+  userPrefValue =
+    pref:
+    builtins.toJSON (if isBool pref || isInt pref || isString pref then pref else builtins.toJSON pref);
+  mkUserJs = prefs: ''
+    // My settings.
+    ${concatStrings (
+      mapAttrsToList (name: value: ''
+        user_pref("${name}", ${userPrefValue value});
+      '') prefs
+    )}
+  '';
+
   readHack = path: ''
     ${readFile "${inputs.firefox-csshacks}/${path}"}
   '';
@@ -178,7 +191,7 @@ in
       profiles.default = {
         id = 0;
         inherit
-          settings
+          # settings
           extensions
           userChrome
           userContent
@@ -189,11 +202,16 @@ in
           engines = searchEngines;
         };
 
-        extraConfig = concatStringsSep "\n" [
-          (readFile "${inputs.betterfox}/Fastfox.js")
-          (readFile "${inputs.betterfox}/Securefox.js")
-          (readFile "${inputs.betterfox}/Peskyfox.js")
-        ];
+        extraConfig =
+          let
+            settings' = mkUserJs settings;
+          in
+          concatStringsSep "\n" [
+            (readFile "${inputs.betterfox}/Fastfox.js")
+            # (readFile "${inputs.betterfox}/Securefox.js")
+            (readFile "${inputs.betterfox}/Peskyfox.js")
+            settings'
+          ];
       };
     };
   };

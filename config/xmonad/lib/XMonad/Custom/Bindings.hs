@@ -1,3 +1,4 @@
+{-# LANGUAGE ImportQualifiedPost #-}
 {-# LANGUAGE LambdaCase #-}
 {-# OPTIONS_GHC -Wno-deprecations #-}
 
@@ -8,15 +9,14 @@ module XMonad.Custom.Bindings (
 ) where
 
 import Data.Foldable
-import Flow
 import Data.Map qualified as M
+import Flow
 import System.Exit
 import XMonad hiding (
   keys,
   modMask,
   mouseBindings,
  )
-import XMonad.Prompt.RunOrRaise
 import XMonad.Actions.CopyWindow
 import XMonad.Actions.CycleWS
 import XMonad.Actions.DwmPromote
@@ -67,6 +67,7 @@ import XMonad.Prompt (XPConfig (..))
 import XMonad.Prompt.ConfirmPrompt
 import XMonad.Prompt.Man
 import XMonad.Prompt.Pass
+import XMonad.Prompt.RunOrRaise
 import XMonad.Prompt.Shell
 import XMonad.Prompt.Window
 import XMonad.Prompt.Workspace
@@ -77,12 +78,12 @@ import XMonad.Util.NamedScratchpad hiding (
   namedScratchpadFilterOutWorkspace,
  )
 import XMonad.Util.WorkspaceCompare
+
 -- import XMonad.Actions.WindowBringer
 import XMonad.Actions.CycleRecentWS
+import XMonad.Actions.RepeatAction
 import XMonad.Custom.Actions.ScratchpadChooser
 import XMonad.Custom.Actions.TmuxPrompt
-import XMonad.Actions.RepeatAction
-
 
 type Keybinding = (String, X ())
 type Keybindings = [Keybinding]
@@ -92,26 +93,44 @@ type Mousebindings = M.Map (ButtonMask, Button) (Window -> X ())
 modMask :: KeyMask
 modMask = mod4Mask
 
--- | Combines modifiers, key sequences, actions, and a function to create keybindings.
--- Used for creating multiple keybindings with a shared modifier and varying key sequences.
-zipKeys :: [a] -- ^ Modifiers
- -> [[a]] -- ^ Key sequences
- -> [t1] -- ^ Actions
- -> (t1 -> b) -- ^ Binding function
- -> [([a], b)] -- ^ Resulting keybindings
+{-| Combines modifiers, key sequences, actions, and a function to create keybindings.
+Used for creating multiple keybindings with a shared modifier and varying key sequences.
+-}
+zipKeys
+  :: [a]
+  -- ^ Modifiers
+  -> [[a]]
+  -- ^ Key sequences
+  -> [t1]
+  -- ^ Actions
+  -> (t1 -> b)
+  -- ^ Binding function
+  -> [([a], b)]
+  -- ^ Resulting keybindings
 zipKeys modifiers keySequences actions bindingFunction =
   zipWith (\keys action -> (modifiers ++ keys, bindingFunction action)) keySequences actions
 
--- | Similar to zipKeys, but allows an additional parameter for the binding function.
--- Useful when the binding function requires an extra argument.
-zipKeys' :: [a] -- ^ Modifiers
- -> [[a]] -- ^ Key sequences
- -> [t1] -- ^ Actions
- -> (t1 -> t2 -> b) -- ^ Binding function
- -> t2 -- ^ Extra parameter
- -> [([a], b)] -- ^ Resulting keybindings
+{-| Similar to zipKeys, but allows an additional parameter for the binding function.
+Useful when the binding function requires an extra argument.
+-}
+zipKeys'
+  :: [a]
+  -- ^ Modifiers
+  -> [[a]]
+  -- ^ Key sequences
+  -> [t1]
+  -- ^ Actions
+  -> (t1 -> t2 -> b)
+  -- ^ Binding function
+  -> t2
+  -- ^ Extra parameter
+  -> [([a], b)]
+  -- ^ Resulting keybindings
 zipKeys' modifiers keySequences actions bindingFunction param =
-  zipWith (\keys action -> (modifiers ++ keys, bindingFunction action param)) keySequences actions
+  zipWith
+    (\keys action -> (modifiers ++ keys, bindingFunction action param))
+    keySequences
+    actions
 
 tryMessageR_ :: (Message a, Message b) => a -> b -> X ()
 tryMessageR_ x y = sequence_ [tryMessageWithNoRefreshToCurrent x y, refresh]
@@ -182,7 +201,7 @@ keysBase =
     ("M-q r", spawn "xmonad --recompile; xmonad --restart"),
     -- ("M-q r", spawn "xmonad --restart"),
     ("M-x", wrapKbdLayout $ shellPrompt $ promptNoCompletion promptTheme),
-    ("M-r", wrapKbdLayout $  runOrRaisePrompt promptTheme),
+    ("M-r", wrapKbdLayout $ runOrRaisePrompt promptTheme),
     ("M-S-x", spawn $ C.appmenu C.applications),
     -- , ("M-c", spawn $ C.clipboardSelector C.applications)
     ("M1-<Tab>", mostRecentlyUsed [xK_Alt_L, xK_Alt_R] xK_Tab)
@@ -311,9 +330,15 @@ keysWindows :: Keybindings
 keysWindows =
   [ ("M-w k", kill),
     ("M-w w", spawn "skippy-xd --expose"),
-    ("M-w S-k", wrapKbdLayout $ confirmPrompt (
-      promptNoHistory
-        hotPromptTheme) "Kill all" killAll),
+    ( "M-w S-k",
+      wrapKbdLayout $
+        confirmPrompt
+          ( promptNoHistory
+              hotPromptTheme
+          )
+          "Kill all"
+          killAll
+    ),
     ( "M-w C-S-k",
       wrapKbdLayout $
         confirmPrompt (promptNoHistory hotPromptTheme) "Kill others" $
@@ -324,7 +349,9 @@ keysWindows =
     ("M-w g", wrapKbdLayout $ windowPrompt (promptNoHistory promptTheme) Goto allWindows),
     ("M-w /", wrapKbdLayout $ windowPrompt (promptNoHistory promptTheme) Goto wsWindows),
     ("M-w b", wrapKbdLayout $ windowPrompt (promptNoHistory promptTheme) Bring allWindows),
-    ("M-d w S-c", wrapKbdLayout $ windowPrompt (promptNoHistory promptTheme) BringCopy allWindows),
+    ( "M-d w S-c",
+      wrapKbdLayout $ windowPrompt (promptNoHistory promptTheme) BringCopy allWindows
+    ),
     ("M-w c", toggleCopyToAll),
     ("M-w o", sendMessage Mag.Toggle),
     ("M-w S-c", kill1), -- To remove focused copied window from current workspace
@@ -360,6 +387,7 @@ keysWindows =
     ++ zipKeys' "M-S-" arrowKeys directions windowToScreen True
     ++ zipKeys' "M-C-" arrowKeys directions screenSwap True
     ++ zipKeys' "C-<Space> " vimKeys directions screenSwap True
+    ++ zipKeys' "C-<Space> S-" vimKeys directions windowToScreen True
   where
     directions = [D, U, L, R]
     arrowKeys = ["<D>", "<U>", "<L>", "<R>"]
@@ -379,8 +407,7 @@ keysResize =
 
 keysLayout :: XConfig Layout -> Keybindings
 keysLayout c =
-  [
-    -- ("M-d l-n", sendMessage NextLayout),
+  [ -- ("M-d l-n", sendMessage NextLayout),
     -- ("M-d l-s", toSubl NextLayout),
     ("M-d C-S-r", setLayout $ XMonad.layoutHook c),
     ("M-y", withFocused toggleFloat),

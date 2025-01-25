@@ -20,20 +20,16 @@ module XMonad.Custom.Hooks.KeyboardChangeEvent (
 
   -- * Helper Functions
   keyboardChangeEventHookHandler,
-  flash',
 ) where
 
 import Data.Char (toLower, toUpper)
 import XMonad
 import XMonad.Actions.ShowText
 import XMonad.Custom.Actions.Keyboard
+import XMonad.Custom.Utils.Keyboard
 import XMonad.Hooks.ServerMode
 import XMonad.Hooks.StatusBar.PP (wrap)
 import XMonad.Prelude
-
--- | Displays a notification with custom font settings
-flash' :: String -> X ()
-flash' = flashText def {st_font = "xft:monospace:size=25"} 0.5 . wrap "  " "  "
 
 {-| Main event hook that listens for keyboard layout change events
 To be used in the handleEventHook of your XMonad configuration
@@ -55,13 +51,4 @@ The handler:
 keyboardChangeEventHookHandler :: String -> X ()
 keyboardChangeEventHookHandler newLayout = do
   layouts <- getKbdLayouts
-  flash' $ formatLayouts layouts (map toLower newLayout)
-  where
-    formatLayouts :: [String] -> String -> String
-    formatLayouts layouts current =
-      unwords $ map (formatLayout current) layouts
-
-    formatLayout :: String -> String -> String
-    formatLayout current layout
-      | map toLower layout == current = "[" ++ map toUpper layout ++ "]"
-      | otherwise = layout
+  flashKeyboardChange $ formatLayouts layouts (map toLower newLayout)

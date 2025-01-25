@@ -11,10 +11,10 @@ in
     # https://github.com/CachyOS/CachyOS-Settings/blob/master/usr/lib/sysctl.d/99-cachyos-settings.conf
     boot.kernel.sysctl = {
       # Memory management settings
-      "vm.swappiness" = mkForce 100;
+      "vm.swappiness" = mkDefault 100;
       "vm.vfs_cache_pressure" = mkForce 50;
       "vm.dirty_bytes" = mkForce 268435456;
-      "vm.page-cluster" = mkForce 0;
+      "vm.page-cluster" = mkDefault 0;
       "vm.dirty_background_bytes" = mkForce 67108864;
       "vm.dirty_writeback_centisecs" = mkForce 1500;
 

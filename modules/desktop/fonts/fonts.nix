@@ -28,12 +28,13 @@ with lib.my;
         noto-fonts
         corefonts
         merriweather
-        julia-mono # Unicode glyphs
         nerd-fonts.symbols-only
+        nerd-fonts.fira-code
+        # (nerdfonts.override { fonts = [ "FiraCode" ]; })
+        julia-mono # Unicode glyphs
         my.fast-font
-        # (pkgs.nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
-        # (nerdfonts.override {fonts = ["FiraCode"];})
 
+        # (pkgs.nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
         # lmmath
         # lmodern
         # cm_unicode

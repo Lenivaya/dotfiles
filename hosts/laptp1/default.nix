@@ -52,6 +52,10 @@ with my;
           executable = "firefox";
         };
       };
+      term = {
+        kitty = enabled;
+        default = mkForce "kitty";
+      };
       media = {
         mpv = enabled;
       };
@@ -93,6 +97,11 @@ with my;
       touchpad = enabled;
       bluetooth = enabled;
       audio = enabled;
+    };
+
+    cachyos = {
+      settings = enabled;
+      udev = enabled;
     };
 
     fast-networking = enabled;

@@ -116,11 +116,13 @@ with my;
     };
 
     editors = {
+      default = mkForce "nvim";
       vscode = enabled;
       emacs = enabled // {
         doom = enabled;
-        default = true;
+        # default = true;
       };
+      neovim = enabled;
       jetbrains = enabled // {
         packages = with pkgs; [ jetbrains-toolbox ]; # KISS
       };
@@ -195,7 +197,7 @@ with my;
       ddc = enabled;
       cpu.intel = enabled;
       cpu = {
-        # t44dp = {
+        # tdp = {
         #   battery = {
         #     risky = true;
         #     p1.watts = 15;
@@ -217,8 +219,6 @@ with my;
         undervolt = enabled // rec {
           core = -110;
           gpu = -110;
-          # core = -50;
-          # gpu = -50;
           temp = 100;
         };
       };
@@ -406,7 +406,6 @@ with my;
     wireguard-tools
     deskflow
     upwork
-    neovide
     beekeeper-studio
     # zoom-us
   ];
@@ -475,7 +474,7 @@ with my;
   environment.etc.hosts.mode = "0644";
 
   # BPF-based auto-tuning of Linux system parameters
-  services.bpftune = enabled;
+  # services.bpftune = enabled;
 
   # Run appimages seamlesssly
   programs.appimage.binfmt = true;
@@ -486,14 +485,14 @@ with my;
     SystemMaxFileSize=50M
   '';
 
-  # systemd.coredump.extraConfig = ''
-  #   Storage=none
-  #   ProcessSizeMax=0
-  # '';
+  systemd.coredump.extraConfig = ''
+    Storage=none
+    ProcessSizeMax=0
+  '';
 
   # https://www.reddit.com/r/Fedora/comments/10s06fd/why_is_systemdoomd_still_a_thing/
   # https://www.reddit.com/r/Ubuntu/comments/uyl4i6/ubuntu_2204s_new_oom_killing_system_is_killing/
-  # systemd.oomd = disabled;
+  systemd.oomd = disabled;
 
   nix.settings = {
     system-features = [
@@ -589,7 +588,9 @@ with my;
     ++ [
       (_final: prev: {
         inherit (pkgs.unstable)
-          code-cursor
+          # code-cursor
+          kitty
+          neovim
           ;
 
         distrobox = prev.distrobox_git;

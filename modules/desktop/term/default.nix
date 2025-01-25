@@ -12,6 +12,8 @@ in
   config = {
     services.xserver.desktopManager.xterm.enable = mkDefault (cfg.default == "xterm");
 
-    env.TERM = cfg.default;
+    environment.sessionVariables.TERM = mkForce cfg.default;
+    environment.variables.TERM = mkForce cfg.default;
+    env.TERM = mkForce cfg.default;
   };
 }

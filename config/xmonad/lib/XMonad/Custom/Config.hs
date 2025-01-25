@@ -1,7 +1,8 @@
+{-# LANGUAGE ImportQualifiedPost #-}
 {-# OPTIONS_GHC -Wno-missing-signatures #-}
 
 module XMonad.Custom.Config (
-        myConfig,
+  myConfig,
 ) where
 
 import Flow
@@ -28,38 +29,37 @@ import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.Rescreen
 import XMonad.Hooks.StatusBar
 import XMonad.Hooks.UrgencyHook
+import XMonad.Layout.Fullscreen
 import XMonad.Layout.IndependentScreens
+import XMonad.Util.EZConfig
 import XMonad.Util.Hacks qualified as Hacks
 import XMonad.Util.Loggers.NamedScratchpad
-import XMonad.Layout.Fullscreen
-
 
 myConfig =
-        def
-                { borderWidth = C.border
-                , workspaces = C.workspaces
-                , layoutHook = C.layoutHook
-                , terminal = C.term C.applications
-                , normalBorderColor = C.colorN
-                , focusedBorderColor = C.colorF
-                , modMask = C.modMask
-                , keys = C.myKeys
-                , logHook = C.logHook
-                , startupHook =  C.startupHook
-                , mouseBindings = C.mouseBindings
-                , manageHook = C.manageHook
-                , handleEventHook = C.handleEventHook
-                , focusFollowsMouse = True
-                , clickJustFocuses = True
-                }
-                |> withNavigation2DConfig C.navigation
-                -- |> withUrgencyHook (borderUrgencyHook C.red1)
-                |> addRandrChangeHook C.myRandrChangeHook
-                |> dynamicProjects C.projects
-                |> dynamicSBs C.barSpawner
-                |> configureMRU
-                |> ewmh
-                |> ewmhFullscreen
-                |> docks
-                -- |> Hacks.javaHack
-                |> (return :: a -> IO a)
+  def
+    { borderWidth = C.border,
+      workspaces = C.workspaces,
+      layoutHook = C.layoutHook,
+      terminal = C.term C.applications,
+      normalBorderColor = C.colorN,
+      focusedBorderColor = C.colorF,
+      modMask = C.modMask,
+      keys = C.myKeys,
+      logHook = C.logHook,
+      startupHook = C.startupHook,
+      mouseBindings = C.mouseBindings,
+      manageHook = C.manageHook,
+      handleEventHook = C.handleEventHook,
+      focusFollowsMouse = True,
+      clickJustFocuses = True
+    }
+    |> withNavigation2DConfig C.navigation
+    |> addRandrChangeHook C.myRandrChangeHook
+    |> dynamicProjects C.projects
+    |> dynamicSBs C.barSpawner
+    |> configureMRU
+    |> ewmh
+    |> ewmhFullscreen
+    |> docks
+    |> Hacks.javaHack
+    |> (return :: a -> IO a)
