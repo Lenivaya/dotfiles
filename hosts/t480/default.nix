@@ -195,7 +195,7 @@ with my;
       ddc = enabled;
       cpu.intel = enabled;
       cpu = {
-        # t44dp = {
+        # tdp = {
         #   battery = {
         #     risky = true;
         #     p1.watts = 15;
