@@ -46,7 +46,6 @@ in
       ]
       ++ optional config.this.isHeadful boxbuddy;
 
-
     user.extraGroups = [ "podman" ];
 
     nixpkgs.overlays = [
