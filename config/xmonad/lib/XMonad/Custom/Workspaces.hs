@@ -119,7 +119,7 @@ projects =
     makeProject (tmp wsNames) Nothing,
     makeProject (wsWRK wsNames) Nothing,
     makeProject (git wsNames) $ Just $ do spawn "gitbutler-tauri",
-    makeProject (messages wsNames) $ Just $ do spawn "telegram-desktop",
+    makeProject (messages wsNames) $ Just $ do spawn "ayugram-desktop",
     makeProject "START" Nothing,
     makeProject "MON" $ Just $ do
       spawnTerminalWith "-e btop"

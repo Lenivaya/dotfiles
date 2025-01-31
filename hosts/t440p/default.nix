@@ -459,7 +459,7 @@ with lib.my;
   environment.etc.hosts.mode = "0644";
 
   # BPF-based auto-tuning of Linux system parameters
-  services.bpftune = enabled;
+  # services.bpftune = enabled;
 
   # Run appimages seamlesssly
   programs.appimage.binfmt = true;
@@ -528,7 +528,7 @@ with lib.my;
       optimize = pkg: optimizeForThisHost (withClang pkg);
     in
     [ inputs.nur.overlays.default ]
-    ++ [ inputs.picom.overlay.${system} ]
+    # ++ [ inputs.picom.overlay.${system} ]
     ++ [
       (_final: prev: {
         intel-vaapi-driver = prev.intel-vaapi-driver.override { enableHybridCodec = true; };

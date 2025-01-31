@@ -38,6 +38,7 @@ composeActions =
     -- className =? "gcr-prompter" <||> className =? "Gcr-prompter" -?> doCenterFloat,
     -- className =? "Safeeyes" -?> doFullFloat,
     className =? "Avizo-service" -?> doIgnore,
+    className =? "AyuGramDesktop" -?> centerFloat 0.7 0.7,
     -- className =? "gitbutler-tauri" -?> doShift (git wsNames),
     -- className
     --   =? "jetbrains-toolbox"
@@ -65,8 +66,7 @@ composeActions =
 manageHook :: ManageHook
 manageHook =
   composeAll
-    [ -- manageSpawn,
+    [
       composeOne composeActions,
       namedScratchpadManageHook scratchpads
-      -- fullscreenManageHook
     ]

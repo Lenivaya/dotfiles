@@ -17,13 +17,9 @@ in
   };
 
   config = mkIf cfg.enable {
-    user.packages =
-      # let
-      # in
-      # neovim' = inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
-      with pkgs; [
-        neovim
-      ];
+    user.packages = with pkgs; [
+      neovim
+    ];
 
     system.userActivationScripts.linkNvimConfig = linkIfNotExist "~/.config/nvim" "${outOfStoreConfigDir}/nvim";
   };

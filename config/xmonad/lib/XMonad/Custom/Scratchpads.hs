@@ -69,11 +69,6 @@ scratchpads =
       "cpupower-gui"
       (className =? "Cpupower-gui")
       (centerFloat 0.7 0.7),
-    -- NS
-    --   "telegram"
-    --   "telegram-desktop"
-    --   (className =? "TelegramDesktop")
-    --   doFullCenterFloat,
     NS
       "reader"
       "foliate"

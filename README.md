@@ -1,4 +1,4 @@
-[![NixOS 23.05](https://img.shields.io/badge/NixOS-v23.05-blue.svg?style=flat-square&logo=NixOS&logoColor=white)](https://nixos.org)
+[![NixOS](https://img.shields.io/badge/NixOS-blue.svg?style=flat-square&logo=NixOS&logoColor=white)](https://nixos.org)
 [![Tests](https://github.com/Lenivaya/dotfiles/actions/workflows/tests.yml/badge.svg)](https://github.com/Lenivaya/dotfiles/actions/workflows/tests.yml)
 
 <h1 align="center">dotfiles</h1>
@@ -21,14 +21,14 @@
 | **sh:**      | zsh (with [fastest plugin-manager](https://github.com/zdharma-continuum/zinit)) |
 | **font:**    | (Iosevka + IBM Plex) or Pragmata-Pro                                            |
 | **browser:** | google-chrome / Firefox                                                         |
-| **editor:**  | Emacs                                                                           |
+| **editor:**  | Emacs / nvim / other modern things                                              |
 | **term:**    | st                                                                              |
 
 ---
 
 ## Quick start
 
-1. Acquire NixOS 23.05 or newer:
+1. Acquire NixOS unstable
 
    ```sh
    # Download nixos-unstable

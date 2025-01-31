@@ -111,10 +111,6 @@
       url = "github:AdnanHodzic/auto-cpufreq";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    picom = {
-      url = "github:yshui/picom";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     skippy-xd = {
       url = "github:felixfung/skippy-xd";
       flake = false;
@@ -132,7 +128,6 @@
       url = "github:StevenBlack/hosts";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    # neovim-nightly-overlay.url = "github:nix-community/neovim-nightly-overlay";
   };
 
   nixConfig = {
@@ -145,6 +140,7 @@
       "https://pre-commit-hooks.cachix.org"
       "https://viperml.cachix.org/"
       "https://chaotic-nyx.cachix.org/"
+
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="

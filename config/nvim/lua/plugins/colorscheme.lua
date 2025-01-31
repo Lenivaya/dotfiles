@@ -149,4 +149,8 @@ return {
       colorscheme = "catppuccin",
     },
   },
+  --
+  -- {
+  --   "datsfilipe/vesper.nvim",
+  -- },
 }

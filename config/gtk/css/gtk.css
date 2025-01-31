@@ -36,7 +36,7 @@ NautilusWindow {
 }
 .window-frame,
 .window-frame:backdrop {
-  box-shadow: 0 0 0 black;
+  box-shadow: 0 0 0 transparent;
   border-style: none;
   margin: 0;
   border-radius: 0;
@@ -68,4 +68,30 @@ window.csd decoration {
   /* gtk3 */
   border-radius: 0;
   box-shadow: none;
+}
+
+/* https://github.com/i3/i3/discussions/5747 */
+/* https://gitlab.gnome.org/GNOME/gtk/-/issues/4815 */
+
+.solid-csd {
+	border: 1px solid rgb(150,150,150);
+	border-radius: 0;
+	box-shadow: none;
+}
+
+popover contents {
+	border: 1px solid rgb(150,150,150);
+	border-radius: 0;
+	box-shadow: none;
+	margin-top: -12px;
+}
+
+popover arrow {
+	background: transparent;
+	border-color: transparent;
+}
+
+.window-frame {
+  box-shadow: none;
+  margin: 0px;
 }

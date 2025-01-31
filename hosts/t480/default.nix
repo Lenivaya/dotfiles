@@ -57,7 +57,9 @@ with my;
         default = "firefox";
 
         firefox = enabled // {
-          package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
+          # package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
+          package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
+          # package = pkgs.firefox_nightly;
           executable = "firefox";
         };
         chromium =
@@ -72,8 +74,10 @@ with my;
       };
 
       term = {
-        kitty = enabled;
-        default = mkForce "kitty";
+        kitty = enabled // {
+          singleInstance = true;
+          default = true;
+        };
       };
 
       media = {
@@ -387,8 +391,8 @@ with my;
     code-cursor
     (inxi.override { withRecommends = true; })
     khal
-    telegram-desktop
-    # inputs.ayugram-desktop.packages.${pkgs.system}.ayugram-desktop
+    # telegram-desktop
+    ayugram-desktop
     ffmpeg-full
     video-trimmer
     postman
@@ -436,22 +440,22 @@ with my;
       vulkan-tools
     ];
   };
-  # chaotic.mesa-git = enabled // {
-  #   fallbackSpecialisation = false;
-  #   # method = "replaceRuntimeDependencies";
-  #   extraPackages = with pkgs; [
-  #     libGL
-  #     intel-ocl
-  #     intel-media-driver
-  #     vaapiIntel
-  #     vaapiVdpau
-  #     vpl-gpu-rt
-  #     vulkan-loader
-  #     vulkan-validation-layers
-  #     vulkan-extension-layer
-  #     vulkan-tools
-  #   ];
-  # };
+  chaotic.mesa-git = enabled // {
+    fallbackSpecialisation = false;
+    # method = "replaceRuntimeDependencies";
+    extraPackages = with pkgs; [
+      libGL
+      intel-ocl
+      intel-media-driver
+      vaapiIntel
+      vaapiVdpau
+      vpl-gpu-rt
+      vulkan-loader
+      vulkan-validation-layers
+      vulkan-extension-layer
+      vulkan-tools
+    ];
+  };
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = mkForce "iHD";
 
@@ -584,11 +588,12 @@ with my;
       optimize = pkg: optimizeForThisHost (withClang pkg);
     in
     [ inputs.nur.overlays.default ]
-    ++ [ inputs.picom.overlay.${system} ]
+    # ++ [ inputs.picom.overlay.${system} ]
     ++ [
       (_final: prev: {
         inherit (pkgs.unstable)
           # code-cursor
+          ayugram-desktop
           kitty
           neovim
           ;

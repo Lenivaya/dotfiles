@@ -1,0 +1,12 @@
+#!/bin/sh
+
+# Simple script to launch Firefox Nightly if it's installed, otherwise fallback to the default Firefox.
+
+for browser in firefox-nightly firefox; do
+  if command -v "$browser" >/dev/null 2>&1; then
+    exec "$browser" "$@"
+  fi
+done
+
+echo "No Firefox binary found" >&2
+exit 1
