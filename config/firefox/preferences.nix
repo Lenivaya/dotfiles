@@ -222,7 +222,9 @@
   # Disable this ugly as shit strange decorations that apperas like a border around my window on XMonad
   "browser.tabs.inTitlebar" = 0;
 
-  # https://gist.github.com/RubenKelevra/fd66c2f856d703260ecdf0379c4f59db
+  "network.notify.checkForProxies" = true;
+
+  ### https://gist.github.com/RubenKelevra/fd66c2f856d703260ecdf0379c4f59db
   # General tweaks
   "network.captive-portal-service.enabled" = false; # don't try to find captive portals
   # "network.notify.checkForProxies" = false; # don't try to find proxies
