@@ -74,21 +74,21 @@ window.csd decoration {
 /* https://gitlab.gnome.org/GNOME/gtk/-/issues/4815 */
 
 .solid-csd {
-	border: 1px solid rgb(150,150,150);
-	border-radius: 0;
-	box-shadow: none;
+  border: 1px solid rgb(150, 150, 150);
+  border-radius: 0;
+  box-shadow: none;
 }
 
 popover contents {
-	border: 1px solid rgb(150,150,150);
-	border-radius: 0;
-	box-shadow: none;
-	margin-top: -12px;
+  border: 1px solid rgb(150, 150, 150);
+  border-radius: 0;
+  box-shadow: none;
+  margin-top: -12px;
 }
 
 popover arrow {
-	background: transparent;
-	border-color: transparent;
+  background: transparent;
+  border-color: transparent;
 }
 
 .window-frame {
