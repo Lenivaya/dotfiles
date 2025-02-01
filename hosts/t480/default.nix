@@ -110,6 +110,7 @@ with my;
 
     shell = {
       zsh = enabled;
+      # fish = enabled;
       tmux = enabled;
       gnupg = enabled;
       direnv = enabled;

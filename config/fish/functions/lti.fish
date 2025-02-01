@@ -1,0 +1,4 @@
+function lti --wraps='eza $EZA_STANDARD_OPTIONS $EZA_LI_OPTIONS $EZA_LT_OPTIONS' --description 'alias lti eza $EZA_STANDARD_OPTIONS $EZA_LI_OPTIONS $EZA_LT_OPTIONS'
+  eza $EZA_STANDARD_OPTIONS $EZA_LI_OPTIONS $EZA_LT_OPTIONS $argv
+        
+end

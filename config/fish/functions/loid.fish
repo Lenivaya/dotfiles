@@ -1,0 +1,4 @@
+function loid --wraps='eza $EZA_STANDARD_OPTIONS $EZA_LID_OPTIONS $EZA_LO_OPTIONS' --description 'alias loid eza $EZA_STANDARD_OPTIONS $EZA_LID_OPTIONS $EZA_LO_OPTIONS'
+  eza $EZA_STANDARD_OPTIONS $EZA_LID_OPTIONS $EZA_LO_OPTIONS $argv
+        
+end

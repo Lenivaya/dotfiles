@@ -21,7 +21,7 @@
     "ignoreTrimWhitespace": false
   },
   "editor": {
-    "cursorBlinking": "smooth",
+    "cursorBlinking": "solid",
     "cursorSmoothCaretAnimation": false,
     "fontLigatures": true,
     "inlayHints": {
@@ -41,7 +41,10 @@
     },
     "renderIndentGuides": false,
     "renderWhitespace": "none",
-    "rulers": [80, 100],
+    "rulers": [
+      80,
+      100
+    ],
     "smoothScrolling": false,
     "snippetSuggestions": "top",
     "suggest": {
@@ -95,7 +98,11 @@
   },
   "eslint": {
     "packageManager": "yarn",
-    "validate": ["html", "javascript", "javascriptreact"]
+    "validate": [
+      "html",
+      "javascript",
+      "javascriptreact"
+    ]
   },
   "explorer": {
     "confirmDragAndDrop": false,
@@ -158,7 +165,11 @@
   },
   "gitlens": {
     "codeLens": {
-      "scopes": ["document", "containers", "blocks"]
+      "scopes": [
+        "document",
+        "containers",
+        "blocks"
+      ]
     }
   },
   "gopls": {
@@ -234,7 +245,9 @@
           "name": "pdflatex"
         },
         {
-          "args": ["%DOCFILE%"],
+          "args": [
+            "%DOCFILE%"
+          ],
           "command": "bibtex",
           "name": "bibtex"
         }
@@ -294,7 +307,9 @@
     },
     "autoUpdateLanguageServer": false,
     "experiments": {
-      "optOutFrom": ["All"]
+      "optOutFrom": [
+        "All"
+      ]
     },
     "formatting": {
       "provider": "yapf"
@@ -328,7 +343,15 @@
   },
   "todo-tree": {
     "general": {
-      "tags": ["BUG", "HACK", "FIXME", "TODO", "XXX", "[ ]", "[x]"]
+      "tags": [
+        "BUG",
+        "HACK",
+        "FIXME",
+        "TODO",
+        "XXX",
+        "[ ]",
+        "[x]"
+      ]
     },
     "tree": {
       "showScanModeButton": false
@@ -396,69 +419,6 @@
       "expandMode": "singleClick"
     }
   },
-  "vim": {
-    "autoSwitchInputMethod": {
-      "defaultIM": "us",
-      "enable": true,
-      "obtainIMCmd": "/etc/profiles/per-user/leniviy/bin/xkb-switch",
-      "switchIMCmd": "/etc/profiles/per-user/leniviy/bin/xkb-switch -s {im}"
-    },
-    "camelCaseMotion": {
-      "enable": true
-    },
-    "easymotion": true,
-    "hlsearch": true,
-    "incsearch": true,
-    "insertModeKeyBindings": [
-      {
-        "after": ["<Esc>"],
-        "before": ["j", "j"]
-      }
-    ],
-    "normalModeKeyBindingsNonRecursive": [
-      {
-        "before": ["<Esc>"],
-        "commands": [":nohl"]
-      },
-      {
-        "before": ["<space>"],
-        "commands": ["vspacecode.space"]
-      },
-      {
-        "before": [","],
-        "commands": [
-          "vspacecode.space",
-          {
-            "args": "m",
-            "command": "whichkey.triggerKey"
-          }
-        ]
-      },
-      {
-        "before": ["g", "r"],
-        "commands": ["editor.action.rename"]
-      }
-    ],
-    "sneak": true,
-    "useCtrlKeys": true,
-    "useSystemClipboard": true,
-    "visualModeKeyBindingsNonRecursive": [
-      {
-        "before": ["<space>"],
-        "commands": ["vspacecode.show"]
-      },
-      {
-        "before": [","],
-        "commands": [
-          "vspacecode.space",
-          {
-            "args": "m",
-            "command": "whichkey.triggerKey"
-          }
-        ]
-      }
-    ]
-  },
   "editor.guides.indentation": false,
   "nix.enableLanguageServer": true,
   "nix.formatterPath": "nixfmt",
@@ -473,7 +433,9 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cSpell.userWords": ["Keypair"],
+  "cSpell.userWords": [
+    "Keypair"
+  ],
   "[typescript]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -538,14 +500,30 @@
     "editor.defaultFormatter": "csharpier.csharpier-vscode"
   },
   "files.autoSave": "off",
-  "files.autoSave": "off",
   "files.autoSaveDelay": 1000,
   "editor.accessibilitySupport": "off",
   "editor.cursorSmoothCaretAnimation": "off",
   "workbench.tips.enabled": false,
   "files.autoGuessEncoding": false,
   "emmet.showExpandedAbbreviation": "never",
-  "editor.minimap.enabled": true,
   "csharp.preview.improvedLaunchExperience": true,
-  "dotnet.useLegacyDotnetResolution": false
+  "dotnet.useLegacyDotnetResolution": false,
+  "editor.snippets.codeActions.enabled": false,
+  "editor.cursorBlinking": "solid",
+  "terminal.integrated.cursorBlinking": false,
+  "workbench.statusBar.enabled": false,
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "workbench.reduceMotion": "on",
+  "workbench.editor.enablePreview": false,
+  "workbench.colorCustomizations": {
+    "widget.shadow": "#00000000",
+    "scrollbar.shadow": "#00000000"
+  },
+  "terminal.integrated.tabs.enableAnimation": false,
+  "editor.minimap.renderCharacters": false,
+  "search.searchOnType": false,
+  "terminal.integrated.gpuAcceleration": "on",
+  "dotnetAcquisitionExtension.enableTelemetry": false
 }

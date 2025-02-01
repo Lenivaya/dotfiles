@@ -1,0 +1,4 @@
+function ltd --wraps='eza $EZA_STANDARD_OPTIONS $EZA_LD_OPTIONS $EZA_LT_OPTIONS' --description 'alias ltd eza $EZA_STANDARD_OPTIONS $EZA_LD_OPTIONS $EZA_LT_OPTIONS'
+  eza $EZA_STANDARD_OPTIONS $EZA_LD_OPTIONS $EZA_LT_OPTIONS $argv
+        
+end

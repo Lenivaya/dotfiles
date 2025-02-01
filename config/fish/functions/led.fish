@@ -1,0 +1,4 @@
+function led --wraps='eza $EZA_STANDARD_OPTIONS $EZA_LD_OPTIONS $EZA_LE_OPTIONS' --description 'alias led eza $EZA_STANDARD_OPTIONS $EZA_LD_OPTIONS $EZA_LE_OPTIONS'
+  eza $EZA_STANDARD_OPTIONS $EZA_LD_OPTIONS $EZA_LE_OPTIONS $argv
+        
+end

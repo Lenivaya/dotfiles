@@ -1,0 +1,4 @@
+function laai --wraps='eza $EZA_STANDARD_OPTIONS $EZA_LAAI_OPTIONS $EZA_L_OPTIONS' --description 'alias laai eza $EZA_STANDARD_OPTIONS $EZA_LAAI_OPTIONS $EZA_L_OPTIONS'
+  eza $EZA_STANDARD_OPTIONS $EZA_LAAI_OPTIONS $EZA_L_OPTIONS $argv
+        
+end

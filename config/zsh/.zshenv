@@ -1,5 +1,7 @@
 export LANG=en_US.UTF-8
 
+skip_global_compinit=1
+
 # Home-manager sessionVariables
 source /etc/profiles/per-user/leniviy/etc/profile.d/hm-session-vars.sh
 

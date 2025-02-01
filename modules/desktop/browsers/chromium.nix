@@ -39,6 +39,8 @@ in
 
       "--sharing-desktop-screenshots"
 
+      "--enable-unsafe-webgpu"
+
       # Fuck this "outdated" shit
       "--simulate-outdated-no-au='Tue, 31 Dec 2099 23:59:59 GMT'"
 

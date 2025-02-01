@@ -1,0 +1,4 @@
+function lcad --wraps='eza $EZA_STANDARD_OPTIONS $EZA_LAD_OPTIONS $EZA_LC_OPTIONS' --description 'alias lcad eza $EZA_STANDARD_OPTIONS $EZA_LAD_OPTIONS $EZA_LC_OPTIONS'
+  eza $EZA_STANDARD_OPTIONS $EZA_LAD_OPTIONS $EZA_LC_OPTIONS $argv
+        
+end

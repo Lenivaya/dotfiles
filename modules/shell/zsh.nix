@@ -8,7 +8,7 @@ with lib;
 with lib.my;
 let
   cfg = config.modules.shell.zsh;
-  inherit (config.dotfiles) configDir;
+  inherit (config.dotfiles) outOfStoreConfigDir;
 in
 {
   options.modules.shell.zsh = with types; {
@@ -41,12 +41,15 @@ in
 
     user.packages = with pkgs; [ zsh ];
 
+    # Embrace impurity and imperfection.
+    system.userActivationScripts.linkZshConfig = linkIfNotExist "~/.config/zsh" "${outOfStoreConfigDir}/zsh";
+
     home.configFile = {
       # Write it recursively so other modules can write files to it
-      "zsh" = {
-        source = "${configDir}/zsh";
-        recursive = true;
-      };
+      # "zsh" = {
+      #   source = "${configDir}/zsh";
+      #   recursive = true;
+      # };
 
       # Why am I creating extra.zsh{rc,env} when I could be using extraInit?
       # Because extraInit generates those files in /etc/profile, and mine just

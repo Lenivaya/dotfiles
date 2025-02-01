@@ -355,6 +355,7 @@ keysWindows =
     ("M-w c", toggleCopyToAll),
     ("M-w o", sendMessage Mag.Toggle),
     ("M-w S-c", kill1), -- To remove focused copied window from current workspace
+    ("M-w d h o", withOthers $ minimizeWindow),
     ("M-w h", withFocused minimizeWindow),
     ("M-w M1-h", withOthers minimizeWindow),
     ("M-w S-h", withLastMinimized maximizeWindowAndFocus),

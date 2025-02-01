@@ -1,0 +1,4 @@
+function lgad --wraps='eza $EZA_STANDARD_OPTIONS $EZA_LAD_OPTIONS $EZA_LG_OPTIONS' --description 'alias lgad eza $EZA_STANDARD_OPTIONS $EZA_LAD_OPTIONS $EZA_LG_OPTIONS'
+  eza $EZA_STANDARD_OPTIONS $EZA_LAD_OPTIONS $EZA_LG_OPTIONS $argv
+        
+end

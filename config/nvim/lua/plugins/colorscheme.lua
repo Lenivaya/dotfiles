@@ -102,28 +102,95 @@ return {
   --   end,
   -- },
 
+  -- {
+  --   "catppuccin/nvim",
+  --   name = "catppuccin",
+  --   priority = 1000,
+  --   version = false, -- always use the latest git commit
+  --   opts = {
+  --     no_italic = false,
+  --     term_colors = false,
+  --     transparent_background = true,
+  --     styles = {
+  --       comments = {},
+  --       conditionals = {},
+  --       loops = {},
+  --       functions = {},
+  --       keywords = {},
+  --       strings = {},
+  --       variables = {},
+  --       numbers = {},
+  --       booleans = {},
+  --       properties = {},
+  --       types = {},
+  --     },
+  --     color_overrides = {
+  --       mocha = {
+  --         base = "#000000",
+  --         mantle = "#000000",
+  --         crust = "#000000",
+  --       },
+  --     },
+  --     integrations = {
+  --       aerial = true,
+  --       alpha = true,
+  --       cmp = true,
+  --       dashboard = true,
+  --       flash = true,
+  --       fzf = true,
+  --       grug_far = true,
+  --       gitsigns = true,
+  --       headlines = true,
+  --       illuminate = true,
+  --       indent_blankline = { enabled = true },
+  --       leap = true,
+  --       lsp_trouble = true,
+  --       mason = true,
+  --       markdown = true,
+  --       mini = true,
+  --       native_lsp = {
+  --         enabled = true,
+  --         underlines = {
+  --           errors = { "undercurl" },
+  --           hints = { "undercurl" },
+  --           warnings = { "undercurl" },
+  --           information = { "undercurl" },
+  --         },
+  --       },
+  --       navic = { enabled = true, custom_bg = "lualine" },
+  --       neotest = true,
+  --       neotree = true,
+  --       noice = true,
+  --       notify = true,
+  --       semantic_tokens = true,
+  --       snacks = true,
+  --       telescope = true,
+  --       treesitter = true,
+  --       treesitter_context = true,
+  --       which_key = true,
+  --     },
+  --   },
+  -- },
+  -- {
+  --   "LazyVim/LazyVim",
+  --   opts = {
+  --     colorscheme = "catppuccin",
+  --   },
+  -- },
+  --
+  -- {
+  --   "datsfilipe/vesper.nvim",
+  -- },
+  --
   {
     "catppuccin/nvim",
+    lazy = true,
     name = "catppuccin",
     priority = 1000,
-    version = false, -- always use the latest git commit
+    version = false,
     opts = {
-      no_italic = false,
       term_colors = false,
       transparent_background = true,
-      styles = {
-        comments = {},
-        conditionals = {},
-        loops = {},
-        functions = {},
-        keywords = {},
-        strings = {},
-        variables = {},
-        numbers = {},
-        booleans = {},
-        properties = {},
-        types = {},
-      },
       color_overrides = {
         mocha = {
           base = "#000000",
@@ -132,14 +199,53 @@ return {
         },
       },
       integrations = {
-        telescope = {
+        aerial = true,
+        alpha = true,
+        cmp = true,
+        dashboard = true,
+        flash = true,
+        fzf = true,
+        grug_far = true,
+        gitsigns = true,
+        headlines = true,
+        illuminate = true,
+        indent_blankline = { enabled = true },
+        leap = true,
+        lsp_trouble = true,
+        mason = true,
+        markdown = true,
+        mini = true,
+        native_lsp = {
           enabled = true,
-          style = "nvchad",
+          underlines = {
+            errors = { "undercurl" },
+            hints = { "undercurl" },
+            warnings = { "undercurl" },
+            information = { "undercurl" },
+          },
         },
-        dropbar = {
-          enabled = true,
-          color_mode = true,
-        },
+        navic = { enabled = true, custom_bg = "lualine" },
+        neotest = true,
+        neotree = true,
+        noice = true,
+        notify = true,
+        semantic_tokens = true,
+        snacks = true,
+        telescope = true,
+        treesitter = true,
+        treesitter_context = true,
+        which_key = true,
+      },
+    },
+    specs = {
+      {
+        "akinsho/bufferline.nvim",
+        optional = true,
+        opts = function(_, opts)
+          if (vim.g.colors_name or ""):find("catppuccin") then
+            opts.highlights = require("catppuccin.groups.integrations.bufferline").get()
+          end
+        end,
       },
     },
   },
@@ -149,8 +255,4 @@ return {
       colorscheme = "catppuccin",
     },
   },
-  --
-  -- {
-  --   "datsfilipe/vesper.nvim",
-  -- },
 }

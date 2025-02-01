@@ -1,0 +1,4 @@
+function lad --wraps='eza $EZA_STANDARD_OPTIONS $EZA_LAD_OPTIONS $EZA_L_OPTIONS' --description 'alias lad eza $EZA_STANDARD_OPTIONS $EZA_LAD_OPTIONS $EZA_L_OPTIONS'
+  eza $EZA_STANDARD_OPTIONS $EZA_LAD_OPTIONS $EZA_L_OPTIONS $argv
+        
+end

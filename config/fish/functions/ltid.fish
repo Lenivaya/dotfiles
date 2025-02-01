@@ -1,0 +1,4 @@
+function ltid --wraps='eza $EZA_STANDARD_OPTIONS $EZA_LID_OPTIONS $EZA_LT_OPTIONS' --description 'alias ltid eza $EZA_STANDARD_OPTIONS $EZA_LID_OPTIONS $EZA_LT_OPTIONS'
+  eza $EZA_STANDARD_OPTIONS $EZA_LID_OPTIONS $EZA_LT_OPTIONS $argv
+        
+end

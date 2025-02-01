@@ -1,0 +1,4 @@
+function laad --wraps='eza $EZA_STANDARD_OPTIONS $EZA_LAAD_OPTIONS $EZA_L_OPTIONS' --description 'alias laad eza $EZA_STANDARD_OPTIONS $EZA_LAAD_OPTIONS $EZA_L_OPTIONS'
+  eza $EZA_STANDARD_OPTIONS $EZA_LAAD_OPTIONS $EZA_L_OPTIONS $argv
+        
+end

@@ -393,5 +393,10 @@
   {
     "key": "ctrl+,",
     "command": "workbench.action.quickOpen"
+  },
+  {
+    "key": "space",
+    "command": "vspacecode.space",
+    "when": "editorTextFocus && neovim.mode == normal"
   }
 ]

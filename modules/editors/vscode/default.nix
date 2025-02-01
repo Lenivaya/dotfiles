@@ -63,7 +63,8 @@ in
           vincaslt.highlight-matching-tag
           spywhere.guides
 
-          vscodevim.vim
+          # https://galenwong.github.io/blog/2021-03-22-vscode-neovim-vs-vscodevim/
+          asvetliakov.vscode-neovim
           vspacecode.whichkey
           vspacecode.vspacecode
           jacobdufault.fuzzy-search

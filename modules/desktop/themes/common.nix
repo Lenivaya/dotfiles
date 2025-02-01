@@ -29,6 +29,11 @@ in
               gtk-xft-hinting = 1;
               gtk-xft-hintstyle = "hintslight";
               gtk-xft-rgba = "rgb";
+              gtk-enable-animations = false;
+              gtk-application-prefer-dark-theme = true;
+              gtk-overlay-scrolling = false;
+              gtk-enable-input-feedback-sounds = 0;
+              gtk-enable-event-sounds = 0;
             }
 
             (mkIf config.modules.desktop.isPureWM {
@@ -62,9 +67,7 @@ in
           };
           gtk3 = mkMerge [
             {
-              extraConfig = gtkSettings // {
-                gtk-application-prefer-dark-theme = true;
-              };
+              extraConfig = gtkSettings;
             }
 
             (mkIf config.modules.desktop.isPureWM {
@@ -73,9 +76,7 @@ in
           ];
           gtk4 = mkMerge [
             {
-              extraConfig = gtkSettings // {
-                gtk-application-prefer-dark-theme = true;
-              };
+              extraConfig = gtkSettings;
             }
 
             (mkIf config.modules.desktop.isPureWM {
@@ -89,17 +90,66 @@ in
           color-scheme = "prefer-dark";
           font-antialiasing = "rgba";
           font-hinting = "hintslight";
+          enable-animations = false;
         };
       };
 
       qt = enabled // {
+        # , systemsettings
+        # platformTheme.name = "kde";
+        # style = {
+        #   name = "Breeze Dark";
+        #   package = pkgs.kdePackages.breeze;
+        # };
+        #
         # https://pagure.io/fedora-workstation/issue/351
         platformTheme.name = "adwaita";
         style = {
-          package = pkgs.adwaita-qt;
+          # package = pkgs.adwaita-qt;
           name = "adwaita-dark";
         };
       };
+    };
+
+    qt = enabled // {
+      style = "adwaita-dark";
+      platformTheme = "gnome";
+    };
+
+    environment.systemPackages = with pkgs; [
+      # Libraries and programs to ensure
+      # that QT applications load without issues, e.g. missing libs.
+      libsForQt5.qt5.qtwayland # qt5
+      kdePackages.qtwayland # qt6
+      qt6.qtwayland
+      kdePackages.qqc2-desktop-style
+
+      # qt5ct/qt6ct for configuring QT apps imperatively
+      libsForQt5.qt5ct
+      kdePackages.qt6ct
+
+      # Some KDE applications such as Dolphin try to fall back to Breeze
+      # theme icons. Lets make sure they're also found.
+      libsForQt5.breeze-qt5
+      kdePackages.breeze-icons
+      qt6.qtsvg # needed to load breeze icons
+
+      # Libraries to ensure that "gtk" platform theme works
+      # as intended after the following PR:
+      # <https://github.com/nix-community/home-manager/pull/5156>
+      libsForQt5.qtstyleplugins
+      qt6Packages.qt6gtk2
+    ];
+    environment.sessionVariables = {
+      # Scaling factor for QT applications. 1 means no scaling
+      QT_AUTO_SCREEN_SCALE_FACTOR = "1";
+      QT_ENABLE_HIGHDPI_SCALING = "1";
+
+      # Do remain backwards compatible with QT5 if possible.
+      DISABLE_QT5_COMPAT = "0";
+      # Tell Calibre to use the dark theme, because the
+      # default light theme hurts my eyes.
+      CALIBRE_USE_DARK_PALETTE = "1";
     };
 
     services.xserver.displayManager.sessionCommands = ''
