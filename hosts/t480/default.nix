@@ -57,9 +57,7 @@ with my;
         default = "firefox";
 
         firefox = enabled // {
-          # package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
-          package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
-          # package = pkgs.firefox_nightly;
+          package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
           executable = "firefox";
         };
         chromium =
@@ -109,8 +107,13 @@ with my;
     };
 
     shell = {
-      zsh = enabled;
-      # fish = enabled;
+      zsh = enabled // {
+        # default = true;
+      };
+      fish = enabled // {
+        default = true;
+        package = pkgs.my.fish-v4;
+      };
       tmux = enabled;
       gnupg = enabled;
       direnv = enabled;

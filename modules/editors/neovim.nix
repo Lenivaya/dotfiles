@@ -2,7 +2,7 @@
   config,
   lib,
   pkgs,
-  inputs,
+  # inputs,
   ...
 }:
 with lib;
@@ -18,8 +18,7 @@ in
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
-      # neovim
-      inputs.neovim-nightly-overlay.packages.${pkgs.system}.default
+      neovim
     ];
 
     system.userActivationScripts.linkNvimConfig = linkIfNotExist "~/.config/nvim" "${outOfStoreConfigDir}/nvim";

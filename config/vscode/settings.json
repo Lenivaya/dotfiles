@@ -41,10 +41,7 @@
     },
     "renderIndentGuides": false,
     "renderWhitespace": "none",
-    "rulers": [
-      80,
-      100
-    ],
+    "rulers": [80, 100],
     "smoothScrolling": false,
     "snippetSuggestions": "top",
     "suggest": {
@@ -98,11 +95,7 @@
   },
   "eslint": {
     "packageManager": "yarn",
-    "validate": [
-      "html",
-      "javascript",
-      "javascriptreact"
-    ]
+    "validate": ["html", "javascript", "javascriptreact"]
   },
   "explorer": {
     "confirmDragAndDrop": false,
@@ -165,11 +158,7 @@
   },
   "gitlens": {
     "codeLens": {
-      "scopes": [
-        "document",
-        "containers",
-        "blocks"
-      ]
+      "scopes": ["document", "containers", "blocks"]
     }
   },
   "gopls": {
@@ -245,9 +234,7 @@
           "name": "pdflatex"
         },
         {
-          "args": [
-            "%DOCFILE%"
-          ],
+          "args": ["%DOCFILE%"],
           "command": "bibtex",
           "name": "bibtex"
         }
@@ -307,9 +294,7 @@
     },
     "autoUpdateLanguageServer": false,
     "experiments": {
-      "optOutFrom": [
-        "All"
-      ]
+      "optOutFrom": ["All"]
     },
     "formatting": {
       "provider": "yapf"
@@ -343,15 +328,7 @@
   },
   "todo-tree": {
     "general": {
-      "tags": [
-        "BUG",
-        "HACK",
-        "FIXME",
-        "TODO",
-        "XXX",
-        "[ ]",
-        "[x]"
-      ]
+      "tags": ["BUG", "HACK", "FIXME", "TODO", "XXX", "[ ]", "[x]"]
     },
     "tree": {
       "showScanModeButton": false
@@ -433,9 +410,7 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cSpell.userWords": [
-    "Keypair"
-  ],
+  "cSpell.userWords": ["Keypair"],
   "[typescript]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -525,5 +500,16 @@
   "editor.minimap.renderCharacters": false,
   "search.searchOnType": false,
   "terminal.integrated.gpuAcceleration": "on",
-  "dotnetAcquisitionExtension.enableTelemetry": false
+  "dotnetAcquisitionExtension.enableTelemetry": false,
+  "apc.stylesheet": {
+    "*": "font-family:  monospace !important;",
+    ".editor .title": "background: transparent !important;",
+    ".editor .scrollbar .slider": "visibility: hidden",
+    ".editor .scrollbar:hover .slider": "visibility: initial"
+  },
+  "apc.electron": {
+    "frame": false
+  },
+  "apc.font.family": "monospace",
+  "apc.menubar.compact": true
 }

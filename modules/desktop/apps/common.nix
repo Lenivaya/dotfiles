@@ -44,7 +44,7 @@ in
     ]
     ++ optionals config.this.isHeadful [
       libqalculate # calculator cli w/ currency conversion
-      youtube-dl
+      yt-dlp
       android-file-transfer
     ]
     ++ optionals config.modules.desktop.enable [

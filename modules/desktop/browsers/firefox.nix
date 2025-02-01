@@ -199,6 +199,12 @@ in
 
         search = {
           force = true;
+          default = "Brave";
+          order = [
+            "Brave"
+            "DuckDuckGo"
+            "Google"
+          ];
           engines = searchEngines;
         };
 

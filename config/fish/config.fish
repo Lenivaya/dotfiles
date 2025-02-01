@@ -2,8 +2,19 @@ set fish_function_path $fish_function_path ~/plugin-foreign-env/functions
 
 if status is-interactive
     # Commands to run in interactive sessions can go here
-    atuin init fish | source
-    zoxide init fish | source
-    nix-your-shell fish | source
+    function __async_init --on-event fish_prompt
+        # Only run once
+        functions -e __async_init
+
+        # Initialize tools in background
+        zoxide init fish | source
+        atuin init fish | source
+        nix-your-shell fish | source
+    end
 end
-starship init fish | source
+
+# Initialize starship async but outside interactive block
+function __async_starship --on-event fish_prompt
+    functions -e __async_starship
+    starship init fish | source
+end

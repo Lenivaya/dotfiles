@@ -1,87 +1,66 @@
-function __fish_eza_install --on-event fish-eza_install
-    set -Ux __FISH_EZA_BASE_ALIASES l ll lg le lt lc lo
-    set -Ux __FISH_EZA_EXPANDED a d i id aa ad ai aid aad aai aaid
-    set -Ux __FISH_EZA_EXPANDED_OPT_NAME LA LD LI LID LAA LAD LAI LAID LAAD LAAI LAAID
-    set -Ux __FISH_EZA_OPT_NAMES
-    set -Ux __FISH_EZA_ALIASES
-    set -Ux __FISH_EZA_SORT_OPTIONS name .name size ext mod old acc cr inode
+# Automatically run `ls` when `$eza_run_on_cd` is set
+# Not using --on-variable PWD hook because it wasn't
+# working consistently
+function _auto_ls --on-event fish_postexec
+    if set -q eza_run_on_cd
+        set -q _eza_last_dir; or set -g _eza_last_dir $PWD
 
-    set -Ux EZA_STANDARD_OPTIONS "--group" "--header" "--group-directories-first"
+        test "$PWD" = "$_eza_last_dir"; and return 0
+        set _eza_last_dir $PWD
 
-    # Base aliases
-    set -Ux EZA_L_OPTIONS
-    set -Ux EZA_LL_OPTIONS "--long"
-    set -Ux EZA_LG_OPTIONS "--git" "--git-ignore" "--long"
-    set -Ux EZA_LE_OPTIONS "--extended" "--long"
-    set -Ux EZA_LT_OPTIONS "--tree" "--level"
-    set -Ux EZA_LC_OPTIONS "--across"
-    set -Ux EZA_LO_OPTIONS "--oneline"
-
-    # Extended aliases
-    set -Ux EZA_LI_OPTIONS "--icons"
-    set -Ux EZA_LD_OPTIONS "--only-dirs"
-    set -Ux EZA_LID_OPTIONS "--icons" "--only-dirs"
-    set -Ux EZA_LA_OPTIONS "--all" "--binary"
-    set -Ux EZA_LAD_OPTIONS "--all" "--binary" "--only-dirs"
-    set -Ux EZA_LAI_OPTIONS  "--all" "--binary" "--icons"
-    set -Ux EZA_LAID_OPTIONS  "--all" "--binary" "--icons" "--only-dirs"
-    set -Ux EZA_LAA_OPTIONS "--all" "--all" "--binary"
-    set -Ux EZA_LAAD_OPTIONS "--all" "--all" "--binary" "--only-dirs"
-    set -Ux EZA_LAAI_OPTIONS  "--all" "--all" "--binary" "--icons"
-    set -Ux EZA_LAAID_OPTIONS  "--all" "--all" "--binary" "--icons" "--only-dirs"
-
-    for a in $__FISH_EZA_BASE_ALIASES
-        set -l opt_name (string join '_' "EZA" (string upper $a) "OPTIONS")
-        if test $a = "ll"
-            alias --save "$a" "eza_git"
-        else
-            alias --save "$a" "eza \$EZA_STANDARD_OPTIONS \$$opt_name"
-        end
-        set -a __FISH_EZA_OPT_NAMES "$opt_name"
-        set -a __FISH_EZA_ALIASES "$a"
-
-        for i in (seq (count $__FISH_EZA_EXPANDED))
-            set -l name "$a$__FISH_EZA_EXPANDED[$i]"
-            # --tree is useless given --all --all
-            if test $name = "ltaa"; or test $name = "ltaac"
-                continue
-            end
-            set -l exp_opt_name (string join '_' "EZA" $__FISH_EZA_EXPANDED_OPT_NAME[$i] "OPTIONS")
-            if string match --quiet 'll*' "$name"
-                alias --save "$name" "eza_git \$$exp_opt_name"
-            else
-                alias --save "$name" "eza \$EZA_STANDARD_OPTIONS \$$exp_opt_name \$$opt_name"
-            end
-            set -a __FISH_EZA_ALIASES "$name"
-
-            if not contains $exp_opt_name $__FISH_EZA_OPT_NAMES
-                set -a __FISH_EZA_OPT_NAMES $exp_opt_name
-            end
-        end
+        _ls
     end
 end
 
-function __fish_eza_update --on-event fish-eza_update
-    __fish_eza_uninstall
-    __fish_eza_install
+function _fish_eza_install --on-event fish-eza_install
+    # Handle dumb terminal case
+    if test "$TERM" = dumb
+        echo "you are sourcing the fish plugin for eza"
+        echo "in a dumb terminal, which won't support it"
+
+        return 1
+    end
+
+    if command -q eza
+
+        # see ../functions/_ls.fish
+        alias ls="_ls"
+        alias l="_ls --git-ignore"
+        alias ll="_ls --all --header --long"
+        alias llm="_ls --all --header --long --sort=modified"
+        alias la="eza -lbhHigUmuSa" # ignore `$params`
+        alias lx="eza -lbhHigUmuSa@" # ignore `$params`
+        alias lt="_ls --tree"
+        alias tree="_ls --tree"
+
+    else # `eza` command not found
+        echo "eza is not installed but you're"
+        echo "sourcing the fish plugin for it"
+
+        return 1
+    end
 end
 
-function __fish_eza_uninstall --on-event fish-eza_uninstall
-    set --erase EZA_STANDARD_OPTIONS
+function _fish_eza_uninstall --on-event fish-eza_uninstall
+    functions --erase ls
+    functions --erase l
+    functions --erase ll
+    functions --erase llm
+    functions --erase la
+    functions --erase lx
+    functions --erase lt
+    functions --erase tree
 
-    for a in $__FISH_EZA_ALIASES
-        functions --erase $a
-        funcsave $a
-    end
+    functions --erase _ls
+    functions --erase _auto_ls
 
-    for opt in $__FISH_EZA_OPT_NAMES
-        set --erase $opt
-    end
+    set --erase eza_params
+    set --erase eza_run_on_cd
 
-    set --erase __FISH_EZA_BASE_ALIASES
-    set --erase __FISH_EZA_ALIASES
-    set --erase __FISH_EZA_EXPANDED
-    set --erase __FISH_EZA_EXPANDED_OPT_NAME
-    set --erase __FISH_EZA_OPT_NAMES
-    set --erase __FISH_EZA_SORT_OPTIONS
+    set --erase _eza_last_dir
+end
+
+function _fish_eza_update --on-event fish-eza_update
+    _fish_eza_uninstall
+    _fish_eza_install
 end
