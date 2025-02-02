@@ -108,7 +108,11 @@ with lib.my;
     };
 
     shell = {
-      zsh = enabled;
+      # zsh = enabled;
+      fish = enabled // {
+        default = true;
+        package = pkgs.my.fish-v4;
+      };
       tmux = enabled;
       gnupg = enabled;
       direnv = enabled;
@@ -119,11 +123,13 @@ with lib.my;
     };
 
     editors = {
+      default = mkForce "nvim";
       # vscode = enabled;
-      emacs = enabled // {
-        doom = enabled;
-        default = true;
-      };
+      # emacs = enabled // {
+      #   doom = enabled;
+      #   default = true;
+      # };
+      neovim = enabled;
       # jetbrains = enabled // {
       #   packages = with pkgs; [ jetbrains-toolbox ]; # KISS
       # };
@@ -379,9 +385,9 @@ with lib.my;
 
   environment.systemPackages = with pkgs; [
     khal
-    telegram-desktop
-    # inputs.ayugram-desktop.packages.${pkgs.system}.ayugram-desktop
     ffmpeg-full
+
+    ayugram-desktop
     # video-trimmer
     # kdenlive
     # lightworks pitivi
@@ -531,6 +537,13 @@ with lib.my;
     # ++ [ inputs.picom.overlay.${system} ]
     ++ [
       (_final: prev: {
+        inherit (pkgs.unstable)
+          # code-cursor
+          ayugram-desktop
+          kitty
+          neovim
+          ;
+
         intel-vaapi-driver = prev.intel-vaapi-driver.override { enableHybridCodec = true; };
         # btop = prev.btop.override {
         #   cudaSupport = true;

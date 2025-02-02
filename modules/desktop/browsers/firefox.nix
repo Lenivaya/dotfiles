@@ -92,7 +92,7 @@ let
       sponsorblock
       ublock-origin
       libredirect
-      buster-captcha-solver
+      # buster-captcha-solver
       # bypass-paywalls-clean
       # terms-of-service-didnt-read
       don-t-fuck-with-paste

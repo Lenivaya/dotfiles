@@ -12,3 +12,7 @@ set fish_cursor_external line
 # The following variable can be used to configure cursor shape in
 # visual mode, but due to fish_cursor_default, is redundant here
 set fish_cursor_visual block
+
+bind yy fish_clipboard_copy
+bind Y fish_clipboard_copy
+bind p fish_clipboard_paste

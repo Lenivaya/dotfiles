@@ -1,4 +1,5 @@
 return {
+  { "fei6409/log-highlight.nvim", event = "BufRead *.log", opts = {} },
   {
     "nvim-treesitter/nvim-treesitter",
     opts = {
@@ -18,6 +19,11 @@ return {
         "scss",
         "sql",
         "svelte",
+        "devicetree",
+        "gitcommit",
+        "nix",
+        "org",
+        "vue",
       },
 
       -- matchup = {

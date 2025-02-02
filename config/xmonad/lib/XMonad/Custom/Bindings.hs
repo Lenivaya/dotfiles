@@ -318,6 +318,7 @@ keysSpawnables =
     ("M-s p", namedScratchpadAction scratchpads "cpupower"),
     ("M-s b", namedScratchpadAction scratchpads "bluetooth"),
     ("M-o r", namedScratchpadAction scratchpads "reader"),
+    ("M-o n", namedScratchpadAction scratchpads "notes"),
     ("M-s g", runOrRaise "gitbutler-tauri" (className =? "gitbutler-tauri"))
   ]
 
