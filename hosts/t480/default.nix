@@ -401,7 +401,7 @@ with my;
     video-trimmer
     postman
     my.gitbutler
-    my.twitch-hls-client
+    twitch-hls-client
     # warp-terminal
     curtail # image compression
     smartmontools
@@ -600,6 +600,7 @@ with my;
           ayugram-desktop
           kitty
           neovim
+          twitch-hls-client
           ;
 
         distrobox = prev.distrobox_git;

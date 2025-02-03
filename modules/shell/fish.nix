@@ -43,6 +43,7 @@ in
       modules = {
         shell = {
           fzf = enabled;
+          yazi = enabled;
         };
       };
 

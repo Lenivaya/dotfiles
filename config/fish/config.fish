@@ -10,6 +10,7 @@ if status is-interactive
         zoxide init fish | source
         atuin init fish | source
         nix-your-shell fish | source
+        direnv hook fish | source
     end
 end
 

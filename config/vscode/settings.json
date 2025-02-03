@@ -451,7 +451,7 @@
   "[java]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "workbench.colorTheme": "Min Tomorrow Dark",
+  "workbench.colorTheme": "Solarized Osaka",
   "[org]": {
     "editor.wordWrap": "on"
   },

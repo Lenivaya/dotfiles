@@ -49,6 +49,11 @@ function __async_my_abbr_adder --on-event fish_prompt
     abbr npm pnpm
     abbr yarn pnpm
 
+    # Files
+    abbr rmrf 'rm -rf'
+
     # Misc
-    abbr twitch twitch-hls-client channel best -p mpv
+    abbr twitch 'twitch-hls-client channel best -p mpv'
+    abbr xmr 'xmonad --recompile; xmonad --restart'
+    abbr linkconfig 'ln -s $DOTFILES/config/sth ~/.config/sth'
 end

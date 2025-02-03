@@ -21,6 +21,7 @@ in
   config = mkIf cfg.enable {
     programs.spicetify = enabled // {
       theme = spicePkgs.themes.text;
+      colorScheme = "solarized";
       # theme = spicePkgs.themes.spotifyNoPremium;
 
       enabledCustomApps = with spicePkgs.apps; [

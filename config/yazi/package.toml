@@ -1,0 +1,5 @@
+[plugin]
+deps = [{ use = "yazi-rs/plugins:chmod", rev = "02d18be" }, { use = "yazi-rs/plugins:jump-to-char", rev = "02d18be" }, { use = "yazi-rs/plugins:max-preview", rev = "02d18be" }, { use = "yazi-rs/plugins:mime-ext", rev = "02d18be" }, { use = "yazi-rs/plugins:full-border", rev = "02d18be" }, { use = "yazi-rs/plugins:git", rev = "02d18be" }, { use = "yazi-rs/plugins:smart-filter", rev = "02d18be" }, { use = "Reledia/glow", rev = "5ce76dc" }, { use = "dedukun/relative-motions", rev = "0d9c8cf" }, { use = "MasouShizuka/projects", rev = "f211b81" }, { use = "KKV9/compress", rev = "60b24af" }, { use = "Lil-Dank/lazygit", rev = "c82794f" }, { use = "AnirudhG07/plugins-yazi:copy-file-contents", rev = "9c309b5" }, { use = "Ape/open-with-cmd", rev = "a80d1cf" }, { use = "Rolv-Apneseth/starship", rev = "af8bf6f" }, { use = "imsi32/yatline", rev = "9328205" }]
+
+[flavor]
+deps = []
