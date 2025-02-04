@@ -16,7 +16,6 @@ function __async_my_paths_adder --on-event fish_prompt
     fish_add_path ~/.local/share/bob-nvim/bin
     fish_add_path ~/.local/share/bob-nvim/nvim-linux64/bin
     fish_add_path /var/lib/flatpak/exports/bin/
-    fish_add_path ~/.dotnet/tools
     fish_add_path ~/.local/share/mise/shims
 
     # golang
@@ -26,5 +25,11 @@ function __async_my_paths_adder --on-event fish_prompt
 
         contains -- (go env GOPATH)/bin $fish_user_paths
         or fish_add_path --prepend --move --path (go env GOPATH)/bin
+    end
+
+    # .NET configurations
+    if command -q dotnet
+        fish_add_path $HOME/.dotnet/tools
+        fish_add_path ~/.dotnet/tools
     end
 end

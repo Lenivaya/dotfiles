@@ -511,5 +511,17 @@
     "frame": false
   },
   "apc.font.family": "monospace",
-  "apc.menubar.compact": true
+  "apc.menubar.compact": true,
+  "[typst]": {
+    "editor.wordSeparators": "`~!@#$%^&*()=+[{]}\\|;:'\",.<>/?"
+  },
+  "[typst-code]": {
+    "editor.wordSeparators": "`~!@#$%^&*()=+[{]}\\|;:'\",.<>/?"
+  },
+  "tinymist.formatterMode": "typstyle",
+  "super-figure.vectorFigureEditor": "/usr/bin/inkscape",
+  "super-figure.bitmapFigureEditor": "/usr/bin/gimp",
+  "[bibtex]": {
+    "editor.defaultFormatter": "efoerster.texlab"
+  }
 }

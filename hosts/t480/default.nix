@@ -6,7 +6,6 @@
   pkgs,
   lib,
   inputs,
-  system,
   config,
   ...
 }:
@@ -85,7 +84,7 @@ with my;
         documents = enabled // {
           pdf = enabled;
           ebook = enabled;
-          latex = enabled;
+          # latex = enabled;
         };
 
         graphics = enabled // {
@@ -126,10 +125,10 @@ with my;
     editors = {
       default = mkForce "nvim";
       vscode = enabled;
-      emacs = enabled // {
-        doom = enabled;
-        # default = true;
-      };
+      # emacs = enabled // {
+      #   doom = enabled;
+      #   # default = true;
+      # };
       neovim = enabled;
       jetbrains = enabled // {
         packages = with pkgs; [ jetbrains-toolbox ]; # KISS
@@ -224,7 +223,7 @@ with my;
         #     cTDP = 2;
         #   };
         # };
-        undervolt = enabled // rec {
+        undervolt = enabled // {
           core = -110;
           gpu = -110;
           temp = 100;
@@ -415,6 +414,7 @@ with my;
     deskflow
     upwork
     beekeeper-studio
+    simplex-chat-desktop
     # zoom-us
   ];
 
@@ -571,7 +571,7 @@ with my;
   # networking.wireless.iwd.settings.General.AddressRandomization = "network";
   # networking.wireless.iwd.settings.General.AddressRandomizationRange = "full";
 
-  home.programs.emacs.package = pkgs.emacs30;
+  # home.programs.emacs.package = pkgs.emacs30;
 
   # services.xserver.displayManager.lightdm = mkForce disabled;
   # services.displayManager.ly = enabled // { };
@@ -601,6 +601,7 @@ with my;
           kitty
           neovim
           twitch-hls-client
+          simplex-chat-desktop
           ;
 
         distrobox = prev.distrobox_git;

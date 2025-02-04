@@ -3,6 +3,8 @@ on = ["!"]
 run = 'shell "$SHELL" --block'
 desc = "Open shell here"
 
+# # Projects
+
 [[manager.prepend_keymap]]
 on = ["g", "d"]
 run = "cd ~/Downloads"
@@ -44,7 +46,7 @@ run = "plugin max-preview"
 desc = "Maximize or restore preview"
 
 [[manager.prepend_keymap]]
-on = "F"
+on = ["F"]
 run = "plugin smart-filter"
 desc = "Smart filter"
 
@@ -52,8 +54,6 @@ desc = "Smart filter"
 on = ["g", "j"]
 run = "plugin first-non-directory"
 desc = "Jumps to the first file"
-
-## Projects
 [[manager.prepend_keymap]]
 on = ["P", "s"]
 run = "plugin projects --args=save"
@@ -110,11 +110,32 @@ run = "plugin relative-motions"
 desc = "Trigger a new relative motion"
 
 [[manager.prepend_keymap]]
-on = "<A-y>"
+on = ["<A-y>"]
 run = ["plugin copy-file-contents"]
 desc = "Copy contents of file"
 
 [[manager.prepend_keymap]]
-on = "<C-o>"
+on = ["<C-o>"]
 run = "plugin open-with-cmd"
 desc = "Open with command in the terminal"
+
+
+[[manager.prepend_keymap]]
+on = ["E"]
+run = "plugin eza-preview"
+desc = "Toggle tree/list dir preview"
+
+[[manager.prepend_keymap]]
+on = ["-"]
+run = "plugin eza-preview --args='--inc-level'"
+desc = "Increment tree level"
+
+[[manager.prepend_keymap]]
+on = ["_"]
+run = "plugin eza-preview --args='--dec-level'"
+desc = "Decrement tree level"
+
+[[manager.prepend_keymap]]
+on = ["$"]
+run = "plugin eza-preview --args='--toggle-follow-symlinks'"
+desc = "Toggle tree follow symlinks"

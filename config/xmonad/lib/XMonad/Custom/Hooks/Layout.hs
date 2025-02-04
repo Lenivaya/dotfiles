@@ -41,7 +41,7 @@ import XMonad.Layout.LayoutHints
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.LimitWindows
 import XMonad.Layout.Magnifier hiding (Toggle)
-import XMonad.Layout.Maximize
+import XMonad.Layout.Maximizelayout
 import XMonad.Layout.Minimize
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances

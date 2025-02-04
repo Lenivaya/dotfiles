@@ -1,22 +1,26 @@
 return {
   -- {
   --   "deparr/tairiki.nvim",
-  --   -- lazy = false,
+  --   lazy = false,
   --   -- priority = 1000, -- only necessary if you use tairiki as default theme
   --   branch = "v2",
   --   version = false, -- always use the latest git commit
-  --   -- config = function()
-  --   --   require("tairiki").setup({
-  --   --     -- palette = "dark",
-  --   --     -- terminal = true,
-  --   --     -- -- optional configuration here
-  --   --     -- term_colors = true,
-  --   --     -- transparent = false,
-  --   --     -- end_of_buffer = true,
-  --   --     -- visual_bold = true,
-  --   --   })
-  --   --   require("tairiki").load() -- only necessary to use as default theme, has same behavior as ':colorscheme tairiki'
-  --   -- end,
+  --   config = function()
+  --     require("tairiki").setup({
+  --       plugins = {
+  --         auto = true,
+  --       },
+  --
+  --       -- palette = "dark",
+  --       -- terminal = true,
+  --       -- -- optional configuration here
+  --       -- term_colors = true,
+  --       -- transparent = false,
+  --       -- end_of_buffer = true,
+  --       -- visual_bold = true,
+  --     })
+  --     require("tairiki").load() -- only necessary to use as default theme, has same behavior as ':colorscheme tairiki'
+  --   end,
   -- },
 
   -- {

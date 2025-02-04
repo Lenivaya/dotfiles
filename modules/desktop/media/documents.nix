@@ -24,7 +24,7 @@ in
       with pkgs;
       (mkMerge [
         [
-          libreoffice # -fresh
+          libreoffice-fresh
           pandoc # Universal Markup converter
         ]
 
@@ -41,7 +41,6 @@ in
           texlab
 
           texlive.combined.scheme-full # FULL
-          # (texliveMinimal.withPackages (ps: with ps; [dvisvgm]))
           tectonic
           watchexec
         ])

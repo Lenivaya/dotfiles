@@ -7,26 +7,31 @@
 with lib;
 with lib.my;
 let
+  cfg = config.modules.shell.ranger;
   inherit (config.dotfiles) configDir;
 in
 {
-  user.packages = with pkgs; [
-    ranger
+  options.modules.shell.ranger.enable = mkBoolOpt false;
 
-    ueberzugpp
-    poppler_utils
-    zoxide
-  ];
+  config = mkIf cfg.enable {
+    user.packages = with pkgs; [
+      ranger
 
-  # Maybe some time
-  # home.programs.pistol =
-  #   enabled
-  #   // {
-  #     associations = [];
-  #   };
+      ueberzugpp
+      poppler_utils
+      zoxide
+    ];
 
-  home.configFile."ranger" = {
-    source = "${configDir}/ranger";
-    recursive = true;
+    # Maybe some time
+    # home.programs.pistol =
+    #   enabled
+    #   // {
+    #     associations = [];
+    #   };
+
+    home.configFile."ranger" = {
+      source = "${configDir}/ranger";
+      recursive = true;
+    };
   };
 }

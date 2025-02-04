@@ -305,7 +305,6 @@ keysSpawnables =
     ("M-o S-b", wrapKbdLayout $ selectBrowserByNameAndSpawn $ promptNoHistory promptTheme),
     -- ("M-o e", raiseEditor),
     ("M-o e", spawn "$TERM --hold -e nvim"),
-    ("M-o f r", spawn $ C.term C.applications ++ " -e ranger"),
     ("M-o f f", spawn $ C.term C.applications ++ " -e yazi"),
     ("M-o S-e", spawn "doom +everywhere"),
     ("M-o c", namedScratchpadAction scratchpads "console"),

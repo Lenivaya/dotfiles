@@ -1014,4 +1014,5 @@ in
     updateInterval = updateOnceInAWeek;
     definedAliases = [ "@pixabay" ];
   };
+
 }

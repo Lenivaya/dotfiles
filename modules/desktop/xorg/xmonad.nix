@@ -37,6 +37,9 @@ in
         skippy-xd = enabled;
         greenclip = enabled;
       };
+      shell = {
+        yazi = enabled;
+      };
       desktop = {
         lockscreen = enabled;
         # compositor = enabled;

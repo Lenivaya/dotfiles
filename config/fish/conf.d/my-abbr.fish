@@ -54,6 +54,7 @@ function __async_my_abbr_adder --on-event fish_prompt
 
     # Misc
     abbr twitch 'twitch-hls-client channel best -p mpv'
+    abbr twitchau 'twitch-hls-client channel audio_only -p mpv'
     abbr xmr 'xmonad --recompile; xmonad --restart'
     abbr linkconfig 'ln -s $DOTFILES/config/sth ~/.config/sth'
 end

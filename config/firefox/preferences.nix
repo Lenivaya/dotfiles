@@ -225,7 +225,7 @@
   "network.notify.checkForProxies" = true;
 
   "toolkit.cosmeticAnimations.enabled" = false;
-  " toolkit.scrollbox.smoothScroll" = false;
+  "toolkit.scrollbox.smoothScroll" = false;
 
   ### https://gist.github.com/RubenKelevra/fd66c2f856d703260ecdf0379c4f59db
   # General tweaks
