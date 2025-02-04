@@ -10,10 +10,10 @@ https://github.com/MasouShizuka/projects.yazi/assets/44764707/79c3559a-7776-48cd
 
 ## Features
 
- - Save/load projects
- - Load last project
- - Projects persistence
- - Merge a project or its current tab to other projects
+- Save/load projects
+- Load last project
+- Projects persistence
+- Merge a project or its current tab to other projects
 
 ## Installation
 
@@ -117,10 +117,12 @@ require("projects"):setup({
 > Yazi's api sometimes doesn't work on Windows, which is why the `lua` method is proposed
 
 `method`: the method of saving projects:
+
 - `yazi`: using `yazi` api to save to `.dds` file
 - `lua`: using `lua` api to save
 
 `lua_save_path`: the path of saved file with lua api, the defalut is
+
 - `Windows`: `%APPDATA%/yazi/state/projects.json`
 - `Unix`: `~/.local/state/yazi/projects.json`
 
@@ -133,6 +135,7 @@ The last project is loaded by `load_last` command.
 `update_after_load`: the loaded project will be saved to last project.
 
 `load_after_start`: the last project will be loaded after starting.
+
 - Only work with `lua` method, please refer to [#2](https://github.com/MasouShizuka/projects.yazi/issues/2)
 
 ### `merge`

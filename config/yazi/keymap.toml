@@ -3,6 +3,8 @@ on = ["!"]
 run = 'shell "$SHELL" --block'
 desc = "Open shell here"
 
+# # Projects
+
 [[manager.prepend_keymap]]
 on = ["g", "d"]
 run = "cd ~/Downloads"
@@ -52,8 +54,6 @@ desc = "Smart filter"
 on = ["g", "j"]
 run = "plugin first-non-directory"
 desc = "Jumps to the first file"
-
-## Projects
 [[manager.prepend_keymap]]
 on = ["P", "s"]
 run = "plugin projects --args=save"

@@ -1,9 +1,16 @@
 # yazi.toml
+
 [manager]
 show_hidden = true
 sort_dir_first = true
 sort_by = "mtime"
 sort_reverse = true
+
+[plugin]
+prepend_previewers = [
+  {name = "*.md", run = "glow"},
+  {mime = "text/csv", run = "miller"}
+]
 
 [[plugin.prepend_fetchers]]
 id = "mime"
@@ -20,9 +27,3 @@ run = "git"
 id = "git"
 name = "*/"
 run = "git"
-
-[plugin]
-prepend_previewers = [
-  { name = "*.md", run = "glow" },
-  { mime = "text/csv", run = "miller" },
-]
