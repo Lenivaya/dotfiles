@@ -88,7 +88,6 @@ in
           # :git
           codezombiech.gitignore
           donjayamanne.githistory
-          eamodio.gitlens
           github.vscode-pull-request-github
           mhutchie.git-graph
           kahole.magit
@@ -108,7 +107,6 @@ in
 
           mustafamohamad.min-tomorrow-theme
           ryuta46.multi-command
-          usernamehw.find-jump
           fill-labs.dependi
         ]
         ++ optionals modules.desktop.media.documents.latex.enable [

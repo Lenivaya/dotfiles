@@ -1,13 +1,12 @@
 {-# LANGUAGE DeriveGeneric #-}
-{-# LANGUAGE DerivingStrategies #-}
 {-# LANGUAGE DerivingVia #-}
+{-# LANGUAGE ImportQualifiedPost #-}
 {-# LANGUAGE LambdaCase #-}
-{-# LANGUAGE StrictData #-}
 
 module XMonad.Custom.Actions.ApplicationChooser where
 
 import Data.List
-import qualified Data.Map as Map
+import Data.Map qualified as Map
 import Data.Maybe
 import GHC.Generics (Generic)
 import XMonad
@@ -55,7 +54,7 @@ instance AppGroup AppCategory where
 myBrowsers, myReaders, mySoundUtils, myEditors :: [Application]
 myBrowsers =
   [ Application Browsers "Firefox" "firefox",
-    -- Application Browsers "Firefox Nightly" "firefox-nightly",
+    Application Browsers "Firefox Nightly" "firefox-nightly",
     Application Browsers "Chromium" "chromium",
     Application Browsers "Google Chrome" "google-chrome-stable",
     Application Browsers "Google Chrome Unstable" "google-chrome-unstable",
@@ -99,7 +98,7 @@ selectAppByNameAndDo' conf (AppByName apps) action = do
 withCategory :: AppCategory -> (String -> X ()) -> XPConfig -> X ()
 withCategory category action =
   selectAppByNameAndDo'
-    `flip` (AppByName $ getApplications category)
+    `flip` AppByName (getApplications category)
     `flip` action
 
 -- Fixed type signature and implementation
@@ -115,13 +114,13 @@ terminalFromCategory cat conf = selectCategoryAndDo cat conf (spawn . ("$TERM -e
 
 -- Convenience functions for common categories
 selectEditorByNameAndDo :: XPConfig -> (String -> X ()) -> X ()
-selectEditorByNameAndDo conf = selectCategoryAndDo Editors conf
+selectEditorByNameAndDo = selectCategoryAndDo Editors
 
 selectBrowserByNameAndDo :: XPConfig -> (String -> X ()) -> X ()
-selectBrowserByNameAndDo conf = selectCategoryAndDo Browsers conf
+selectBrowserByNameAndDo = selectCategoryAndDo Browsers
 
 selectReaderByNameAndDo :: XPConfig -> (String -> X ()) -> X ()
-selectReaderByNameAndDo conf = selectCategoryAndDo Readers conf
+selectReaderByNameAndDo = selectCategoryAndDo Readers
 
 selectBrowserByNameAndSpawn :: XPConfig -> X ()
 selectBrowserByNameAndSpawn conf = selectCategoryAndDo Browsers conf spawn

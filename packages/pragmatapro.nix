@@ -6,12 +6,12 @@
 }:
 stdenv.mkDerivation rec {
   name = "PragmataPro${version}";
-  version = "0.829";
+  version = "0.830";
   buildInputs = [ unzip ];
 
   src = requireFile {
     url = "file://path/to/${name}.zip";
-    sha256 = "0k2l18lzwqmyhv5g55pd3rwiia8gbkvdngjhbb867ilm89ad2fq9";
+    sha256 = "053rdfdfn2l1xby4068y9sasc2zb1l51ylygjd0f7j8q21nhl3r8";
   };
 
   # Work around the "unpacker appears to have produced no directories"

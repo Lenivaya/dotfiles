@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -35,5 +36,15 @@ in
     };
 
     environment.systemPackages = with pkgs; [ zcfan ];
+
+    nixpkgs.overlays = [
+      (_final: prev: {
+        zcfan- = optimizePkg (
+          prev.zcfan.overrideAttrs (_oa: {
+            src = inputs.zcfan;
+          })
+        );
+      })
+    ];
   };
 }

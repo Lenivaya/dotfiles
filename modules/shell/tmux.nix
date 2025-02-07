@@ -7,7 +7,7 @@
 with lib;
 with lib.my;
 let
-  inherit (config.dotfiles) configDir;
+  inherit (config.dotfiles) outOfStoreConfigDir;
   cfg = config.modules.shell.tmux;
 in
 {
@@ -29,31 +29,32 @@ in
     ];
 
     env.TMUX_HOME = "$XDG_CONFIG_HOME/tmux";
+    system.userActivationScripts.linkTmuxConfig = linkIfNotExist "~/.config/tmux" "${outOfStoreConfigDir}/tmux";
 
-    home.configFile = {
-      "tmux" = {
-        source = "${configDir}/tmux";
-        recursive = true;
-      };
-      "tmux/plugins".text =
-        let
-          plugins = with pkgs.tmuxPlugins; [
-            prefix-highlight
-            yank
-            sensible
-            resurrect
-            continuum
-            tmux-thumbs
-            jump
-            fpp
-            extrakto
-            tmux-fzf
-            fzf-tmux-url
-            fuzzback
-          ];
-          loadPlugin = p: "run-shell ${p.rtp}";
-        in
-        concatLines (map loadPlugin plugins);
-    };
+    # home.configFile = {
+    #   "tmux" = {
+    #     source = "${configDir}/tmux";
+    #     recursive = true;
+    #   };
+    #   "tmux/plugins".text =
+    #     let
+    #       plugins = with pkgs.tmuxPlugins; [
+    #         prefix-highlight
+    #         yank
+    #         sensible
+    #         resurrect
+    #         continuum
+    #         tmux-thumbs
+    #         jump
+    #         fpp
+    #         extrakto
+    #         tmux-fzf
+    #         fzf-tmux-url
+    #         fuzzback
+    #       ];
+    #       loadPlugin = p: "run-shell ${p.rtp}";
+    #     in
+    #     concatLines (map loadPlugin plugins);
+    # };
   };
 }

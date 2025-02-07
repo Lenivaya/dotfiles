@@ -94,7 +94,7 @@ in
     };
 
     user.packages = with pkgs; [
-      ytfzf # find and watch videos on youtube
+      # ytfzf # find and watch videos on youtube
       # youtube-tui
       # ytmdl
     ];

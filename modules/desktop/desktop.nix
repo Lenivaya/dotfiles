@@ -8,6 +8,9 @@ with lib;
 with lib.my;
 let
   cfg = config.modules.desktop;
+
+  autoRepeatDelay = 200;
+  autoRepeatInterval = 100;
 in
 {
   options.modules.desktop = {
@@ -18,8 +21,10 @@ in
 
   config = mkIf cfg.enable {
     services.xserver = enabled // {
-      autoRepeatDelay = 200;
-      autoRepeatInterval = 25;
+      inherit autoRepeatDelay autoRepeatInterval;
+
+      tty = mkDefault 1;
+
       xkb.layout = comcat [
         "us"
         "ru"
@@ -33,17 +38,10 @@ in
       exportConfiguration = true;
 
       displayManager.gdm.enable = mkDefault true;
-      # displayManager.lightdm = mkDefault (
-      #   enabled
-      #   // {
-      #     greeters.gtk.theme = {
-      #       # package = pkgs.gnome.gnome-themes-extra;
-      #       # name = "Adwaita-dark";
-      #       package = pkgs.adw-gtk3;
-      #       name = "adw-gtk3-dark";
-      #     };
-      #   }
-      # );
+      # https://github.com/NixOS/nixpkgs/issues/22164#issuecomment-394211867
+      displayManager.sessionCommands = ''
+        ${getExe pkgs.xorg.xset} r rate ${toString autoRepeatDelay} ${toString autoRepeatInterval}
+      '';
     };
 
     services.dbus.packages = with pkgs; [ dconf ];

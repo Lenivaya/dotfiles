@@ -1,3 +1,4 @@
+# unicode
 set fish_function_path $fish_function_path ~/plugin-foreign-env/functions
 
 if status is-interactive
@@ -9,9 +10,13 @@ if status is-interactive
         # Initialize tools in background
         zoxide init fish | source
         atuin init fish | source
-        nix-your-shell fish | source
         direnv hook fish | source
+        nix-your-shell fish | source
     end
+end
+
+if test -e ~/.fish_extra_env.fish
+    source ~/.fish_extra_env.fish
 end
 
 # Initialize starship async but outside interactive block

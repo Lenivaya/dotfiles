@@ -31,6 +31,9 @@ in
       # ofter required
       openssl
       pkg-config
+
+      # to build faster, also don't forget using cranelift in your dev environment
+      mold
     ];
 
     env = {

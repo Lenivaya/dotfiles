@@ -1,3 +1,4 @@
+{-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE ImportQualifiedPost #-}
 
 module XMonad.Custom.Hooks.Log (
@@ -10,30 +11,26 @@ import Data.List (
   find,
   isInfixOf,
  )
+import Data.Map qualified as Map
 import Data.Maybe (fromMaybe)
+import Data.Typeable (Typeable)
 import System.IO
 import XMonad hiding (logHook)
 import XMonad.Actions.CopyWindow
+import XMonad.Actions.Minimize
 import XMonad.Actions.SwapPromote
 import XMonad.Actions.UpdatePointer
 import XMonad.Custom.Hooks.Layout (layoutNames)
 import XMonad.Custom.Scratchpads
 import XMonad.Custom.Theme
+import XMonad.Custom.Utils.Loggers
 import XMonad.Hooks.CurrentWorkspaceOnTop
 import XMonad.Hooks.EwmhDesktops
+import XMonad.Hooks.RefocusLast
 import XMonad.Hooks.ShowWName
 import XMonad.Hooks.StatusBar.PP
 import XMonad.StackSet qualified as W
-
--- import XMonad.Util.ClickableWorkspaces
-
-import Data.IORef
-import Data.Map qualified as Map
-import System.IO.Unsafe (unsafePerformIO)
-import XMonad.Actions.Minimize
-import XMonad.Custom.Utils.Loggers
-import XMonad.Hooks.RefocusLast
-import XMonad.Util.ExtensibleState qualified as UXS
+import XMonad.Util.ExtensibleState qualified as XS
 import XMonad.Util.Loggers
 import XMonad.Util.Loggers.NamedScratchpad
 import XMonad.Util.Minimize
@@ -42,22 +39,30 @@ import XMonad.Util.NamedScratchpad hiding (
  )
 import XMonad.Util.WorkspaceCompare
 
--- Create a global cache for layout names
-layoutNameCache :: IORef (Map.Map String String)
-layoutNameCache = unsafePerformIO $ newIORef Map.empty
+-- | State type for layout name cache
+newtype LayoutNameCache = LayoutNameCache {unLayoutNameCache :: Map.Map String String}
+  deriving (Typeable)
+
+instance ExtensionClass LayoutNameCache where
+  initialValue = LayoutNameCache Map.empty
 
 layoutName :: String -> String
 layoutName s = if null s then "" else last (words s)
 
-layoutName' :: String -> String
-layoutName' l = unsafePerformIO $ do
-  cache <- readIORef layoutNameCache
+-- | We still keep the monadic version for other potential uses
+layoutName' :: String -> X String
+layoutName' l = do
+  LayoutNameCache cache <- XS.get
   case Map.lookup l cache of
     Just name -> return name
     Nothing -> do
       let name = layoutName l
-      modifyIORef' layoutNameCache (Map.insert l name)
+      XS.put $ LayoutNameCache (Map.insert l name cache)
       return name
+
+-- | Pure version for PP usage
+layoutNamePure :: String -> String
+layoutNamePure = layoutName
 
 topBarPP :: PP
 topBarPP =
@@ -71,7 +76,7 @@ topBarPP =
       ppWsSep = " ",
       ppTitle = xmobarColor white1 "" . shorten 60,
       -- ppTitleSanitize = xmobarStrip,
-      ppLayout = xmobarColor white1 "" . layoutName',
+      ppLayout = xmobarColor white1 "" . layoutNamePure,
       ppOrder = \(ws : l : t : ex) -> [ws, l] ++ ex ++ [t],
       ppSort = (namedScratchpadFilterOutWorkspace .) <$> getSortByIndex,
       ppExtras = [windowsLogger]
@@ -120,8 +125,4 @@ logHook = do
   updatePointer (0.5, 0.5) (0, 0)
   refocusLastLogHook
   nsHideOnFocusLoss scratchpads
-  -- nsSingleScratchpadPerWorkspace scratchpads
   showWNameLogHook def
-
--- currentWorkspaceOnTop
--- fadeWindowsLogHook myFadeHook

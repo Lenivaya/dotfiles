@@ -27,7 +27,7 @@ in
 
           # Linter and formatters
           hlint
-          ormolu
+          # ormolu
           fourmolu
 
           hasktags

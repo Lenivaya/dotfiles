@@ -31,9 +31,11 @@ in
 
     nixpkgs.overlays = [
       (_final: prev: {
-        skippy-xd = prev.skippy-xd.overrideAttrs (_oa: {
-          src = inputs.skippy-xd;
-        });
+        skippy-xd = optimizePkg (
+          prev.skippy-xd.overrideAttrs (_oa: {
+            src = inputs.skippy-xd;
+          })
+        );
       })
     ];
   };

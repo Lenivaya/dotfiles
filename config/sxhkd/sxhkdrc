@@ -23,8 +23,8 @@ super + KP_Home
   $TERM -e tmux
 
 super + c
-  rofi-greenclip
-  # clipcat-selector
+  clipcat-selector
+  # rofi-greenclip
 
 # XF86Audio{LowerVolume,RaiseVolume,Mute,MicMute}
 #     volumedunst {down,up,mute,mic_mute}

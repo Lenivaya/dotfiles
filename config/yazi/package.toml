@@ -1,5 +1,97 @@
 [flavor]
 deps = []
 
-[plugin]
-deps = [{use = "yazi-rs/plugins:chmod", rev = "02d18be"}, {use = "yazi-rs/plugins:jump-to-char", rev = "02d18be"}, {use = "yazi-rs/plugins:max-preview", rev = "02d18be"}, {use = "yazi-rs/plugins:mime-ext", rev = "02d18be"}, {use = "yazi-rs/plugins:full-border", rev = "02d18be"}, {use = "yazi-rs/plugins:git", rev = "02d18be"}, {use = "yazi-rs/plugins:smart-filter", rev = "02d18be"}, {use = "Reledia/glow", rev = "5ce76dc"}, {use = "dedukun/relative-motions", rev = "0d9c8cf"}, {use = "MasouShizuka/projects", rev = "f211b81"}, {use = "KKV9/compress", rev = "60b24af"}, {use = "Lil-Dank/lazygit", rev = "c82794f"}, {use = "AnirudhG07/plugins-yazi:copy-file-contents", rev = "9c309b5"}, {use = "Ape/open-with-cmd", rev = "a80d1cf"}, {use = "Rolv-Apneseth/starship", rev = "af8bf6f"}, {use = "imsi32/yatline", rev = "9328205"}, { use = "ahkohd/eza-preview", rev = "5ef05bc" }]
+[[plugin.deps]]
+use = "yazi-rs/plugins:chmod"
+rev = "5186af7"
+hash = "f28138c2e11e87962b66d583fef724c3"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:jump-to-char"
+rev = "5186af7"
+hash = "af11685de39c366ec1137fcbccacdbff"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:max-preview"
+rev = "5186af7"
+hash = "a8025f2bb311e869069364fba01abffc"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:mime-ext"
+rev = "5186af7"
+hash = "b03f3d80d26b6d7bb490b1380e9cb754"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:full-border"
+rev = "5186af7"
+hash = "ae9e1d0c6bfd68cdebc98cc684c22b45"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:git"
+rev = "5186af7"
+hash = "771f18427fb75fb19990ce602bb322f4"
+
+[[plugin.deps]]
+use = "yazi-rs/plugins:smart-filter"
+rev = "5186af7"
+hash = "b482f4f2d3c4e0aa3f8db89a95699439"
+
+[[plugin.deps]]
+use = "Reledia/glow"
+rev = "5ce76dc"
+hash = "52e5f5c602962e7cbf874da28f52ba45"
+
+[[plugin.deps]]
+use = "dedukun/relative-motions"
+rev = "a1466a9"
+hash = "26d7fd10e163e0624d733c067eba4b61"
+
+[[plugin.deps]]
+use = "MasouShizuka/projects"
+rev = "4a69a7f"
+hash = "7b1047455a2fffe4e42f46df8e6b86ff"
+
+[[plugin.deps]]
+use = "KKV9/compress"
+rev = "60b24af"
+hash = "ee025be766240cc98e671754ac836da3"
+
+[[plugin.deps]]
+use = "Lil-Dank/lazygit"
+rev = "9f924e3"
+hash = "2b0c33928986f126d5c5a4cac31a6b46"
+
+[[plugin.deps]]
+use = "AnirudhG07/plugins-yazi:copy-file-contents"
+rev = "524c52c"
+hash = "27c50e6bc15c09096505b805b238ade0"
+
+[[plugin.deps]]
+use = "Ape/open-with-cmd"
+rev = "433cf30"
+hash = "86e0312b01bc5762813c6c1d0517f073"
+
+[[plugin.deps]]
+use = "Rolv-Apneseth/starship"
+rev = "f6939fb"
+hash = "8ae899541dc7accb680ee4fd382a09c"
+
+[[plugin.deps]]
+use = "imsi32/yatline"
+rev = "9328205"
+hash = "3e51d1fd8a2e481fcfa8eab1251d1c5f"
+
+[[plugin.deps]]
+use = "ahkohd/eza-preview"
+rev = "5ef05bc"
+hash = "72355a6c8b7c8de6ed4dda0f98f86fee"
+
+[[plugin.deps]]
+use = "lpnh/fg"
+rev = "92edf0b"
+hash = "b0edc5e9b7f44b2d3303e74f785d0bc9"
+
+[[plugin.deps]]
+use = "lpnh/fr"
+rev = "92edf0b"
+hash = "b0edc5e9b7f44b2d3303e74f785d0bc9"

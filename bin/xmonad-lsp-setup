@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+
+# https://discourse.nixos.org/t/haskell-language-server-support-for-xmonad/12348/4
+
+yaml="
+cradle:
+  bios:
+    program: hie-bios.sh
+    with-ghc: ${XMONAD_GHC}
+"
+echo "${yaml}" >./hie.yaml

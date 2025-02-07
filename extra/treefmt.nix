@@ -10,8 +10,14 @@ treefmt-wrapper {
     rufo.enable = true;
     mdsh.enable = true;
     yamlfmt.enable = true;
-    prettier.enable = true;
+    prettier = {
+      enable = true;
+      excludes = [
+        "config/yazi/**"
+        "config/nvim/**"
+      ];
+    };
     toml-sort.enable = true;
-    # fourmolu.enable = true;
+    fourmolu.enable = true;
   };
 }

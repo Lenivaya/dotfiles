@@ -32,6 +32,7 @@ in
 
       neovim
       curlHTTP3
+      xh
       lnav # <- log file navigator
       procs # <- a "modern" replacement for ps
 

@@ -1,5 +1,5 @@
+{-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE LambdaCase #-}
-{-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE OverloadedStrings #-}
 {-# LANGUAGE RecordWildCards #-}
 
@@ -17,21 +17,24 @@ module XMonad.Custom.Actions.Keyboard (
   getCurrentLayout,
   getKbdLayouts,
   getRecentLayouts,
+
+  -- * Startup hook
+  keyboardStartupHook,
 ) where
 
 import Control.Monad (unless)
 import Data.Char (isSpace, toLower)
-import Data.IORef
 import Data.List (nub)
 import Data.Maybe (listToMaybe)
+import Data.Typeable (Typeable)
 import Flow ((|>))
-import System.IO.Unsafe (unsafePerformIO)
 import XMonad
 import XMonad.Actions.ShowText
 import XMonad.Custom.Prompt
 import XMonad.Custom.Utils.Keyboard (flashKeyboardChange, formatLayouts)
 import XMonad.Custom.Utils.Strings (trim)
 import XMonad.Prompt
+import XMonad.Util.ExtensibleState as XS
 import XMonad.Util.Run (runProcessWithInput)
 
 -- | Represents a keyboard layout switch event
@@ -47,15 +50,19 @@ data LayoutSwitch = LayoutSwitch
 maxEventHistory :: Int
 maxEventHistory = 5
 
--- | Cache for storing layout switch history
-{-# NOINLINE layoutSwitchHistory #-}
-layoutSwitchHistory :: IORef [LayoutSwitch]
-layoutSwitchHistory = unsafePerformIO $ newIORef []
+-- | State for storing layout switch history
+newtype LayoutHistory = LayoutHistory {unLayoutHistory :: [LayoutSwitch]}
+  deriving (Typeable)
 
--- | Cache for storing available keyboard layouts
-{-# NOINLINE kbdLayoutsCache #-}
-kbdLayoutsCache :: IORef (Maybe [String])
-kbdLayoutsCache = unsafePerformIO $ newIORef Nothing
+instance ExtensionClass LayoutHistory where
+  initialValue = LayoutHistory []
+
+-- | State for storing available keyboard layouts
+newtype KbdLayoutsCache = KbdLayoutsCache {unKbdLayoutsCache :: Maybe [String]}
+  deriving (Typeable)
+
+instance ExtensionClass KbdLayoutsCache where
+  initialValue = KbdLayoutsCache Nothing
 
 -- | Create a new layout switch event
 mkLayoutSwitch :: String -> Bool -> LayoutSwitch
@@ -67,17 +74,15 @@ mkLayoutSwitch layout = LayoutSwitch (cleanLayout layout)
 recordLayoutSwitch :: LayoutSwitch -> X ()
 recordLayoutSwitch switch@LayoutSwitch {..}
   | lsIsService = return () -- Don't record service switches
-  | otherwise = liftIO $ modifyIORef layoutSwitchHistory updateHistory
-  where
-    updateHistory history =
-      take maxEventHistory $
-        switch
-          : filter (\LayoutSwitch {lsLayout = layout} -> layout /= lsLayout) history
+  | otherwise = XS.modify $ \(LayoutHistory history) ->
+      LayoutHistory $
+        take maxEventHistory $
+          switch : filter (\LayoutSwitch {lsLayout = layout} -> layout /= lsLayout) history
 
 -- | Get the most recent non-service layout different from the current one
 getMRULayout :: String -> X (Maybe String)
 getMRULayout currentLayout = do
-  history <- liftIO $ readIORef layoutSwitchHistory
+  LayoutHistory history <- XS.get
   pure
     ( history
         |> filter (\LayoutSwitch {lsLayout = layout} -> layout /= currentLayout)
@@ -112,7 +117,7 @@ wrapKbdLayout action = do
 -- | Get recent non-service layouts (for debugging)
 getRecentLayouts :: X [String]
 getRecentLayouts = do
-  history <- liftIO $ readIORef layoutSwitchHistory
+  LayoutHistory history <- XS.get
   pure
     ( history
         |> filter (not . lsIsService)
@@ -123,7 +128,7 @@ getRecentLayouts = do
 -- | Get available keyboard layouts
 getKbdLayouts :: X [String]
 getKbdLayouts = do
-  cached <- liftIO $ readIORef kbdLayoutsCache
+  KbdLayoutsCache cached <- XS.get
   case cached of
     Just layouts -> return layouts
     Nothing -> do
@@ -132,8 +137,8 @@ getKbdLayouts = do
           |> fmap lines
           |> fmap (filter (not . null))
       unless (null layouts) $
-        liftIO $
-          writeIORef kbdLayoutsCache (Just layouts)
+        XS.put $
+          KbdLayoutsCache (Just layouts)
       return layouts
 
 -- | Get the current keyboard layout
@@ -158,3 +163,25 @@ selectKbdLayout conf = do
   layouts <- getKbdLayouts
   flashKeyboardChange (formatLayouts layouts (map toLower current))
   mkXPrompt KbdLayoutPrompt conf (listCompFunc conf layouts) (setKbdLayout False)
+
+{-| Initialize keyboard layouts at startup
+This function gets available keyboard layouts and initializes
+the layout history with the first two layouts
+-}
+keyboardStartupHook :: X ()
+keyboardStartupHook = do
+  layouts <- getKbdLayouts
+  case take 2 layouts of
+    [first, second] -> do
+      -- Initialize history with second layout first (older)
+      -- then first layout (more recent)
+      XS.put $
+        LayoutHistory
+          [ mkLayoutSwitch first False,
+            mkLayoutSwitch second False
+          ]
+    [single] ->
+      XS.put $
+        LayoutHistory
+          [mkLayoutSwitch single False]
+    _ -> return ()

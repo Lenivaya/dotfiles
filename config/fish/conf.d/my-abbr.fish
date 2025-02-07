@@ -17,8 +17,9 @@ function __async_my_abbr_adder --on-event fish_prompt
     abbr vim nvim
     abbr vi nvim
     abbr v nvim
+    abbr n nvim
     abbr edit nvim
-    abbr nvimpure 'nvim --clean'
+    abbr nvimc 'nvim --clean'
 
     # Eza
     abbr eza 'eza --icons=auto --group-directories-first --header --hyperlink'
@@ -29,6 +30,9 @@ function __async_my_abbr_adder --on-event fish_prompt
     abbr la 'eza --icons=auto --group-directories-first --header --hyperlink -abghilmu'
     abbr lx 'eza --icons=auto --group-directories-first --header --hyperlink -abghilmuHSU@'
     abbr tree 'eza --icons=auto --group-directories-first --header --hyperlink --tree'
+
+    # files
+    abbr mkdir "mkdir -p"
 
     # Memory
     abbr mem 'sudo ps_mem'
@@ -46,6 +50,7 @@ function __async_my_abbr_adder --on-event fish_prompt
     abbr juu "journalctl --user --unit"
 
     # Node
+    abbr npmup "pnpm update -i -r --latest"
     abbr npm pnpm
     abbr yarn pnpm
 
@@ -57,4 +62,15 @@ function __async_my_abbr_adder --on-event fish_prompt
     abbr twitchau 'twitch-hls-client channel audio_only -p mpv'
     abbr xmr 'xmonad --recompile; xmonad --restart'
     abbr linkconfig 'ln -s $DOTFILES/config/sth ~/.config/sth'
+    abbr nishell 'nix-shell -p '
+
+    # git
+    abbr gamend "git add . && git commit --amend --no-edit --no-verify"
+    abbr gs "git status"
+    abbr gpf "git push --force"
+    abbr gp "git push"
+
+    # Notes
+    abbr oo "nvim ~/Sync/Knowledge-base/"
+    abbr os "fd '.md\$' ~/Knowledge-base/ | shuf -n 1 | xargs nvim" # opens random note
 end

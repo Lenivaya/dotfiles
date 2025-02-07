@@ -187,7 +187,7 @@
   # "browser.translations.automaticallyPopup" = false;
 
   # enable HEVC
-  # "media.wmf.hevc.enabled" = true;
+  "media.wmf.hevc.enabled" = true;
 
   # obsidian clipper
   "extensions.openPopupWithoutUserGesture.enabled" = true;
@@ -227,7 +227,23 @@
   "toolkit.cosmeticAnimations.enabled" = false;
   "toolkit.scrollbox.smoothScroll" = false;
 
-  ### https://gist.github.com/RubenKelevra/fd66c2f856d703260ecdf0379c4f59db
+  # https://www.reddit.com/r/firefox/comments/1ihjxn1/man_firefox_autocomplete/
+  # "browser.urlbar.autoFill.adaptiveHistory.enabled" = true;
+
+  # Disable those strange search sounds that annoy me
+  # https://support.mozilla.org/ms/questions/1310139
+  "accessibility.typeaheadfind.enablesound" = false;
+  "accessibility.typeaheadfind.soundURL" = "beep";
+
+  # https://www.reddit.com/r/firefox/comments/1inqy98/firefox_forkserver_getting_ready_to_enhance_linux/
+  # https://www.phoronix.com/news/Firefox-ForkServer-Linux-Nears
+  "dom.ipc.forkserver.enable" = true;
+
+  "browser.urlbar.maxRichResults" = 20;
+
+  ####
+  #### https://gist.github.com/RubenKelevra/fd66c2f856d703260ecdf0379c4f59db
+  ####
   # General tweaks
   "network.captive-portal-service.enabled" = false; # don't try to find captive portals
   # "network.notify.checkForProxies" = false; # don't try to find proxies
@@ -274,9 +290,9 @@
   # Faster SSL
   "network.ssl_tokens_cache_capacity" = 32768; # more TLS token caching (fast reconnects)
 
-  "fission.autostart" = false; # disable enhanced protection between threads/processes of the browser (which uses LOADS of memory to do)
-  "privacy.partition.network_state" = false; # don't seperate the network state (e.g. the cache) by top level domains)
-
-  "dom.ipc.processCount" = 1;
-  "dom.ipc.processCount.webIsolated" = 1;
+  # "fission.autostart" = false; # disable enhanced protection between threads/processes of the browser (which uses LOADS of memory to do)
+  # "privacy.partition.network_state" = false; # don't seperate the network state (e.g. the cache) by top level domains)
+  #
+  # "dom.ipc.processCount" = 1;
+  # "dom.ipc.processCount.webIsolated" = 1;
 }

@@ -1,5 +1,6 @@
 return {
   "nativerv/cyrillic.nvim",
+  vscode = true,
   event = { "VeryLazy" },
   config = function()
     require("cyrillic").setup({

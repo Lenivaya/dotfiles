@@ -179,7 +179,6 @@ in
       })
     ];
 
-    # Smooth scrolling
     environment.sessionVariables = {
       MOZ_WEBRENDER = 1;
       MOZ_USE_XINPUT2 = "1";
@@ -199,11 +198,11 @@ in
 
         search = {
           force = true;
-          default = "Brave";
+          default = "Google";
           order = [
-            "Brave"
-            "DuckDuckGo"
             "Google"
+            "DuckDuckGo"
+            "Brave"
           ];
           engines = searchEngines;
         };
@@ -214,7 +213,7 @@ in
           in
           concatStringsSep "\n" [
             (readFile "${inputs.betterfox}/Fastfox.js")
-            # (readFile "${inputs.betterfox}/Securefox.js")
+            (readFile "${inputs.betterfox}/Securefox.js")
             (readFile "${inputs.betterfox}/Peskyfox.js")
             settings'
           ];

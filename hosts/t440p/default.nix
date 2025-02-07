@@ -18,19 +18,15 @@ with lib.my;
       ./hardware-configuration.nix
       ./phone_cam.nix
       ./gpu.nix
-      # ./dns.nix
       ./modules/default.nix
       ./power-management.nix
       ./postgresql.nix
-      # ./mongodb.nix
       # ./jack_retask/jack_retask.nix
       inputs.nixos-facter-modules.nixosModules.facter
       { config.facter.reportPath = ./facter.json; }
     ]
     ++ (with inputs.nixos-hardware.nixosModules; [
       lenovo-thinkpad-t440p
-      # common-pc-laptop-ssd
-      # common-pc-laptop-hdd
     ])
     ++ (with inputs.srvos; [ nixosModules.mixins-nginx ]);
 
@@ -154,9 +150,9 @@ with lib.my;
 
     services = {
       adguardhome = enabled;
-      # ananicy = enabled;
-      # clipcat = enabled;
-      greenclip = enabled;
+      ananicy = enabled;
+      clipcat = enabled;
+      # greenclip = enabled;
       kdeconnect = enabled;
       ssh = enabled;
       # warp = enabled;
@@ -304,10 +300,10 @@ with lib.my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  services.scx = enabled // {
-    # package = pkgs.scx_git.full;
-    scheduler = "scx_bpfland";
-  };
+  # services.scx = enabled // {
+  #   # package = pkgs.scx_git.full;
+  #   scheduler = "scx_bpfland";
+  # };
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
@@ -334,6 +330,9 @@ with lib.my;
     #
     # [1]: https://wiki.cachyos.org/configuration/general_system_tweaks/
     "kernel.split_lock_mitigate=0"
+    # Switch to tsc (time stamp counter) at the cost of precision
+    "tsc=reliable"
+    "clocksource=tsc"
   ];
 
   # boot.plymouth = rec {
@@ -455,8 +454,6 @@ with lib.my;
     freemem = "sync && echo 3 | sudo tee /proc/sys/vm/drop_caches";
   };
 
-  # home.programs.emacs.package = mkForce pkgs.emacs29;
-
   # Dirty hack to have hosts file modifiable
   # (will be discarded on config change or reboot) [1]
   #
@@ -516,17 +513,8 @@ with lib.my;
 
   services.avahi = enabled;
 
-  # services.dnsmasq = mkForce disabled;
-
-  home.programs.emacs.package = pkgs.emacs30;
-
-  # services.xserver.displayManager.lightdm = mkForce disabled;
-  # services.displayManager.ly = enabled // { };
-
-  # services.redis.servers.default = enabled // {
-  #   port = 6379;
-  #   openFirewall = true;
-  # };
+  # services.xserver.displayManager.gdm = mkForce disabled;
+  # services.displayManager.ly = enabled;
 
   nixpkgs.overlays =
     let

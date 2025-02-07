@@ -10,10 +10,10 @@ https://github.com/MasouShizuka/projects.yazi/assets/44764707/79c3559a-7776-48cd
 
 ## Features
 
-- Save/load projects
-- Load last project
-- Projects persistence
-- Merge a project or its current tab to other projects
+ - Save/load projects
+ - Load last project
+ - Projects persistence
+ - Merge a project or its current tab to other projects
 
 ## Installation
 
@@ -38,37 +38,37 @@ Add this to your `keymap.toml`:
 ```toml
 [[manager.prepend_keymap]]
 on = [ "P", "s" ]
-run = "plugin projects --args=save"
+run = "plugin projects save"
 desc = "Save current project"
 
 [[manager.prepend_keymap]]
 on = [ "P", "l" ]
-run = "plugin projects --args=load"
+run = "plugin projects load"
 desc = "Load project"
 
 [[manager.prepend_keymap]]
 on = [ "P", "P" ]
-run = "plugin projects --args=load_last"
+run = "plugin projects load_last"
 desc = "Load last project"
 
 [[manager.prepend_keymap]]
 on = [ "P", "d" ]
-run = "plugin projects --args=delete"
+run = "plugin projects delete"
 desc = "Delete project"
 
 [[manager.prepend_keymap]]
 on = [ "P", "D" ]
-run = "plugin projects --args=delete_all"
+run = "plugin projects delete_all"
 desc = "Delete all projects"
 
 [[manager.prepend_keymap]]
 on = [ "P", "m" ]
-run = "plugin projects --args='merge current'"
+run = "plugin projects 'merge current'"
 desc = "Merge current tab to other projects"
 
 [[manager.prepend_keymap]]
 on = [ "P", "M" ]
-run = "plugin projects --args='merge all'"
+run = "plugin projects 'merge all'"
 desc = "Merge current project to other projects"
 ```
 
@@ -77,7 +77,7 @@ If you want to save the last project when exiting, map the default `quit` key to
 ```toml
 [[manager.prepend_keymap]]
 on = [ "q" ]
-run = "plugin projects --args=quit"
+run = "plugin projects quit"
 desc = "Save last project and exit the process"
 ```
 
@@ -117,12 +117,10 @@ require("projects"):setup({
 > Yazi's api sometimes doesn't work on Windows, which is why the `lua` method is proposed
 
 `method`: the method of saving projects:
-
 - `yazi`: using `yazi` api to save to `.dds` file
 - `lua`: using `lua` api to save
 
 `lua_save_path`: the path of saved file with lua api, the defalut is
-
 - `Windows`: `%APPDATA%/yazi/state/projects.json`
 - `Unix`: `~/.local/state/yazi/projects.json`
 
@@ -135,7 +133,6 @@ The last project is loaded by `load_last` command.
 `update_after_load`: the loaded project will be saved to last project.
 
 `load_after_start`: the last project will be loaded after starting.
-
 - Only work with `lua` method, please refer to [#2](https://github.com/MasouShizuka/projects.yazi/issues/2)
 
 ### `merge`

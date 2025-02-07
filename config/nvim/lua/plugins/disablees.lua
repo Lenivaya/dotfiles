@@ -5,4 +5,12 @@ return {
     "sphamba/smear-cursor.nvim",
     enabled = false,
   },
+  {
+    "sphamba/smear-cursor.nvim",
+    enabled = false,
+  },
+  {
+    "folke/tokyonight.nvim",
+    enabled = false,
+  },
 }

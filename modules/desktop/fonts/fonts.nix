@@ -31,8 +31,8 @@ with lib.my;
         nerd-fonts.symbols-only
         nerd-fonts.fira-code
         # (nerdfonts.override { fonts = [ "FiraCode" ]; })
-        julia-mono # Unicode glyphs
-        my.fast-font
+        # julia-mono # Unicode glyphs
+        # my.fast-font
 
         # (pkgs.nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
         # lmmath
@@ -42,6 +42,7 @@ with lib.my;
       ];
 
       fontconfig = enabled // {
+        useEmbeddedBitmaps = true;
         antialias = true;
         hinting = enabled // {
           autohint = false;
