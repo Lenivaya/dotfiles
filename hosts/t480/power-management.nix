@@ -48,7 +48,7 @@ with my;
         governor = "powersave";
         energy_performance_preference = "balance_power";
         # scaling_min_freq = mkDefault (MHz 1000);
-        scaling_max_freq = mkDefault (MHz 1200);
+        scaling_max_freq = mkDefault (MHz 1400);
         turbo = "never";
 
         enable_thresholds = true;

@@ -227,6 +227,14 @@
   "toolkit.cosmeticAnimations.enabled" = false;
   "toolkit.scrollbox.smoothScroll" = false;
 
+  # https://www.reddit.com/r/firefox/comments/1ihjxn1/man_firefox_autocomplete/
+  # "browser.urlbar.autoFill.adaptiveHistory.enabled" = true;
+
+  # Disable those strange search sounds that annoy me
+  # https://support.mozilla.org/ms/questions/1310139
+  "accessibility.typeaheadfind.enablesound" = false;
+  "accessibility.typeaheadfind.soundURL" = "beep";
+
   ### https://gist.github.com/RubenKelevra/fd66c2f856d703260ecdf0379c4f59db
   # General tweaks
   "network.captive-portal-service.enabled" = false; # don't try to find captive portals

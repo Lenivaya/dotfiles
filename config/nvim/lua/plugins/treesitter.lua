@@ -5,6 +5,8 @@ return {
     opts = {
       ensure_installed = {
         "astro",
+        "typescript",
+        "javascript",
         "cmake",
         "cpp",
         "css",
@@ -24,6 +26,14 @@ return {
         "nix",
         "org",
         "vue",
+        "just",
+        "haskell",
+        "xml",
+        "xresources",
+        "sxhkdrc",
+        "solidity",
+        "dockerfile",
+        "bash",
       },
 
       -- matchup = {

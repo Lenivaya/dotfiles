@@ -18,7 +18,7 @@ function __async_my_abbr_adder --on-event fish_prompt
     abbr vi nvim
     abbr v nvim
     abbr edit nvim
-    abbr nvimpure 'nvim --clean'
+    abbr nvimc 'nvim --clean'
 
     # Eza
     abbr eza 'eza --icons=auto --group-directories-first --header --hyperlink'
@@ -57,4 +57,5 @@ function __async_my_abbr_adder --on-event fish_prompt
     abbr twitchau 'twitch-hls-client channel audio_only -p mpv'
     abbr xmr 'xmonad --recompile; xmonad --restart'
     abbr linkconfig 'ln -s $DOTFILES/config/sth ~/.config/sth'
+    abbr nishell 'nix-shell -p '
 end

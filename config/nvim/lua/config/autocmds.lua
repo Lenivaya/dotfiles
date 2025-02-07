@@ -8,12 +8,12 @@
 -- e.g. vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")
 
 -- Disable autoformat for typescript files
-vim.api.nvim_create_autocmd({ "FileType" }, {
-  pattern = { "ts", "tsx", "js", "jsx" },
-  callback = function()
-    vim.b.autoformat = false
-  end,
-})
+-- vim.api.nvim_create_autocmd({ "FileType" }, {
+--   pattern = { "ts", "tsx", "js", "jsx" },
+--   callback = function()
+--     vim.b.autoformat = false
+--   end,
+-- })
 
 -- Turn off paste mode when leaving insert
 vim.api.nvim_create_autocmd("InsertLeave", {

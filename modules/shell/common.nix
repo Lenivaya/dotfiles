@@ -26,6 +26,7 @@ in
 
   modules.shell = {
     fzf = enabled;
+    yazi = enabled;
   };
 
   # Some nice shell things

@@ -1,3 +1,7 @@
+# https://github.com/shiryel/fennecOS/blob/master/lib/optmize.nix
+# https://wiki.gentoo.org/wiki/GCC_optimization
+# https://discourse.nixos.org/t/how-to-recompile-a-package-with-flags/3603/7
+
 {
   pkgs,
   inputs,
@@ -44,7 +48,9 @@ rec {
       optimizeWithFlags pkg [
         "-O3"
         "-march=native"
+        "-mtune=native"
         "-fPIC"
+        "-pipe"
       ]
     );
 

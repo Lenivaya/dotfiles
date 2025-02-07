@@ -20,6 +20,7 @@ in
     user.packages = with pkgs; [
       nodejs
       corepack
+      node-gyp # https://github.com/kelektiv/node.bcrypt.js/issues/800
       # nodePackages.pnpm
     ];
 

@@ -3,14 +3,14 @@ _final: prev: rec {
   nsxiv = prev.nsxiv.overrideAttrs (
     _oa:
     let
-      version = "31";
+      version = "33";
       rev = "v${version}";
 
       nsxiv-extra = prev.fetchFromGitHub {
         owner = "nsxiv";
         repo = "nsxiv-extra";
-        rev = "0e02fad7682be215376f8920fc03d623a8c838da";
-        hash = "sha256-DQRU+20F+5880ENZuFXugVisP0QBB64Tm/0MkE7/Kzg=";
+        rev = "24384847326ad44ac98b7ee7e6fbfa02548ca9c0";
+        hash = "sha256-hB8HK6uyoecnjTuBDKrqg1q/VFDpRWPGWXGmQion5rg=";
       };
     in
     {
@@ -20,14 +20,14 @@ _final: prev: rec {
         inherit rev;
         owner = "nsxiv";
         repo = "nsxiv";
-        hash = "sha256-X1ZMr5OADs9GIe/kp/kEqKMMHZMymd58m9+f0SPzn7s=";
+        hash = "sha256-H1s+pLpHTmoDssdudtAq6Ru0jwZZ55/qamEVgtHTGfk=";
       };
 
       patches = [
-        "${nsxiv-extra}/patches/dmenu-mode/dmenu-mode-${rev}.patch"
         "${nsxiv-extra}/patches/dmenu-search/dmenu-search-${rev}.patch"
-        "${nsxiv-extra}/patches/toggle-winbg/toggle-winbg-${rev}.diff"
         "${nsxiv-extra}/patches/color-invert/color-invert-95bc9b4.diff"
+        # "${nsxiv-extra}/patches/dmenu-mode/dmenu-mode-${rev}.patch"
+        # "${nsxiv-extra}/patches/toggle-winbg/toggle-winbg-${rev}.diff"
         # "${nsxiv-extra}/patches/random-image/random-image-${rev}.diff"
       ];
 

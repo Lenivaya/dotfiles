@@ -19,7 +19,7 @@ in
   config = mkIf cfg.enable {
     services.xserver = enabled // {
       autoRepeatDelay = 200;
-      autoRepeatInterval = 25;
+      autoRepeatInterval = 50;
       xkb.layout = comcat [
         "us"
         "ru"

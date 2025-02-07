@@ -19,6 +19,8 @@ in
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
       neovim
+      lua
+      ripgrep
     ];
 
     system.userActivationScripts.linkNvimConfig = linkIfNotExist "~/.config/nvim" "${outOfStoreConfigDir}/nvim";

@@ -154,7 +154,7 @@ with lib.my;
 
     services = {
       adguardhome = enabled;
-      # ananicy = enabled;
+      ananicy = enabled;
       # clipcat = enabled;
       greenclip = enabled;
       kdeconnect = enabled;
@@ -304,10 +304,10 @@ with lib.my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  services.scx = enabled // {
-    # package = pkgs.scx_git.full;
-    scheduler = "scx_bpfland";
-  };
+  # services.scx = enabled // {
+  #   # package = pkgs.scx_git.full;
+  #   scheduler = "scx_bpfland";
+  # };
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
@@ -455,8 +455,6 @@ with lib.my;
     freemem = "sync && echo 3 | sudo tee /proc/sys/vm/drop_caches";
   };
 
-  # home.programs.emacs.package = mkForce pkgs.emacs29;
-
   # Dirty hack to have hosts file modifiable
   # (will be discarded on config change or reboot) [1]
   #
@@ -517,8 +515,6 @@ with lib.my;
   services.avahi = enabled;
 
   # services.dnsmasq = mkForce disabled;
-
-  home.programs.emacs.package = pkgs.emacs30;
 
   # services.xserver.displayManager.lightdm = mkForce disabled;
   # services.displayManager.ly = enabled // { };

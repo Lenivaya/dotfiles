@@ -9,8 +9,8 @@ if status is-interactive
         # Initialize tools in background
         zoxide init fish | source
         atuin init fish | source
-        nix-your-shell fish | source
         direnv hook fish | source
+        nix-your-shell fish | source
     end
 end
 

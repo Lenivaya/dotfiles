@@ -124,12 +124,8 @@ with my;
 
     editors = {
       default = mkForce "nvim";
-      vscode = enabled;
-      # emacs = enabled // {
-      #   doom = enabled;
-      #   # default = true;
-      # };
       neovim = enabled;
+      vscode = enabled;
       jetbrains = enabled // {
         packages = with pkgs; [ jetbrains-toolbox ]; # KISS
       };
@@ -153,7 +149,8 @@ with my;
 
     services = {
       # warp = enabled;
-      # ananicy = enabled;
+      ananicy = enabled;
+      psd = enabled;
       # clipcat = enabled;
       greenclip = enabled;
       kdeconnect = enabled;
@@ -254,7 +251,6 @@ with my;
   services.cpupower-gui = enabled;
   services.hardware.bolt.enable = true;
   services.fwupd = enabled;
-  # services.psd = enabled // { };
 
   security.sudo = enabled // {
     extraConfig = ''
@@ -334,19 +330,21 @@ with my;
     "i915.enable_psr=2"
     # In some cases, split lock mitigate can slow down performance in some applications and games.
     # A patch is available to disable it via sysctl. [1]
-    #
     # [1]: https://wiki.cachyos.org/configuration/general_system_tweaks/
     "kernel.split_lock_mitigate=0"
+    # Switch to tsc (time stamp counter) at the cost of precision
+    "tsc=reliable"
+    "clocksource=tsc"
   ];
 
   # https://github.com/sched-ext/scx
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  services.scx = enabled // {
-    # package = pkgs.scx_git.full;
-    scheduler = "scx_bpfland";
-  };
+  # services.scx = enabled // {
+  #   # package = pkgs.scx_git.full;
+  #   scheduler = "scx_bpfland";
+  # };
 
   networking.firewall = {
     allowedUDPPortRanges = [
@@ -394,7 +392,6 @@ with my;
     code-cursor
     (inxi.override { withRecommends = true; })
     khal
-    # telegram-desktop
     ayugram-desktop
     ffmpeg-full
     video-trimmer
@@ -414,7 +411,7 @@ with my;
     deskflow
     upwork
     beekeeper-studio
-    simplex-chat-desktop
+    # my.hints
     # zoom-us
   ];
 
@@ -536,8 +533,6 @@ with my;
 
   services.avahi = enabled;
 
-  # services.safeeyes = enabled;
-
   services.resterrs = enabled // {
     settings = {
       system_services_to_stop = [
@@ -547,12 +542,10 @@ with my;
       ];
       user_services_to_stop = [
         "kdeconnect"
-        "picom"
         "easyeffects"
       ];
       apps_to_stop = [
-        # "telegram-desktop"
-        # "vesktop"
+        "spotify"
         "deskflow"
       ];
       commands_unplugged = [
@@ -571,8 +564,6 @@ with my;
   # networking.wireless.iwd.settings.General.AddressRandomization = "network";
   # networking.wireless.iwd.settings.General.AddressRandomizationRange = "full";
 
-  # home.programs.emacs.package = pkgs.emacs30;
-
   # services.xserver.displayManager.lightdm = mkForce disabled;
   # services.displayManager.ly = enabled // { };
 
@@ -589,7 +580,7 @@ with my;
 
   nixpkgs.overlays =
     let
-      optimize = pkg: optimizeForThisHost (withClang pkg);
+      optimize = pkg: optimizeForThisHost (withThinLTO (withClang pkg));
     in
     [ inputs.nur.overlays.default ]
     # ++ [ inputs.picom.overlay.${system} ]
@@ -599,18 +590,17 @@ with my;
           # code-cursor
           ayugram-desktop
           kitty
-          neovim
+          # neovim
           twitch-hls-client
-          simplex-chat-desktop
           ;
 
         distrobox = prev.distrobox_git;
-        # telegram-desktop = prev.telegram-desktop_git;
         telegram-desktop = prev.telegram-desktop_git;
         alacritty = prev.alacritty_git;
         yt-dlp = prev.yt-dlp_git;
         mpv = prev.mpv-vapoursynth;
 
+        neovim = optimize pkgs.unstable.neovim;
         skippy-xd = optimize prev.skippy-xd;
         dmenu = optimize prev.dmenu;
         nsxiv = optimize prev.nsxiv;

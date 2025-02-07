@@ -168,7 +168,11 @@ projects =
     makeProject "REC" $ Just $ do
       spawn "obs",
     makeProject "WATCH" $ Just $ do
-      spawnBrowserWithUrls ["https://youtube.com", "https://www.youtube.com/playlist?list=WL", "https://www.youtube.com/feed/history"],
+      spawnBrowserWithUrls
+        [ "https://youtube.com",
+          "https://www.youtube.com/playlist?list=WL",
+          "https://www.youtube.com/feed/history"
+        ],
     makeProject "UPWORK" $ Just $ do
       spawnBrowserWithUrls
         [ "https://www.upwork.com/",

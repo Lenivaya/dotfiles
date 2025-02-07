@@ -12,6 +12,6 @@ treefmt-wrapper {
     yamlfmt.enable = true;
     prettier.enable = true;
     toml-sort.enable = true;
-    # fourmolu.enable = true;
+    fourmolu.enable = true;
   };
 }
