@@ -52,7 +52,7 @@ stdenv.mkDerivation {
     librsvg
     gettext
     libiconv
-    libsoup
+    libsoup_2_4
     libsoup_3
     webkitgtk
     webkitgtk_4_1

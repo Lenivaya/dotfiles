@@ -11,6 +11,8 @@ import XMonad.Actions.DynamicProjects (dynamicProjects)
 import XMonad.Actions.MostRecentlyUsed
 import XMonad.Actions.Navigation2D (withNavigation2DConfig)
 import XMonad.Core
+import XMonad.Custom.Actions.RecentWindows qualified as C
+import XMonad.Custom.Actions.RecentWorkspaces qualified as C
 import XMonad.Custom.Bindings qualified as C
 import XMonad.Custom.Hooks.Event qualified as C
 import XMonad.Custom.Hooks.Layout qualified as C
@@ -20,6 +22,7 @@ import XMonad.Custom.Hooks.Startup qualified as C
 import XMonad.Custom.Hooks.Statusbar qualified as C
 import XMonad.Custom.Manage.ManageHook qualified as C
 import XMonad.Custom.Misc qualified as C
+import XMonad.Custom.MouseBindings qualified as C
 import XMonad.Custom.Navigation qualified as C
 import XMonad.Custom.Scratchpads qualified as C
 import XMonad.Custom.Theme qualified as C
@@ -58,6 +61,8 @@ myConfig =
     |> dynamicProjects C.projects
     |> dynamicSBs C.barSpawner
     |> configureMRU
+    |> C.configureRecentWindows
+    |> C.configureRecentWorkspaces
     |> ewmh
     |> ewmhFullscreen
     |> docks

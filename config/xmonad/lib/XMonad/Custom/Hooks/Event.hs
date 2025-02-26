@@ -12,13 +12,10 @@ import XMonad hiding (
   manageHook,
  )
 import XMonad.Actions.ShowText
+import XMonad.Custom.Hooks.KeyboardChangeEvent
 import XMonad.Custom.Manage.ManageHook (manageHook)
 import XMonad.Custom.Prompt
 import XMonad.Custom.Scratchpads
-
--- import XMonad.Hooks.EwmhDesktops
-
-import XMonad.Custom.Hooks.KeyboardChangeEvent
 import XMonad.Hooks.FloatConfigureReq
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.ManageHelpers
@@ -35,25 +32,17 @@ import XMonad.Util.Loggers.NamedScratchpad
 
 myRefocusPred = refocusingIsActive <||> isFloat
 
--- swallower prog = swallowEventHook (className =? prog) (pure True)
-
--- myFloatConfReqHook :: MaybeMaybeManageHook
--- myFloatConfReqHook = composeAll [
---   className =? "URxvt" -?> pure <$> doFloat,
---   className =? "TelegramDesktop" -?> pure <$> doFloat
---                                 ]
-
 handleEventHook :: Event -> X All
 handleEventHook =
   mconcat hooks
   where
     hooks =
       -- serverEventHooks ++
-      [ -- perWindowKbdLayout,
-        -- floatConfReqHook myFloatConfReqHook,
+      [ -- floatConfReqHook myFloatConfReqHook,
         -- nspTrackHook scratchpads,
         handleTimerEvent,
         keyboardChangeEventHook,
+        -- perWindowKbdLayout,
         refocusLastWhen myRefocusPred,
         Hacks.trayerAboveXmobarEventHook,
         Hacks.trayerPaddingXmobarEventHook

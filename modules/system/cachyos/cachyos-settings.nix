@@ -26,10 +26,7 @@ in
       "kernel.kexec_load_disabled" = mkForce 1;
 
       # Network settings
-      "net.ipv4.tcp_ecn" = mkForce 1;
       "net.core.netdev_max_backlog" = mkForce 4096;
-      "net.ipv4.tcp_slow_start_after_idle" = mkForce 0;
-      "net.ipv4.tcp_rfc1337" = mkForce 1;
 
       # Filesystem settings
       "fs.file-max" = mkForce 2097152;

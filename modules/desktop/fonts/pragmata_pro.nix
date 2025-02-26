@@ -16,9 +16,9 @@ in
     fonts.packages = with pkgs; [ my.pragmatapro ];
 
     fonts.fontconfig.defaultFonts = mkForce {
-      monospace = [ "PragmataPro Mono Liga" ];
-      sansSerif = [ "PragmataPro Liga" ];
-      serif = [ "PragmataPro Liga" ];
+      monospace = [ "PragmataPro Mono Liga Regular" ];
+      sansSerif = [ "PragmataPro Liga Regular" ];
+      serif = [ "PragmataPro Liga Regular" ];
     };
   };
 }

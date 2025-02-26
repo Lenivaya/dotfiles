@@ -1,3 +1,7 @@
+# https://github.com/shiryel/fennecOS/blob/master/lib/optmize.nix
+# https://wiki.gentoo.org/wiki/GCC_optimization
+# https://discourse.nixos.org/t/how-to-recompile-a-package-with-flags/3603/7
+
 {
   pkgs,
   inputs,
@@ -17,6 +21,12 @@ rec {
         NIX_CFLAGS_COMPILE = "${oldflags} ${newflags}";
       }
     );
+
+  withMold =
+    pkg:
+    pkgs.lib.overrideDerivation pkg (oa: {
+      stdenv = pkgs.stdenvAdapters.useMoldLinker oa.stdenv;
+    });
 
   withClang =
     pkg:
@@ -44,11 +54,15 @@ rec {
       optimizeWithFlags pkg [
         "-O3"
         "-march=native"
+        "-mtune=native"
         "-fPIC"
+        "-pipe"
       ]
     );
 
   withDebuggingCompiled = pkg: optimizeWithFlags pkg [ "-DDEBUG" ];
+
+  optimizePkg = pkg: optimizeForThisHost (withThinLTO (withMold (withClang pkg)));
 
   useNixpkgs = nixpkgs: import nixpkgs { inherit system; };
   fromUnstable = useNixpkgs (inputs.nixpkgs-unstable or inputs.nixpkgs);
@@ -62,4 +76,5 @@ rec {
       }
     );
   fromPR = pr: fromRev "refs/pull/${toString pr}/head";
+
 }

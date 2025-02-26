@@ -1,4 +1,4 @@
 return {
-  "nvzone/volt",
-  { "nvzone/timerly", cmd = "TimerlyToggle" },
+  { "nvzone/volt", event = "VeryLazy" },
+  { "nvzone/timerly", event = "VeryLazy", cmd = "TimerlyToggle" },
 }

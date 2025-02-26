@@ -1,0 +1,4 @@
+cradle:
+  bios:
+    program: hie-bios.sh
+    with-ghc: /nix/store/2kbffkgkndihyzz58ygwjmjgai3qfn2k-ghc-9.6.6-with-packages/bin/ghc

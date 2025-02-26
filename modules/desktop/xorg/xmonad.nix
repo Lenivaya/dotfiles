@@ -35,14 +35,14 @@ in
       services = {
         avizo = enabled;
         skippy-xd = enabled;
-        greenclip = enabled;
+        clipcat = enabled;
       };
       shell = {
         yazi = enabled;
       };
       desktop = {
         lockscreen = enabled;
-        # compositor = enabled;
+        compositor = enabled;
         term = mkDefault {
           kitty = enabled;
           default = mkForce "kitty";

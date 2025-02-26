@@ -39,7 +39,7 @@
       "other": true,
       "strings": true
     },
-    "renderIndentGuides": false,
+    "renderIndentGuides": true,
     "renderWhitespace": "none",
     "rulers": [80, 100],
     "smoothScrolling": false,
@@ -396,7 +396,6 @@
       "expandMode": "singleClick"
     }
   },
-  "editor.guides.indentation": false,
   "nix.enableLanguageServer": true,
   "nix.formatterPath": "nixfmt",
   "haskell.manageHLS": "GHCup",
@@ -451,7 +450,6 @@
   "[java]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "workbench.colorTheme": "Solarized Osaka",
   "[org]": {
     "editor.wordWrap": "on"
   },
@@ -468,7 +466,6 @@
   "rust-analyzer.checkOnSave.command": "clippy",
   "rust-analyzer.cachePriming.enable": false,
   "rust-analyzer.server.path": "rust-analyzer",
-  "editor.renderWhitespace": "all",
   "debug.toolBarLocation": "docked",
   "[csharp]": {
     "editor.formatOnSave": true,
@@ -501,17 +498,6 @@
   "search.searchOnType": false,
   "terminal.integrated.gpuAcceleration": "on",
   "dotnetAcquisitionExtension.enableTelemetry": false,
-  "apc.stylesheet": {
-    "*": "font-family:  monospace !important;",
-    ".editor .title": "background: transparent !important;",
-    ".editor .scrollbar .slider": "visibility: hidden",
-    ".editor .scrollbar:hover .slider": "visibility: initial"
-  },
-  "apc.electron": {
-    "frame": false
-  },
-  "apc.font.family": "monospace",
-  "apc.menubar.compact": true,
   "[typst]": {
     "editor.wordSeparators": "`~!@#$%^&*()=+[{]}\\|;:'\",.<>/?"
   },
@@ -519,9 +505,74 @@
     "editor.wordSeparators": "`~!@#$%^&*()=+[{]}\\|;:'\",.<>/?"
   },
   "tinymist.formatterMode": "typstyle",
-  "super-figure.vectorFigureEditor": "/usr/bin/inkscape",
-  "super-figure.bitmapFigureEditor": "/usr/bin/gimp",
+  "super-figure.vectorFigureEditor": "inkscape",
+  "super-figure.bitmapFigureEditor": "gimp",
   "[bibtex]": {
     "editor.defaultFormatter": "efoerster.texlab"
-  }
+  },
+  "javascript.updateImportsOnFileMove.enabled": "always",
+  "editor.fontSize": 16,
+  "editor.fontFamily": "PragmataPro Mono Liga Regular",
+  "editor.codeLensFontFamily": "PragmataPro Mono Liga Regular",
+  "editor.inlayHints.fontFamily": "PragmataPro Mono Liga Regular",
+  "editor.inlineSuggest.fontFamily": "PragmataPro Mono Liga Regular",
+  "debug.console.fontFamily": "PragmataPro Mono Liga Regular",
+  "scm.inputFontFamily": "PragmataPro Mono Liga Regular",
+  "terminal.integrated.fontFamily": "PragmataPro Mono Liga Regular",
+  "notebook.output.fontFamily": "PragmataPro Mono Liga Regular",
+  "chat.editor.fontFamily": "PragmataPro Mono Liga Regular",
+  "errorLens.fontFamily": "PragmataPro Mono Liga Regular",
+  "errorLens.fontSize": "PragmataPro Mono Liga Regular",
+  "animations.Enabled": true,
+  "editor.guides.indentation": true,
+  "laravel-pint.enable": true,
+  "editor.formatOnSave": true,
+  "search.quickOpen.history.filterSortOrder": "recency",
+  "vspacecode.bindingOverrides": [
+    {
+      "keys": ";",
+      "name": "Switch to last buffer",
+      "type": "command",
+      "command": "extension.goto-previous-buffer"
+    },
+    {
+      "keys": "f.f",
+      "name": "Search files",
+      "type": "command",
+      "command": "workbench.action.quickOpen"
+    },
+    {
+      "keys": "f.t",
+      "name": "Open terminal",
+      "type": "command",
+      "command": "workbench.action.terminal.toggleTerminal"
+    },
+    {
+      "keys": ",",
+      "name": "Switch between opened buffer",
+      "type": "command",
+      "command": "workbench.action.showAllEditorsByMostRecentlyUsed"
+    },
+    {
+      "keys": "s.b",
+      "name": "Search buffer",
+      "type": "command",
+      "command": "fuzzySearch.activeTextEditorWithCurrentSelection"
+    },
+    {
+      "keys": "b.o",
+      "name": "Delete other buffers",
+      "type": "command",
+      "command": "workbench.action.closeOtherEditors"
+    }
+  ],
+  "editor.minimap.enabled": false,
+  "github.copilot.selectedCompletionModel": "gpt-4o-copilot",
+  "github.copilot.chat.edits.codesearch.enabled": true,
+  "github.copilot.chat.editor.temporalContext.enabled": true,
+  "github.copilot.chat.edits.temporalContext.enabled": true,
+  "github.copilot.chat.languageContext.typescript.enabled": true,
+  "github.copilot.nextEditSuggestions.enabled": true,
+  "github.copilot.chat.generateTests.codeLens": true,
+  "workbench.colorTheme": "Min Tomorrow Dark"
 }

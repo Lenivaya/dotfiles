@@ -1,7 +1,4 @@
-# modules/dev/node.nix --- https://nodejs.org/en/
-#
-# JS is one of those "when it's good, it's alright, when it's bad, it's a
-# disaster" languages.
+# node.nix --- https://nodejs.org/en/
 {
   config,
   lib,
@@ -14,12 +11,16 @@ let
   cfg = config.modules.dev.node;
 in
 {
-  options.modules.dev.node.enable = mkBoolOpt false;
+  options.modules.dev.node = with types; {
+    enable = mkBoolOpt false;
+    package = mkOpt package [ ];
+  };
 
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
-      nodejs
+      cfg.package
       corepack
+      node-gyp # https://github.com/kelektiv/node.bcrypt.js/issues/800
       # nodePackages.pnpm
     ];
 

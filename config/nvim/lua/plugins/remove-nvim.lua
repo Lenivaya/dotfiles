@@ -1,5 +1,6 @@
 return {
   "amitds1997/remote-nvim.nvim",
+  event = "VeryLazy",
   version = "*", -- Pin to GitHub releases
   dependencies = {
     "nvim-lua/plenary.nvim", -- For standard functions

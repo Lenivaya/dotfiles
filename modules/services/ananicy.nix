@@ -21,6 +21,8 @@ in
   };
 
   config = mkIf cfg.enable {
+    systemd.enableCgroupAccounting = true;
+
     services.ananicy = {
       enable = true;
       package = pkgs.ananicy-cpp;
@@ -38,7 +40,14 @@ in
         apply_oom_score_adj = true;
         apply_cgroup = true;
         check_disks_schedulers = true;
+
+        loglelve = "critical";
+        # If enabled it does log task name after rule matched and got applied to the task
+        log_applied_rule = false;
       };
     };
+
+    # ananicy spams the log constantly
+    systemd.services.ananicy-cpp.serviceConfig.StandardOutput = "null";
   };
 }

@@ -15,7 +15,11 @@
 
 [system]
 
-pipePath = /tmp/skippy-xd-fifo
+# File path for client-to-daemon communication
+daemonPath = /tmp/skippy-xd-fifo
+
+# File path for daemon-to-client communication
+clientPath = /tmp/skippy-xd-fofi
 
 # Frequency to update pixmaps
 updateFreq = 60.0
@@ -31,8 +35,8 @@ clientList = _NET_CLIENT_LIST
 
 # when compositors such as picom are not used
 # turn on pseudo-transparency
-pseudoTrans = true
-#pseudoTrans = false
+#pseudoTrans = true
+pseudoTrans = false
 
 [layout]
 
@@ -46,9 +50,10 @@ animationDuration = 0
 # Relative minimal distance between windows
 distance = 50
 
-# exposeLayout=xd uses the same layout as switcher, maximizing screen estate
-# exposeLayout=boxy tends to preserve window positions, thus guiding the eye more
-exposeLayout = boxy
+# xd layout is the switch layout
+# boxy layout uses box heuristics (legacy)
+# cosmos layout uses physics based modeling
+exposeLayout = cosmos
 
 # Whether to show the window bigger than its original size
 allowUpscale = false
@@ -101,7 +106,7 @@ background = #00000055
 movePointer = false
 
 # Whether to display window frames
-includeFrame = false
+includeFrame = true
 
 # Show window previews with rounded corners,
 # with corner radius in pixels
@@ -119,41 +124,40 @@ iconFillSpec = mid mid #333333
 fillSpec = #333333
 
 [normal]
-tint = black
+tint = #000000
 tintOpacity = 0
 opacity = 255
 
 [highlight]
-tint = black
-tintOpacity = 60
+tint = #282828
+tintOpacity = 50
 opacity = 255
 
 [shadow]
-tint = #202024
-tintOpacity = 0
-opacity = 255
+tint = #000000
+tintOpacity = 90
+opacity = 200
 
 [panel]
 show = true
 showDesktop = false
 backgroundTinting = true
 allowOverlap = true
+reserveSpace = false
 
 [tooltip]
-show = false
-showDesktop = false
-showMonitor = false
-# showDesktop = true
-# showMonitor = false
+show = true
+showDesktop = true
+showMonitor = true
 offsetX = 0
-offsetY = -5
+offsetY = 0
 width = 0.8
-border = #ffffff
-background = #404040
-opacity = 128
-text = #ffffff
+border = #202024
+background = #282828
+opacity = 180
+text = white
 textShadow = black
-font = monospace-12:weight=bold
+font = monospace-11:weight=bold
 
 [bindings]
 

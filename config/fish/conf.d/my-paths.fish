@@ -18,6 +18,13 @@ function __async_my_paths_adder --on-event fish_prompt
     fish_add_path /var/lib/flatpak/exports/bin/
     fish_add_path ~/.local/share/mise/shims
 
+    # pnpm
+    set -gx PNPM_HOME "/home/leniviy/.local/share/pnpm"
+    if not string match -q -- $PNPM_HOME $PATH
+        set -gx PATH "$PNPM_HOME" $PATH
+    end
+    # pnpm end
+
     # golang
     if command --query go
         contains -- (go env GOROOT)/bin $fish_user_paths

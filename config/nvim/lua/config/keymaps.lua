@@ -2,5 +2,9 @@
 -- Default keymaps that are always set: https://github.com/LazyVim/LazyVim/blob/main/lua/lazyvim/config/keymaps.lua
 -- Add any additional keymaps here
 
--- save file
-vim.keymap.set({ "i", "v", "n", "s" }, "<leader>fs", "<cmd>w<cr><esc>", { desc = "Save file" })
+local set = vim.keymap.set
+
+set({ "i", "v", "n", "s" }, "<leader>fs", "<cmd>w<cr><esc>", { desc = "Save file" })
+set("n", "<leader>;", "<cmd>e#<cr>", { desc = "Last Buffer" })
+set("n", "<leader>bn", "<cmd>enew<cr>", { desc = "New buffer" })
+set("n", "<C-a>", "ggVG", { desc = "Select all" })

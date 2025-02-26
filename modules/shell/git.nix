@@ -16,6 +16,7 @@ in
   config = mkIf cfg.enable {
     home.programs.git = enabled // {
       delta = enabled;
+      lfs = enabled;
 
       aliases = {
         graph = "log --graph --decorate --oneline";

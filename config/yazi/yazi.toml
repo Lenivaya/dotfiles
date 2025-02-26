@@ -1,4 +1,4 @@
-# yazi.toml
+"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
 
 [manager]
 show_hidden = true
@@ -8,16 +8,10 @@ sort_reverse = true
 
 [plugin]
 prepend_previewers = [
-  { name = "*.md", run = "glow" },
-  { mime = "text/csv", run = "miller" },
-  { name = "*/", run = "eza-preview" },
+  {name = "*.md", run = "glow"},
+  {mime = "text/csv", run = "miller"},
+  {name = "*/", run = "eza-preview"}
 ]
-
-[[plugin.prepend_fetchers]]
-id = "mime"
-name = "*"
-run = "mime-ext"
-prio = "high"
 
 [[plugin.prepend_fetchers]]
 id = "git"

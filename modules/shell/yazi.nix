@@ -24,5 +24,13 @@ in
 
     # Embrace impurity and imperfection.
     system.userActivationScripts.linkYaziConfig = linkIfNotExist "~/.config/yazi" "${outOfStoreConfigDir}/yazi";
+
+    nixpkgs.overlays = [
+      (_final: _prev: {
+        inherit (pkgs.unstable)
+          yazi
+          ;
+      })
+    ];
   };
 }

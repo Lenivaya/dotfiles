@@ -4,6 +4,7 @@ module XMonad.Custom.Hooks.Startup (
 
 import Data.Maybe
 import XMonad hiding (startupHook)
+import XMonad.Custom.Actions.Keyboard
 import XMonad.Hooks.SetWMName
 import XMonad.Hooks.StatusBar
 import XMonad.Util.Cursor
@@ -16,6 +17,9 @@ startupHook = do
   -- setDefaultCursor xC_left_ptr -- sets some strange looking cursor
   spawnOnce "xsetroot -cursor_name left_ptr"
   spawnOnce "source ~/.fehbg"
+  -- spawn "killall sxhkd || sxhkd"
+  -- spawn "killall skippy-xd || skippy-xd --start-daemon --config-reload"
+  keyboardStartupHook
 
 -- setDefaultCursor xC_left_ptr
 -- spawn "source ~/.fehbg"

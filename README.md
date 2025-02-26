@@ -14,15 +14,15 @@
 
 ---
 
-|              |                                                                                 |
-| ------------ | ------------------------------------------------------------------------------- |
-| **OS:**      | NixOS                                                                           |
-| **WM:**      | XMonad                                                                          |
-| **sh:**      | zsh (with [fastest plugin-manager](https://github.com/zdharma-continuum/zinit)) |
-| **font:**    | (Iosevka + IBM Plex) or Pragmata-Pro                                            |
-| **browser:** | google-chrome / Firefox                                                         |
-| **editor:**  | Emacs / nvim / other modern things                                              |
-| **term:**    | st                                                                              |
+|              |                                      |
+| ------------ | ------------------------------------ |
+| **OS:**      | NixOS                                |
+| **WM:**      | XMonad                               |
+| **sh:**      | fish                                 |
+| **font:**    | Pragmata-Pro or (Iosevka + IBM Plex) |
+| **browser:** | Firefox / google-chrome              |
+| **editor:**  | nvim / IDEs / ~~Emacs~~              |
+| **term:**    | kitty                                |
 
 ---
 

@@ -1,6 +1,12 @@
 # Simple clipboard manager to be integrated with rofi/dmenu
 # FIXME BUG TODO https://github.com/xrelkd/clipcat/issues/434
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  inputs,
+  system,
+  ...
+}:
 with lib;
 with lib.my;
 let
@@ -20,5 +26,11 @@ in
       source = "${configDir}/clipcat";
       recursive = true;
     };
+
+    nixpkgs.overlays = [
+      (_final: _prev: {
+        clipcat = inputs.clipcat.packages."${system}".default;
+      })
+    ];
   };
 }

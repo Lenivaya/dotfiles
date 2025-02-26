@@ -61,12 +61,13 @@ in
           # tomoki1207.pdf
 
           vincaslt.highlight-matching-tag
-          spywhere.guides
+          # spywhere.guides
 
           # https://galenwong.github.io/blog/2021-03-22-vscode-neovim-vs-vscodevim/
           asvetliakov.vscode-neovim
           vspacecode.whichkey
           vspacecode.vspacecode
+          serafeim.goto-previous-buffer
           jacobdufault.fuzzy-search
           ms-vscode.vs-keybindings
 
@@ -88,7 +89,6 @@ in
           # :git
           codezombiech.gitignore
           donjayamanne.githistory
-          eamodio.gitlens
           github.vscode-pull-request-github
           mhutchie.git-graph
           kahole.magit
@@ -99,16 +99,11 @@ in
           castwide.solargraph
           cschlosser.doxdocgen
           ms-vscode.hexeditor
-          reditorsupport.r
           tamasfe.even-better-toml
-          vscode-org-mode.org-mode
           skellock.just
-
-          ambar.bundle-size
 
           mustafamohamad.min-tomorrow-theme
           ryuta46.multi-command
-          usernamehw.find-jump
           fill-labs.dependi
         ]
         ++ optionals modules.desktop.media.documents.latex.enable [

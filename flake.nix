@@ -62,6 +62,7 @@
       url = "github:colemickens/flake-firefox-nightly";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
     betterfox = {
       url = "github:yokoffing/betterfox";
       flake = false;
@@ -115,6 +116,10 @@
       url = "github:felixfung/skippy-xd";
       flake = false;
     };
+    zcfan = {
+      url = "github:cdown/zcfan";
+      flake = false;
+    };
     browser-previews = {
       url = "github:nix-community/browser-previews";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -127,6 +132,21 @@
     stevenblack-hosts = {
       url = "github:StevenBlack/hosts";
       inputs.nixpkgs.follows = "nixpkgs";
+    };
+    clipcat = {
+      url = "github:xrelkd/clipcat";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    keyd = {
+      url = "github:rvaiya/keyd";
+      flake = false;
+    };
+    picom = {
+      url = "github:yshui/picom";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+    neovim-nightly-overlay = {
+      url = "github:nix-community/neovim-nightly-overlay";
     };
   };
 

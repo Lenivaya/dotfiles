@@ -7,7 +7,6 @@ module XMonad.Custom.Scratchpads (
 
 import XMonad.Core
 import XMonad.Custom.Manage.ManageHelpers
-import XMonad.Custom.Manage.ManageHelpers (centerFloat)
 import XMonad.Custom.Misc as C
 import XMonad.ManageHook
 import XMonad.StackSet qualified as S
@@ -78,6 +77,11 @@ scratchpads =
       "notes"
       "obsidian"
       (className =? "obsidian")
+      (centerFloat 0.9 0.9),
+    NS
+      "notes-nvim"
+      (spawnTerminalWith "NSPNotes" "--hold -e nvim ~/Knowledge-base/")
+      (className =? "NSPNotes")
       doFullCenterFloat,
     NS
       "logs"

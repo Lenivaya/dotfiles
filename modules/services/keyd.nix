@@ -2,6 +2,7 @@
   config,
   lib,
   pkgs,
+  inputs,
   ...
 }:
 with lib;
@@ -22,17 +23,28 @@ in
 
             capslock = "overload(control, esc)";
             leftcontrol = "overload(alternative_left_control_layer, leftcontrol)";
-            leftalt = "layer(nav)";
+            leftalt = "layer(alt-layer)";
 
+            # almost never used it as shift, but is a lot easier than moving finger to backspace
             rightshift = "backspace";
+
+            leftshift = "oneshot(shift)";
+            leftmeta = "oneshot(meta)";
+            rightalt = "oneshot(alt)";
           };
 
-          "nav:A" = {
+          "alt-layer:A" = {
             h = "left";
             j = "down";
             k = "up";
             l = "right";
-            "/" = "slash";
+            p = "C-v";
+            y = "C-c";
+            u = "C-z";
+            v = "C-a"; # let's assume v means V
+            "/" = "C-f";
+            w = "C-right";
+            b = "C-left";
           };
           "alternative_left_control_layer" = {
             z = "f1";
@@ -40,8 +52,8 @@ in
             c = "f3";
             v = "f4";
             b = "f5";
-            n = "f6";
             m = "f7";
+            n = "f6";
             comma = "f8";
             period = "f9";
             slash = "f10";
@@ -57,15 +69,15 @@ in
         };
         # https://github.com/NixOS/nixpkgs/issues/345167#issuecomment-2380874454
         extraConfig = ''
-          [nav+control]
+          [alt-layer+control]
           j = pagedown
           k = pageup
 
-          [nav+shift]
+          [alt-layer+shift]
           i = insert
           d = delete
 
-          [nav+control+shift]
+          [alt-layer+control+shift]
           j = end
           k = home
         '';
@@ -79,6 +91,16 @@ in
     systemd.services.keyd.serviceConfig.CapabilityBoundingSet = [
       "CAP_SETGID"
       "CAP_SYS_NICE"
+    ];
+
+    nixpkgs.overlays = [
+      (_final: prev: {
+        keyd = optimizePkg (
+          prev.keyd.overrideAttrs (_oa: {
+            src = inputs.keyd;
+          })
+        );
+      })
     ];
   };
 }

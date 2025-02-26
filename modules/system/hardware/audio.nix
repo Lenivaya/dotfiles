@@ -53,8 +53,8 @@ in
         [
           pulsemixer
           pamix
-          pamixer
           pulseaudio
+          pamixer
         ]
         ++ optionals config.modules.desktop.enable [
           helvum

@@ -41,7 +41,7 @@ import XMonad.Layout.LayoutHints
 import XMonad.Layout.LayoutModifier
 import XMonad.Layout.LimitWindows
 import XMonad.Layout.Magnifier hiding (Toggle)
-import XMonad.Layout.Maximizelayout
+import XMonad.Layout.Maximize
 import XMonad.Layout.Minimize
 import XMonad.Layout.MultiToggle
 import XMonad.Layout.MultiToggle.Instances
@@ -158,8 +158,7 @@ defaultLayout = head layoutNames
 layoutHook =
   maximize
     .> minimize
-    .> centeredIfSingle 0.9 0.95
-    -- .> refocusLastLayoutHook
+    .> centeredIfSingle 0.85 1
     .> subLayout [] (Simplest ||| Accordion)
     .> addTabs shrinkText tabTheme
     .> windowNavigation
@@ -172,7 +171,6 @@ layoutHook =
     .> mkToggle (single REFLECTY)
     .> lessBorders OnlyLayoutFloat
     .> magnifierczOff' 1.3
-    .> layoutHintsToCenter
     .> boringWindows
     .> smartBorders
     .> fullscreenFloat

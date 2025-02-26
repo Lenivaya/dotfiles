@@ -30,6 +30,7 @@ with my;
       networking.stevenBlackHosts = enabled // {
         blockFakenews = true;
         blockGambling = true;
+        blockPorn = true;
       };
     }
   ] ++ (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-t480 ]);
@@ -53,11 +54,11 @@ with my;
       };
 
       browsers = {
-        default = "firefox";
+        default = "firefox-nightly";
 
         firefox = enabled // {
-          package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
-          executable = "firefox";
+          package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
+          executable = "firefox-nightly";
         };
         chromium =
           let
@@ -124,12 +125,8 @@ with my;
 
     editors = {
       default = mkForce "nvim";
-      vscode = enabled;
-      # emacs = enabled // {
-      #   doom = enabled;
-      #   # default = true;
-      # };
       neovim = enabled;
+      vscode = enabled;
       jetbrains = enabled // {
         packages = with pkgs; [ jetbrains-toolbox ]; # KISS
       };
@@ -142,8 +139,10 @@ with my;
       elixir = enabled;
       rust = enabled;
       go = enabled;
-      # haskell = enabled;
-      node = enabled;
+      haskell = enabled;
+      node = enabled // {
+        package = pkgs.unstable.nodejs;
+      };
       python = enabled;
       dotnet = enabled // {
         dotnetPkgsSdks = with pkgs.dotnetCorePackages; [ sdk_9_0 ];
@@ -153,9 +152,9 @@ with my;
 
     services = {
       # warp = enabled;
-      # ananicy = enabled;
-      # clipcat = enabled;
-      greenclip = enabled;
+      ananicy = enabled;
+      clipcat = enabled;
+      # greenclip = enabled;
       kdeconnect = enabled;
       ssh = enabled;
       keyd = enabled;
@@ -224,8 +223,8 @@ with my;
         #   };
         # };
         undervolt = enabled // {
-          core = -110;
-          gpu = -110;
+          core = -100;
+          gpu = -100;
           temp = 100;
         };
       };
@@ -248,13 +247,12 @@ with my;
     fast-networking = enabled;
   };
 
-  # nix.package = pkgs.unstable.nixVersions.git;
+  nix.package = pkgs.unstable.nixVersions.git;
   # nix.package = pkgs.lix_git;
 
   services.cpupower-gui = enabled;
   services.hardware.bolt.enable = true;
   services.fwupd = enabled;
-  # services.psd = enabled // { };
 
   security.sudo = enabled // {
     extraConfig = ''
@@ -334,19 +332,25 @@ with my;
     "i915.enable_psr=2"
     # In some cases, split lock mitigate can slow down performance in some applications and games.
     # A patch is available to disable it via sysctl. [1]
-    #
     # [1]: https://wiki.cachyos.org/configuration/general_system_tweaks/
     "kernel.split_lock_mitigate=0"
+    # Switch to tsc (time stamp counter) at the cost of precision
+    "tsc=reliable"
+    "clocksource=tsc"
   ];
 
   # https://github.com/sched-ext/scx
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  services.scx = enabled // {
-    # package = pkgs.scx_git.full;
-    scheduler = "scx_bpfland";
-  };
+  # https://github.com/sched-ext/scx/issues/1188
+  # services.scx = enabled // {
+  #   scheduler = "scx_bpfland";
+  #   # extraArgs = [
+  #   #   "-p"
+  #   #   "-m performance"
+  #   # ]; # https://github.com/sched-ext/scx/issues/1247
+  # };
 
   networking.firewall = {
     allowedUDPPortRanges = [
@@ -394,14 +398,12 @@ with my;
     code-cursor
     (inxi.override { withRecommends = true; })
     khal
-    # telegram-desktop
     ayugram-desktop
     ffmpeg-full
     video-trimmer
     postman
     my.gitbutler
     twitch-hls-client
-    # warp-terminal
     curtail # image compression
     smartmontools
     gcc
@@ -414,7 +416,12 @@ with my;
     deskflow
     upwork
     beekeeper-studio
-    simplex-chat-desktop
+    scx.full
+
+    # dropbox
+    maestral-gui
+    maestral
+
     # zoom-us
   ];
 
@@ -529,14 +536,7 @@ with my;
     hwdec = "auto";
   };
 
-  environment.shellAliases = {
-    shutUpAndGetOutOfMySight = "sudo modprobe -r uvcvideo && volumectl -m mute";
-    freemem = "sync && echo 3 | sudo tee /proc/sys/vm/drop_caches";
-  };
-
   services.avahi = enabled;
-
-  # services.safeeyes = enabled;
 
   services.resterrs = enabled // {
     settings = {
@@ -544,16 +544,16 @@ with my;
         "fwupd"
         "syncthing"
         "bpftune"
+        "scx"
       ];
       user_services_to_stop = [
         "kdeconnect"
-        "picom"
         "easyeffects"
       ];
       apps_to_stop = [
-        # "telegram-desktop"
-        # "vesktop"
+        "spotify"
         "deskflow"
+        "maestral"
       ];
       commands_unplugged = [
         "bluetoothctl power off"
@@ -568,54 +568,59 @@ with my;
     ];
   };
 
+  services.keyd.keyboards.default.ids = mkForce [
+    "*"
+    # disable touchpad and other things
+    "-06cb:0000:11917735" # touchpad
+    "-17aa:5054:b7eca923" # buttons
+    "-0000:0006:bdb72f48"
+    "-05d6:000a:2a5c56c6"
+  ];
+
   # networking.wireless.iwd.settings.General.AddressRandomization = "network";
   # networking.wireless.iwd.settings.General.AddressRandomizationRange = "full";
 
-  # home.programs.emacs.package = pkgs.emacs30;
-
-  # services.xserver.displayManager.lightdm = mkForce disabled;
-  # services.displayManager.ly = enabled // { };
-
   # monitors
-  services.udev.extraRules =
-    let
-      bash = "${pkgs.bash}/bin/bash";
-      ddcciDev = "AUX B/DDI B/PHY B";
-      ddcciNode = "/sys/bus/i2c/devices/i2c-4/new_device";
-    in
-    ''
-      SUBSYSTEM=="i2c", ACTION=="add", ATTR{name}=="${ddcciDev}", RUN+="${bash} -c 'sleep 30; printf ddcci\ 0x37 > ${ddcciNode}'"
-    '';
+  # services.udev.extraRules =
+  #   let
+  #     bash = "${pkgs.bash}/bin/bash";
+  #     ddcciDev = "AUX B/DDI B/PHY B";
+  #     ddcciNode = "/sys/bus/i2c/devices/i2c-4/new_device";
+  #   in
+  #   ''
+  #     SUBSYSTEM=="i2c", ACTION=="add", ATTR{name}=="${ddcciDev}", RUN+="${bash} -c 'sleep 30; printf ddcci\ 0x37 > ${ddcciNode}'"
+  #   '';
 
   nixpkgs.overlays =
-    let
-      optimize = pkg: optimizeForThisHost (withClang pkg);
-    in
     [ inputs.nur.overlays.default ]
-    # ++ [ inputs.picom.overlay.${system} ]
     ++ [
       (_final: prev: {
         inherit (pkgs.unstable)
           # code-cursor
+          scx
           ayugram-desktop
           kitty
-          neovim
+          yazi
           twitch-hls-client
-          simplex-chat-desktop
+          ungoogled-chromium
+          obsidian
+          vscode
+          jetbrains-toolbox
           ;
 
         distrobox = prev.distrobox_git;
-        # telegram-desktop = prev.telegram-desktop_git;
         telegram-desktop = prev.telegram-desktop_git;
         alacritty = prev.alacritty_git;
         yt-dlp = prev.yt-dlp_git;
         mpv = prev.mpv-vapoursynth;
 
-        skippy-xd = optimize prev.skippy-xd;
-        dmenu = optimize prev.dmenu;
-        nsxiv = optimize prev.nsxiv;
-        trayer = optimize prev.trayer;
-        st = optimize prev.st;
+        # neovim = optimizePkg pkgs.unstable.neovim;
+        neovim = optimizePkg inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+        skippy-xd = optimizePkg prev.skippy-xd;
+        dmenu = optimizePkg prev.dmenu;
+        nsxiv = optimizePkg prev.nsxiv;
+        trayer = optimizePkg prev.trayer;
+        st = optimizePkg prev.st;
       })
     ];
 }

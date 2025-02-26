@@ -3,10 +3,10 @@
 module XMonad.Custom.Utils.Loggers where
 
 import Control.Monad
+import Data.List (intersect)
 import XMonad
 import XMonad.Actions.Minimize
 import XMonad.Custom.Theme
-import XMonad.Custom.Utils.Array
 import XMonad.Hooks.StatusBar.PP
 import XMonad.StackSet qualified as W
 import XMonad.Util.ExtensibleState qualified as UXS
@@ -37,11 +37,12 @@ windowsLogger = do
       formatCount = xmobarColor white2 "" . wrap "[" "]" . show
       formatHidden = xmobarColor red2 "" . wrap "(" ")" . show
 
-  case isThereAnyWindow of
-    True ->
-      return $
-        Just $
-          if hiddenCount <= 0
-            then formatCount totalCount
-            else formatCount visibleCount ++ " " ++ formatHidden hiddenCount
-    False -> return Nothing
+  ( if isThereAnyWindow
+      then
+        return $
+          Just $
+            if hiddenCount <= 0
+              then formatCount totalCount
+              else formatCount visibleCount ++ " " ++ formatHidden hiddenCount
+      else return Nothing
+    )

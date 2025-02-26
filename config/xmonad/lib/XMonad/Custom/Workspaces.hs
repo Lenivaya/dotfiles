@@ -37,9 +37,9 @@ wsNames :: WorkspaceNames
 wsNames =
   WorkspaceNames
     { generic = "GEN",
-      code = "Code",
+      code = "CODE",
       web = "WWW",
-      wsread = "Read",
+      wsread = "rEAD",
       sys = "SYS",
       tmp = "TMP",
       wsWRK = "WRK",
@@ -58,7 +58,7 @@ workspaces = [generic wsNames, sys wsNames, tmp wsNames, wsWRK wsNames, code wsN
 
 -- Helper function to create a basic project
 makeProject :: String -> Maybe (X ()) -> Project
-makeProject name hook = makeProject' name "~/" hook
+makeProject name = makeProject' name "~/"
 
 makeProject' :: String -> String -> Maybe (X ()) -> Project
 makeProject' name dir hook =
@@ -168,7 +168,11 @@ projects =
     makeProject "REC" $ Just $ do
       spawn "obs",
     makeProject "WATCH" $ Just $ do
-      spawnBrowserWithUrls ["https://youtube.com", "https://www.youtube.com/playlist?list=WL", "https://www.youtube.com/feed/history"],
+      spawnBrowserWithUrls
+        [ "https://youtube.com",
+          "https://www.youtube.com/playlist?list=WL",
+          "https://www.youtube.com/feed/history"
+        ],
     makeProject "UPWORK" $ Just $ do
       spawnBrowserWithUrls
         [ "https://www.upwork.com/",
