@@ -35,8 +35,8 @@ clientList = _NET_CLIENT_LIST
 
 # when compositors such as picom are not used
 # turn on pseudo-transparency
-#pseudoTrans = true
-pseudoTrans = false
+pseudoTrans = true
+#pseudoTrans = false
 
 [layout]
 

@@ -389,7 +389,7 @@
       "smoothScrolling": false
     },
     "sideBar": {
-      "location": "right"
+      "location": "left"
     },
     "startupEditor": "None",
     "tree": {
@@ -512,6 +512,7 @@
   },
   "javascript.updateImportsOnFileMove.enabled": "always",
   "editor.fontSize": 16,
+  "window.zoomLevel": 1.1,
   "editor.fontFamily": "PragmataPro Mono Liga Regular",
   "editor.codeLensFontFamily": "PragmataPro Mono Liga Regular",
   "editor.inlayHints.fontFamily": "PragmataPro Mono Liga Regular",
@@ -522,8 +523,6 @@
   "notebook.output.fontFamily": "PragmataPro Mono Liga Regular",
   "chat.editor.fontFamily": "PragmataPro Mono Liga Regular",
   "errorLens.fontFamily": "PragmataPro Mono Liga Regular",
-  "errorLens.fontSize": "PragmataPro Mono Liga Regular",
-  "animations.Enabled": true,
   "editor.guides.indentation": true,
   "laravel-pint.enable": true,
   "editor.formatOnSave": true,
@@ -560,10 +559,22 @@
       "command": "fuzzySearch.activeTextEditorWithCurrentSelection"
     },
     {
+      "keys": "s./",
+      "name": "Search and replace in buffer",
+      "type": "command",
+      "command": "editor.action.startFindReplaceAction"
+    },
+    {
       "keys": "b.o",
       "name": "Delete other buffers",
       "type": "command",
       "command": "workbench.action.closeOtherEditors"
+    },
+    {
+      "keys": "c.r",
+      "name": "Rename lsp symbol",
+      "type": "command",
+      "command": "editor.action.rename"
     }
   ],
   "editor.minimap.enabled": false,

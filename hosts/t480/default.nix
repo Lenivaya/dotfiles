@@ -12,28 +12,28 @@
 with lib;
 with my;
 {
-  imports = [
-    ../common.nix
-    ./hardware-configuration.nix
-
-    ./phone_cam.nix
-    ./power-management.nix
-    ./fingerprint/default.nix
-
-    inputs.resterrs.nixosModules.default
-
-    inputs.nixos-facter-modules.nixosModules.facter
-    { config.facter.reportPath = ./facter.json; }
-
-    inputs.stevenblack-hosts.nixosModule
-    {
-      networking.stevenBlackHosts = enabled // {
-        blockFakenews = true;
-        blockGambling = true;
-        blockPorn = true;
-      };
-    }
-  ] ++ (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-t480 ]);
+  imports =
+    [
+      ../common.nix
+      ./hardware-configuration.nix
+      ./phone_cam.nix
+      ./power-management.nix
+      ./fingerprint/default.nix
+    ]
+    ++ (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-t480 ])
+    ++ (with inputs; [
+      stevenblack-hosts.nixosModule
+      {
+        networking.stevenBlackHosts = enabled // {
+          blockFakenews = true;
+          blockGambling = true;
+          blockPorn = true;
+        };
+      }
+      resterrs.nixosModules.default
+      nixos-facter-modules.nixosModules.facter
+      { config.facter.reportPath = ./facter.json; }
+    ]);
 
   this.isHeadful = true;
 
@@ -337,6 +337,18 @@ with my;
     # Switch to tsc (time stamp counter) at the cost of precision
     "tsc=reliable"
     "clocksource=tsc"
+
+    # https://github.com/MatthewCroughan/nixcfg/blob/afab322e6da20cc038d8577dd4a365673702d183/hosts/t480/configuration.nix
+    "i915.modeset=1"
+    "i915.fastboot=1"
+    "i915.enable_guc=2"
+    "i915.enable_psr=1"
+    "i915.enable_fbc=1"
+    "i915.enable_dc=2"
+  ];
+
+  boot.blacklistedKernelModules = [
+    "snd_pcsp"
   ];
 
   # https://github.com/sched-ext/scx
@@ -424,6 +436,11 @@ with my;
 
     # zoom-us
   ];
+
+  hardware.trackpoint = enabled // {
+    speed = 500;
+    sensitivity = 255;
+  };
 
   hardware.graphics = enabled // {
     extraPackages = with pkgs; [
@@ -599,7 +616,7 @@ with my;
           # code-cursor
           scx
           ayugram-desktop
-          kitty
+          # kitty
           yazi
           twitch-hls-client
           ungoogled-chromium
@@ -608,9 +625,9 @@ with my;
           jetbrains-toolbox
           ;
 
+        kitty = optimizePkg pkgs.unstable.kitty;
         distrobox = prev.distrobox_git;
         telegram-desktop = prev.telegram-desktop_git;
-        alacritty = prev.alacritty_git;
         yt-dlp = prev.yt-dlp_git;
         mpv = prev.mpv-vapoursynth;
 
