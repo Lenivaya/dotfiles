@@ -16,6 +16,7 @@ including window selection via chords or numbers.
 module XMonad.Custom.Actions.RecentWindows (
   -- * Configuration
   configureRecentWindows,
+  maxHistorySize,
 
   -- * Window Selection
   withRecentWindow,
@@ -34,7 +35,7 @@ module XMonad.Custom.Actions.RecentWindows (
 
 import Control.Monad.Trans.Maybe (MaybeT (..))
 import Data.Char (toLower)
-import Data.List (isInfixOf, isPrefixOf, lines)
+import Data.List (isInfixOf, isPrefixOf, length, lines, take)
 import Data.List.NonEmpty qualified as NE
 import Data.Map.Strict qualified as M
 import Data.Monoid (getAll)
@@ -74,6 +75,10 @@ Then you can use the functions in your keybindings:
 > , ((modm, xK_r), showRecentWindows 3 10 0.5)  -- Show 3 recent windows
 -}
 
+-- | Maximum number of windows to keep in history
+maxHistorySize :: Int
+maxHistorySize = 50
+
 -- | Configure xmonad to support recent windows tracking
 configureRecentWindows :: XConfig l -> XConfig l
 configureRecentWindows = XC.once f (RecentWindows ())
@@ -109,6 +114,16 @@ data WindowInfo = WindowInfo
 
 -- }}}
 
+-- | Trim the history to keep only the most recent windows
+trimHistory :: History Window Location -> History Window Location
+trimHistory h =
+  let entries = ledger h
+      len = length entries
+  in  if len <= maxHistorySize
+        then h
+        else -- Rebuild history with only the most recent maxHistorySize entries
+          foldr (\(w, loc) hist -> event w loc hist) origin (take maxHistorySize entries)
+
 logWinHist :: X ()
 logWinHist = do
   wh@RecentWindowsState {busy, hist} <- XS.get
@@ -117,7 +132,9 @@ logWinHist = do
     let cws = W.workspace cs
     for_ (W.stack cws) $ \st -> do
       let location = Location {workspace = W.tag cws, screen = W.screen cs}
-      XS.put wh {hist = event (W.focus st) location hist}
+          updatedHist = event (W.focus st) location hist
+          trimmedHist = trimHistory updatedHist
+      XS.put wh {hist = trimmedHist}
 
 winHistEH :: Event -> X All
 winHistEH ev =
@@ -282,7 +299,7 @@ withChordSelection numWindows xpconfig action = do
 -}
 withNumberedSelection :: XPConfig -> (Window -> X ()) -> X ()
 withNumberedSelection xpconfig action = do
-  -- Get windows in order (most recent first)
+  -- Get windows in order (most recent first), limited to 9 for number keys
   windows <- getRecentWindows 9
   unless (null windows) $ processNumberedWindows windows
   where
@@ -316,7 +333,7 @@ withNumberedSelection xpconfig action = do
       (d : _)
         | d `elem` ['0' .. '9'] ->
             return $ filter (matchesNumber d) names
-      _ -> listCompFunc xpconfig names input
+      _ -> mkComplFunFromList xpconfig names input
       where
         matchesNumber d str =
           let prefix = if d == '0' then "10" else [d]

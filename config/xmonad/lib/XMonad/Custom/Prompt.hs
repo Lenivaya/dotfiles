@@ -1,9 +1,7 @@
 {-# LANGUAGE ImportQualifiedPost #-}
 
 module XMonad.Custom.Prompt (
-  listCompFunc,
   aListCompFunc,
-  predicateFunction,
   promptTheme,
   hotPromptTheme,
   promptThemeVim,
@@ -48,9 +46,9 @@ promptTheme =
       alwaysHighlight = True,
       -- , historyFilter = deleteAllDuplicates
       historyFilter = const [], -- fuck history.
-      searchPredicate = fuzzyMatch,
       -- , historySize = 256
       historySize = 0,
+      searchPredicate = fuzzyMatch,
       sorter = fuzzySort,
       complCaseSensitivity = CaseInSensitive,
       promptKeymap = emacsLikeXPKeymap,
@@ -81,14 +79,9 @@ ms = Just . (* 10 ^ (4 :: Int))
 gridSelectTheme :: GSConfig a
 gridSelectTheme = (buildDefaultGSConfig colorizer) {gs_font = T.font}
 
-listCompFunc :: XPConfig -> [String] -> String -> IO [String]
-listCompFunc c xs s = pure $ filter (searchPredicate c s) xs
-
+-- | Optimized completion function for filtering tuples by first element
 aListCompFunc :: XPConfig -> [(String, a)] -> String -> IO [String]
-aListCompFunc c xs s = pure $ map fst $ filter (searchPredicate c s . fst) xs
-
-predicateFunction :: String -> String -> Bool
-predicateFunction = curry $ uncurry isInfixOf . (map toLower *** map toLower)
+aListCompFunc c xs s = pure $! [x | (x, _) <- xs, searchPredicate c s x]
 
 helpPromptConfig :: ShowTextConfig
 helpPromptConfig = def {st_font = "xft:monospace:size=12"}

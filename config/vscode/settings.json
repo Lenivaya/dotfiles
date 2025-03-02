@@ -24,9 +24,6 @@
     "cursorBlinking": "solid",
     "cursorSmoothCaretAnimation": false,
     "fontLigatures": true,
-    "inlayHints": {
-      "enabled": "offUnlessPressed"
-    },
     "lineHeight": 20,
     "lineNumbers": "relative",
     "minimap": {
@@ -585,5 +582,16 @@
   "github.copilot.chat.languageContext.typescript.enabled": true,
   "github.copilot.nextEditSuggestions.enabled": true,
   "github.copilot.chat.generateTests.codeLens": true,
+  "javascript.inlayHints.parameterNames.enabled": "all",
+  "javascript.inlayHints.variableTypes.enabled": true,
+  "javascript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "javascript.inlayHints.parameterTypes.enabled": true,
+  "javascript.inlayHints.functionLikeReturnTypes.enabled": true,
+  "editor.inlayHints.enabled": "offUnlessPressed",
+  "typescript.inlayHints.parameterNames.enabled": "all",
+  "typescript.inlayHints.variableTypes.enabled": true,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
+  "typescript.inlayHints.parameterTypes.enabled": true,
+  "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
   "workbench.colorTheme": "Min Tomorrow Dark"
 }

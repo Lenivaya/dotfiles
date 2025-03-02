@@ -60,7 +60,7 @@ myConfig =
     |> addRandrChangeHook C.myRandrChangeHook
     |> dynamicProjects C.projects
     |> dynamicSBs C.barSpawner
-    |> configureMRU
+    -- \|> configureMRU
     |> C.configureRecentWindows
     |> C.configureRecentWorkspaces
     |> ewmh

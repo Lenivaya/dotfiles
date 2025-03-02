@@ -193,8 +193,8 @@ keysBase =
     ("M-q r", spawn "xmonad --recompile; xmonad --restart"),
     ("M-x", wrapKbdLayout $ shellPrompt $ promptNoCompletion promptTheme),
     ("M-r", wrapKbdLayout $ runOrRaisePrompt promptTheme),
-    ("M-S-x", spawn $ C.appmenu C.applications),
-    ("M1-<Tab>", mostRecentlyUsed [xK_Alt_L, xK_Alt_R] xK_Tab)
+    ("M-S-x", spawn $ C.appmenu C.applications)
+    -- ("M1-<Tab>", mostRecentlyUsed [xK_Alt_L, xK_Alt_R] xK_Tab)
   ]
 
 keysSystem :: Keybindings

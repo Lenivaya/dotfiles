@@ -43,7 +43,7 @@ selectMaximizeWindowPrompt conf = withMinimized $ \minimizedWindows ->
         mkXPrompt
           MaximizeWindowPrompt
           conf
-          (listCompFunc conf windowTitles)
+          (mkComplFunFromList conf windowTitles)
           (go minimizedWindows windowTitles)
   where
     go minimizedWindows windowTitles selected =

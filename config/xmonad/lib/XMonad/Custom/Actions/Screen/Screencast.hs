@@ -3,7 +3,6 @@ module XMonad.Custom.Actions.Screen.Screencast where
 import Data.Foldable
 import Text.Read (readMaybe)
 import XMonad
-import XMonad.Custom.Prompt
 import XMonad.Prompt
 
 data ScreencastOption
@@ -22,7 +21,7 @@ instance XPrompt ScreencastPrompt where
 
 screencastPrompt :: XPConfig -> X ()
 screencastPrompt config =
-  mkXPrompt ScreencastPrompt config (listCompFunc config options) go
+  mkXPrompt ScreencastPrompt config (mkComplFunFromList config options) go
   where
     options = show <$> [minBound .. maxBound :: ScreencastOption]
     go = mapM_ screencast . readMaybe

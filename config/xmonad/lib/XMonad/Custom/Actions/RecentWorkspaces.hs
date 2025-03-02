@@ -1,6 +1,8 @@
+{-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE DeriveDataTypeable #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE ImportQualifiedPost #-}
+{-# LANGUAGE StrictData #-}
 
 {-|
 Module      :  XMonad.Custom.Actions.RecentWorkspaces
@@ -72,9 +74,9 @@ instance XPrompt ChordWorkspacePrompt where
 
 -- | Represents a workspace with its display information
 data WorkspaceInfo = WorkspaceInfo
-  { wsId :: WorkspaceId,
-    wsName :: String,
-    wsChord :: Maybe String
+  { wsId :: !WorkspaceId,
+    wsName :: !String,
+    wsChord :: !(Maybe String)
   }
 
 -- | Common XPrompt configuration adjustments
@@ -84,7 +86,9 @@ adjustXPConfig num cfg =
     { maxComplRows = Just (fromIntegral num),
       maxComplColumns = Just 1,
       searchPredicate = \needle haystack ->
-        map toLower needle `isInfixOf` map toLower haystack
+        let !lneedle = map toLower needle
+            !lhaystack = map toLower haystack
+        in  lneedle `isInfixOf` lhaystack
     }
 
 {-| Select workspace using vim-style chord sequence.
@@ -101,28 +105,23 @@ Parameters:
 -}
 withChordWorkspaceSelectionFrecency :: Int -> XPConfig -> (WorkspaceId -> X ()) -> X ()
 withChordWorkspaceSelectionFrecency numWorkspaces xpconfig action = do
-  wset <- gets windowset
   wsIds <- getRecentWorkspaces numWorkspaces
   unless (null wsIds) $ processWorkspaceSelection wsIds
   where
     processWorkspaceSelection :: [WorkspaceId] -> X ()
-    processWorkspaceSelection wsIds = do
-      -- Create workspace info objects
-      let wsInfos = map (\ws -> WorkspaceInfo ws ws Nothing) wsIds
-          -- Generate chords using built-in scheme
-          chordMapRaw = generateChords defaultChordScheme wsIds
-          chordMap = M.fromList [(w, s) | (s, w) <- M.toList $ fromMaybe M.empty chordMapRaw]
-          decoratedInfos = map (addChordInfo chordMap) wsInfos
+    processWorkspaceSelection !wsIds = do
+      -- Create workspace info objects with chord info in one pass
+      let !chordMapRaw = generateChords defaultChordScheme wsIds
+          !chordMap = case chordMapRaw of
+            Nothing -> M.empty
+            Just cm -> M.fromList [(w, s) | (s, w) <- M.toList cm]
+          !wsInfos = map (\ws -> WorkspaceInfo ws ws (M.lookup ws chordMap)) wsIds
 
-      showWorkspacePrompt decoratedInfos
+      showWorkspacePrompt wsInfos
 
-    addChordInfo :: M.Map WorkspaceId String -> WorkspaceInfo -> WorkspaceInfo
-    addChordInfo chordMap info =
-      info {wsChord = M.lookup (wsId info) chordMap}
-
-    showWorkspacePrompt infos = do
-      let displayMap = M.fromList [(formatWorkspaceEntry i, wsId i) | i <- infos]
-          displayNames = map formatWorkspaceEntry infos
+    showWorkspacePrompt !infos = do
+      let !displayMap = M.fromList [(formatWorkspaceEntry i, wsId i) | i <- infos]
+          !displayNames = map formatWorkspaceEntry infos
 
       mkXPrompt
         ChordWorkspacePrompt
@@ -130,19 +129,19 @@ withChordWorkspaceSelectionFrecency numWorkspaces xpconfig action = do
         (mkChordCompleter displayNames)
         (selectWorkspace displayMap)
 
-    formatWorkspaceEntry info =
+    formatWorkspaceEntry !info =
       "[" ++ fromMaybe "?" (wsChord info) ++ "] " ++ wsName info
 
-    mkChordCompleter names input = do
-      return $ filter (matchChord input) names
+    mkChordCompleter names !input
+      | null input = return names
+      | otherwise = return $ filter (matchChord input) names
       where
-        matchChord "" = const True
-        matchChord input = \name ->
+        matchChord !inp !name =
           case extractChordFromBracket name of
-            Just chord -> input `isPrefixOf` chord
+            Just chord -> inp `isPrefixOf` chord
             Nothing -> False
 
-    selectWorkspace displayMap str =
+    selectWorkspace !displayMap !str =
       whenJust (M.lookup str displayMap) action
 
 {-| Show N most recent workspaces on screen with their chord bindings.
@@ -153,26 +152,41 @@ Example usage:
 -}
 showRecentWorkspaces :: Int -> Double -> X ()
 showRecentWorkspaces numWorkspaces displayTime = do
-  wset <- gets windowset
   wsIds <- getRecentWorkspaces numWorkspaces
   unless (null wsIds) $ do
-    let chordMapRaw = generateChords defaultChordScheme wsIds
-        chordMap = fromMaybe M.empty chordMapRaw
-        wsDisplay = zipWith (curry formatWorkspace) wsIds (M.elems chordMap)
+    let !chordMapRaw = generateChords defaultChordScheme wsIds
+        !chordMap = fromMaybe M.empty chordMapRaw
+        !wsDisplayPairs =
+          [ (ws, M.lookup ws (M.fromList [(w, s) | (s, w) <- M.toList chordMap]))
+            | ws <- wsIds
+          ]
+        !wsDisplay = map formatWorkspace wsDisplayPairs
+        !timeRatio = ceiling (displayTime * 100) % 100
 
     flashText
       def {st_font = "xft:monospace:size=12"}
-      (ceiling (displayTime * 100) % 100)
+      timeRatio
       (intercalate " | " wsDisplay)
   where
-    formatWorkspace (ws, chord) = "[" ++ chord ++ "] " ++ ws
+    formatWorkspace (!ws, !mChord) =
+      "[" ++ fromMaybe "?" mChord ++ "] " ++ ws
 
 -- | Get list of recent workspaces from window history in proper order
 getRecentWorkspaces :: Int -> X [WorkspaceId]
 getRecentWorkspaces n = do
   RecentWindowsState {hist} <- XS.get
-  wset <- gets windowset
-  let currentWs = W.currentTag wset
-      wsVisits = map (workspace . snd) $ ledger hist
-      finalWs = take n $ filter (/= currentWs) $ nub wsVisits
+  currentWs <- gets (W.currentTag . windowset)
+  let !wsVisits = map (workspace . snd) $ ledger hist
+      -- Use ordNub which is more efficient than nub for this use case
+      !finalWs = take n $ filter (/= currentWs) $ ordNub wsVisits
   return finalWs
+  where
+    -- Efficient O(n log n) nub for strings using Data.Map
+    ordNub :: [WorkspaceId] -> [WorkspaceId]
+    ordNub xs = go M.empty xs
+      where
+        go _ [] = []
+        go !m (x : xs) =
+          if x `M.member` m
+            then go m xs
+            else x : go (M.insert x () m) xs

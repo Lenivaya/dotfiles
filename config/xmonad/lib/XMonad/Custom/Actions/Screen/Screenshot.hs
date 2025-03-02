@@ -3,7 +3,6 @@ module XMonad.Custom.Actions.Screen.Screenshot where
 import Data.Foldable
 import Text.Read (readMaybe)
 import XMonad
-import XMonad.Custom.Prompt
 import XMonad.Prompt
 
 data ScreenshotOption
@@ -26,7 +25,7 @@ instance XPrompt ScreenshotPrompt where
 
 screenshotPrompt :: XPConfig -> X ()
 screenshotPrompt config =
-  mkXPrompt ScreenshotPrompt config (listCompFunc config options) go
+  mkXPrompt ScreenshotPrompt config (mkComplFunFromList config options) go
   where
     options = show <$> [minBound .. maxBound :: ScreenshotOption]
     go = mapM_ screenshot . readMaybe

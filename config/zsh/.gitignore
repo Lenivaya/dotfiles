@@ -2,3 +2,5 @@ extra.zshenv
 extra.zshrc
 .zcompdump*
 .zinit/
+.zsh_history
+.zsh_history*
