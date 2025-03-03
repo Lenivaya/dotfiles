@@ -10,6 +10,7 @@ return {
     name = "catppuccin",
     priority = 1000,
     version = false, -- always use the latest git commit
+    vscode = true,
     opts = {
       -- https://github.com/catppuccin/nvim#integrations
       integrations = {
@@ -56,7 +57,7 @@ return {
       },
     },
   },
-  --
+
   --
   -- {
   --   "LazyVim/LazyVim",
@@ -110,27 +111,57 @@ return {
   --     },
   --   },
   -- },
+  --
+  -- {
+  --   "LazyVim/LazyVim",
+  --   opts = {
+  --     colorscheme = "tairiki-dark",
+  --   },
+  -- },
   -- {
   --   "deparr/tairiki.nvim",
   --   lazy = false,
   --   -- priority = 1000, -- only necessary if you use tairiki as default theme
   --   branch = "v2",
   --   version = false, -- always use the latest git commit
-  --   config = function()
-  --     require("tairiki").setup({
-  --       -- plugins = {
-  --       --   auto = true,
-  --       -- },
+  --   config = {
+  --     -- plugins = {
+  --     --   auto = true,
+  --     -- },
   --
-  --       palette = "dark",
-  --       terminal = true,
-  --       -- -- optional configuration here
-  --       term_colors = true,
-  --       transparent = true,
-  --       -- end_of_buffer = true,
-  --       -- visual_bold = true,
-  --     })
-  --     require("tairiki").load() -- only necessary to use as default theme, has same behavior as ':colorscheme tairiki'
-  --   end,
+  --     palette = "dark",
+  --     default_dark = "dark",
+  --     terminal = true,
+  --     -- -- optional configuration here
+  --     term_colors = true,
+  --     transparent = true,
+  --     end_of_buffer = false,
+  --     visual_bold = true,
+  --   },
+  --
+  --   plugins = {
+  --     all = false, -- enable all supported plugins
+  --     none = false, -- ONLY set groups listed in :help highlight-groups (see lua/tairiki/groups/neovim.lua). Manually enabled plugins will also be ignored
+  --     auto = true, -- auto detect installed plugins, currently lazy.nvim only
+  --
+  --     -- or enable/disable plugins manually
+  --     -- see lua/tairiki/groups/init.lua for the full list of available plugins
+  --     -- either the key or value from the M.plugins table can be used here
+  --     --
+  --     -- setting a specific plugin manually overrides `all` and `auto`
+  --     treesitter = true,
+  --     semantic_tokens = true,
+  --   },
+  --
+  --   code_style = {
+  --     comments = { italic = true },
+  --     conditionals = {},
+  --     keywords = {},
+  --     functions = {},
+  --     strings = {},
+  --     variables = {},
+  --     parameters = {},
+  --     types = {},
+  --   },
   -- },
 }

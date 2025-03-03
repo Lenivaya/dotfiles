@@ -42,7 +42,7 @@ in
       };
       desktop = {
         lockscreen = enabled;
-        compositor = enabled;
+        # compositor = enabled;
         term = mkDefault {
           kitty = enabled;
           default = mkForce "kitty";
@@ -59,7 +59,11 @@ in
     services.xserver.windowManager.xmonad = enabled // {
       flake = enabled;
       enableContribAndExtras = true;
-      extraPackages = hpkgs: with hpkgs; [ flow ];
+      extraPackages =
+        hpkgs: with hpkgs; [
+          flow
+          fuzzyfind
+        ];
       enableConfiguredRecompile = true;
       ghcArgs = [
         "-hidir /tmp" # place interface files in /tmp, otherwise ghc tries to write them to the nix store
@@ -111,11 +115,6 @@ in
       my.boomer # zooming the screen
       xkbmon # showing keyboard layout when changed
       rofi-screenshot # screencasting
-    ];
-    fonts.packages = with pkgs; [
-      # siji # some nice icon
-      font-awesome # even more nice icons
-      weather-icons # for weather script
     ];
 
     services.autorandr = enabled // {

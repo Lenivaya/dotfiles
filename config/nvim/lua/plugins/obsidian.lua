@@ -4,8 +4,8 @@ local vault_path = "~/Knowledge-base"
 local vault_path_absolute = vim.fn.expand(vault_path)
 
 return {
-  "epwalsh/obsidian.nvim",
-  version = "*", -- recommended, use latest release instead of latest commit
+  "obsidian-nvim/obsidian.nvim",
+  version = false,
   lazy = true,
   -- ft = "markdown",
   -- Replace the above line with this if you only want to load obsidian.nvim for markdown files in your vault:
@@ -55,6 +55,19 @@ return {
 
     sort_by = "modified",
     sort_reversed = true,
+
+    completions = {
+      -- Enables completion using nvim_cmp
+      nvim_cmp = false,
+      -- Enables completion using blink.cmp
+      blink = true,
+      -- Trigger completion at 2 chars.
+      min_chars = 2,
+    },
+
+    -- picker = {
+    --   name = "snacks.pick",
+    -- },
 
     attachments = {
       -- The default folder to place images in via `:ObsidianPasteImg`.

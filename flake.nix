@@ -55,7 +55,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable";
     chaotic.url = "github:chaotic-cx/nyx";
 
     firefox = {
@@ -193,6 +192,7 @@
         import pkgs {
           inherit system;
           config.allowUnfree = true;
+          config.allowBroken = true;
           config.nvidia.acceptLicense = true;
           config.permittedInsecurePackages = [
             "aspnetcore-runtime-6.0.36"

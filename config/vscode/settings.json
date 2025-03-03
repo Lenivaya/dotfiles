@@ -90,10 +90,6 @@
       "jinja-html": "html"
     }
   },
-  "eslint": {
-    "packageManager": "yarn",
-    "validate": ["html", "javascript", "javascriptreact"]
-  },
   "explorer": {
     "confirmDragAndDrop": false,
     "decorations": {
@@ -265,9 +261,6 @@
     "enableLanguageServer": true,
     "formatterPath": "nixfmt"
   },
-  "npm": {
-    "packageManager": "yarn"
-  },
   "path-intellisense": {
     "showHiddenFiles": true
   },
@@ -313,27 +306,6 @@
   },
   "search": {
     "smartCase": true
-  },
-  "terminal": {
-    "external": {
-      "linuxExec": "alacritty"
-    },
-    "integrated": {
-      "fontSize": 22,
-      "rendererType": "experimentalWebgl"
-    }
-  },
-  "todo-tree": {
-    "general": {
-      "tags": ["BUG", "HACK", "FIXME", "TODO", "XXX", "[ ]", "[x]"]
-    },
-    "tree": {
-      "showScanModeButton": false
-    }
-  },
-  "tslint": {
-    "packageManager": "yarn",
-    "validateWithDefaultConfig": true
   },
   "typescript": {
     "format": {
@@ -509,7 +481,7 @@
   },
   "javascript.updateImportsOnFileMove.enabled": "always",
   "editor.fontSize": 16,
-  "window.zoomLevel": 1.1,
+  "window.zoomLevel": 1.0,
   "editor.fontFamily": "PragmataPro Mono Liga Regular",
   "editor.codeLensFontFamily": "PragmataPro Mono Liga Regular",
   "editor.inlayHints.fontFamily": "PragmataPro Mono Liga Regular",
@@ -593,5 +565,13 @@
   "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
   "typescript.inlayHints.parameterTypes.enabled": true,
   "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
-  "workbench.colorTheme": "Min Tomorrow Dark"
+  "workbench.colorTheme": "Catppuccin Mocha",
+  "catppuccin.colorOverrides": {
+    "mocha": {
+      "base": "#000000",
+      "mantle": "#010101",
+      "crust": "#020202"
+    }
+  },
+  "workbench.iconTheme": "catppuccin-mocha"
 }

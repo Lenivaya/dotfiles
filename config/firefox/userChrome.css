@@ -8,6 +8,11 @@
   /* github.com/Dook97/firefox-qutebrowser-userchromeOco */
   /* https://github.com/MrOtherGuy/firefox-csshacks */
 
+  /* change font size */
+  * {
+    font-size: 14px !important;
+  }
+
   /* hiding tab stuff */
   .tab-background {
     min-height: 0 !important;

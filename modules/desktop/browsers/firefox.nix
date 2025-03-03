@@ -191,10 +191,11 @@ in
         id = 0;
         inherit
           # settings
-          extensions
           userChrome
           userContent
           ;
+
+        extensions.packages = extensions;
 
         search = {
           force = true;

@@ -19,9 +19,9 @@ import Data.Ratio
 import XMonad
 import XMonad.Actions.GridSelect
 import XMonad.Actions.ShowText
+import XMonad.Custom.Prompt.FuzzyMatch
 import XMonad.Custom.Theme qualified as T
 import XMonad.Prompt
-import XMonad.Prompt.FuzzyMatch
 
 promptNoHistory :: XPConfig -> XPConfig
 promptNoHistory ptheme = ptheme {historyFilter = const [], historySize = 0}
@@ -40,19 +40,21 @@ promptTheme =
       borderColor = T.white2,
       promptBorderWidth = T.border,
       height = T.height,
+      defaultText = "",
       position = CenteredAt (3 % 10) (2 % 5),
       maxComplRows = Just 10,
       maxComplColumns = Just 3,
       alwaysHighlight = True,
-      -- , historyFilter = deleteAllDuplicates
-      historyFilter = const [], -- fuck history.
-      -- , historySize = 256
+      historyFilter = const [],
       historySize = 0,
       searchPredicate = fuzzyMatch,
       sorter = fuzzySort,
       complCaseSensitivity = CaseInSensitive,
-      promptKeymap = emacsLikeXPKeymap,
-      autoComplete = ms 5
+      promptKeymap = defaultXPKeymap,
+      autoComplete = Just 0,
+      completionKey = (0, xK_Down),
+      prevCompletionKey = (0, xK_Up),
+      showCompletionOnTab = False
     }
 promptThemeVim = promptTheme {promptKeymap = vimLikeXPKeymap}
 hotPromptTheme =
@@ -69,12 +71,6 @@ colorizer _ isFg = do
   fBC <- asks (focusedBorderColor . config)
   nBC <- asks (normalBorderColor . config)
   pure $ if isFg then (fBC, nBC) else (nBC, fBC)
-
-{-| Express the given time in milliseconds as a time in microseconds,
- ready for consumption by @autoComplete@.
--}
-ms :: Int -> Maybe Int
-ms = Just . (* 10 ^ (4 :: Int))
 
 gridSelectTheme :: GSConfig a
 gridSelectTheme = (buildDefaultGSConfig colorizer) {gs_font = T.font}

@@ -60,9 +60,12 @@ import XMonad.Layout.SubLayouts
 import XMonad.Layout.Tabbed
 import XMonad.Layout.ThreeColumns
 import XMonad.Layout.TwoPane
-
--- import XMonad.Layout.WindowArranger
 import XMonad.Layout.WindowNavigation
+
+-- Screen resolution breakpoints
+ultraWideWidth = 3440 -- Common ultrawide resolution (3440x1440)
+qhdWidth = 2560 -- QHD resolution (2560x1440)
+fullHDWidth = 1920 -- Full HD resolution (1920x1080)
 
 data CustomTransformers = GAPS
   deriving (Read, Show, Eq, Typeable)
@@ -106,7 +109,7 @@ flex =
   setName "Flex" $
     ifWider smallMonResWidth wideLayout standardLayout
   where
-    smallMonResWidth = 1920
+    smallMonResWidth = fullHDWidth
     wideLayout =
       ThreeColMid 1 (1 / 20) (1 / 2)
         ||| emptyBSP
@@ -114,7 +117,6 @@ flex =
       rTall 1 (1 / 20) (2 / 3)
         ||| rTall 1 (1 / 20) (1 / 2)
 
--- tallGrid = renamed [Replace "Tall Grid"] $ (IfMax 4 rTall grid)
 tallGrid =
   setName "Tall Grid" $ (IfMax 4 rTall grid)
   where
@@ -134,8 +136,6 @@ layoutsInfo =
     |||! twoPane
     |||! threeColMid
     |||! circleLayout
-    -- \|||! threecolmid
-    -- \|||! threecol
     |||! onebig
     |||! monocle
     |||! grid
@@ -148,17 +148,23 @@ layoutNames = description <$> snd layoutsInfo
 layoutMap = M.fromList $ zip layoutNames layoutNames
 defaultLayout = head layoutNames
 
--- fullscreenFloat
--- . fullscreenFull
--- . draggingVisualizer
--- . mouseResize
--- . windowArrange
--- . magnifierOff
--- . onWorkspace wsread (circle ||| flex ||| onebig)
+applyCentering layouts =
+  ifWider
+    ultraWideWidth
+    (centeredIfSingle 0.75 1 layouts) -- For ultrawide monitors (75% width)
+    ( ifWider
+        qhdWidth
+        (centeredIfSingle 0.8 1 layouts) -- For QHD monitors (80% width)
+        ( ifWider
+            fullHDWidth
+            (centeredIfSingle 0.85 1 layouts) -- For Full HD+ monitors (85% width)
+            layouts -- For smaller monitors (no centering)
+        )
+    )
+
 layoutHook =
   maximize
     .> minimize
-    .> centeredIfSingle 0.85 1
     .> subLayout [] (Simplest ||| Accordion)
     .> addTabs shrinkText tabTheme
     .> windowNavigation
@@ -174,7 +180,7 @@ layoutHook =
     .> boringWindows
     .> smartBorders
     .> fullscreenFloat
-    <| layouts
+    <| applyCentering layouts
 
 toggleGaps = sendMessage $ Toggle GAPS
 toggleStatusBar = sendMessage ToggleStruts

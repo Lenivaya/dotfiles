@@ -27,18 +27,8 @@ with lib.my;
         ibm-plex
         noto-fonts
         corefonts
-        merriweather
         nerd-fonts.symbols-only
         nerd-fonts.fira-code
-        # (nerdfonts.override { fonts = [ "FiraCode" ]; })
-        # julia-mono # Unicode glyphs
-        # my.fast-font
-
-        # (pkgs.nerdfonts.override { fonts = [ "NerdFontsSymbolsOnly" ]; })
-        # lmmath
-        # lmodern
-        # cm_unicode
-        # liberation_ttf
       ];
 
       fontconfig = enabled // {

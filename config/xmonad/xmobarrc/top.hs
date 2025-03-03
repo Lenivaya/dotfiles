@@ -2,9 +2,7 @@ Config
   { font = "monospace Regular 12",
     additionalFonts =
       [ "monospace Regular 12",
-        "monospace Regular 10",
-        -- "Weather Icons Regular 10",
-        "FontAwesome Regular 10"
+        "monospace Regular 10"
       ],
     bgColor = "#0b0806",
     fgColor = "#a19782",

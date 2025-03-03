@@ -8,9 +8,9 @@ sort_reverse = true
 
 [plugin]
 prepend_previewers = [
-  {name = "*.md", run = "glow"},
-  {mime = "text/csv", run = "miller"},
-  {name = "*/", run = "eza-preview"}
+{name = "*.md", run = "glow"},
+{mime = "text/csv", run = "miller"},
+{name = "*/", run = "eza-preview"}
 ]
 
 [[plugin.prepend_fetchers]]

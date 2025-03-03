@@ -27,6 +27,7 @@ with lib.my;
   home-manager.users.${config.user.name}.nixpkgs = {
     config = {
       allowUnfree = true;
+      allowBroken = true;
     };
     inherit (config.nixpkgs) overlays;
   };

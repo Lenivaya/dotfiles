@@ -13,16 +13,25 @@ let
   cfg = config.modules.desktop.apps.rofi;
 in
 {
-  options.modules.desktop.apps.rofi.enable = mkBoolOpt false;
+  options.modules.desktop.apps.rofi = {
+    enable = mkBoolOpt false;
+    optimized = mkBoolOpt false;
+  };
 
   config = mkIf cfg.enable {
     home.programs.rofi = enabled // {
-      plugins = with pkgs; [
-        rofi-emoji
-        rofi-calc
-        # rofi-file-browser
-        rofi-top
-      ];
+      package =
+        let
+          rofi' = pkgs.rofi.override {
+            plugins = with pkgs; [
+              rofi-emoji
+              rofi-calc
+              rofi-top
+              # rofi-file-browser
+            ];
+          };
+        in
+        if cfg.optimized then optimizePkg rofi' else rofi';
       theme = "main";
       cycle = true;
       terminal = modules.desktop.term.default;

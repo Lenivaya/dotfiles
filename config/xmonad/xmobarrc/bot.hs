@@ -1,8 +1,7 @@
 Config
   { font = "monospace Regular 12",
     additionalFonts =
-      [ "monospace Bold 12",
-        "Font Awesome 6 Free Regular 10"
+      [ "monospace Bold 14"
       ],
     bgColor = "#0b0806",
     fgColor = "#a19782",
@@ -23,12 +22,12 @@ Config
       [ Run
           DynNetwork
           [ "-t",
-            "<fn=2>\xf063</fn> <rx> / <fn=2>\xf062</fn> <tx> kbps"
+            "<fn=1>\61813</fn> <rx> / <fn=1>\61813</fn> <tx> kbps"
           ]
           10,
         Run Date "%d.%m.%y / %A / %H:%M" "date" 10,
-        Run MultiCpu ["-t", "<fn=2>\xf2db</fn> <total>%"] 20,
-        Run Memory ["-t", "<fn=2>\xf538</fn> <usedratio>%"] 20,
+        Run MultiCpu ["-t", "<fn=1>\62652</fn> <total>%"] 20,
+        Run Memory ["-t", "<fn=1>\61381</fn>  <usedratio>%"] 20,
         Run ComX "player" [] "" "player" 20,
         Run ComX "caffeinatestatus" [] "" "caffeine" 20
         -- , Run ComX "warpstatus" [] "" "warp" 10

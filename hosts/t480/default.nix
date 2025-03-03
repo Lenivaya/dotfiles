@@ -46,7 +46,9 @@ with my;
       xdg.handlr = enabled;
 
       apps = {
-        rofi = enabled;
+        rofi = enabled // {
+          optimized = true;
+        };
         dmenu = enabled;
         dunst = enabled;
         discord = enabled;
@@ -614,9 +616,9 @@ with my;
       (_final: prev: {
         inherit (pkgs.unstable)
           # code-cursor
+          # kitty
           scx
           ayugram-desktop
-          # kitty
           yazi
           twitch-hls-client
           ungoogled-chromium
@@ -624,6 +626,15 @@ with my;
           vscode
           jetbrains-toolbox
           ;
+
+        code-cursor = pkgs.unstable.code-cursor.overrideAttrs (old: {
+          postInstall = ''
+            MAIN_JS="$out/share/cursor/resources/app/out/main.js"
+            substituteInPlace "$MAIN_JS" \
+              --replace-fail 'async getMachineId(){return this.a??this.c.machineId}' 'async getMachineId(){return this.c.machineId}' \
+              --replace-fail 'async getMacMachineId(){return this.b??this.c.macMachineId}' 'async getMacMachineId(){return this.c.macMachineId}'
+          '';
+        });
 
         kitty = optimizePkg pkgs.unstable.kitty;
         distrobox = prev.distrobox_git;

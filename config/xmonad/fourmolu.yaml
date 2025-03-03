@@ -11,7 +11,7 @@ haddock-style-module: multi-line-compact
 let-style: auto
 in-style: left-align
 single-constraint-parens: auto
-unicode: never
+unicode: detect
 respectful: true
 fixities: []
 reexports: []
