@@ -156,7 +156,8 @@
   },
   "gopls": {
     "expandWorkspaceToModule": true,
-    "experimentalWorkspaceModule": true
+    "experimentalWorkspaceModule": true,
+    "ui.semanticTokens": true
   },
   "haskell": {
     "formattingProvider": "fourmolu"
@@ -516,6 +517,18 @@
       "command": "workbench.action.terminal.toggleTerminal"
     },
     {
+      "keys": "f./",
+      "name": "Search files with fzf",
+      "type": "command",
+      "command": "fzf-picker.findFiles"
+    },
+    {
+      "keys": "f.?",
+      "name": "Search files with fzf",
+      "type": "command",
+      "command": "fzf-picker.findWithinFiles"
+    },
+    {
       "keys": ",",
       "name": "Switch between opened buffer",
       "type": "command",
@@ -565,7 +578,7 @@
   "typescript.inlayHints.propertyDeclarationTypes.enabled": true,
   "typescript.inlayHints.parameterTypes.enabled": true,
   "typescript.inlayHints.functionLikeReturnTypes.enabled": true,
-  "workbench.colorTheme": "Catppuccin Mocha",
+  "catppuccin.accentColor": "pink",
   "catppuccin.colorOverrides": {
     "mocha": {
       "base": "#000000",
@@ -573,5 +586,23 @@
       "crust": "#020202"
     }
   },
-  "workbench.iconTheme": "catppuccin-mocha"
+  // we try to make semantic highlighting look good
+  "editor.semanticHighlighting.enabled": true,
+  // prevent VSCode from modifying the terminal colors
+  "terminal.integrated.minimumContrastRatio": 1,
+  // make the window's titlebar use the workbench colors
+  "window.titleBarStyle": "custom",
+  // applicable if you use Go, this is an opt-in flag!
+  "workbench.iconTheme": "catppuccin-mocha",
+  "workbench.colorTheme": "Catppuccin Mocha",
+  "editor.renderWhitespace": "none",
+  "find-it-faster.general.useTerminalInEditor": true,
+  "fzf-picker.general.openCommand": "cursor -g",
+  "fzf-picker.customTasks": [
+    // Choose folder to open on new window
+    {
+      "name": "zoxide",
+      "command": "cursor $(zoxide query --interactive)"
+    }
+  ]
 }

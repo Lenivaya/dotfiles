@@ -4,7 +4,7 @@
   # https://github.com/nix-community/haumea ?
 
   inputs = {
-    nixpkgs.url = "nixpkgs/nixos-unstable"; # primary nixpkgs
+    nixpkgs.url = "nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "nixpkgs/nixos-unstable"; # for packages on the edge
 
     home-manager = {
@@ -48,10 +48,6 @@
 
     treefmt-nix = {
       url = "github:numtide/treefmt-nix";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
-    pre-commit-hooks = {
-      url = "github:cachix/git-hooks.nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -132,10 +128,6 @@
       url = "github:StevenBlack/hosts";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-    clipcat = {
-      url = "github:xrelkd/clipcat";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
     keyd = {
       url = "github:rvaiya/keyd";
       flake = false;
@@ -159,7 +151,6 @@
       "https://pre-commit-hooks.cachix.org"
       "https://viperml.cachix.org/"
       "https://chaotic-nyx.cachix.org/"
-
     ];
     extra-trusted-public-keys = [
       "nix-community.cachix.org-1:mB9FSh9qf2dCimDSUo8Zy7bkq5CX+/rkCWyvRCYg3Fs="

@@ -3,8 +3,6 @@
 {
   config,
   lib,
-  inputs,
-  system,
   ...
 }:
 with lib;
@@ -26,11 +24,5 @@ in
       source = "${configDir}/clipcat";
       recursive = true;
     };
-
-    nixpkgs.overlays = [
-      (_final: _prev: {
-        clipcat = inputs.clipcat.packages."${system}".default;
-      })
-    ];
   };
 }

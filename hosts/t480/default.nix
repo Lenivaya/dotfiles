@@ -615,8 +615,6 @@ with my;
     ++ [
       (_final: prev: {
         inherit (pkgs.unstable)
-          # code-cursor
-          # kitty
           scx
           ayugram-desktop
           yazi
@@ -625,6 +623,7 @@ with my;
           obsidian
           vscode
           jetbrains-toolbox
+          clipcat
           ;
 
         code-cursor = pkgs.unstable.code-cursor.overrideAttrs (old: {
@@ -637,12 +636,11 @@ with my;
         });
 
         kitty = optimizePkg pkgs.unstable.kitty;
+        zf = optimizePkg pkgs.unstable.fzf;
         distrobox = prev.distrobox_git;
         telegram-desktop = prev.telegram-desktop_git;
         yt-dlp = prev.yt-dlp_git;
         mpv = prev.mpv-vapoursynth;
-
-        # neovim = optimizePkg pkgs.unstable.neovim;
         neovim = optimizePkg inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
         skippy-xd = optimizePkg prev.skippy-xd;
         dmenu = optimizePkg prev.dmenu;

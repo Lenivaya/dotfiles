@@ -20,6 +20,12 @@ in
   config = mkIf cfg.enable {
     nixpkgs.overlays = [ inputs.nix-vscode-extensions.overlays.default ];
 
+    modules = {
+      shell = {
+        fzf = enabled;
+      };
+    };
+
     # embrace the impurnes, make it more usable
     system.userActivationScripts.linkVscodeConfig = ''
       ${linkIfNotExist "~/.config/Code/User/settings.json" "${configDir}/vscode/settings.json"}
@@ -69,6 +75,7 @@ in
           vspacecode.vspacecode
           serafeim.goto-previous-buffer
           jacobdufault.fuzzy-search
+          jellydn.fzf-picker
           ms-vscode.vs-keybindings
 
           mechatroner.rainbow-csv
