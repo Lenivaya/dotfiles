@@ -431,12 +431,12 @@ with my;
     upwork
     beekeeper-studio
     scx.full
+    # zoom-us
+    windsurf
 
     # dropbox
     maestral-gui
     maestral
-
-    # zoom-us
   ];
 
   hardware.trackpoint = enabled // {
@@ -624,6 +624,7 @@ with my;
           vscode
           jetbrains-toolbox
           clipcat
+          windsurf
           ;
 
         code-cursor = pkgs.unstable.code-cursor.overrideAttrs (old: {

@@ -1,11 +1,9 @@
 {
   description = "Config...";
 
-  # https://github.com/nix-community/haumea ?
-
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    nixpkgs-unstable.url = "nixpkgs/nixos-unstable"; # for packages on the edge
+    nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable"; # for packages on the edge, tracked separately
 
     home-manager = {
       url = "github:nix-community/home-manager";

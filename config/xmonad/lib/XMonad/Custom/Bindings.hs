@@ -189,7 +189,7 @@ flash' = flashText def 0.5
 
 keysBase :: Keybindings
 keysBase =
-  [ ("M-q q", confirmPrompt (promptNoHistory hotPromptTheme) "Quit XMonad?" $ io exitSuccess),
+  [ ("M-q q", confirmPrompt hotPromptTheme "Quit XMonad?" $ io exitSuccess),
     ("M-q r", spawn "xmonad --recompile; xmonad --restart"),
     ("M-x", wrapKbdLayout $ shellPrompt $ promptNoCompletion promptTheme),
     ("M-r", wrapKbdLayout $ runOrRaisePrompt promptTheme),
@@ -210,9 +210,10 @@ keysSpawnables =
   [ ("M-<Return>", spawn $ C.term C.applications),
     ("M-S-<Return>", spawn $ C.term C.applications ++ " -e tmux"),
     ("M-o b", spawn $ C.browser C.applications),
-    ("M-o S-b", wrapKbdLayout $ selectBrowserByNameAndSpawn $ promptNoHistory promptTheme),
+    ("M-o S-b", wrapKbdLayout $ selectBrowserByNameAndSpawn promptTheme),
     -- ("M-o e", raiseEditor),
     ("M-o e", spawn "$TERM --hold -e nvim"),
+    ("M-o S-e", wrapKbdLayout $ selectEditorByNameAndSpawn promptTheme),
     ("M-o f f", spawn $ C.term C.applications ++ " -e yazi"),
     ("M-o S-e", spawn "doom +everywhere"),
     ("M-o c", namedScratchpadAction scratchpads "console"),
@@ -274,22 +275,20 @@ keysWindows =
     ( "M-w S-k",
       wrapKbdLayout $
         confirmPrompt
-          ( promptNoHistory
-              hotPromptTheme
-          )
+          hotPromptTheme
           "Kill all"
           killAll
     ),
     ( "M-w C-S-k",
       wrapKbdLayout $
-        confirmPrompt (promptNoHistory hotPromptTheme) "Kill others" $
+        confirmPrompt hotPromptTheme "Kill others" $
           withOthers killWindow
     ),
-    ("M-w g", wrapKbdLayout $ windowPrompt (promptNoHistory promptTheme) Goto allWindows),
-    ("M-w /", wrapKbdLayout $ windowPrompt (promptNoHistory promptTheme) Goto wsWindows),
-    ("M-w b", wrapKbdLayout $ windowPrompt (promptNoHistory promptTheme) Bring allWindows),
+    ("M-w g", wrapKbdLayout $ windowPrompt promptTheme Goto allWindows),
+    ("M-w /", wrapKbdLayout $ windowPrompt promptTheme Goto wsWindows),
+    ("M-w b", wrapKbdLayout $ windowPrompt promptTheme Bring allWindows),
     ( "M-d w S-c",
-      wrapKbdLayout $ windowPrompt (promptNoHistory promptTheme) BringCopy allWindows
+      wrapKbdLayout $ windowPrompt promptTheme BringCopy allWindows
     ),
     ("M-w c", toggleCopyToAll),
     ("M-w o", sendMessage Mag.Toggle),
@@ -342,15 +341,15 @@ keysWindows =
 
 keysWorkspaces :: Keybindings
 keysWorkspaces =
-  [ ("M-p /", wrapKbdLayout $ switchProjectPrompt $ promptNoHistory promptTheme),
+  [ ("M-p /", wrapKbdLayout $ switchProjectPrompt promptTheme),
     ( "M-p c",
       wrapKbdLayout . switchProjectPrompt $ promptNoCompletion promptTheme
     ),
     ( "M-p s",
       wrapKbdLayout $ gridselectWorkspace gridSelectTheme S.greedyView
     ),
-    ("M-p S-s", wrapKbdLayout $ shiftToProjectPrompt $ promptNoHistory promptTheme),
-    ("M-p n", wrapKbdLayout $ renameProjectPrompt $ promptNoHistory hotPromptTheme),
+    ("M-p S-s", wrapKbdLayout $ shiftToProjectPrompt promptTheme),
+    ("M-p n", wrapKbdLayout $ renameProjectPrompt hotPromptTheme),
     ("M-p <Backspace>", removeWorkspace),
     ( "M-p S-<Backspace>",
       confirmPrompt hotPromptTheme "Kill workspace?" $
@@ -359,7 +358,7 @@ keysWorkspaces =
     ("M-,", nextNonEmptyWS),
     ("M-.", prevNonEmptyWS),
     ("M-;", toggleWS' ["NSP"]),
-    ("M-n", wrapKbdLayout $ workspacePrompt (promptNoHistory promptTheme) $ windows . S.shift),
+    ("M-n", wrapKbdLayout $ workspacePrompt promptTheme $ windows . S.shift),
     ("M-p p", spawn "skippy-xd --paging"),
     ("M-<Tab>", cycleRecentNonEmptyWS [xK_Alt_L, xK_Alt_R, xK_Escape] xK_comma xK_period),
     ( "M-S-;",
@@ -380,11 +379,11 @@ keysSearch =
     ("M-s m", wrapKbdLayout . manPrompt $ promptNoCompletion promptTheme),
     ("M-s t", wrapKbdLayout $ tmuxPrompt promptTheme),
     ("M-s p", wrapKbdLayout $ passPrompt passPromptTheme),
-    ("M-s w", wrapKbdLayout $ switchProjectPrompt $ promptNoHistory promptTheme),
+    ("M-s w", wrapKbdLayout $ switchProjectPrompt promptTheme),
     ("M-s k", selectKbdLayout promptTheme),
     ("M-s l", wrapKbdLayout $ selectLayoutByName promptTheme),
     ("M-s S-l", switchToMRUKbdLayout),
     ("M-s o", wrapKbdLayout $ selectScratchpadByName promptTheme)
   ]
   where
-    passPromptTheme = promptNoHistory promptTheme
+    passPromptTheme = promptTheme

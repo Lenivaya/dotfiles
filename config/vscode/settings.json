@@ -354,7 +354,6 @@
         "viewType": "jupyter-notebook"
       }
     ],
-    "iconTheme": "vs-seti",
     "list": {
       "smoothScrolling": false
     },
@@ -604,5 +603,10 @@
       "name": "zoxide",
       "command": "cursor $(zoxide query --interactive)"
     }
-  ]
+  ],
+  "leetcode.hint.configWebviewMarkdown": false,
+  "leetcode.workspaceFolder": "/home/leniviy/.leetcode",
+  "leetcode.defaultLanguage": "python3",
+  "leetcode.hint.commandShortcut": false,
+  "leetcode.hint.commentDescription": false
 }
