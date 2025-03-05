@@ -20,8 +20,8 @@ return {
       auto_suggestions_provider = "copilot",
 
       copilot = {
-        -- model = "claude-3.7-sonnet",
-        model = "claude-3.5-sonnet",
+        model = "claude-3.7-sonnet",
+        -- model = "claude-3.5-sonnet",
         proxy = nil,
       },
 
