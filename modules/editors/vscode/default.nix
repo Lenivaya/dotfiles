@@ -67,7 +67,6 @@ in
           # tomoki1207.pdf
 
           vincaslt.highlight-matching-tag
-          # spywhere.guides
 
           # https://galenwong.github.io/blog/2021-03-22-vscode-neovim-vs-vscodevim/
           asvetliakov.vscode-neovim

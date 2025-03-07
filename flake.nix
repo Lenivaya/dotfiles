@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable"; # for packages on the edge, tracked separately
+    nixpkgs-unstable.url = "nixpkgs/nixos-unstable"; # for packages on the edge, tracked separately
 
     home-manager = {
       url = "github:nix-community/home-manager";
@@ -99,6 +99,8 @@
       url = "git+https://codeberg.org/amjoseph/infuse.nix";
       flake = false;
     };
+
+    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3.0.0";
 
     # some upstream things
     auto-cpufreq = {

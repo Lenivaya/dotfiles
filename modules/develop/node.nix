@@ -13,7 +13,7 @@ in
 {
   options.modules.dev.node = with types; {
     enable = mkBoolOpt false;
-    package = mkOpt package [ ];
+    package = mkOpt package pkgs.nodejs;
   };
 
   config = mkIf cfg.enable {

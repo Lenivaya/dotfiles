@@ -11,6 +11,7 @@ import Data.Foldable
 import Data.Map qualified as M
 import Flow
 import System.Exit
+import XMonad (spawn)
 import XMonad hiding (
   keys,
   modMask,

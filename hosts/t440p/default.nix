@@ -52,11 +52,11 @@ with lib.my;
       };
 
       browsers = {
-        default = "firefox";
+        default = "firefox-nightly";
 
         firefox = enabled // {
-          package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
-          executable = "firefox";
+          package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
+          executable = "firefox-nightly";
         };
         # chromium =
         #   let
@@ -513,9 +513,6 @@ with lib.my;
 
   services.avahi = enabled;
 
-  # services.xserver.displayManager.gdm = mkForce disabled;
-  # services.displayManager.ly = enabled;
-
   nixpkgs.overlays =
     let
       optimize = pkg: optimizeForThisHost (withClang pkg);
@@ -525,16 +522,13 @@ with lib.my;
     ++ [
       (_final: prev: {
         inherit (pkgs.unstable)
-          # code-cursor
           ayugram-desktop
           kitty
           neovim
+          clipcat
           ;
 
         intel-vaapi-driver = prev.intel-vaapi-driver.override { enableHybridCodec = true; };
-        # btop = prev.btop.override {
-        #   cudaSupport = true;
-        # };
 
         telegram-desktop = prev.telegram-desktop_git;
         alacritty = prev.alacritty_git;

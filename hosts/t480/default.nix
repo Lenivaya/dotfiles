@@ -22,6 +22,7 @@ with my;
     ]
     ++ (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-t480 ])
     ++ (with inputs; [
+      determinate.nixosModules.default
       stevenblack-hosts.nixosModule
       {
         networking.stevenBlackHosts = enabled // {
@@ -114,7 +115,7 @@ with my;
       };
       fish = enabled // {
         default = true;
-        package = pkgs.my.fish-v4;
+        package = pkgs.unstable.fish;
       };
       tmux = enabled;
       gnupg = enabled;
@@ -249,7 +250,7 @@ with my;
     fast-networking = enabled;
   };
 
-  nix.package = pkgs.unstable.nixVersions.git;
+  # nix.package = pkgs.unstable.nixVersions.git;
   # nix.package = pkgs.lix_git;
 
   services.cpupower-gui = enabled;
@@ -431,6 +432,7 @@ with my;
     upwork
     beekeeper-studio
     scx.full
+    pgcli
     # zoom-us
     windsurf
 
@@ -615,7 +617,7 @@ with my;
     ++ [
       (_final: prev: {
         inherit (pkgs.unstable)
-          scx
+          # scx
           ayugram-desktop
           yazi
           twitch-hls-client

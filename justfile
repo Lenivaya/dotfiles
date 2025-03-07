@@ -1,8 +1,8 @@
-default:
+dfault:
   just --list
 
 switch:
-   nh os switch $DOTFILES -- --impure --show-trace
+   nh os switch $DOTFILES -- --impure --show-trace --accept-flake-config
 
 format:
   nix fmt
