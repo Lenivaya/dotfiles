@@ -22,7 +22,7 @@ with my;
     ]
     ++ (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-t480 ])
     ++ (with inputs; [
-      determinate.nixosModules.default
+      # determinate.nixosModules.default
       stevenblack-hosts.nixosModule
       {
         networking.stevenBlackHosts = enabled // {
@@ -155,7 +155,7 @@ with my;
 
     services = {
       # warp = enabled;
-      ananicy = enabled;
+      # ananicy = enabled;
       clipcat = enabled;
       # greenclip = enabled;
       kdeconnect = enabled;
@@ -250,7 +250,7 @@ with my;
     fast-networking = enabled;
   };
 
-  # nix.package = pkgs.unstable.nixVersions.git;
+  nix.package = pkgs.unstable.nixVersions.git;
   # nix.package = pkgs.lix_git;
 
   services.cpupower-gui = enabled;
@@ -359,13 +359,15 @@ with my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   # https://github.com/sched-ext/scx/issues/1188
-  # services.scx = enabled // {
-  #   scheduler = "scx_bpfland";
-  #   # extraArgs = [
-  #   #   "-p"
-  #   #   "-m performance"
-  #   # ]; # https://github.com/sched-ext/scx/issues/1247
-  # };
+  # https://wiki.cachyos.org/configuration/sched-ext/#disable-ananicy-cpp
+  services.scx = enabled // {
+    scheduler = "scx_bpfland";
+    # extraArgs = [
+    #   "-p"
+    #   "-m performance"
+    # ]; # https://github.com/sched-ext/scx/issues/1247
+  };
+  # options.modules.services.ananicy = mkForce disabled;
 
   networking.firewall = {
     allowedUDPPortRanges = [
@@ -433,6 +435,7 @@ with my;
     beekeeper-studio
     scx.full
     pgcli
+    # zed-editor_git
     # zoom-us
     windsurf
 
@@ -442,7 +445,7 @@ with my;
   ];
 
   hardware.trackpoint = enabled // {
-    speed = 500;
+    # speed = 500;
     sensitivity = 255;
   };
 
@@ -617,7 +620,7 @@ with my;
     ++ [
       (_final: prev: {
         inherit (pkgs.unstable)
-          # scx
+          scx
           ayugram-desktop
           yazi
           twitch-hls-client

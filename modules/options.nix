@@ -77,6 +77,7 @@ with lib.my;
         inherit name;
         description = "The primary user account";
         extraGroups = [
+          "@wheel"
           "wheel"
           "adbuser"
           "adbusers"
@@ -132,6 +133,7 @@ with lib.my;
       let
         users = [
           "root"
+          "@wheel"
           config.user.name
         ];
       in

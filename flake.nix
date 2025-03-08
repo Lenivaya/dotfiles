@@ -100,7 +100,7 @@
       flake = false;
     };
 
-    determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3.0.0";
+    # determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3.0.0";
 
     # some upstream things
     auto-cpufreq = {

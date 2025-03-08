@@ -91,6 +91,7 @@ in
           quicktype.quicktype
           stylelint.vscode-stylelint
           usernamehw.errorlens
+          mxsdev.typescript-explorer
 
           # :git
           codezombiech.gitignore
@@ -109,6 +110,8 @@ in
           skellock.just
 
           mustafamohamad.min-tomorrow-theme
+          catppuccin.catppuccin-vsc
+          catppuccin.catppuccin-vsc-icons
           ryuta46.multi-command
           fill-labs.dependi
         ]
