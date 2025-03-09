@@ -381,6 +381,7 @@ keysSearch =
     ("M-s t", wrapKbdLayout $ tmuxPrompt promptTheme),
     ("M-s p", wrapKbdLayout $ passPrompt passPromptTheme),
     ("M-s w", wrapKbdLayout $ switchProjectPrompt promptTheme),
+    ("M-s s", wrapKbdLayout $ windowPrompt promptTheme Goto allWindows),
     ("M-s k", selectKbdLayout promptTheme),
     ("M-s l", wrapKbdLayout $ selectLayoutByName promptTheme),
     ("M-s S-l", switchToMRUKbdLayout),

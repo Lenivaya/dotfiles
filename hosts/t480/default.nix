@@ -438,6 +438,7 @@ with my;
     # zed-editor_git
     # zoom-us
     windsurf
+    readest
 
     # dropbox
     maestral-gui
@@ -630,6 +631,7 @@ with my;
           jetbrains-toolbox
           clipcat
           windsurf
+          readest
           ;
 
         inherit

@@ -107,7 +107,7 @@ with lib.my;
       # zsh = enabled;
       fish = enabled // {
         default = true;
-        package = pkgs.my.fish-v4;
+        package = pkgs.unstable.fish;
       };
       tmux = enabled;
       gnupg = enabled;
@@ -526,6 +526,7 @@ with lib.my;
           kitty
           neovim
           clipcat
+          adguardhome
           ;
 
         intel-vaapi-driver = prev.intel-vaapi-driver.override { enableHybridCodec = true; };
