@@ -70,8 +70,8 @@ scratchpads =
       (centerFloat 0.7 0.7),
     NS
       "reader"
-      "foliate"
-      (className =? "com.github.johnfactotum.Foliate")
+      "readest"
+      (className =? "Readest")
       doFullCenterFloat,
     NS
       "notes"

@@ -63,7 +63,7 @@ myBrowsers =
   ]
 myReaders =
   [ Application Readers "Zathura" "zathura",
-    Application Readers "Foliate" "foliate",
+    Application Readers "Readest" "readest",
     Application Readers "Evince" "evince",
     Application Readers "Papers" "papers"
   ]

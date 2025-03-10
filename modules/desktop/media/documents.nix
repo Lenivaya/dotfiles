@@ -30,7 +30,7 @@ in
 
         (mkIf cfg.ebook.enable [
           # calibre
-          foliate
+          readest
         ])
         (mkIf cfg.pdf.enable [
           # evince

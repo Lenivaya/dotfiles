@@ -3,19 +3,22 @@ with stdenv;
 with pkgs;
 rustPlatform.buildRustPackage rec {
   pname = "caffeinate";
-  version = "0.1.0";
+  version = "master";
 
   src = fetchFromGitHub {
     owner = "rschmukler";
-    repo = pname;
-    rev = "e20985a4b630eb5c76e16c2547da0aba65f097d5";
-    sha256 = "1p9k9dz152igw2mazf8m9ac16hh381q8nqxbdahb0dn0npx10s6v";
+    repo = "caffeinate";
+    rev = version;
+    hash = "sha256-22gQ+rXANrCgaqtji3BAA0ITmEoVua+q4C+KEn5LM90=";
   };
 
-  cargoSha256 = "tZ3XVrlIs3xZvPiTU4fchus2lgenfVPB+xz0PhVu9gg=";
+  cargoHash = "sha256-wz1CXmlqKBa+TlzsWZKZN73RmFHQGsvuwBHTATun31s=";
 
   meta = {
-    description = "A command-line app bringing caffeinate functionality to xidlehook.";
+    description = "Keeping xidlehook woke";
     homepage = "https://github.com/rschmukler/caffeinate";
+    license = lib.licenses.mit;
+    maintainers = with lib.maintainers; [ ];
+    mainProgram = "caffeinate";
   };
 }

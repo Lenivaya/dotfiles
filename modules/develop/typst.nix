@@ -17,7 +17,6 @@ in
       typst
       tinymist
       typst-live
-      typst-lsp
       typstyle
     ];
   };

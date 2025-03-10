@@ -155,7 +155,7 @@ with my;
 
     services = {
       # warp = enabled;
-      # ananicy = enabled;
+      ananicy = enabled;
       clipcat = enabled;
       # greenclip = enabled;
       kdeconnect = enabled;
@@ -360,13 +360,13 @@ with my;
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   # https://github.com/sched-ext/scx/issues/1188
   # https://wiki.cachyos.org/configuration/sched-ext/#disable-ananicy-cpp
-  services.scx = enabled // {
-    scheduler = "scx_bpfland";
-    # extraArgs = [
-    #   "-p"
-    #   "-m performance"
-    # ]; # https://github.com/sched-ext/scx/issues/1247
-  };
+  # services.scx = enabled // {
+  #   scheduler = "scx_bpfland";
+  #   # extraArgs = [
+  #   #   "-p"
+  #   #   "-m performance"
+  #   # ]; # https://github.com/sched-ext/scx/issues/1247
+  # };
   # options.modules.services.ananicy = mkForce disabled;
 
   networking.firewall = {
@@ -632,6 +632,7 @@ with my;
           clipcat
           windsurf
           readest
+          kitty
           ;
 
         inherit
@@ -651,8 +652,7 @@ with my;
         #   '';
         # });
 
-        kitty = optimizePkg pkgs.unstable.kitty;
-        zf = optimizePkg pkgs.unstable.fzf;
+        # kitty = optimizePkg pkgs.unstable.kitty;
         distrobox = prev.distrobox_git;
         telegram-desktop = prev.telegram-desktop_git;
         yt-dlp = prev.yt-dlp_git;
