@@ -11,6 +11,7 @@ import Data.Map.Strict qualified as M
 import Data.Maybe (fromMaybe)
 import XMonad
 import XMonad.Actions.Search
+import XMonad.Actions.Search (searchEngine)
 import XMonad.Actions.ShowText
 import XMonad.Custom.Prompt
 import XMonad.Prompt
@@ -92,7 +93,16 @@ myEngines =
     unsplash,
     downdetector,
     lazyvim,
-    prefixAware google
+    searchEngine "nixprtrack" "https://nixpkgs-tracker.ocfox.me/?pr=",
+    searchEngine "nixissues" "https://github.com/NixOS/nixpkgs/issues?q=",
+    searchEngine
+      "nixPullRequests"
+      "https://github.com/NixOS/nixpkgs/pulls?q=",
+    searchEngine
+      "githubCode"
+      "https://github.com/search?type=code&q={searchTerms}",
+    prefixAware
+      google
   ]
 
 engineNames :: [String]

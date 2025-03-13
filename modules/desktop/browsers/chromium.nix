@@ -16,7 +16,7 @@ in
     commandLineArgs = mkOpt (listOf str) [
       # Dark theme
       "--force-dark-mode"
-      # "--enable-features=WebUIDarkMode"
+      # "--enable-features="
 
       # GPU acceleration
       "--ignore-gpu-blocklist"
@@ -46,6 +46,7 @@ in
 
       "--enable-features=${
         comcat [
+          "WebUIDarkMode"
           "ParallelDownloading"
           "BackForwardCache:enable_same_site/true"
           "CopyLinkToText"

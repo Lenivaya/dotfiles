@@ -57,7 +57,7 @@ with my;
       };
 
       browsers = {
-        default = "firefox-nightly";
+        default = "google-chrome-stable";
 
         firefox = enabled // {
           package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
@@ -155,7 +155,7 @@ with my;
 
     services = {
       # warp = enabled;
-      ananicy = enabled;
+      # ananicy = enabled;
       clipcat = enabled;
       # greenclip = enabled;
       kdeconnect = enabled;
@@ -360,14 +360,14 @@ with my;
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   # https://github.com/sched-ext/scx/issues/1188
   # https://wiki.cachyos.org/configuration/sched-ext/#disable-ananicy-cpp
-  # services.scx = enabled // {
-  #   scheduler = "scx_bpfland";
-  #   # extraArgs = [
-  #   #   "-p"
-  #   #   "-m performance"
-  #   # ]; # https://github.com/sched-ext/scx/issues/1247
-  # };
-  # options.modules.services.ananicy = mkForce disabled;
+  services.scx = enabled // {
+    scheduler = "scx_bpfland";
+    package = pkgs.scx_git.full;
+    # extraArgs = [
+    #   "-p"
+    #   "-m performance"
+    # ]; # https://github.com/sched-ext/scx/issues/1247
+  };
 
   networking.firewall = {
     allowedUDPPortRanges = [
@@ -433,7 +433,8 @@ with my;
     deskflow
     upwork
     beekeeper-studio
-    scx.full
+    # scx.full
+    scx_git.full
     pgcli
     # zed-editor_git
     # zoom-us
@@ -621,7 +622,6 @@ with my;
     ++ [
       (_final: prev: {
         inherit (pkgs.unstable)
-          scx
           ayugram-desktop
           yazi
           twitch-hls-client
@@ -634,6 +634,10 @@ with my;
           readest
           kitty
           ;
+
+        # inherit (pkgs.unstable-small)
+        #   scx
+        #   ;
 
         inherit
           (fromRev "c96875e768da1b176250c3bd0edce6b4f7b5d4bb" "sha256-y+Hw+NYmqhAXErmrwF3+DKsXyv0qJuyIs87fnBuNFeI=")
@@ -652,7 +656,6 @@ with my;
         #   '';
         # });
 
-        # kitty = optimizePkg pkgs.unstable.kitty;
         distrobox = prev.distrobox_git;
         telegram-desktop = prev.telegram-desktop_git;
         yt-dlp = prev.yt-dlp_git;
@@ -662,7 +665,6 @@ with my;
         dmenu = optimizePkg prev.dmenu;
         nsxiv = optimizePkg prev.nsxiv;
         trayer = optimizePkg prev.trayer;
-        st = optimizePkg prev.st;
       })
     ];
 }

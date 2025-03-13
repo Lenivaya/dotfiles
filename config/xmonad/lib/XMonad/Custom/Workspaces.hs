@@ -73,7 +73,7 @@ spawnTerminalWith :: String -> X ()
 spawnTerminalWith cmd = spawn (C.term C.applications ++ " " ++ cmd)
 
 spawnBrowserWithUrls :: [String] -> X ()
-spawnBrowserWithUrls urls = spawn (C.browser C.applications ++ " " ++ unwords urls)
+spawnBrowserWithUrls urls = spawn (C.browser C.applications ++ " --new-window " ++ unwords urls)
 
 spawnBrowserWithUrl :: String -> X ()
 spawnBrowserWithUrl url = spawn (C.browser C.applications ++ " --new-window " ++ url)

@@ -555,6 +555,12 @@
       "name": "Rename lsp symbol",
       "type": "command",
       "command": "editor.action.rename"
+    },
+    {
+      "keys": "c.a",
+      "name": "Run code action",
+      "type": "command",
+      "command": "editor.action.codeAction"
     }
   ],
   "editor.minimap.enabled": false,
@@ -606,5 +612,14 @@
   "cursor.cpp.disabledLanguages": ["plaintext", "scminput"],
   "window.commandCenter": 1,
   "guides.enabled": false,
-  "redhat.telemetry.enabled": false
+  "redhat.telemetry.enabled": false,
+  "typescriptExplorer.typeTree.view.show.typeParameters": false,
+  "typescriptExplorer.typeTree.view.icons.colors.enable": false,
+  "windsurf.autocompleteSpeed": "default",
+  "windsurf.autoExecutionPolicy": "off",
+  "windsurf.chatFontSize": "default",
+  "windsurf.rememberLastModelSelection": true,
+  "windsurf.openRecentConversation": true,
+  "windsurf.explainAndFixInCurrentConversation": true,
+  "windsurf.enableAutocomplete": true
 }

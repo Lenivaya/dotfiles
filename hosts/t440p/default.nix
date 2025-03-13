@@ -52,20 +52,20 @@ with lib.my;
       };
 
       browsers = {
-        default = "firefox-nightly";
+        default = "google-chrome-stable";
 
-        firefox = enabled // {
-          package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
-          executable = "firefox-nightly";
-        };
-        # chromium =
-        #   let
-        #     chrome' = inputs.browser-previews.packages.${pkgs.system}.google-chrome;
-        #   in
-        #   enabled
-        #   // {
-        #     package = chrome';
-        #   };
+        # firefox = enabled // {
+        #   package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
+        #   executable = "firefox-nightly";
+        # };
+        chromium =
+          let
+            chrome' = inputs.browser-previews.packages.${pkgs.system}.google-chrome;
+          in
+          enabled
+          // {
+            package = chrome';
+          };
         # tor = enabled;
         # qutebrowser = enabled;
       };
@@ -150,7 +150,7 @@ with lib.my;
 
     services = {
       adguardhome = enabled;
-      ananicy = enabled;
+      # ananicy = enabled;
       clipcat = enabled;
       # greenclip = enabled;
       kdeconnect = enabled;
@@ -300,10 +300,10 @@ with lib.my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  # services.scx = enabled // {
-  #   # package = pkgs.scx_git.full;
-  #   scheduler = "scx_bpfland";
-  # };
+  services.scx = enabled // {
+    # package = pkgs.scx_git.full;
+    scheduler = "scx_bpfland";
+  };
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
@@ -527,6 +527,10 @@ with lib.my;
           neovim
           clipcat
           adguardhome
+          ;
+
+        inherit (pkgs.unstable-small)
+          scx
           ;
 
         intel-vaapi-driver = prev.intel-vaapi-driver.override { enableHybridCodec = true; };

@@ -21,13 +21,13 @@ bump-xmonad:
   nix flake update xmonad xmonad-contrib xmonad-extras
 
 bump-things:
-  nix flake update spicetify-nix auto-cpufreq skippy-xd zcfan browser-previews keyd stevenblack-hosts intellimacs nur picom resterrs home-manager
+  nix flake update spicetify-nix auto-cpufreq skippy-xd zcfan browser-previews keyd stevenblack-hosts intellimacs nur picom resterrs home-manager programsdb nix-index-db
 
 bump-hardware:
   nix flake update nixos-hardware nixos-facter-modules nixos-06cb-009a-fingerprint-sensor srvos
 
 bump-unstable:
-  nix flake update nixpkgs-unstable
+  nix flake update nixpkgs-unstable nixpkgs-unstable-small
 
 # build-iso:
 #   nix build .#nixosConfigurations.iso.config.system.build.isoImage --impure --show-trace

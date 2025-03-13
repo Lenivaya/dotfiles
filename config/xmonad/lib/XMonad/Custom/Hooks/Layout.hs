@@ -91,6 +91,7 @@ monocle = setName "Monocle" Full
 grid = setName "Grid" $ limitWindows 9 $ Grid (16 / 10)
 roledex = Roledex
 centerMainFluid = CenterMainFluid 1 (3 / 100) (70 / 100)
+tabLayout = setName "Tabbed" $ tabbed shrinkText tabTheme
 
 hacking =
   setName "Hacking"
@@ -118,7 +119,7 @@ flex =
         ||| rTall 1 (1 / 20) (1 / 2)
 
 tallGrid =
-  setName "Tall Grid" $ (IfMax 4 rTall grid)
+  setName "Tall Grid" (IfMax 4 rTall grid)
   where
     rTall = limitSelect 1 2 $ ResizableTall 1 (1 / 20) (1 / 2) []
     grid = G.GridRatio (4 / 3)
@@ -142,6 +143,7 @@ layoutsInfo =
     |||! tallGrid
     |||! roledex
     |||! centerMainFluid
+    |||! tabLayout
 
 layouts = fst layoutsInfo
 layoutNames = description <$> snd layoutsInfo
@@ -154,10 +156,10 @@ applyCentering layouts =
     (centeredIfSingle 0.75 1 layouts) -- For ultrawide monitors (75% width)
     ( ifWider
         qhdWidth
-        (centeredIfSingle 0.8 1 layouts) -- For QHD monitors (80% width)
+        (centeredIfSingle 0.85 1 layouts) -- For QHD monitors (80% width)
         ( ifWider
             fullHDWidth
-            (centeredIfSingle 0.85 1 layouts) -- For Full HD+ monitors (85% width)
+            (centeredIfSingle 0.95 1 layouts) -- For Full HD+ monitors (85% width)
             layouts -- For smaller monitors (no centering)
         )
     )

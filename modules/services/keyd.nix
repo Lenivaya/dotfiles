@@ -42,6 +42,7 @@ in
             y = "C-c";
             u = "C-z";
             v = "C-a"; # let's assume v means V
+            x = "C-w"; # easier to close browser tabs
             "/" = "C-f";
             w = "C-right";
             b = "C-left";

@@ -121,9 +121,6 @@
   # https://developer.mozilla.org/en-US/docs/Web/API/BatteryManager
   # https://bugzilla.mozilla.org/show_bug.cgi?id=1313580
   "dom.battery.enabled" = false;
-  # Disable "beacon" asynchronous HTTP transfers (used for analytics)
-  # https://developer.mozilla.org/en-US/docs/Web/API/navigator.sendBeacon
-  # "beacon.enabled" = false;
   # Disable pinging URIs specified in HTML <a> ping= attributes
   # http://kb.mozillazine.org/Browser.send_pings
   "browser.send_pings" = false;
@@ -240,6 +237,9 @@
   "dom.ipc.forkserver.enable" = true;
 
   "browser.urlbar.maxRichResults" = 20;
+
+  # https://developer.mozilla.org/en-US/docs/Web/API/navigator.sendBeacon
+  "beacon.enabled" = true; # breaks some sites like perplexity if disabled, lets just keep it enabled
 
   ####
   #### https://gist.github.com/RubenKelevra/fd66c2f856d703260ecdf0379c4f59db
