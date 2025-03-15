@@ -65,7 +65,8 @@ with my;
         };
         chromium =
           let
-            chrome' = inputs.browser-previews.packages.${pkgs.system}.google-chrome;
+            # chrome' = inputs.browser-previews.packages.${pkgs.system}.google-chrome;
+            chrome' = pkgs.unstable-small.google-chrome;
           in
           enabled
           // {
@@ -144,7 +145,7 @@ with my;
       go = enabled;
       haskell = enabled;
       node = enabled // {
-        package = pkgs.unstable.nodejs;
+        package = pkgs.unstable.nodejs_23;
       };
       python = enabled;
       dotnet = enabled // {
@@ -192,6 +193,7 @@ with my;
       nix-helper = enabled;
       nix-ld = enabled;
       distrobox = enabled;
+      # gauntlet = enabled;
     };
 
     cachyos = {
@@ -447,8 +449,8 @@ with my;
   ];
 
   hardware.trackpoint = enabled // {
-    # speed = 500;
-    sensitivity = 255;
+    speed = 500;
+    sensitivity = 200;
   };
 
   hardware.graphics = enabled // {

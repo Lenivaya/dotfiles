@@ -16,7 +16,6 @@ in
     commandLineArgs = mkOpt (listOf str) [
       # Dark theme
       "--force-dark-mode"
-      # "--enable-features="
 
       # GPU acceleration
       "--ignore-gpu-blocklist"
@@ -59,6 +58,8 @@ in
           "VaapiVideoDecoder"
           "VaapiIgnoreDriverChecks"
           "VaapiVideoDecodeLinuxGL"
+          "AcceleratedVideoDecodeLinuxGL"
+          "AcceleratedVideoEncoder"
           "CanvasOopRasterization"
           "TouchpadOverscrollHistoryNavigation"
         ]
