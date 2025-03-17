@@ -65,7 +65,6 @@ with my;
         };
         chromium =
           let
-            # chrome' = inputs.browser-previews.packages.${pkgs.system}.google-chrome;
             chrome' = pkgs.unstable-small.google-chrome;
           in
           enabled
@@ -156,7 +155,7 @@ with my;
 
     services = {
       # warp = enabled;
-      # ananicy = enabled;
+      ananicy = enabled;
       clipcat = enabled;
       # greenclip = enabled;
       kdeconnect = enabled;
@@ -362,14 +361,14 @@ with my;
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   # https://github.com/sched-ext/scx/issues/1188
   # https://wiki.cachyos.org/configuration/sched-ext/#disable-ananicy-cpp
-  services.scx = enabled // {
-    scheduler = "scx_bpfland";
-    package = pkgs.scx_git.full;
-    # extraArgs = [
-    #   "-p"
-    #   "-m performance"
-    # ]; # https://github.com/sched-ext/scx/issues/1247
-  };
+  # services.scx = enabled // {
+  #   scheduler = "scx_bpfland";
+  #   package = pkgs.scx_git.full;
+  #   # extraArgs = [
+  #   #   "-p"
+  #   #   "-m performance"
+  #   # ]; # https://github.com/sched-ext/scx/issues/1247
+  # };
 
   networking.firewall = {
     allowedUDPPortRanges = [

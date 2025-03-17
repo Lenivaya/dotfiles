@@ -56,7 +56,6 @@
       url = "github:colemickens/flake-firefox-nightly";
       inputs.nixpkgs.follows = "nixpkgs";
     };
-
     betterfox = {
       url = "github:yokoffing/betterfox";
       flake = false;
@@ -115,10 +114,6 @@
     zcfan = {
       url = "github:cdown/zcfan";
       flake = false;
-    };
-    browser-previews = {
-      url = "github:nix-community/browser-previews";
-      inputs.nixpkgs.follows = "nixpkgs";
     };
     resterrs = {
       # url = "path:///home/leniviy/code/Projects/resterrs";

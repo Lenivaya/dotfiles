@@ -17,6 +17,7 @@ startupHook = do
   -- setDefaultCursor xC_left_ptr -- sets some strange looking cursor
   spawnOnce "xsetroot -cursor_name left_ptr"
   spawnOnce "source ~/.fehbg"
+  spawn "xset r rate 200 100" -- too needed for me, lets set it on every startup
   -- spawn "killall sxhkd || sxhkd"
   -- spawn "killall skippy-xd || skippy-xd --start-daemon --config-reload"
   keyboardStartupHook

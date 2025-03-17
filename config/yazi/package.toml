@@ -1,6 +1,3 @@
-[flavor]
-deps = []
-
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
 rev = "5186af7"
@@ -95,3 +92,21 @@ hash = "b0edc5e9b7f44b2d3303e74f785d0bc9"
 use = "lpnh/fr"
 rev = "92edf0b"
 hash = "b0edc5e9b7f44b2d3303e74f785d0bc9"
+
+[[plugin.deps]]
+use = "gesellkammer/audio-preview"
+rev = "dba89bb"
+hash = "833ce7ca88b7b3399b21a55d43186a45"
+
+[[plugin.deps]]
+use = "macydnah/office"
+rev = "bcd9e9e"
+hash = "51ad32b80bc4cd496c55cd82fbfd238a"
+
+[[plugin.deps]]
+use = "atareao/convert"
+rev = "7c18342"
+hash = "cc6f6db11762ed3ee8c14c276e7cfb4b"
+
+[flavor]
+deps = []

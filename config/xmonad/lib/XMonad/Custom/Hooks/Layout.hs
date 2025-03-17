@@ -74,7 +74,7 @@ instance Transformer CustomTransformers Window where
   transform GAPS x k = k (avoidStruts $ applySpacing x) (const x)
 
 applySpacing :: l a -> ModifiedLayout Spacing l a
-applySpacing = spacingRaw False (Border 6 6 6 6) True (Border 6 6 6 6) True
+applySpacing = spacingRaw False (Border 5 5 5 5) True (Border 5 5 5 5) True
 
 setName :: String -> l a -> ModifiedLayout Rename l a
 setName n = renamed [Replace n]

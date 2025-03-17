@@ -150,7 +150,7 @@ in
         "--monitor primary"
         "--tint 0x0B0806"
         "--transparent true --alpha 10"
-        "--distancefrom top,right --distance 22,27"
+        "--distancefrom top,right --distance 13,13"
         "--height 25 --iconspacing 3 --padding 1 --margin 1"
       ];
     };

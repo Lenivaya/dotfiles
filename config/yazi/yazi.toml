@@ -11,6 +11,22 @@ prepend_previewers = [
   { name = "*.md", run = "glow" },
   { mime = "text/csv", run = "miller" },
   { name = "*/", run = "eza-preview" },
+  { mime = "audio/*", run = "audio-preview" },
+  # Office Documents
+  { mime = "application/openxmlformats-officedocument.*", run = "office" },
+  { mime = "application/oasis.opendocument.*", run = "office" },
+  { mime = "application/ms-*", run = "office" },
+  { mime = "application/msword", run = "office" },
+  { name = "*.docx", run = "office" },
+]
+prepend_preloaders = [
+  { mime = "audio/*", run = "audio-preview" },
+  # Office Documents
+  { mime = "application/openxmlformats-officedocument.*", run = "office" },
+  { mime = "application/oasis.opendocument.*", run = "office" },
+  { mime = "application/ms-*", run = "office" },
+  { mime = "application/msword", run = "office" },
+  { name = "*.docx", run = "office" },
 ]
 
 [[plugin.prepend_fetchers]]

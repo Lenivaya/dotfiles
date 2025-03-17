@@ -70,6 +70,9 @@ function __async_my_abbr_adder --on-event fish_prompt
     abbr gs "git status"
     abbr gpf "git push --force"
     abbr gp "git push"
+    abbr gc "git commit -m"
+    abbr gca "git add . && git commit -m"
+    abbr gl "git log --oneline --graph --all --decorate"
 
     # Notes
     abbr oo "nvim ~/Sync/Knowledge-base/"

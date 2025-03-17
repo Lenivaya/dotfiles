@@ -60,7 +60,7 @@ with lib.my;
         # };
         chromium =
           let
-            chrome' = inputs.browser-previews.packages.${pkgs.system}.google-chrome;
+            chrome' = pkgs.unstable-small.google-chrome;
           in
           enabled
           // {
@@ -150,7 +150,7 @@ with lib.my;
 
     services = {
       adguardhome = enabled;
-      # ananicy = enabled;
+      ananicy = enabled;
       clipcat = enabled;
       # greenclip = enabled;
       kdeconnect = enabled;
@@ -300,10 +300,10 @@ with lib.my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  services.scx = enabled // {
-    # package = pkgs.scx_git.full;
-    scheduler = "scx_bpfland";
-  };
+  # services.scx = enabled // {
+  #   # package = pkgs.scx_git.full;
+  #   scheduler = "scx_bpfland";
+  # };
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
@@ -529,10 +529,10 @@ with lib.my;
           adguardhome
           ;
 
-        inherit (pkgs.unstable-small)
-          scx
-          ;
-
+        # inherit (pkgs.unstable-small)
+        #   scx
+        #   ;
+        #
         intel-vaapi-driver = prev.intel-vaapi-driver.override { enableHybridCodec = true; };
 
         telegram-desktop = prev.telegram-desktop_git;

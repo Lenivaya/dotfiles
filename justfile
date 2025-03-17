@@ -21,7 +21,7 @@ bump-xmonad:
   nix flake update xmonad xmonad-contrib xmonad-extras
 
 bump-things:
-  nix flake update spicetify-nix auto-cpufreq skippy-xd zcfan browser-previews keyd stevenblack-hosts intellimacs nur picom resterrs home-manager programsdb nix-index-db
+  nix flake update spicetify-nix auto-cpufreq skippy-xd zcfan keyd stevenblack-hosts intellimacs nur picom resterrs home-manager programsdb nix-index-db chaotic
 
 bump-hardware:
   nix flake update nixos-hardware nixos-facter-modules nixos-06cb-009a-fingerprint-sensor srvos

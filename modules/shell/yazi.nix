@@ -20,6 +20,7 @@ in
       glow
       miller
       ouch
+      sox
     ];
 
     # Embrace impurity and imperfection.

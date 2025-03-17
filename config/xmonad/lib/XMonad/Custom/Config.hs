@@ -54,7 +54,7 @@ myConfig =
       manageHook = C.manageHook,
       handleEventHook = C.handleEventHook,
       focusFollowsMouse = True,
-      clickJustFocuses = True
+      clickJustFocuses = False
     }
     |> withNavigation2DConfig C.navigation
     |> addRandrChangeHook C.myRandrChangeHook

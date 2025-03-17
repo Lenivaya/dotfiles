@@ -50,7 +50,7 @@ desc = "Smart filter"
 
 [[manager.prepend_keymap]]
 on = ["g", "j"]
-run = "plugin first-non-directory"
+run  = "plugin first-non-directory"
 desc = "Jumps to the first file"
 
 [[manager.prepend_keymap]]
@@ -142,3 +142,18 @@ desc = "Toggle tree follow symlinks"
 on = ["f", "r"]
 run = "plugin fr rg"
 desc = "Search file by content (rg)"
+
+[[manager.prepend_keymap]]
+on = ["c",  "i", "j"]
+run = "plugin convert --args='--extension=jpg'"
+desc = "Convert image to JPG"
+
+[[manager.prepend_keymap]]
+on = ["c", "i", "p"]
+run = "plugin convert --args='--extension=png'"
+desc = "Convert image to PNG"
+
+[[manager.prepend_keymap]]
+on = ["c", "i", "w"]
+run = "plugin convert --args='--extension=webp'"
+desc = "Convert image to WEBP"
