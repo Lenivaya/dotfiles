@@ -377,7 +377,7 @@ keysSearch =
   [ ( "M-s e",
       wrapKbdLayout . selectAndSearchPrompt $ promptNoCompletion promptTheme
     ),
-    ("M-s m", wrapKbdLayout . manPrompt $ promptNoCompletion promptTheme),
+    ("M-s m", wrapKbdLayout . manPrompt $ simplestSearch promptTheme),
     ("M-s t", wrapKbdLayout $ tmuxPrompt promptTheme),
     ("M-s p", wrapKbdLayout $ passPrompt passPromptTheme),
     ("M-s w", wrapKbdLayout $ switchProjectPrompt promptTheme),

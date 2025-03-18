@@ -9,6 +9,7 @@ module XMonad.Custom.Prompt (
   promptNoHistory,
   gridSelectTheme,
   helpPromptConfig,
+  simplestSearch,
 ) where
 
 import Control.Arrow ((***))
@@ -28,6 +29,9 @@ promptNoHistory ptheme = ptheme {historyFilter = const [], historySize = 0}
 
 promptNoCompletion :: XPConfig -> XPConfig
 promptNoCompletion ptheme = promptNoHistory ptheme {autoComplete = Nothing}
+
+simplestSearch :: XPConfig -> XPConfig
+simplestSearch ptheme = ptheme {searchPredicate = isPrefixOf, sorter = const id}
 
 promptTheme, hotPromptTheme, promptThemeVim :: XPConfig
 promptTheme =

@@ -5,6 +5,10 @@ show_hidden = true
 sort_dir_first = true
 sort_by = "mtime"
 sort_reverse = true
+keymap = [
+  # Spotting
+  { on = "<Tab>", run = "spot", desc = "Spot hovered file" },
+]
 
 [plugin]
 prepend_previewers = [

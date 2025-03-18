@@ -449,7 +449,7 @@ with my;
 
   hardware.trackpoint = enabled // {
     speed = 500;
-    sensitivity = 200;
+    sensitivity = 255;
   };
 
   hardware.graphics = enabled // {
@@ -604,8 +604,8 @@ with my;
     "-05d6:000a:2a5c56c6"
   ];
 
-  # networking.wireless.iwd.settings.General.AddressRandomization = "network";
-  # networking.wireless.iwd.settings.General.AddressRandomizationRange = "full";
+  networking.wireless.iwd.settings.General.AddressRandomization = "network";
+  networking.wireless.iwd.settings.General.AddressRandomizationRange = "full";
 
   # monitors
   # services.udev.extraRules =
@@ -640,22 +640,22 @@ with my;
         #   scx
         #   ;
 
-        inherit
-          (fromRev "c96875e768da1b176250c3bd0edce6b4f7b5d4bb" "sha256-y+Hw+NYmqhAXErmrwF3+DKsXyv0qJuyIs87fnBuNFeI=")
-          code-cursor
-          ;
-        # code-cursor = pkgs.unstable.code-cursor.overrideAttrs (old: {
-        #   postInstall = ''
-        #     MAIN_JS="$out/share/cursor/resources/app/out/main.js"
-        #     CLI_PROCESS_MAIN_JS="$out/share/cursor/resources/app/out/vs/code/node/cliProcessMain.js"
-        #     substituteInPlace "$MAIN_JS" \
-        #       --replace-fail 'async getMachineId(){return this.a??this.c.machineId}' 'async getMachineId(){return crypto.randomUUID();}' \
-        #       --replace-fail 'async getMacMachineId(){return this.b??this.c.macMachineId}' 'async getMacMachineId(){return crypto.randomUUID() + crypto.randomUUID();}' \
-        #       --replace-fail 'function o$(t){switch(mm){case"darwin":return' 'function o$(t){return crypto.randomUUID(); switch(mm){case"darwin":return'
-        #     substituteInPlace "$CLI_PROCESS_MAIN_JS" \
-        #       --replace-fail 'function Z7(t){switch(Sl){case"darwin":return' 'function Z7(t){return crypto.randomUUID(); switch(Sl){case"darwin":return'
-        #   '';
-        # });
+        # inherit
+        #   (fromRev "c96875e768da1b176250c3bd0edce6b4f7b5d4bb" "sha256-y+Hw+NYmqhAXErmrwF3+DKsXyv0qJuyIs87fnBuNFeI=")
+        #   code-cursor
+        #   ;
+        code-cursor = pkgs.unstable.code-cursor.overrideAttrs (old: {
+          postInstall = ''
+            MAIN_JS="$out/share/cursor/resources/app/out/main.js"
+            CLI_PROCESS_MAIN_JS="$out/share/cursor/resources/app/out/vs/code/node/cliProcessMain.js"
+            substituteInPlace "$MAIN_JS" \
+              --replace-fail 'async getMachineId(){return this.a??this.c.machineId}' 'async getMachineId(){return crypto.randomUUID();}' \
+              --replace-fail 'async getMacMachineId(){return this.b??this.c.macMachineId}' 'async getMacMachineId(){return crypto.randomUUID() + crypto.randomUUID();}' \
+              --replace-fail 'function o$(t){switch(mm){case"darwin":return' 'function o$(t){return crypto.randomUUID(); switch(mm){case"darwin":return'
+            substituteInPlace "$CLI_PROCESS_MAIN_JS" \
+              --replace-fail 'function Z7(t){switch(Sl){case"darwin":return' 'function Z7(t){return crypto.randomUUID(); switch(Sl){case"darwin":return'
+          '';
+        });
 
         distrobox = prev.distrobox_git;
         telegram-desktop = prev.telegram-desktop_git;

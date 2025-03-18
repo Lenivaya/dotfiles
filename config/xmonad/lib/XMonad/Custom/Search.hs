@@ -72,12 +72,70 @@ myEngines =
       "https://github.com/NixOS/nixpkgs/pulls?q=",
     searchEngine
       "githubCode"
-      "https://github.com/search?type=code&q={searchTerms}",
+      "https://github.com/search?type=code&q=",
+    searchEngine
+      "gitlab"
+      "https://gitlab.com/search",
+    searchEngine
+      "sourcehut"
+      "https://sr.ht/projects?search=",
+    searchEngine
+      "sourceGraph"
+      "https://sourcegraph.com/search?q=",
+    searchEngine
+      "genius"
+      "https://genius.com/search?q=",
     searchEngine
       "mdn"
       "https://developer.mozilla.org/en-US/search?q=",
-    prefixAware
-      google
+    searchEngine
+      "lastfm"
+      "https://www.last.fm/search?q=",
+    searchEngine
+      "npm"
+      "https://www.npmjs.com/search?q=",
+    searchEngine
+      "pypi"
+      "https://pypi.org/search/?q=",
+    searchEngine
+      "python"
+      "https://docs.python.org/3/search.html?q=",
+    searchEngine
+      "googleFonts"
+      "https://fonts.google.com/?query=",
+    searchEngine
+      "canIUse"
+      "https://caniuse.com/?search=",
+    searchEngine
+      "huggingFace"
+      "https://huggingface.co/search?q=",
+    searchEngine
+      "huggingFaceModels"
+      "https://huggingface.co/models",
+    searchEngine
+      "devDocs"
+      "https://devdocs.io/#q=",
+    searchEngine "flatHub" "https://flathub.org/apps/search?q=",
+    searchEngine "hackerNews" "https://hn.algolia.com/",
+    searchEngine "ubuntuPackages" "https://packages.ubuntu.com/search?keywords=",
+    searchEngine "debinaPackages" "https://packages.debian.org/search?keywords=",
+    searchEngine "archPackages" "https://archlinux.org/packages/?q=",
+    searchEngine "waybackMachine" "https://web.archive.org/web/*/",
+    searchEngine "man pages" "https://man.archlinux.org/search?q=",
+    searchEngine "httpStatus" "https://httpstatuses.com/",
+    searchEngine "emojipedia" "https://emojipedia.org/search/?q=",
+    searchEngine "flakehub" "https://flakehub.com/flakes?q=",
+    searchEngine "explainShell" "https://explainshell.com/explain?cmd=",
+    searchEngine "cheatsh" "https://cheat.sh/",
+    searchEngine "arxiv" "https://arxiv.org/search/?searchtype=all&query=",
+    searchEngine "nuget" "https://www.nuget.org/packages?q=",
+    searchEngine "recipeSearch" "https://recipe-search.typesense.org/?q=",
+    searchEngine "whoisLookup" "https://who.is/whois/{searchTerms}",
+    searchEngine "dnsLookup" "https://dns.google/query?name={searchTerms}",
+    searchEngine "downDetector" "https://downdetector.com/status/",
+    searchEngine
+      "google"
+      "https://www.google.com/search?q="
   ]
 
 engineNames :: [String]

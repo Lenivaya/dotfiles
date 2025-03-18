@@ -2,6 +2,7 @@ Config
   { font = "monospace Regular 12",
     additionalFonts =
       [ "monospace Regular 12",
+        "monospace Bold 12",
         "monospace Regular 10"
       ],
     bgColor = "#0b0806",

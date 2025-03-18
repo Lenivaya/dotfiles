@@ -1,5 +1,7 @@
+{-# LANGUAGE BangPatterns #-}
 {-# LANGUAGE GeneralizedNewtypeDeriving #-}
 {-# LANGUAGE ImportQualifiedPost #-}
+{-# LANGUAGE LambdaCase #-}
 {-# LANGUAGE NamedFieldPuns #-}
 {-# LANGUAGE StrictData #-}
 
@@ -96,118 +98,97 @@ newtype RecentWindows = RecentWindows () deriving (Semigroup)
 data RecentWindowsState = RecentWindowsState
   { -- | Flag to prevent recursive updates
     busy :: !Bool,
-    hist :: !(History Window Location)
+    hist :: !(History Window Location),
+    -- | Cache of focused window to avoid redundant updates
+    lastFocused :: !(Maybe Window)
   }
   deriving (Show, Read)
 
 instance ExtensionClass RecentWindowsState where
-  initialValue = RecentWindowsState False origin
+  initialValue = RecentWindowsState False origin Nothing
   extensionType = PersistentExtension
 
 -- | Represents a window with its display information
 data WindowInfo = WindowInfo
-  { winId :: Window,
-    winName :: String,
-    winIndex :: Maybe Int,
-    winChord :: Maybe String
+  { winId :: !Window,
+    winName :: !String,
+    winIndex :: !(Maybe Int),
+    winChord :: !(Maybe String)
   }
 
 -- }}}
 
--- | Trim the history to keep only the most recent windows
+-- | Efficiently trim the history to keep only the most recent windows
 trimHistory :: History Window Location -> History Window Location
 trimHistory h =
   let entries = ledger h
       len = length entries
   in  if len <= maxHistorySize
         then h
-        else -- Rebuild history with only the most recent maxHistorySize entries
-          foldr (\(w, loc) hist -> event w loc hist) origin (take maxHistorySize entries)
+        else -- Take only the most recent maxHistorySize entries and rebuild the history
+        -- This is more efficient than folding over the entire list
 
+          let !recentEntries = take maxHistorySize entries
+          in  foldr (\(w, loc) hist -> event w loc hist) origin recentEntries
+
+-- | Log window history with check for redundant updates
 logWinHist :: X ()
 logWinHist = do
-  wh@RecentWindowsState {busy, hist} <- XS.get
+  wh@RecentWindowsState {busy, hist, lastFocused} <- XS.get
   unless busy $ do
     cs <- gets (W.current . windowset)
     let cws = W.workspace cs
     for_ (W.stack cws) $ \st -> do
-      let location = Location {workspace = W.tag cws, screen = W.screen cs}
-          updatedHist = event (W.focus st) location hist
-          trimmedHist = trimHistory updatedHist
-      XS.put wh {hist = trimmedHist}
+      let currentFocus = W.focus st
+      -- Only update if this is a new focus
+      when (lastFocused /= Just currentFocus) $ do
+        let location = Location {workspace = W.tag cws, screen = W.screen cs}
+            updatedHist = event currentFocus location hist
+            trimmedHist = trimHistory updatedHist
+        XS.put wh {hist = trimmedHist, lastFocused = Just currentFocus}
 
+-- | Event handler for window history events
 winHistEH :: Event -> X All
-winHistEH ev =
-  All True <$ case ev of
-    UnmapEvent {ev_send_event = synth, ev_window = w} -> do
-      e <- gets (fromMaybe 0 . M.lookup w . waitingUnmap)
-      when (synth || e == 0) (collect w)
-    DestroyWindowEvent {ev_window = w} -> collect w
-    _ -> pure ()
+winHistEH = \case
+  UnmapEvent {ev_send_event = synth, ev_window = w} -> do
+    e <- gets (fromMaybe 0 . M.lookup w . waitingUnmap)
+    when (synth || e == 0) (collect w)
+    return (All True)
+  DestroyWindowEvent {ev_window = w} -> do
+    collect w
+    return (All True)
+  _ -> return (All True)
   where
-    collect w = XS.modify $ \wh@RecentWindowsState {hist} -> wh {hist = erase w hist}
-
--- }}}
+    collect w = XS.modify $ \wh@RecentWindowsState {hist} ->
+      wh {hist = erase w hist, lastFocused = Nothing}
 
 {-| Perform an action on a window at specified position in the MRU history.
 The position is 1-based, where 1 is the most recently used window.
 If the position is out of bounds, no action is performed.
-
-Example usage:
-> withRecentWindow 2 windows W.swapUp  -- Swap the second most recent window up
-> withRecentWindow 1 windows W.sink    -- Sink the most recent window
-> withRecentWindow 3 (windows . W.focusWindow) -- Focus the third most recent window
 -}
 withRecentWindow :: Int -> (Window -> X ()) -> X ()
 withRecentWindow pos action = do
   RecentWindowsState {hist} <- XS.get
-  case ledger hist of
-    [] -> return () -- No windows in history
-    ws -> do
-      let winList = map fst ws -- Extract just the Window from each tuple
-      -- Check if position is valid (convert from 1-based to 0-based)
-      let zeroBasedPos = pos - 1
-      case listToMaybe $ drop zeroBasedPos winList of
-        Just win | pos > 0 -> action win
-        _ -> return ()
+  let windows = map fst (ledger hist)
+
+  -- More efficient window lookup using a direct index check
+  when (pos > 0 && pos <= length windows) $
+    action (windows !! (pos - 1))
 
 {-| Get the N most recently used windows.
 Returns a list of windows in order from most recent to least recent.
-If N is larger than the number of available windows, returns all available windows.
-
-Example usage:
-> getRecentWindows 2  -- Get the two most recent windows
-> getRecentWindows 5  -- Get the five most recent windows
 -}
 getRecentWindows :: Int -> X [Window]
 getRecentWindows n = do
   RecentWindowsState {hist} <- XS.get
   focused <- gets (W.peek . windowset)
-  -- Get all entries from the history ledger
-  let entries = ledger hist
-      -- Extract windows with their usage timestamps, most recent first
-      windows = map fst entries
-      -- Filter out currently focused window and take n elements
-      recentWindows = take n $ filter (\w -> Just w /= focused) windows
+  let windows = map fst (ledger hist)
+      -- Early check for empty list to avoid redundant filtering
+      recentWindows =
+        if null windows
+          then []
+          else take n $ filter (\w -> Just w /= focused) windows
   return recentWindows
-
-{-| Show a prompt with numbered recent windows and allow selection by number or fuzzy search.
-The function provides two ways to select a window:
-1. Type a number to quickly select window by its position (1-9)
-2. Type text to fuzzy search window names
-
-The prompt shows windows in format "number: window_name".
-Current (focused) window is excluded from the list.
-
-Example usage:
-> withNumberedWindows promptTheme (windows . W.focusWindow)  -- Focus selected window with custom prompt theme
-> withNumberedWindows def (windows . W.swapUp)              -- Swap selected window up using default theme
-> withNumberedWindows myXPConfig (windows . W.sink)         -- Sink selected window using custom XPConfig
-
-Parameters:
-  * xpconfig - XPrompt configuration determining appearance and behavior of the selection prompt
-  * action   - Function to apply to the selected window
--}
 
 -- | Data types for window prompts
 data RecentWindowPrompt = RecentWindowPrompt
@@ -221,11 +202,6 @@ instance XPrompt RecentWindowPrompt where
 instance XPrompt ChordWindowPrompt where
   showXPrompt ChordWindowPrompt = "Window Chord: "
   commandToComplete _ = id
-
-{-| Show recent windows with chord-based selection.
-Uses vim-like chord sequences for quick selection, falling back to fuzzy search
-if the input doesn't match any chord.
--}
 
 -- | Helper functions for window management
 class WindowOps a where
@@ -246,42 +222,57 @@ adjustXPConfig num cfg =
         map toLower needle `isInfixOf` map toLower haystack
     }
 
--- | Select window using vim-style chord sequence
-withChordSelection :: Int -> XPConfig -> (Window -> X ()) -> X ()
-withChordSelection numWindows xpconfig action = do
-  -- Get windows in order (most recent first)
+-- | Common window selection functionality used by both chord and numbered selection
+data SelectionType = ChordType | NumberType
+  deriving (Eq)
+
+-- | Format window info based on selection type
+formatWindowInfo :: SelectionType -> WindowInfo -> String
+formatWindowInfo ChordType info =
+  "[" ++ fromMaybe "?" (winChord info) ++ "] " ++ winName info
+formatWindowInfo NumberType info =
+  maybe "" show (winIndex info) ++ ": " ++ winName info
+
+-- | Generic window selection function that works with both chord and number selection
+withWindowSelection :: SelectionType -> Int -> XPConfig -> (Window -> X ()) -> X ()
+withWindowSelection selType maxWindows xpconfig action = do
+  let numWindows = if selType == NumberType then min 9 maxWindows else maxWindows
   windows <- getRecentWindows numWindows
-  unless (null windows) $ processWindowSelection windows
+  unless (null windows) $ processWindows windows
   where
-    processWindowSelection :: [Window] -> X ()
-    processWindowSelection ws = do
-      -- Windows are already in MRU order from getRecentWindows
-      winInfos <- mapM getWindowInfo ws
-      let chordScheme = customChordScheme "asdfjkl;ghqwertyuiopzxcvbnm" FrequencyBased
-          chordMapRaw = generateChords chordScheme ws
-          chordMap = M.fromList [(w, s) | (s, w) <- M.toList $ fromMaybe M.empty chordMapRaw]
-          decoratedInfos = map (addChordInfo chordMap) winInfos
+    processWindows ws = do
+      winInfos <- traverse getWindowInfo ws
 
-      showWindowPrompt decoratedInfos
+      -- Add indices or chords based on selection type
+      decoratedInfos <- case selType of
+        NumberType ->
+          pure $ zipWith (\i info -> info {winIndex = Just i}) [1 ..] winInfos
+        ChordType -> do
+          let chordScheme = customChordScheme "asdfjkl;ghqwertyuiopzxcvbnm" FrequencyBased
+              chordMapRaw = generateChords chordScheme ws
+              chordMap = M.fromList [(w, s) | (s, w) <- M.toList $ fromMaybe M.empty chordMapRaw]
+          pure $ map (\info -> info {winChord = M.lookup (winId info) chordMap}) winInfos
 
-    addChordInfo :: M.Map Window String -> WindowInfo -> WindowInfo
-    addChordInfo chordMap info =
-      info {winChord = M.lookup (winId info) chordMap}
+      -- Generate display maps and names
+      let displayMap = M.fromList [(formatWindowInfo selType i, winId i) | i <- decoratedInfos]
+          displayNames = map (formatWindowInfo selType) decoratedInfos
 
-    showWindowPrompt infos = do
-      -- Use lists to preserve the recency ordering instead of Map's keys
-      let displayMap = M.fromList [(formatWindowEntry i, winId i) | i <- infos]
-          displayNames = map formatWindowEntry infos
+      -- Choose the appropriate function based on selection type
+      case selType of
+        ChordType ->
+          mkXPrompt
+            ChordWindowPrompt
+            (adjustXPConfig maxWindows xpconfig)
+            (mkChordCompleter displayNames)
+            (selectWindow displayMap)
+        NumberType ->
+          mkXPrompt
+            RecentWindowPrompt
+            (adjustXPConfig 9 xpconfig)
+            (mkNumberCompleter displayNames xpconfig)
+            (selectWindow displayMap)
 
-      mkXPrompt
-        ChordWindowPrompt
-        (adjustXPConfig numWindows xpconfig)
-        (mkChordCompleter displayNames)
-        (selectWindow displayMap)
-
-    formatWindowEntry info =
-      "[" ++ fromMaybe "?" (winChord info) ++ "] " ++ winName info
-
+    -- Chord matching completer
     mkChordCompleter names input = do
       return $ filter (matchChord input) names
       where
@@ -291,82 +282,44 @@ withChordSelection numWindows xpconfig action = do
             Just chord -> input `isPrefixOf` chord
             Nothing -> False
 
-    selectWindow displayMap str =
-      whenJust (M.lookup str displayMap) action
-
-{-| Original numbered selection implementation
-| Select window using number keys (1-9)
--}
-withNumberedSelection :: XPConfig -> (Window -> X ()) -> X ()
-withNumberedSelection xpconfig action = do
-  -- Get windows in order (most recent first), limited to 9 for number keys
-  windows <- getRecentWindows 9
-  unless (null windows) $ processNumberedWindows windows
-  where
-    processNumberedWindows ws = do
-      -- Preserve order by using traverse instead of mapM
-      winInfos <- traverse getWindowInfo ws
-      -- Use strict zipWith to maintain ordering
-      let numberedInfos = zipWith' addIndex [1 ..] winInfos
-      showNumberedPrompt numberedInfos
-      where
-        zipWith' f (x : xs) (y : ys) = f x y : zipWith' f xs ys
-        zipWith' _ _ _ = []
-
-    addIndex i info = info {winIndex = Just i}
-
-    showNumberedPrompt infos = do
-      -- Use lists to preserve the recency ordering instead of Map's keys
-      let displayMap = M.fromList [(formatNumberedEntry i, winId i) | i <- infos]
-          displayNames = map formatNumberedEntry infos
-
-      mkXPrompt
-        RecentWindowPrompt
-        (adjustXPConfig 9 xpconfig)
-        (mkNumberCompleter displayNames)
-        (selectWindow displayMap)
-
-    formatNumberedEntry info =
-      maybe "" show (winIndex info) ++ ": " ++ winName info
-
-    mkNumberCompleter names input = case input of
+    -- Number matching completer
+    mkNumberCompleter names xpc input = case input of
       (d : _)
         | d `elem` ['0' .. '9'] ->
             return $ filter (matchesNumber d) names
-      _ -> mkComplFunFromList xpconfig names input
+      _ -> mkComplFunFromList xpc names input
       where
         matchesNumber d str =
           let prefix = if d == '0' then "10" else [d]
           in  prefix `isPrefixOf` takeWhile (/= ':') str
 
-    selectWindow displayMap =
-      flip whenJust action . flip M.lookup displayMap
+    -- Common window selection function
+    selectWindow displayMap str =
+      whenJust (M.lookup str displayMap) action
+
+-- | Select window using vim-style chord sequence
+withChordSelection :: Int -> XPConfig -> (Window -> X ()) -> X ()
+withChordSelection = withWindowSelection ChordType
+
+-- | Select window using number keys (1-9)
+withNumberedSelection :: XPConfig -> (Window -> X ()) -> X ()
+withNumberedSelection = withWindowSelection NumberType 9
 
 {-| Show N most recent windows on screen with their names.
 Windows are displayed as "number:shortened_name".
-Names are shortened to specified length with "..." if needed.
-
-Example usage:
-
-showRecentWindows
-  :: Int
-  -- ^ Number of windows to show
-  -> Int
-  -- ^ Length to shorten window names to
-  -> Double
-  -- ^ Time in seconds to show the text
-  -> X ()
 -}
 showRecentWindows :: Int -> Int -> Double -> X ()
 showRecentWindows numWindows shortenLength displayTime = do
-  -- Reverse the windows list to match the display order we want (most recent first)
-  windows <- reverse <$> getRecentWindows numWindows
+  windows <- getRecentWindows numWindows
   unless (null windows) $ do
-    windowNames <- forM (zip [1 ..] windows) $ \(i, w) -> do
-      name <- show <$> getName w
-      return $ show i ++ ":" ++ shorten shortenLength name
+    -- Use traverse for better performance with strict evaluation
+    windowNames <- traverse formatWindow (zip [1 ..] windows)
 
     flashText
       def {st_font = "xft:chordmonospace:size=12"}
       (ceiling (displayTime * 100) % 100)
       (intercalate " | " windowNames)
+  where
+    formatWindow (i, w) = do
+      name <- show <$> getName w
+      return $ show i ++ ":" ++ shorten shortenLength name

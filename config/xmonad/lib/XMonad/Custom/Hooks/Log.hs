@@ -64,17 +64,19 @@ layoutName' l = do
 layoutNamePure :: String -> String
 layoutNamePure = layoutName
 
+boldFont = xmobarFont 2
+
 topBarPP :: PP
 topBarPP =
   def
-    { ppCurrent = xmobarColor white2 "" . xmobarFont 1 . wrap "=" "=",
+    { ppCurrent = xmobarColor white2 "" . boldFont . wrap "=" "=",
       ppVisible = xmobarColor white1 "" . wrap "~" "~",
       ppHidden = xmobarColor white1 "" . wrap "-" "-",
       ppHiddenNoWindows = xmobarColor white1 "" . wrap "_" "_",
       ppUrgent = xmobarColor red2 "" . wrap "!" "!",
       ppSep = " / ",
       ppWsSep = " ",
-      ppTitle = xmobarColor white1 "" . shorten 60,
+      ppTitle = boldFont . xmobarColor white1 "" . shorten 100,
       -- ppTitleSanitize = xmobarStrip,
       ppLayout = xmobarColor white1 "" . layoutNamePure,
       ppOrder = \(ws : l : t : ex) -> [ws, l] ++ ex ++ [t],
@@ -88,9 +90,9 @@ topBarPP' = do
 
   let copiesCurrent ws
         | ws `elem` c =
-            xmobarColor yellow2 "" . xmobarFont 1 . wrap "*" "=" $ ws
+            xmobarColor yellow2 "" . boldFont . wrap "*" "=" $ ws
         | otherwise =
-            xmobarColor white2 "" . xmobarFont 1 . wrap "=" "=" $ ws
+            xmobarColor white2 "" . boldFont . wrap "=" "=" $ ws
   let copiesHidden ws
         | ws `elem` c = xmobarColor yellow1 "" . wrap "*" "-" $ ws
         | otherwise = xmobarColor white1 "" . wrap "-" "-" $ ws
