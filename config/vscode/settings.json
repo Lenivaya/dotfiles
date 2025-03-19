@@ -569,7 +569,7 @@
   "window.titleBarStyle": "custom",
   "workbench.iconTheme": "catppuccin-mocha",
   "workbench.colorTheme": "Min Tomorrow Dark",
-  "editor.renderWhitespace": "none",
+  "editor.renderWhitespace": "all",
   "find-it-faster.general.useTerminalInEditor": true,
   "fzf-picker.general.openCommand": "cursor -g",
   "fzf-picker.customTasks": [

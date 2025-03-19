@@ -29,7 +29,7 @@ in
             rightshift = "backspace";
 
             leftshift = "oneshot(shift)";
-            leftmeta = "oneshot(meta)";
+            # leftmeta = "oneshot(meta)";
             rightalt = "oneshot(alt)";
           };
 

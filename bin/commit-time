@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+# Get current time with seconds precision
+current_time=$(date +'%H:%M:%S')
+
+echo "Creating commit with timestamp: $current_time"
+git commit -m "Update at $current_time" "$@"
