@@ -142,7 +142,7 @@ with my;
       elixir = enabled;
       rust = enabled;
       go = enabled;
-      haskell = enabled;
+      # haskell = enabled;
       node = enabled // {
         package = pkgs.unstable.nodejs_23;
       };
@@ -155,7 +155,7 @@ with my;
 
     services = {
       # warp = enabled;
-      ananicy = enabled;
+      # ananicy = enabled;
       clipcat = enabled;
       # greenclip = enabled;
       kdeconnect = enabled;
@@ -361,14 +361,14 @@ with my;
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   # https://github.com/sched-ext/scx/issues/1188
   # https://wiki.cachyos.org/configuration/sched-ext/#disable-ananicy-cpp
-  # services.scx = enabled // {
-  #   scheduler = "scx_bpfland";
-  #   package = pkgs.scx_git.full;
-  #   # extraArgs = [
-  #   #   "-p"
-  #   #   "-m performance"
-  #   # ]; # https://github.com/sched-ext/scx/issues/1247
-  # };
+  services.scx = enabled // {
+    scheduler = "scx_bpfland";
+    package = pkgs.scx_git.full;
+    # extraArgs = [
+    #   "-p"
+    #   "-m performance"
+    # ]; # https://github.com/sched-ext/scx/issues/1247
+  };
 
   networking.firewall = {
     allowedUDPPortRanges = [
@@ -413,7 +413,7 @@ with my;
   ";
 
   environment.systemPackages = with pkgs; [
-    code-cursor
+    my.code-cursor
     (inxi.override { withRecommends = true; })
     khal
     ayugram-desktop
@@ -639,25 +639,14 @@ with my;
           ;
 
         # inherit (pkgs.unstable-small)
-        #   scx
+        #   readest
         #   ;
 
+        # 44.11
         # inherit
         #   (fromRev "c96875e768da1b176250c3bd0edce6b4f7b5d4bb" "sha256-y+Hw+NYmqhAXErmrwF3+DKsXyv0qJuyIs87fnBuNFeI=")
         #   code-cursor
         #   ;
-        # code-cursor = pkgs.unstable.code-cursor.overrideAttrs (old: {
-        #   postInstall = ''
-        #     MAIN_JS="$out/share/cursor/resources/app/out/main.js"
-        #     CLI_PROCESS_MAIN_JS="$out/share/cursor/resources/app/out/vs/code/node/cliProcessMain.js"
-        #     substituteInPlace "$MAIN_JS" \
-        #       --replace-fail 'async getMachineId(){return this.a??this.c.machineId}' 'async getMachineId(){return crypto.randomUUID();}' \
-        #       --replace-fail 'async getMacMachineId(){return this.b??this.c.macMachineId}' 'async getMacMachineId(){return crypto.randomUUID() + crypto.randomUUID();}' \
-        #       --replace-fail 'function o$(t){switch(mm){case"darwin":return' 'function o$(t){return crypto.randomUUID(); switch(mm){case"darwin":return'
-        #     substituteInPlace "$CLI_PROCESS_MAIN_JS" \
-        #       --replace-fail 'function Z7(t){switch(Sl){case"darwin":return' 'function Z7(t){return crypto.randomUUID(); switch(Sl){case"darwin":return'
-        #   '';
-        # });
 
         distrobox = prev.distrobox_git;
         telegram-desktop = prev.telegram-desktop_git;

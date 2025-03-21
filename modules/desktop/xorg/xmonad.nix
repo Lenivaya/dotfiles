@@ -87,6 +87,11 @@ in
         "-funbox-strict-fields"
         "-flate-dmd-anal"
 
+        # Additional optimization flags
+        "-optc-fomit-frame-pointer" # Reduce function call overhead
+        "-optc-fno-plt" # Performance improvement for function calls
+        "-fasm-shortcutting" # More aggressive optimizations
+
         "-flto"
         "-optc-flto"
         "-optl-flto"

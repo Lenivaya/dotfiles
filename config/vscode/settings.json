@@ -448,8 +448,6 @@
     "editor.wordSeparators": "`~!@#$%^&*()=+[{]}\\|;:'\",.<>/?"
   },
   "tinymist.formatterMode": "typstyle",
-  "super-figure.vectorFigureEditor": "inkscape",
-  "super-figure.bitmapFigureEditor": "gimp",
   "[bibtex]": {
     "editor.defaultFormatter": "efoerster.texlab"
   },
@@ -567,8 +565,7 @@
   "editor.semanticHighlighting.enabled": true,
   "terminal.integrated.minimumContrastRatio": 1,
   "window.titleBarStyle": "custom",
-  "workbench.iconTheme": "catppuccin-mocha",
-  "workbench.colorTheme": "Min Tomorrow Dark",
+  "workbench.iconTheme": "catppuccin-frappe",
   "editor.renderWhitespace": "all",
   "find-it-faster.general.useTerminalInEditor": true,
   "fzf-picker.general.openCommand": "cursor -g",
@@ -583,7 +580,7 @@
   "leetcode.defaultLanguage": "python3",
   "leetcode.hint.commandShortcut": false,
   "leetcode.hint.commentDescription": false,
-  "cursor.cpp.disabledLanguages": ["plaintext", "scminput"],
+  "cursor.cpp.disabledLanguages": ["scminput"],
   "window.commandCenter": 1,
   "guides.enabled": false,
   "redhat.telemetry.enabled": false,
@@ -596,5 +593,9 @@
   "windsurf.openRecentConversation": true,
   "windsurf.explainAndFixInCurrentConversation": true,
   "windsurf.enableAutocomplete": true,
-  "editor.fontSize": 16
+  "editor.fontSize": 16,
+  "workbench.colorTheme": "Min Tomorrow Dark",
+  "super-figure.vectorFigureEditor": "/usr/bin/inkscape",
+  "super-figure.bitmapFigureEditor": "/usr/bin/gimp",
+  "editor.unicodeHighlight.ambiguousCharacters": false
 }
