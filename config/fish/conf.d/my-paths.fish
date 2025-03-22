@@ -17,6 +17,7 @@ function __async_my_paths_adder --on-event fish_prompt
     fish_add_path ~/.local/share/bob-nvim/nvim-linux64/bin
     fish_add_path /var/lib/flatpak/exports/bin/
     fish_add_path ~/.local/share/mise/shims
+    fish_add_path ~/.deno/bin
 
     # pnpm
     set -gx PNPM_HOME "/home/leniviy/.local/share/pnpm"

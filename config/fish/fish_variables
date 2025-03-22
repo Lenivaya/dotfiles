@@ -99,3 +99,4 @@ SETUVAR fish_pager_color_selected_background:\x2d\x2dbackground\x3dbrblack
 SETUVAR fish_pager_color_selected_completion:\x1d
 SETUVAR fish_pager_color_selected_description:\x1d
 SETUVAR fish_pager_color_selected_prefix:\x1d
+SETUVAR --export fish_user_paths:/home/leniviy/\x2edotnet/tools\x1e/home/leniviy/\x2edeno/bin\x1e/home/leniviy/\x2ecache/npm\x1e/home/leniviy/\x2elocal/bin\x1e/bin\x1e/home/leniviy/\x2econfig/dotfiles/bin

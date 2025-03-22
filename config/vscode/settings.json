@@ -22,7 +22,6 @@
   },
   "editor": {
     "cursorBlinking": "solid",
-    "cursorSmoothCaretAnimation": false,
     "fontLigatures": true,
     "lineHeight": 20,
     "lineNumbers": "relative",
@@ -417,7 +416,7 @@
   "files.autoSave": "off",
   "files.autoSaveDelay": 1000,
   "editor.accessibilitySupport": "off",
-  "editor.cursorSmoothCaretAnimation": "off",
+  "editor.cursorSmoothCaretAnimation": "on",
   "workbench.tips.enabled": false,
   "files.autoGuessEncoding": false,
   "emmet.showExpandedAbbreviation": "never",
@@ -535,7 +534,6 @@
       "command": "editor.action.codeAction"
     }
   ],
-  "editor.minimap.enabled": false,
   "github.copilot.selectedCompletionModel": "gpt-4o-copilot",
   "github.copilot.chat.edits.codesearch.enabled": true,
   "github.copilot.chat.editor.temporalContext.enabled": true,
@@ -565,7 +563,7 @@
   "editor.semanticHighlighting.enabled": true,
   "terminal.integrated.minimumContrastRatio": 1,
   "window.titleBarStyle": "custom",
-  "workbench.iconTheme": "catppuccin-frappe",
+  "workbench.iconTheme": "catppuccin-mocha",
   "editor.renderWhitespace": "all",
   "find-it-faster.general.useTerminalInEditor": true,
   "fzf-picker.general.openCommand": "cursor -g",

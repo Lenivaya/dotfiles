@@ -156,10 +156,10 @@ applyCentering layouts =
     (centeredIfSingle 0.75 1 layouts) -- For ultrawide monitors (75% width)
     ( ifWider
         qhdWidth
-        (centeredIfSingle 0.85 1 layouts) -- For QHD monitors (80% width)
+        (centeredIfSingle 1 1 layouts) -- For QHD monitors
         ( ifWider
             fullHDWidth
-            (centeredIfSingle 0.95 1 layouts) -- For Full HD+ monitors (85% width)
+            (centeredIfSingle 1 1 layouts) -- For Full HD+ monitors
             layouts -- For smaller monitors (no centering)
         )
     )

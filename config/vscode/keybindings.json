@@ -398,5 +398,10 @@
     "key": "space",
     "command": "vspacecode.space",
     "when": "editorTextFocus && neovim.mode == normal"
+  },
+  {
+    "key": "ctrl+v",
+    "command": "-markdown.extension.editing.paste",
+    "when": "editorHasSelection && editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
   }
 ]

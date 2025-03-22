@@ -447,11 +447,13 @@ with my;
     maestral
 
     ciscoPacketTracer8
+    cozy
   ];
 
   hardware.trackpoint = enabled // {
     speed = 500;
     sensitivity = 255;
+    emulateWheel = true;
   };
 
   hardware.graphics = enabled // {
@@ -460,7 +462,7 @@ with my;
       intel-ocl
       intel-media-driver
       vaapiIntel
-      vaapiVdpau
+      vaapiVdpauenhanceda
       vpl-gpu-rt
       vulkan-loader
       vulkan-validation-layers
