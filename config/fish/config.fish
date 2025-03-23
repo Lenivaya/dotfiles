@@ -24,3 +24,10 @@ function __async_starship --on-event fish_prompt
     functions -e __async_starship
     starship init fish | source
 end
+
+# pnpm
+set -gx PNPM_HOME "/home/leniviy/.local/share/pnpm"
+if not string match -q -- $PNPM_HOME $PATH
+  set -gx PATH "$PNPM_HOME" $PATH
+end
+# pnpm end

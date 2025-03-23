@@ -1,6 +1,5 @@
 return {
   "kawre/leetcode.nvim",
-  build = ":TSUpdate html", -- if you have `nvim-treesitter` installed
   dependencies = {
     "nvim-telescope/telescope.nvim",
     -- "ibhagwan/fzf-lua",
@@ -8,6 +7,13 @@ return {
     "MunifTanjim/nui.nvim",
   },
   opts = {
+    lang = "python",
+    storage = {
+      home = "~/.leetcode",
+    },
+    description = {
+      position = "right",
+    },
     -- configuration goes here
   },
 }

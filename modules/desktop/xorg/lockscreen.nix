@@ -68,7 +68,9 @@ in
                   'xrandr --output "$PRIMARY_DISPLAY" --brightness 1' \
               ''
               # "--timer 200 'betterlockscreen -l dim' ''"
-              "--timer 200 'dm-tool lock' ''"
+              # "--timer 200 'betterlockscreen -l dim' ''"
+              # "--timer 200 'dm-tool lock' ''"
+              "--timer 200 '${getExe pkgs.lightlocker} --idle-hint' ''"
             ]
             # ++ optional modules.hardware.profiles.laptop.enable ''--timer 3600 "systemctl suspend" ""''
             ++ optional cfg.autoSuspend ''--timer 200 "systemctl suspend" ""''

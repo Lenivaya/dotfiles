@@ -452,7 +452,7 @@ with my;
 
   hardware.trackpoint = enabled // {
     speed = 500;
-    sensitivity = 255;
+    sensitivity = 250;
     emulateWheel = true;
   };
 
@@ -638,6 +638,7 @@ with my;
           windsurf
           readest
           kitty
+          neovim
           ;
 
         # inherit (pkgs.unstable-small)
@@ -654,7 +655,7 @@ with my;
         telegram-desktop = prev.telegram-desktop_git;
         yt-dlp = prev.yt-dlp_git;
         mpv = prev.mpv-vapoursynth;
-        neovim = optimizePkg inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+        # neovim = optimizePkg inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
         skippy-xd = optimizePkg prev.skippy-xd;
         dmenu = optimizePkg prev.dmenu;
         nsxiv = optimizePkg prev.nsxiv;
