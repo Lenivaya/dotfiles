@@ -385,6 +385,7 @@ keysSearch =
     ("M-s k", selectKbdLayout promptTheme),
     ("M-s l", wrapKbdLayout $ selectLayoutByName promptTheme),
     ("M-s S-l", switchToMRUKbdLayout),
+    ("M-s c", spawn "xcolor | tr -d '[:space:]' | xclip -selection clipboard"),
     ("M-s o", wrapKbdLayout $ selectScratchpadByName promptTheme)
   ]
   where

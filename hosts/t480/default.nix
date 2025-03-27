@@ -608,8 +608,8 @@ with my;
     "-05d6:000a:2a5c56c6"
   ];
 
-  networking.wireless.iwd.settings.General.AddressRandomization = "network";
-  networking.wireless.iwd.settings.General.AddressRandomizationRange = "full";
+  # networking.wireless.iwd.settings.General.AddressRandomization = "network";
+  # networking.wireless.iwd.settings.General.AddressRandomizationRange = "full";
 
   # monitors
   # services.udev.extraRules =
@@ -638,12 +638,12 @@ with my;
           windsurf
           readest
           kitty
-          neovim
+          legcord
           ;
 
-        # inherit (pkgs.unstable-small)
-        #   readest
-        #   ;
+        inherit (pkgs.unstable-small)
+          neovim
+          ;
 
         # 44.11
         # inherit

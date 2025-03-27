@@ -21,6 +21,7 @@ in
       miller
       ouch
       sox
+      xdragon
     ];
 
     # Embrace impurity and imperfection.

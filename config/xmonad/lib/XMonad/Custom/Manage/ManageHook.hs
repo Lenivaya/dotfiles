@@ -27,6 +27,7 @@ composeActions =
     appName =? "Junction" -?> doCenterFloat,
     -- appName =? "RAIL" -?> doIgnore,
     appName =? "RAIL" -?> tileNormal,
+    className =? "Dragon" -?> doCenterFloat,
     className =? "mpv" -?> tileNormal,
     className =? "Pinentry" -?> doCenterFloat,
     className =? "pinentry-gtk-2" -?> doCenterFloat,

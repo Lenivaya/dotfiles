@@ -8,7 +8,7 @@ return {
   config = function()
     require("mcphub").setup({
       -- Required options
-      port = 3000, -- Port for MCP Hub server
+      port = 6666, -- Port for MCP Hub server
       config = vim.fn.expand("~/mcpservers.json"), -- Absolute path to config file
 
       -- Optional options

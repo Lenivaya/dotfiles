@@ -407,7 +407,6 @@
   "rust-analyzer.cargo.allFeatures": true,
   "rust-analyzer.checkOnSave.command": "clippy",
   "rust-analyzer.cachePriming.enable": false,
-  "rust-analyzer.server.path": "rust-analyzer",
   "debug.toolBarLocation": "docked",
   "[csharp]": {
     "editor.formatOnSave": true,
@@ -595,5 +594,6 @@
   "workbench.colorTheme": "Min Tomorrow Dark",
   "super-figure.vectorFigureEditor": "/usr/bin/inkscape",
   "super-figure.bitmapFigureEditor": "/usr/bin/gimp",
-  "editor.unicodeHighlight.ambiguousCharacters": false
+  "editor.unicodeHighlight.ambiguousCharacters": false,
+  "svelte.enable-ts-plugin": true
 }

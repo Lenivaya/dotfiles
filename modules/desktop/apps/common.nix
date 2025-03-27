@@ -47,6 +47,7 @@ in
       libqalculate # calculator cli w/ currency conversion
       yt-dlp
       android-file-transfer
+      xcolor
     ]
     ++ optionals config.modules.desktop.enable [
       maim

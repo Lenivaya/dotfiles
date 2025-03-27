@@ -10,6 +10,11 @@ keymap = [
   { on = "<Tab>", run = "spot", desc = "Spot hovered file" },
 ]
 
+[opener]
+open = [
+  { run = 'xdg-open "$@"', orphan = true, desc = "Open", for = "unix" }, # add orphan = true
+]
+
 [plugin]
 prepend_previewers = [
   { name = "*.md", run = "glow" },
@@ -42,3 +47,6 @@ run = "git"
 id = "git"
 name = "*/"
 run = "git"
+
+[preview]
+image_delay = 0
