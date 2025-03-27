@@ -28,6 +28,7 @@ in
           black
           isort
           setuptools
+          requests
 
           pylint
           pyflakes
