@@ -71,7 +71,7 @@ with my;
           // {
             package = chrome';
           };
-        tor = enabled;
+        # tor = enabled;
       };
 
       term = {
@@ -238,7 +238,7 @@ with my;
       audio = enabled // {
         effects = enabled;
       };
-      fingerprint = enabled;
+      # fingerprint = enabled;
       touchpad = enabled;
       bluetooth = enabled;
       fs = enabled // {

@@ -54,20 +54,14 @@ with lib.my;
       browsers = {
         default = "google-chrome-stable";
 
-        # firefox = enabled // {
-        #   package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
-        #   executable = "firefox-nightly";
-        # };
         chromium =
           let
-            chrome' = pkgs.unstable-small.google-chrome;
+            chrome' = pkgs.google-chrome;
           in
           enabled
           // {
             package = chrome';
           };
-        # tor = enabled;
-        # qutebrowser = enabled;
       };
 
       term = {
@@ -76,7 +70,7 @@ with lib.my;
       };
 
       media = {
-        spotify = enabled;
+        # spotify = enabled;
         mpv = enabled;
 
         documents = enabled // {
@@ -92,7 +86,7 @@ with lib.my;
 
         recording = enabled // {
           # audio = enabled;
-          video = enabled;
+          # video = enabled;
         };
       };
 
@@ -448,11 +442,6 @@ with lib.my;
   #   // {
   #     device = "/dev/input/by-path/platform-i8042-serio-0-event-kbd";
   #   };
-
-  environment.shellAliases = {
-    shutUpAndGetOutOfMySight = "sudo modprobe -r uvcvideo && volumectl -m mute";
-    freemem = "sync && echo 3 | sudo tee /proc/sys/vm/drop_caches";
-  };
 
   # Dirty hack to have hosts file modifiable
   # (will be discarded on config change or reboot) [1]

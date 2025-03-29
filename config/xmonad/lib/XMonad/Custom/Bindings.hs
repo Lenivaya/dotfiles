@@ -238,6 +238,7 @@ keysDo =
     ("M-d s z", spawn $ C.screenZoomer C.applications),
     ("M-d w c", workspacePrompt promptTheme $ windows . copy),
     ("M-d c <Backspace>", spawn "clipcatctl clear"),
+    ("M-d l", spawn "dm-tool lock"),
     ("M-d m r", spawn "autorandr -c --force")
   ]
 

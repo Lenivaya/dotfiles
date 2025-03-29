@@ -86,7 +86,8 @@
 
     # t480 fingerprints
     nixos-06cb-009a-fingerprint-sensor = {
-      url = "github:bmanuel/nixos-06cb-009a-fingerprint-sensor";
+      # url = "github:bmanuel/nixos-06cb-009a-fingerprint-sensor";
+      url = "github:m4r1vs/nixos-06cb-009a-fingerprint-sensor";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
@@ -221,7 +222,11 @@
       nixosModules = {
         dotfiles = import ./.;
       } // mapModulesRec ./modules import;
-      nixosConfigurations = mapHosts ./hosts { };
+      nixosConfigurations = mapHosts ./hosts {
+        modules = [
+          inputs.nixos-06cb-009a-fingerprint-sensor.nixosModules."06cb-009a-fingerprint-sensor"
+        ];
+      };
 
       devShells."${system}".default = import ./shell.nix { inherit pkgs inputs system; };
       formatter.${system} = import ./extra/treefmt.nix {

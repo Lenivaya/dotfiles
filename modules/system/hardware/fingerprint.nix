@@ -8,7 +8,7 @@ in
   options.modules.hardware.fingerprint.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    services.fprintd = enabled // { };
+    services.fprintd = mkDefault enabled // { };
     security.pam.services.login.fprintAuth = mkDefault true;
     security.pam.services.xscreensaver.fprintAuth = mkDefault true;
   };

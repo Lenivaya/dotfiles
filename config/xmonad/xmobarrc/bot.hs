@@ -27,9 +27,9 @@ Config
           ]
           10,
         Run Date "%d.%m.%y / %A / %H:%M" "date" 10,
-        Run DateZone "<fc=#8f8b8a>(UTC: %H:%M)</fc>" "" "UTC" "utcdate" 10,
-        Run DateZone "<fc=#8f8b8a>(AS: %H:%M)</fc>" "" "Asia/Tokyo" "asiadate" 10,
-        Run DateZone "<fc=#8f8b8a>(US: %H:%M)</fc>" "" "America/New_York" "usdate" 10,
+        Run DateZone "<fc=#8f8b8a>🌐%H</fc>" "" "UTC" "utcdate" 10,
+        Run DateZone "<fc=#8f8b8a>🗼%H</fc>" "" "Asia/Tokyo" "asiadate" 10,
+        Run DateZone "<fc=#8f8b8a>🗽%H</fc>" "" "America/New_York" "usdate" 10,
         Run MultiCpu ["-t", "<fn=1>\62652</fn> <total>%"] 20,
         Run Memory ["-t", "<fn=1>\61381</fn>  <usedratio>%"] 20,
         Run ComX "player" [] "" "player" 20,
@@ -44,6 +44,6 @@ Config
       \}\
       \%player%\
       \{\
-      \%caffeine%   |  %date% %utcdate% %asiadate% %usdate%\
+      \%caffeine%   |  %date% · %utcdate% %asiadate% %usdate%\
       \ "
   }
