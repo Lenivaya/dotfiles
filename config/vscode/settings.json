@@ -531,6 +531,25 @@
       "name": "Run code action",
       "type": "command",
       "command": "editor.action.codeAction"
+    },
+    {
+      "keys": "g.c",
+      "name": "Commit last changes with AI",
+      "type": "command",
+      "command": "runCommands",
+      "args": {
+        "commands": [
+          {
+            "command": "git.stageAll"
+          },
+          {
+            "command": "cursor.generateGitCommitMessage"
+          },
+          {
+            "command": "git.commitAll"
+          }
+        ]
+      }
     }
   ],
   "github.copilot.selectedCompletionModel": "gpt-4o-copilot",
@@ -595,5 +614,6 @@
   "super-figure.vectorFigureEditor": "/usr/bin/inkscape",
   "super-figure.bitmapFigureEditor": "/usr/bin/gimp",
   "editor.unicodeHighlight.ambiguousCharacters": false,
-  "svelte.enable-ts-plugin": true
+  "svelte.enable-ts-plugin": true,
+  "editor.minimap.enabled": false
 }

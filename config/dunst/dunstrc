@@ -6,8 +6,8 @@
     # geometry = "330x50-10+50"
     # width = "330"
     # height = "60"
-    origin = "top-right"
-    offset = "20x60"
+    origin = "top-center"
+    offset = "0x60"
 
 
     separator_color = "#c8b38d"

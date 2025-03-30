@@ -28,7 +28,6 @@ with my;
         networking.stevenBlackHosts = enabled // {
           blockFakenews = true;
           blockGambling = true;
-          blockPorn = true;
         };
       }
       resterrs.nixosModules.default
@@ -251,7 +250,7 @@ with my;
     fast-networking = enabled;
   };
 
-  nix.package = pkgs.unstable.nixVersions.git;
+  nix.package = pkgs.unstable.nixVersions.latest;
   # nix.package = pkgs.lix_git;
 
   services.cpupower-gui = enabled;
@@ -462,7 +461,7 @@ with my;
       intel-ocl
       intel-media-driver
       vaapiIntel
-      vaapiVdpauenhanceda
+      vaapiVdpau
       vpl-gpu-rt
       vulkan-loader
       vulkan-validation-layers
@@ -550,17 +549,17 @@ with my;
 
   # https://www.reddit.com/r/NixOS/comments/1eqcgom/mitigate_pipewire_webcam_battery_drain/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
   # https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/2669
-  services.pipewire = {
-    wireplumber = {
-      extraConfig = {
-        "10-disable-camera" = {
-          "wireplumber.profiles" = {
-            main."monitor.libcamera" = "disabled";
-          };
-        };
-      };
-    };
-  };
+  # services.pipewire = {
+  #   wireplumber = {
+  #     extraConfig = {
+  #       "10-disable-camera" = {
+  #         "wireplumber.profiles" = {
+  #           main."monitor.libcamera" = "disabled";
+  #         };
+  #       };
+  #     };
+  #   };
+  # };
 
   home.programs.mpv.config = {
     profile = "fast";

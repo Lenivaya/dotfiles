@@ -403,5 +403,9 @@
     "key": "ctrl+v",
     "command": "-markdown.extension.editing.paste",
     "when": "editorHasSelection && editorTextFocus && editorLangId =~ /^markdown$|^rmd$|^quarto$/"
+  },
+  {
+    "key": "ctrl+i",
+    "command": "composerMode.agent"
   }
 ]

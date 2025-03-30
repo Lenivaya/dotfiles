@@ -18,9 +18,9 @@ in
 
     home.services.dunst = enabled // {
       settings = {
-        globals = {
+        global = {
           follow = "keyboard";
-          origin = "top-right";
+          origin = "top-center";
           offset = "20x80";
           separator_color = "#c8b38d";
           indicate_hidden = "yes";

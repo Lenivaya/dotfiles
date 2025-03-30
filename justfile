@@ -29,5 +29,8 @@ bump-hardware:
 bump-unstable:
   nix flake update nixpkgs-unstable nixpkgs-unstable-small
 
+bump-nixpkgs: bump-unstable
+  nix flake update nixpkgs
+
 # build-iso:
 #   nix build .#nixosConfigurations.iso.config.system.build.isoImage --impure --show-trace
