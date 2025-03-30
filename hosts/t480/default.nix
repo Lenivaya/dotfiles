@@ -482,22 +482,22 @@ with my;
       vulkan-tools
     ];
   };
-  chaotic.mesa-git = enabled // {
-    fallbackSpecialisation = false;
-    # method = "replaceRuntimeDependencies";
-    extraPackages = with pkgs; [
-      libGL
-      intel-ocl
-      intel-media-driver
-      vaapiIntel
-      vaapiVdpau
-      vpl-gpu-rt
-      vulkan-loader
-      vulkan-validation-layers
-      vulkan-extension-layer
-      vulkan-tools
-    ];
-  };
+  # chaotic.mesa-git = enabled // {
+  #   fallbackSpecialisation = false;
+  #   # method = "replaceRuntimeDependencies";
+  #   extraPackages = with pkgs; [
+  #     libGL
+  #     intel-ocl
+  #     intel-media-driver
+  #     vaapiIntel
+  #     vaapiVdpau
+  #     vpl-gpu-rt
+  #     vulkan-loader
+  #     vulkan-validation-layers
+  #     vulkan-extension-layer
+  #     vulkan-tools
+  #   ];
+  # };
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = mkForce "iHD";
 
