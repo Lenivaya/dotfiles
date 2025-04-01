@@ -144,7 +144,7 @@ with lib.my;
 
     services = {
       adguardhome = enabled;
-      # ananicy = enabled;
+      ananicy = enabled;
       clipcat = enabled;
       # greenclip = enabled;
       kdeconnect = enabled;
@@ -294,10 +294,10 @@ with lib.my;
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  services.scx = enabled // {
-    package = pkgs.scx_git.full;
-    scheduler = "scx_bpfland";
-  };
+  # services.scx = enabled // {
+  #   package = pkgs.scx_git.full;
+  #   scheduler = "scx_bpfland";
+  # };
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU

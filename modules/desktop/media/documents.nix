@@ -14,6 +14,7 @@ in
 {
   options.modules.desktop.media.documents = {
     enable = mkBoolOpt false;
+    writing.enable = mkBoolOpt false;
     pdf.enable = mkBoolOpt false;
     ebook.enable = mkBoolOpt false;
     latex.enable = mkBoolOpt false;
@@ -24,9 +25,12 @@ in
       with pkgs;
       (mkMerge [
         [
-          libreoffice-fresh
           pandoc # Universal Markup converter
         ]
+
+        (mkIf cfg.writing.enable [
+          libreoffice-fresh
+        ])
 
         (mkIf cfg.ebook.enable [
           # calibre
