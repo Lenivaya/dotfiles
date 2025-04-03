@@ -8,7 +8,7 @@ with lib;
 with lib.my;
 let
   cfg = config.modules.desktop.term.kitty;
-  inherit (config.dotfiles) configDir;
+  inherit (config.dotfiles) outOfStoreConfigDir;
 in
 {
   options.modules.desktop.term.kitty = {
@@ -22,11 +22,14 @@ in
   config = mkIf cfg.enable (mkMerge [
     {
       user.packages = with pkgs; [ kitty ];
+      system.userActivationScripts.linkKittyConfig = linkIfNotExist "~/.config/kitty" "${outOfStoreConfigDir}/kitty";
 
-      home.configFile."kitty" = {
-        source = "${configDir}/kitty";
-        recursive = true;
-      };
+      # home.configFile."kitty" = {
+      #   source = "${configDir}/kitty";
+      #   recursive = true;
+      # };
+      #
+      # Embrace impurity and imperfection.
     }
 
     (mkIf cfg.default {

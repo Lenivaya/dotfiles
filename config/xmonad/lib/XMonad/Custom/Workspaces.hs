@@ -127,7 +127,7 @@ projects =
     makeProject "AI" $ Just $ do
       spawnBrowserWithUrl "https://chat.openai.com"
       spawnBrowserWithUrls
-        ["https://claude.ai", "https://copilot.microsoft.com", "https://chat.deepseek.com"],
+        ["https://claude.ai", "https://www.perplexity.ai/", "https://copilot.microsoft.com", "https://chat.deepseek.com"],
     makeProject "GH" $ Just $ do
       spawnBrowserWithUrl "https://github.com"
       spawnBrowserWithUrls ["https://github.com/notifications", "https://github.com/pulls"],

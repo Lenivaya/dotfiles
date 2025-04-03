@@ -64,7 +64,8 @@ with my;
         };
         chromium =
           let
-            chrome' = pkgs.unstable-small.google-chrome;
+            # chrome' = pkgs.unstable-small.google-chrome;
+            chrome' = inputs.browser-previews.packages.${pkgs.system}.google-chrome;
           in
           enabled
           // {
@@ -154,8 +155,9 @@ with my;
     };
 
     services = {
+      darkman = enabled;
       # warp = enabled;
-      ananicy = enabled;
+      # ananicy = enabled;
       clipcat = enabled;
       # greenclip = enabled;
       kdeconnect = enabled;
@@ -246,7 +248,7 @@ with my;
       };
     };
 
-    zram = enabled;
+    zram = disabled;
     bootsplash = enabled;
     fast-networking = enabled;
   };
@@ -361,14 +363,14 @@ with my;
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   # https://github.com/sched-ext/scx/issues/1188
   # https://wiki.cachyos.org/configuration/sched-ext/#disable-ananicy-cpp
-  # services.scx = enabled // {
-  #   scheduler = "scx_bpfland";
-  #   package = pkgs.scx_git.full;
-  #   # extraArgs = [
-  #   #   "-p"
-  #   #   "-m performance"
-  #   # ]; # https://github.com/sched-ext/scx/issues/1247
-  # };
+  services.scx = enabled // {
+    scheduler = "scx_bpfland";
+    package = pkgs.scx_git.full;
+    # extraArgs = [
+    #   "-p"
+    #   "-m performance"
+    # ]; # https://github.com/sched-ext/scx/issues/1247
+  };
 
   networking.firewall = {
     allowedUDPPortRanges = [
@@ -412,43 +414,53 @@ with my;
     options psmouse synaptics_intertouch=1
   ";
 
-  environment.systemPackages = with pkgs; [
-    my.code-cursor
-    (inxi.override { withRecommends = true; })
-    khal
-    ayugram-desktop
-    ffmpeg-full
-    video-trimmer
-    postman
-    my.gitbutler
-    twitch-hls-client
-    curtail # image compression
-    smartmontools
-    gcc
-    obsidian
-    qrrs
-    iwgtk
-    protonvpn-gui
-    ungoogled-chromium
-    wireguard-tools
-    deskflow
-    upwork
-    beekeeper-studio
-    # scx.full
-    scx_git.full
-    pgcli
-    # zed-editor_git
-    # zoom-us
-    windsurf
-    readest
+  environment.systemPackages =
+    let
+      cursor' = wrapWithFlags "cursor" (getExe pkgs.my.code-cursor) (
+        spaceConcat config.modules.desktop.browsers.chromium.commandLineArgs
+      );
+      obsidian' = wrapWithFlags "obsidian" (getExe pkgs.obsidian) (
+        spaceConcat config.modules.desktop.browsers.chromium.commandLineArgs
+      );
+    in
+    with pkgs;
+    [
+      cursor'
+      obsidian'
+      (inxi.override { withRecommends = true; })
+      khal
+      ayugram-desktop
+      ffmpeg-full
+      video-trimmer
+      postman
+      my.gitbutler
+      twitch-hls-client
+      curtail # image compression
+      smartmontools
+      gcc
+      qrrs
+      iwgtk
+      protonvpn-gui
+      ungoogled-chromium
+      wireguard-tools
+      deskflow
+      upwork
+      beekeeper-studio
+      # scx.full
+      scx_git.full
+      pgcli
+      # zed-editor_git
+      # zoom-us
+      windsurf
+      readest
 
-    # dropbox
-    maestral-gui
-    maestral
+      # dropbox
+      maestral-gui
+      maestral
 
-    ciscoPacketTracer8
-    cozy
-  ];
+      ciscoPacketTracer8
+      cozy
+    ];
 
   hardware.trackpoint = enabled // {
     speed = 500;
@@ -502,8 +514,8 @@ with my;
     LIBVA_DRIVER_NAME = mkForce "iHD";
 
     # https://wiki.archlinux.org/title/GTK#GTK_4_applications_are_slow
-    # GSK_RENDERER = "gl";
-    # GDK_DEBUG = "gl-no-fractional";
+    GSK_RENDERER = "gl";
+    GDK_DEBUG = "gl-no-fractional";
   };
 
   services.smartd = enabled;

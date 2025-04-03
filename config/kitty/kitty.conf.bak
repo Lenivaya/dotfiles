@@ -92,6 +92,6 @@ copy_on_select yes
 
 
 # BEGIN_KITTY_THEME
-# Dark-Theme.Auto
+# Solarized Light
 include current-theme.conf
 # END_KITTY_THEME

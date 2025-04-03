@@ -630,7 +630,7 @@
   "windsurf.explainAndFixInCurrentConversation": true,
   "windsurf.enableAutocomplete": true,
   "editor.fontSize": 16,
-  "workbench.colorTheme": "Min Tomorrow Dark",
+  "workbench.colorTheme": "Solarized Light",
   "super-figure.vectorFigureEditor": "/usr/bin/inkscape",
   "super-figure.bitmapFigureEditor": "/usr/bin/gimp",
   "editor.unicodeHighlight.ambiguousCharacters": false,

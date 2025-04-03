@@ -1,19 +1,7 @@
-return {
-  {
-    "LazyVim/LazyVim",
-    opts = {
-      colorscheme = "catppuccin",
-    },
-  },
-  {
-    "catppuccin/nvim",
-    name = "catppuccin",
-    priority = 1000,
-    version = false, -- always use the latest git commit
-    vscode = true,
-    opts = {
-      -- https://github.com/catppuccin/nvim#integrations
-      integrations = {
+-- Define static theme configurations
+local catppuccin_config = {
+    -- https://github.com/catppuccin/nvim#integrations
+    integrations = {
         hop = true,
         mason = true,
         grug_far = true,
@@ -32,136 +20,144 @@ return {
         flash = true,
         avante = true,
         snacks = true,
-        gitgutter = true,
-      },
-      default_integrations = true,
-      no_italic = false,
-      no_bold = false,
-      no_underline = false,
-      term_colors = false,
-      show_end_of_buffer = false,
-      transparent_background = true,
-      flavor = "mocha",
-      color_overrides = {
-        mocha = {
-          base = "#000000",
-          mantle = "#000000",
-          crust = "#000000",
-        },
-      },
-
-      styles = {
-        comments = { "italic" },
-        keywords = { "italic" },
-        conditionals = { "italic" },
-      },
+        gitgutter = true
     },
-  },
-
-  --
-  -- {
-  --   "LazyVim/LazyVim",
-  --   opts = {
-  --     colorscheme = "gruvbox-material",
-  --   },
-  -- },
-  -- {
-  --   "f4z3r/gruvbox-material.nvim",
-  --   name = "gruvbox-material",
-  --   lazy = false,
-  --   priority = 1000,
-  --   opts = {
-  --     background = {
-  --       transparent = true,
-  --     },
-  --   },
-  -- },
-  --
-  --
-  -- {
-  --   "dgox16/oldworld.nvim",
-  --   lazy = false,
-  --   priority = 1000,
-  --   opts = {
-  --     highlight_overrides = {
-  --       Normal = { bg = "NONE" },
-  --       NormalNC = { bg = "NONE" },
-  --       CursorLine = { bg = "#222128" },
-  --     },
-  --     integrations = { -- You can disable/enable integrations
-  --       alpha = true,
-  --       cmp = true,
-  --       flash = true,
-  --       gitsigns = true,
-  --       hop = true,
-  --       indent_blankline = true,
-  --       lazy = true,
-  --       lsp = true,
-  --       markdown = true,
-  --       mason = true,
-  --       navic = true,
-  --       neo_tree = true,
-  --       neogit = true,
-  --       neorg = true,
-  --       noice = true,
-  --       notify = true,
-  --       rainbow_delimiters = true,
-  --       telescope = true,
-  --       treesitter = true,
-  --     },
-  --   },
-  -- },
-  --
-  -- {
-  --   "LazyVim/LazyVim",
-  --   opts = {
-  --     colorscheme = "tairiki-dark",
-  --   },
-  -- },
-  -- {
-  --   "deparr/tairiki.nvim",
-  --   lazy = false,
-  --   -- priority = 1000, -- only necessary if you use tairiki as default theme
-  --   branch = "v2",
-  --   version = false, -- always use the latest git commit
-  --   config = {
-  --     -- plugins = {
-  --     --   auto = true,
-  --     -- },
-  --
-  --     palette = "dark",
-  --     default_dark = "dark",
-  --     terminal = true,
-  --     -- -- optional configuration here
-  --     term_colors = true,
-  --     transparent = true,
-  --     end_of_buffer = false,
-  --     visual_bold = true,
-  --   },
-  --
-  --   plugins = {
-  --     all = false, -- enable all supported plugins
-  --     none = false, -- ONLY set groups listed in :help highlight-groups (see lua/tairiki/groups/neovim.lua). Manually enabled plugins will also be ignored
-  --     auto = true, -- auto detect installed plugins, currently lazy.nvim only
-  --
-  --     -- or enable/disable plugins manually
-  --     -- see lua/tairiki/groups/init.lua for the full list of available plugins
-  --     -- either the key or value from the M.plugins table can be used here
-  --     --
-  --     -- setting a specific plugin manually overrides `all` and `auto`
-  --     treesitter = true,
-  --     semantic_tokens = true,
-  --   },
-  --
-  --   code_style = {
-  --     comments = { italic = true },
-  --     conditionals = {},
-  --     keywords = {},
-  --     functions = {},
-  --     strings = {},
-  --     variables = {},
-  --     parameters = {},
-  --     types = {},
-  --   },
-  -- },
+    default_integrations = true,
+    no_italic = false,
+    no_bold = false,
+    no_underline = false,
+    term_colors = false,
+    show_end_of_buffer = false,
+    transparent_background = true,
+    flavor = "mocha",
+    color_overrides = {
+        mocha = {
+            base = "#000000",
+            mantle = "#000000",
+            crust = "#000000"
+        }
+    },
+    styles = {
+        comments = {"italic"},
+        keywords = {"italic"},
+        conditionals = {"italic"}
+    }
 }
+
+local solarized_config = {
+    variant = "summer",
+    transparent = {
+        enabled = true, -- Master switch to enable transparency
+        pmenu = true, -- Popup menu (e.g., autocomplete suggestions)
+        normal = true, -- Main editor window background
+        normalfloat = true, -- Floating windows
+        neotree = true, -- Neo-tree file explorer
+        nvimtree = true, -- Nvim-tree file explorer
+        whichkey = true, -- Which-key popup
+        telescope = true, -- Telescope fuzzy finder
+        lazy = true, -- Lazy plugin manager UI
+        mason = true -- Mason manage external tooling
+    }
+}
+
+-- Helper function to get the system theme from darkman
+local function get_system_theme()
+    local handle = io.popen("darkman get")
+    if not handle then
+        return "dark" -- default fallback
+    end
+    local result = handle:read("*a")
+    handle:close()
+    return result:gsub("^%s+", ""):gsub("%s+$", "")
+end
+
+-- Define our reload_theme function
+local function reload_theme()
+    local bg = vim.o.background
+
+    if bg == "dark" then
+        -- Load catppuccin with dark mode settings
+        require("catppuccin").setup(catppuccin_config)
+        vim.cmd.colorscheme("catppuccin")
+    else
+        -- Load solarized with light mode settings
+        require("solarized").setup(solarized_config)
+        vim.cmd.colorscheme("solarized")
+    end
+
+    -- Additional customizations that apply after theme load
+    -- vim.cmd.hi 'MatchParen guifg=NONE guibg=#CCCCCC gui=bold,underline'
+end
+
+-- Function to apply system theme
+local function apply_system_theme()
+    -- Get system theme from darkman
+    local success, mode = pcall(get_system_theme)
+    if success then
+        if mode == "dark" then
+            vim.o.background = "dark"
+        elseif mode == "light" then
+            vim.o.background = "light"
+        end
+
+        -- Apply the theme based on system setting
+        reload_theme()
+    end
+end
+
+-- Create augroup for our autocmds
+local augroup = vim.api.nvim_create_augroup("ColorSchemeEvents", {
+    clear = true
+})
+
+-- Set the theme on VimEnter
+vim.api.nvim_create_autocmd("VimEnter", {
+    pattern = "*",
+    group = augroup,
+    callback = function()
+        -- Defer to ensure it runs after initialization
+        vim.defer_fn(function()
+            apply_system_theme()
+        end, 1) -- Short delay
+    end,
+    once = true
+})
+
+-- Set up autocmd to reload theme when background option changes
+vim.api.nvim_create_autocmd("OptionSet", {
+    pattern = "background",
+    group = augroup,
+    callback = reload_theme
+})
+
+return {{
+    "LazyVim/LazyVim",
+    opts = {
+        colorscheme = "catppuccin" -- Let LazyVim initialize with its default theme
+    }
+}, {
+    -- Main dark theme
+    "catppuccin/nvim",
+    name = "catppuccin",
+    lazy = false,
+    priority = 1000,
+    version = false, -- always use the latest git commit
+    vscode = false,
+    opts = catppuccin_config -- Pass the static config directly as opts
+}, {
+    -- Main light theme
+    "maxmx03/solarized.nvim",
+    lazy = false,
+    priority = 1000,
+    opts = solarized_config -- Pass the static config directly as opts
+}, {
+    -- Darkman integration
+    "4e554c4c/darkman.nvim",
+    lazy = false,
+    build = "go build -o bin/darkman.nvim",
+    priority = 1000,
+    opts = {
+        change_background = true,
+        send_user_event = true
+    }
+}}

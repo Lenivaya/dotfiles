@@ -9,6 +9,7 @@ with lib;
 with lib.my;
 let
   cfg = config.modules.editors.vscode;
+  chromeCfg = config.modules.desktop.browsers.chromium;
   inherit (config.dotfiles) configDir;
   inherit (config) modules;
 in
@@ -40,7 +41,7 @@ in
         let
           vscode' =
             (pkgs.vscode.override {
-              # inherit (chromeCfg) commandLineArgs;
+              inherit (chromeCfg) commandLineArgs;
             }).fhs;
         in
         vscode';

@@ -14,10 +14,10 @@ in
 
   config = mkIf cfg.enable {
     user.packages =
-      with pkgs;
       let
-        # discord' = vesktop;
-        discord' = legcord;
+        discord' = wrapWithFlags "legcord" (getExe' pkgs.legcord "legcord") (
+          spaceConcat config.modules.desktop.browsers.chromium.commandLineArgs
+        );
       in
       [ discord' ];
   };

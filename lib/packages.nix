@@ -77,4 +77,10 @@ rec {
     );
   fromPR = pr: fromRev "refs/pull/${toString pr}/head";
 
+  wrapWithFlags =
+    pkg: pkgPath: flags:
+    pkgs.writeScriptBin pkg ''
+      #!/bin/sh
+      exec ${pkgPath} ${flags}
+    '';
 }

@@ -52,6 +52,11 @@
 
     chaotic.url = "github:chaotic-cx/nyx";
 
+    browser-previews = {
+      url = "github:nix-community/browser-previews";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     firefox = {
       url = "github:colemickens/flake-firefox-nightly";
       inputs.nixpkgs.follows = "nixpkgs";
