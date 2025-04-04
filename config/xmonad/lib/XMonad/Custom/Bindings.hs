@@ -204,7 +204,8 @@ keysSystem =
     ("S-<Print>", screenshot Select),
     ("C-S-<Print>", screenshot SelectCopyToClipboard),
     ("M-t S-l", spawn "$XMONAD_CONFIG_DIR/scripts/caffeine"),
-    ("M-t t", spawn "darkman toggle")
+    ("M-t t", spawn "darkman toggle"),
+    ("M-t n", spawn "dunstctl set-paused toggle")
   ]
 
 keysSpawnables :: Keybindings

@@ -144,7 +144,7 @@ with lib.my;
 
     services = {
       adguardhome = enabled;
-      ananicy = enabled;
+      # ananicy = enabled;
       clipcat = enabled;
       # greenclip = enabled;
       kdeconnect = enabled;
@@ -227,7 +227,7 @@ with lib.my;
       };
     };
 
-    zram = enabled;
+    # zram = enabled;
     bootsplash = enabled;
     fast-networking = enabled;
   };

@@ -365,7 +365,8 @@ with my;
   # https://wiki.cachyos.org/configuration/sched-ext/#disable-ananicy-cpp
   services.scx = enabled // {
     scheduler = "scx_bpfland";
-    package = pkgs.scx_git.full;
+    # package = pkgs.scx_git.full;
+    package = pkgs.unstable.scx.full;
     # extraArgs = [
     #   "-p"
     #   "-m performance"

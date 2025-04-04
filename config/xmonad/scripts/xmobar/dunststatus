@@ -1,0 +1,5 @@
+#!/bin/sh
+
+if [ "$(dunstctl is-paused)" = "true" ]; then
+  echo "<fn=2>󰂛</fn>"
+fi

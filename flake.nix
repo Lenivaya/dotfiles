@@ -3,7 +3,7 @@
 
   inputs = {
     nixpkgs.url = "nixpkgs/nixos-unstable";
-    nixpkgs-unstable.url = "nixpkgs/nixos-unstable"; # for packages on the edge, tracked separately
+    nixpkgs-unstable.url = "nixpkgs/nixpkgs-unstable"; # for packages on the edge, tracked separately
     nixpkgs-unstable-small.url = "nixpkgs/nixos-unstable-small"; # updates more frequently, useful when needed to get package
 
     home-manager = {
