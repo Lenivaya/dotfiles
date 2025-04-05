@@ -227,7 +227,7 @@ with lib.my;
       };
     };
 
-    # zram = enabled;
+    zram = enabled;
     bootsplash = enabled;
     fast-networking = enabled;
   };
@@ -370,6 +370,7 @@ with lib.my;
       4322
       24800
       6379
+      6969
     ];
   };
 

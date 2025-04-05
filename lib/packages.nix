@@ -81,6 +81,6 @@ rec {
     pkg: pkgPath: flags:
     pkgs.writeScriptBin pkg ''
       #!/bin/sh
-      exec ${pkgPath} ${flags}
+      exec ${pkgPath} ${flags} "$@"
     '';
 }

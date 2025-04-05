@@ -600,7 +600,7 @@
   "terminal.integrated.minimumContrastRatio": 1,
   "window.titleBarStyle": "custom",
   "workbench.iconTheme": "catppuccin-mocha",
-  "editor.renderWhitespace": "all",
+  "editor.renderWhitespace": "none",
   "find-it-faster.general.useTerminalInEditor": true,
   "fzf-picker.general.openCommand": "cursor -g",
   "fzf-picker.customTasks": [
@@ -646,5 +646,6 @@
   "sundial.autoLocale": true,
   "sundial.interval": 1,
   "sundial.sunrise": "07:00",
-  "sundial.sunset": "19:00"
+  "sundial.sunset": "19:00",
+  "go.toolsManagement.autoUpdate": true
 }

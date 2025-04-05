@@ -248,7 +248,7 @@ with my;
       };
     };
 
-    zram = disabled;
+    # zram = enabled;
     bootsplash = enabled;
     fast-networking = enabled;
   };
@@ -454,13 +454,14 @@ with my;
       # zoom-us
       windsurf
       readest
+      cozy
+      python313Packages.markitdown
 
       # dropbox
       maestral-gui
       maestral
 
       ciscoPacketTracer8
-      cozy
     ];
 
   hardware.trackpoint = enabled // {
