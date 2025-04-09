@@ -50,10 +50,10 @@ function __async_my_abbr_adder --on-event fish_prompt
     abbr juu "journalctl --user --unit"
 
     # Node
-    abbr npmup "pnpm update -i -r --latest"
-    abbr npm pnpm
+    # abbr npmup "pnpm update -i -r --latest"
+    # abbr npm pnpm
     abbr yarn pnpm
-    abbr npx "pnpm dlx"
+    # abbr npx "pnpm dlx"
 
     # Files
     abbr rmrf 'rm -rf'

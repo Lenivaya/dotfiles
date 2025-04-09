@@ -136,7 +136,6 @@ in
         ]
         ++ optionals modules.dev.cc.enable [
           bazelbuild.vscode-bazel
-          ms-vscode.cpptools
           jeff-hykin.better-cpp-syntax
           mitaki28.vscode-clang
           ms-vscode.cmake-tools

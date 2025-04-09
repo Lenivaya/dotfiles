@@ -14,6 +14,7 @@ import XMonad.Custom.Prompt
 import XMonad.Custom.Scratchpads
 import XMonad.Util.NamedScratchpad
 import XMonad.Util.Run
+import Control.Monad (unless)
 
 data WorkspaceNames = WorkspaceNames
   { generic :: String,
@@ -73,7 +74,14 @@ spawnTerminalWith :: String -> X ()
 spawnTerminalWith cmd = spawn (C.term C.applications ++ " " ++ cmd)
 
 spawnBrowserWithUrls :: [String] -> X ()
-spawnBrowserWithUrls urls = spawn (C.browser C.applications ++ " --new-window " ++ unwords urls)
+-- spawnBrowserWithUrls urls = spawn (C.browser C.applications ++ " --new-window " ++ unwords urls)
+spawnBrowserWithUrls [] = return ()
+spawnBrowserWithUrls (firstUrl:otherUrls) = do
+    -- Open first URL in a new window
+    spawn (C.browser C.applications ++ " --new-window " ++ firstUrl)
+    -- If there are additional URLs, open them in the same window
+    unless (null otherUrls) $
+        spawn (C.browser C.applications ++ " " ++ unwords otherUrls)
 
 spawnBrowserWithUrl :: String -> X ()
 spawnBrowserWithUrl url = spawn (C.browser C.applications ++ " --new-window " ++ url)
@@ -125,9 +133,12 @@ projects =
       spawnTerminalWith "-e btop"
       spawnTerminalWith "-e htop",
     makeProject "AI" $ Just $ do
-      spawnBrowserWithUrl "https://chat.openai.com"
+      spawnBrowserWithUrl "https://www.perplexity.ai"
       spawnBrowserWithUrls
-        ["https://www.perplexity.ai/", "https://claude.ai", "https://copilot.microsoft.com", "https://chat.deepseek.com"],
+        ["https://chat.openai.com", "https://claude.ai",
+        -- "https://copilot.microsoft.com",
+        "https://gemini.google.com/app",
+        "https://chat.deepseek.com"],
     makeProject "GH" $ Just $ do
       spawnBrowserWithUrl "https://github.com"
       spawnBrowserWithUrls ["https://github.com/notifications", "https://github.com/pulls"],

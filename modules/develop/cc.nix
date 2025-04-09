@@ -15,6 +15,7 @@ in
   config = mkIf cfg.enable {
     user.packages = with pkgs; [
       clang
+      clang-tools
       gcc
       bear
       gdb

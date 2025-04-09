@@ -600,7 +600,7 @@
   "terminal.integrated.minimumContrastRatio": 1,
   "window.titleBarStyle": "custom",
   "workbench.iconTheme": "catppuccin-mocha",
-  "editor.renderWhitespace": "none",
+  "editor.renderWhitespace": "all",
   "find-it-faster.general.useTerminalInEditor": true,
   "fzf-picker.general.openCommand": "cursor -g",
   "fzf-picker.customTasks": [
@@ -622,7 +622,7 @@
   "redhat.telemetry.enabled": false,
   "typescriptExplorer.typeTree.view.show.typeParameters": false,
   "typescriptExplorer.typeTree.view.icons.colors.enable": false,
-  "windsurf.autocompleteSpeed": "default",
+  "windsurf.autocompleteSpeed": "fast",
   "windsurf.autoExecutionPolicy": "off",
   "windsurf.chatFontSize": "default",
   "windsurf.rememberLastModelSelection": true,
@@ -647,5 +647,12 @@
   "sundial.interval": 1,
   "sundial.sunrise": "07:00",
   "sundial.sunset": "19:00",
-  "go.toolsManagement.autoUpdate": true
+  "go.toolsManagement.autoUpdate": true,
+  "windsurf.enableTabToJump": true,
+  "windsurf.cascadeCommandsAllowList": [
+    "mkdir",
+    "cp",
+    "cat",
+    "grep"
+  ]
 }

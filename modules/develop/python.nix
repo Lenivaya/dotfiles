@@ -19,9 +19,10 @@ in
 
       pyright
 
-      (python312.withPackages (
+      (python313.withPackages (
         ps: with ps; [
-          # python-lsp-server
+          uv
+          ruff
 
           pip
           ipython
@@ -32,8 +33,6 @@ in
 
           pylint
           pyflakes
-
-          # python-lsp-ruff
         ]
       ))
     ];

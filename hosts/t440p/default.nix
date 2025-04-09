@@ -52,16 +52,20 @@ with lib.my;
       };
 
       browsers = {
-        default = "google-chrome-stable";
+        default = "firefox-nightly";
 
-        chromium =
-          let
-            chrome' = pkgs.google-chrome;
-          in
-          enabled
-          // {
-            package = chrome';
-          };
+        firefox = enabled // {
+          package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
+          executable = "firefox-nightly";
+        };
+        # chromium =
+        #   let
+        #     chrome' = pkgs.google-chrome;
+        #   in
+        #   enabled
+        #   // {
+        #     package = chrome';
+        #   };
       };
 
       term = {
@@ -91,7 +95,7 @@ with lib.my;
       };
 
       vm = {
-        # qemu = enabled;
+        qemu = enabled;
         # virtualbox = enabled;
         # wine = enabled;
       };
@@ -227,7 +231,7 @@ with lib.my;
       };
     };
 
-    zram = enabled;
+    # zram = enabled;
     bootsplash = enabled;
     fast-networking = enabled;
   };

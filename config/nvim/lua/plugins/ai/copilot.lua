@@ -51,6 +51,7 @@ return {
         LazyVim.lualine.status(LazyVim.config.icons.kinds.Copilot, function()
           local clients = package.loaded["copilot"] and LazyVim.lsp.get_clients({ name = "copilot", bufnr = 0 }) or {}
           if #clients > 0 then
+            require("copilot.api").status = require("copilot.status") -- https://github.com/LazyVim/LazyVim/issues/5899
             local status = require("copilot.api").status.data.status
             return (status == "InProgress" and "pending") or (status == "Warning" and "error") or "ok"
           end

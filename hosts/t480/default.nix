@@ -56,7 +56,7 @@ with my;
       };
 
       browsers = {
-        default = "google-chrome-stable";
+        default = "firefox-nightly";
 
         firefox = enabled // {
           package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
@@ -116,7 +116,7 @@ with my;
       };
       fish = enabled // {
         default = true;
-        package = pkgs.unstable.fish;
+        package = pkgs.fish;
       };
       tmux = enabled;
       gnupg = enabled;
@@ -151,6 +151,7 @@ with my;
       dotnet = enabled // {
         dotnetPkgsSdks = with pkgs.dotnetCorePackages; [ sdk_9_0 ];
       };
+      cc = enabled;
       typst = enabled;
     };
 
@@ -417,16 +418,16 @@ with my;
 
   environment.systemPackages =
     let
-      cursor' = wrapWithFlags "cursor" (getExe pkgs.my.code-cursor) (
-        spaceConcat config.modules.desktop.browsers.chromium.commandLineArgs
-      );
+      # cursor' = wrapWithFlags "cursor" (getExe pkgs.my.code-cursor) (
+      #   spaceConcat config.modules.desktop.browsers.chromium.commandLineArgs
+      # );
       obsidian' = wrapWithFlags "obsidian" (getExe pkgs.obsidian) (
         spaceConcat config.modules.desktop.browsers.chromium.commandLineArgs
       );
     in
     with pkgs;
     [
-      cursor'
+      pkgs.my.code-cursor
       obsidian'
       (inxi.override { withRecommends = true; })
       khal
@@ -447,8 +448,8 @@ with my;
       deskflow
       upwork
       beekeeper-studio
-      # scx.full
-      scx_git.full
+      scx.full
+      # scx_git.full
       pgcli
       # zed-editor_git
       # zoom-us
@@ -552,7 +553,7 @@ with my;
 
   # https://www.reddit.com/r/Fedora/comments/10s06fd/why_is_systemdoomd_still_a_thing/
   # https://www.reddit.com/r/Ubuntu/comments/uyl4i6/ubuntu_2204s_new_oom_killing_system_is_killing/
-  systemd.oomd = disabled;
+  # systemd.oomd = disabled;
 
   nix.settings = {
     system-features = [
@@ -622,8 +623,8 @@ with my;
     "-05d6:000a:2a5c56c6"
   ];
 
-  # networking.wireless.iwd.settings.General.AddressRandomization = "network";
-  # networking.wireless.iwd.settings.General.AddressRandomizationRange = "full";
+  networking.wireless.iwd.settings.General.AddressRandomization = "network";
+  networking.wireless.iwd.settings.General.AddressRandomizationRange = "full";
 
   # monitors
   # services.udev.extraRules =
