@@ -241,6 +241,12 @@
   # https://developer.mozilla.org/en-US/docs/Web/API/navigator.sendBeacon
   "beacon.enabled" = true; # breaks some sites like perplexity if disabled, lets just keep it enabled
 
+  # // PREF: default permission for Web Notifications
+  # // To add site exceptions: Page Info>Permissions>Receive Notifications
+  # // To manage site exceptions: Options>Privacy & Security>Permissions>Notifications>Settings
+  # // 0=always ask (default), 1=allow, 2=block
+  "permissions.default.desktop-notification" = 1;
+
   ####
   #### https://gist.github.com/RubenKelevra/fd66c2f856d703260ecdf0379c4f59db
   ####

@@ -22,6 +22,7 @@ with lib.my;
       ./power-management.nix
       ./postgresql.nix
       # ./jack_retask/jack_retask.nix
+      inputs.nixos-cachyos-kernel.nixosModules.default
       inputs.nixos-facter-modules.nixosModules.facter
       { config.facter.reportPath = ./facter.json; }
     ]
@@ -288,11 +289,7 @@ with lib.my;
     settings.sensor.devname = "video1"; # because video0 is virtual camera
   };
 
-  boot.kernelPackages =
-    let
-      kernel' = pkgs.linuxPackages_cachyos-lto;
-    in
-    mkForce kernel';
+  boot.kernelPackages = with pkgs; linuxPackagesFor linuxPackages_cachyos;
 
   # https://github.com/sched-ext/scx
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland

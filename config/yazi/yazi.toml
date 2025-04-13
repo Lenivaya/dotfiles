@@ -14,10 +14,10 @@ keymap = [
 open = [
   { run = 'xdg-open "$@"', orphan = true, desc = "Open", for = "unix" }, # add orphan = true
 ]
-extract = [
-  { run = 'ouch d -y "%*"', desc = "Extract here with ouch", for = "windows" },
-  { run = 'ouch d -y "$@"', desc = "Extract here with ouch", for = "unix" },
-]
+# extract = [
+#   { run = 'ouch d -y "%*"', desc = "Extract here with ouch", for = "windows" },
+#   { run = 'ouch d -y "$@"', desc = "Extract here with ouch", for = "unix" },
+# ]
 
 [plugin]
 prepend_previewers = [

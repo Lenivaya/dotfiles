@@ -191,7 +191,7 @@ projects =
           "https://www.upwork.com/nx/plans/connects/history/"
         ]
       spawn "upwork",
-    makeProject "DOTFILES" $ Just $ do
+    makeProject "DOTS" $ Just $ do
       spawnTerminalWith "--hold -e $DOTFILES"
       spawnTerminalWith "-e nvim $DOTFILES"
   ]

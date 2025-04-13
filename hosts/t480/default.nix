@@ -23,6 +23,7 @@ with my;
     ++ (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-t480 ])
     ++ (with inputs; [
       # determinate.nixosModules.default
+      nixos-cachyos-kernel.nixosModules.default
       stevenblack-hosts.nixosModule
       {
         networking.stevenBlackHosts = enabled // {
@@ -105,7 +106,7 @@ with my;
 
       vm = {
         winapps = enabled;
-        # qemu = enabled;
+        qemu = enabled;
         # wine = enabled;
       };
     };
@@ -158,7 +159,7 @@ with my;
     services = {
       darkman = enabled;
       # warp = enabled;
-      # ananicy = enabled;
+      ananicy = enabled;
       clipcat = enabled;
       # greenclip = enabled;
       kdeconnect = enabled;
@@ -199,7 +200,7 @@ with my;
     };
 
     cachyos = {
-      settings = enabled;
+      # settings = enabled;
       udev = enabled;
     };
 
@@ -313,11 +314,20 @@ with my;
     settings.sensor.devname = "video1"; # because video0 is virtual camera
   };
 
-  boot.kernelPackages =
-    let
-      kernel' = pkgs.linuxPackages_cachyos-lto;
-    in
-    mkForce kernel';
+  # OOM is killing me for some reason, though I have 32GB of RAM, and plenty of it is free.
+  # lets step back for the most stability and use lts version.
+  #
+  # https://www.reddit.com/r/cachyos/comments/1ipzgl9/hard_lockups_on_accessing_files_on_a_share_using/
+  # https://discuss.cachyos.org/t/lots-of-available-memory-and-processes-dying-by-oom/7669/10
+  # https://github.com/chaotic-cx/nyx/issues/1020#issue-2989970948
+  #
+  #
+  # boot.kernelPackages =
+  #   let
+  #     kernel' = pkgs.linuxPackages_cachyos-lto;
+  #   in
+  #   mkForce kernel';
+  boot.kernelPackages = with pkgs; linuxPackagesFor linuxPackages_cachyos;
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
@@ -354,6 +364,11 @@ with my;
     "i915.enable_dc=2"
   ];
 
+  boot.kernel.sysctl = {
+    # Taking into account
+    "vm.swappiness" = 20; # 100 as default is too big, prefere using ram
+  };
+
   boot.blacklistedKernelModules = [
     "snd_pcsp"
   ];
@@ -364,15 +379,15 @@ with my;
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   # https://github.com/sched-ext/scx/issues/1188
   # https://wiki.cachyos.org/configuration/sched-ext/#disable-ananicy-cpp
-  services.scx = enabled // {
-    scheduler = "scx_bpfland";
-    # package = pkgs.scx_git.full;
-    package = pkgs.unstable.scx.full;
-    # extraArgs = [
-    #   "-p"
-    #   "-m performance"
-    # ]; # https://github.com/sched-ext/scx/issues/1247
-  };
+  # services.scx = enabled // {
+  #   scheduler = "scx_bpfland";
+  #   # package = pkgs.scx_git.full;
+  #   package = pkgs.unstable.scx.full;
+  #   # extraArgs = [
+  #   #   "-p"
+  #   #   "-m performance"
+  #   # ]; # https://github.com/sched-ext/scx/issues/1247
+  # };
 
   networking.firewall = {
     allowedUDPPortRanges = [
@@ -654,6 +669,7 @@ with my;
           readest
           kitty
           legcord
+          scx
           ;
 
         inherit (pkgs.unstable-small)

@@ -22,6 +22,7 @@ in
       ouch
       sox
       xdragon
+      ripdrag
     ];
 
     # Embrace impurity and imperfection.
