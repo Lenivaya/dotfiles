@@ -42,6 +42,8 @@ import XMonad.Actions.WindowMenu
 import XMonad.Actions.WithAll
 import XMonad.Custom.Actions.ApplicationChooser
 import XMonad.Custom.Actions.Calculator
+import XMonad.Custom.Actions.DoActions
+import XMonad.Custom.Actions.DoPrompt
 import XMonad.Custom.Actions.JumpWorkspaces
 import XMonad.Custom.Actions.Keyboard
 import XMonad.Custom.Actions.LayoutChooser
@@ -238,10 +240,12 @@ keysDo =
   [ ("M-d s s", wrapKbdLayout . screenshotPrompt $ promptNoCompletion promptTheme),
     ("M-d s r", wrapKbdLayout . screencastPrompt $ promptNoCompletion promptTheme),
     ("M-d s z", spawn $ C.screenZoomer C.applications),
+    ("M-d d", wrapKbdLayout $ doSomethingPrompt promptTheme),
     ("M-d w c", workspacePrompt promptTheme $ windows . copy),
     ("M-d c <Backspace>", spawn "clipcatctl clear"),
     ("M-d l", spawn "dm-tool lock"),
-    ("M-d m r", spawn "autorandr -c --force")
+    ("M-d m r", spawn "autorandr -c --force"),
+    ("M-d a", doSomethingPrompt promptTheme)
   ]
 
 keysResize :: Keybindings

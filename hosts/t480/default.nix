@@ -364,13 +364,11 @@ with my;
     "i915.enable_dc=2"
   ];
 
-  boot.kernel.sysctl = {
-    # Taking into account
-    "vm.swappiness" = 20; # 100 as default is too big, prefere using ram
-  };
-
   boot.blacklistedKernelModules = [
     "snd_pcsp"
+    # block watchdogs
+    "sp5100-tco"
+    "iTCO_wdt"
   ];
 
   # https://github.com/sched-ext/scx
@@ -675,12 +673,6 @@ with my;
         inherit (pkgs.unstable-small)
           neovim
           ;
-
-        # 44.11
-        # inherit
-        #   (fromRev "c96875e768da1b176250c3bd0edce6b4f7b5d4bb" "sha256-y+Hw+NYmqhAXErmrwF3+DKsXyv0qJuyIs87fnBuNFeI=")
-        #   code-cursor
-        #   ;
 
         distrobox = prev.distrobox_git;
         telegram-desktop = prev.telegram-desktop_git;

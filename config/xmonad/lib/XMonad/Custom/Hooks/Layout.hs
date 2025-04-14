@@ -21,7 +21,6 @@ import Flow
 -- import XMonad.Actions.MouseResize
 
 import XMonad.Custom.Theme (tabTheme)
-import XMonad.Custom.Workspaces
 import XMonad.Hooks.ManageDocks
 import XMonad.Hooks.RefocusLast
 import XMonad.Layout.Accordion

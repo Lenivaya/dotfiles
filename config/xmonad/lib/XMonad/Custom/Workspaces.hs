@@ -3,18 +3,18 @@
 
 module XMonad.Custom.Workspaces where
 
-import Data.Foldable
+import Data.List (find)
+import Data.Maybe (fromMaybe)
 import XMonad hiding (workspaces)
 import XMonad.Actions.DynamicProjects
 import XMonad.Actions.WindowGo
 import XMonad.Custom.Actions.ApplicationChooser
+import XMonad.Custom.Actions.DoActions
 import XMonad.Custom.Actions.Keyboard
 import XMonad.Custom.Misc qualified as C
 import XMonad.Custom.Prompt
 import XMonad.Custom.Scratchpads
 import XMonad.Util.NamedScratchpad
-import XMonad.Util.Run
-import Control.Monad (unless)
 
 data WorkspaceNames = WorkspaceNames
   { generic :: String,
@@ -69,22 +69,20 @@ makeProject' name dir hook =
       projectStartHook = hook
     }
 
--- Helper function to spawn terminal with a command
-spawnTerminalWith :: String -> X ()
-spawnTerminalWith cmd = spawn (C.term C.applications ++ " " ++ cmd)
+{-| Helper function to find and execute an action by name
+Returns a no-op if the action isn't found
+-}
+doActionByName :: String -> X ()
+doActionByName name = fromMaybe (return ()) $ fmap doAction (findActionByName name)
 
-spawnBrowserWithUrls :: [String] -> X ()
--- spawnBrowserWithUrls urls = spawn (C.browser C.applications ++ " --new-window " ++ unwords urls)
-spawnBrowserWithUrls [] = return ()
-spawnBrowserWithUrls (firstUrl:otherUrls) = do
-    -- Open first URL in a new window
-    spawn (C.browser C.applications ++ " --new-window " ++ firstUrl)
-    -- If there are additional URLs, open them in the same window
-    unless (null otherUrls) $
-        spawn (C.browser C.applications ++ " " ++ unwords otherUrls)
-
-spawnBrowserWithUrl :: String -> X ()
-spawnBrowserWithUrl url = spawn (C.browser C.applications ++ " --new-window " ++ url)
+-- | Helper function to spawn an application by name using the ApplicationChooser
+spawnAppByName :: AppCategory -> String -> X ()
+spawnAppByName category appName = do
+  let apps = getApplicationsByCategory category
+      maybeApp = find (\app -> applicationName app == appName) apps
+  case maybeApp of
+    Just app -> spawn (applicationCommand app)
+    Nothing -> return ()
 
 -- All projects are either long lived (workspaces) or dynamic workspaces for specific
 -- use-cases, or dynamic projects used for starting something from use-case workspace `template`
@@ -92,106 +90,53 @@ projects :: [Project]
 projects =
   [ makeProject (generic wsNames) Nothing,
     makeProject (template wsNames) $ Just $ do
-      spawnTerminalWith "-e tmux"
-      spawn (C.browser C.applications),
+      doActionByName "Terminal with Tmux"
+      doActionByName "Browser",
     makeProject (graphics wsNames) $ Just $ do
       spawn "gimp",
     makeProject (sound wsNames) $ Just $ do
-      spawn (C.soundEffects C.applications)
+      doActionByName "Sound Effects"
       spawn "pavucontrol",
     makeProject (vm wsNames) $ Just $ do
       spawn (C.virtualMachinesManger C.applications),
     makeProject (write wsNames) $ Just $ do
       spawn "emacs_lets_write",
     makeProject (note wsNames) $ Just $ do
-      namedScratchpadAction scratchpads "notes",
-    -- spawn "obsidian",
+      doActionByName "Notes",
     makeProject (code wsNames) $ Just $ do
-      wrapKbdLayout $
-        selectEditorByNameAndDo
-          promptTheme
-          spawn,
+      wrapKbdLayout $ selectEditorByNameAndDo promptTheme spawn,
     makeProject (web wsNames) $ Just $ do
-      wrapKbdLayout $
-        selectBrowserByNameAndDo
-          promptTheme
-          spawn,
+      wrapKbdLayout $ selectBrowserByNameAndDo promptTheme spawn,
     makeProject (wsread wsNames) $ Just $ do
-      wrapKbdLayout $
-        selectReaderByNameAndDo
-          promptTheme
-          spawn,
+      wrapKbdLayout $ selectReaderByNameAndDo promptTheme spawn,
     makeProject (sys wsNames) $ Just $ do
-      spawn (C.term C.applications)
-      spawn (C.term C.applications),
+      doActionByName "Terminal"
+      doActionByName "Terminal",
     makeProject (tmp wsNames) Nothing,
     makeProject (wsWRK wsNames) Nothing,
-    makeProject (git wsNames) $ Just $ do spawn "gitbutler-tauri",
-    makeProject (messages wsNames) $ Just $ do spawn "ayugram-desktop",
+    makeProject (git wsNames) $ Just $ doActionByName "GitButler",
+    makeProject (messages wsNames) $ Just $ spawn "ayugram-desktop",
     makeProject "START" Nothing,
-    makeProject "MON" $ Just $ do
-      spawnTerminalWith "-e btop"
-      spawnTerminalWith "-e htop",
-    makeProject "AI" $ Just $ do
-      spawnBrowserWithUrl "https://www.perplexity.ai"
-      spawnBrowserWithUrls
-        ["https://chat.openai.com", "https://claude.ai",
-        -- "https://copilot.microsoft.com",
-        "https://gemini.google.com/app",
-        "https://chat.deepseek.com"],
-    makeProject "GH" $ Just $ do
-      spawnBrowserWithUrl "https://github.com"
-      spawnBrowserWithUrls ["https://github.com/notifications", "https://github.com/pulls"],
-    makeProject "MAIL" $ Just $ do
-      spawnBrowserWithUrl "https://mail.google.com"
-      spawnBrowserWithUrl "https://mail.proton.me",
-    makeProject "TWR" $ Just $ do
-      spawnBrowserWithUrl "https://x.com",
-    makeProject "SPACE-ANALYZER" $ Just $ do
-      spawnTerminalWith "--hold -e duf"
-      spawnTerminalWith "-e dua i ~/",
-    makeProject "WEATHER" $ Just $ do
-      spawnTerminalWith "--hold -e curl wttr.in"
-      spawnBrowserWithUrl "https://merrysky.net/",
+    makeProject "MON" $ Just $ doActionByName "System Monitors",
+    makeProject "AI" $ Just $ doActionByName "AI Assistants",
+    makeProject "GH" $ Just $ doActionByName "GitHub",
+    makeProject "MAIL" $ Just $ doActionByName "Mail",
+    makeProject "TWR" $ Just $ doActionByName "Social Media",
+    makeProject "SPACE-ANALYZER" $ Just $ doActionByName "Disk Space Analyzer",
+    makeProject "WEATHER" $ Just $ doActionByName "Weather",
     makeProject "DEV" $ Just $ do
-      spawn "cursor"
-      spawnTerminalWith "-e tmux"
-      spawnBrowserWithUrl "https://devdocs.io",
-    makeProject "NET" $ Just $ do
-      spawnTerminalWith "--hold -e , speedtest-rs"
-      spawnTerminalWith "-e , bmon",
-    makeProject "LOGS" $ Just $ do
-      spawnTerminalWith "--hold -e journalctl -f",
-    makeProject "API" $ Just $ do
-      spawn "postman",
-    makeProject "LANG" $ Just $ do
-      spawnBrowserWithUrls
-        ["https://duolingo.com", "https://translate.google.com", "https://forvo.com"],
-    makeProject "TRANSLATE" $ Just $ do
-      spawnBrowserWithUrls
-        ["https://translate.google.com", "https://deepl.com", "https://reverso.net"],
-    makeProject "DOCKER" $ Just $ do
-      spawnTerminalWith "-e lazydocker"
-      spawnTerminalWith "-e oxker",
-    makeProject "CRYPTO" $ Just $ do
-      spawnTerminalWith "-e , cointop"
-      spawnBrowserWithUrls ["https://x.com", "https://dropstab.com"],
-    makeProject "REC" $ Just $ do
-      spawn "obs",
-    makeProject "WATCH" $ Just $ do
-      spawnBrowserWithUrls
-        [ "https://youtube.com",
-          "https://www.youtube.com/playlist?list=WL",
-          "https://www.youtube.com/feed/history"
-        ],
-    makeProject "UPWORK" $ Just $ do
-      spawnBrowserWithUrls
-        [ "https://www.upwork.com/",
-          "https://www.upwork.com/nx/find-work/best-matches",
-          "https://www.upwork.com/nx/plans/connects/history/"
-        ]
-      spawn "upwork",
-    makeProject "DOTS" $ Just $ do
-      spawnTerminalWith "--hold -e $DOTFILES"
-      spawnTerminalWith "-e nvim $DOTFILES"
+      spawnAppByName Editors "Cursor"
+      doActionByName "Terminal with Tmux"
+      doActionByName "Browser",
+    makeProject "NET" $ Just $ doActionByName "Network Monitors",
+    makeProject "LOGS" $ Just $ doActionByName "System Logs",
+    makeProject "API" $ Just $ doActionByName "API Client",
+    makeProject "LANG" $ Just $ doActionByName "Language Learning",
+    makeProject "TRANSLATE" $ Just $ doActionByName "Translation Tools",
+    makeProject "DOCKER" $ Just $ doActionByName "Docker Tools",
+    makeProject "CRYPTO" $ Just $ doActionByName "Cryptocurrency Tools",
+    makeProject "REC" $ Just $ doActionByName "Screen Recorder",
+    makeProject "WATCH" $ Just $ doActionByName "Video Streaming",
+    makeProject "UPWORK" $ Just $ doActionByName "Upwork",
+    makeProject "DOTS" $ Just $ doActionByName "Dotfiles"
   ]
