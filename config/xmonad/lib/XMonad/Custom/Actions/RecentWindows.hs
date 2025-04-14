@@ -126,10 +126,8 @@ trimHistory h =
   in  if len <= maxHistorySize
         then h
         else -- Take only the most recent maxHistorySize entries and rebuild the history
-        -- This is more efficient than folding over the entire list
-
           let !recentEntries = take maxHistorySize entries
-          in  foldr (\(w, loc) hist -> event w loc hist) origin recentEntries
+          in  foldr' (\(w, loc) !hist' -> event w loc hist') origin recentEntries
 
 -- | Log window history with check for redundant updates
 logWinHist :: X ()
@@ -140,12 +138,11 @@ logWinHist = do
     let cws = W.workspace cs
     for_ (W.stack cws) $ \st -> do
       let currentFocus = W.focus st
-      -- Only update if this is a new focus
       when (lastFocused /= Just currentFocus) $ do
         let location = Location {workspace = W.tag cws, screen = W.screen cs}
             updatedHist = event currentFocus location hist
             trimmedHist = trimHistory updatedHist
-        XS.put wh {hist = trimmedHist, lastFocused = Just currentFocus}
+        XS.put $! wh {hist = trimmedHist, lastFocused = Just currentFocus}
 
 -- | Event handler for window history events
 winHistEH :: Event -> X All
@@ -160,7 +157,7 @@ winHistEH = \case
   _ -> return (All True)
   where
     collect w = XS.modify $ \wh@RecentWindowsState {hist} ->
-      wh {hist = erase w hist, lastFocused = Nothing}
+      let !newHist = erase w hist in wh {hist = newHist, lastFocused = Nothing}
 
 {-| Perform an action on a window at specified position in the MRU history.
 The position is 1-based, where 1 is the most recently used window.
@@ -183,12 +180,8 @@ getRecentWindows n = do
   RecentWindowsState {hist} <- XS.get
   focused <- gets (W.peek . windowset)
   let windows = map fst (ledger hist)
-      -- Early check for empty list to avoid redundant filtering
-      recentWindows =
-        if null windows
-          then []
-          else take n $ filter (\w -> Just w /= focused) windows
-  return recentWindows
+  -- Avoid intermediate lists and redundant filtering
+  return $ take n $ filter ((/= focused) . Just) windows
 
 -- | Data types for window prompts
 data RecentWindowPrompt = RecentWindowPrompt
@@ -312,14 +305,13 @@ showRecentWindows :: Int -> Int -> Double -> X ()
 showRecentWindows numWindows shortenLength displayTime = do
   windows <- getRecentWindows numWindows
   unless (null windows) $ do
-    -- Use traverse for better performance with strict evaluation
-    windowNames <- traverse formatWindow (zip [1 ..] windows)
-
+    -- Use zipWithM for strictness and efficiency
+    windowNames <- zipWithM formatWindow [1 ..] windows
     flashText
       def {st_font = "xft:chordmonospace:size=12"}
       (ceiling (displayTime * 100) % 100)
       (intercalate " | " windowNames)
   where
-    formatWindow (i, w) = do
+    formatWindow i w = do
       name <- show <$> getName w
       return $ show i ++ ":" ++ shorten shortenLength name

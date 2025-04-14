@@ -118,6 +118,13 @@ allActions =
             "https://gemini.google.com/app",
             "https://chat.deepseek.com"
           ],
+      Action "AI Research" $ do
+        spawnBrowserWithUrls
+          [
+            "https://grok.com/",
+            "https://notebooklm.google.com/",
+            "https://www.perplexity.ai/",
+          ],
       Action "GitHub" $ do
         spawnBrowserWithUrl "https://github.com"
         spawnBrowserWithUrls ["https://github.com/notifications", "https://github.com/pulls"],
@@ -179,6 +186,12 @@ allActions =
             "https://www.upwork.com/nx/plans/connects/history/"
           ]
         spawn "upwork",
+      Action "Entertainment Mode" $ do
+        spawnBrowserWithUrls
+          [ "https://youtube.com"
+          , "https://music.youtube.com"
+          , "https://x.com"
+          ],
       Action "Dotfiles" $ do
         spawnTerminalWith "--hold -e $DOTFILES"
         spawnTerminalWith "-e nvim $DOTFILES",
@@ -210,5 +223,9 @@ allActions =
       Action "Screencast mp4" $
         screencast RecordToMP4,
       Action "Screencast gif" $
-        screencast RecordToGIF
+        screencast RecordToGIF,
+      Action "System Health Check" $ do
+        spawnTerminalWith "-e btop"
+        spawnTerminalWith "-e htop"
+        spawnTerminalWith "--hold -e journalctl -f"
     ]
