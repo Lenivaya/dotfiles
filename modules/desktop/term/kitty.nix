@@ -22,7 +22,6 @@ in
   config = mkIf cfg.enable (mkMerge [
     {
       user.packages = with pkgs; [ kitty ];
-      system.userActivationScripts.linkKittyConfig = linkIfNotExist "~/.config/kitty" "${outOfStoreConfigDir}/kitty";
 
       # home.configFile."kitty" = {
       #   source = "${configDir}/kitty";
@@ -30,6 +29,7 @@ in
       # };
       #
       # Embrace impurity and imperfection.
+      system.userActivationScripts.linkKittyConfig = linkIfNotExist "~/.config/kitty" "${outOfStoreConfigDir}/kitty";
     }
 
     (mkIf cfg.default {

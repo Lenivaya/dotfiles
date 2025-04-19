@@ -13,7 +13,7 @@ in
   options.modules.dev.rust.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    user.packages = with pkgs; [
+    environment.systemPackages = with pkgs; [
       clang
       llvmPackages.bintools
 

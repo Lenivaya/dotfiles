@@ -19,11 +19,11 @@ let
       url = "https://downloads.cursor.com/production/client/linux/x64/appimage/Cursor-0.47.8-82ef0f61c01d079d1b7e5ab04d88499d5af500e3.deb.glibc2.25-x86_64.AppImage";
       hash = "sha256-3Ph5A+x1hW0SOaX8CF7b/8Fq7eMeBkG1ju9vud6Cbn0=";
 
-      # url = "https://downloads.cursor.com/production/2d6a87f894b91f2d4a045294e1ad36d208023ccb/linux/x64/Cursor-0.48.4-x86_64.AppImage";
-      # hash = "sha256-FFtQgJLXtdqDibsGrruqH74YkMuZTWGaEDJCfst/k+U=";
-
       # url = "https://downloads.cursor.com/production/66290080aae40d23364ba2371832bda0933a3641/linux/x64/Cursor-0.48.7-x86_64.AppImage";
       # hash = "sha256-nnPbv74DOcOqgnAqW2IZ1S/lVbfv8pSe6Ab5BOdzkrs=";
+
+      # url = "https://downloads.cursor.com/production/600e5c827c07c5818474c1056eeec61d478b407a/linux/x64/Cursor-0.49.1-x86_64.AppImage";
+      # hash = "sha256-pohjiC50ICRCD2kCARSkbkw75ru4IRNH2Wotk6xR4e0=";
     };
   };
 

@@ -331,12 +331,6 @@
       "textLink.foreground": "#616161"
     },
     "colorTheme": "Min Tomorrow Dark",
-    "editorAssociations": [
-      {
-        "filenamePattern": "*.ipynb",
-        "viewType": "jupyter-notebook"
-      }
-    ],
     "list": {
       "smoothScrolling": false
     },
@@ -372,10 +366,7 @@
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
   "workbench.editorAssociations": {
-    "0": {
-      "filenamePattern": "*.ipynb",
-      "viewType": "jupyter-notebook"
-    }
+    "*.mdc": "default"
   },
   "markdown-preview-enhanced.enablePreviewZenMode": false,
   "[javascript]": {

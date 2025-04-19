@@ -90,8 +90,7 @@ projects :: [Project]
 projects =
   [ makeProject (generic wsNames) Nothing,
     makeProject (template wsNames) $ Just $ do
-      doActionByName "Terminal with Tmux"
-      doActionByName "Browser",
+      doActionByName "Template",
     makeProject (graphics wsNames) $ Just $ do
       spawn "gimp",
     makeProject (sound wsNames) $ Just $ do

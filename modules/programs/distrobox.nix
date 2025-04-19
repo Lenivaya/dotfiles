@@ -34,17 +34,15 @@ in
       DBX_CONTAINER_MANAGER = "podman";
     };
 
-    environment.systemPackages =
-      with pkgs;
-      [
-        distrobox
-        distrobox-tui
+    environment.systemPackages = with pkgs; [
+      distrobox
+      distrobox-tui
 
-        podman
-        podman-compose
-        podman-tui
-      ]
-      ++ optional config.this.isHeadful boxbuddy;
+      podman
+      podman-compose
+      podman-tui
+    ];
+    # ++ optional config.this.isHeadful boxbuddy;
 
     user.extraGroups = [ "podman" ];
 

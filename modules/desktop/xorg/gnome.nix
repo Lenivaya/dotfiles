@@ -17,6 +17,7 @@ in
   config = mkIf cfg.enable {
     services.xserver = enabled // {
       displayManager.gdm.enable = mkForce true;
+      displayManager.lightdm.enable = mkForce false;
       desktopManager.gnome = enabled;
     };
 
@@ -27,7 +28,8 @@ in
         # pop-shell
         # gesture-improvements
         gsconnect
-        vertical-workspaces # overview-navigation
+        paperwm
+        # vertical-workspaces # overview-navigation
         space-bar
         vim-alt-tab
         # useless-gaps

@@ -53,11 +53,11 @@ with lib.my;
       };
 
       browsers = {
-        default = "firefox-nightly";
+        default = "firefox";
 
         firefox = enabled // {
-          package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
-          executable = "firefox-nightly";
+          package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
+          executable = "firefox";
         };
         # chromium =
         #   let
@@ -232,7 +232,7 @@ with lib.my;
       };
     };
 
-    # zram = enabled;
+    zram = enabled;
     bootsplash = enabled;
     fast-networking = enabled;
   };
@@ -372,6 +372,7 @@ with lib.my;
       24800
       6379
       6969
+      1234
     ];
   };
 

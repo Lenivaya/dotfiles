@@ -133,6 +133,7 @@ myEngines =
     searchEngine "whoisLookup" "https://who.is/whois/{searchTerms}",
     searchEngine "dnsLookup" "https://dns.google/query?name={searchTerms}",
     searchEngine "downDetector" "https://downdetector.com/status/",
+    searchEngine "pkgsGoDev" "https://pkg.go.dev/search?q=",
     searchEngine
       "google"
       "https://www.google.com/search?q="

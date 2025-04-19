@@ -57,11 +57,11 @@ with my;
       };
 
       browsers = {
-        default = "firefox-nightly";
+        default = "firefox";
 
         firefox = enabled // {
-          package = inputs.firefox.packages.${pkgs.system}.firefox-nightly-bin;
-          executable = "firefox-nightly";
+          package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
+          executable = "firefox";
         };
         chromium =
           let
@@ -200,7 +200,7 @@ with my;
     };
 
     cachyos = {
-      # settings = enabled;
+      settings = enabled;
       udev = enabled;
     };
 
@@ -314,14 +314,6 @@ with my;
     settings.sensor.devname = "video1"; # because video0 is virtual camera
   };
 
-  # OOM is killing me for some reason, though I have 32GB of RAM, and plenty of it is free.
-  # lets step back for the most stability and use lts version.
-  #
-  # https://www.reddit.com/r/cachyos/comments/1ipzgl9/hard_lockups_on_accessing_files_on_a_share_using/
-  # https://discuss.cachyos.org/t/lots-of-available-memory-and-processes-dying-by-oom/7669/10
-  # https://github.com/chaotic-cx/nyx/issues/1020#issue-2989970948
-  #
-  #
   # boot.kernelPackages =
   #   let
   #     kernel' = pkgs.linuxPackages_cachyos-lto;
@@ -371,6 +363,10 @@ with my;
     "iTCO_wdt"
   ];
 
+  # boot.kernel.sysctl = {
+  #   "vm.swappiness" = 50;
+  # };
+  #
   # https://github.com/sched-ext/scx
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
@@ -429,54 +425,45 @@ with my;
     options psmouse synaptics_intertouch=1
   ";
 
-  environment.systemPackages =
-    let
-      # cursor' = wrapWithFlags "cursor" (getExe pkgs.my.code-cursor) (
-      #   spaceConcat config.modules.desktop.browsers.chromium.commandLineArgs
-      # );
-      obsidian' = wrapWithFlags "obsidian" (getExe pkgs.obsidian) (
-        spaceConcat config.modules.desktop.browsers.chromium.commandLineArgs
-      );
-    in
-    with pkgs;
-    [
-      pkgs.my.code-cursor
-      obsidian'
-      (inxi.override { withRecommends = true; })
-      khal
-      ayugram-desktop
-      ffmpeg-full
-      video-trimmer
-      postman
-      my.gitbutler
-      twitch-hls-client
-      curtail # image compression
-      smartmontools
-      gcc
-      qrrs
-      iwgtk
-      protonvpn-gui
-      ungoogled-chromium
-      wireguard-tools
-      deskflow
-      upwork
-      beekeeper-studio
-      scx.full
-      # scx_git.full
-      pgcli
-      # zed-editor_git
-      # zoom-us
-      windsurf
-      readest
-      cozy
-      python313Packages.markitdown
+  environment.systemPackages = with pkgs; [
+    # pkgs.my.code-cursor
+    appimage-run
+    obsidian
+    (inxi.override { withRecommends = true; })
+    khal
+    ayugram-desktop
+    ffmpeg-full
+    video-trimmer
+    postman
+    my.gitbutler
+    twitch-hls-client
+    curtail # image compression
+    smartmontools
+    gcc
+    qrrs
+    iwgtk
+    protonvpn-gui
+    ungoogled-chromium
+    wireguard-tools
+    deskflow
+    upwork
+    beekeeper-studio
+    scx.full
+    # scx_git.full
+    pgcli
+    # zed-editor_git
+    # zoom-us
+    windsurf
+    readest
+    cozy
+    python313Packages.markitdown
 
-      # dropbox
-      maestral-gui
-      maestral
+    # dropbox
+    maestral-gui
+    maestral
 
-      ciscoPacketTracer8
-    ];
+    ciscoPacketTracer8
+  ];
 
   hardware.trackpoint = enabled // {
     speed = 500;
@@ -530,8 +517,8 @@ with my;
     LIBVA_DRIVER_NAME = mkForce "iHD";
 
     # https://wiki.archlinux.org/title/GTK#GTK_4_applications_are_slow
-    GSK_RENDERER = "gl";
-    GDK_DEBUG = "gl-no-fractional";
+    # GSK_RENDERER = "gl";
+    # GDK_DEBUG = "gl-no-fractional";
   };
 
   services.smartd = enabled;

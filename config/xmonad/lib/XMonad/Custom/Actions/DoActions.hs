@@ -123,7 +123,7 @@ allActions =
           [
             "https://grok.com/",
             "https://notebooklm.google.com/",
-            "https://www.perplexity.ai/",
+            "https://www.perplexity.ai/"
           ],
       Action "GitHub" $ do
         spawnBrowserWithUrl "https://github.com"
@@ -138,6 +138,7 @@ allActions =
         spawnBrowserWithUrl "https://x.com",
       Action "Disk Space Analyzer" $ do
         spawnTerminalWith "--hold -e duf"
+        spawnTerminalWith "--hold , bleachbit"
         spawnTerminalWith "-e dua i ~/",
       Action "Weather" $ do
         spawnTerminalWith "--hold -e curl wttr.in"
@@ -227,5 +228,8 @@ allActions =
       Action "System Health Check" $ do
         spawnTerminalWith "-e btop"
         spawnTerminalWith "-e htop"
-        spawnTerminalWith "--hold -e journalctl -f"
+        spawnTerminalWith "--hold -e journalctl -f",
+      Action "Template" $ do
+        spawnTerminalWith "-e tmux"
+        spawn (C.browser C.applications)
     ]
