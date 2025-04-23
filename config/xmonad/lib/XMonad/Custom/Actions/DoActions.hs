@@ -122,6 +122,7 @@ allActions =
         spawnBrowserWithUrls
           [
             "https://grok.com/",
+            "https://scira.ai/",
             "https://notebooklm.google.com/",
             "https://www.perplexity.ai/"
           ],

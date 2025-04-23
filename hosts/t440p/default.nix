@@ -234,7 +234,7 @@ with lib.my;
 
     zram = enabled;
     bootsplash = enabled;
-    fast-networking = enabled;
+    # fast-networking = enabled;
   };
 
   # nix.package = pkgs.unstable.nixVersions.git;

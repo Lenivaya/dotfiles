@@ -106,7 +106,7 @@ with my;
 
       vm = {
         winapps = enabled;
-        qemu = enabled;
+        # qemu = enabled;
         # wine = enabled;
       };
     };
@@ -159,7 +159,7 @@ with my;
     services = {
       darkman = enabled;
       # warp = enabled;
-      ananicy = enabled;
+      # ananicy = enabled;
       clipcat = enabled;
       # greenclip = enabled;
       kdeconnect = enabled;
@@ -252,7 +252,7 @@ with my;
 
     # zram = enabled;
     bootsplash = enabled;
-    fast-networking = enabled;
+    # fast-networking = enabled;
   };
 
   nix.package = pkgs.unstable.nixVersions.latest;
@@ -289,6 +289,8 @@ with my;
             (mkNoPwd pkgs.smartmontools "smartctl")
             (mkNoPwd pkgs.powertop "powertop")
             (mkNoPwd pkgs.intel-gpu-tools "intel_gpu_top")
+            (mkNoPwd pkgs.wireguard-tools "wg-quick")
+            (mkNoPwd pkgs.wireguard-tools ".wg-quick-wrapped")
           ];
           groups = [ "wheel" ];
         }
@@ -302,10 +304,9 @@ with my;
   };
 
   services.clight = {
-    # BUG https://github.com/NixOS/nixpkgs/issues/321121
     settings.daytime = {
       sunrise = "07:00";
-      sunset = "18:00";
+      sunset = "20:00";
     };
 
     settings.resumedelay = 5;
@@ -314,12 +315,17 @@ with my;
     settings.sensor.devname = "video1"; # because video0 is virtual camera
   };
 
-  # boot.kernelPackages =
-  #   let
-  #     kernel' = pkgs.linuxPackages_cachyos-lto;
-  #   in
-  #   mkForce kernel';
-  boot.kernelPackages = with pkgs; linuxPackagesFor linuxPackages_cachyos;
+  services.geoclue2 = enabled // {
+    geoProviderUrl = "https://api.beacondb.net/v1/geolocate";
+    submissionUrl = "https://api.beacondb.net/v2/geosubmit";
+  };
+
+  boot.kernelPackages =
+    let
+      kernel' = pkgs.linuxPackages_cachyos-lto;
+    in
+    mkForce kernel';
+  # boot.kernelPackages = with pkgs; linuxPackagesFor linuxPackages_cachyos;
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU
@@ -373,15 +379,10 @@ with my;
   # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
   # https://github.com/sched-ext/scx/issues/1188
   # https://wiki.cachyos.org/configuration/sched-ext/#disable-ananicy-cpp
-  # services.scx = enabled // {
-  #   scheduler = "scx_bpfland";
-  #   # package = pkgs.scx_git.full;
-  #   package = pkgs.unstable.scx.full;
-  #   # extraArgs = [
-  #   #   "-p"
-  #   #   "-m performance"
-  #   # ]; # https://github.com/sched-ext/scx/issues/1247
-  # };
+  services.scx = enabled // {
+    scheduler = "scx_bpfland";
+    package = pkgs.unstable.scx.full;
+  };
 
   networking.firewall = {
     allowedUDPPortRanges = [
@@ -449,7 +450,6 @@ with my;
     upwork
     beekeeper-studio
     scx.full
-    # scx_git.full
     pgcli
     # zed-editor_git
     # zoom-us
@@ -457,6 +457,8 @@ with my;
     readest
     cozy
     python313Packages.markitdown
+    youtube-music
+    wgcf
 
     # dropbox
     maestral-gui
@@ -655,6 +657,7 @@ with my;
           kitty
           legcord
           scx
+          youtube-music
           ;
 
         inherit (pkgs.unstable-small)

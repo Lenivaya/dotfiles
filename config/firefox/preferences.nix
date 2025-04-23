@@ -296,9 +296,31 @@
   # Faster SSL
   "network.ssl_tokens_cache_capacity" = 32768; # more TLS token caching (fast reconnects)
 
-  # "fission.autostart" = false; # disable enhanced protection between threads/processes of the browser (which uses LOADS of memory to do)
-  # "privacy.partition.network_state" = false; # don't seperate the network state (e.g. the cache) by top level domains)
-  #
-  # "dom.ipc.processCount" = 1;
-  # "dom.ipc.processCount.webIsolated" = 1;
+  "fission.autostart" = false; # disable enhanced protection between threads/processes of the browser (which uses LOADS of memory to do)
+  "privacy.partition.network_state" = false; # don't seperate the network state (e.g. the cache) by top level domains)
+
+  "dom.ipc.processCount" = 1;
+  "dom.ipc.processCount.webIsolated" = 1;
+
+  # i don't really care
+  "browser.contentblocking.category" = "custom";
+  # "browser.contentblocking.fingerprinting.preferences.ui.enabled" = false;
+  # Disable all custom filters in Privacy & Security -> Custom (Tracking Protection)
+  # Disable Block dangerous and deceptive content in Security section
+  "browser.safebrowsing.phishing.enabled" = false;
+  "browser.safebrowsing.malware.enabled" = false;
+  "browser.safebrowsing.downloads.enabled" = false;
+  "browser.safebrowsing.downloads.remote.enabled" = false;
+  "browser.safebrowsing.blockedURIs.enabled" = false;
+  # Disable Enhanced Tracking Protection
+  "privacy.trackingprotection.enabled" = false; # Main ETP switch
+  "privacy.trackingprotection.pbmode.enabled" = false; # ETP in private browsing
+  "privacy.trackingprotection.socialtracking.enabled" = false; # Social tracking
+  # Disable individual protections
+  "privacy.trackingprotection.cryptomining.enabled" = false;
+  "privacy.trackingprotection.fingerprinting.enabled" = false;
+  "privacy.trackingprotection.fingerprinting.annotate.enabled" = false;
+  "privacy.trackingprotection.cryptomining.annotate.enabled" = false;
+  # Disable cookie restrictions
+  "network.cookie.cookieBehavior" = 0; # 0 = Accept all cookies
 }

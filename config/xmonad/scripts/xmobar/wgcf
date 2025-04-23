@@ -1,0 +1,11 @@
+#!/bin/sh
+
+INTERFACE="wgcf-profile"
+
+if ip link show "$INTERFACE" >/dev/null 2>&1; then
+  echo "<action='wgcf-toggle'><fc=#00ff00><fn=3></fn> WARP</fc> </action>"
+  exit 0
+else
+  echo "<action='wgcf-toggle'><fc=#a83240><fn=3></fn> warp</fc> </action>"
+  exit 0
+fi

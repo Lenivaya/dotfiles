@@ -97,10 +97,10 @@ in
     nixpkgs.overlays = [
       (_final: prev: {
         keyd = optimizePkg (
-          # prev.keyd
-          prev.keyd.overrideAttrs (_oa: {
-            src = inputs.keyd;
-          })
+          prev.keyd
+          # prev.keyd.overrideAttrs (_oa: {
+          #   src = inputs.keyd;
+          # })
         );
       })
     ];

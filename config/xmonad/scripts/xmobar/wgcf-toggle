@@ -1,0 +1,21 @@
+#!/bin/sh
+
+INTERFACE="wgcf-profile"
+CONF_FILE="$HOME/wgcf-profile.conf"
+SILENT=false
+
+# Check for silent flag
+if [ "$1" = "--silent" ]; then
+  SILENT=true
+fi
+
+# Check current status
+if ip link show "$INTERFACE" >/dev/null 2>&1; then
+  [ "$SILENT" = false ] && notify-send "Warp" "Deactivating WireGuard Cloudflare..."
+  pkexec wg-quick down "$CONF_FILE"
+  [ "$SILENT" = false ] && notify-send "Warp" "WireGuard Cloudflare deactivated"
+else
+  [ "$SILENT" = false ] && notify-send "Warp" "Activating WireGuard Cloudflare..."
+  pkexec wg-quick up "$CONF_FILE"
+  [ "$SILENT" = false ] && notify-send "Warp" "WireGuard Cloudflare activated"
+fi
