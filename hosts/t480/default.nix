@@ -23,7 +23,6 @@ with my;
     ++ (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-t480 ])
     ++ (with inputs; [
       # determinate.nixosModules.default
-      nixos-cachyos-kernel.nixosModules.default
       stevenblack-hosts.nixosModule
       {
         networking.stevenBlackHosts = enabled // {
@@ -325,7 +324,6 @@ with my;
       kernel' = pkgs.linuxPackages_cachyos-lto;
     in
     mkForce kernel';
-  # boot.kernelPackages = with pkgs; linuxPackagesFor linuxPackages_cachyos;
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU

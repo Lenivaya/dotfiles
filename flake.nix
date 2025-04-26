@@ -52,8 +52,6 @@
 
     chaotic.url = "github:chaotic-cx/nyx";
 
-    nixos-cachyos-kernel.url = "github:drakon64/nixos-cachyos-kernel";
-
     browser-previews = {
       url = "github:nix-community/browser-previews";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -155,7 +153,6 @@
       "https://pre-commit-hooks.cachix.org"
       "https://viperml.cachix.org/"
       "https://chaotic-nyx.cachix.org/"
-      "https://drakon64-nixos-cachyos-kernel.cachix.org"
     ];
 
     extra-trusted-public-keys = [
@@ -167,7 +164,6 @@
       "pre-commit-hooks.cachix.org-1:Pkk3Panw5AW24TOv6kz3PvLhlH8puAsJTBbOPmBo7Rc="
       "viperml.cachix.org-1:qZhKBMTfmcLL+OG6fj/hzsMEedgKvZVFRRAhq7j8Vh8="
       "chaotic-nyx.cachix.org-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
-      "drakon64-nixos-cachyos-kernel.cachix.org-1:J3gjZ9N6S05pyLA/P0M5y7jXpSxO/i0rshrieQJi5D0="
     ];
   };
 

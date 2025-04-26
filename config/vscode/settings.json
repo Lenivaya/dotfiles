@@ -354,9 +354,7 @@
   "[jsonc]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "workbench.editorAssociations": {
-    "*.mdc": "default"
-  },
+  "workbench.editorAssociations": {},
   "markdown-preview-enhanced.enablePreviewZenMode": false,
   "[javascript]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -580,7 +578,7 @@
   "terminal.integrated.minimumContrastRatio": 1,
   "window.titleBarStyle": "custom",
   "workbench.iconTheme": "catppuccin-mocha",
-  "editor.renderWhitespace": "all",
+  "editor.renderWhitespace": "none",
   "find-it-faster.general.useTerminalInEditor": true,
   "fzf-picker.general.openCommand": "cursor -g",
   "fzf-picker.customTasks": [
@@ -608,7 +606,7 @@
   "windsurf.explainAndFixInCurrentConversation": true,
   "windsurf.enableAutocomplete": true,
   "editor.fontSize": 16,
-  "workbench.colorTheme": "Solarized Light",
+  "workbench.colorTheme": "Min Tomorrow Dark",
   "super-figure.vectorFigureEditor": "/usr/bin/inkscape",
   "super-figure.bitmapFigureEditor": "/usr/bin/gimp",
   "editor.unicodeHighlight.ambiguousCharacters": false,
