@@ -296,11 +296,11 @@
   # Faster SSL
   "network.ssl_tokens_cache_capacity" = 32768; # more TLS token caching (fast reconnects)
 
-  "fission.autostart" = false; # disable enhanced protection between threads/processes of the browser (which uses LOADS of memory to do)
-  "privacy.partition.network_state" = false; # don't seperate the network state (e.g. the cache) by top level domains)
+  # "fission.autostart" = false; # disable enhanced protection between threads/processes of the browser (which uses LOADS of memory to do)
+  # "privacy.partition.network_state" = false; # don't seperate the network state (e.g. the cache) by top level domains)
 
-  "dom.ipc.processCount" = 1;
-  "dom.ipc.processCount.webIsolated" = 1;
+  # "dom.ipc.processCount" = 1;
+  # "dom.ipc.processCount.webIsolated" = 1;
 
   # i don't really care
   "browser.contentblocking.category" = "custom";

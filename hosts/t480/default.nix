@@ -56,8 +56,12 @@ with my;
       };
 
       browsers = {
-        default = "firefox";
+        default = "zen";
 
+        zen-browser = enabled // {
+          package = inputs.zen-browser.packages."${pkgs.system}".twilight-official;
+          executable = "zen";
+        };
         firefox = enabled // {
           package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
           executable = "firefox";
@@ -449,7 +453,6 @@ with my;
     beekeeper-studio
     scx.full
     pgcli
-    # zed-editor_git
     # zoom-us
     windsurf
     readest

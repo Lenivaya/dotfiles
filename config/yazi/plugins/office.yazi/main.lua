@@ -13,7 +13,7 @@ function M:peek(job)
 		return
 	end
 
-	ya.sleep(math.max(0, PREVIEW.image_delay / 1000 + start - os.clock()))
+	ya.sleep(math.max(0, rt.preview.image_delay / 1000 + start - os.clock()))
 	ya.image_show(cache, job.area)
 	ya.preview_widgets(job, {})
 end
@@ -31,7 +31,9 @@ function M:doc2pdf(job)
 
 --[[	For Future Reference: Regarding `libreoffice` as preconverter
 	  1. It prints errors to stdout (always, doesn't matter if it succeeded or it failed)
-	  2. Always writes the converted files to the filesystem (so no Mario|Bros|Piping|Magic|To>stdout) --]]
+	  2. Always writes the converted files to the filesystem, so no "Mario|Bros|Piping|Magic" for the data stream (https://ask.libreoffice.org/t/using-convert-to-output-to-stdout/38753)
+	  3. The `pdf:draw_pdf_Export` filter needs literal double quotes when defining its options (https://help.libreoffice.org/latest/en-US/text/shared/guide/pdf_params.html?&DbPAR=SHARED&System=UNIX#generaltext/shared/guide/pdf_params.xhp)
+	  3.1 Regarding double quotes and Lua strings, see https://www.lua.org/manual/5.1/manual.html#2.1 --]]
 	local libreoffice = Command("libreoffice")
 		:args({
 			"--headless",
@@ -82,7 +84,7 @@ function M:preload(job)
 			"-singlefile",
 			"-jpeg",
 			"-jpegopt",
-			"quality=" .. PREVIEW.image_quality,
+			"quality=" .. rt.preview.image_quality,
 			"-f",
 			1,
 			tostring(tmp_pdf),
@@ -101,7 +103,7 @@ function M:preload(job)
 	elseif not output.status.success then
 		local pages = tonumber(output.stderr:match("the last page %((%d+)%)")) or 0
 		if job.skip > 0 and pages > 0 then
-			ya.manager_emit("peek", { math.max(0, pages - 1), only_if = job.file.url, upper_bound = true })
+			ya.mgr_emit("peek", { math.max(0, pages - 1), only_if = job.file.url, upper_bound = true })
 		end
 		return true, Err("Failed to convert %s to image, stderr: %s", tmp_pdf, output.stderr)
 	end

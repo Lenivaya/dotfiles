@@ -64,6 +64,7 @@ myBrowsers, myReaders, mySoundUtils, myEditors :: [Application]
 myBrowsers =
   [ Application Browsers "Firefox" "firefox",
     Application Browsers "Firefox Nightly" "firefox-nightly",
+    Application Browsers "Zen" "zen",
     Application Browsers "Chromium" "chromium",
     Application Browsers "Google Chrome" "google-chrome-stable",
     Application Browsers "Google Chrome Unstable" "google-chrome-unstable",
