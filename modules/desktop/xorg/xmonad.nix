@@ -42,7 +42,7 @@ in
       };
       desktop = {
         lockscreen = enabled;
-        # compositor = enabled;
+        compositor = enabled;
         term = mkDefault {
           kitty = enabled;
           default = mkForce "kitty";

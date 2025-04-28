@@ -38,7 +38,10 @@
     },
     "renderIndentGuides": true,
     "renderWhitespace": "none",
-    "rulers": [80, 100],
+    "rulers": [
+      80,
+      100
+    ],
     "smoothScrolling": false,
     "snippetSuggestions": "top",
     "suggest": {
@@ -151,7 +154,11 @@
   },
   "gitlens": {
     "codeLens": {
-      "scopes": ["document", "containers", "blocks"]
+      "scopes": [
+        "document",
+        "containers",
+        "blocks"
+      ]
     }
   },
   "gopls": {
@@ -228,7 +235,9 @@
           "name": "pdflatex"
         },
         {
-          "args": ["%DOCFILE%"],
+          "args": [
+            "%DOCFILE%"
+          ],
           "command": "bibtex",
           "name": "bibtex"
         }
@@ -346,7 +355,9 @@
   "[json]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cSpell.userWords": ["Keypair"],
+  "cSpell.userWords": [
+    "Keypair"
+  ],
   "[typescript]": {
     "editor.formatOnSave": true,
     "editor.defaultFormatter": "esbenp.prettier-vscode"
@@ -592,7 +603,9 @@
   "leetcode.defaultLanguage": "python3",
   "leetcode.hint.commandShortcut": false,
   "leetcode.hint.commentDescription": false,
-  "cursor.cpp.disabledLanguages": ["scminput"],
+  "cursor.cpp.disabledLanguages": [
+    "scminput"
+  ],
   "window.commandCenter": 1,
   "guides.enabled": false,
   "redhat.telemetry.enabled": false,
@@ -625,7 +638,12 @@
   "sundial.sunset": "19:00",
   "go.toolsManagement.autoUpdate": true,
   "windsurf.enableTabToJump": true,
-  "windsurf.cascadeCommandsAllowList": ["mkdir", "cp", "cat", "grep"],
+  "windsurf.cascadeCommandsAllowList": [
+    "mkdir",
+    "cp",
+    "cat",
+    "grep"
+  ],
   "remote.defaultExtensionsIfInstalledLocally": [
     "GitHub.copilot",
     "GitHub.copilot-chat",

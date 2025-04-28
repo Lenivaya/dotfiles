@@ -15,7 +15,7 @@ commit:
   git add . && commit-date --no-verify --no-edit
 
 bump-firefox:
-  nix flake update firefox firefox-csshacks betterfox stevenblack-hosts
+  nix flake update firefox firefox-csshacks betterfox stevenblack-hosts zen-browser
 
 bump-xmonad:
   nix flake update xmonad xmonad-contrib xmonad-extras
