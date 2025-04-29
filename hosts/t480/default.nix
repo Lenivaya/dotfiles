@@ -56,7 +56,7 @@ with my;
       };
 
       browsers = {
-        default = "firefox";
+        default = "zen";
 
         zen-browser = enabled // {
           package = inputs.zen-browser.packages."${pkgs.system}".twilight-official;
