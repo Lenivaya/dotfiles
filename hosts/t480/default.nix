@@ -56,7 +56,7 @@ with my;
       };
 
       browsers = {
-        default = "zen";
+        default = "firefox";
 
         zen-browser = enabled // {
           package = inputs.zen-browser.packages."${pkgs.system}".twilight-official;
@@ -135,13 +135,14 @@ with my;
       default = mkForce "nvim";
       neovim = enabled;
       vscode = enabled;
-      jetbrains = enabled // {
-        packages = with pkgs; [ jetbrains-toolbox ]; # KISS
-      };
+      # jetbrains = enabled // {
+      #   packages = with pkgs; [ jetbrains-toolbox ]; # KISS
+      # };
     };
 
     dev = {
       docker = enabled;
+      kuber = enabled;
       nix = enabled;
       shell = enabled;
       elixir = enabled;
@@ -152,9 +153,9 @@ with my;
         package = pkgs.unstable.nodejs_23;
       };
       python = enabled;
-      dotnet = enabled // {
-        dotnetPkgsSdks = with pkgs.dotnetCorePackages; [ sdk_9_0 ];
-      };
+      # dotnet = enabled // {
+      #   dotnetPkgsSdks = with pkgs.dotnetCorePackages; [ sdk_9_0 ];
+      # };
       cc = enabled;
       typst = enabled;
     };
@@ -464,8 +465,6 @@ with my;
     # dropbox
     maestral-gui
     maestral
-
-    ciscoPacketTracer8
   ];
 
   hardware.trackpoint = enabled // {
@@ -652,7 +651,6 @@ with my;
           obsidian
           vscode
           jetbrains-toolbox
-          clipcat
           windsurf
           readest
           kitty

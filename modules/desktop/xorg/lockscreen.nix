@@ -23,7 +23,7 @@ in
     user.packages = with pkgs; [
       # betterlockscreen
       xidlehook
-      my.caffeinate
+      # my.caffeinate
     ];
 
     # home.configFile."betterlockscreen/betterlockscreenrc" = {

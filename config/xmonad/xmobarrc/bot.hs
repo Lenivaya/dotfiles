@@ -33,7 +33,6 @@ Config
         Run MultiCpu ["-t", "<fn=1>\62652</fn> <total>%"] 20,
         Run Memory ["-t", "<fn=1>\61381</fn>  <usedratio>%"] 20,
         Run ComX "player" [] "" "player" 20,
-        Run ComX "caffeinatestatus" [] "" "caffeine" 20,
         Run ComX "dunststatus" [] "" "dunst" 20,
         Run ComX "wgcf" [] "" "wgcf" 20
         -- , Run ComX "warpstatus" [] "" "warp" 10
@@ -46,6 +45,6 @@ Config
       \}\
       \%player%\
       \{\
-      \%wgcf% %dunst% %caffeine%   |  %date% · %utcdate% %asiadate% %usdate%\
+      \%wgcf% %dunst%    |  %date% · %utcdate% %asiadate% %usdate%\
       \ "
   }

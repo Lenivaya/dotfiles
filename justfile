@@ -35,5 +35,8 @@ bump-nixpkgs: bump-unstable
 gc:
   nh clean all && sudo nix-collect-garbage -d
 
+add-proprietary:
+  $DOTFILES/hosts/$HOSTNAME/add-proprietary.sh
+
 # build-iso:
 #   nix build .#nixosConfigurations.iso.config.system.build.isoImage --impure --show-trace

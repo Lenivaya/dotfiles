@@ -273,6 +273,7 @@ keysLayout c =
     ("M-S-f", withFocused $ sendMessage . maximizeRestore),
     ("M-t g", toggleGaps),
     ("M-t s", toggleStatusBar),
+    ("M-t c", spawn "$XMONAD_CONFIG_DIR/scripts/toggle-compositor.sh"),
     ("M-t z", toggleZen >> flash' "<~ ZEN ~>")
   ]
 

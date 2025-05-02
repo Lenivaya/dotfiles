@@ -123,8 +123,8 @@ botBarPP =
 
 logHook :: X ()
 logHook = do
+  showWNameLogHook def
   masterHistoryHook
   updatePointer (0.5, 0.5) (0, 0)
   refocusLastLogHook
   nsHideOnFocusLoss scratchpads
-  showWNameLogHook def
