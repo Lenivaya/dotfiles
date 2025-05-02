@@ -1,5 +1,4 @@
 # getip package
-
 matches:
   - trigger: ":getip"
     replace: "{{output}}"

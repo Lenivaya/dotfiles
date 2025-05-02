@@ -1,4 +1,4 @@
-{ inputs, lib, ... }:
+{ lib, ... }:
 with lib;
 with my;
 {

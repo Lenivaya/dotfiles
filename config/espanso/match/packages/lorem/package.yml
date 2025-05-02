@@ -1,5 +1,4 @@
 # Lorem Ipsum
-
 matches:
   # Sentence
   - trigger: ">lorem"

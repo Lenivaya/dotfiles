@@ -120,8 +120,7 @@ allActions =
           ],
       Action "AI Research" $ do
         spawnBrowserWithUrls
-          [
-            "https://grok.com/",
+          [ "https://grok.com/",
             "https://scira.ai/",
             "https://notebooklm.google.com/",
             "https://www.perplexity.ai/"
@@ -190,9 +189,9 @@ allActions =
         spawn "upwork",
       Action "Entertainment Mode" $ do
         spawnBrowserWithUrls
-          [ "https://youtube.com"
-          , "https://music.youtube.com"
-          , "https://x.com"
+          [ "https://youtube.com",
+            "https://music.youtube.com",
+            "https://x.com"
           ],
       Action "Dotfiles" $ do
         spawnTerminalWith "--hold -e $DOTFILES"

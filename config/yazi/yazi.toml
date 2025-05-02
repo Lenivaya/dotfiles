@@ -7,39 +7,35 @@ sort_by = "mtime"
 sort_reverse = true
 keymap = [
   # Spotting
-  { on = "<Tab>", run = "spot", desc = "Spot hovered file" },
+  {on = "<Tab>", run = "spot", desc = "Spot hovered file"}
 ]
 
 [opener]
 open = [
-  { run = 'xdg-open "$@"', orphan = true, desc = "Open", for = "unix" }, # add orphan = true
+  {run = 'xdg-open "$@"', orphan = true, desc = "Open", for = "unix"} # add orphan = true
 ]
-# extract = [
-#   { run = 'ouch d -y "%*"', desc = "Extract here with ouch", for = "windows" },
-#   { run = 'ouch d -y "$@"', desc = "Extract here with ouch", for = "unix" },
-# ]
 
 [plugin]
 prepend_previewers = [
-  { name = "*.md", run = "glow" },
-  { mime = "text/csv", run = "miller" },
-  { name = "*/", run = "eza-preview" },
-  { mime = "audio/*", run = "audio-preview" },
+  {name = "*.md", run = "glow"},
+  {mime = "text/csv", run = "miller"},
+  {name = "*/", run = "eza-preview"},
+  {mime = "audio/*", run = "audio-preview"},
   # Office Documents
-  { mime = "application/openxmlformats-officedocument.*", run = "office" },
-  { mime = "application/oasis.opendocument.*", run = "office" },
-  { mime = "application/ms-*", run = "office" },
-  { mime = "application/msword", run = "office" },
-  { name = "*.docx", run = "office" },
+  {mime = "application/openxmlformats-officedocument.*", run = "office"},
+  {mime = "application/oasis.opendocument.*", run = "office"},
+  {mime = "application/ms-*", run = "office"},
+  {mime = "application/msword", run = "office"},
+  {name = "*.docx", run = "office"}
 ]
 prepend_preloaders = [
-  { mime = "audio/*", run = "audio-preview" },
+  {mime = "audio/*", run = "audio-preview"},
   # Office Documents
-  { mime = "application/openxmlformats-officedocument.*", run = "office" },
-  { mime = "application/oasis.opendocument.*", run = "office" },
-  { mime = "application/ms-*", run = "office" },
-  { mime = "application/msword", run = "office" },
-  { name = "*.docx", run = "office" },
+  {mime = "application/openxmlformats-officedocument.*", run = "office"},
+  {mime = "application/oasis.opendocument.*", run = "office"},
+  {mime = "application/ms-*", run = "office"},
+  {mime = "application/msword", run = "office"},
+  {name = "*.docx", run = "office"}
 ]
 
 [[plugin.prepend_fetchers]]
