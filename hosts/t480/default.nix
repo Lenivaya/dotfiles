@@ -68,7 +68,6 @@ with my;
         };
         chromium =
           let
-            # chrome' = pkgs.unstable-small.google-chrome;
             chrome' = inputs.browser-previews.packages.${pkgs.system}.google-chrome;
           in
           enabled
@@ -153,9 +152,6 @@ with my;
         package = pkgs.unstable.nodejs_23;
       };
       python = enabled;
-      # dotnet = enabled // {
-      #   dotnetPkgsSdks = with pkgs.dotnetCorePackages; [ sdk_9_0 ];
-      # };
       cc = enabled;
       typst = enabled;
     };

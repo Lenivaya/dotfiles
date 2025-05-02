@@ -34,7 +34,9 @@ in
       oxker
       docker-slim
       dockfmt
-      # ctop
+      ctop
+      dive
+      hadolint
     ];
   };
 }
