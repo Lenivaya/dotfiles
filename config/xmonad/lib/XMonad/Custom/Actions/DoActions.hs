@@ -125,6 +125,11 @@ allActions =
             "https://notebooklm.google.com/",
             "https://www.perplexity.ai/"
           ],
+      Action "AI Search" $ do
+        spawnBrowserWithUrls
+          [ "https://grok.com/",
+            "https://scira.ai/"
+          ],
       Action "GitHub" $ do
         spawnBrowserWithUrl "https://github.com"
         spawnBrowserWithUrls ["https://github.com/notifications", "https://github.com/pulls"],

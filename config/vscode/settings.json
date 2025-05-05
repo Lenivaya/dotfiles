@@ -548,7 +548,6 @@
       "command": "git.sync"
     }
   ],
-  "github.copilot.selectedCompletionModel": "gpt-4o-copilot",
   "github.copilot.chat.edits.codesearch.enabled": true,
   "github.copilot.chat.editor.temporalContext.enabled": true,
   "github.copilot.chat.edits.temporalContext.enabled": true,
@@ -630,5 +629,11 @@
     "GitHub.copilot",
     "GitHub.copilot-chat",
     "GitHub.vscode-pull-request-github"
-  ]
+  ],
+  "github.copilot.chat.codesearch.enabled": true,
+  "github.copilot.chat.agent.thinkingTool": true,
+  "github.copilot.chat.languageContext.fix.typescript.enabled": true,
+  "github.copilot.chat.languageContext.inline.typescript.enabled": true,
+  "githubPullRequests.experimental.chat": true,
+  "chat.agent.enabled": true
 }

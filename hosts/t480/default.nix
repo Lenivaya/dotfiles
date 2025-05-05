@@ -58,10 +58,10 @@ with my;
       browsers = {
         default = "firefox";
 
-        zen-browser = enabled // {
-          package = inputs.zen-browser.packages."${pkgs.system}".twilight-official;
-          executable = "zen";
-        };
+        # zen-browser = enabled // {
+        #   package = inputs.zen-browser.packages."${pkgs.system}".twilight-official;
+        #   executable = "zen";
+        # };
         firefox = enabled // {
           package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
           executable = "firefox";
@@ -157,6 +157,7 @@ with my;
     };
 
     services = {
+      tailscale = enabled;
       darkman = enabled;
       # warp = enabled;
       # ananicy = enabled;
@@ -457,6 +458,7 @@ with my;
     python313Packages.markitdown
     youtube-music
     wgcf
+    element-desktop
 
     # dropbox
     maestral-gui

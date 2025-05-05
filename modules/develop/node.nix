@@ -21,7 +21,7 @@ in
       cfg.package
       corepack
       node-gyp # https://github.com/kelektiv/node.bcrypt.js/issues/800
-      # nodePackages.pnpm
+      fnm
     ];
 
     env.NPM_CONFIG_USERCONFIG = "$XDG_CONFIG_HOME/npm/config";
