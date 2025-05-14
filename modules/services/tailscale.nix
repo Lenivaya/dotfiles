@@ -1,4 +1,9 @@
-{ config, lib, ... }:
+{
+  config,
+  lib,
+  pkgs,
+  ...
+}:
 with lib;
 with lib.my;
 let
@@ -8,10 +13,14 @@ in
   options.modules.services.tailscale.enable = mkBoolOpt false;
 
   config = mkIf cfg.enable {
-    # make the tailscale command usable to users
     environment.systemPackages = [ pkgs.tailscale ];
-
-    # enable the tailscale service
     services.tailscale.enable = true;
+
+    # Open required ports for Tailscale
+    # https://tailscale.com/kb/1082/firewall-ports
+    networking.firewall.allowedUDPPorts = [
+      41641
+      3478
+    ];
   };
 }

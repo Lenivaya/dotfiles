@@ -56,7 +56,7 @@ with my;
       };
 
       browsers = {
-        default = "firefox";
+        default = "google-chrome-stable";
 
         # zen-browser = enabled // {
         #   package = inputs.zen-browser.packages."${pkgs.system}".twilight-official;
@@ -108,7 +108,7 @@ with my;
 
       vm = {
         winapps = enabled;
-        # qemu = enabled;
+        qemu = enabled;
         # wine = enabled;
       };
     };
@@ -149,7 +149,8 @@ with my;
       go = enabled;
       # haskell = enabled;
       node = enabled // {
-        package = pkgs.unstable.nodejs_23;
+        # package = pkgs.unstable.nodejs_23;
+        package = pkgs.unstable.nodejs_22;
       };
       python = enabled;
       cc = enabled;
@@ -251,7 +252,7 @@ with my;
       };
     };
 
-    # zram = enabled;
+    zram = enabled;
     bootsplash = enabled;
     # fast-networking = enabled;
   };
@@ -313,6 +314,8 @@ with my;
     settings.resumedelay = 5;
 
     settings.keyboard.disabled = true;
+    settings.screen.disabled = true;
+
     settings.sensor.devname = "video1"; # because video0 is virtual camera
   };
 
@@ -381,7 +384,7 @@ with my;
   # https://wiki.cachyos.org/configuration/sched-ext/#disable-ananicy-cpp
   services.scx = enabled // {
     scheduler = "scx_bpfland";
-    package = pkgs.unstable.scx.full;
+    package = pkgs.unstable-small.scx.full;
   };
 
   networking.firewall = {
@@ -636,6 +639,13 @@ with my;
   #   ''
   #     SUBSYSTEM=="i2c", ACTION=="add", ATTR{name}=="${ddcciDev}", RUN+="${bash} -c 'sleep 30; printf ddcci\ 0x37 > ${ddcciNode}'"
   #   '';
+
+  # security.pki.certificateFiles = [ /home/leniviy/work/wp.cer ];
+  # security.pki = {
+  #   certificateFiles = [
+  #     /home/leniviy/work/wp.cer
+  #   ];
+  # };
 
   nixpkgs.overlays =
     [ inputs.nur.overlays.default ]
