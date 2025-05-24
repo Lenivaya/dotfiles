@@ -41,9 +41,10 @@ in
         apply_cgroup = true;
         check_disks_schedulers = true;
 
-        loglelve = "critical";
+        loglevel = "critical";
         # If enabled it does log task name after rule matched and got applied to the task
         log_applied_rule = false;
+        cgroup_realtime_workaround = mkForce false;
       };
     };
 

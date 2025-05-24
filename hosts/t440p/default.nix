@@ -52,20 +52,20 @@ with lib.my;
       };
 
       browsers = {
-        default = "firefox";
+        default = "google-chrome-stable";
 
-        firefox = enabled // {
-          package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
-          executable = "firefox";
-        };
-        # chromium =
-        #   let
-        #     chrome' = pkgs.google-chrome;
-        #   in
-        #   enabled
-        #   // {
-        #     package = chrome';
-        #   };
+        # firefox = enabled // {
+        #   package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
+        #   executable = "firefox";
+        # };
+        chromium =
+          let
+            chrome' = inputs.browser-previews.packages.${pkgs.system}.google-chrome;
+          in
+          enabled
+          // {
+            package = chrome';
+          };
       };
 
       term = {
@@ -148,7 +148,7 @@ with lib.my;
 
     services = {
       adguardhome = enabled;
-      # ananicy = enabled;
+      ananicy = enabled;
       clipcat = enabled;
       # greenclip = enabled;
       kdeconnect = enabled;
@@ -438,7 +438,7 @@ with lib.my;
 
   # services.safeeyes = enabled;
 
-  modules.services.zcfan = enabled;
+  # modules.services.zcfan = enabled;
   # services.thermald = mkForce disabled;
   # services.throttled = mkForce enabled;
   services.throttled = mkForce disabled;
@@ -456,7 +456,7 @@ with lib.my;
   environment.etc.hosts.mode = "0644";
 
   # BPF-based auto-tuning of Linux system parameters
-  # services.bpftune = enabled;
+  services.bpftune = enabled;
 
   # Run appimages seamlesssly
   programs.appimage.binfmt = true;
@@ -531,9 +531,7 @@ with lib.my;
         intel-vaapi-driver = prev.intel-vaapi-driver.override { enableHybridCodec = true; };
 
         telegram-desktop = prev.telegram-desktop_git;
-        alacritty = prev.alacritty_git;
         yt-dlp = prev.yt-dlp_git;
-        mpv = prev.mpv-vapoursynth;
 
         picom = optimize prev.picom;
         skippy-xd = optimize prev.skippy-xd;

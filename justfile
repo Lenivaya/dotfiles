@@ -17,6 +17,9 @@ commit:
 bump-firefox:
   nix flake update firefox firefox-csshacks betterfox stevenblack-hosts zen-browser
 
+bump-browsers: bump-firefox
+  nix flake update browser-previews
+
 bump-xmonad:
   nix flake update xmonad xmonad-contrib xmonad-extras
 

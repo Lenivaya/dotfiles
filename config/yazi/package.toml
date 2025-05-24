@@ -1,34 +1,31 @@
-[flavor]
-deps = []
-
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "864a021"
+rev = "55bf699"
 hash = "2f1053f89d1a301a648ab181d0948e38"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:jump-to-char"
-rev = "864a021"
+rev = "55bf699"
 hash = "a670c03eb3760812e044a24f94cedc55"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mime-ext"
-rev = "864a021"
+rev = "55bf699"
 hash = "5e24c167e9ae9a203a48f2a438b8c705"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:full-border"
-rev = "864a021"
+rev = "55bf699"
 hash = "1f3dad061209081a6b04dd6ff2cb06c7"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "864a021"
+rev = "55bf699"
 hash = "e0ada736ea676c2bbb3ec705a49526ef"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:smart-filter"
-rev = "864a021"
+rev = "55bf699"
 hash = "f0c4b41b5d19a3144958383333eff6e7"
 
 [[plugin.deps]]
@@ -43,8 +40,8 @@ hash = "23915860e59348bf4166778bb0e606f7"
 
 [[plugin.deps]]
 use = "MasouShizuka/projects"
-rev = "4f11ecc"
-hash = "17fa17295d27864f62875f06a77f72e7"
+rev = "df44165"
+hash = "d5e132ed6e9073a43c155ab753074abb"
 
 [[plugin.deps]]
 use = "Lil-Dank/lazygit"
@@ -78,13 +75,13 @@ hash = "72355a6c8b7c8de6ed4dda0f98f86fee"
 
 [[plugin.deps]]
 use = "lpnh/fg"
-rev = "92edf0b"
-hash = "b0edc5e9b7f44b2d3303e74f785d0bc9"
+rev = "5b6bdee"
+hash = "a0e91093c60ddeb1ee68df4ed7cf317a"
 
 [[plugin.deps]]
 use = "lpnh/fr"
-rev = "92edf0b"
-hash = "b0edc5e9b7f44b2d3303e74f785d0bc9"
+rev = "5b6bdee"
+hash = "a0e91093c60ddeb1ee68df4ed7cf317a"
 
 [[plugin.deps]]
 use = "macydnah/office"
@@ -120,3 +117,6 @@ hash = "eb56f28f5d44e121276523007a7e8f83"
 use = "wekauwau/yatline-created-time"
 rev = "d96b42b"
 hash = "695b2441885359206812dcd4e810633c"
+
+[flavor]
+deps = []

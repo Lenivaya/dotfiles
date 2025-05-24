@@ -17,7 +17,7 @@
     agenix.inputs.nixpkgs.follows = "nixpkgs";
 
     spicetify-nix = {
-      url = "github:gerg-l/spicetify-nix?rev=2a659a5123cff72007eab6a688dab69989544a5d";
+      url = "github:gerg-l/spicetify-nix";
     };
 
     xmonad = {
@@ -49,6 +49,7 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    # chaotic.url = "github:chaotic-cx/nyx?rev=8e0feebc3ae6e5604113e7636236b3d9c46e8bf0";
     chaotic.url = "github:chaotic-cx/nyx";
 
     browser-previews = {

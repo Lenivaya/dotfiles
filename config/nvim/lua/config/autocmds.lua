@@ -48,3 +48,5 @@ vim.api.nvim_create_autocmd({ "InsertEnter", "WinLeave" }, {
     end
   end,
 })
+
+vim.api.nvim_del_augroup_by_name("lazyvim_wrap_spell")

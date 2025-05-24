@@ -105,7 +105,7 @@
       "visible": 8
     }
   },
-  "explorer.autoReveal": true,
+  "explorer.autoReveal": false,
   "extensions": {
     "autoUpdate": false
   },
@@ -661,5 +661,6 @@
       "id": "8CFFFE1D-4AC7-4DC3-89C8-EFF98914CFA9"
     }
   ],
-  "mssql.connections": []
+  "mssql.connections": [],
+  "cursor-retrieval.canAttemptGithubLogin": false
 }

@@ -22,11 +22,10 @@ in
       "--enable-gpu-rasterization"
       "--enable-native-gpu-memory-buffers"
       "--enable-zero-copy"
-      # "--enable-features=VaapiVideoDecoder"
-      # # https://forum.manjaro.org/t/chromium-cant-enable-video-encoding-hardware-acceleration/101760/6
       "--enable-oop-rasterization"
       "--enable-raw-draw"
       "--use-vulkan"
+      "--use-angle=vulkan"
       "--disable-sync-preferences"
       "--enable-accelerated-2d-canvas"
       "--enable-accelerated-video-decode"
@@ -38,7 +37,13 @@ in
 
       "--sharing-desktop-screenshots"
 
-      # "--enable-unsafe-webgpu"
+      "--enable-quic"
+      "--enable-tls13-early-data"
+
+      "--disable-infobars"
+      "--disable-session-crashed-bubble"
+
+      "--restore-last-sesion"
 
       # Fuck this "outdated" shit
       "--simulate-outdated-no-au='Tue, 31 Dec 2099 23:59:59 GMT'"
@@ -58,7 +63,9 @@ in
           "VaapiVideoDecoder"
           "VaapiIgnoreDriverChecks"
           "VaapiVideoDecodeLinuxGL"
+          "AcceleratedVideoDecoder"
           "AcceleratedVideoDecodeLinuxGL"
+          "AcceleratedVideoDecodeLinuxZeroCopyGL"
           "AcceleratedVideoEncoder"
           "CanvasOopRasterization"
           "TouchpadOverscrollHistoryNavigation"

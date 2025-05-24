@@ -58,10 +58,10 @@ with my;
       browsers = {
         default = "google-chrome-stable";
 
-        # zen-browser = enabled // {
-        #   package = inputs.zen-browser.packages."${pkgs.system}".twilight-official;
-        #   executable = "zen";
-        # };
+        zen-browser = enabled // {
+          package = inputs.zen-browser.packages."${pkgs.system}".twilight-official;
+          executable = "zen";
+        };
         firefox = enabled // {
           package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
           executable = "firefox";
@@ -252,7 +252,7 @@ with my;
       };
     };
 
-    zram = enabled;
+    # zram = enabled;
     bootsplash = enabled;
     # fast-networking = enabled;
   };
@@ -315,6 +315,7 @@ with my;
 
     settings.keyboard.disabled = true;
     settings.screen.disabled = true;
+    settings.backlight.disabled = true;
 
     settings.sensor.devname = "video1"; # because video0 is virtual camera
   };
@@ -373,7 +374,7 @@ with my;
   ];
 
   # boot.kernel.sysctl = {
-  #   "vm.swappiness" = 50;
+  #   "vm.swappiness" = 20;
   # };
   #
   # https://github.com/sched-ext/scx
@@ -384,7 +385,8 @@ with my;
   # https://wiki.cachyos.org/configuration/sched-ext/#disable-ananicy-cpp
   services.scx = enabled // {
     scheduler = "scx_bpfland";
-    package = pkgs.unstable-small.scx.full;
+    # package = pkgs.unstable-small.scx.full;
+    package = pkgs.scx_git.full;
   };
 
   networking.firewall = {
@@ -526,7 +528,7 @@ with my;
 
   services.smartd = enabled;
 
-  modules.services.zcfan = enabled;
+  # modules.services.zcfan = enabled;
   # services.thermald = mkForce disabled;
   # services.throttled = mkForce enabled;
   services.throttled = mkForce disabled;
@@ -538,7 +540,7 @@ with my;
   environment.etc.hosts.mode = "0644";
 
   # BPF-based auto-tuning of Linux system parameters
-  # services.bpftune = enabled;
+  services.bpftune = enabled;
 
   # Run appimages seamlesssly
   programs.appimage.binfmt = true;
@@ -674,7 +676,7 @@ with my;
         distrobox = prev.distrobox_git;
         telegram-desktop = prev.telegram-desktop_git;
         yt-dlp = prev.yt-dlp_git;
-        mpv = prev.mpv-vapoursynth;
+        # mpv = prev.mpv-vapoursynth;
         # neovim = optimizePkg inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
         skippy-xd = optimizePkg prev.skippy-xd;
         dmenu = optimizePkg prev.dmenu;

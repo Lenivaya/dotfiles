@@ -8,6 +8,7 @@ opt.encoding = "utf-8"
 opt.fileencoding = "utf-8"
 
 opt.number = true
+opt.spell = false
 -- opt.conceallevel = 2
 
 vim.opt.title = true
