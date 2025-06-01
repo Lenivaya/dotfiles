@@ -198,7 +198,7 @@
             "dotnet-sdk-6.0.428"
             "dotnet-sdk-wrapped-6.0.428"
             "deskflow-1.19.0"
-            "beekeeper-studio-5.1.5"
+            "beekeeper-studio-5.2.9"
           ];
           overlays = extraOverlays ++ (lib.attrValues self.overlays);
         };

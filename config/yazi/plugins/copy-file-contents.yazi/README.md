@@ -17,7 +17,7 @@ A simple plugin to copy file contents just from Yazi without going into editor.
 You can install this plugin by running the following command
 
 ```bash
-ya pack -a AnirudhG07/plugins-yazi:copy-file-contents
+ya pkg add AnirudhG07/plugins-yazi:copy-file-contents
 ```
 
 You can also manually install it by copying the [`init.lua`](https://github.com/AnirudhG07/plugins-yazi/tree/main/copy-file-contents/init.lua) file to your `~/.config/yazi/plugins` directory.

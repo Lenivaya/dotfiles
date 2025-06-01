@@ -14,7 +14,7 @@
 This is a Yazi plugin that replaces the default file previewer and spotter with extra information.
 
 > [!IMPORTANT]
-> Minimum version: yazi v25.2.7
+> Minimum version: yazi v25.5.28
 
 ## Preview
 
@@ -40,7 +40,7 @@ This is a Yazi plugin that replaces the default file previewer and spotter with 
 
 ## Requirements
 
-- [yazi >= 25.2.7](https://github.com/sxyazi/yazi)
+- [yazi >= 25.5.28](https://github.com/sxyazi/yazi)
 - Tested on Linux. For MacOS, Windows: some fields will shows empty values.
 
 ## Installation
@@ -48,6 +48,8 @@ This is a Yazi plugin that replaces the default file previewer and spotter with 
 Install the plugin:
 
 ```sh
+ya pkg add boydaihungst/file-extra-metadata
+# or
 ya pack -a boydaihungst/file-extra-metadata
 ```
 
@@ -55,7 +57,7 @@ Add spotter keybind, makes sure not conflict with other `<Tab>` keybind in
 `manager` section:
 
 ```toml
-[manager]
+[mgr]
 keymap = [
   # ...
   # Spotting
@@ -86,7 +88,6 @@ or
     # disable default file plugin { name = "*", run = "file" },
     { name = "*", run = "file-extra-metadata" },
   ]
-  # yazi v0.4 after 21/11/2024
   # Setup keybind for spotter: https://github.com/sxyazi/yazi/pull/1802
   spotters = [
     # ... the rest
@@ -107,7 +108,7 @@ Edit or add `yazi/theme.toml`:
 border = { fg = "#4fa6ed" }
 title = { fg = "#4fa6ed" }
 
-# Table. Currently only support nightly.
+# Table.
 tbl_cell = { fg = "#4fa6ed", reversed = true }
 tbl_col = { fg = "#4fa6ed" }
 ```

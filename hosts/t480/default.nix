@@ -42,7 +42,8 @@ with my;
       xmonad = enabled;
       isPureWM = true;
 
-      fonts.pragmata = enabled;
+      # fonts.pragmata = enabled;
+      fonts.adwaita-pragmata = enabled;
       xdg.handlr = enabled;
 
       apps = {
@@ -58,10 +59,6 @@ with my;
       browsers = {
         default = "google-chrome-stable";
 
-        zen-browser = enabled // {
-          package = inputs.zen-browser.packages."${pkgs.system}".twilight-official;
-          executable = "zen";
-        };
         firefox = enabled // {
           package = inputs.firefox.packages.${pkgs.system}.firefox-bin;
           executable = "firefox";
@@ -74,6 +71,10 @@ with my;
           // {
             package = chrome';
           };
+        # zen-browser = enabled // {
+        #   package = inputs.zen-browser.packages."${pkgs.system}".twilight-official;
+        #   executable = "zen";
+        # };
         # tor = enabled;
       };
 
@@ -159,7 +160,7 @@ with my;
 
     services = {
       tailscale = enabled;
-      darkman = enabled;
+      # darkman = enabled;
       # warp = enabled;
       # ananicy = enabled;
       clipcat = enabled;
@@ -253,12 +254,11 @@ with my;
     };
 
     # zram = enabled;
-    bootsplash = enabled;
     # fast-networking = enabled;
+    bootsplash = enabled;
   };
 
   nix.package = pkgs.unstable.nixVersions.latest;
-  # nix.package = pkgs.lix_git;
 
   services.cpupower-gui = enabled;
   services.hardware.bolt.enable = true;
@@ -373,10 +373,10 @@ with my;
     "iTCO_wdt"
   ];
 
-  # boot.kernel.sysctl = {
-  #   "vm.swappiness" = 20;
-  # };
-  #
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 10; # 64gb ram, lets not use swap until we really need it
+  };
+
   # https://github.com/sched-ext/scx
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
@@ -385,7 +385,6 @@ with my;
   # https://wiki.cachyos.org/configuration/sched-ext/#disable-ananicy-cpp
   services.scx = enabled // {
     scheduler = "scx_bpfland";
-    # package = pkgs.unstable-small.scx.full;
     package = pkgs.scx_git.full;
   };
 
@@ -432,7 +431,6 @@ with my;
   ";
 
   environment.systemPackages = with pkgs; [
-    # pkgs.my.code-cursor
     appimage-run
     obsidian
     (inxi.override { withRecommends = true; })
@@ -463,11 +461,14 @@ with my;
     python313Packages.markitdown
     youtube-music
     wgcf
+    warp-terminal
     element-desktop
 
     # dropbox
     maestral-gui
     maestral
+
+    minio-client
   ];
 
   hardware.trackpoint = enabled // {
@@ -568,20 +569,6 @@ with my;
     ];
   };
 
-  # https://www.reddit.com/r/NixOS/comments/1eqcgom/mitigate_pipewire_webcam_battery_drain/?utm_source=share&utm_medium=web3x&utm_name=web3xcss&utm_term=1&utm_content=share_button
-  # https://gitlab.freedesktop.org/pipewire/pipewire/-/issues/2669
-  # services.pipewire = {
-  #   wireplumber = {
-  #     extraConfig = {
-  #       "10-disable-camera" = {
-  #         "wireplumber.profiles" = {
-  #           main."monitor.libcamera" = "disabled";
-  #         };
-  #       };
-  #     };
-  #   };
-  # };
-
   home.programs.mpv.config = {
     profile = "fast";
     hwdec = "auto";
@@ -631,24 +618,6 @@ with my;
   networking.wireless.iwd.settings.General.AddressRandomization = "network";
   networking.wireless.iwd.settings.General.AddressRandomizationRange = "full";
 
-  # monitors
-  # services.udev.extraRules =
-  #   let
-  #     bash = "${pkgs.bash}/bin/bash";
-  #     ddcciDev = "AUX B/DDI B/PHY B";
-  #     ddcciNode = "/sys/bus/i2c/devices/i2c-4/new_device";
-  #   in
-  #   ''
-  #     SUBSYSTEM=="i2c", ACTION=="add", ATTR{name}=="${ddcciDev}", RUN+="${bash} -c 'sleep 30; printf ddcci\ 0x37 > ${ddcciNode}'"
-  #   '';
-
-  # security.pki.certificateFiles = [ /home/leniviy/work/wp.cer ];
-  # security.pki = {
-  #   certificateFiles = [
-  #     /home/leniviy/work/wp.cer
-  #   ];
-  # };
-
   nixpkgs.overlays =
     [ inputs.nur.overlays.default ]
     ++ [
@@ -665,8 +634,8 @@ with my;
           readest
           kitty
           legcord
-          scx
           youtube-music
+          warp-terminal
           ;
 
         inherit (pkgs.unstable-small)

@@ -1,6 +1,4 @@
---- @since 25.2.7
---- NOTE: REMOVE :parent() :name() :is_hovered() :ext() after upgrade to v25.4.4
---- https://github.com/sxyazi/yazi/pull/2572
+--- @since 25.5.28
 
 local M = {}
 
@@ -93,15 +91,17 @@ local function get_filesystem_extra(file)
 		return result
 	end
 
-	local output, _ = Command("tail")
-		:args({ "-n", "-1" })
-		:stdin(Command("df"):args({ "-P", "-T", "-h", file_url }):stdout(Command.PIPED):spawn():take_stdout())
-		:stdout(Command.PIPED)
-		:output()
-
-	if output then
+	local child, err = Command("df"):arg({ "-P", "-T", "-h", file_url }):stdout(Command.PIPED):spawn()
+	if child then
+		-- Ignore header
+		local _, event = child:read_line()
+		if event ~= 0 then
+			result.error = "df are installed?"
+			return result
+		end
+		local output, _ = child:read_line()
 		-- Splitting the data
-		local parts = split_by_whitespace(output.stdout)
+		local parts = split_by_whitespace(output)
 
 		-- Display the result
 		for i, part in ipairs(parts) do
@@ -123,7 +123,7 @@ local function get_filesystem_extra(file)
 			end
 		end
 	else
-		result.error = "tail, df are installed?"
+		result.error = "df are installed?"
 	end
 	return result
 end
@@ -135,7 +135,7 @@ local function attributes(file)
 		return ""
 	end
 
-	local output, _ = Command("lsattr"):args({ "-d", file_url }):stdout(Command.PIPED):output()
+	local output, _ = Command("lsattr"):arg({ "-d", file_url }):stdout(Command.PIPED):output()
 
 	if output then
 		-- Splitting the data
@@ -172,16 +172,15 @@ end
 
 function M:render_table(job, opts)
 	local styles = {
-		header = th and th.spot and th.spot.title or ui.Style():fg("green"),
+		header = th.spot.title or ui.Style():fg("green"),
 		row_label = ui.Style():fg("reset"),
-		row_value = (th and th.spot and th.spot.tbl_col) or ui.Style():fg("blue"),
+		row_value = th.spot.tbl_col or ui.Style():fg("blue"),
 	}
 	local filesystem_extra = get_filesystem_extra(job.file)
 	local prefix = "  "
 	local rows = {}
 	local label_max_length = 15
-	local file_name_extension = job.file.cha.is_dir and "…"
-		or ("." .. ((type(job.file.url.ext) == "function" and job.file.url:ext() or job.file.url.ext) or ""))
+	local file_name_extension = job.file.cha.is_dir and "…" or ("." .. (job.file.url.ext or ""))
 
 	local row = function(key, value)
 		local h = type(value) == "table" and #value or 1
@@ -194,11 +193,8 @@ function M:render_table(job, opts)
 		file_name_extension,
 		math.floor(job.area.w - label_max_length - utf8.len(file_name_extension))
 	)
-	local location = shorten(
-		tostring(type(job.file.url.parent) == "function" and job.file.url:parent() or job.file.url.parent),
-		"",
-		math.floor(job.area.w - label_max_length - utf8.len(prefix))
-	)
+	local location =
+		shorten(tostring(job.file.url.parent), "", math.floor(job.area.w - label_max_length - utf8.len(prefix)))
 	local filesystem_error = filesystem_extra.error
 			and shorten(filesystem_extra.error, "", math.floor(job.area.w - label_max_length - utf8.len(prefix)))
 		or nil
@@ -234,11 +230,10 @@ function M:render_table(job, opts)
 			)
 	)
 	if opts and opts.show_plugins_section then
-		local _PLUGIN = rt and rt.plugin or PLUGIN
-		local spotter = _PLUGIN.spotter(job.file.url, job.mime)
-		local previewer = _PLUGIN.previewer(job.file.url, job.mime)
-		local fetchers = _PLUGIN.fetchers(job.file, job.mime)
-		local preloaders = _PLUGIN.preloaders(job.file.url, job.mime)
+		local spotter = rt.plugin.spotter(job.file.url, job.mime)
+		local previewer = rt.plugin.previewer(job.file.url, job.mime)
+		local fetchers = rt.plugin.fetchers(job.file, job.mime)
+		local preloaders = rt.plugin.preloaders(job.file.url, job.mime)
 
 		for i, v in ipairs(fetchers) do
 			fetchers[i] = v.cmd
@@ -265,15 +260,15 @@ function M:peek(job)
 	if not cache or not self:preload(job) then
 		return 1
 	end
-	ya.sleep(math.max(0, (rt and rt.preview or PREVIEW).image_delay / 1000 + start - os.clock()))
-	ya.preview_widgets(job, { self:render_table(job) })
+	ya.sleep(math.max(0, rt.preview.image_delay / 1000 + start - os.clock()))
+	ya.preview_widget(job, { self:render_table(job) })
 end
 
 function M:seek(job)
 	local h = cx.active.current.hovered
 	if h and h.url == job.file.url then
 		local step = math.floor(job.units * job.area.h / 10)
-		ya.manager_emit("peek", {
+		ya.emit("peek", {
 			tostring(math.max(0, cx.active.preview.skip + step)),
 			only_if = tostring(job.file.url),
 		})
@@ -293,7 +288,7 @@ function M:spot(job)
 	ya.spot_table(
 		job,
 		self:render_table(job, { show_plugins_section = true })
-			:cell_style((th and th.spot and th.spot.tbl_cell) or ui.Style():fg("blue"):reverse())
+			:cell_style(th.spot.tbl_cell or ui.Style():fg("blue"):reverse())
 	)
 end
 

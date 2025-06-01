@@ -20,6 +20,7 @@ in
     user.packages = with pkgs; [
       cfg.package
       corepack
+      bun
       node-gyp # https://github.com/kelektiv/node.bcrypt.js/issues/800
       fnm
     ];

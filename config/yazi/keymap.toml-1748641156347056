@@ -1,164 +1,164 @@
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["!"]
 run = 'shell "$SHELL" --block'
 desc = "Open shell here"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["g", "d"]
 run = "cd ~/Downloads"
 desc = "Go to the downloads directory"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["g", "D"]
 run = "cd ~/Documents"
 desc = "Go to the documents directory"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["g", "p"]
 run = "cd ~/Pictures"
 desc = "Go to the pictures directory"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["g", "v"]
 run = "cd ~/Videos"
 desc = "Go to the videos directory"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["g", "t"]
 run = "cd /tmp"
 desc = "Go to the temporary directory"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["c", "m"]
 run = "plugin chmod"
 desc = "Chmod on selected files"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["f", "/"]
 run = "plugin jump-to-char"
 desc = "Jump to char"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["T"]
 run = "plugin max-preview"
 desc = "Maximize or restore preview"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["F"]
 run = "plugin smart-filter"
 desc = "Smart filter"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["g", "j"]
 run = "plugin first-non-directory"
 desc = "Jumps to the first file"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["P", "s"]
 run = "plugin projects save"
 desc = "Save current project"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["P", "l"]
 run = "plugin projects load"
 desc = "Load project"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["P", "P"]
 run = "plugin projects load_last"
 desc = "Load last project"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["P", "d"]
 run = "plugin projects delete"
 desc = "Delete project"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["P", "D"]
 run = "plugin projects delete_all"
 desc = "Delete all projects"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["P", "m"]
 run = "plugin projects 'merge current'"
 desc = "Merge current tab to other projects"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["P", "M"]
 run = "plugin projects 'merge all'"
 desc = "Merge current project to other projects"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["q"]
 run = "plugin projects quit"
 desc = "Save last project and exit the process"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["c", "a"]
 run = "plugin compress"
 desc = "Archive selected files"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["g", "i"]
 run = "plugin lazygit"
 desc = "run lazygit"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["m"]
 run = "plugin relative-motions"
 desc = "Trigger a new relative motion"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["<A-y>"]
 run = ["plugin copy-file-contents"]
 desc = "Copy contents of file"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["<C-o>"]
 run = "plugin open-with-cmd"
 desc = "Open with command in the terminal"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["E"]
 run = "plugin eza-preview"
 desc = "Toggle tree/list dir preview"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["-"]
 run = "plugin eza-preview '--inc-level'"
 desc = "Increment tree level"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["_"]
 run = "plugin eza-preview '--dec-level'"
 desc = "Decrement tree level"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["$"]
 run = "plugin eza-preview '--toggle-follow-symlinks'"
 desc = "Toggle tree follow symlinks"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["f", "r"]
 run = "plugin fr rg"
 desc = "Search file by content (rg)"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["c", "i", "j"]
 run = "plugin convert --args='--extension=jpg'"
 desc = "Convert image to JPG"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["c", "i", "p"]
 run = "plugin convert --args='--extension=png'"
 desc = "Convert image to PNG"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = ["c", "i", "w"]
 run = "plugin convert --args='--extension=webp'"
 desc = "Convert image to WEBP"
 
-[[mgr.prepend_keymap]]
+[[manager.prepend_keymap]]
 on = "<C-n>"
 run = '''
     shell 'ripdrag "$@" -x 2>/dev/null &' --confirm

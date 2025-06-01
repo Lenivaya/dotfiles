@@ -1,0 +1,52 @@
+"$schema" = "https://yazi-rs.github.io/schemas/yazi.json"
+
+[manager]
+show_hidden = true
+sort_dir_first = true
+sort_by = "mtime"
+sort_reverse = true
+keymap = [
+  # Spotting
+  {on = "<Tab>", run = "spot", desc = "Spot hovered file"}
+]
+
+[opener]
+open = [
+  {run = 'xdg-open "$@"', orphan = true, desc = "Open", for = "unix"} # add orphan = true
+]
+
+[plugin]
+prepend_previewers = [
+  {name = "*.md", run = "glow"},
+  {mime = "text/csv", run = "miller"},
+  {name = "*/", run = "eza-preview"},
+  {mime = "audio/*", run = "audio-preview"},
+  # Office Documents
+  {mime = "application/openxmlformats-officedocument.*", run = "office"},
+  {mime = "application/oasis.opendocument.*", run = "office"},
+  {mime = "application/ms-*", run = "office"},
+  {mime = "application/msword", run = "office"},
+  {name = "*.docx", run = "office"}
+]
+prepend_preloaders = [
+  {mime = "audio/*", run = "audio-preview"},
+  # Office Documents
+  {mime = "application/openxmlformats-officedocument.*", run = "office"},
+  {mime = "application/oasis.opendocument.*", run = "office"},
+  {mime = "application/ms-*", run = "office"},
+  {mime = "application/msword", run = "office"},
+  {name = "*.docx", run = "office"}
+]
+
+[[plugin.prepend_fetchers]]
+id = "git"
+name = "*"
+run = "git"
+
+[[plugin.prepend_fetchers]]
+id = "git"
+name = "*/"
+run = "git"
+
+[preview]
+image_delay = 0

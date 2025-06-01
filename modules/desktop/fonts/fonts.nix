@@ -26,7 +26,11 @@ with lib.my;
       packages = with pkgs; [
         ibm-plex
         noto-fonts
+        noto-fonts-emoji
+        liberation_ttf
+        ubuntu_font_family
         corefonts
+        mplus-outline-fonts.githubRelease
         nerd-fonts.symbols-only
         nerd-fonts.fira-code
         font-awesome

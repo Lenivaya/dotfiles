@@ -424,12 +424,20 @@ function Yatline.string.get:hovered_mime()
 end
 
 --- Gets the hovered file's user and group ownership of the current active tab.
+--- Unix-like systems only.
 --- @return string ownership Current active tab's hovered file's user and group ownership.
 function Yatline.string.get:hovered_ownership()
 	local hovered = cx.active.current.hovered
 
 	if hovered then
-		return ya.user_name(hovered.cha.uid) .. ":" .. ya.group_name(hovered.cha.gid)
+		if not hovered.cha.uid or not hovered.cha.gid then
+			return ""
+		end
+
+		local username = ya.user_name(hovered.cha.uid) or tostring(hovered.cha.uid)
+		local groupname = ya.group_name(hovered.cha.gid) or tostring(hovered.cha.gid)
+
+		return username .. ":" .. groupname
 	else
 		return ""
 	end
@@ -713,6 +721,7 @@ function Yatline.coloreds.create(coloreds, component_type)
 end
 
 --- Gets the hovered file's permissions of the current active tab.
+--- Unix-like systems only.
 --- @return Coloreds coloreds Current active tab's hovered file's permissions
 function Yatline.coloreds.get:permissions()
 	local hovered = cx.active.current.hovered
@@ -990,8 +999,10 @@ local function config_side(side)
 
 			if component_group then
 				if component.custom then
-					section_components[#section_components + 1] =
-						{ component_group.create(component.name, in_section), component_group.has_separator }
+					if component.name ~= nil and component.name ~= "" and #component.name ~= 0 then
+						section_components[#section_components + 1] =
+							{ component_group.create(component.name, in_section), component_group.has_separator }
+					end
 				else
 					local getter = component_group.get[component.name]
 
@@ -1075,8 +1086,64 @@ local function config_paragraph(area, line)
 end
 
 return {
-	setup = function(_, config)
+	setup = function(_, config, pre_theme)
 		config = config or {}
+
+		if config == 0 then
+			config = {
+				show_background = false,
+
+				header_line = {
+					left = {
+						section_a = {
+							{ type = "line", custom = false, name = "tabs", params = { "left" } },
+						},
+						section_b = {},
+						section_c = {},
+					},
+					right = {
+						section_a = {
+							{ type = "string", custom = false, name = "date", params = { "%A, %d %B %Y" } },
+						},
+						section_b = {
+							{ type = "string", custom = false, name = "date", params = { "%X" } },
+						},
+						section_c = {},
+					},
+				},
+
+				status_line = {
+					left = {
+						section_a = {
+							{ type = "string", custom = false, name = "tab_mode" },
+						},
+						section_b = {
+							{ type = "string", custom = false, name = "hovered_size" },
+						},
+						section_c = {
+							{ type = "string", custom = false, name = "hovered_path" },
+							{ type = "coloreds", custom = false, name = "count" },
+						},
+					},
+					right = {
+						section_a = {
+							{ type = "string", custom = false, name = "cursor_position" },
+						},
+						section_b = {
+							{ type = "string", custom = false, name = "cursor_percentage" },
+						},
+						section_c = {
+							{ type = "string", custom = false, name = "hovered_file_extension", params = { true } },
+							{ type = "coloreds", custom = false, name = "permissions" },
+						},
+					},
+				},
+			}
+		end
+
+		if pre_theme then
+			config.theme = pre_theme
+		end
 
 		tab_width = config.tab_width or 20
 

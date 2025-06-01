@@ -1,32 +1,32 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "55bf699"
-hash = "2f1053f89d1a301a648ab181d0948e38"
+rev = "c0ad8a3"
+hash = "d0ad0c1946b46a30c8489735fe8de41c"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:jump-to-char"
-rev = "55bf699"
-hash = "a670c03eb3760812e044a24f94cedc55"
+rev = "c0ad8a3"
+hash = "30fc0b37f03a597b92d387268319450f"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mime-ext"
-rev = "55bf699"
-hash = "5e24c167e9ae9a203a48f2a438b8c705"
+rev = "c0ad8a3"
+hash = "6094c7e7def6d131323e53d641f1bddd"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:full-border"
-rev = "55bf699"
-hash = "1f3dad061209081a6b04dd6ff2cb06c7"
+rev = "c0ad8a3"
+hash = "3996fc74044bc44144b323686f887e1"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "55bf699"
-hash = "e0ada736ea676c2bbb3ec705a49526ef"
+rev = "c0ad8a3"
+hash = "bf6f074cd41ee33c3360341d168f9733"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:smart-filter"
-rev = "55bf699"
-hash = "f0c4b41b5d19a3144958383333eff6e7"
+rev = "c0ad8a3"
+hash = "4d82cd9e7534d976f000edf9c0f68d8f"
 
 [[plugin.deps]]
 use = "Reledia/glow"
@@ -40,8 +40,8 @@ hash = "23915860e59348bf4166778bb0e606f7"
 
 [[plugin.deps]]
 use = "MasouShizuka/projects"
-rev = "df44165"
-hash = "d5e132ed6e9073a43c155ab753074abb"
+rev = "96af237"
+hash = "4ed75718525437a6fdff1c44109b4ad0"
 
 [[plugin.deps]]
 use = "Lil-Dank/lazygit"
@@ -50,8 +50,8 @@ hash = "a1fa2b3e1826c3a34804ea8c548e9f80"
 
 [[plugin.deps]]
 use = "AnirudhG07/plugins-yazi:copy-file-contents"
-rev = "524c52c"
-hash = "27c50e6bc15c09096505b805b238ade0"
+rev = "49975ae"
+hash = "a61930b827d8f1ef8fa016409de458ed"
 
 [[plugin.deps]]
 use = "Ape/open-with-cmd"
@@ -60,13 +60,13 @@ hash = "86e0312b01bc5762813c6c1d0517f073"
 
 [[plugin.deps]]
 use = "Rolv-Apneseth/starship"
-rev = "6fde3b2"
-hash = "7ddb7a790746fd91ecdd0350cc5a5d8c"
+rev = "428d43a"
+hash = "73b1c5d91575dea1a49c66302860797"
 
 [[plugin.deps]]
 use = "imsi32/yatline"
-rev = "2ecf715"
-hash = "38e2ea4703ea606d4eef574e8e8b8fd7"
+rev = "4872af0"
+hash = "d32742ded0e73146a8ca590fdc4fb404"
 
 [[plugin.deps]]
 use = "ahkohd/eza-preview"
@@ -100,13 +100,13 @@ hash = "747a700c90fffc5b187a6094fd0661b0"
 
 [[plugin.deps]]
 use = "boydaihungst/file-extra-metadata"
-rev = "0c061a2"
-hash = "433d4fcb211b823b44bdb00451ef4934"
+rev = "ec035d6"
+hash = "b23b7db6beb2854a689c648a38843f8c"
 
 [[plugin.deps]]
 use = "imsi32/yatline-githead"
-rev = "3b0eb7c"
-hash = "bfd30c396bbe2af526cb949d97ce3dcf"
+rev = "f8f969e"
+hash = "4d441b38138ce6492a4e10fa349fd65"
 
 [[plugin.deps]]
 use = "Ev357/compress"
