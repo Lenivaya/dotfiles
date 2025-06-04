@@ -1,0 +1,9 @@
+#!/bin/sh
+
+if systemctl is-active tailscaled.service >/dev/null 2>&1; then
+  echo "<action='tailscale-toggle'><fc=#00ff00><fn=3>󰖂</fn> TAIL</fc> </action>"
+  exit 0
+else
+  echo "<action='tailscale-toggle'><fc=#a83240><fn=3>󰖂</fn> tail</fc> </action>"
+  exit 0
+fi

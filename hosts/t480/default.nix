@@ -214,25 +214,6 @@ with my;
       ddc = enabled;
       cpu.intel = enabled;
       cpu = {
-        # tdp = {
-        #   battery = {
-        #     risky = true;
-        #     p1.watts = 15;
-        #     p1.duration = 28.0;
-        #     p2.watts = 30;
-        #     p2.duration = 2.44140625e-3;
-        #     cTDP = 1;
-        #   };
-        #   ac = {
-        #     risky = true;
-        #     updateRate = 1;
-        #     p1.watts = 64;
-        #     p1.duration = 32.0;
-        #     p2.watts = 44;
-        #     p2.duration = 2.44140625e-3;
-        #     cTDP = 2;
-        #   };
-        # };
         undervolt = enabled // {
           core = -100;
           gpu = -100;
@@ -253,7 +234,7 @@ with my;
       };
     };
 
-    # zram = enabled;
+    zram = enabled;
     # fast-networking = enabled;
     bootsplash = enabled;
   };
@@ -373,9 +354,9 @@ with my;
     "iTCO_wdt"
   ];
 
-  boot.kernel.sysctl = {
-    "vm.swappiness" = 10; # 64gb ram, lets not use swap until we really need it
-  };
+  # boot.kernel.sysctl = {
+  #   "vm.swappiness" = 20; # 64gb ram, lets not use swap until we really need it
+  # };
 
   # https://github.com/sched-ext/scx
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
@@ -463,6 +444,7 @@ with my;
     wgcf
     warp-terminal
     element-desktop
+    my.code-cursor
 
     # dropbox
     maestral-gui

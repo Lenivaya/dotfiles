@@ -10,10 +10,11 @@ keymap = [
   { on = "<Tab>", run = "spot", desc = "Spot hovered file" },
 ]
 
-[opener]
-open = [
-  { run = 'xdg-open "$@"', orphan = true, desc = "Open", for = "unix" }, # add orphan = true
-]
+# [opener]
+# open = [
+#   # { run = 'xdg-open "$@"', orphan = true, desc = "Open", for = "unix" }, # add orphan = true
+#   { run = 'xdg-open "$@"', desc = "Open", for = "linux" },
+# ]
 
 [plugin]
 prepend_previewers = [

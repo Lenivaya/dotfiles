@@ -14,7 +14,7 @@ in
 
   config = mkIf adwaita-pragmata.enable {
     fonts.packages = with pkgs; [
-      pkgs.adwaita-pragmata
+      adwaita-fonts
       my.pragmatapro
     ];
 

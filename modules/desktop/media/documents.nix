@@ -21,7 +21,7 @@ in
   };
 
   config = mkIf cfg.enable {
-    user.packages =
+    environment.systemPackages =
       with pkgs;
       (mkMerge [
         [

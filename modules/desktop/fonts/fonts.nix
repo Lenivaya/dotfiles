@@ -24,6 +24,7 @@ with lib.my;
       enableGhostscriptFonts = true;
 
       packages = with pkgs; [
+        adwaita-fonts
         ibm-plex
         noto-fonts
         noto-fonts-emoji

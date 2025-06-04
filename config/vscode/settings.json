@@ -607,7 +607,7 @@
   "windsurf.openRecentConversation": true,
   "windsurf.explainAndFixInCurrentConversation": true,
   "windsurf.enableAutocomplete": true,
-  "editor.fontSize": 16,
+  "editor.fontSize": 14,
   "workbench.colorTheme": "Min Tomorrow Dark",
   "super-figure.vectorFigureEditor": "/usr/bin/inkscape",
   "super-figure.bitmapFigureEditor": "/usr/bin/gimp",

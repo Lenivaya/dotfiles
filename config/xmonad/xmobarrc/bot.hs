@@ -34,7 +34,8 @@ Config
         Run Memory ["-t", "<fn=1>\61381</fn>  <usedratio>%"] 20,
         Run ComX "player" [] "" "player" 20,
         Run ComX "dunststatus" [] "" "dunst" 20,
-        Run ComX "wgcf" [] "" "wgcf" 20
+        Run ComX "wgcf" [] "" "wgcf" 20,
+        Run ComX "tailscalestatus" [] "" "tailscale" 20
         -- , Run ComX "warpstatus" [] "" "warp" 10
       ],
     sepChar = "%",
@@ -45,6 +46,6 @@ Config
       \}\
       \%player%\
       \{\
-      \%wgcf% %dunst%    |  %date% · %utcdate% %asiadate% %usdate%\
+      \%wgcf%%tailscale%%dunst%    |  %date% · %utcdate% %asiadate% %usdate%\
       \ "
   }

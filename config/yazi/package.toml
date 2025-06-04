@@ -1,31 +1,31 @@
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "c0ad8a3"
+rev = "63f9650"
 hash = "d0ad0c1946b46a30c8489735fe8de41c"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:jump-to-char"
-rev = "c0ad8a3"
+rev = "63f9650"
 hash = "30fc0b37f03a597b92d387268319450f"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mime-ext"
-rev = "c0ad8a3"
+rev = "63f9650"
 hash = "6094c7e7def6d131323e53d641f1bddd"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:full-border"
-rev = "c0ad8a3"
+rev = "63f9650"
 hash = "3996fc74044bc44144b323686f887e1"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "c0ad8a3"
+rev = "63f9650"
 hash = "bf6f074cd41ee33c3360341d168f9733"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:smart-filter"
-rev = "c0ad8a3"
+rev = "63f9650"
 hash = "4d82cd9e7534d976f000edf9c0f68d8f"
 
 [[plugin.deps]]
@@ -50,7 +50,7 @@ hash = "a1fa2b3e1826c3a34804ea8c548e9f80"
 
 [[plugin.deps]]
 use = "AnirudhG07/plugins-yazi:copy-file-contents"
-rev = "49975ae"
+rev = "907e292"
 hash = "a61930b827d8f1ef8fa016409de458ed"
 
 [[plugin.deps]]
@@ -60,8 +60,8 @@ hash = "86e0312b01bc5762813c6c1d0517f073"
 
 [[plugin.deps]]
 use = "Rolv-Apneseth/starship"
-rev = "428d43a"
-hash = "73b1c5d91575dea1a49c66302860797"
+rev = "6a0f3f7"
+hash = "d5a74d95c2e8194ac352c5e10e81e64f"
 
 [[plugin.deps]]
 use = "imsi32/yatline"

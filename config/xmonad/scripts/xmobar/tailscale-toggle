@@ -1,0 +1,19 @@
+#!/bin/sh
+
+SILENT=false
+
+# Check for silent flag
+if [ "$1" = "--silent" ]; then
+  SILENT=true
+fi
+
+# Check current status
+if systemctl is-active tailscaled.service >/dev/null 2>&1; then
+  [ "$SILENT" = false ] && notify-send "Tailscale" "Stopping Tailscale service..."
+  pkexec systemctl stop tailscaled.service
+  [ "$SILENT" = false ] && notify-send "Tailscale" "Tailscale service stopped"
+else
+  [ "$SILENT" = false ] && notify-send "Tailscale" "Starting Tailscale service..."
+  pkexec systemctl start tailscaled.service
+  [ "$SILENT" = false ] && notify-send "Tailscale" "Tailscale service started"
+fi

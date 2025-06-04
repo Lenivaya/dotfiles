@@ -39,10 +39,11 @@ in
     home.programs.vscode = enabled // {
       package =
         let
-          vscode' =
-            (pkgs.vscode.override {
-              inherit (chromeCfg) commandLineArgs;
-            }).fhs;
+          # vscode' =
+          #   (pkgs.vscode.override {
+          #     inherit (chromeCfg) commandLineArgs;
+          #   }).fhs;
+          vscode' = pkgs.vscode;
         in
         vscode';
 
