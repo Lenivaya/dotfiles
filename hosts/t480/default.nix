@@ -355,7 +355,7 @@ with my;
   ];
 
   boot.kernel.sysctl = {
-    "vm.swappiness" = 5; # 64gb ram, lets not use swap until we really need it
+    "vm.swappiness" = 1; # 64gb ram, lets not use swap until we really need it
   };
 
   # https://github.com/sched-ext/scx
@@ -538,10 +538,6 @@ with my;
     Storage=none
     ProcessSizeMax=0
   '';
-
-  # https://www.reddit.com/r/Fedora/comments/10s06fd/why_is_systemdoomd_still_a_thing/
-  # https://www.reddit.com/r/Ubuntu/comments/uyl4i6/ubuntu_2204s_new_oom_killing_system_is_killing/
-  # systemd.oomd = disabled;
 
   nix.settings = {
     system-features = [

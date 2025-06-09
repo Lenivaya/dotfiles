@@ -663,17 +663,13 @@
   "githubPullRequests.experimental.chat": true,
   "chat.agent.enabled": true,
   "javascript.preferences.importModuleSpecifier": "non-relative",
-  "mssql.connectionGroups": [
-    {
-      "name": "ROOT",
-      "id": "8CFFFE1D-4AC7-4DC3-89C8-EFF98914CFA9"
-    }
-  ],
-  "mssql.connections": [],
   "cursor-retrieval.canAttemptGithubLogin": false,
   "cursorStats.showDailyRemaining": true,
   "cursorStats.showProgressBars": true,
   "cursorStats.showTotalRequests": true,
   "typescript.experimental.useTsgo": true,
-  "editor.largeFileOptimizations": false
+  "editor.largeFileOptimizations": false,
+  "gitlens.mode.active": "zen",
+  "telemetry.enableTelemetry": false,
+  "telemetry.enableCrashReporter": false
 }
