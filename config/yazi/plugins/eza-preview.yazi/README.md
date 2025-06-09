@@ -10,18 +10,18 @@ Tree mode:
 
 ## Requirements
 
-- [yazi (0.4+) or nightly](https://github.com/sxyazi/yazi)
+- [yazi (25.3+) or nightly](https://github.com/sxyazi/yazi)
 - [eza (0.20+)](https://github.com/eza-community/eza)
 
 ## Installation
-
-### Linux/MacOS
 
 ```sh
 ya pack -a ahkohd/eza-preview
 ```
 
 ## Usage
+
+### Basic Setup
 
 Add `eza-preview` to previewers in `yazi.toml`:
 
@@ -31,33 +31,57 @@ name = "*/"
 run = "eza-preview"
 ```
 
-Set key binding to switch between list and tree modes in `keymap.toml`:
+### Key Bindings
+
+Set key bindings to control the preview in `keymap.toml`:
 
 ```toml
-[manager]
+[mgr]
 prepend_keymap = [
   { on = [ "E" ], run = "plugin eza-preview",  desc = "Toggle tree/list dir preview" },
-  { on = [ "-" ], run = "plugin eza-preview --args='--inc-level'", desc = "Increment tree level" },
-  { on = [ "_" ], run = "plugin eza-preview --args='--dec-level'", desc = "Decrement tree level" },
-  { on = [ "$" ], run = "plugin eza-preview --args='--toggle-follow-symlinks'", desc = "Toggle tree follow symlinks" },
+  { on = [ "-" ], run = "plugin eza-preview inc-level", desc = "Increment tree level" },
+  { on = [ "_" ], run = "plugin eza-preview dec-level", desc = "Decrement tree level" },
+  { on = [ "$" ], run = "plugin eza-preview toggle-follow-symlinks", desc = "Toggle tree follow symlinks" },
+  { on = [ "*" ], run = "plugin eza-preview toggle-hidden", desc = "Toggle hidden files" },
 ]
 ```
 
-List mode is the default, if you want to have tree mode instead when starting yazi - update `init.lua` with:
+### Configuration
+
+Configure the plugin in `init.lua`:
 
 ```lua
 require("eza-preview"):setup({
-  -- Determines the directory depth level to tree preview (default: 3)
+  -- Directory depth level for tree preview (default: 3)
   level = 3,
 
-  -- Whether to follow symlinks when previewing directories (default: false)
-  follow_symlinks = false
+  -- Follow symlinks when previewing directories (default: false)
+  follow_symlinks = false,
 
-  -- Whether to show target file info instead of symlink info (default: false)
-  dereference = false
+  -- Show target file info instead of symlink info (default: false)
+  dereference = false,
+
+  -- Show hidden files (default: true) 
+  all = true
 })
 
--- Or use default settings with empty table
+-- Or use default settings
 require("eza-preview"):setup({})
-
 ```
+
+## Available Commands
+
+- `plugin eza-preview` - Toggle between tree and list modes
+- `plugin eza-preview inc-level` - Increase tree depth level
+- `plugin eza-preview dec-level` - Decrease tree depth level  
+- `plugin eza-preview toggle-follow-symlinks` - Toggle symlink following
+- `plugin eza-preview toggle-hidden` - Toggle hidden file visibility
+
+## Contributing
+
+Feel free to contribute by opening issues or submitting pull requests!
+
+## License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+

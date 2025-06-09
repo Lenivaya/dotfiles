@@ -23,6 +23,7 @@ in
         ps: with ps; [
           uv
           ruff
+          pipx
 
           pip
           ipython

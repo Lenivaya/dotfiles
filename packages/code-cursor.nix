@@ -56,8 +56,8 @@ let
 
   sources = {
     x86_64-linux = fetchurl {
-      url = "https://downloads.cursor.com/production/53b99ce608cba35127ae3a050c1738a959750865/linux/x64/Cursor-1.0.0-x86_64.AppImage";
-      hash = "sha256-WH4/Zw0VJmRGyRzMlkThkhZ4fGysMKBUSIPCTsyGS4w=";
+      url = "https://downloads.cursor.com/production/9f54c226145b02c8dd0771069db954e0ab5fa1b8/linux/x64/Cursor-1.0.1-x86_64.AppImage";
+      hash = "sha256-5N1zP7KTNPAqQU/Iz57CHp0CPfbujzvDkSNhJJU7VII=";
     };
     aarch64-linux = fetchurl {
       url = "https://downloads.cursor.com/production/0781e811de386a0c5bcb07ceb259df8ff8246a52/linux/arm64/Cursor-0.49.6-aarch64.AppImage";

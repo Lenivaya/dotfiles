@@ -20,14 +20,14 @@ You can install this plugin by running the following command
 ya pkg add AnirudhG07/plugins-yazi:copy-file-contents
 ```
 
-You can also manually install it by copying the [`init.lua`](https://github.com/AnirudhG07/plugins-yazi/tree/main/copy-file-contents/init.lua) file to your `~/.config/yazi/plugins` directory.
+You can also manually install it by copying the [`main.lua`](https://github.com/AnirudhG07/plugins-yazi/tree/main/copy-file-contents/main.lua) file to your `~/.config/yazi/plugins` directory.
 
 ## Usages
 
 Add the below keybinding to your `~/.config/yazi/keymaps.toml` file.
 
 ```toml
-[[manager.prepend_keymap]]
+[[mgr.prepend_keymap]]
 on = "<A-y>"
 run = ["plugin copy-file-contents"]
 desc = "Copy contents of file"

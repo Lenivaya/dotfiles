@@ -217,7 +217,7 @@ with my;
         undervolt = enabled // {
           core = -100;
           gpu = -100;
-          temp = 100;
+          temp = 99;
         };
       };
       gpu = {
@@ -234,7 +234,7 @@ with my;
       };
     };
 
-    zram = enabled;
+    # zram = enabled;
     # fast-networking = enabled;
     bootsplash = enabled;
   };
@@ -354,9 +354,9 @@ with my;
     "iTCO_wdt"
   ];
 
-  # boot.kernel.sysctl = {
-  #   "vm.swappiness" = 20; # 64gb ram, lets not use swap until we really need it
-  # };
+  boot.kernel.sysctl = {
+    "vm.swappiness" = 5; # 64gb ram, lets not use swap until we really need it
+  };
 
   # https://github.com/sched-ext/scx
   # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland

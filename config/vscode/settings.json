@@ -138,9 +138,39 @@
       "**/bazel-*/**": true,
       "**/node_modules/**": true,
       "**/target/debug/**": true,
+      "**/target/release/**": true,
+      "**/target/doc/**": true,
+      "**/target/tmp/**": true,
+      "**/target/.rustc_info.json": true,
+      "**/target/CACHEDIR.TAG": true,
       "**/env/**": true,
       "**/venv/**": true,
-      "env-*": true
+      "**/.turbo/**": true,
+      "**/.next/**": true,
+      "**/.output/**": true,
+      "**/.yarn/**": true,
+      "**/.pnp.*": true,
+      "**/dist/**": true,
+      "**/build/**": true,
+      "**/.cache/**": true,
+      "**/.parcel-cache/**": true,
+      "**/coverage/**": true,
+      "**/.nyc_output/**": true,
+      "**/.vscode/**": true,
+      "**/go.work.sum": true,
+      "**/go.sum": true,
+      "**/vendor/**": true,
+      "**/.cargo/**": true,
+      "**/Cargo.lock": true,
+      "**/package-lock.json": true,
+      "**/yarn.lock": true,
+      "**/pnpm-lock.yaml": true,
+      "env-*": true,
+      "**/.DS_Store": true,
+      "**/thumbs.db": true,
+      "**/*.log": true,
+      "**/.tmp/**": true,
+      "**/.temp/**": true
     }
   },
   "git": {
@@ -374,9 +404,6 @@
   "[nginx]": {
     "editor.defaultFormatter": "raynigon.nginx-formatter"
   },
-  "[dockerfile]": {
-    "editor.defaultFormatter": "ms-azuretools.vscode-docker"
-  },
   "[scss]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
@@ -439,9 +466,6 @@
     "editor.wordSeparators": "`~!@#$%^&*()=+[{]}\\|;:'\",.<>/?"
   },
   "tinymist.formatterMode": "typstyle",
-  "[bibtex]": {
-    "editor.defaultFormatter": "efoerster.texlab"
-  },
   "javascript.updateImportsOnFileMove.enabled": "always",
   "window.zoomLevel": 1,
   "editor.fontFamily": "PragmataPro Mono Liga Regular",
@@ -551,7 +575,7 @@
       "command": "git.sync"
     }
   ],
-  "github.copilot.chat.edits.codesearch.enabled": true,
+  "github.copilot.chat.codesearch.enabled": true,
   "github.copilot.chat.editor.temporalContext.enabled": true,
   "github.copilot.chat.edits.temporalContext.enabled": true,
   "github.copilot.chat.languageContext.typescript.enabled": true,
@@ -595,7 +619,7 @@
   "leetcode.hint.commandShortcut": false,
   "leetcode.hint.commentDescription": false,
   "cursor.cpp.disabledLanguages": ["scminput"],
-  "window.commandCenter": 1,
+  "window.commandCenter": true,
   "guides.enabled": false,
   "redhat.telemetry.enabled": false,
   "typescriptExplorer.typeTree.view.show.typeParameters": false,
@@ -633,7 +657,6 @@
     "GitHub.copilot-chat",
     "GitHub.vscode-pull-request-github"
   ],
-  "github.copilot.chat.codesearch.enabled": true,
   "github.copilot.chat.agent.thinkingTool": true,
   "github.copilot.chat.languageContext.fix.typescript.enabled": true,
   "github.copilot.chat.languageContext.inline.typescript.enabled": true,
@@ -650,5 +673,7 @@
   "cursor-retrieval.canAttemptGithubLogin": false,
   "cursorStats.showDailyRemaining": true,
   "cursorStats.showProgressBars": true,
-  "cursorStats.showTotalRequests": true
+  "cursorStats.showTotalRequests": true,
+  "typescript.experimental.useTsgo": true,
+  "editor.largeFileOptimizations": false
 }

@@ -38,7 +38,7 @@ with lib.my;
       isPureWM = true;
       lockscreen.autoSuspend = false;
 
-      fonts.pragmata = enabled;
+      fonts.adwaita-pragmata = enabled;
 
       xdg.handlr = enabled;
 
@@ -148,7 +148,7 @@ with lib.my;
 
     services = {
       adguardhome = enabled;
-      ananicy = enabled;
+      # ananicy = enabled;
       clipcat = enabled;
       # greenclip = enabled;
       kdeconnect = enabled;
@@ -294,14 +294,10 @@ with lib.my;
     in
     mkForce kernel';
 
-  # https://github.com/sched-ext/scx
-  # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rustland
-  # https://github.com/sched-ext/scx/tree/main/scheds/rust/scx_rusty
-  # https://www.phoronix.com/news/Rust-Linux-Scheduler-Experiment
-  # services.scx = enabled // {
-  #   package = pkgs.scx_git.full;
-  #   scheduler = "scx_bpfland";
-  # };
+  services.scx = enabled // {
+    scheduler = "scx_bpfland";
+    package = pkgs.scx_git.full;
+  };
 
   boot.kernelParams = [
     # HACK Disables fixes for spectre, meltdown, L1TF and a number of CPU

@@ -35,13 +35,13 @@ hash = "f9ee1436e3b853508d87f7d49dce56e6"
 
 [[plugin.deps]]
 use = "dedukun/relative-motions"
-rev = "ce2e890"
-hash = "23915860e59348bf4166778bb0e606f7"
+rev = "2e3b617"
+hash = "b67ee12053113983273e9118a7d1272b"
 
 [[plugin.deps]]
 use = "MasouShizuka/projects"
-rev = "96af237"
-hash = "4ed75718525437a6fdff1c44109b4ad0"
+rev = "7037dd5"
+hash = "9a4524dc938af1d30f2d115be7b64900"
 
 [[plugin.deps]]
 use = "Lil-Dank/lazygit"
@@ -50,8 +50,8 @@ hash = "a1fa2b3e1826c3a34804ea8c548e9f80"
 
 [[plugin.deps]]
 use = "AnirudhG07/plugins-yazi:copy-file-contents"
-rev = "907e292"
-hash = "a61930b827d8f1ef8fa016409de458ed"
+rev = "71545f4"
+hash = "f8530ee84fee95dbcc26bb1d8d8019c7"
 
 [[plugin.deps]]
 use = "Ape/open-with-cmd"
@@ -70,23 +70,23 @@ hash = "d32742ded0e73146a8ca590fdc4fb404"
 
 [[plugin.deps]]
 use = "ahkohd/eza-preview"
-rev = "6575a9a"
-hash = "72355a6c8b7c8de6ed4dda0f98f86fee"
+rev = "7a93433"
+hash = "22e1bd3dd03894746a3540b5f3729d0c"
 
 [[plugin.deps]]
 use = "lpnh/fg"
-rev = "5b6bdee"
-hash = "a0e91093c60ddeb1ee68df4ed7cf317a"
+rev = "6d5e469"
+hash = "d8455f929580ec602b4d0bbd8e96711"
 
 [[plugin.deps]]
 use = "lpnh/fr"
-rev = "5b6bdee"
-hash = "a0e91093c60ddeb1ee68df4ed7cf317a"
+rev = "6d5e469"
+hash = "d8455f929580ec602b4d0bbd8e96711"
 
 [[plugin.deps]]
 use = "macydnah/office"
-rev = "d1e3e51"
-hash = "35241f7d85abc5a0d2441020bc597ceb"
+rev = "4002d36"
+hash = "9c68763dd4f2799f7cfee1e9c3e819a9"
 
 [[plugin.deps]]
 use = "atareao/convert"
@@ -107,11 +107,6 @@ hash = "b23b7db6beb2854a689c648a38843f8c"
 use = "imsi32/yatline-githead"
 rev = "f8f969e"
 hash = "4d441b38138ce6492a4e10fa349fd65"
-
-[[plugin.deps]]
-use = "Ev357/compress"
-rev = "addea98"
-hash = "eb56f28f5d44e121276523007a7e8f83"
 
 [[plugin.deps]]
 use = "wekauwau/yatline-created-time"
