@@ -356,6 +356,7 @@ with my;
 
   boot.kernel.sysctl = {
     "vm.swappiness" = 1; # 64gb ram, lets not use swap until we really need it
+    "net.ipv4.ip_unprivileged_port_start" = 0; # allow binding to ports < 1024
   };
 
   # https://github.com/sched-ext/scx

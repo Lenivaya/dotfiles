@@ -31,6 +31,7 @@ in
 
   # Some nice shell things
   user.packages = with pkgs; [
+    file
     bat
     fd
     fselect

@@ -604,7 +604,7 @@
   "terminal.integrated.minimumContrastRatio": 1,
   "window.titleBarStyle": "custom",
   "workbench.iconTheme": "catppuccin-mocha",
-  "editor.renderWhitespace": "none",
+  "editor.renderWhitespace": "all",
   "find-it-faster.general.useTerminalInEditor": true,
   "fzf-picker.general.openCommand": "cursor -g",
   "fzf-picker.customTasks": [
@@ -671,5 +671,12 @@
   "editor.largeFileOptimizations": false,
   "gitlens.mode.active": "zen",
   "telemetry.enableTelemetry": false,
-  "telemetry.enableCrashReporter": false
+  "telemetry.enableCrashReporter": false,
+  "mssql.connectionGroups": [
+    {
+      "name": "ROOT",
+      "id": "567CC80B-89CD-4877-B75F-A1DC6854F437"
+    }
+  ],
+  "mssql.connections": []
 }
