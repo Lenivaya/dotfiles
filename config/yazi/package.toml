@@ -1,3 +1,6 @@
+[flavor]
+deps = []
+
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
 rev = "c648526"
@@ -112,6 +115,3 @@ hash = "4d441b38138ce6492a4e10fa349fd65"
 use = "wekauwau/yatline-created-time"
 rev = "d96b42b"
 hash = "695b2441885359206812dcd4e810633c"
-
-[flavor]
-deps = []
