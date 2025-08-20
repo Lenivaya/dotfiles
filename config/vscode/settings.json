@@ -669,7 +669,6 @@
   "cursorStats.showTotalRequests": true,
   "typescript.experimental.useTsgo": true,
   "editor.largeFileOptimizations": false,
-  "gitlens.mode.active": "zen",
   "telemetry.enableTelemetry": false,
   "telemetry.enableCrashReporter": false,
   "mssql.connectionGroups": [

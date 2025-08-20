@@ -39,6 +39,7 @@ with my;
 
   modules = {
     desktop = enabled // {
+      compositor = enabled;
       xmonad = enabled;
       isPureWM = true;
 
@@ -86,7 +87,7 @@ with my;
       };
 
       media = {
-        spotify = enabled;
+        # spotify = enabled;
         mpv = enabled;
 
         documents = enabled // {
@@ -211,7 +212,7 @@ with my;
       profiles.laptop = enabled // {
         autoSuspendOnLowBattery = false;
       };
-      ddc = enabled;
+      # ddc = enabled;
       cpu.intel = enabled;
       cpu = {
         undervolt = enabled // {
@@ -368,6 +369,7 @@ with my;
   services.scx = enabled // {
     scheduler = "scx_bpfland";
     package = pkgs.scx_git.full;
+    # package = pkgs.scx.full;
   };
 
   networking.firewall = {
@@ -434,7 +436,7 @@ with my;
     deskflow
     upwork
     beekeeper-studio
-    scx.full
+    # scx.full
     pgcli
     # zoom-us
     windsurf
@@ -561,7 +563,7 @@ with my;
         "fwupd"
         "syncthing"
         "bpftune"
-        "scx"
+        # "scx"
       ];
       user_services_to_stop = [
         "kdeconnect"
@@ -602,6 +604,7 @@ with my;
     ++ [
       (_final: prev: {
         inherit (pkgs.unstable)
+          scx
           ayugram-desktop
           yazi
           twitch-hls-client

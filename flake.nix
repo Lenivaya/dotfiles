@@ -50,7 +50,8 @@
     };
 
     # chaotic.url = "github:chaotic-cx/nyx?rev=8e0feebc3ae6e5604113e7636236b3d9c46e8bf0";
-    chaotic.url = "github:chaotic-cx/nyx";
+    # chaotic.url = "github:chaotic-cx/nyx";
+    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable"; # IMPORTANT
 
     browser-previews = {
       url = "github:nix-community/browser-previews";
