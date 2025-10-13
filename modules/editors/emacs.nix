@@ -48,8 +48,6 @@ in
       python312Packages.pylatexenc # LaTeX parser
       ghostscript
 
-      # my.my_cookies # leetcode cookie retriever
-
       ## Module dependencies
       # :app everywhere
       xdotool

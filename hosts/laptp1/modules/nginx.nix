@@ -33,7 +33,7 @@ with lib.my;
       "jellyfin".servers."127.0.0.1:8096" = { };
       "calibre".servers."127.0.0.1:${toString config.services.calibre-server.port}" = { };
       "calibre-web".servers."127.0.0.1:${toString config.services.calibre-web.listen.port}" = { };
-      "qbittorrent".servers."127.0.0.1:${toString config.services.qbittorrent.port}" = { };
+      # "qbittorrent".servers."127.0.0.1:${toString config.services.qbittorrent.port}" = { };
     };
 
     virtualHosts."local.self-hosted.com" =
@@ -75,13 +75,13 @@ with lib.my;
             '';
           } // withWebSockets;
 
-          locations."/qbt/" = {
-            proxyPass = "http://qbittorrent/";
-            extraConfig = ''
-              client_max_body_size 100M; # adding a lot of torrents at once
-              proxy_cookie_path  / "/; Secure";
-            '';
-          } // withWebSockets;
+          # locations."/qbt/" = {
+          #   proxyPass = "http://qbittorrent/";
+          #   extraConfig = ''
+          #     client_max_body_size 100M; # adding a lot of torrents at once
+          #     proxy_cookie_path  / "/; Secure";
+          #   '';
+          # } // withWebSockets;
 
           locations."/calibre-web" = {
             proxyPass = "http://calibre-web";

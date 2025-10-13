@@ -147,7 +147,7 @@ with lib.my;
     };
 
     services = {
-      adguardhome = enabled;
+      # adguardhome = enabled;
       # ananicy = enabled;
       clipcat = enabled;
       # greenclip = enabled;
@@ -497,6 +497,7 @@ with lib.my;
   home.programs.mpv.config = {
     profile = "fast";
   };
+  networking.useNetworkd = mkForce true;
 
   # Mostly use it as second screen with home-server capabilities, if I want to
   # put it to sleep I'll do it manually

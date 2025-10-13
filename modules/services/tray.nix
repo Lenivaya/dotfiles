@@ -22,7 +22,7 @@ in
         pasystray
         mictray
         udiskie
-        plasma5Packages.kdeconnect-kde
+        kdePackages.kdeconnect-kde
         gxkb
         indicator-sound-switcher
       ]

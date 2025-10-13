@@ -179,7 +179,7 @@ with my;
           pasystray
           mictray
           udiskie
-          plasma5Packages.kdeconnect-kde
+          kdePackages.kdeconnect-kde
           gxkb
           indicator-sound-switcher
         ];
@@ -423,7 +423,7 @@ with my;
     ffmpeg-full
     video-trimmer
     postman
-    my.gitbutler
+    gitbutler
     twitch-hls-client
     curtail # image compression
     smartmontools
@@ -446,8 +446,7 @@ with my;
     youtube-music
     wgcf
     warp-terminal
-    element-desktop
-    my.code-cursor
+    code-cursor
 
     # dropbox
     maestral-gui
@@ -596,8 +595,16 @@ with my;
     "-05d6:000a:2a5c56c6"
   ];
 
+  services.xserver.libinput = {
+    touchpad = {
+      accelSpeed = "0.7"; # range -1.0 (slow) to 1.0 (fast)
+      accelProfile = "adaptive"; # or "flat"
+    };
+  };
+
   networking.wireless.iwd.settings.General.AddressRandomization = "network";
   networking.wireless.iwd.settings.General.AddressRandomizationRange = "full";
+  networking.useNetworkd = mkForce true;
 
   nixpkgs.overlays =
     [ inputs.nur.overlays.default ]
