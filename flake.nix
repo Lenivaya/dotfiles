@@ -49,8 +49,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    chaotic.url = "github:chaotic-cx/nyx/nyxpkgs-unstable"; # IMPORTANT
-
     browser-previews = {
       url = "github:nix-community/browser-previews";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -109,6 +107,7 @@
     };
 
     # determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3.0.0";
+    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel";
 
     # some upstream things
     auto-cpufreq = {
@@ -154,7 +153,6 @@
       "https://numtide.cachix.org" # another unfree package cache
       "https://pre-commit-hooks.cachix.org"
       "https://viperml.cachix.org/"
-      "https://chaotic-nyx.cachix.org/"
     ];
 
     extra-trusted-public-keys = [
@@ -165,7 +163,6 @@
       "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
       "pre-commit-hooks.cachix.org-1:Pkk3Panw5AW24TOv6kz3PvLhlH8puAsJTBbOPmBo7Rc="
       "viperml.cachix.org-1:qZhKBMTfmcLL+OG6fj/hzsMEedgKvZVFRRAhq7j8Vh8="
-      "chaotic-nyx.cachix.org-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
     ];
   };
 
@@ -230,7 +227,8 @@
 
       nixosModules = {
         dotfiles = import ./.;
-      } // mapModulesRec ./modules import;
+      }
+      // mapModulesRec ./modules import;
       nixosConfigurations = mapHosts ./hosts {
         modules = [
           inputs.nixos-06cb-009a-fingerprint-sensor.nixosModules."06cb-009a-fingerprint-sensor"

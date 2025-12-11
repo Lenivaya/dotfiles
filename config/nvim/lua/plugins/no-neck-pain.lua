@@ -12,13 +12,13 @@ return {
       -- When `true`, enables the plugin when you enter a new Tab.
       -- note: it does not trigger if you come back to an existing tab, to prevent unwanted interfer with user's decisions.
       ---@type boolean
-      enableOnTabEnter = false,
+      enableOnTabEnter = true,
       -- When `true`, reloads the plugin configuration after a colorscheme change.
       ---@type boolean
-      reloadOnColorSchemeChange = false,
+      reloadOnColorSchemeChange = true,
       -- When `true`, entering one of no-neck-pain side buffer will automatically skip it and go to the next available buffer.
       ---@type boolean
-      skipEnteringNoNeckPainBuffer = false,
+      skipEnteringNoNeckPainBuffer = true,
     },
   },
 }

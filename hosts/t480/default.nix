@@ -12,28 +12,27 @@
 with lib;
 with my;
 {
-  imports =
-    [
-      ../common.nix
-      ./hardware-configuration.nix
-      ./phone_cam.nix
-      ./power-management.nix
-      ./fingerprint/default.nix
-    ]
-    ++ (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-t480 ])
-    ++ (with inputs; [
-      # determinate.nixosModules.default
-      stevenblack-hosts.nixosModule
-      {
-        networking.stevenBlackHosts = enabled // {
-          blockFakenews = true;
-          blockGambling = true;
-        };
-      }
-      resterrs.nixosModules.default
-      nixos-facter-modules.nixosModules.facter
-      { config.facter.reportPath = ./facter.json; }
-    ]);
+  imports = [
+    ../common.nix
+    ./hardware-configuration.nix
+    ./phone_cam.nix
+    ./power-management.nix
+    ./fingerprint/default.nix
+  ]
+  ++ (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-t480 ])
+  ++ (with inputs; [
+    # determinate.nixosModules.default
+    stevenblack-hosts.nixosModule
+    {
+      networking.stevenBlackHosts = enabled // {
+        blockFakenews = true;
+        blockGambling = true;
+      };
+    }
+    resterrs.nixosModules.default
+    nixos-facter-modules.nixosModules.facter
+    { config.facter.reportPath = ./facter.json; }
+  ]);
 
   this.isHeadful = true;
 
@@ -309,7 +308,8 @@ with my;
 
   boot.kernelPackages =
     let
-      kernel' = pkgs.linuxPackages_cachyos-lto;
+      # kernel' = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto;
+      kernel' = pkgs.linuxPackages_lqx;
     in
     mkForce kernel';
 
@@ -368,7 +368,7 @@ with my;
   # https://wiki.cachyos.org/configuration/sched-ext/#disable-ananicy-cpp
   services.scx = enabled // {
     scheduler = "scx_bpfland";
-    package = pkgs.scx_git.full;
+    package = pkgs.scx.full;
     # package = pkgs.scx.full;
   };
 
@@ -487,22 +487,6 @@ with my;
       vulkan-tools
     ];
   };
-  chaotic.mesa-git = enabled // {
-    fallbackSpecialisation = false;
-    # method = "replaceRuntimeDependencies";
-    extraPackages = with pkgs; [
-      libGL
-      intel-ocl
-      intel-media-driver
-      vaapiIntel
-      vaapiVdpau
-      vpl-gpu-rt
-      vulkan-loader
-      vulkan-validation-layers
-      vulkan-extension-layer
-      vulkan-tools
-    ];
-  };
   environment.sessionVariables = {
     LIBVA_DRIVER_NAME = mkForce "iHD";
 
@@ -606,40 +590,39 @@ with my;
   networking.wireless.iwd.settings.General.AddressRandomizationRange = "full";
   networking.useNetworkd = mkForce true;
 
-  nixpkgs.overlays =
-    [ inputs.nur.overlays.default ]
-    ++ [
-      (_final: prev: {
-        inherit (pkgs.unstable)
-          scx
-          ayugram-desktop
-          yazi
-          twitch-hls-client
-          ungoogled-chromium
-          obsidian
-          vscode
-          jetbrains-toolbox
-          windsurf
-          readest
-          kitty
-          legcord
-          youtube-music
-          warp-terminal
-          ;
+  nixpkgs.overlays = [
+    inputs.nur.overlays.default
+    inputs.nix-cachyos-kernel.overlays.default
+  ]
+  ++ [
+    (_final: prev: {
+      inherit (pkgs.unstable)
+        scx
+        ayugram-desktop
+        yazi
+        twitch-hls-client
+        ungoogled-chromium
+        obsidian
+        vscode
+        jetbrains-toolbox
+        windsurf
+        readest
+        kitty
+        legcord
+        youtube-music
+        warp-terminal
+        ;
 
-        inherit (pkgs.unstable-small)
-          neovim
-          ;
+      inherit (pkgs.unstable-small)
+        neovim
+        ;
 
-        distrobox = prev.distrobox_git;
-        telegram-desktop = prev.telegram-desktop_git;
-        yt-dlp = prev.yt-dlp_git;
-        # mpv = prev.mpv-vapoursynth;
-        # neovim = optimizePkg inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
-        skippy-xd = optimizePkg prev.skippy-xd;
-        dmenu = optimizePkg prev.dmenu;
-        nsxiv = optimizePkg prev.nsxiv;
-        trayer = optimizePkg prev.trayer;
-      })
-    ];
+      # mpv = prev.mpv-vapoursynth;
+      # neovim = optimizePkg inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+      skippy-xd = optimizePkg prev.skippy-xd;
+      dmenu = optimizePkg prev.dmenu;
+      nsxiv = optimizePkg prev.nsxiv;
+      trayer = optimizePkg prev.trayer;
+    })
+  ];
 }

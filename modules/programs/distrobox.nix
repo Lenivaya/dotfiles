@@ -45,11 +45,5 @@ in
     # ++ optional config.this.isHeadful boxbuddy;
 
     user.extraGroups = [ "podman" ];
-
-    nixpkgs.overlays = [
-      (_final: prev: {
-        distrobox = prev.distrobox_git;
-      })
-    ];
   };
 }

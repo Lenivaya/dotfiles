@@ -26,7 +26,7 @@ in
     services.ananicy = {
       enable = true;
       package = pkgs.ananicy-cpp;
-      rulesProvider = pkgs.ananicy-rules-cachyos_git; # chaotic-nyx
+      rulesProvider = pkgs.ananicy-rules-cachyos;
       settings = {
         check_freq = 15;
         cgroup_load = true;
