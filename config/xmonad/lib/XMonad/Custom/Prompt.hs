@@ -20,7 +20,8 @@ import Data.Ratio
 import XMonad
 import XMonad.Actions.GridSelect
 import XMonad.Actions.ShowText
-import XMonad.Custom.Prompt.FuzzyMatch
+-- import XMonad.Custom.Prompt.FuzzyMatch
+mport XMonad.Prompt.FuzzyMatch
 import XMonad.Custom.Theme qualified as T
 import XMonad.Prompt
 
@@ -53,6 +54,8 @@ promptTheme =
       historySize = 0,
       searchPredicate = fuzzyMatch,
       sorter = fuzzySort,
+      -- searchPredicate = fuzzyMatch,
+      -- sorter = fuzzySort,
       complCaseSensitivity = CaseInSensitive,
       promptKeymap = defaultXPKeymap,
       autoComplete = Just 0,

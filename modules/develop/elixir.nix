@@ -16,7 +16,7 @@ in
     user.packages = with pkgs; [
       erlang
       elixir
-      elixir_ls
+      elixir-ls
       inotify-tools
     ];
   };

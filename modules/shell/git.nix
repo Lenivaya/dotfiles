@@ -30,10 +30,10 @@ in
     };
 
     user.packages = with pkgs; [
-      gitAndTools.gh
-      gitAndTools.git-open
-      # gitAndTools.diff-so-fancy
-      (mkIf config.modules.shell.gnupg.enable gitAndTools.git-crypt)
+      gh
+      git-open
+      # diff-so-fancy
+      (mkIf config.modules.shell.gnupg.enable git-crypt)
       # git-extras
       git-ignore
       # gex

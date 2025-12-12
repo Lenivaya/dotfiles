@@ -21,7 +21,7 @@ in
       miller
       ouch
       sox
-      xdragon
+      dragon-drop
       ripdrag
     ];
 

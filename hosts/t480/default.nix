@@ -466,8 +466,8 @@ with my;
       libGL
       intel-ocl
       intel-media-driver
-      vaapiIntel
-      vaapiVdpau
+      intel-vaapi-driver
+      libva-vdpau-driver
       vpl-gpu-rt
       vulkan-loader
       vulkan-validation-layers
@@ -478,8 +478,8 @@ with my;
       libGL
       intel-ocl
       intel-media-driver
-      vaapiIntel
-      vaapiVdpau
+      intel-vaapi-driver
+      libva-vdpau-driver
       vpl-gpu-rt
       vulkan-loader
       vulkan-validation-layers

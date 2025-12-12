@@ -50,7 +50,6 @@ let
     ${readChromeHack "compact_urlbar_megabar.css"}
     ${readChromeHack "urlbar_centered_text.css"}
 
-    ${readChromeHack "hide_tabs_with_one_tab_w_window_controls.css"}
     ${readChromeHack "numbered_tabs.css"}
     ${readChromeHack "combined_favicon_and_tab_close_button.css"}
     ${readChromeHack "tab_separator_lines.css"}

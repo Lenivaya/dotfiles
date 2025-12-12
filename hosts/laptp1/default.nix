@@ -16,20 +16,19 @@
 with lib;
 with my;
 {
-  imports =
-    [
-      ../common.nix
-      ./hardware-configuration.nix
-      # ./modules/default.nix
-      # ./modules/your-spotify.nix
+  imports = [
+    ../common.nix
+    ./hardware-configuration.nix
+    # ./modules/default.nix
+    # ./modules/your-spotify.nix
 
-      inputs.nixos-facter-modules.nixosModules.facter
-      { config.facter.reportPath = ./facter.json; }
-    ]
-    ++ (with inputs.srvos; [
-      # nixosModules.server
-      # nixosModules.mixins-nginx
-    ]);
+    inputs.nixos-facter-modules.nixosModules.facter
+    { config.facter.reportPath = ./facter.json; }
+  ]
+  ++ (with inputs.srvos; [
+    # nixosModules.server
+    # nixosModules.mixins-nginx
+  ]);
 
   # this.isHeadless = true;
 
@@ -134,8 +133,8 @@ with my;
       libGL
       intel-ocl
       intel-media-driver
-      vaapiIntel
-      vaapiVdpau
+      intel-vaapi-driver
+      libva-vdpau-driver
       vpl-gpu-rt
       vulkan-loader
       vulkan-validation-layers
@@ -147,8 +146,8 @@ with my;
       libGL
       intel-ocl
       intel-media-driver
-      vaapiIntel
-      vaapiVdpau
+      intel-vaapi-driver
+      libva-vdpau-driver
       vpl-gpu-rt
       vulkan-loader
       vulkan-validation-layers

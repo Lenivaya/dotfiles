@@ -18,8 +18,6 @@ with lib.my;
       nscd.enableNsncd = mkDefault true;
     }
 
-    (mkIf config.this.isHeadful { udev.packages = [ pkgs.android-udev-rules ]; })
-
     (mkIf config.modules.desktop.enable {
       xbanish = enabled;
       gnome.gnome-keyring = enabled;

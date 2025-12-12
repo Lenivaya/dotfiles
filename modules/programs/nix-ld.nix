@@ -14,7 +14,7 @@ in
 
   config = mkIf cfg.enable {
     programs.nix-ld = enabled // {
-      package = pkgs.nix-ld-rs;
+      package = pkgs.nix-ld;
 
       libraries = with pkgs; [
         alsa-lib
