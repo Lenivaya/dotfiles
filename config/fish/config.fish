@@ -11,7 +11,10 @@ if status is-interactive
         zoxide init fish | source
         atuin init fish | source
         direnv hook fish | source
-        nix-your-shell fish | source
+        # Check if nix-your-shell exists before sourcing it
+        if type -q nix-your-shell
+            nix-your-shell fish | source
+        end
     end
 end
 
@@ -25,9 +28,4 @@ function __async_starship --on-event fish_prompt
     starship init fish | source
 end
 
-# pnpm
-set -gx PNPM_HOME "/home/leniviy/.local/share/pnpm"
-if not string match -q -- $PNPM_HOME $PATH
-    set -gx PATH "$PNPM_HOME" $PATH
-end
-# pnpm end
+set -e LC_ALL

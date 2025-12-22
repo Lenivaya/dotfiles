@@ -73,6 +73,7 @@ function __async_my_abbr_adder --on-event fish_prompt
     abbr gc "git commit -m"
     abbr gca "git add . && git commit -m"
     abbr gl "git log --oneline --graph --all --decorate"
+    abbr gpullrebase "git stash && git pull --rebase && git stash pop"
 
     # Notes
     abbr oo "nvim ~/Sync/Knowledge-base/"

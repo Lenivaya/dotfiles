@@ -332,9 +332,6 @@
       "autoDetect": "watch"
     }
   },
-  "update": {
-    "mode": "none"
-  },
   "window": {
     "menuBarVisibility": "toggle",
     "titleBarStyle": "custom"
@@ -445,9 +442,6 @@
   "editor.cursorBlinking": "solid",
   "terminal.integrated.cursorBlinking": false,
   "workbench.statusBar.enabled": false,
-  "extensions.experimental.affinity": {
-    "asvetliakov.vscode-neovim": 1
-  },
   "workbench.reduceMotion": "on",
   "workbench.editor.enablePreview": false,
   "workbench.colorCustomizations": {
@@ -467,7 +461,7 @@
   },
   "tinymist.formatterMode": "typstyle",
   "javascript.updateImportsOnFileMove.enabled": "always",
-  "window.zoomLevel": 1,
+  "window.zoomLevel": 0.5,
   "editor.fontFamily": "PragmataPro Mono Liga Regular",
   "editor.codeLensFontFamily": "PragmataPro Mono Liga Regular",
   "editor.inlayHints.fontFamily": "PragmataPro Mono Liga Regular",
@@ -603,8 +597,7 @@
   "editor.semanticHighlighting.enabled": true,
   "terminal.integrated.minimumContrastRatio": 1,
   "window.titleBarStyle": "custom",
-  "workbench.iconTheme": "catppuccin-mocha",
-  "editor.renderWhitespace": "all",
+  "editor.renderWhitespace": "none",
   "find-it-faster.general.useTerminalInEditor": true,
   "fzf-picker.general.openCommand": "cursor -g",
   "fzf-picker.customTasks": [
@@ -667,9 +660,7 @@
   "cursorStats.showDailyRemaining": true,
   "cursorStats.showProgressBars": true,
   "cursorStats.showTotalRequests": true,
-  "typescript.experimental.useTsgo": true,
   "editor.largeFileOptimizations": false,
-  "gitlens.mode.active": "zen",
   "telemetry.enableTelemetry": false,
   "telemetry.enableCrashReporter": false,
   "mssql.connectionGroups": [
@@ -678,5 +669,16 @@
       "id": "567CC80B-89CD-4877-B75F-A1DC6854F437"
     }
   ],
-  "mssql.connections": []
+  "mssql.connections": [],
+  "mssql.enableRichExperiencesDoNotShowPrompt": true,
+  "files.refactoring.autoSave": true,
+  "cursorStats.enableAlerts": false,
+  "scale": 1.25,
+  "diffEditor.diffAlgorithm": "advanced",
+  "diffEditor.experimental.showMoves": true,
+  "npm.packageManager": "pnpm",
+  "extensions.experimental.affinity": {
+    "asvetliakov.vscode-neovim": 1
+  },
+  "cursor.general.disableHttp2": true
 }

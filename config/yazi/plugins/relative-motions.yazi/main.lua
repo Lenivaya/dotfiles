@@ -40,7 +40,11 @@ local ENTER_MODE_CACHE_OR_FIRST = 2
 -----------------------------------------------
 
 local render_motion_setup = ya.sync(function(_)
-	ya.render()
+	if ui.render then
+		ui.render()
+	else
+		ya.render()
+	end
 
 	Status.motion = function() return ui.Span("") end
 
@@ -60,7 +64,11 @@ local render_motion_setup = ya.sync(function(_)
 end)
 
 local render_motion = ya.sync(function(_, motion_num, motion_cmd)
-	ya.render()
+	if ui.render then
+		ui.render()
+	else
+		ya.render()
+	end
 
 	Status.motion = function(self)
 		if not motion_num then
@@ -80,17 +88,29 @@ local render_motion = ya.sync(function(_, motion_num, motion_cmd)
 		local separator_open = status_config.sep_right.open
 		local separator_close = status_config.sep_right.close
 
+		-- TODO: REMOVE THIS IN NEXT RELEASE
+		local bg_style
+		if type(style.main.bg) == "function" then
+			bg_style = style.main:bg()
+		else
+			bg_style = style.main.bg
+		end
+
 		return ui.Line {
-			ui.Span(separator_open):fg(style.main.bg),
+			ui.Span(separator_open):fg(bg_style),
 			motion_span:style(style.main),
-			ui.Span(separator_close):fg(style.main.bg),
+			ui.Span(separator_close):fg(bg_style),
 			ui.Span(" "),
 		}
 	end
 end)
 
 local render_numbers = ya.sync(function(_, mode)
-	ya.render()
+	if ui.render then
+		ui.render()
+	else
+		ya.render()
+	end
 
 	Entity.number = function(_, index, total, file, hovered)
 		local idx

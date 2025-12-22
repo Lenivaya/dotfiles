@@ -8,7 +8,7 @@
 function __fish_forgit_needs_subcommand
     for subcmd in add blame branch_delete checkout_branch checkout_commit checkout_file checkout_tag \
         cherry_pick cherry_pick_from_branch clean diff fixup ignore log reflog rebase reset_head \
-        revert_commit reword squash stash_show stash_push
+        revert_commit reword squash stash_show stash_push switch_branch
         if contains -- $subcmd (commandline -opc)
             return 1
         end
@@ -45,6 +45,7 @@ complete -c git-forgit -n __fish_forgit_needs_subcommand -a show -d 'git show vi
 complete -c git-forgit -n __fish_forgit_needs_subcommand -a squash -d 'git squash'
 complete -c git-forgit -n __fish_forgit_needs_subcommand -a stash_show -d 'git stash viewer'
 complete -c git-forgit -n __fish_forgit_needs_subcommand -a stash_push -d 'git stash push selector'
+complete -c git-forgit -n __fish_forgit_needs_subcommand -a switch_branch -d 'git switch branch selector'
 
 complete -c git-forgit -n '__fish_seen_subcommand_from add' -a "(complete -C 'git add ')"
 complete -c git-forgit -n '__fish_seen_subcommand_from branch_delete' -a "(__fish_git_local_branches)"
@@ -55,14 +56,15 @@ complete -c git-forgit -n '__fish_seen_subcommand_from checkout_tag' -a "(__fish
 complete -c git-forgit -n '__fish_seen_subcommand_from cherry_pick' -a "(complete -C 'git cherry-pick ')"
 complete -c git-forgit -n '__fish_seen_subcommand_from clean' -a "(__fish_git_files untracked ignored)"
 complete -c git-forgit -n '__fish_seen_subcommand_from diff' -a "(complete -C 'git diff ')"
-complete -c git-forgit -n '__fish_seen_subcommand_from fixup' -a "(__fish_git_local_branches)"
+complete -c git-forgit -n '__fish_seen_subcommand_from fixup' -a "(complete -C 'git log ')"
 complete -c git-forgit -n '__fish_seen_subcommand_from log' -a "(complete -C 'git log ')"
 complete -c git-forgit -n '__fish_seen_subcommand_from reflog' -a "(complete -C 'git reflog ')"
 complete -c git-forgit -n '__fish_seen_subcommand_from rebase' -a "(complete -C 'git rebase ')"
 complete -c git-forgit -n '__fish_seen_subcommand_from reset_head' -a "(__fish_git_files all-staged)"
 complete -c git-forgit -n '__fish_seen_subcommand_from revert_commit' -a "(__fish_git_commits)"
-complete -c git-forgit -n '__fish_seen_subcommand_from reword' -a "(__fish_git_local_branches)"
+complete -c git-forgit -n '__fish_seen_subcommand_from reword' -a "(complete -C 'git log ')"
 complete -c git-forgit -n '__fish_seen_subcommand_from show' -a "(complete -C 'git show ')"
-complete -c git-forgit -n '__fish_seen_subcommand_from squash' -a "(__fish_git_local_branches)"
+complete -c git-forgit -n '__fish_seen_subcommand_from squash' -a "(complete -C 'git log ')"
 complete -c git-forgit -n '__fish_seen_subcommand_from stash_show' -a "(__fish_git_complete_stashes)"
 complete -c git-forgit -n '__fish_seen_subcommand_from stash_push' -a "(__fish_git_files modified deleted modified-staged-deleted)"
+complete -c git-forgit -n '__fish_seen_subcommand_from switch_branch' -a "(complete -C 'git switch ')"

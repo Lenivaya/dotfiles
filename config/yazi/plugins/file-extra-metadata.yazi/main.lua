@@ -84,14 +84,17 @@ local function get_filesystem_extra(file)
 		used_space_percent = "",
 		avail_space_percent = "",
 		error = nil,
+		is_virtual = false,
 	}
 	local h = file
-	local file_url = tostring(h.url)
+	local file_url = h.url
+	local is_virtual = file_url.scheme and file_url.scheme.is_virtual
+	file_url = is_virtual and Url(file_url.scheme.cache .. tostring(file_url.path)) or file_url
 	if not h or ya.target_family() ~= "unix" then
 		return result
 	end
 
-	local child, err = Command("df"):arg({ "-P", "-T", "-h", file_url }):stdout(Command.PIPED):spawn()
+	local child, err = Command("df"):arg({ "-P", "-T", "-h", tostring(file_url) }):stdout(Command.PIPED):spawn()
 	if child then
 		-- Ignore header
 		local _, event = child:read_line()
@@ -106,9 +109,9 @@ local function get_filesystem_extra(file)
 		-- Display the result
 		for i, part in ipairs(parts) do
 			if i == 1 then
-				result.filesystem = part
+				result.filesystem = is_virtual and (part .. " (vfs)") or part
 			elseif i == 2 then
-				result.device = part
+				result.device = is_virtual and (part .. " (vfs)") or part
 			elseif i == 3 then
 				result.total_space = part
 			elseif i == 4 then
@@ -119,8 +122,9 @@ local function get_filesystem_extra(file)
 				result.used_space_percent = part
 				result.avail_space_percent = 100 - tonumber((string.match(part, "%d+") or "0"))
 			elseif i == 7 then
-				result.type = part
+				result.type = is_virtual and (part .. " (vfs)") or part
 			end
+			result.is_virtual = is_virtual
 		end
 	else
 		result.error = "df are installed?"
@@ -130,12 +134,15 @@ end
 
 local function attributes(file)
 	local h = file
-	local file_url = tostring(h.url)
+	local file_url = h.url
+	local is_virtual = file_url.scheme and file_url.scheme.is_virtual
+	file_url = is_virtual and Url(file_url.scheme.cache .. tostring(file_url.path)) or file_url
+
 	if not h or ya.target_family() ~= "unix" then
 		return ""
 	end
 
-	local output, _ = Command("lsattr"):arg({ "-d", file_url }):stdout(Command.PIPED):output()
+	local output, _ = Command("lsattr"):arg({ "-d", tostring(file_url) }):stdout(Command.PIPED):output()
 
 	if output then
 		-- Splitting the data
@@ -205,6 +212,9 @@ function M:render_table(job, opts)
 	row(prefix .. "File:", file_name)
 	row(prefix .. "Mimetype:", job.mime)
 	row(prefix .. "Location:", location)
+	if job.file.cache then
+		row(prefix .. "Cached:", tostring(job.file.cache))
+	end
 	row(prefix .. "Mode:", permission(job.file))
 	row(prefix .. "Attributes:", attributes(job.file))
 	row(prefix .. "Links:", tostring(link_count(job.file)))
@@ -230,10 +240,12 @@ function M:render_table(job, opts)
 			)
 	)
 	if opts and opts.show_plugins_section then
-		local spotter = rt.plugin.spotter(job.file.url, job.mime)
-		local previewer = rt.plugin.previewer(job.file.url, job.mime)
+		-- TODO: Remove this after the next release
+		local is_yazi_nightly, _ = pcall(require, "mime.dir")
+		local spotter = rt.plugin.spotter(is_yazi_nightly and job.file or job.file.url, job.mime)
+		local previewer = rt.plugin.previewer(is_yazi_nightly and job.file or job.file.url, job.mime)
 		local fetchers = rt.plugin.fetchers(job.file, job.mime)
-		local preloaders = rt.plugin.preloaders(job.file.url, job.mime)
+		local preloaders = rt.plugin.preloaders(is_yazi_nightly and job.file or job.file.url, job.mime)
 
 		for i, v in ipairs(fetchers) do
 			fetchers[i] = v.cmd

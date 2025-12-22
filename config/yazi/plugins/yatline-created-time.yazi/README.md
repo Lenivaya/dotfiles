@@ -10,7 +10,7 @@ An addon to display the creation time of file or folder in your [yatline.yazi](h
 ## Installation
 
 ```sh
-ya pack -a wekauwau/yatline-created-time
+ya pkg add wekauwau/yatline-created-time
 ```
 
 ## Usage

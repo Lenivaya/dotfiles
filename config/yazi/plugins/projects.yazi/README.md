@@ -10,10 +10,10 @@ https://github.com/MasouShizuka/projects.yazi/assets/44764707/79c3559a-7776-48cd
 
 ## Features
 
- - Save/load projects
- - Load last project
- - Projects persistence
- - Merge a project or its current tab to other projects
+- Save/load projects
+- Load last project
+- Projects persistence
+- Merge a project or its current tab to other projects
 
 ## Installation
 
@@ -90,7 +90,9 @@ The following are the default configurations:
 require("projects"):setup({
     save = {
         method = "yazi", -- yazi | lua
-        lua_save_path = "", -- comment out to get the default value
+        yazi_load_event = "@projects-load", -- event name when loading projects in `yazi` method
+        lua_save_path = "", -- path of saved file in `lua` method, comment out or assign explicitly
+                            -- default value:
                             -- windows: "%APPDATA%/yazi/state/projects.json"
                             -- unix: "~/.local/state/yazi/projects.json"
     },
@@ -100,7 +102,30 @@ require("projects"):setup({
         load_after_start = false,
     },
     merge = {
+        event = "projects-merge",
         quit_after_merge = false,
+    },
+    event = {
+        save = {
+            enable = true,
+            name = "project-saved",
+        },
+        load = {
+            enable = true,
+            name = "project-loaded",
+        },
+        delete = {
+            enable = true,
+            name = "project-deleted",
+        },
+        delete_all = {
+            enable = true,
+            name = "project-deleted-all",
+        },
+        merge = {
+            enable = true,
+            name = "project-merged",
+        },
     },
     notify = {
         enable = true,
@@ -123,7 +148,9 @@ require("projects"):setup({
 - `yazi`: using `yazi` api to save to `.dds` file
 - `lua`: using `lua` api to save
 
-`lua_save_path`: the path of saved file with lua api, the defalut is
+`yazi_load_event`: event name when loading projects in `yazi` method
+
+`lua_save_path`: path of saved file in `lua` method, the defalut value is
 - `Windows`: `%APPDATA%/yazi/state/projects.json`
 - `Unix`: `~/.local/state/yazi/projects.json`
 
@@ -140,10 +167,54 @@ The last project is loaded by `load_last` command.
 
 ### `merge`
 
+`event`: the name of event used by merge feature.
+
 `quit_after_merge`: the merged project will be exited after merging.
+
+### `event`
+
+The corresponding event will be sent when the corresponding function is executed.
+
+For specific usage, please refer to [#5](https://github.com/MasouShizuka/projects.yazi/issues/5) and [#12](https://github.com/MasouShizuka/projects.yazi/issues/12).
 
 ### `notify`
 
 When enabled, notifications are displayed when actions are performed.
 
 `title`, `timeout`, `level` are the same as [ya.notify](https://yazi-rs.github.io/docs/plugins/utils/#ya.notify).
+
+### Optional configuration
+
+If you want to load a specific project with a keybinding (you can use either the key or the name of the project):
+
+```toml
+[[mgr.prepend_keymap]]
+on = [ "P", "p" ]
+run = "plugin projects 'load SomeProject'"
+desc = "Load the 'SomeProject' project"
+```
+
+You can also load a specific project by using the below Bash/Zsh function (uses the "official" [shell wrapper](https://yazi-rs.github.io/docs/quick-start/#shell-wrapper), but you can also replace `y` with `yazi`):
+
+```bash
+function yap() {
+    local yaziProject="$1"
+    shift
+    if [ -z "$yaziProject" ]; then
+        >&2 echo "ERROR: The first argument must be a project"
+        return 64
+    fi
+    
+    # Generate random Yazi client ID (DDS / `ya emit` uses `YAZI_ID`)
+    local yaziId=$RANDOM
+    
+    # Use Yazi's DDS to run a plugin command after Yazi has started
+    # (the nested subshell is only to suppress "Done" output for the job)
+    ( (sleep 0.1; YAZI_ID=$yaziId ya emit plugin projects "load $yaziProject") &)
+    
+    # Run Yazi with the generated client ID
+    y --client-id $yaziId "$@" || return $?
+}
+```
+
+With the above function you can open a specific project by running e.g. `yap SomeProject`

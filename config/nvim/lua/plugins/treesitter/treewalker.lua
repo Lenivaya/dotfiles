@@ -3,20 +3,20 @@ return {
   vscode = true,
   opts = {},
   keys = {
-    {
-      "<S-Tab>",
-      function()
-        require("treewalker").move_up()
-      end,
-      desc = "Treewalker Up",
-    },
-    {
-      "<Tab>",
-      function()
-        require("treewalker").move_down()
-      end,
-      desc = "Treewalker Down",
-    },
+    -- {
+    --   "<S-Tab>",
+    --   function()
+    --     require("treewalker").move_up()
+    --   end,
+    --   desc = "Treewalker Up",
+    -- },
+    -- {
+    --   "<Tab>",
+    --   function()
+    --     require("treewalker").move_down()
+    --   end,
+    --   desc = "Treewalker Down",
+    -- },
     {
       "}",
       function()

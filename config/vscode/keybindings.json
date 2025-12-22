@@ -168,16 +168,6 @@
     "when": "editorTextFocus && editorLangId == 'magit' && vim.mode =~ /^(?!SearchInProgressMode|CommandlineInProgress).*$/"
   },
   {
-    "command": "extension.vim_tab",
-    "key": "tab",
-    "when": "editorFocus && vim.active && !inDebugRepl && vim.mode != 'Insert' && editorLangId != 'magit'"
-  },
-  {
-    "command": "-extension.vim_tab",
-    "key": "tab",
-    "when": "editorFocus && vim.active && !inDebugRepl && vim.mode != 'Insert'"
-  },
-  {
     "command": "magit.discard-at-point",
     "key": "x",
     "when": "editorTextFocus && editorLangId == 'magit' && vim.mode =~ /^(?!SearchInProgressMode|CommandlineInProgress).*$/"
@@ -305,16 +295,6 @@
   {
     "command": "-workbench.action.files.openFileFolder",
     "key": "ctrl+shift+g"
-  },
-  {
-    "key": "tab",
-    "command": "extension.vim_tab",
-    "when": "editorTextFocus && vim.active && !inDebugRepl && vim.mode != 'Insert' && editorLangId != 'magit'"
-  },
-  {
-    "key": "tab",
-    "command": "-extension.vim_tab",
-    "when": "editorTextFocus && vim.active && !inDebugRepl && vim.mode != 'Insert'"
   },
   {
     "key": "g",

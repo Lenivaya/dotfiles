@@ -78,10 +78,27 @@ return {
     config = true,
   },
   {
-    "williamboman/mason.nvim",
+    "mason-org/mason.nvim",
     opts = { ensure_installed = { "prettier", "prettierd" } },
   },
   -- import additional language modules from upstream
   { import = "lazyvim.plugins.extras.lang.json" },
   { import = "lazyvim.plugins.extras.lang.typescript" },
+
+  {
+    "lukahartwig/pnpm.nvim",
+    dependencies = { "nvim-telescope/telescope.nvim" },
+    keys = {
+      {
+        "<leader>fw",
+        function()
+          require("telescope").extensions.pnpm.workspace()
+        end,
+        desc = "PNPM Workspace",
+      },
+    },
+    config = function()
+      require("telescope").load_extension("pnpm")
+    end,
+  },
 }

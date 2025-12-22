@@ -43,6 +43,9 @@ return {
       term_colors = false,
       show_end_of_buffer = false,
       transparent_background = true,
+      float = {
+        transparent = true,
+      },
       flavor = "mocha",
       color_overrides = {
         mocha = {

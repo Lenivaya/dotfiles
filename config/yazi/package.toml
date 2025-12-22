@@ -1,55 +1,52 @@
-[flavor]
-deps = []
-
 [[plugin.deps]]
 use = "yazi-rs/plugins:chmod"
-rev = "c648526"
-hash = "d0ad0c1946b46a30c8489735fe8de41c"
+rev = "19dc890"
+hash = "5b2eb0cc2050cec1e4de83cfa51a5b90"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:jump-to-char"
-rev = "c648526"
-hash = "30fc0b37f03a597b92d387268319450f"
+rev = "19dc890"
+hash = "ce67445ebb1bf3d97b8e44f50904b2c5"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:mime-ext"
-rev = "c648526"
-hash = "6094c7e7def6d131323e53d641f1bddd"
+rev = "19dc890"
+hash = "4c49c446328c4553a4ccab7facc10b21"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:full-border"
-rev = "c648526"
+rev = "19dc890"
 hash = "3996fc74044bc44144b323686f887e1"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:git"
-rev = "c648526"
-hash = "bf6f074cd41ee33c3360341d168f9733"
+rev = "19dc890"
+hash = "27ca02f49fd236b5cc7bf03c243859fe"
 
 [[plugin.deps]]
 use = "yazi-rs/plugins:smart-filter"
-rev = "c648526"
-hash = "4d82cd9e7534d976f000edf9c0f68d8f"
+rev = "19dc890"
+hash = "bcda8eeb3f4013bae156aecabfc745e8"
 
 [[plugin.deps]]
 use = "Reledia/glow"
-rev = "2da96e3"
-hash = "f9ee1436e3b853508d87f7d49dce56e6"
+rev = "bd3eaa5"
+hash = "92b5c58159a51c567f82b618cee2b78"
 
 [[plugin.deps]]
 use = "dedukun/relative-motions"
-rev = "2e3b617"
-hash = "b67ee12053113983273e9118a7d1272b"
+rev = "a603d9e"
+hash = "e02a788e5b8ae0fb47fd0193dda589cc"
 
 [[plugin.deps]]
 use = "MasouShizuka/projects"
-rev = "7037dd5"
-hash = "9a4524dc938af1d30f2d115be7b64900"
+rev = "a5e33db"
+hash = "3de26efded35814ba3e55e28f1c389a4"
 
 [[plugin.deps]]
 use = "Lil-Dank/lazygit"
-rev = "7a08a09"
-hash = "a1fa2b3e1826c3a34804ea8c548e9f80"
+rev = "8f37dc5"
+hash = "ee71543790f0ce3951161045a3787abd"
 
 [[plugin.deps]]
 use = "AnirudhG07/plugins-yazi:copy-file-contents"
@@ -63,48 +60,48 @@ hash = "86e0312b01bc5762813c6c1d0517f073"
 
 [[plugin.deps]]
 use = "Rolv-Apneseth/starship"
-rev = "6a0f3f7"
-hash = "d5a74d95c2e8194ac352c5e10e81e64f"
+rev = "eca1861"
+hash = "e519d894e94ded741e06aae4d4775981"
 
 [[plugin.deps]]
 use = "imsi32/yatline"
-rev = "73bce63"
-hash = "b99a343192db7bc696da7203912af2be"
+rev = "88bd1c5"
+hash = "981acbe9b758b1af3a8154c932bb936d"
 
 [[plugin.deps]]
 use = "ahkohd/eza-preview"
-rev = "7a93433"
-hash = "22e1bd3dd03894746a3540b5f3729d0c"
+rev = "7b00863"
+hash = "c538f3766b4b3bafbae3f0b7c3c3d763"
 
 [[plugin.deps]]
 use = "lpnh/fg"
-rev = "6d5e469"
-hash = "d8455f929580ec602b4d0bbd8e96711"
+rev = "a60466e"
+hash = "ae6f2fb9ea03527e3a367a9faf2690ac"
 
 [[plugin.deps]]
 use = "lpnh/fr"
-rev = "6d5e469"
-hash = "d8455f929580ec602b4d0bbd8e96711"
+rev = "a60466e"
+hash = "ae6f2fb9ea03527e3a367a9faf2690ac"
 
 [[plugin.deps]]
 use = "macydnah/office"
-rev = "4002d36"
-hash = "9c68763dd4f2799f7cfee1e9c3e819a9"
+rev = "41ebef8"
+hash = "5805affd3ae8adcb3c72b6997d21c0a6"
 
 [[plugin.deps]]
 use = "atareao/convert"
-rev = "7c18342"
-hash = "cc6f6db11762ed3ee8c14c276e7cfb4b"
+rev = "ce060d9"
+hash = "1c0465351f2a344e842f065ab316f265"
 
 [[plugin.deps]]
 use = "josephschmitt/auto-layout"
-rev = "626a601"
-hash = "747a700c90fffc5b187a6094fd0661b0"
+rev = "c8a3d8d"
+hash = "94e76cea86ef32b9b73c56d3e3f5120d"
 
 [[plugin.deps]]
 use = "boydaihungst/file-extra-metadata"
-rev = "ec035d6"
-hash = "b23b7db6beb2854a689c648a38843f8c"
+rev = "524fd8e"
+hash = "c9c959f0472c9a70b8af6fcf657c7ca1"
 
 [[plugin.deps]]
 use = "imsi32/yatline-githead"
@@ -113,5 +110,8 @@ hash = "4d441b38138ce6492a4e10fa349fd65"
 
 [[plugin.deps]]
 use = "wekauwau/yatline-created-time"
-rev = "d96b42b"
-hash = "695b2441885359206812dcd4e810633c"
+rev = "7cd5e21"
+hash = "af416c7b3f928e38a513bdf465efffa9"
+
+[flavor]
+deps = []

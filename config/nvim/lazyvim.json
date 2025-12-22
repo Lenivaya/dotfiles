@@ -1,7 +1,7 @@
 {
   "extras": [
     "lazyvim.plugins.extras.ai.copilot",
-    "lazyvim.plugins.extras.ai.copilot-chat",
+    "lazyvim.plugins.extras.ai.sidekick",
     "lazyvim.plugins.extras.coding.luasnip",
     "lazyvim.plugins.extras.coding.mini-comment",
     "lazyvim.plugins.extras.coding.mini-surround",
@@ -22,18 +22,15 @@
     "lazyvim.plugins.extras.editor.telescope",
     "lazyvim.plugins.extras.formatting.black",
     "lazyvim.plugins.extras.formatting.prettier",
-    "lazyvim.plugins.extras.lang.angular",
     "lazyvim.plugins.extras.lang.astro",
     "lazyvim.plugins.extras.lang.cmake",
     "lazyvim.plugins.extras.lang.docker",
     "lazyvim.plugins.extras.lang.elixir",
     "lazyvim.plugins.extras.lang.git",
     "lazyvim.plugins.extras.lang.go",
-    "lazyvim.plugins.extras.lang.haskell",
     "lazyvim.plugins.extras.lang.json",
     "lazyvim.plugins.extras.lang.markdown",
     "lazyvim.plugins.extras.lang.nix",
-    "lazyvim.plugins.extras.lang.omnisharp",
     "lazyvim.plugins.extras.lang.php",
     "lazyvim.plugins.extras.lang.prisma",
     "lazyvim.plugins.extras.lang.python",
@@ -59,7 +56,7 @@
   ],
   "install_version": 7,
   "news": {
-    "NEWS.md": "10960"
+    "NEWS.md": "11866"
   },
   "version": 8
 }

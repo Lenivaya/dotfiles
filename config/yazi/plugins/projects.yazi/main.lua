@@ -517,11 +517,15 @@ local SUPPORTED_KEYS = {
 local _load_config = ya.sync(function(state, opts)
     state.save = {
         method = "yazi",
+        yazi_load_event = "@projects-load",
         lua_save_path = "",
     }
     if type(opts.save) == "table" then
         if type(opts.save.method) == "string" then
             state.save.method = opts.save.method
+        end
+        if type(opts.save.yazi_load_event) == "string" then
+            state.save.yazi_load_event = opts.save.yazi_load_event
         end
         if type(opts.save.lua_save_path) == "string" then
             state.save.lua_save_path = opts.save.lua_save_path
@@ -556,11 +560,90 @@ local _load_config = ya.sync(function(state, opts)
     end
 
     state.merge = {
+        event = "projects-merge",
         quit_after_merge = false,
     }
     if type(opts.merge) == "table" then
+        if type(opts.merge.event) == "string" then
+            state.merge.event = opts.merge.event
+        end
         if type(opts.merge.quit_after_merge) == "boolean" then
             state.merge.quit_after_merge = opts.merge.quit_after_merge
+        end
+    end
+
+    state.event = {
+        save = {
+            enable = true,
+            name = "project-saved",
+        },
+        load = {
+            enable = true,
+            name = "project-loaded",
+        },
+        delete = {
+            enable = true,
+            name = "project-deleted",
+        },
+        delete_all = {
+            enable = true,
+            name = "project-deleted-all",
+        },
+        merge = {
+            enable = true,
+            name = "project-merged",
+        },
+    }
+    if type(opts.event) == "table" then
+        if type(opts.event.save) == "table" then
+            if type(opts.event.save.enable) == "boolean" then
+                state.event.save.enable = opts.event.save.enable
+            end
+            if type(opts.event.save.name) == "string" then
+                state.event.save.name = opts.event.save.name
+            end
+        elseif type(opts.event.save) == "boolean" then
+            state.event.save.enable = opts.event.save
+        end
+        if type(opts.event.load) == "table" then
+            if type(opts.event.load.enable) == "boolean" then
+                state.event.load.enable = opts.event.load.enable
+            end
+            if type(opts.event.load.name) == "string" then
+                state.event.load.name = opts.event.load.name
+            end
+        elseif type(opts.event.load) == "boolean" then
+            state.event.load.enable = opts.event.load
+        end
+        if type(opts.event.delete) == "table" then
+            if type(opts.event.delete.enable) == "boolean" then
+                state.event.delete.enable = opts.event.delete.enable
+            end
+            if type(opts.event.delete.name) == "string" then
+                state.event.delete.name = opts.event.delete.name
+            end
+        elseif type(opts.event.delete) == "boolean" then
+            state.event.delete.enable = opts.event.delete
+        end
+        if type(opts.event.delete_all) == "table" then
+            if type(opts.event.delete_all.enable) == "boolean" then
+                state.event.delete_all.enable = opts.event.delete_all.enable
+            end
+            if type(opts.event.delete_all.name) == "string" then
+                state.event.delete_all.name = opts.event.delete_all.name
+            end
+        elseif type(opts.event.delete_all) == "boolean" then
+            state.event.delete_all.enable = opts.event.delete_all
+        end
+        if type(opts.event.merge) == "table" then
+            if type(opts.event.merge.enable) == "boolean" then
+                state.event.merge.enable = opts.event.merge.enable
+            end
+            if type(opts.event.merge.name) == "string" then
+                state.event.merge.name = opts.event.merge.name
+            end
+        elseif type(opts.event.merge) == "boolean" then
+            state.event.merge.enable = opts.event.merge
         end
     end
 
@@ -639,7 +722,7 @@ local _save_projects = ya.sync(function(state, projects)
     state.projects = projects
 
     if state.save.method == "yazi" then
-        ps.pub_to(0, "@projects", projects)
+        ps.pub_to(0, state.save.yazi_load_event, projects)
     elseif state.save.method == "lua" then
         local f = io.open(state.save.lua_save_path, "w")
         if not f then
@@ -670,6 +753,10 @@ local save_project = ya.sync(function(state, idx, desc)
     end
 
     _save_projects(projects)
+
+    if state.event.save.enable then
+        ps.pub_to(0, state.event.save.name, project)
+    end
 
     if state.notify.enable then
         local message = string.format("Project saved to %s", state.projects.list[real_idx].on)
@@ -704,6 +791,10 @@ local load_project = ya.sync(function(state, project, desc)
         _save_projects(projects)
     end
 
+    if state.event.load.enable then
+        ps.pub_to(0, state.event.load.name, project)
+    end
+
     if state.notify.enable then
         local message
         if desc then
@@ -713,13 +804,11 @@ local load_project = ya.sync(function(state, project, desc)
         end
         _notify(message)
     end
-
-    ps.pub_to(0, "project-loaded", project)
 end)
 
 local _load_projects = ya.sync(function(state)
     if state.save.method == "yazi" then
-        ps.sub_remote("@projects", function(body)
+        ps.sub_remote(state.save.yazi_load_event, function(body)
             state.projects = body
         end)
     elseif state.save.method == "lua" then
@@ -743,11 +832,16 @@ local _load_projects = ya.sync(function(state)
 end)
 
 local delete_all_projects = ya.sync(function(state)
-    _save_projects(nil)
+    _save_projects(_get_default_projects())
+
+    local msg = "All projects deleted"
+
+    if state.event.delete_all.enable then
+        ps.pub_to(0, state.event.delete_all.name, msg)
+    end
 
     if state.notify.enable then
-        local message = "All projects deleted"
-        _notify(message)
+        _notify(msg)
     end
 end)
 
@@ -756,8 +850,13 @@ local delete_project = ya.sync(function(state, idx)
 
     local message = string.format([["%s" deleted]], tostring(projects.list[idx].desc))
 
+    local deleted_project = projects.list[idx]
     table.remove(projects.list, idx)
     _save_projects(projects)
+
+    if state.event.delete.enable then
+        ps.pub_to(0, state.event.delete.name, deleted_project)
+    end
 
     if state.notify.enable then
         _notify(message)
@@ -766,9 +865,14 @@ end)
 
 local save_last_and_quit = ya.sync(function(state)
     local projects = _get_projects()
-    projects.last = _get_current_project()
+    local current_project = _get_current_project()
+    projects.last = current_project
 
     _save_projects(projects)
+
+    if state.event.save.enable then
+        ps.pub_to(0, state.event.save.name, current_project)
+    end
 
     ya.emit("quit", {})
 end)
@@ -776,7 +880,11 @@ end)
 local merge_project = ya.sync(function(state, opt)
     local project = _get_current_project()
     project.opt = opt or "all"
-    ps.pub_to(0, "projects-merge", project)
+    ps.pub_to(0, state.merge.event, project)
+
+    if state.event.merge.enable then
+        ps.pub_to(0, state.event.merge.name, project)
+    end
 
     if state.merge.quit_after_merge then
         ya.emit("quit", {})
@@ -788,7 +896,7 @@ local _merge_tab = ya.sync(function(state, tab)
 end)
 
 local _merge_event = ya.sync(function(state)
-    ps.sub_remote("projects-merge", function(body)
+    ps.sub_remote(state.merge.event, function(body)
         if body then
             local active_idx = tonumber(cx.tabs.idx)
 
@@ -820,6 +928,21 @@ local _merge_event = ya.sync(function(state)
             ya.emit("tab_switch", { active_idx - 1 })
         end
     end)
+end)
+
+local _find_project_index = ya.sync(function(state, list, search_term)
+    if not search_term then
+        return nil
+    end
+
+    for i, project in ipairs(list) do
+        -- Match the project by the "on" key or by "desc"
+        if project.on == search_term or project.desc == search_term then
+            return i
+        end
+    end
+
+    return nil
 end)
 
 return {
@@ -904,7 +1027,12 @@ return {
             return
         end
 
-        local selected_idx = ya.which({ cands = list, silent = false })
+        local selected_idx = (
+            -- Search for the project, if an argument was given
+            _find_project_index(list, job.args[2])
+            -- Ask interactively
+            or ya.which({ cands = list, silent = false })
+        )
         if not selected_idx then
             return
         end

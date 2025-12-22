@@ -3,7 +3,7 @@ function hovered()
 	if hovered then
 		return hovered
 	else
-		return ""
+		return nil  -- Return nil instead of empty string
 	end
 end
 
@@ -17,6 +17,10 @@ local function setup(_, options)
 	if Yatline ~= nil then
 		function Yatline.coloreds.get:created_time()
 			local h = hovered()
+			if not h then  -- Check if h is nil
+				return {}  -- Return empty table when no item is hovered
+			end
+			
 			local created_time = {}
 			local time = " C: " .. os.date("%Y-%m-%d %H:%M", h.cha.btime // 1) .. " "
 

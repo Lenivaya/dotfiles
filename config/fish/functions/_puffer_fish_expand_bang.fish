@@ -1,9 +1,10 @@
 function _puffer_fish_expand_bang
-    switch (commandline -t)
-      case '!'
-        commandline -t $history[1]
-      case '*'
-        commandline -i '!'
+    if commandline --search-field >/dev/null
+        commandline --search-field --insert '!'
+    else if string match --quiet -- '!' "$(commandline --current-token)"
+        commandline --current-token $history[1]
+    else
+        commandline --insert '!'
     end
 end
 

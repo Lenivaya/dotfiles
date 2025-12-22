@@ -1,1 +1,1 @@
-/home/leniviy/.local/share/broot/launcher/fish/br.fish
+/Users/lenivaya/Library/Application Support/org.dystroy.broot/launcher/fish/br.fish

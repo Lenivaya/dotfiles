@@ -1,5 +1,5 @@
 function __async_my_paths_adder --on-event fish_prompt
-    set -x fish_user_paths
+    # set -x fish_user_paths
 
     # Embrace impurity.
     fish_add_path ~/.config/dotfiles/bin/
@@ -18,9 +18,11 @@ function __async_my_paths_adder --on-event fish_prompt
     fish_add_path /var/lib/flatpak/exports/bin/
     fish_add_path ~/.local/share/mise/shims
     fish_add_path ~/.deno/bin
+    fish_add_path /opt/homebrew/bin/
+    # set -U fish_user_paths /opt/homebrew/bin $fish_user_paths
 
     # pnpm
-    set -gx PNPM_HOME "/home/leniviy/.local/share/pnpm"
+    set -gx PNPM_HOME "$HOME/.local/share/pnpm"
     if not string match -q -- $PNPM_HOME $PATH
         set -gx PATH "$PNPM_HOME" $PATH
     end

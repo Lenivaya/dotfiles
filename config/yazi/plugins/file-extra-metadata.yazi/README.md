@@ -49,30 +49,17 @@ Install the plugin:
 
 ```sh
 ya pkg add boydaihungst/file-extra-metadata
-# or
-ya pack -a boydaihungst/file-extra-metadata
-```
-
-Add spotter keybind, makes sure not conflict with other `<Tab>` keybind in
-`manager` section:
-
-```toml
-[mgr]
-keymap = [
-  # ...
-  # Spotting
-  { on = "<Tab>", run = "spot", desc = "Spot hovered file" },
-]
 ```
 
 Create `~/.config/yazi/yazi.toml` and add:
+For yazi nightly replace `name` with `url`
 
 ```toml
 [plugin]
   append_previewers = [
     { name = "*", run = "file-extra-metadata" },
   ]
-  # yazi v0.4 after 21/11/2024
+
   # Setup keybind for spotter: https://github.com/sxyazi/yazi/pull/1802
   append_spotters = [
     { name = "*", run = "file-extra-metadata" },
@@ -88,6 +75,7 @@ or
     # disable default file plugin { name = "*", run = "file" },
     { name = "*", run = "file-extra-metadata" },
   ]
+
   # Setup keybind for spotter: https://github.com/sxyazi/yazi/pull/1802
   spotters = [
     # ... the rest
