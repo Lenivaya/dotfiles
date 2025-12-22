@@ -18,9 +18,6 @@ in
       qemu = {
         package = pkgs.qemu_kvm;
 
-        ovmf = enabled // {
-          packages = [ pkgs.OVMFFull.fd ];
-        };
         swtpm = enabled // {
           package = pkgs.swtpm;
         };

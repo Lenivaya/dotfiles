@@ -31,7 +31,7 @@ in
       killall
 
       neovim
-      curlHTTP3
+      curl
       xh
       lnav # <- log file navigator
       procs # <- a "modern" replacement for ps

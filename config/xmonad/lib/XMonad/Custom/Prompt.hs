@@ -20,9 +20,12 @@ import Data.Ratio
 import XMonad
 import XMonad.Actions.GridSelect
 import XMonad.Actions.ShowText
-import XMonad.Custom.Prompt.FuzzyMatch
+
+-- import XMonad.Custom.Prompt.FuzzyMatch
+
 import XMonad.Custom.Theme qualified as T
 import XMonad.Prompt
+import XMonad.Prompt.FuzzyMatch
 
 promptNoHistory :: XPConfig -> XPConfig
 promptNoHistory ptheme = ptheme {historyFilter = const [], historySize = 0}
@@ -53,6 +56,8 @@ promptTheme =
       historySize = 0,
       searchPredicate = fuzzyMatch,
       sorter = fuzzySort,
+      -- searchPredicate = fuzzyMatch,
+      -- sorter = fuzzySort,
       complCaseSensitivity = CaseInSensitive,
       promptKeymap = defaultXPKeymap,
       autoComplete = Just 0,

@@ -46,11 +46,11 @@ with my;
       };
 
       battery = {
-        governor = "powersave";
-        energy_performance_preference = "balance_power";
+        governor = "performance";
+        energy_performance_preference = "balance_performance";
         # scaling_min_freq = mkDefault (MHz 1000);
-        scaling_max_freq = mkDefault (MHz 1700);
-        turbo = "never";
+        scaling_max_freq = mkDefault (MHz 3600);
+        turbo = "always";
 
         enable_thresholds = true;
         start_threshold = 85;

@@ -33,7 +33,7 @@ with lib.my;
       "jellyfin".servers."127.0.0.1:8096" = { };
       "calibre".servers."127.0.0.1:${toString config.services.calibre-server.port}" = { };
       "calibre-web".servers."127.0.0.1:${toString config.services.calibre-web.listen.port}" = { };
-      "qbittorrent".servers."127.0.0.1:${toString config.services.qbittorrent.port}" = { };
+      # "qbittorrent".servers."127.0.0.1:${toString config.services.qbittorrent.port}" = { };
     };
 
     virtualHosts."local.self-hosted.com" =
@@ -65,7 +65,8 @@ with lib.my;
 
           locations."/" = {
             proxyPass = "http://dashboard";
-          } // withWebSockets;
+          }
+          // withWebSockets;
 
           locations."/aghome/" = {
             proxyPass = "http://aghome/";
@@ -73,15 +74,16 @@ with lib.my;
               proxy_redirect / /aghome/;
               proxy_cookie_path / /aghome/;
             '';
-          } // withWebSockets;
+          }
+          // withWebSockets;
 
-          locations."/qbt/" = {
-            proxyPass = "http://qbittorrent/";
-            extraConfig = ''
-              client_max_body_size 100M; # adding a lot of torrents at once
-              proxy_cookie_path  / "/; Secure";
-            '';
-          } // withWebSockets;
+          # locations."/qbt/" = {
+          #   proxyPass = "http://qbittorrent/";
+          #   extraConfig = ''
+          #     client_max_body_size 100M; # adding a lot of torrents at once
+          #     proxy_cookie_path  / "/; Secure";
+          #   '';
+          # } // withWebSockets;
 
           locations."/calibre-web" = {
             proxyPass = "http://calibre-web";
@@ -89,7 +91,8 @@ with lib.my;
               client_max_body_size 1024M;
               proxy_set_header X-Script-Name /calibre-web;
             '';
-          } // withWebSockets;
+          }
+          // withWebSockets;
 
           locations."/jellyfin" = {
             extraConfig = "return 302 $scheme://$host/jellyfin/;";
@@ -101,7 +104,8 @@ with lib.my;
               proxy_pass_request_headers on;
               proxy_buffering off;
             '';
-          } // withWebSockets;
+          }
+          // withWebSockets;
         }
         (mkArrProxy' "radarr")
         (mkArrProxy' "sonarr")

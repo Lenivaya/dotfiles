@@ -62,7 +62,7 @@ instance XPrompt AppPrompt where
 -- Core application lists - kept for organization and readability
 myBrowsers, myReaders, mySoundUtils, myEditors :: [Application]
 myBrowsers =
-  [ Application Browsers "Firefox" "firefox",
+  [ Application Browsers "Firefox" "firefox-release",
     Application Browsers "Firefox Nightly" "firefox-nightly",
     Application Browsers "Zen" "zen",
     Application Browsers "Chromium" "chromium",
@@ -104,8 +104,8 @@ selectAppByCategory category conf action = do
       validAppNames =
         Map.fromList
           [ (applicationName app, applicationCommand app)
-            | app <- apps,
-              applicationCommand app `elem` cmds
+          | app <- apps,
+            applicationCommand app `elem` cmds
           ]
 
   mkXPrompt

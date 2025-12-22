@@ -2,7 +2,6 @@
   config,
   lib,
   pkgs,
-  inputs,
   ...
 }:
 with lib;
@@ -94,15 +93,15 @@ in
     #   "CAP_SYS_NICE"
     # ];
     #
-    nixpkgs.overlays = [
-      (_final: prev: {
-        keyd = optimizePkg (
-          # prev.keyd
-          prev.keyd.overrideAttrs (_oa: {
-            src = inputs.keyd;
-          })
-        );
-      })
-    ];
+    # nixpkgs.overlays = [
+    #   (_final: prev: {
+    #     keyd = optimizePkg (
+    #       # prev.keyd
+    #       prev.keyd.overrideAttrs (_oa: {
+    #         src = inputs.keyd;
+    #       })
+    #     );
+    #   })
+    # ];
   };
 }

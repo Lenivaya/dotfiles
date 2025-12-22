@@ -62,7 +62,7 @@ in
       extraPackages =
         hpkgs: with hpkgs; [
           flow
-          fuzzyfind
+          # fuzzyfind
         ];
       enableConfiguredRecompile = true;
       ghcArgs = [

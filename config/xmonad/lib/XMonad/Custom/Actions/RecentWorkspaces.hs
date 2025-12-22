@@ -158,7 +158,7 @@ showRecentWorkspaces numWorkspaces displayTime = do
         !chordMap = fromMaybe M.empty chordMapRaw
         !wsDisplayPairs =
           [ (ws, M.lookup ws (M.fromList [(w, s) | (s, w) <- M.toList chordMap]))
-            | ws <- wsIds
+          | ws <- wsIds
           ]
         !wsDisplay = map formatWorkspace wsDisplayPairs
         !timeRatio = ceiling (displayTime * 100) % 100

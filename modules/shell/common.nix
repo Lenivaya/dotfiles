@@ -38,7 +38,6 @@ in
     htop
     btop # htop but prettier
     tree
-    thefuck
     navi
     starship
     zoxide

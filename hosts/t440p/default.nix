@@ -5,30 +5,27 @@
   pkgs,
   lib,
   inputs,
-  system,
-  config,
   ...
 }:
 with lib;
 with lib.my;
 {
-  imports =
-    [
-      ../common.nix
-      ./hardware-configuration.nix
-      ./phone_cam.nix
-      ./gpu.nix
-      ./modules/default.nix
-      ./power-management.nix
-      ./postgresql.nix
-      # ./jack_retask/jack_retask.nix
-      inputs.nixos-facter-modules.nixosModules.facter
-      { config.facter.reportPath = ./facter.json; }
-    ]
-    ++ (with inputs.nixos-hardware.nixosModules; [
-      lenovo-thinkpad-t440p
-    ])
-    ++ (with inputs.srvos; [ nixosModules.mixins-nginx ]);
+  imports = [
+    ../common.nix
+    ./hardware-configuration.nix
+    ./phone_cam.nix
+    ./gpu.nix
+    ./modules/default.nix
+    ./power-management.nix
+    ./postgresql.nix
+    # ./jack_retask/jack_retask.nix
+    inputs.nixos-facter-modules.nixosModules.facter
+    { config.facter.reportPath = ./facter.json; }
+  ]
+  ++ (with inputs.nixos-hardware.nixosModules; [
+    lenovo-thinkpad-t440p
+  ])
+  ++ (with inputs.srvos; [ nixosModules.mixins-nginx ]);
 
   this.isHeadful = true;
 
@@ -147,7 +144,7 @@ with lib.my;
     };
 
     services = {
-      adguardhome = enabled;
+      # adguardhome = enabled;
       # ananicy = enabled;
       clipcat = enabled;
       # greenclip = enabled;
@@ -290,13 +287,13 @@ with lib.my;
 
   boot.kernelPackages =
     let
-      kernel' = pkgs.linuxPackages_cachyos-lto;
+      kernel' = pkgs.linuxPackages_lqx;
     in
     mkForce kernel';
 
   services.scx = enabled // {
     scheduler = "scx_bpfland";
-    package = pkgs.scx_git.full;
+    package = pkgs.scx.full;
   };
 
   boot.kernelParams = [
@@ -388,7 +385,6 @@ with lib.my;
     # lightworks pitivi
     # teams-for-linux
     # postman
-    my.gitbutler
     protonvpn-gui
     smartmontools
     # my.devtunnel
@@ -497,6 +493,7 @@ with lib.my;
   home.programs.mpv.config = {
     profile = "fast";
   };
+  networking.useNetworkd = mkForce true;
 
   # Mostly use it as second screen with home-server capabilities, if I want to
   # put it to sleep I'll do it manually
@@ -525,9 +522,6 @@ with lib.my;
         #   ;
         #
         intel-vaapi-driver = prev.intel-vaapi-driver.override { enableHybridCodec = true; };
-
-        telegram-desktop = prev.telegram-desktop_git;
-        yt-dlp = prev.yt-dlp_git;
 
         picom = optimize prev.picom;
         skippy-xd = optimize prev.skippy-xd;

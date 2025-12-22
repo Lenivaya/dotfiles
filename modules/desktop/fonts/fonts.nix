@@ -27,9 +27,8 @@ with lib.my;
         adwaita-fonts
         ibm-plex
         noto-fonts
-        noto-fonts-emoji
+        noto-fonts-color-emoji
         liberation_ttf
-        ubuntu_font_family
         corefonts
         mplus-outline-fonts.githubRelease
         nerd-fonts.symbols-only

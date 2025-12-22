@@ -9,6 +9,7 @@ in
 
   config = mkIf cfg.enable {
     programs.ssh.startAgent = true;
+    services.gnome.gcr-ssh-agent.enable = mkForce false;
 
     services.openssh = enabled // {
       settings.X11Forwarding = mkForce true;

@@ -27,18 +27,17 @@ in
         "pipewire"
       ];
 
-      boot.kernelModules =
-        [
-          "snd_seq"
-          "snd_seq_midi"
-          "snd_rawmidi"
-        ] # ALSA Sequencer kernel modules
-        ++ [
-          "snd_pcm_oss"
-          "snd_mixer_oss"
-          "snd_seq_oss"
-        ]
-        ++ [ "uinput" ]; # AVRCP protocol support/compatibility for input device
+      boot.kernelModules = [
+        "snd_seq"
+        "snd_seq_midi"
+        "snd_rawmidi"
+      ] # ALSA Sequencer kernel modules
+      ++ [
+        "snd_pcm_oss"
+        "snd_mixer_oss"
+        "snd_seq_oss"
+      ]
+      ++ [ "uinput" ]; # AVRCP protocol support/compatibility for input device
 
       services.pipewire = enabled // {
         alsa = enabled // {

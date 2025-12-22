@@ -114,7 +114,7 @@ projects =
     makeProject (tmp wsNames) Nothing,
     makeProject (wsWRK wsNames) Nothing,
     makeProject (git wsNames) $ Just $ doActionByName "GitButler",
-    makeProject (messages wsNames) $ Just $ spawn "ayugram-desktop",
+    makeProject (messages wsNames) $ Just $ spawn "AyuGram",
     makeProject "START" Nothing,
     makeProject "MON" $ Just $ doActionByName "System Monitors",
     makeProject "AI" $ Just $ doActionByName "AI Assistants",

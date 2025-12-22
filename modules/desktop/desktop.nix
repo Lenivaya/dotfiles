@@ -23,8 +23,6 @@ in
     services.xserver = enabled // {
       inherit autoRepeatDelay autoRepeatInterval;
 
-      tty = mkDefault 1;
-
       xkb.layout = comcat [
         "us"
         "ru"

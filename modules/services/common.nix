@@ -1,5 +1,4 @@
 {
-  pkgs,
   lib,
   config,
   ...
@@ -17,8 +16,6 @@ with lib.my;
       # https://github.com/NixOS/nixpkgs/issues/135888
       nscd.enableNsncd = mkDefault true;
     }
-
-    (mkIf config.this.isHeadful { udev.packages = [ pkgs.android-udev-rules ]; })
 
     (mkIf config.modules.desktop.enable {
       xbanish = enabled;

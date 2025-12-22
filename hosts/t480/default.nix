@@ -12,33 +12,33 @@
 with lib;
 with my;
 {
-  imports =
-    [
-      ../common.nix
-      ./hardware-configuration.nix
-      ./phone_cam.nix
-      ./power-management.nix
-      ./fingerprint/default.nix
-    ]
-    ++ (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-t480 ])
-    ++ (with inputs; [
-      # determinate.nixosModules.default
-      stevenblack-hosts.nixosModule
-      {
-        networking.stevenBlackHosts = enabled // {
-          blockFakenews = true;
-          blockGambling = true;
-        };
-      }
-      resterrs.nixosModules.default
-      nixos-facter-modules.nixosModules.facter
-      { config.facter.reportPath = ./facter.json; }
-    ]);
+  imports = [
+    ../common.nix
+    ./hardware-configuration.nix
+    ./phone_cam.nix
+    ./power-management.nix
+    ./fingerprint/default.nix
+  ]
+  ++ (with inputs.nixos-hardware.nixosModules; [ lenovo-thinkpad-t480 ])
+  ++ (with inputs; [
+    # determinate.nixosModules.default
+    stevenblack-hosts.nixosModule
+    {
+      networking.stevenBlackHosts = enabled // {
+        blockFakenews = true;
+        blockGambling = true;
+      };
+    }
+    resterrs.nixosModules.default
+    nixos-facter-modules.nixosModules.facter
+    { config.facter.reportPath = ./facter.json; }
+  ]);
 
   this.isHeadful = true;
 
   modules = {
     desktop = enabled // {
+      compositor = enabled;
       xmonad = enabled;
       isPureWM = true;
 
@@ -86,7 +86,7 @@ with my;
       };
 
       media = {
-        spotify = enabled;
+        # spotify = enabled;
         mpv = enabled;
 
         documents = enabled // {
@@ -178,7 +178,7 @@ with my;
           pasystray
           mictray
           udiskie
-          plasma5Packages.kdeconnect-kde
+          kdePackages.kdeconnect-kde
           gxkb
           indicator-sound-switcher
         ];
@@ -211,7 +211,7 @@ with my;
       profiles.laptop = enabled // {
         autoSuspendOnLowBattery = false;
       };
-      ddc = enabled;
+      # ddc = enabled;
       cpu.intel = enabled;
       cpu = {
         undervolt = enabled // {
@@ -308,7 +308,8 @@ with my;
 
   boot.kernelPackages =
     let
-      kernel' = pkgs.linuxPackages_cachyos-lto;
+      # kernel' = pkgs.cachyosKernels.linuxPackages-cachyos-latest-lto;
+      kernel' = pkgs.linuxPackages_lqx;
     in
     mkForce kernel';
 
@@ -367,7 +368,8 @@ with my;
   # https://wiki.cachyos.org/configuration/sched-ext/#disable-ananicy-cpp
   services.scx = enabled // {
     scheduler = "scx_bpfland";
-    package = pkgs.scx_git.full;
+    package = pkgs.scx.full;
+    # package = pkgs.scx.full;
   };
 
   networking.firewall = {
@@ -421,7 +423,7 @@ with my;
     ffmpeg-full
     video-trimmer
     postman
-    my.gitbutler
+    gitbutler
     twitch-hls-client
     curtail # image compression
     smartmontools
@@ -434,7 +436,7 @@ with my;
     deskflow
     upwork
     beekeeper-studio
-    scx.full
+    # scx.full
     pgcli
     # zoom-us
     windsurf
@@ -444,8 +446,7 @@ with my;
     youtube-music
     wgcf
     warp-terminal
-    element-desktop
-    my.code-cursor
+    code-cursor
 
     # dropbox
     maestral-gui
@@ -465,8 +466,8 @@ with my;
       libGL
       intel-ocl
       intel-media-driver
-      vaapiIntel
-      vaapiVdpau
+      intel-vaapi-driver
+      libva-vdpau-driver
       vpl-gpu-rt
       vulkan-loader
       vulkan-validation-layers
@@ -477,24 +478,8 @@ with my;
       libGL
       intel-ocl
       intel-media-driver
-      vaapiIntel
-      vaapiVdpau
-      vpl-gpu-rt
-      vulkan-loader
-      vulkan-validation-layers
-      vulkan-extension-layer
-      vulkan-tools
-    ];
-  };
-  chaotic.mesa-git = enabled // {
-    fallbackSpecialisation = false;
-    # method = "replaceRuntimeDependencies";
-    extraPackages = with pkgs; [
-      libGL
-      intel-ocl
-      intel-media-driver
-      vaapiIntel
-      vaapiVdpau
+      intel-vaapi-driver
+      libva-vdpau-driver
       vpl-gpu-rt
       vulkan-loader
       vulkan-validation-layers
@@ -561,7 +546,7 @@ with my;
         "fwupd"
         "syncthing"
         "bpftune"
-        "scx"
+        # "scx"
       ];
       user_services_to_stop = [
         "kdeconnect"
@@ -594,42 +579,49 @@ with my;
     "-05d6:000a:2a5c56c6"
   ];
 
+  services.xserver.libinput = {
+    touchpad = {
+      accelSpeed = "0.7"; # range -1.0 (slow) to 1.0 (fast)
+      accelProfile = "adaptive"; # or "flat"
+    };
+  };
+
   networking.wireless.iwd.settings.General.AddressRandomization = "network";
   networking.wireless.iwd.settings.General.AddressRandomizationRange = "full";
+  networking.useNetworkd = mkForce true;
 
-  nixpkgs.overlays =
-    [ inputs.nur.overlays.default ]
-    ++ [
-      (_final: prev: {
-        inherit (pkgs.unstable)
-          ayugram-desktop
-          yazi
-          twitch-hls-client
-          ungoogled-chromium
-          obsidian
-          vscode
-          jetbrains-toolbox
-          windsurf
-          readest
-          kitty
-          legcord
-          youtube-music
-          warp-terminal
-          ;
+  nixpkgs.overlays = [
+    inputs.nur.overlays.default
+    inputs.nix-cachyos-kernel.overlays.default
+  ]
+  ++ [
+    (_final: prev: {
+      inherit (pkgs.unstable)
+        scx
+        ayugram-desktop
+        yazi
+        twitch-hls-client
+        ungoogled-chromium
+        obsidian
+        vscode
+        jetbrains-toolbox
+        windsurf
+        readest
+        kitty
+        legcord
+        youtube-music
+        warp-terminal
+        ;
 
-        inherit (pkgs.unstable-small)
-          neovim
-          ;
+      inherit (pkgs.unstable-small)
+        neovim
+        ;
 
-        distrobox = prev.distrobox_git;
-        telegram-desktop = prev.telegram-desktop_git;
-        yt-dlp = prev.yt-dlp_git;
-        # mpv = prev.mpv-vapoursynth;
-        # neovim = optimizePkg inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
-        skippy-xd = optimizePkg prev.skippy-xd;
-        dmenu = optimizePkg prev.dmenu;
-        nsxiv = optimizePkg prev.nsxiv;
-        trayer = optimizePkg prev.trayer;
-      })
-    ];
+      # mpv = prev.mpv-vapoursynth;
+      # neovim = optimizePkg inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
+      dmenu = optimizePkg prev.dmenu;
+      nsxiv = optimizePkg prev.nsxiv;
+      trayer = optimizePkg prev.trayer;
+    })
+  ];
 }

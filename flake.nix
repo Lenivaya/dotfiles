@@ -49,9 +49,6 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
-    # chaotic.url = "github:chaotic-cx/nyx?rev=8e0feebc3ae6e5604113e7636236b3d9c46e8bf0";
-    chaotic.url = "github:chaotic-cx/nyx";
-
     browser-previews = {
       url = "github:nix-community/browser-previews";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -110,6 +107,7 @@
     };
 
     # determinate.url = "https://flakehub.com/f/DeterminateSystems/determinate/3.0.0";
+    nix-cachyos-kernel.url = "github:xddxdd/nix-cachyos-kernel";
 
     # some upstream things
     auto-cpufreq = {
@@ -155,7 +153,6 @@
       "https://numtide.cachix.org" # another unfree package cache
       "https://pre-commit-hooks.cachix.org"
       "https://viperml.cachix.org/"
-      "https://chaotic-nyx.cachix.org/"
     ];
 
     extra-trusted-public-keys = [
@@ -166,7 +163,6 @@
       "numtide.cachix.org-1:2ps1kLBUWjxIneOy1Ik6cQjb41X0iXVXeHigGmycPPE="
       "pre-commit-hooks.cachix.org-1:Pkk3Panw5AW24TOv6kz3PvLhlH8puAsJTBbOPmBo7Rc="
       "viperml.cachix.org-1:qZhKBMTfmcLL+OG6fj/hzsMEedgKvZVFRRAhq7j8Vh8="
-      "chaotic-nyx.cachix.org-1:HfnXSw4pj95iI/n17rIDy40agHj12WfF+Gqk6SonIT8="
     ];
   };
 
@@ -198,7 +194,7 @@
             "dotnet-sdk-6.0.428"
             "dotnet-sdk-wrapped-6.0.428"
             "deskflow-1.19.0"
-            "beekeeper-studio-5.2.9"
+            "beekeeper-studio-5.3.4"
           ];
           overlays = extraOverlays ++ (lib.attrValues self.overlays);
         };
@@ -231,7 +227,8 @@
 
       nixosModules = {
         dotfiles = import ./.;
-      } // mapModulesRec ./modules import;
+      }
+      // mapModulesRec ./modules import;
       nixosConfigurations = mapHosts ./hosts {
         modules = [
           inputs.nixos-06cb-009a-fingerprint-sensor.nixosModules."06cb-009a-fingerprint-sensor"

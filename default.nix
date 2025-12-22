@@ -8,14 +8,12 @@
 with lib;
 with lib.my;
 {
-  imports =
-    [
-      inputs.home-manager.nixosModules.home-manager
-      inputs.programsdb.nixosModules.programs-sqlite
-      inputs.chaotic.nixosModules.default
-    ]
-    ++ (with inputs.srvos; [ nixosModules.common ])
-    ++ (mapModulesRec' (toString ./modules) import);
+  imports = [
+    inputs.home-manager.nixosModules.home-manager
+    inputs.programsdb.nixosModules.programs-sqlite
+  ]
+  ++ (with inputs.srvos; [ nixosModules.common ])
+  ++ (mapModulesRec' (toString ./modules) import);
 
   # Common config for all nixos machines; and to ensure the flake operates
   # soundly

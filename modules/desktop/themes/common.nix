@@ -130,7 +130,6 @@ in
 
       # Some KDE applications such as Dolphin try to fall back to Breeze
       # theme icons. Lets make sure they're also found.
-      libsForQt5.breeze-qt5
       kdePackages.breeze-icons
       qt6.qtsvg # needed to load breeze icons
 
