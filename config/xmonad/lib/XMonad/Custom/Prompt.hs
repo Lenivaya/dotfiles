@@ -20,10 +20,12 @@ import Data.Ratio
 import XMonad
 import XMonad.Actions.GridSelect
 import XMonad.Actions.ShowText
+
 -- import XMonad.Custom.Prompt.FuzzyMatch
-import XMonad.Prompt.FuzzyMatch
+
 import XMonad.Custom.Theme qualified as T
 import XMonad.Prompt
+import XMonad.Prompt.FuzzyMatch
 
 promptNoHistory :: XPConfig -> XPConfig
 promptNoHistory ptheme = ptheme {historyFilter = const [], historySize = 0}

@@ -43,7 +43,8 @@ with my;
               proxy_redirect / /aghome/;
               proxy_cookie_path / /aghome/;
             '';
-          } // withWebSockets;
+          }
+          // withWebSockets;
         }
       ];
   };

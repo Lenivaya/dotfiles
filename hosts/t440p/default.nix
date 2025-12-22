@@ -5,8 +5,6 @@
   pkgs,
   lib,
   inputs,
-  system,
-  config,
   ...
 }:
 with lib;

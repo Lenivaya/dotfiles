@@ -65,7 +65,8 @@ with lib.my;
 
           locations."/" = {
             proxyPass = "http://dashboard";
-          } // withWebSockets;
+          }
+          // withWebSockets;
 
           locations."/aghome/" = {
             proxyPass = "http://aghome/";
@@ -73,7 +74,8 @@ with lib.my;
               proxy_redirect / /aghome/;
               proxy_cookie_path / /aghome/;
             '';
-          } // withWebSockets;
+          }
+          // withWebSockets;
 
           # locations."/qbt/" = {
           #   proxyPass = "http://qbittorrent/";
@@ -89,7 +91,8 @@ with lib.my;
               client_max_body_size 1024M;
               proxy_set_header X-Script-Name /calibre-web;
             '';
-          } // withWebSockets;
+          }
+          // withWebSockets;
 
           locations."/jellyfin" = {
             extraConfig = "return 302 $scheme://$host/jellyfin/;";
@@ -101,7 +104,8 @@ with lib.my;
               proxy_pass_request_headers on;
               proxy_buffering off;
             '';
-          } // withWebSockets;
+          }
+          // withWebSockets;
         }
         (mkArrProxy' "radarr")
         (mkArrProxy' "sonarr")

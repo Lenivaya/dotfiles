@@ -38,6 +38,7 @@
         ANDROID_HOME = "$XDG_DATA_HOME/android";
         GRIPHOME = "$XDG_CONFIG_HOME/grip";
         PARALLEL_HOME = "$XDG_CONFIG_HOME/parallel";
-      } // xdgConventions;
+      }
+      // xdgConventions;
     };
 }

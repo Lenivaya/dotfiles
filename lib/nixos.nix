@@ -36,7 +36,8 @@ in
         ) attrs)
         ../. # /default.nix
         (import path)
-      ] ++ modules;
+      ]
+      ++ modules;
     };
 
   mapHosts = dir: attrs: mapModules dir (hostPath: mkHost hostPath attrs);

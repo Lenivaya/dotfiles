@@ -104,8 +104,8 @@ selectAppByCategory category conf action = do
       validAppNames =
         Map.fromList
           [ (applicationName app, applicationCommand app)
-            | app <- apps,
-              applicationCommand app `elem` cmds
+          | app <- apps,
+            applicationCommand app `elem` cmds
           ]
 
   mkXPrompt
