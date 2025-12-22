@@ -21,7 +21,7 @@ import XMonad
 import XMonad.Actions.GridSelect
 import XMonad.Actions.ShowText
 -- import XMonad.Custom.Prompt.FuzzyMatch
-mport XMonad.Prompt.FuzzyMatch
+import XMonad.Prompt.FuzzyMatch
 import XMonad.Custom.Theme qualified as T
 import XMonad.Prompt
 

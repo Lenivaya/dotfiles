@@ -619,7 +619,6 @@ with my;
 
       # mpv = prev.mpv-vapoursynth;
       # neovim = optimizePkg inputs.neovim-nightly-overlay.packages.${pkgs.system}.default;
-      skippy-xd = optimizePkg prev.skippy-xd;
       dmenu = optimizePkg prev.dmenu;
       nsxiv = optimizePkg prev.nsxiv;
       trayer = optimizePkg prev.trayer;
