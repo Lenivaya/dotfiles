@@ -7,33 +7,27 @@ sort_by = "mtime"
 sort_reverse = true
 keymap = [
   # Spotting
-  { on = "<Tab>", run = "spot", desc = "Spot hovered file" },
+  {on = "<Tab>", run = "spot", desc = "Spot hovered file"}
 ]
-
-# [opener]
-# open = [
-#   # { run = 'xdg-open "$@"', orphan = true, desc = "Open", for = "unix" }, # add orphan = true
-#   { run = 'xdg-open "$@"', desc = "Open", for = "linux" },
-# ]
 
 [plugin]
 prepend_previewers = [
-  { name = "*.md", run = "glow" },
-  { mime = "text/csv", run = "miller" },
+  {name = "*.md", run = "glow"},
+  {mime = "text/csv", run = "miller"},
   # Office Documents
-  { mime = "application/openxmlformats-officedocument.*", run = "office" },
-  { mime = "application/oasis.opendocument.*", run = "office" },
-  { mime = "application/ms-*", run = "office" },
-  { mime = "application/msword", run = "office" },
-  { name = "*.docx", run = "office" },
+  {mime = "application/openxmlformats-officedocument.*", run = "office"},
+  {mime = "application/oasis.opendocument.*", run = "office"},
+  {mime = "application/ms-*", run = "office"},
+  {mime = "application/msword", run = "office"},
+  {name = "*.docx", run = "office"}
 ]
 prepend_preloaders = [
   # Office Documents
-  { mime = "application/openxmlformats-officedocument.*", run = "office" },
-  { mime = "application/oasis.opendocument.*", run = "office" },
-  { mime = "application/ms-*", run = "office" },
-  { mime = "application/msword", run = "office" },
-  { name = "*.docx", run = "office" },
+  {mime = "application/openxmlformats-officedocument.*", run = "office"},
+  {mime = "application/oasis.opendocument.*", run = "office"},
+  {mime = "application/ms-*", run = "office"},
+  {mime = "application/msword", run = "office"},
+  {name = "*.docx", run = "office"}
 ]
 
 [[plugin.prepend_fetchers]]

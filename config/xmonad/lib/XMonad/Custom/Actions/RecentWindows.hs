@@ -126,7 +126,6 @@ trimHistory h =
   in  if len <= maxHistorySize
         then h
         else -- Take only the most recent maxHistorySize entries and rebuild the history
-
           let !recentEntries = take maxHistorySize entries
           in  foldr' (\(w, loc) !hist' -> event w loc hist') origin recentEntries
 
